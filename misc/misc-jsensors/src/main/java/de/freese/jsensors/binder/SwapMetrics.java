@@ -3,7 +3,6 @@ package de.freese.jsensors.binder;
 
 import com.jezhumble.javasysmon.JavaSysMon;
 import com.jezhumble.javasysmon.MemoryStats;
-
 import de.freese.jsensors.registry.SensorRegistry;
 import de.freese.jsensors.sensor.Sensor;
 
@@ -12,9 +11,6 @@ import de.freese.jsensors.sensor.Sensor;
  */
 public class SwapMetrics implements SensorBinder
 {
-    /**
-    *
-    */
     private final JavaSysMon sysMon = new JavaSysMon();
 
     /**
@@ -23,13 +19,15 @@ public class SwapMetrics implements SensorBinder
     @Override
     public void bindTo(final SensorRegistry registry)
     {
-        Sensor.builder("swap.free", this.sysMon, mon -> {
+        Sensor.builder("swap.free", this.sysMon, mon ->
+        {
             MemoryStats stats = mon.swap();
 
             return Long.toString(stats.getFreeBytes());
         }).description("Free swap in Bytes").register(registry);
 
-        Sensor.builder("swap.usage", this.sysMon, mon -> {
+        Sensor.builder("swap.usage", this.sysMon, mon ->
+        {
             MemoryStats stats = mon.swap();
             double free = stats.getFreeBytes();
             double total = stats.getTotalBytes();

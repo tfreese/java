@@ -7,11 +7,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ThreadPoolExecutor;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.freese.jsensors.registry.SensorRegistry;
 import de.freese.jsensors.sensor.Sensor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * See io.micrometer.core.instrument.binder.jvm.ExecutorServiceMetrics
@@ -20,25 +19,12 @@ import de.freese.jsensors.sensor.Sensor;
  */
 public class ExecutorServiceMetrics implements SensorBinder
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ExecutorServiceMetrics.class);
-    /**
-     *
-     */
+
     private final ExecutorService executorService;
-    /**
-     *
-     */
+
     private final String executorServiceName;
 
-    /**
-     * Erstellt ein neues {@link ExecutorServiceMetrics} Object.
-     *
-     * @param executorService {@link ExecutorService}
-     * @param executorServiceName String
-     */
     public ExecutorServiceMetrics(final ExecutorService executorService, final String executorServiceName)
     {
         super();
@@ -87,10 +73,11 @@ public class ExecutorServiceMetrics implements SensorBinder
         }
     }
 
-    /**
-     * @param registry {@link SensorRegistry}
-     * @param forkJoinPool {@link ForkJoinPool}
-     */
+    protected Logger getLogger()
+    {
+        return LOGGER;
+    }
+
     private void bindTo(final SensorRegistry registry, final ForkJoinPool forkJoinPool)
     {
         Sensor.builder("executor.steals." + this.executorServiceName, forkJoinPool, pool -> Long.toString(pool.getStealCount()))
@@ -110,10 +97,6 @@ public class ExecutorServiceMetrics implements SensorBinder
                 .register(registry);
     }
 
-    /**
-     * @param registry {@link SensorRegistry}
-     * @param threadPoolExecutor {@link ThreadPoolExecutor}
-     */
     private void bindTo(final SensorRegistry registry, final ThreadPoolExecutor threadPoolExecutor)
     {
         Sensor.builder("executor.completed." + this.executorServiceName, threadPoolExecutor, pool -> Long.toString(pool.getCompletedTaskCount()))
@@ -126,7 +109,7 @@ public class ExecutorServiceMetrics implements SensorBinder
                 .description("The approximate number of tasks that are queued for execution").register(registry);
 
         Sensor.builder("executor.queue.remaining." + this.executorServiceName, threadPoolExecutor,
-                pool -> Integer.toString(pool.getQueue().remainingCapacity()))
+                        pool -> Integer.toString(pool.getQueue().remainingCapacity()))
                 .description("The number of additional elements that this queue can ideally accept without blocking").register(registry);
 
         Sensor.builder("executor.pool.size." + this.executorServiceName, threadPoolExecutor, pool -> Integer.toString(pool.getPoolSize()))
@@ -139,20 +122,6 @@ public class ExecutorServiceMetrics implements SensorBinder
                 .description("The maximum allowed number of threads in the pool").register(registry);
     }
 
-    /**
-     * @return {@link Logger}
-     */
-    protected Logger getLogger()
-    {
-        return LOGGER;
-    }
-
-    /**
-     * @param executor {@link ExecutorService}
-     * @param wrapper Class
-     *
-     * @return {@link ThreadPoolExecutor}
-     */
     private ThreadPoolExecutor unwrapThreadPoolExecutor(final ExecutorService executor, final Class<?> wrapper)
     {
         try

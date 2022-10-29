@@ -30,9 +30,6 @@ import org.junit.jupiter.api.condition.OS;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestSystemMonitor
 {
-    /**
-     *
-     */
     @Test
     @EnabledOnOs(OS.LINUX)
     void testCpuInfos()
@@ -66,9 +63,6 @@ class TestSystemMonitor
         assertNotNull(cpuTimes);
     }
 
-    /**
-     *
-     */
     @Test
     @EnabledOnOs(OS.LINUX)
     void testCpuLoadAvg()
@@ -83,9 +77,6 @@ class TestSystemMonitor
         assertTrue(loadAvg.getFifteenMinutes() > 0D);
     }
 
-    /**
-     *
-     */
     @Test
     void testExternalIp()
     {
@@ -97,9 +88,6 @@ class TestSystemMonitor
         assertFalse(externalIp.isBlank());
     }
 
-    /**
-     *
-     */
     @Test
     @EnabledOnOs(OS.LINUX)
     void testFilesystems()
@@ -112,9 +100,6 @@ class TestSystemMonitor
         assertEquals(2, map.size());
     }
 
-    /**
-     *
-     */
     @Test
     @EnabledOnOs(OS.LINUX)
     void testHostInfo()
@@ -129,9 +114,6 @@ class TestSystemMonitor
         assertNotNull(hostInfo.getArchitecture());
     }
 
-    /**
-     *
-     */
     @Test
     @EnabledOnOs(OS.LINUX)
     void testMusicInfo()
@@ -143,9 +125,6 @@ class TestSystemMonitor
         assertNotNull(musicInfo);
     }
 
-    /**
-     *
-     */
     @Test
     @EnabledOnOs(OS.LINUX)
     void testNetworkInfos()
@@ -159,9 +138,6 @@ class TestSystemMonitor
         assertNotNull(networkInfos.getProtocolInfo());
     }
 
-    /**
-     *
-     */
     @Test
     @EnabledOnOs(OS.LINUX)
     void testProcessInfos()
@@ -187,9 +163,6 @@ class TestSystemMonitor
         // }
     }
 
-    /**
-     *
-     */
     @Test
     @EnabledOnOs(OS.LINUX)
     void testRamAndSwap()
@@ -202,9 +175,6 @@ class TestSystemMonitor
         assertEquals(2, map.size());
     }
 
-    /**
-     *
-     */
     @Test
     @EnabledOnOs(OS.LINUX)
     void testTemperatures()
@@ -217,9 +187,6 @@ class TestSystemMonitor
         assertTrue(map.size() > 3);
     }
 
-    /**
-     * @return {@link SystemMonitor}
-     */
     private SystemMonitor createSystemMonitor()
     {
         return new LinuxSystemMonitor();

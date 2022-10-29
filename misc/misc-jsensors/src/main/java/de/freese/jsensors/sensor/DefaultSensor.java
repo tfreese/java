@@ -4,41 +4,25 @@ package de.freese.jsensors.sensor;
 import java.lang.ref.WeakReference;
 import java.util.Objects;
 import java.util.function.Function;
-import java.util.function.ToDoubleFunction;
 
 /**
  * Default Implementation for a {@link Sensor}.
  *
- * @author Thomas Freese
- *
  * @param <T> Type of the object from which the value is extracted.
+ *
+ * @author Thomas Freese
  */
 public class DefaultSensor<T> extends AbstractSensor
 {
-    /**
-     *
-     */
-    private final Function<T, String> function;
-    /**
-     *
-     */
     private final WeakReference<T> ref;
+    private final Function<T, String> valueFunction;
 
-    /**
-     * Erstellt ein neues {@link DefaultSensor} Object.
-     *
-     * @param name String
-     * @param obj Object
-     * @param function {@link ToDoubleFunction}
-     * @param keepLastNValues int
-     * @param description String
-     */
-    public DefaultSensor(final String name, final T obj, final Function<T, String> function, final int keepLastNValues, final String description)
+    public DefaultSensor(final String name, final T obj, final Function<T, String> valueFunction, final int keepLastNValues, final String description)
     {
         super(name, keepLastNValues, description);
 
         this.ref = new WeakReference<>(Objects.requireNonNull(obj, "obj required"));
-        this.function = Objects.requireNonNull(function, "function required");
+        this.valueFunction = Objects.requireNonNull(valueFunction, "valueFunction required");
     }
 
     /**
@@ -51,7 +35,7 @@ public class DefaultSensor<T> extends AbstractSensor
 
         if (obj != null)
         {
-            String functionValue = this.function.apply(obj);
+            String functionValue = this.valueFunction.apply(obj);
 
             return addValue(functionValue);
         }

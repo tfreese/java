@@ -9,8 +9,5 @@ import de.freese.jsensors.sensor.SensorValue;
 @FunctionalInterface
 public interface Backend
 {
-    /**
-     * @param sensorValue {@link SensorValue}
-     */
     void store(SensorValue sensorValue);
 }

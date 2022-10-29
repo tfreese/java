@@ -12,9 +12,6 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractBackend implements Backend
 {
-    /**
-     *
-     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
@@ -47,16 +44,10 @@ public abstract class AbstractBackend implements Backend
         }
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;
     }
 
-    /**
-     * @param sensorValue {@link SensorValue}
-     */
     protected abstract void storeValue(SensorValue sensorValue);
 }

@@ -27,25 +27,12 @@ import reactor.util.retry.Retry;
  */
 public class RSocketBackend extends AbstractBackend implements LifeCycle
 {
-    /**
-     *
-     */
     private final int parallelism;
-    /**
-     *
-     */
+
     private final URI uri;
-    /**
-     *
-     */
+
     private RSocketClient client;
 
-    /**
-     * Erstellt ein neues {@link RSocketBackend} Object.
-     *
-     * @param uri {@link URI}
-     * @param parallelism int
-     */
     public RSocketBackend(final URI uri, final int parallelism)
     {
         super();
@@ -95,11 +82,6 @@ public class RSocketBackend extends AbstractBackend implements LifeCycle
         this.client.dispose();
     }
 
-    /**
-     * @param sensorValue {@link SensorValue}
-     *
-     * @return {@link ByteBuf}
-     */
     protected ByteBuf encode(final SensorValue sensorValue)
     {
         ByteBuf byteBuf = ByteBufAllocator.DEFAULT.buffer();

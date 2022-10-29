@@ -18,19 +18,11 @@ import de.freese.jconky.model.CpuTimes;
  */
 public class CpuDemo
 {
-    /**
-     *
-     */
     private static final com.sun.management.OperatingSystemMXBean operatingSystemMXBean =
             (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-    /**
-     *
-     */
+
     private static CpuTimes prev = new CpuTimes();
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         // cat /proc/stat
@@ -63,9 +55,6 @@ public class CpuDemo
         scheduledExecutorService.scheduleWithFixedDelay(CpuDemo::showCpuLoad, 1, 1, TimeUnit.SECONDS);
     }
 
-    /**
-     * @return {@link CpuTimes}
-     */
     private static CpuTimes getCpuTimes()
     {
         // Files.lines(path, cs)
@@ -97,9 +86,6 @@ public class CpuDemo
         }
     }
 
-    /**
-     *
-     */
     private static void showCpuLoad()
     {
         System.out.println("CPU-Load [%] - OperatingSystemMXBean: " + (operatingSystemMXBean.getCpuLoad() * 100D));

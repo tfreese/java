@@ -28,9 +28,6 @@ import org.junit.jupiter.api.Test;
  */
 class TestMetricBinder
 {
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testCpuMetrics() throws Exception
     {
@@ -56,9 +53,6 @@ class TestMetricBinder
         // System.out.println(sensorValue2);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testDiscMetrics() throws Exception
     {
@@ -84,9 +78,6 @@ class TestMetricBinder
         assertEquals(sensorValuePathUsage.getValueAsDouble(), sensorValueFileUsage.getValueAsDouble(), delta, "'usage' sensor values not equal");
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testExecutorServiceMetrics() throws Exception
     {
@@ -125,9 +116,6 @@ class TestMetricBinder
         assertNotNull(sensorValueScheduler);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testMemoryMetrics() throws Exception
     {
@@ -158,9 +146,6 @@ class TestMetricBinder
         // System.out.printf("memory.usage: %.3f %%%n", sensorValueUsage.getValueAsDouble());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testSwapMetrics() throws Exception
     {

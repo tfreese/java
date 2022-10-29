@@ -22,25 +22,12 @@ import de.freese.jsensors.utils.LifeCycle;
  */
 public class ScheduledSensorRegistry extends AbstractSensorRegistry implements LifeCycle
 {
-    /**
-     *
-     */
     private final int corePoolSize;
-    /**
-     *
-     */
+
     private final ThreadFactory threadFactory;
-    /**
-     *
-     */
+
     private ScheduledExecutorService scheduledExecutorService;
 
-    /**
-     * Erstellt ein neues {@link ScheduledSensorRegistry} Object.
-     *
-     * @param threadFactory {@link ThreadFactory}
-     * @param corePoolSize int
-     */
     public ScheduledSensorRegistry(final ThreadFactory threadFactory, final int corePoolSize)
     {
         super();
@@ -58,11 +45,6 @@ public class ScheduledSensorRegistry extends AbstractSensorRegistry implements L
     /**
      * Schedules the determination for a {@link SensorValue} of a {@link Sensor}.<br>
      * The {@link SensorValue} can accessed by: <code>SensorRegistry.getSensor(String).getValueLast()</code>.
-     *
-     * @param name String
-     * @param initialDelay long
-     * @param delay long
-     * @param unit {@link TimeUnit}
      */
     public void scheduleSensor(final String name, final long initialDelay, final long delay, final TimeUnit unit)
     {
@@ -75,12 +57,6 @@ public class ScheduledSensorRegistry extends AbstractSensorRegistry implements L
      * Schedules the determination for a {@link SensorValue} of a {@link Sensor}.<br>
      * The {@link SensorValue} is passed to a {@link Backend}.<br>
      * Use {@link CompositeBackend} for multiple {@link Backend}s for one {@link Sensor}.
-     *
-     * @param name String
-     * @param initialDelay long
-     * @param delay long
-     * @param unit {@link TimeUnit}
-     * @param backend {@link Backend}
      */
     public void scheduleSensor(final String name, final long initialDelay, final long delay, final TimeUnit unit, final Backend backend)
     {

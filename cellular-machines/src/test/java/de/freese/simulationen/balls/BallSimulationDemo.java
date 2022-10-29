@@ -32,15 +32,10 @@ public class BallSimulationDemo extends JComponent
      * [ms]
      */
     private static final int DELAY = 40;
-    /**
-     *
-     */
+
     @Serial
     private static final long serialVersionUID = 1L;
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         // Dimensionen [m]
@@ -89,21 +84,10 @@ public class BallSimulationDemo extends JComponent
         }, 3, 3, TimeUnit.SECONDS);
     }
 
-    /**
-     *
-     */
     private final List<Ball> balls = new ArrayList<>();
-    /**
-     *
-     */
+
     private final BufferedImage image;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link BallSimulationDemo}
-     *
-     * @param width int
-     * @param height int
-     */
     public BallSimulationDemo(final int width, final int height)
     {
         super();
@@ -141,8 +125,6 @@ public class BallSimulationDemo extends JComponent
 
     /**
      * Liefert true, wenn alle Bälle zum stillstand gekommen sind.
-     *
-     * @return boolean
      */
     public boolean isFinished()
     {
@@ -187,8 +169,6 @@ public class BallSimulationDemo extends JComponent
 
     /**
      * Liefert die Höhe des Bildes, und NICHT die der {@link JComponent}.
-     *
-     * @return int
      */
     private int getImageHeight()
     {
@@ -197,17 +177,12 @@ public class BallSimulationDemo extends JComponent
 
     /**
      * Liefert die Breite des Bildes, und NICHT die der {@link JComponent}.
-     *
-     * @return int
      */
     private int getImageWidth()
     {
         return getPreferredSize().width;
     }
 
-    /**
-     * @param g {@link Graphics}
-     */
     private void gitter(final Graphics g)
     {
         g.setColor(Color.BLACK);
@@ -226,11 +201,6 @@ public class BallSimulationDemo extends JComponent
         }
     }
 
-    /**
-     * @param g {@link Graphics}
-     * @param ball {@link Ball}
-     * @param color {@link Color}
-     */
     private void paint(final Graphics g, final Ball ball, final Color color)
     {
         g.setColor(color);

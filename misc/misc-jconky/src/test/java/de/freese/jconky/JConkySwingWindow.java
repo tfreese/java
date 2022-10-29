@@ -17,9 +17,6 @@ import javafx.scene.Scene;
  */
 public class JConkySwingWindow
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -41,7 +38,6 @@ public class JConkySwingWindow
 
         Platform.runLater(() ->
         {
-
             JConky jConky = new JConky();
 
             try

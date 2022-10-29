@@ -10,7 +10,7 @@
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>de.freese.metamodel</groupId>
+    <groupId>de.freese</groupId>
     <artifactId>meta-model</artifactId>
     <packaging>jar</packaging>
 

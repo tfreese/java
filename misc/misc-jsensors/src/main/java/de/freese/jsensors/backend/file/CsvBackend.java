@@ -23,13 +23,8 @@ import de.freese.jsensors.utils.LifeCycle;
  */
 public class CsvBackend extends AbstractBatchBackend implements LifeCycle
 {
-    /**
-     *
-     */
     private final boolean exclusive;
-    /**
-     *
-     */
+
     private final Path path;
 
     /**
@@ -101,11 +96,6 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle
         submit();
     }
 
-    /**
-     * @param sensorValue {@link SensorValue}
-     *
-     * @return byte[]
-     */
     protected byte[] encode(final SensorValue sensorValue)
     {
         String formatted = null;

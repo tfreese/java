@@ -43,31 +43,18 @@ import org.junit.jupiter.api.condition.OS;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestBackends
 {
-    /**
-     *
-     */
     private static final Path LOG_PATH = Paths.get(System.getProperty("user.home"), ".java-apps", "jSensors");
-    /**
-     *
-     */
+
     private static final long PAUSE_MILLIES = 400L;
-    /**
-     *
-     */
+
     private static JDBCPool dataSource;
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @AfterAll
     static void afterAll() throws SQLException
     {
         dataSource.close(1);
     }
 
-    /**
-     *
-     */
     @BeforeAll
     static void beforeAll()
     {
@@ -78,9 +65,6 @@ class TestBackends
         dataSource.setPassword("");
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testCsvBackend() throws Exception
     {
@@ -101,9 +85,6 @@ class TestBackends
         assertEquals(3, lines.get(0).chars().filter(c -> ((char) c) == ',').count());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testCsvBackendExclusive() throws Exception
     {
@@ -126,9 +107,6 @@ class TestBackends
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testDisruptorBackend() throws Exception
     {
@@ -149,9 +127,6 @@ class TestBackends
         testValues(sensorValues, consumedValues);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testExecutorBackend() throws Exception
     {
@@ -167,9 +142,6 @@ class TestBackends
         testValues(sensorValues, consumedValues);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testJdbcBackend() throws Exception
     {
@@ -205,9 +177,6 @@ class TestBackends
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testJdbcBackendExclusive() throws Exception
     {
@@ -234,31 +203,6 @@ class TestBackends
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
-    @Test
-    @EnabledOnOs(OS.LINUX)
-    void testRRDToolBackend() throws Exception
-    {
-        for (SensorValue sensorValue : createSensorValues())
-        {
-            Path path = Path.of("logs", sensorValue.getName() + ".rrd");
-            Files.deleteIfExists(path);
-
-            RrdToolBackend backend = new RrdToolBackend(path, 5);
-
-            backend.start();
-            backend.store(sensorValue);
-            backend.stop();
-
-            assertTrue(Files.exists(path));
-        }
-    }
-
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testRSocketBackend() throws Exception
     {
@@ -284,9 +228,25 @@ class TestBackends
         testValues(sensorValues, consumedValues);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
+    @Test
+    @EnabledOnOs(OS.LINUX)
+    void testRrdToolBackend() throws Exception
+    {
+        for (SensorValue sensorValue : createSensorValues())
+        {
+            Path path = Path.of("logs", sensorValue.getName() + ".rrd");
+            Files.deleteIfExists(path);
+
+            RrdToolBackend backend = new RrdToolBackend(path, 5);
+
+            backend.start();
+            backend.store(sensorValue);
+            backend.stop();
+
+            assertTrue(Files.exists(path));
+        }
+    }
+
     @Test
     void testWorkerBackend() throws Exception
     {
@@ -307,9 +267,6 @@ class TestBackends
         testValues(sensorValues, consumedValues);
     }
 
-    /**
-     * @return {@link List}
-     */
     private List<SensorValue> createSensorValues()
     {
         long timestamp = System.currentTimeMillis();

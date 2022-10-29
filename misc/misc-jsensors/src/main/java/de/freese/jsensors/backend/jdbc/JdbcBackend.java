@@ -26,17 +26,10 @@ import de.freese.jsensors.utils.LifeCycle;
  */
 public class JdbcBackend extends AbstractBatchBackend implements LifeCycle
 {
-    /**
-     *
-     */
     private final DataSource dataSource;
-    /**
-     *
-     */
+
     private final boolean exclusive;
-    /**
-     *
-     */
+
     private final String tableName;
 
     /**
@@ -44,7 +37,7 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle
      *
      * @param dataSource {@link DataSource}
      * @param tableName String
-     * @param exclusive boolean; File exclusive for only one {@link Sensor} -> no column 'NAME'
+     * @param exclusive boolean; Table exclusive for only one {@link Sensor} -> no column 'NAME'
      * @param batchSize int
      */
     public JdbcBackend(final DataSource dataSource, final String tableName, final boolean exclusive, final int batchSize)

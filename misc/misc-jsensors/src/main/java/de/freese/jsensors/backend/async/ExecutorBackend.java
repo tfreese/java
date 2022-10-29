@@ -17,21 +17,10 @@ import de.freese.jsensors.sensor.SensorValue;
  */
 public class ExecutorBackend extends AbstractBackend
 {
-    /**
-     *
-     */
     private final Backend delegate;
-    /**
-     *
-     */
+
     private final Executor executor;
 
-    /**
-     * Erstellt ein neues {@link ExecutorBackend} Object.
-     *
-     * @param delegate {@link Backend}
-     * @param executor {@link Executor}
-     */
     public ExecutorBackend(final Backend delegate, final Executor executor)
     {
         super();
@@ -40,13 +29,6 @@ public class ExecutorBackend extends AbstractBackend
         this.executor = Objects.requireNonNull(executor, "executor required");
     }
 
-    /**
-     * Erstellt ein neues {@link ExecutorBackend} Object.
-     *
-     * @param delegate {@link Backend}
-     * @param parallelism int
-     * @param threadFactory {@link ThreadFactory}
-     */
     public ExecutorBackend(final Backend delegate, final int parallelism, final ThreadFactory threadFactory)
     {
         super();

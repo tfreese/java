@@ -26,15 +26,9 @@ import javax.swing.WindowConstants;
  */
 public class CanvasDemo extends JComponent implements Runnable
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -6167704609710052731L;
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         CanvasDemo canvas = new CanvasDemo(100, 100);
@@ -71,29 +65,14 @@ public class CanvasDemo extends JComponent implements Runnable
         scheduledExecutorService.scheduleWithFixedDelay(canvas, 0, 100, TimeUnit.MILLISECONDS);
     }
 
-    /**
-     *
-     */
     private final Image image;
-    /**
-     *
-     */
+
     private final MemoryImageSource imageSource;
-    /**
-     *
-     */
+
     private final int[] pixelsRGB;
-    /**
-     *
-     */
+
     private final Random random;
 
-    /**
-     * Erstellt ein neues {@link CanvasDemo} Object.
-     *
-     * @param width int
-     * @param height int
-     */
     public CanvasDemo(final int width, final int height)
     {
         super();
@@ -108,26 +87,6 @@ public class CanvasDemo extends JComponent implements Runnable
 
         this.random = new Random();
         // setDoubleBuffered(true);
-    }
-
-    /**
-     * Liefert die Höhe des Bildes, und NICHT die der {@link JComponent}.
-     *
-     * @return int
-     */
-    int getImageHeight()
-    {
-        return getPreferredSize().height;
-    }
-
-    /**
-     * Liefert die Breite des Bildes, und NICHT die der {@link JComponent}.
-     *
-     * @return int
-     */
-    int getImageWidth()
-    {
-        return getPreferredSize().width;
     }
 
     /**
@@ -171,5 +130,21 @@ public class CanvasDemo extends JComponent implements Runnable
 
         this.imageSource.newPixels();
         repaint();
+    }
+
+    /**
+     * Liefert die Höhe des Bildes, und NICHT die der {@link JComponent}.
+     */
+    int getImageHeight()
+    {
+        return getPreferredSize().height;
+    }
+
+    /**
+     * Liefert die Breite des Bildes, und NICHT die der {@link JComponent}.
+     */
+    int getImageWidth()
+    {
+        return getPreferredSize().width;
     }
 }

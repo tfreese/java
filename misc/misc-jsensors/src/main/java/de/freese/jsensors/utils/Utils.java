@@ -15,24 +15,12 @@ import org.slf4j.LoggerFactory;
  */
 public final class Utils
 {
-    /**
-     *
-     */
     public static final String[] EMPTY_STRING_ARRAY = {};
-    /**
-     *
-     */
+
     private static final Logger LOGGER = LoggerFactory.getLogger(Utils.class);
-    /**
-     *
-     */
+
     private static final String OS = System.getProperty("os.name").toLowerCase();
 
-    /**
-     * @param command String[]
-     *
-     * @return {@link List}
-     */
     public static List<String> executeCommand(final String... command)
     {
         List<String> list = null;
@@ -77,35 +65,21 @@ public final class Utils
         return list;
     }
 
-    /**
-     * @return boolean
-     */
     public static boolean isLinux()
     {
         return OS.contains("linux");
     }
 
-    /**
-     * @return boolean
-     */
     public static boolean isUnix()
     {
         return OS.contains("nix") || OS.contains("nux") || OS.contains("aix");
     }
 
-    /**
-     * @return boolean
-     */
     public static boolean isWindows()
     {
         return OS.startsWith("win");
     }
 
-    /**
-     * @param value String
-     *
-     * @return String
-     */
     public static String stripWhitespaces(final String value)
     {
         if (value == null)
@@ -125,9 +99,6 @@ public final class Utils
         return sb.toString();
     }
 
-    /**
-     * Erzeugt eine neue Instanz von {@link Utils}.
-     */
     private Utils()
     {
         super();

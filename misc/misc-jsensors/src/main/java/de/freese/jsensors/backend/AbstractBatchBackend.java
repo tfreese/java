@@ -13,20 +13,10 @@ import de.freese.jsensors.sensor.SensorValue;
  */
 public abstract class AbstractBatchBackend extends AbstractBackend
 {
-    /**
-    *
-    */
     private final int batchSize;
-    /**
-    *
-    */
+
     private List<SensorValue> buffer;
 
-    /**
-     * Erstellt ein neues {@link AbstractBatchBackend} Object.
-     *
-     * @param batchSize int
-     */
     protected AbstractBatchBackend(final int batchSize)
     {
         super();
@@ -39,9 +29,11 @@ public abstract class AbstractBatchBackend extends AbstractBackend
         this.batchSize = batchSize;
     }
 
-    /**
-     * @return {@link List}
-     */
+    public void submit()
+    {
+        storeValues(flush());
+    }
+
     protected List<SensorValue> flush()
     {
         List<SensorValue> list = this.buffer;
@@ -50,9 +42,6 @@ public abstract class AbstractBatchBackend extends AbstractBackend
         return list;
     }
 
-    /**
-     * @return int
-     */
     protected int getBatchSize()
     {
         return this.batchSize;
@@ -77,16 +66,5 @@ public abstract class AbstractBatchBackend extends AbstractBackend
         }
     }
 
-    /**
-     * @param values {@link List}
-     */
     protected abstract void storeValues(final List<SensorValue> values);
-
-    /**
-     * Submits the buffered {@link SensorValue}s.
-     */
-    public void submit()
-    {
-        storeValues(flush());
-    }
 }

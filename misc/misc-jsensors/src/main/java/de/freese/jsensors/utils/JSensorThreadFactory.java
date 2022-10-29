@@ -11,39 +11,19 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class JSensorThreadFactory implements ThreadFactory
 {
-    /**
-    *
-    */
     private final boolean daemon;
-    /**
-     *
-     */
+
     private final ThreadFactory defaultThreadFactory = Executors.defaultThreadFactory();
-    /**
-     *
-     */
+
     private final String namePrefix;
-    /**
-     *
-     */
+
     private final AtomicInteger threadNumber = new AtomicInteger(1);
 
-    /**
-     * Erstellt ein neues {@link JSensorThreadFactory} Object.
-     *
-     * @param namePrefix String
-     */
     public JSensorThreadFactory(final String namePrefix)
     {
         this(namePrefix, true);
     }
 
-    /**
-     * Erstellt ein neues {@link JSensorThreadFactory} Object.
-     *
-     * @param namePrefix String
-     * @param daemon boolean
-     */
     public JSensorThreadFactory(final String namePrefix, final boolean daemon)
     {
         super();

@@ -20,29 +20,14 @@ import org.slf4j.LoggerFactory;
  */
 public class DiscMetrics implements SensorBinder
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscMetrics.class);
-    /**
-     *
-     */
+
     private final File file;
-    /**
-     *
-     */
+
     private final Path path;
-    /**
-     *
-     */
+
     private final String sensorPostfix;
 
-    /**
-     * Erstellt ein neues {@link DiscMetrics} Object.
-     *
-     * @param sensorPostfix String
-     * @param file {@link File}
-     */
     public DiscMetrics(final String sensorPostfix, final File file)
     {
         super();
@@ -52,12 +37,6 @@ public class DiscMetrics implements SensorBinder
         this.path = null;
     }
 
-    /**
-     * Erstellt ein neues {@link DiscMetrics} Object.
-     *
-     * @param sensorPostfix String
-     * @param path {@link Path}
-     */
     public DiscMetrics(final String sensorPostfix, final Path path)
     {
         super();
@@ -116,21 +95,11 @@ public class DiscMetrics implements SensorBinder
         }
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return LOGGER;
     }
 
-    /**
-     * @param <T> Type of the object from which the value is extracted.
-     * @param registry {@link SensorRegistry}
-     * @param object Object
-     * @param functionFree {@link ToLongFunction}
-     * @param functionTotal {@link ToLongFunction}
-     */
     private <T> void bindTo(final SensorRegistry registry, final T object, final ToLongFunction<T> functionFree, final ToLongFunction<T> functionTotal)
     {
         String postfix = sanitizePostfix(this.sensorPostfix);
@@ -158,11 +127,6 @@ public class DiscMetrics implements SensorBinder
         }).description("Used Disk-Space in %").register(registry);
     }
 
-    /**
-     * @param postfix String
-     *
-     * @return String
-     */
     private String sanitizePostfix(final String postfix)
     {
         String fix = postfix.replace("-", ".");

@@ -32,11 +32,6 @@ import org.jfree.data.time.TimeSeriesCollection;
  */
 public class JFreeChartDemo
 {
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("scheduler"), 2);

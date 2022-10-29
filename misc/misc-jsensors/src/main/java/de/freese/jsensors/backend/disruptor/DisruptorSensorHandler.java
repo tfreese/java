@@ -15,36 +15,19 @@ import org.slf4j.LoggerFactory;
  */
 class DisruptorSensorHandler implements EventHandler<SensorEvent>, WorkHandler<SensorEvent>
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(DisruptorSensorHandler.class);
-    /**
-     *
-     */
+
     private final Backend backend;
-    /**
-     *
-     */
+
     private final int ordinal;
-    /**
-     *
-     */
+
     private final int parallelism;
 
-    /**
-     * @param backend {@link Backend}
-     */
     DisruptorSensorHandler(final Backend backend)
     {
         this(backend, 0, -1);
     }
 
-    /**
-     * @param backend {@link Backend}
-     * @param parallelism int
-     * @param ordinal int
-     */
     DisruptorSensorHandler(final Backend backend, final int parallelism, final int ordinal)
     {
         super();
@@ -80,17 +63,11 @@ class DisruptorSensorHandler implements EventHandler<SensorEvent>, WorkHandler<S
         store(sensorValue);
     }
 
-    /**
-     * @return {@link Logger}
-     */
     private Logger getLogger()
     {
         return LOGGER;
     }
 
-    /**
-     * @param sensorValue {@link SensorValue}
-     */
     private void store(final SensorValue sensorValue)
     {
         this.backend.store(sensorValue);

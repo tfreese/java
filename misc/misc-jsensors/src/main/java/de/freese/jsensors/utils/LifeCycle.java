@@ -6,13 +6,7 @@ package de.freese.jsensors.utils;
  */
 public interface LifeCycle
 {
-    /**
-     *
-     */
     void start();
 
-    /**
-     *
-     */
     void stop();
 }

@@ -141,7 +141,7 @@ project("misc-maven-proxy") {
     apply plugin: "org.springframework.boot"
     description = "Einfache Implementierung eines virtuellen Repositories."
     dependencies {
-        implementation("jakarta.activation:jakarta.activation-api")
+//        implementation("jakarta.activation:jakarta.activation-api")
         implementation("org.slf4j:slf4j-api")
 
         runtimeOnly("org.slf4j:slf4j-simple")

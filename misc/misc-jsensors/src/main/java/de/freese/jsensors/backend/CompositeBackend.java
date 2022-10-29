@@ -14,17 +14,10 @@ import de.freese.jsensors.sensor.SensorValue;
  */
 public class CompositeBackend extends AbstractBackend
 {
-    /**
-     *
-     */
     private final List<Backend> backends = new ArrayList<>();
 
     /**
      * Add a {@link Backend} for a {@link Sensor}.
-     *
-     * @param backend {@link Backend}
-     *
-     * @return {@link CompositeBackend}
      */
     public CompositeBackend add(final Backend backend)
     {

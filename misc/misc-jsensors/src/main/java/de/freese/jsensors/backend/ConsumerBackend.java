@@ -11,16 +11,8 @@ import de.freese.jsensors.sensor.SensorValue;
  */
 public class ConsumerBackend extends AbstractBackend
 {
-    /**
-     *
-     */
     private final Consumer<SensorValue> consumer;
 
-    /**
-     * Erstellt ein neues {@link ConsumerBackend} Object.
-     *
-     * @param consumer {@link Consumer}
-     */
     public ConsumerBackend(final Consumer<SensorValue> consumer)
     {
         super();

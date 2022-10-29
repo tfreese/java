@@ -7,11 +7,10 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.freese.jsensors.sensor.DefaultSensor;
 import de.freese.jsensors.sensor.Sensor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Base Implementation of a {@link SensorRegistry}.
@@ -20,22 +19,9 @@ import de.freese.jsensors.sensor.Sensor;
  */
 public abstract class AbstractSensorRegistry implements SensorRegistry
 {
-    /**
-     *
-     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
-    private final Map<String, Sensor> sensors = new HashMap<>();
 
-    /**
-     * @return {@link Logger}
-     */
-    protected Logger getLogger()
-    {
-        return this.logger;
-    }
+    private final Map<String, Sensor> sensors = new HashMap<>();
 
     /**
      * @see de.freese.jsensors.registry.SensorRegistry#getSensor(java.lang.String)
@@ -71,13 +57,13 @@ public abstract class AbstractSensorRegistry implements SensorRegistry
         return register(name, () -> new DefaultSensor<>(name, obj, function, keepLastNValues, description));
     }
 
+    protected Logger getLogger()
+    {
+        return this.logger;
+    }
+
     /**
      * Throws an IllegalStateException if SensorName already exist.
-     *
-     * @param name String
-     * @param supplier {@link Supplier}
-     *
-     * @return {@link Sensor}
      */
     protected Sensor register(final String name, final Supplier<Sensor> supplier)
     {

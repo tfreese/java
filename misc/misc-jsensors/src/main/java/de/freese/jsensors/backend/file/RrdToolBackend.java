@@ -23,21 +23,10 @@ import de.freese.jsensors.utils.Utils;
  */
 public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle
 {
-    /**
-     *
-     */
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
-    /**
-     *
-     */
+
     private final Path path;
 
-    /**
-     * Erstellt ein neues {@link RrdToolBackend} Object.
-     *
-     * @param path {@link Path}
-     * @param batchSize int
-     */
     public RrdToolBackend(final Path path, final int batchSize)
     {
         super(batchSize);

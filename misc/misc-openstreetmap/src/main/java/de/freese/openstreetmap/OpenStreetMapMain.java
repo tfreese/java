@@ -12,9 +12,6 @@ import de.freese.openstreetmap.model.OsmModel;
  */
 public class OpenStreetMapMain
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         try

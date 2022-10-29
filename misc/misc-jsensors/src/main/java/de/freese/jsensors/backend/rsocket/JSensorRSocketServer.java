@@ -34,34 +34,16 @@ import reactor.util.retry.Retry;
  */
 public class JSensorRSocketServer implements LifeCycle
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(JSensorRSocketServer.class);
-    /**
-     *
-     */
+
     private final Backend backend;
-    /**
-     *
-     */
+
     private final int parallelism;
-    /**
-     *
-     */
+
     private final int port;
-    /**
-     *
-     */
+
     private Disposable server;
 
-    /**
-     * Erstellt ein neues {@link JSensorRSocketServer} Object.
-     *
-     * @param backend {@link Backend}
-     * @param port int
-     * @param parallelism int
-     */
     public JSensorRSocketServer(final Backend backend, final int port, final int parallelism)
     {
         super();
@@ -140,11 +122,6 @@ public class JSensorRSocketServer implements LifeCycle
         this.server.dispose();
     }
 
-    /**
-     * @param payload {@link Payload}
-     *
-     * @return {@link SensorValue}
-     */
     protected SensorValue decode(final Payload payload)
     {
         ByteBuf byteBuf = payload.data();
@@ -160,11 +137,6 @@ public class JSensorRSocketServer implements LifeCycle
         return new DefaultSensorValue(name, value, timeStamp);
     }
 
-    /**
-     * @param payload {@link Payload}
-     *
-     * @return {@link Mono}
-     */
     protected Mono<Void> forFireAndForget(final Payload payload)
     {
         SensorValue sensorValue = decode(payload);
@@ -174,9 +146,6 @@ public class JSensorRSocketServer implements LifeCycle
         return Mono.empty();
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return LOGGER;

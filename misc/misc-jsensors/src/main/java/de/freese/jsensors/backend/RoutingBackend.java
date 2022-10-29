@@ -14,19 +14,8 @@ import de.freese.jsensors.sensor.SensorValue;
  */
 public class RoutingBackend extends AbstractBackend
 {
-    /**
-     *
-     */
     private final Map<String, CompositeBackend> routes = new HashMap<>();
 
-    /**
-     * Add a route from a {@link Sensor} to a {@link Backend}.
-     *
-     * @param sensorName String
-     * @param backend {@link Backend}
-     *
-     * @return {@link RoutingBackend}
-     */
     public RoutingBackend route(final String sensorName, final Backend backend)
     {
         this.routes.computeIfAbsent(sensorName, key -> new CompositeBackend()).add(backend);

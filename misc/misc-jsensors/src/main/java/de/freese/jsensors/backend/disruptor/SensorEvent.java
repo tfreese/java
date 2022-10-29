@@ -8,22 +8,13 @@ import de.freese.jsensors.sensor.SensorValue;
  */
 class SensorEvent
 {
-    /**
-     *
-     */
     private SensorValue sensorValue;
 
-    /**
-     * @return {@link SensorValue}
-     */
     public SensorValue getSensorValue()
     {
         return this.sensorValue;
     }
 
-    /**
-     * @param sensorValue {@link SensorValue}
-     */
     public void setSensorValue(final SensorValue sensorValue)
     {
         this.sensorValue = sensorValue;

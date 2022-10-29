@@ -10,26 +10,12 @@ import java.util.Objects;
  */
 public class DefaultSensorValue implements SensorValue
 {
-    /**
-     *
-     */
     private final String name;
-    /**
-     *
-     */
+
     private final long timestamp;
-    /**
-     *
-     */
+
     private final String value;
 
-    /**
-     * Erstellt ein neues {@link DefaultSensorValue} Object.
-     *
-     * @param name String
-     * @param value Object
-     * @param timestamp long
-     */
     public DefaultSensorValue(final String name, final String value, final long timestamp)
     {
         super();

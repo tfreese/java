@@ -12,30 +12,14 @@ import java.util.Objects;
  */
 public abstract class AbstractSensor implements Sensor
 {
-    /**
-     *
-     */
     private final String description;
-    /**
-     *
-     */
+
     private final int keepLastNValues;
-    /**
-     *
-     */
+
     private final String name;
-    /**
-     *
-     */
+
     private final List<SensorValue> values = new ArrayList<>();
 
-    /**
-     * Erstellt ein neues {@link AbstractSensor} Object.
-     *
-     * @param name String
-     * @param keepLastNValues int
-     * @param description String
-     */
     protected AbstractSensor(final String name, final int keepLastNValues, final String description)
     {
         super();
@@ -92,11 +76,6 @@ public abstract class AbstractSensor implements Sensor
         return List.copyOf(this.values);
     }
 
-    /**
-     * @param value String
-     *
-     * @return {@link SensorValue}
-     */
     protected SensorValue addValue(final String value)
     {
         SensorValue sensorValue = new DefaultSensorValue(getName(), value, System.currentTimeMillis());
@@ -111,9 +90,6 @@ public abstract class AbstractSensor implements Sensor
         return sensorValue;
     }
 
-    /**
-     * @return int
-     */
     protected int getKeepLastNValues()
     {
         return this.keepLastNValues;

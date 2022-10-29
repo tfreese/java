@@ -23,9 +23,6 @@ import de.freese.jsensors.utils.LifeCycle;
  */
 public class DisruptorBackend extends AbstractBackend implements LifeCycle
 {
-    /**
-     *
-     */
     private final Backend backend;
     /**
      * Default: Runtime.getRuntime().availableProcessors()
@@ -42,17 +39,9 @@ public class DisruptorBackend extends AbstractBackend implements LifeCycle
      * 2 << 4 = 32<br>
      */
     private final int ringBufferSize;
-    /**
-     *
-     */
+
     private Disruptor<SensorEvent> disruptor;
 
-    /**
-     * Erstellt ein neues {@link DisruptorBackend} Object.
-     *
-     * @param backend {@link Backend}
-     * @param parallelism int
-     */
     public DisruptorBackend(final Backend backend, final int parallelism)
     {
         this(backend, parallelism, Integer.highestOneBit(parallelism) << 4);

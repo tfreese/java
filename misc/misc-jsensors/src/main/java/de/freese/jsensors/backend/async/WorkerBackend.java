@@ -20,9 +20,6 @@ import de.freese.jsensors.utils.LifeCycle;
  */
 public class WorkerBackend extends AbstractBackend implements LifeCycle
 {
-    /**
-     *
-     */
     private static final SensorValue STOP_VALUE = new DefaultSensorValue("STOP_VALUE", "STOP_VALUE", 0);
 
     /**
@@ -63,28 +60,14 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle
         }
     }
 
-    /**
-     *
-     */
     private final Backend delegate;
-    /**
-     *
-     */
+
     private final BlockingQueue<SensorValue> queue = new LinkedBlockingQueue<>();
-    /**
-     *
-     */
+
     private final AtomicBoolean stoppedRef;
-    /**
-     *
-     */
+
     private final QueueWorker worker;
 
-    /**
-     * Erstellt ein neues {@link WorkerBackend} Object.
-     *
-     * @param delegate {@link Backend}
-     */
     public WorkerBackend(final Backend delegate)
     {
         super();
@@ -104,7 +87,7 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle
     {
         this.worker.setName(getName());
         this.worker.setDaemon(true);
-        
+
         worker.start();
     }
 

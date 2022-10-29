@@ -12,8 +12,5 @@ import de.freese.jsensors.sensor.Sensor;
 @FunctionalInterface
 public interface SensorBinder
 {
-    /**
-     * @param registry {@link SensorRegistry}
-     */
     void bindTo(SensorRegistry registry);
 }

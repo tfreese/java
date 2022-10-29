@@ -23,27 +23,21 @@ import org.junit.jupiter.api.Test;
  */
 class TestRegistries
 {
-    /**
-     *
-     */
     @Test
     void testDuplicateSensorName()
     {
         SensorRegistry registry = new DefaultSensorRegistry();
-        Sensor.builder("test.1", "", Function.identity()).register(registry);
+        Sensor.builder("test.1", "obj", Function.identity()).register(registry);
 
         Exception exception = assertThrows(IllegalStateException.class, () -> Sensor.builder("test.1", "", Function.identity()).register(registry));
 
         assertEquals("sensor already exist: 'test.1'", exception.getMessage());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testKeepLastNValues() throws Exception
     {
-        Sensor sensor = Sensor.builder("test", "", Function.identity()).keepLastNValues(3).register(new DefaultSensorRegistry());
+        Sensor sensor = Sensor.builder("test", "obj", Function.identity()).keepLastNValues(3).register(new DefaultSensorRegistry());
 
         sensor.measure();
         assertEquals(1, sensor.getValues().size());
@@ -58,15 +52,12 @@ class TestRegistries
         assertEquals(3, sensor.getValues().size());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testScheduledSensorRegistry() throws Exception
     {
         ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("test"), 2);
 
-        Sensor.builder("test", "", Function.identity()).register(registry);
+        Sensor.builder("test", "obj", Function.identity()).register(registry);
 
         Exception exception = assertThrows(IllegalStateException.class, () -> registry.scheduleSensor("test", 0, 1, TimeUnit.SECONDS, Objects::isNull));
         assertEquals("scheduler is not started: call #start() first", exception.getMessage());
