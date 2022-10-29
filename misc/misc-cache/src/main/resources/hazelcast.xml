@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hazelcast xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.hazelcast.com/schema/config hazelcast-config-4.0.xsd"
+           xmlns="http://www.hazelcast.com/schema/config">
+
+    <!--import resource="hazelcast-network-config.xml"/ -->
+    <!--group>
+    <name>dev</name>
+    <password>dev-pass</password
+    </group -->
+
+    <properties>
+        <property name="hazelcast.backpressure.enabled">true</property> <!-- verhindert Überlastung des Clusters -->
+        <property name="hazelcast.event.thread.count">1</property>
+        <property name="hazelcast.io.thread.count">0</property> <!-- 1= jeweils 1 Thread für Input / Output -->
+        <!--property name="hazelcast.io.input.thread.count">0</property>
+        <property name="hazelcast.io.output.thread.count">0</property-->
+        <property name="hazelcast.logging.type">slf4j</property>
+        <property name="hazelcast.operation.backup.timeout.millis">60000</property>
+        <property name="hazelcast.operation.generic.thread.count">1</property>
+        <property name="hazelcast.operation.thread.count">1</property> <!-- für Partitionen -->
+        <property name="hazelcast.partition.count">1</property>
+        <property name="hazelcast.phone.home.enabled">false</property>
+        <property name="hazelcast.shutdownhook.policy">GRACEFUL</property>
+    </properties>
+
+    <!--serialization>
+        <portable-version>2</portable-version>
+        <use-native-byte-order>true</use-native-byte-order>
+        <byte-order>BIG_ENDIAN</byte-order>
+        <enable-compression>true</enable-compression>
+        <enable-shared-object>false</enable-shared-object>
+        <allow-unsafe>true</allow-unsafe>
+
+        <serializers>
+            <global-serializer override-java-serialization="true">GlobalStreamSerializer</global-serializer>
+            <serializer type-class="Employee" class-name="EmployeeSerializer" />
+        </serializers>
+    </serialization-->
+
+    <partition-group enabled="false" />
+
+    <network>
+        <join>
+            <multicast enabled="false" />
+            <tcp-ip enabled="false" />
+            <aws enabled="false" />
+        </join>
+        <interfaces enabled="false" />
+    </network>
+
+    <!-- Default-Config siehe hazelcast.jar$hazelcast-default.xml -->
+    <map name="test">
+        <in-memory-format>OBJECT</in-memory-format>
+        <backup-count>0</backup-count>
+        <async-backup-count>0</async-backup-count>
+        <time-to-live-seconds>3</time-to-live-seconds>
+        <max-idle-seconds>3</max-idle-seconds>
+        <eviction eviction-policy="LRU" max-size-policy="PER_NODE" size="3"/>
+        <merge-policy>com.hazelcast.spi.merge.PutIfAbsentMergePolicy</merge-policy>
+        <cache-deserialized-values>INDEX-ONLY</cache-deserialized-values>
+    </map>
+
+</hazelcast>

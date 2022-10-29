@@ -1,0 +1,34 @@
+<dependency>
+    <groupId>com.danielflower.apprunner</groupId>
+    <artifactId>javasysmon</artifactId>
+    <version>0.3.5.1</version>
+</dependency>
+
+https://github.com/profesorfalken/jSensors
+https://github.com/openhardwaremonitor
+
+
+# Windows CPU Auslastung
+wmic cpu get loadpercentage
+Ausgabe:
+LoadPercentage
+4
+
+
+# Linux CPU Auslastung       
+/proc/stat:
+PrevIdle = previdle + previowait
+Idle = idle + iowait
+
+PrevNonIdle = prevuser + prevnice + prevsystem + previrq + prevsoftirq + prevsteal
+NonIdle = user + nice + system + irq + softirq + steal
+
+PrevTotal = PrevIdle + PrevNonIdle
+Total = Idle + NonIdle
+
+# differentiate: actual value minus the previous one
+totald = Total - PrevTotal
+idled = Idle - PrevIdle
+
+CPU_Percentage = (totald - idled)/totald    
+

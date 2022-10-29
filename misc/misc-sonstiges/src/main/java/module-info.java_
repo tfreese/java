@@ -1,0 +1,49 @@
+/**
+ * @author Thomas Freese
+ */
+module freese.sonstiges
+{
+    exports de.freese.sonstiges.xml.jaxb;
+    exports de.freese.sonstiges.xml.jaxb.model;
+
+    exports de.freese.sonstiges.javafx to javafx.graphics;
+    exports de.freese.sonstiges.jmx;
+
+    opens de.freese.sonstiges.xml.jaxb.model to java.xml.bind, com.fasterxml.jackson.databind;
+
+    requires com.fasterxml.jackson.core;
+    requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.module.jaxb;
+    requires commons.math3;
+    requires hsqldb;
+    requires com.zaxxer.hikari;
+    requires jackson.annotations;
+    requires jaudiotagger;
+    requires java.datatransfer;
+    requires java.desktop;
+    requires java.logging;
+    requires java.mail;
+    requires java.management;
+    requires java.naming;
+    requires java.prefs;
+    requires java.scripting;
+    requires java.sql;
+    requires java.xml;
+    requires java.xml.bind;
+    requires transitive javafx.graphics;
+    requires jdk.management;
+    // requires jmf;
+    requires lucene.analyzers.common;
+    requires maven.settings;
+    requires maven.settings.builder;
+    requires org.apache.commons.collections4;
+    requires org.apache.commons.compress;
+    requires org.apache.commons.configuration2;
+    requires org.apache.commons.lang3;
+    requires spring.context;
+    requires org.jsoup;
+    // requires plexus.container.default;
+    requires plexus.cipher;
+    requires plexus.sec.dispatcher;
+    requires slf4j.api;
+}

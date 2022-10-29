@@ -1,0 +1,49 @@
+// Created: 31.07.2018
+package de.freese.binding.binds;
+
+import java.util.Objects;
+
+import de.freese.binding.expression.AbstractStringExpression;
+import de.freese.binding.property.Property;
+
+/**
+ * @author Thomas Freese
+ */
+public abstract class AbstractStringBinding extends AbstractStringExpression implements StringBinding
+{
+    /**
+    *
+    */
+    private String value;
+
+    /**
+     * Ermittelt den neuen Wert des Bindings, falls sich einer der {@link Property} geändert hat.
+     *
+     * @return Object
+     */
+    protected abstract String computeValue();
+
+    /**
+     * @see de.freese.binding.value.ObservableValue#getValue()
+     */
+    @Override
+    public String getValue()
+    {
+        return this.value;
+    }
+
+    /**
+     * @see de.freese.binding.binds.Binding#update()
+     */
+    @Override
+    public void update()
+    {
+        String old = this.value;
+        this.value = computeValue();
+
+        if (Objects.equals(old, this.value))
+        {
+            fireValueChangedEvent(old, this.value);
+        }
+    }
+}

@@ -1,0 +1,98 @@
+// Created: 27.10.2020
+package de.freese.jsensors.backend.disruptor;
+
+import java.util.Objects;
+
+import com.lmax.disruptor.EventHandler;
+import com.lmax.disruptor.WorkHandler;
+import de.freese.jsensors.backend.Backend;
+import de.freese.jsensors.sensor.SensorValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * @author Thomas Freese
+ */
+class DisruptorSensorHandler implements EventHandler<SensorEvent>, WorkHandler<SensorEvent>
+{
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(DisruptorSensorHandler.class);
+    /**
+     *
+     */
+    private final Backend backend;
+    /**
+     *
+     */
+    private final int ordinal;
+    /**
+     *
+     */
+    private final int parallelism;
+
+    /**
+     * @param backend {@link Backend}
+     */
+    DisruptorSensorHandler(final Backend backend)
+    {
+        this(backend, 0, -1);
+    }
+
+    /**
+     * @param backend {@link Backend}
+     * @param parallelism int
+     * @param ordinal int
+     */
+    DisruptorSensorHandler(final Backend backend, final int parallelism, final int ordinal)
+    {
+        super();
+
+        this.backend = Objects.requireNonNull(backend, "backend required");
+        this.parallelism = parallelism;
+        this.ordinal = ordinal;
+    }
+
+    /**
+     * @see com.lmax.disruptor.EventHandler#onEvent(java.lang.Object, long, boolean)
+     */
+    @Override
+    public void onEvent(final SensorEvent event, final long sequence, final boolean endOfBatch) throws Exception
+    {
+        // Load-Balancing auf die Handler über die Sequence.
+        // Sonst würden alle Handler gleichzeitig eine Sequence bearbeiten.
+        if ((this.ordinal == -1) || (this.ordinal == (sequence % this.parallelism)))
+        {
+            onEvent(event);
+        }
+    }
+
+    /**
+     * @see com.lmax.disruptor.WorkHandler#onEvent(java.lang.Object)
+     */
+    @Override
+    public void onEvent(final SensorEvent event) throws Exception
+    {
+        SensorValue sensorValue = event.getSensorValue();
+        event.setSensorValue(null);
+
+        store(sensorValue);
+    }
+
+    /**
+     * @return {@link Logger}
+     */
+    private Logger getLogger()
+    {
+        return LOGGER;
+    }
+
+    /**
+     * @param sensorValue {@link SensorValue}
+     */
+    private void store(final SensorValue sensorValue)
+    {
+        this.backend.store(sensorValue);
+    }
+}

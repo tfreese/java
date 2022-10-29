@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema targetNamespace="http://www.example.org/PIMSchema"
+	elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.example.org/PIMSchema">
+
+	<xs:complexType name="AddressType">
+		<xs:sequence>
+			<xs:element name="strasse" type="xs:string" minOccurs="0" />
+			<xs:element name="plz" type="xs:int" minOccurs="0" />
+			<xs:element name="stadt" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ContactType">
+		<xs:sequence>
+			<xs:element name="address" type="AddressType" minOccurs="0"
+				maxOccurs="unbounded"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="contacts" type="ContactType"></xs:element>
+</xs:schema>

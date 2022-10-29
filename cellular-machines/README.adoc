@@ -1,0 +1,8 @@
+= cellular-machines / Zellulare Automaten
+
+Simulation-Demos for cellular machines / Zellulare Automaten.
+
+* https://www.youtube.com/watch?v=wHvMtljdk9w[Langton Ant, window="_blank"]
+* https://www.youtube.com/watch?v=FhcPZmsliYo[Game of Life, window="_blank"]
+* Bouncing Balls
+* https://www.youtube.com/watch?v=BzNAuIcMupw[WaTor - Water Torus (Fish & Shark Ecosystem), window="_blank"]

@@ -1,0 +1,6 @@
+CUSTOMER, QUANTITY, PRICE
+customer_1, 10, 100
+customer_2, 20, 200
+customer_2, 30, 300
+customer_3, 40, 400
+customer_1, 50, 500

@@ -1,0 +1,7 @@
+apply plugin: 'java-library'
+
+dependencies {
+}
+
+// Keine Compiler-Warnungen
+[compileJava, compileTestJava]*.options*.compilerArgs = []

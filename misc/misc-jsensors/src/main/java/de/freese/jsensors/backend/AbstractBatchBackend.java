@@ -1,0 +1,92 @@
+// Created: 09.11.2020
+package de.freese.jsensors.backend;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import de.freese.jsensors.sensor.SensorValue;
+
+/**
+ * Base Implementation for a {@link Backend} with Batching.
+ *
+ * @author Thomas Freese
+ */
+public abstract class AbstractBatchBackend extends AbstractBackend
+{
+    /**
+    *
+    */
+    private final int batchSize;
+    /**
+    *
+    */
+    private List<SensorValue> buffer;
+
+    /**
+     * Erstellt ein neues {@link AbstractBatchBackend} Object.
+     *
+     * @param batchSize int
+     */
+    protected AbstractBatchBackend(final int batchSize)
+    {
+        super();
+
+        if (batchSize < 1)
+        {
+            throw new IllegalArgumentException("batchSize < 1");
+        }
+
+        this.batchSize = batchSize;
+    }
+
+    /**
+     * @return {@link List}
+     */
+    protected List<SensorValue> flush()
+    {
+        List<SensorValue> list = this.buffer;
+        this.buffer = null;
+
+        return list;
+    }
+
+    /**
+     * @return int
+     */
+    protected int getBatchSize()
+    {
+        return this.batchSize;
+    }
+
+    /**
+     * @see de.freese.jsensors.backend.AbstractBackend#storeValue(de.freese.jsensors.sensor.SensorValue)
+     */
+    @Override
+    protected void storeValue(final SensorValue sensorValue)
+    {
+        if (this.buffer == null)
+        {
+            this.buffer = new ArrayList<>();
+        }
+
+        this.buffer.add(sensorValue);
+
+        if (this.buffer.size() >= getBatchSize())
+        {
+            submit();
+        }
+    }
+
+    /**
+     * @param values {@link List}
+     */
+    protected abstract void storeValues(final List<SensorValue> values);
+
+    /**
+     * Submits the buffered {@link SensorValue}s.
+     */
+    public void submit()
+    {
+        storeValues(flush());
+    }
+}

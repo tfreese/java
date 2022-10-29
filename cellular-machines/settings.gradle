@@ -1,0 +1,10 @@
+pluginManagement {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+// Ohne rootProject.name würde der Name des Projekt-Verzeichnisses verwendet werden.
+rootProject.name = "cellular-machines"

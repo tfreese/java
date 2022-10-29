@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hazelcast xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.hazelcast.com/schema/config hazelcast-config-4.0.xsd"
+           xmlns="http://www.hazelcast.com/schema/config">
+
+    <!--import resource="hazelcast-network-config.xml"/ -->
+    <!--group>
+        <name>dev</name>
+        <password>dev-pass</password
+    </group-->
+
+    <properties>
+        <property name="hazelcast.backpressure.enabled">true</property> <!-- verhindert Überlastung des Clusters -->
+        <property name="hazelcast.event.thread.count">1</property>
+        <property name="hazelcast.io.thread.count">1</property> <!-- 1= jeweils 1 Thread für Input / Output -->
+        <!--property name="hazelcast.io.input.thread.count">1</property>
+        <property name="hazelcast.io.output.thread.count">1</property-->
+        <property name="hazelcast.logging.type">slf4j</property>
+        <property name="hazelcast.operation.backup.timeout.millis">60000</property>
+        <property name="hazelcast.operation.generic.thread.count">1</property>
+        <property name="hazelcast.operation.thread.count">1</property> <!-- für Partitionen -->
+        <property name="hazelcast.partition.count">2</property>
+        <property name="hazelcast.phone.home.enabled">false</property>
+        <property name="hazelcast.shutdownhook.policy">GRACEFUL</property>
+    </properties>
+
+    <!--serialization>
+        <portable-version>2</portable-version>
+        <use-native-byte-order>true</use-native-byte-order>
+        <byte-order>BIG_ENDIAN</byte-order>
+        <enable-compression>true</enable-compression>
+        <enable-shared-object>false</enable-shared-object>
+        <allow-unsafe>true</allow-unsafe>
+
+        <serializers>
+            <global-serializer override-java-serialization="true">GlobalStreamSerializer</global-serializer>
+            <serializer type-class="Employee" class-name="EmployeeSerializer" />
+        </serializers>
+    </serialization-->
+
+    <network>
+        <port auto-increment="false">5802</port>
+        <reuse-address>true</reuse-address>
+        <join>
+            <multicast enabled="true">
+                <multicast-group>224.2.2.3</multicast-group>
+                <multicast-port>54327</multicast-port>
+                <multicast-time-to-live>32</multicast-time-to-live>
+                <multicast-timeout-seconds>3</multicast-timeout-seconds>
+                <trusted-interfaces>
+                    <interface>192.168.155.100</interface>
+                </trusted-interfaces>
+            </multicast>
+            <tcp-ip enabled="false" /> <!-- Entweder Multicast oder TCP -->
+        </join>
+        <interfaces enabled="true">
+            <interface>192.168.155.100</interface>
+        </interfaces>
+    </network>
+
+    <!--network>
+            <port auto-increment="false">5802</port>
+            <join>
+                    <multicast enabled="false" />
+                    <tcp-ip enabled="true">
+                            <member>localhost:5801</member>
+                            <member>localhost:5802</member>
+                    </tcp-ip>
+            </join>
+            <interfaces enabled="true">
+                <interface>192.168.155.100</interface>
+        </interfaces>
+    </network-->
+
+    <!-- Default-Config siehe hazelcast.jar$hazelcast-default.xml -->
+    <map name="test">
+        <!--in-memory-format>OBJECT</in-memory-format>
+        <backup-count>0</backup-count>
+        <async-backup-count>1</async-backup-count>
+        <time-to-live-seconds>3</time-to-live-seconds>
+        <max-idle-seconds>0</max-idle-seconds>
+        <eviction-policy>LRU</eviction-policy>
+        <max-size policy="PER_NODE">3</max-size>
+        <merge-policy batch-size="100">com.hazelcast.map.merge.PutIfAbsentMapMergePolicy</merge-policy>
+        <cache-deserialized-values>INDEX-ONLY</cache-deserialized-values>
+        <statistics-enabled>false</statistics-enabled-->
+
+        <!-- http://docs.hazelcast.org/docs/latest-dev/manual/html-single/index.html#near-cache -->
+        <in-memory-format>BINARY</in-memory-format>
+        <near-cache>
+            <in-memory-format>OBJECT</in-memory-format>
+            <time-to-live-seconds>3</time-to-live-seconds>
+            <max-idle-seconds>0</max-idle-seconds>
+            <eviction eviction-policy="LRU" max-size-policy="ENTRY_COUNT" size="3"/>
+            <cache-local-entries>true</cache-local-entries>
+        </near-cache>
+
+    </map>
+
+    <replicatedmap name="test2">
+        <in-memory-format>OBJECT</in-memory-format>
+        <async-fillup>true</async-fillup>
+        <statistics-enabled>false</statistics-enabled>
+        <!--quorum-ref>quorumname</quorum-ref -->
+        <merge-policy>com.hazelcast.spi.merge.PutIfAbsentMergePolicy</merge-policy>
+    </replicatedmap>
+
+</hazelcast>

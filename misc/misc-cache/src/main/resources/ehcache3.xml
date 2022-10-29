@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='http://www.ehcache.org/v3'
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core.xsd">
+
+    <default-serializers>
+        <serializer type="java.lang.Object">org.ehcache.impl.serialization.PlainJavaSerializer</serializer>
+    </default-serializers>
+
+    <cache-template name="defaultCacheTemplate">
+        <key-type>java.lang.Serializable</key-type>
+        <value-type>java.lang.Serializable</value-type>
+        <expiry>
+            <!--ttl unit="seconds">3</ttl-->
+            <!--tti unit="seconds">3</tti-->
+            <none />
+        </expiry>
+
+        <resources>
+            <heap unit="MB">20</heap>
+            <offheap unit="MB">50</offheap>
+        </resources>
+    </cache-template>
+
+    <cache alias="defaultCache" uses-template="defaultCacheTemplate">
+        <key-type>java.lang.String</key-type>
+        <value-type>java.lang.String</value-type>
+        <!--value-type serializer="org.ehcache.impl.serialization.PlainJavaSerializer">java.lang.String</value-type -->
+    </cache>
+
+</config>
