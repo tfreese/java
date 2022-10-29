@@ -16,6 +16,7 @@
 
     <name>${project.groupId} - ${project.artifactId}</name>
     <description>Code-Generierung durch MetaDaten.</description>
+    <inceptionYear>2018</inceptionYear>
 
     <build>
         <plugins>

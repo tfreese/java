@@ -15,6 +15,7 @@
 
     <name>${project.groupId} - ${project.artifactId}</name>
     <description>Beispiele für zellulare Automaten (cellular machines)</description>
+    <inceptionYear>2009</inceptionYear>
 
     <build>
         <plugins>

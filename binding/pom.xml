@@ -15,6 +15,7 @@
 
     <name>${project.groupId} - ${project.artifactId}</name>
     <description>An alternative for Swing like the Binding in JavaFX.</description>
+    <inceptionYear>2018</inceptionYear>
 
     <dependencies>
         <!-- compile scope -->
