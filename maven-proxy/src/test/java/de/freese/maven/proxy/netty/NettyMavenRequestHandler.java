@@ -1,13 +1,12 @@
 // Created: 27.03.2018
 package de.freese.maven.proxy.netty;
 
-import java.net.FileNameMap;
 import java.net.URI;
-import java.net.URLConnection;
 import java.util.Objects;
 
 import de.freese.maven.proxy.repository.Repository;
 import de.freese.maven.proxy.repository.RepositoryResponse;
+import de.freese.maven.proxy.util.ProxyUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -46,10 +45,9 @@ public class NettyMavenRequestHandler extends SimpleChannelInboundHandler<FullHt
      * (0x0D, 0x0A), (13,10), (\r\n)
      */
     private static final String CRLF = "\r\n";
-    private final FileNameMap fileNameMap = URLConnection.getFileNameMap();
 
-    //    private final MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
     private final Repository repository;
 
     public NettyMavenRequestHandler(final Repository repository)
@@ -148,8 +146,7 @@ public class NettyMavenRequestHandler extends SimpleChannelInboundHandler<FullHt
 
         // setContentTypeHeader(response, file);
 
-        //        response.headers().set(HttpHeaderNames.CONTENT_TYPE, this.mimeTypesMap.getContentType(repositoryResponse.getFileName()));
-        response.headers().set(HttpHeaderNames.CONTENT_TYPE, fileNameMap.getContentTypeFor(repositoryResponse.getFileName()));
+        response.headers().set(HttpHeaderNames.CONTENT_TYPE, ProxyUtils.getContentType(repositoryResponse.getFileName()));
 
         // setDateAndCacheHeaders(response, file);
 

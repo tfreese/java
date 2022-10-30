@@ -3,9 +3,7 @@ package de.freese.maven.proxy.jreserver;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.FileNameMap;
 import java.net.URI;
-import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
@@ -25,10 +23,6 @@ class MavenProxyHandler implements HttpHandler
     private static final Logger LOGGER = LoggerFactory.getLogger(MavenProxyHandler.class);
 
     private static final String SERVER_NAME = "Maven-Proxy";
-
-    //    private final MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
-
-    private final FileNameMap fileNameMap = URLConnection.getFileNameMap();
 
     private final Repository repository;
 
@@ -106,8 +100,7 @@ class MavenProxyHandler implements HttpHandler
         long fileLength = repositoryResponse.getContentLength();
 
         exchange.getResponseHeaders().add(ProxyUtils.HTTP_HEADER_SERVER, SERVER_NAME);
-        //        exchange.getResponseHeaders().add(ProxyUtils.HTTP_HEADER_CONTENT_TYPE, this.mimeTypesMap.getContentType(repositoryResponse.getFileName()));
-        exchange.getResponseHeaders().add(ProxyUtils.HTTP_HEADER_CONTENT_TYPE, fileNameMap.getContentTypeFor(repositoryResponse.getFileName()));
+        exchange.getResponseHeaders().add(ProxyUtils.HTTP_HEADER_CONTENT_TYPE, ProxyUtils.getContentType(repositoryResponse.getFileName()));
 
         exchange.sendResponseHeaders(ProxyUtils.HTTP_OK, fileLength);
 

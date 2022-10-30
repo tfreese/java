@@ -23,16 +23,8 @@ import io.netty.handler.ssl.util.SelfSignedCertificate;
  */
 public final class HttpStaticFileServer
 {
-    /**
-     *
-     */
     static final boolean SSL = System.getProperty("ssl") != null;
 
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         // Configure SSL.

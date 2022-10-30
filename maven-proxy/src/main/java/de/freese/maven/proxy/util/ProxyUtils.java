@@ -55,6 +55,17 @@ public final class ProxyUtils
      */
     public static final int HTTP_SERVICE_UNAVAILABLE = 503;
 
+    //    private static final FileNameMap FILE_NAME_MAP = URLConnection.getFileNameMap();
+    //
+    //    private static final MimetypesFileTypeMap MIMETYPES_FILE_TYPE_MAP = new MimetypesFileTypeMap();
+
+    public static String getContentType(String fileName)
+    {
+        return "application/octet-stream";
+        //        return MIMETYPES_FILE_TYPE_MAP.getContentType(fileName);
+        //        return FILE_NAME_MAP.getContentTypeFor(fileName);
+    }
+
     public static void setupProxy() throws UnknownHostException
     {
         // Proxy wird nur auf der Arbeit benötigt.
@@ -146,11 +157,6 @@ public final class ProxyUtils
         }
     }
 
-    public static void shutdown(final ExecutorService executorService)
-    {
-        shutdown(executorService, LoggerFactory.getLogger(ProxyUtils.class));
-    }
-
     public static void shutdown(final ExecutorService executorService, final Logger logger)
     {
         logger.info("shutdown ExecutorService");
@@ -205,6 +211,11 @@ public final class ProxyUtils
             // Preserve interrupt status.
             Thread.currentThread().interrupt();
         }
+    }
+
+    public static void shutdown(final ExecutorService executorService)
+    {
+        shutdown(executorService, LoggerFactory.getLogger(ProxyUtils.class));
     }
 
     /**

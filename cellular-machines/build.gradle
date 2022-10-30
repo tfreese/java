@@ -15,6 +15,16 @@ dependencyManagement {
     }
 }
 
+dependencies {
+    implementation "org.jfree:jfreechart"
+    implementation("org.slf4j:slf4j-api")
+
+    runtimeOnly("org.slf4j:slf4j-simple")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+}
+
+
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 // The archive name. If the name has not been explicitly set, the pattern for the name is:
 // [archiveBaseName]-[archiveAppendix]-[archiveVersion]-[archiveClassifier].[archiveExtension]
@@ -29,13 +39,4 @@ bootRun {
             "-swing"
             //"-console", "-type", "wator", "-cycles", "1500", "-size", "3840", "2160", "-dir", "/tmp/simulationen"
     ]
-}
-
-dependencies {
-    implementation "org.jfree:jfreechart"
-    implementation("org.slf4j:slf4j-api")
-
-    runtimeOnly("org.slf4j:slf4j-simple")
-
-    testImplementation("org.junit.jupiter:junit-jupiter-engine")
 }

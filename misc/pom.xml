@@ -24,7 +24,6 @@
         <module>misc-jconky</module>
         <module>misc-jsensors</module>
         <module>misc-junit5</module>
-        <module>misc-maven-proxy</module>
         <module>misc-micrometer</module>
         <module>misc-openstreetmap</module>
         <module>misc-sonstiges</module>

@@ -11,11 +11,6 @@ import io.netty.handler.codec.http.HttpResponseStatus;
  */
 public class HttpDumpServer
 {
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         HttpServer server = HttpServer.create(new InetSocketAddress(8085), 0);

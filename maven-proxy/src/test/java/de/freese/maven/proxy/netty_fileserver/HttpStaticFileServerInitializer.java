@@ -19,16 +19,8 @@ import io.netty.handler.stream.ChunkedWriteHandler;
  */
 public class HttpStaticFileServerInitializer extends ChannelInitializer<SocketChannel>
 {
-    /**
-     *
-     */
     private final SslContext sslCtx;
 
-    /**
-     * Erstellt ein neues {@link HttpStaticFileServerInitializer} Object.
-     *
-     * @param sslCtx {@link SslContext}
-     */
     public HttpStaticFileServerInitializer(final SslContext sslCtx)
     {
         super();

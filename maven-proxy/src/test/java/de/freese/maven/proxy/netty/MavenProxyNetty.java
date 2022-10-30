@@ -21,29 +21,16 @@ import org.slf4j.LoggerFactory;
  */
 public class MavenProxyNetty implements MavenProxy
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(MavenProxyNetty.class);
-    /**
-     *
-     */
+
     private EventLoopGroup acceptorGroup;
-    /**
-     *
-     */
+
     private Executor executor;
-    /**
-     *
-     */
+
     private int port = -1;
-    /**
-     *
-     */
+
     private Repository repository;
-    /**
-     *
-     */
+
     private EventLoopGroup workerGroup;
 
     /**

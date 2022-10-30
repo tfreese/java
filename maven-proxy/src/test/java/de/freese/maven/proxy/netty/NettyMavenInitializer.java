@@ -19,20 +19,10 @@ import io.netty.handler.stream.ChunkedWriteHandler;
  */
 public class NettyMavenInitializer extends ChannelInitializer<SocketChannel>
 {
-    /**
-    *
-    */
     private final Repository repository;
-    /**
-    *
-    */
+
     private final SslContext sslContext;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link NettyMavenInitializer}.
-     *
-     * @param repository {@link Repository}
-     */
     public NettyMavenInitializer(final Repository repository)
     {
         super();
