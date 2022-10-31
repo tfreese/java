@@ -1,0 +1,69 @@
+// Tasks im SubModul ausführen: gradle MODUL:clean build
+buildscript {
+    // Für Plugins
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        gradlePluginPortal() // maven { url "https://plugins.gradle.org/m2"; name "plugins-gradle" }
+    }
+
+    dependencies {
+        classpath "de.freese.gradle:gradle-plugins:0.0.1-SNAPSHOT"
+        classpath "io.spring.gradle:dependency-management-plugin:$version_springDependencyManagement"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$version_springBootGradlePlugin"
+        classpath "org.openjfx:javafx-plugin:$version_javafxPlugin"
+    }
+}
+
+subprojects {
+    apply plugin: "java"
+    apply plugin: "maven-publish"
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: "de.freese.gradle.plugin.conventions"
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:$version_springBoot"
+        }
+
+        dependencies {
+            dependency "com.danielflower.apprunner:javasysmon:$version_javasysmon"
+            dependency "com.lmax:disruptor:$version_disruptor"
+            dependency "dev.failsafe:failsafe:$version_failsafe"
+            dependency "org.apache.commons:commons-compress:$version_commonsCompress"
+            dependency "org.apache.lucene:lucene-analyzers-common:$version_lucene"
+
+            dependencySet(group: "org.apache.maven", version: "$version_maven") {
+                entry "maven-model-builder"
+                entry "maven-settings-builder"
+            }
+
+//            dependency(group: "org.apache.tomcat", name: "tomcat-catalina", version: dependencyManagement.importedProperties["tomcat.version"])
+//            dependency "org.apache.tomcat:tomcat-catalina:${dependencyManagement.importedProperties["tomcat.version"]}"
+            dependencySet(group: "org.apache.tomcat", version: dependencyManagement.importedProperties["tomcat.version"]) {
+                entry "tomcat-catalina"
+                entry "tomcat-juli"
+            }
+
+            dependencySet(group: "org.apache.xmlgraphics", version: "$version_batik") {
+                entry "batik-codec"
+                entry "batik-swing"
+            }
+
+            dependency "org.codehaus.plexus:plexus-cipher:$version_plexusCipher"
+            dependency "org.codehaus.plexus:plexus-container-default:$version_plexus"
+            dependency "org:jaudiotagger:$version_jaudiotagger"
+            dependency "org.jsoup:jsoup:$version_jsoup"
+
+            dependency("org.jfree:jfreechart:$version_jfreechart") {
+                exclude "com.lowagie:itext"
+                exclude "xml-apis:xml-apis"
+            }
+        }
+    }
+
+    dependencies {
+        //implementation(platform("de.freese:maven-bom:$version_mavenBom"))
+        //testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    }
+}

@@ -18,18 +18,10 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestSudoku
 {
-    /**
-     *
-     */
     private static final SudokuConfig config = new SudokuConfig();
-    /**
-     *
-     */
+
     private static SudokuChromosome chromosome;
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @BeforeAll
     static void beforeAll() throws Exception
     {
@@ -56,9 +48,6 @@ class TestSudoku
         }
     }
 
-    /**
-     *
-     */
     @Test
     void testCalcFitness()
     {
@@ -67,9 +56,6 @@ class TestSudoku
         assertEquals(9963.0, fitness);
     }
 
-    /**
-     *
-     */
     @Test
     void testMaxFittness()
     {

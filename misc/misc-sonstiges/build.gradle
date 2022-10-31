@@ -1,0 +1,54 @@
+plugins {
+    id "org.openjfx.javafxplugin"
+}
+
+description = "Alles zum ausprobieren"
+
+dependencies {
+    javafx {
+        version = "$version_javafxBase"
+        modules = ["javafx.controls"]
+    }
+    
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
+    implementation("com.fasterxml.jackson.module:jackson-module-jaxb-annotations")
+    implementation("com.h2database:h2")
+    implementation("com.lmax:disruptor")
+    implementation("com.sun.mail:jakarta.mail")
+    implementation("com.zaxxer:HikariCP")
+    implementation("dev.failsafe:failsafe")
+    implementation("io.projectreactor:reactor-test")
+    implementation("jakarta.json.bind:jakarta.json.bind-api")
+    implementation("org.apache.commons:commons-compress")
+    implementation("org.apache.logging.log4j:log4j-to-slf4j")
+    implementation("org.apache.lucene:lucene-analyzers-common")
+    implementation("org.apache.maven:maven-model-builder")
+    implementation("org.apache.maven:maven-settings-builder")
+    implementation("org.apache.xmlgraphics:batik-codec")
+    implementation("org.apache.xmlgraphics:batik-swing")
+    implementation("org.apache.xmlgraphics:batik-transcoder")
+    implementation("org.codehaus.plexus:plexus-cipher")
+    implementation("org.codehaus.plexus:plexus-container-default")
+    implementation("org:jaudiotagger")
+    implementation("org.hsqldb:hsqldb")
+    implementation("org.jsoup:jsoup")
+    implementation("org.mariadb.jdbc:mariadb-java-client")
+    implementation("org.springframework.boot:spring-boot-starter") {
+        exclude group: "ch.qos.logback", module: "logback-classic"
+        exclude group: "org.apache.logging.log4j", module: "log4j-to-slf4j"
+    }
+
+    runtimeOnly("com.oracle.database.jdbc:ojdbc11")
+    runtimeOnly("org.glassfish.jaxb:jaxb-runtime") // Implementierung von jakarta.json.bind:jakarta.json.bind-api
+    runtimeOnly("org.slf4j:slf4j-simple")
+
+    testImplementation("org.apache.tomcat:tomcat-catalina") {
+        exclude group: "org.apache.tomcat"
+    }
+
+    // tomcat-juli ist in tomcat-catalina enthalten, aber auch viele andere Jars die nicht benötigt werden.
+    testImplementation("org.apache.tomcat:tomcat-juli")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.junit.jupiter:junit-jupiter-params")
+    testImplementation("org.mockito:mockito-junit-jupiter")
+}

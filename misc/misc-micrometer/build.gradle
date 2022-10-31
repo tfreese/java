@@ -1,0 +1,11 @@
+description = "Micrometer Demo"
+
+dependencies {
+    implementation("io.micrometer:micrometer-core")
+    implementation("io.micrometer:micrometer-registry-prometheus")
+    implementation("org.slf4j:slf4j-api")
+
+    runtimeOnly("org.slf4j:slf4j-simple")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+}

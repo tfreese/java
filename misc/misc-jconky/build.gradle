@@ -1,0 +1,24 @@
+plugins {
+    id "org.openjfx.javafxplugin"
+    id "org.springframework.boot"
+}
+
+description = "Java-Clone of Linux Tool 'conky'"
+
+dependencies {
+    implementation("org.slf4j:slf4j-api")
+
+    runtimeOnly("ch.qos.logback:logback-classic")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+
+    javafx {
+        version = "$version_javafxBase"
+        modules = ["javafx.controls", "javafx.swing"]
+    }
+}
+
+// Start: gradle bootRun --args="--spring.profiles.active=dev"
+bootJar {
+    mainClass = "de.freese.jconky.JConkyLauncher"
+}

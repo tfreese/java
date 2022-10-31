@@ -6,9 +6,6 @@ package de.freese.sudoku;
  */
 public final class TestGrids
 {
-    /**
-     *
-     */
     public static final int[][] GRID3_1 = new int[][]
             {
                     {

@@ -1,2 +1,0 @@
-// Ohne rootProject.name wird Name des Verzeichnisses verwendet.
-rootProject.name = "genetic-algorithm"

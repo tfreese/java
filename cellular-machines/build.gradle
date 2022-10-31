@@ -1,19 +1,8 @@
 plugins {
-    id "java"
-    id "org.springframework.boot" version "$version_springBoot"
-    id "io.spring.dependency-management" version "$version_springDependencyManagement"
-    id "de.freese.gradle.plugin.conventions" version "0.0.1-SNAPSHOT"
+    id "org.springframework.boot"
 }
 
-dependencyManagement {
-    //imports {
-    //    mavenBom "org.springframework.boot:spring-boot-dependencies:$version_springBoot"
-    //}
-
-    dependencies {
-        dependency "org.jfree:jfreechart:$version_jfreechart"
-    }
-}
+description = "Beispiele für zellulare Automaten (cellular machines)."
 
 dependencies {
     implementation "org.jfree:jfreechart"

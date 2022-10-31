@@ -1,0 +1,10 @@
+description = "Demos für Caching"
+
+dependencies {
+    implementation("com.github.ben-manes.caffeine:caffeine")
+    implementation("com.hazelcast:hazelcast")
+    implementation("org.ehcache:ehcache:${dependencyManagement.importedProperties["ehcache3.version"]}:jakarta")
+    implementation("org.slf4j:jul-to-slf4j")
+
+    runtimeOnly("org.slf4j:slf4j-simple")
+}
