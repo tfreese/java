@@ -14,9 +14,6 @@ import de.freese.ga.Genotype;
  */
 public class CoinsExample
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         List<Integer> existingCoins = new ArrayList<>();

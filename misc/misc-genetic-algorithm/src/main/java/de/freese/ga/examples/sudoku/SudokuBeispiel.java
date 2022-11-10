@@ -12,11 +12,6 @@ import de.freese.ga.Genotype;
  */
 public class SudokuBeispiel
 {
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         SudokuConfig config = new SudokuConfig();

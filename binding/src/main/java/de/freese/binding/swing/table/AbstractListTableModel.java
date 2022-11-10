@@ -11,41 +11,24 @@ import javax.swing.table.AbstractTableModel;
 /**
  * TableModel das intern eine Liste verwendet.
  *
- * @param <T> Konkreter Typ
- *
  * @author Thomas Freese
  */
 public abstract class AbstractListTableModel<T> extends AbstractTableModel
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 4681293552039847835L;
-    /**
-     *
-     */
+
     private final int columnCount;
-    /**
-     *
-     */
+
     private final List<String> columnNames;
-    /**
-     *
-     */
+
     private final List<T> list;
 
-    /**
-     *
-     */
     protected AbstractListTableModel(final int columnCount)
     {
         this(columnCount, new ArrayList<>());
     }
 
-    /**
-     *
-     */
     protected AbstractListTableModel(final int columnCount, final List<T> list)
     {
         super();
@@ -60,17 +43,11 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
         this.list = Objects.requireNonNull(list, "list required");
     }
 
-    /**
-     *
-     */
     protected AbstractListTableModel(final List<String> columnNames)
     {
         this(columnNames, new ArrayList<>());
     }
 
-    /**
-     *
-     */
     protected AbstractListTableModel(final List<String> columnNames, final List<T> list)
     {
         super();
@@ -126,25 +103,6 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
         return getColumnNames().get(column);
     }
 
-    /**
-     *
-     */
-    protected List<String> getColumnNames()
-    {
-        return this.columnNames;
-    }
-
-    /**
-     *
-     */
-    protected List<T> getList()
-    {
-        return this.list;
-    }
-
-    /**
-     *
-     */
     public final T getObjectAt(final int rowIndex)
     {
         // if ((rowIndex < 0) || (getList().size() <= rowIndex))
@@ -166,17 +124,11 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
         return getList().size();
     }
 
-    /**
-     *
-     */
     public final int getRowOf(final T object)
     {
         return getList().indexOf(object);
     }
 
-    /**
-     *
-     */
     public void refresh()
     {
         fireTableDataChanged();
@@ -185,5 +137,15 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
         // {
         // fireTableRowsUpdated(0, getRowCount() - 1);
         // }
+    }
+
+    protected List<String> getColumnNames()
+    {
+        return this.columnNames;
+    }
+
+    protected List<T> getList()
+    {
+        return this.list;
     }
 }

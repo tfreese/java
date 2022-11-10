@@ -34,12 +34,6 @@ import de.freese.binding.value.ObservableValue;
  */
 public final class Bindings
 {
-    /**
-     * @param ov1 {@link ObservableNumberValue}
-     * @param ov2 {@link ObservableNumberValue}
-     *
-     * @return {@link NumberBinding}
-     */
     public static NumberBinding<? extends Number> add(final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2)
     {
         final NumberBinding<? extends Number> binding;
@@ -64,12 +58,6 @@ public final class Bindings
         return binding;
     }
 
-    /**
-     * @param ov1 {@link ObservableBooleanValue}
-     * @param ov2 {@link ObservableBooleanValue}
-     *
-     * @return {@link BooleanBinding}
-     */
     public static BooleanBinding and(final ObservableBooleanValue ov1, final ObservableBooleanValue ov2)
     {
         BooleanBinding binding = new AbstractBooleanBinding()
@@ -92,12 +80,6 @@ public final class Bindings
         return binding;
     }
 
-    /**
-     * @param ov1 {@link ObservableStringValue}
-     * @param ov2 {@link ObservableStringValue}
-     *
-     * @return {@link StringBinding}
-     */
     public static StringBinding concat(final ObservableStringValue ov1, final ObservableStringValue ov2)
     {
         return createStringBinding((v1, v2) ->
@@ -111,12 +93,6 @@ public final class Bindings
         }, ov1, ov2);
     }
 
-    /**
-     * @param function {@link Predicate}
-     * @param ov {@link ObservableStringValue}
-     *
-     * @return {@link StringBinding}
-     */
     public static BooleanBinding createBooleanBinding(final Predicate<Object> function, final ObservableValue<?> ov)
     {
         BooleanBinding binding = new AbstractBooleanBinding()
@@ -138,13 +114,6 @@ public final class Bindings
         return binding;
     }
 
-    /**
-     * @param function {@link BinaryOperator}
-     * @param ov1 {@link ObservableNumberValue}
-     * @param ov2 {@link ObservableNumberValue}
-     *
-     * @return {@link DoubleBinding}
-     */
     public static DoubleBinding createDoubleBinding(final BinaryOperator<Double> function, final ObservableNumberValue<? extends Number> ov1,
                                                     final ObservableNumberValue<? extends Number> ov2)
     {
@@ -168,13 +137,6 @@ public final class Bindings
         return binding;
     }
 
-    /**
-     * @param function {@link BinaryOperator}
-     * @param ov1 {@link ObservableNumberValue}
-     * @param ov2 {@link ObservableNumberValue}
-     *
-     * @return {@link FloatBinding}
-     */
     public static FloatBinding createFloatBinding(final BinaryOperator<Float> function, final ObservableNumberValue<? extends Number> ov1,
                                                   final ObservableNumberValue<? extends Number> ov2)
     {
@@ -198,13 +160,6 @@ public final class Bindings
         return binding;
     }
 
-    /**
-     * @param function {@link BinaryOperator}
-     * @param ov1 {@link ObservableNumberValue}
-     * @param ov2 {@link ObservableNumberValue}
-     *
-     * @return {@link IntegerBinding}
-     */
     public static IntegerBinding createIntegerBinding(final BinaryOperator<Integer> function, final ObservableNumberValue<? extends Number> ov1,
                                                       final ObservableNumberValue<? extends Number> ov2)
     {
@@ -228,13 +183,6 @@ public final class Bindings
         return binding;
     }
 
-    /**
-     * @param function {@link BinaryOperator}
-     * @param ov1 {@link ObservableNumberValue}
-     * @param ov2 {@link ObservableNumberValue}
-     *
-     * @return {@link LongBinding}
-     */
     public static LongBinding createLongBinding(final BinaryOperator<Long> function, final ObservableNumberValue<? extends Number> ov1,
                                                 final ObservableNumberValue<? extends Number> ov2)
     {
@@ -258,13 +206,6 @@ public final class Bindings
         return binding;
     }
 
-    /**
-     * @param function {@link BinaryOperator}
-     * @param ov1 {@link ObservableStringValue}
-     * @param ov2 {@link ObservableStringValue}
-     *
-     * @return {@link StringBinding}
-     */
     public static StringBinding createStringBinding(final BinaryOperator<String> function, final ObservableStringValue ov1, final ObservableStringValue ov2)
     {
         StringBinding binding = new AbstractStringBinding()
@@ -287,12 +228,6 @@ public final class Bindings
         return binding;
     }
 
-    /**
-     * @param ov1 {@link ObservableNumberValue}
-     * @param ov2 {@link ObservableNumberValue}
-     *
-     * @return {@link NumberBinding}
-     */
     public static NumberBinding<? extends Number> divide(final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2)
     {
         final NumberBinding<? extends Number> binding;
@@ -317,85 +252,36 @@ public final class Bindings
         return binding;
     }
 
-    /**
-     * Liefert einen leeren String "", wenn null.
-     *
-     * @param value String
-     *
-     * @return String
-     */
-    private static String getValueSafe(final String value)
-    {
-        return value == null ? "" : value;
-    }
-
-    /**
-     * @param ov {@link ObservableStringValue}
-     *
-     * @return {@link BooleanBinding}
-     */
     public static BooleanBinding isBlank(final ObservableStringValue ov)
     {
         return createBooleanBinding(v -> getValueSafe((String) v).isBlank(), ov);
     }
 
-    /**
-     * @param ov {@link ObservableStringValue}
-     *
-     * @return {@link BooleanBinding}
-     */
     public static BooleanBinding isEmpty(final ObservableStringValue ov)
     {
         return createBooleanBinding(v -> getValueSafe((String) v).isEmpty(), ov);
     }
 
-    /**
-     * @param ov {@link ObservableStringValue}
-     *
-     * @return {@link BooleanBinding}
-     */
     public static BooleanBinding isNotBlank(final ObservableStringValue ov)
     {
         return createBooleanBinding(v -> !getValueSafe((String) v).isBlank(), ov);
     }
 
-    /**
-     * @param ov {@link ObservableStringValue}
-     *
-     * @return {@link BooleanBinding}
-     */
     public static BooleanBinding isNotEmpty(final ObservableStringValue ov)
     {
         return createBooleanBinding(v -> !getValueSafe((String) v).isEmpty(), ov);
     }
 
-    /**
-     * @param ov {@link ObservableValue}
-     * @param <T> Konkreter Typ
-     *
-     * @return {@link BooleanBinding}
-     */
     public static <T> BooleanBinding isNotNull(final ObservableValue<T> ov)
     {
         return createBooleanBinding(Objects::nonNull, ov);
     }
 
-    /**
-     * @param ov {@link ObservableValue}
-     * @param <T> Konkreter Typ
-     *
-     * @return {@link BooleanBinding}
-     */
     public static <T> BooleanBinding isNull(final ObservableValue<T> ov)
     {
         return createBooleanBinding(Objects::isNull, ov);
     }
 
-    /**
-     * @param ov {@link ObservableStringValue}
-     *
-     * @return {@link de.freese.binding.binds.IntegerBinding}
-     */
     public static IntegerBinding length(final ObservableStringValue ov)
     {
         IntegerBinding binding = new AbstractIntegerBinding()
@@ -417,12 +303,6 @@ public final class Bindings
         return binding;
     }
 
-    /**
-     * @param ov1 {@link ObservableNumberValue}
-     * @param ov2 {@link ObservableNumberValue}
-     *
-     * @return {@link NumberBinding}
-     */
     public static NumberBinding<? extends Number> multiply(final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2)
     {
         final NumberBinding<? extends Number> binding;
@@ -447,11 +327,6 @@ public final class Bindings
         return binding;
     }
 
-    /**
-     * @param ov {@link ObservableBooleanValue}
-     *
-     * @return {@link BooleanBinding}
-     */
     public static BooleanBinding not(final ObservableBooleanValue ov)
     {
         BooleanBinding binding = new AbstractBooleanBinding()
@@ -473,12 +348,6 @@ public final class Bindings
         return binding;
     }
 
-    /**
-     * @param ov1 {@link ObservableBooleanValue}
-     * @param ov2 {@link ObservableBooleanValue}
-     *
-     * @return {@link BooleanBinding}
-     */
     public static BooleanBinding or(final ObservableBooleanValue ov1, final ObservableBooleanValue ov2)
     {
         BooleanBinding binding = new AbstractBooleanBinding()
@@ -501,12 +370,6 @@ public final class Bindings
         return binding;
     }
 
-    /**
-     * @param ov1 {@link ObservableNumberValue}
-     * @param ov2 {@link ObservableNumberValue}
-     *
-     * @return {@link NumberBinding}
-     */
     public static NumberBinding<? extends Number> subtract(final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2)
     {
         final NumberBinding<? extends Number> binding;
@@ -532,8 +395,13 @@ public final class Bindings
     }
 
     /**
-     * Erstellt ein neues {@link Bindings} Object.
+     * Liefert einen leeren String "", wenn null.
      */
+    private static String getValueSafe(final String value)
+    {
+        return value == null ? "" : value;
+    }
+
     private Bindings()
     {
         super();

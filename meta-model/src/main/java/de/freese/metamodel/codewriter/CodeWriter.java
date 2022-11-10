@@ -14,18 +14,11 @@ public interface CodeWriter
 {
     /**
      * Liefert die Dateiendung.
-     *
-     * @return String
      */
     String getFileExtension();
 
     /**
      * Schreibt den Code einer Klasse.
-     *
-     * @param classModel {@link ClassModel}
-     * @param output {@link PrintStream}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     void write(ClassModel classModel, PrintStream output) throws Exception;
 }

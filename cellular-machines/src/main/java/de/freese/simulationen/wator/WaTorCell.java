@@ -17,45 +17,111 @@ public class WaTorCell extends AbstractCell
      */
     public enum CellType
     {
-        /**
-         *
-         */
         EMPTY,
-        /**
-         *
-         */
         FISH,
-        /**
-         *
-         */
         SHARK
     }
-
-    /**
-     *
-     */
-    private CellType cellType;
-    /**
-     *
-     */
-    private int energy;
-    /**
-     *
-     */
     private final List<int[]> fischNachbarnList = new ArrayList<>(8);
-    /**
-     *
-     */
     private final List<int[]> freieNachbarnList = new ArrayList<>(8);
+    private CellType cellType;
+    private int energy;
 
-    /**
-     * Erstellt ein neues {@link WaTorCell} Object.
-     *
-     * @param simulation {@link WaTorRasterSimulation}
-     */
     public WaTorCell(final WaTorRasterSimulation simulation)
     {
         super(simulation);
+    }
+
+    public boolean isEmpty()
+    {
+        return CellType.EMPTY.equals(this.cellType);
+    }
+
+    public boolean isFish()
+    {
+        return CellType.FISH.equals(this.cellType);
+    }
+
+    public boolean isShark()
+    {
+        return CellType.SHARK.equals(this.cellType);
+    }
+
+    /**
+     * @see de.freese.simulationen.model.Cell#nextGeneration()
+     */
+    @Override
+    public void nextGeneration()
+    {
+        if (CellType.FISH.equals(this.cellType))
+        {
+            nextFish();
+        }
+        else if (CellType.SHARK.equals(this.cellType))
+        {
+            nextShark();
+        }
+    }
+
+    public void setCellType(final CellType cellType)
+    {
+        this.cellType = cellType;
+
+        switch (cellType)
+        {
+            case FISH -> setColor(Color.GREEN);
+            case SHARK -> setColor(Color.BLUE);
+
+            default -> setColor(Color.BLACK);
+        }
+    }
+
+    public void setEnergy(final int energy)
+    {
+        this.energy = energy;
+    }
+
+    /**
+     * Erhöht den Energiewert um 1.
+     */
+    void incrementEnergy()
+    {
+        this.energy++;
+    }
+
+    /**
+     * Liefert einen Fisch in der Nachbarschaft oder keinen.
+     */
+    protected WaTorCell getFischNachbar()
+    {
+        if (this.fischNachbarnList.isEmpty())
+        {
+            return null;
+        }
+
+        while (!this.fischNachbarnList.isEmpty())
+        {
+            final int size = this.fischNachbarnList.size();
+            final int[] koords = this.fischNachbarnList.remove(getSimulation().getRandom().nextInt(size));
+
+            final WaTorCell cell = getSimulation().getCell(koords[0], koords[1]);
+
+            // Ist das wirklich noch ein Fisch ?
+            if (cell.isFish())
+            {
+                return cell;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @see de.freese.simulationen.model.AbstractCell#getSimulation()
+     */
+    @Override
+    protected WaTorRasterSimulation getSimulation()
+    {
+        return (WaTorRasterSimulation) super.getSimulation();
     }
 
     /**
@@ -68,8 +134,6 @@ public class WaTorCell extends AbstractCell
 
     /**
      * Erniedrigt den Energiewert.
-     *
-     * @param delta int
      */
     private void decrementEnergy(final int delta)
     {
@@ -106,38 +170,7 @@ public class WaTorCell extends AbstractCell
     }
 
     /**
-     * Liefert einen Fisch in der Nachbarschaft oder keinen.
-     *
-     * @return {@link WaTorCell}
-     */
-    protected WaTorCell getFischNachbar()
-    {
-        if (this.fischNachbarnList.isEmpty())
-        {
-            return null;
-        }
-
-        while (!this.fischNachbarnList.isEmpty())
-        {
-            final int size = this.fischNachbarnList.size();
-            final int[] koords = this.fischNachbarnList.remove(getSimulation().getRandom().nextInt(size));
-
-            final WaTorCell cell = getSimulation().getCell(koords[0], koords[1]);
-
-            // Ist das wirklich noch ein Fisch ?
-            if (cell.isFish())
-            {
-                return cell;
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Liefert die Koordinaten einer freien Zelle in der Nachbarschaft oder keine.
-     *
-     * @return int[]
      */
     private int[] getFreierNachbar()
     {
@@ -164,54 +197,11 @@ public class WaTorCell extends AbstractCell
     }
 
     /**
-     * @see de.freese.simulationen.model.AbstractCell#getSimulation()
-     */
-    @Override
-    protected WaTorRasterSimulation getSimulation()
-    {
-        return (WaTorRasterSimulation) super.getSimulation();
-    }
-
-    /**
-     * Erhoeht den Energiewert um 1.
-     */
-    void incrementEnergy()
-    {
-        this.energy++;
-    }
-
-    /**
-     * Erhoeht den Energiewert.
-     *
-     * @param delta int
+     * Erhöht den Energiewert.
      */
     private void incrementEnergy(final int delta)
     {
         this.energy += delta;
-    }
-
-    /**
-     * @return boolean
-     */
-    public boolean isEmpty()
-    {
-        return CellType.EMPTY.equals(this.cellType);
-    }
-
-    /**
-     * @return boolean
-     */
-    public boolean isFish()
-    {
-        return CellType.FISH.equals(this.cellType);
-    }
-
-    /**
-     * @return boolean
-     */
-    public boolean isShark()
-    {
-        return CellType.SHARK.equals(this.cellType);
     }
 
     /**
@@ -253,22 +243,6 @@ public class WaTorCell extends AbstractCell
                 setCellType(CellType.EMPTY);
                 setEnergy(0);
             }
-        }
-    }
-
-    /**
-     * @see de.freese.simulationen.model.Cell#nextGeneration()
-     */
-    @Override
-    public void nextGeneration()
-    {
-        if (CellType.FISH.equals(this.cellType))
-        {
-            nextFish();
-        }
-        else if (CellType.SHARK.equals(this.cellType))
-        {
-            nextShark();
         }
     }
 
@@ -337,29 +311,5 @@ public class WaTorCell extends AbstractCell
             shark.setCellType(CellType.EMPTY);
             shark.setEnergy(0);
         }
-    }
-
-    /**
-     * @param cellType {@link CellType}
-     */
-    public void setCellType(final CellType cellType)
-    {
-        this.cellType = cellType;
-
-        switch (cellType)
-        {
-            case FISH -> setColor(Color.GREEN);
-            case SHARK -> setColor(Color.BLUE);
-
-            default -> setColor(Color.BLACK);
-        }
-    }
-
-    /**
-     * @param energy int
-     */
-    public void setEnergy(final int energy)
-    {
-        this.energy = energy;
     }
 }

@@ -18,31 +18,15 @@ import java.util.stream.Stream;
  */
 public abstract class Genotype
 {
-    /**
-     *
-     */
     private final Chromosome[] chromosomes;
-    /**
-     *
-     */
+
     private final Config config;
 
-    /**
-     * Erstellt ein neues {@link Genotype} Object.
-     *
-     * @param config {@link Config}
-     */
     protected Genotype(final Config config)
     {
         this(config, config.getSizeGenotype());
     }
 
-    /**
-     * Erstellt ein neues {@link Genotype} Object.
-     *
-     * @param config {@link Config}
-     * @param size int
-     */
     protected Genotype(final Config config, final int size)
     {
         super();
@@ -53,15 +37,11 @@ public abstract class Genotype
 
     /**
      * Erzeugt ein neues leeres Chromosom / Lösung.
-     *
-     * @return {@link Chromosome}
      */
     public abstract Chromosome createEmptyChromosome();
 
     /**
      * Erzeugt einen neuen leeren Genotype / Population.
-     *
-     * @return {@link Genotype}
      */
     public Genotype createEmptyGenotype()
     {
@@ -71,10 +51,6 @@ public abstract class Genotype
     /**
      * Erzeugt einen neuen leeren Genotype / Population.<br>
      *
-     * @param size int
-     *
-     * @return {@link Genotype}
-     *
      * @see Genotype#tournamentSelection()
      */
     public abstract Genotype createEmptyGenotype(int size);
@@ -82,11 +58,6 @@ public abstract class Genotype
     /**
      * Zufällige Rekombination ausgewählter Individuen (Chromosomen).<br>
      * Beim Crossover werden aus der Population/Genotype paarweise Chromosomen ausgewählt, die dann mit einer Wahrscheinlichkeit W zu kreuzen sind.
-     *
-     * @param parent1 {@link Chromosome}
-     * @param parent2 {@link Chromosome}
-     *
-     * @return {@link Chromosome}
      */
     public Chromosome crossover(final Chromosome parent1, final Chromosome parent2)
     {
@@ -115,8 +86,6 @@ public abstract class Genotype
      * 1. Zufällige Auswahl eines Individuums (Chromosom) für die Rekombination, {@link #tournamentSelection()}<br>
      * 2. Zufällige Rekombination ausgewählter Individuen (Chromosomen), {@link #crossover(Chromosome, Chromosome)}<br>
      * 3. Zufällige Veränderung der Gene, {@link Chromosome#mutate()}<br>
-     *
-     * @return {@link Genotype}
      */
     public Genotype evolve()
     {
@@ -187,13 +156,6 @@ public abstract class Genotype
         return newPopulation;
     }
 
-    /**
-     * Liefert das Chromosom am Index.
-     *
-     * @param index int
-     *
-     * @return {@link Chromosome}
-     */
     public Chromosome getChromosome(final int index)
     {
         return getChromosomes()[index];
@@ -201,8 +163,6 @@ public abstract class Genotype
 
     /**
      * Liefert das Chromosom mit dem höchsten Fitnesswert.
-     *
-     * @return {@link Chromosome}
      */
     public Chromosome getFittest()
     {
@@ -252,12 +212,6 @@ public abstract class Genotype
         }
     }
 
-    /**
-     * Setzt das Chromosom am Index.
-     *
-     * @param index int
-     * @param chromosome {@link Chromosome}
-     */
     public void setChromosome(final int index, final Chromosome chromosome)
     {
         getChromosomes()[index] = chromosome;
@@ -265,8 +219,6 @@ public abstract class Genotype
 
     /**
      * Liefert die Größe des Genotypes, Anzahl von Chromosomen.
-     *
-     * @return int
      */
     public int size()
     {
@@ -276,8 +228,6 @@ public abstract class Genotype
     /**
      * Zufällige Auswahl eines Individuums (Chromosom) für die Rekombination.<br>
      * (survival of the fittest)
-     *
-     * @return {@link Chromosome}
      */
     public Chromosome tournamentSelection()
     {
@@ -293,17 +243,11 @@ public abstract class Genotype
         return tournament.getFittest();
     }
 
-    /**
-     * @return {@link Chromosome}[]
-     */
     protected Chromosome[] getChromosomes()
     {
         return this.chromosomes;
     }
 
-    /**
-     * @return {@link Config}
-     */
     protected Config getConfig()
     {
         return this.config;

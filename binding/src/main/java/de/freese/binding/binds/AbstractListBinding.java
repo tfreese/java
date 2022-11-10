@@ -8,23 +8,13 @@ import de.freese.binding.expression.AbstractListExpression;
 import de.freese.binding.property.Property;
 
 /**
- * @author Thomas Freese
- *
  * @param <T> Konkreter Typ
+ *
+ * @author Thomas Freese
  */
 public abstract class AbstractListBinding<T> extends AbstractListExpression<T> implements ListBinding<T>
 {
-    /**
-    *
-    */
     private ObservableList<T> value;
-
-    /**
-     * Ermittelt den neuen Wert des Bindings, falls sich einer der {@link Property} geändert hat.
-     *
-     * @return {@link ObservableList}
-     */
-    protected abstract ObservableList<T> computeValue();
 
     /**
      * @see de.freese.binding.value.ObservableValue#getValue()
@@ -49,4 +39,9 @@ public abstract class AbstractListBinding<T> extends AbstractListExpression<T> i
             fireValueChangedEvent(old, this.value);
         }
     }
+
+    /**
+     * Ermittelt den neuen Wert des Bindings, falls sich einer der {@link Property} geändert hat.
+     */
+    protected abstract ObservableList<T> computeValue();
 }

@@ -10,19 +10,10 @@ import java.awt.Color;
  */
 public interface Cell
 {
-    /**
-     * @return {@link Color}
-     */
     Color getColor();
 
-    /**
-     * @return int
-     */
     int getX();
 
-    /**
-     * @return int
-     */
     int getY();
 
     /**

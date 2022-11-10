@@ -26,11 +26,6 @@ import org.sqlite.javax.SQLiteConnectionPoolDataSource;
  */
 public final class TestUtil
 {
-    /**
-     * @param dataSource {@link DataSource}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void closeDataSource(final DataSource dataSource) throws Exception
     {
         if (dataSource instanceof AutoCloseable ac)
@@ -51,11 +46,6 @@ public final class TestUtil
         // }
     }
 
-    /**
-     * @param url String
-     *
-     * @return {@link DataSource}
-     */
     public static DataSource createHsqlDBDataSource(final String url)
     {
         // jdbc:hsqldb:mem:mails
@@ -69,13 +59,6 @@ public final class TestUtil
         return dataSource;
     }
 
-    /**
-     * @param url String
-     *
-     * @return {@link DataSource}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static DataSource createMySQLDBDataSource(final String url) throws SQLException
     {
         // jdbc:mariadb://localhost:3306/kodi_video99
@@ -87,13 +70,6 @@ public final class TestUtil
         return dataSource;
     }
 
-    /**
-     * @param url String
-     *
-     * @return {@link DataSource}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static DataSource createOracleDataSource(final String url) throws SQLException
     {
         // jdbc:oracle:thin:@//HOST:1560/service
@@ -139,11 +115,6 @@ public final class TestUtil
         return dataSource;
     }
 
-    /**
-     * @param url String
-     *
-     * @return {@link DataSource}
-     */
     public static DataSource createSQLiteDataSource(final String url)
     {
         // jdbc:sqlite:/tmp/MyVideos99.db
@@ -162,11 +133,6 @@ public final class TestUtil
      * Dabei wird die Spaltenbreite auf den breitesten Wert angepasst.<br>
      * Der Stream wird nicht geschlossen.<br>
      * Wenn das ResultSet einen Typ != ResultSet.TYPE_FORWARD_ONLY besitzt, wird ResultSet.first() aufgerufen und kann weiter verwendet werden.
-     *
-     * @param resultSet {@link ResultSet}
-     * @param ps {@link PrintStream}
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     public static void write(final ResultSet resultSet, final PrintStream ps) throws SQLException
     {
@@ -185,12 +151,7 @@ public final class TestUtil
     /**
      * Fügt am Index 1 der Liste eine Trennlinie ein.<br>
      * Die Breite pro Spalte orientiert sich am ersten Wert (Header) der Spalte.<br>
-     *
-     * @param <T> Konkreter Typ
-     * @param rows {@link List}
-     * @param separator String
      */
-    @SuppressWarnings("unchecked")
     private static <T extends CharSequence> void addHeaderSeparator(final List<T[]> rows, final String separator)
     {
         if ((rows == null) || rows.isEmpty())
@@ -222,13 +183,8 @@ public final class TestUtil
      * Ist das Padding null oder leer wird nichts gemacht.<br>
      * Beim Padding werden die CharSequences durch Strings ersetzt.
      *
-     * @param <T> Konkreter Typ
-     * @param rows {@link List}
-     * @param padding String
-     *
      * @see #write(List, PrintStream, String)
      */
-    @SuppressWarnings("unchecked")
     private static <T extends CharSequence> void padding(final List<T[]> rows, final String padding)
     {
         if ((rows == null) || rows.isEmpty())
@@ -266,13 +222,6 @@ public final class TestUtil
         });
     }
 
-    /**
-     * @param value String
-     * @param size int
-     * @param padding String
-     *
-     * @return String
-     */
     private static String rightPad(final String value, final int size, final String padding)
     {
         String newValue;
@@ -295,12 +244,6 @@ public final class TestUtil
     /**
      * Erzeugt aus dem {@link ResultSet} eine Liste mit den Column-Namen in der ersten Zeile und den Daten.<br>
      * Wenn das ResultSet einen Typ != ResultSet.TYPE_FORWARD_ONLY besitzt, wird {@link ResultSet#first()} aufgerufen und kann weiter verwendet werden.
-     *
-     * @param resultSet {@link ResultSet}
-     *
-     * @return {@link List}
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     private static List<String[]> toList(final ResultSet resultSet) throws SQLException
     {
@@ -359,11 +302,6 @@ public final class TestUtil
     /**
      * Schreibt die Liste in den PrintStream.<br>
      * Der Stream wird nicht geschlossen.
-     *
-     * @param <T> Konkreter Typ von CharSequence
-     * @param rows {@link List}
-     * @param ps {@link PrintStream}
-     * @param separator String
      */
     private static <T extends CharSequence> void write(final List<T[]> rows, final PrintStream ps, final String separator)
     {
@@ -383,9 +321,6 @@ public final class TestUtil
         ps.flush();
     }
 
-    /**
-     * Erstellt ein neues {@link TestUtil} Object.
-     */
     private TestUtil()
     {
         super();

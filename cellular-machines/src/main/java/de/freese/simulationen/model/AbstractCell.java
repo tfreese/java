@@ -11,28 +11,14 @@ import java.util.function.BiConsumer;
  */
 public abstract class AbstractCell implements Cell
 {
-    /**
-     *
-     */
     private final AbstractRasterSimulation simulation;
-    /**
-     *
-     */
+
     private Color color;
-    /**
-     *
-     */
+
     private int x = -1;
-    /**
-     *
-     */
+
     private int y = -1;
 
-    /**
-     * Erstellt ein neues {@link AbstractCell} Object.
-     *
-     * @param simulation {@link Simulation}
-     */
     protected AbstractCell(final AbstractRasterSimulation simulation)
     {
         super();
@@ -40,12 +26,6 @@ public abstract class AbstractCell implements Cell
         this.simulation = simulation;
     }
 
-    /**
-     * Erstellt ein neues {@link AbstractCell} Object.
-     *
-     * @param simulation {@link Simulation}
-     * @param color {@link Color}
-     */
     protected AbstractCell(final AbstractRasterSimulation simulation, final Color color)
     {
         super();
@@ -81,9 +61,6 @@ public abstract class AbstractCell implements Cell
         return this.y;
     }
 
-    /**
-     * @param color Color
-     */
     public void setColor(final Color color)
     {
         this.color = color;
@@ -105,19 +82,12 @@ public abstract class AbstractCell implements Cell
         return sb.toString();
     }
 
-    /**
-     * @param x int
-     * @param y int
-     */
     void setXY(final int x, final int y)
     {
         this.x = x;
         this.y = y;
     }
 
-    /**
-     * @return {@link AbstractRasterSimulation}
-     */
     protected AbstractRasterSimulation getSimulation()
     {
         return this.simulation;
@@ -125,8 +95,6 @@ public abstract class AbstractCell implements Cell
 
     /**
      * Liefert nur die Nord-, Ost-, Süd- und West-Nachbarn dieser Zelle.
-     *
-     * @param biConsumer {@link BiConsumer}
      */
     protected void visitNeighbours(final BiConsumer<Integer, Integer> biConsumer)
     {
@@ -150,8 +118,6 @@ public abstract class AbstractCell implements Cell
 
     /**
      * Liefert alle Nachbarn dieser Zelle.
-     *
-     * @param biConsumer {@link BiConsumer}
      */
     protected void visitNeighboursAll(final BiConsumer<Integer, Integer> biConsumer)
     {

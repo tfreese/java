@@ -7,31 +7,16 @@ import de.freese.binding.value.ChangeListener;
 
 /**
  * @author Thomas Freese
- *
- * @param <T> Konkreter Typ
  */
 public final class ListConstant<T> extends AbstractListExpression<T>
 {
-    /**
-     * @param value ObservableList
-     *
-     * @return {@link ListConstant}
-     */
     public static <T> ListConstant<T> valueOf(final ObservableList<T> value)
     {
         return new ListConstant<>(value);
     }
 
-    /**
-     *
-     */
     private final ObservableList<T> value;
 
-    /**
-     * Erstellt ein neues {@link ListConstant} Object.
-     *
-     * @param value {@link String}
-     */
     private ListConstant(final ObservableList<T> value)
     {
         super();
@@ -45,17 +30,7 @@ public final class ListConstant<T> extends AbstractListExpression<T>
     @Override
     public void addListener(final ChangeListener<? super ObservableList<T>> listener)
     {
-        // NO-OP
-    }
-
-    /**
-     * @see de.freese.binding.expression.AbstractListExpression#fireValueChangedEvent(de.freese.binding.collections.ObservableList,
-     *      de.freese.binding.collections.ObservableList)
-     */
-    @Override
-    protected void fireValueChangedEvent(final ObservableList<T> oldValue, final ObservableList<T> newValue)
-    {
-        // NO-OP
+        // Empty
     }
 
     /**
@@ -73,6 +48,16 @@ public final class ListConstant<T> extends AbstractListExpression<T>
     @Override
     public void removeListener(final ChangeListener<? super ObservableList<T>> listener)
     {
-        // NO-OP
+        // Empty
+    }
+
+    /**
+     * @see de.freese.binding.expression.AbstractListExpression#fireValueChangedEvent(de.freese.binding.collections.ObservableList,
+     * de.freese.binding.collections.ObservableList)
+     */
+    @Override
+    protected void fireValueChangedEvent(final ObservableList<T> oldValue, final ObservableList<T> newValue)
+    {
+        // Empty
     }
 }

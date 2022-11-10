@@ -12,11 +12,6 @@ package de.freese.ga.examples.travelling_salesman;
  */
 public record City(String name, int x, int y)
 {
-    /**
-     * @param city {@link City}
-     *
-     * @return double
-     */
     public double distanceTo(final City city)
     {
         double xDistance = Math.abs(x() - city.x());

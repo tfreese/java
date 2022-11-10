@@ -14,16 +14,10 @@ import de.freese.binding.collections.ObservableListValue;
 import de.freese.binding.value.ChangeListener;
 
 /**
- * @param <T> Konkreter Typ
- *
  * @author Thomas Freese
  */
-@SuppressWarnings("unchecked")
 public abstract class AbstractListExpression<T> implements ObservableListValue<T>
 {
-    /**
-     *
-     */
     private final List<ChangeListener<? super ObservableList<T>>> listeners = new ArrayList<>(4);
 
     /**
@@ -117,18 +111,6 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
     public boolean containsAll(final Collection<?> c)
     {
         return getValue().containsAll(c);
-    }
-
-    /**
-     * @param oldValue Object
-     * @param newValue Object
-     */
-    protected void fireValueChangedEvent(final ObservableList<T> oldValue, final ObservableList<T> newValue)
-    {
-        for (ChangeListener<? super ObservableList<T>> changeListener : this.listeners)
-        {
-            changeListener.changed(this, oldValue, newValue);
-        }
     }
 
     /**
@@ -354,5 +336,13 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
     public <T> T[] toArray(final T[] a)
     {
         return getValue().toArray(a);
+    }
+
+    protected void fireValueChangedEvent(final ObservableList<T> oldValue, final ObservableList<T> newValue)
+    {
+        for (ChangeListener<? super ObservableList<T>> changeListener : this.listeners)
+        {
+            changeListener.changed(this, oldValue, newValue);
+        }
     }
 }

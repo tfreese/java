@@ -35,9 +35,7 @@ public class Ball
      * [m]
      */
     private final double radius;
-    /**
-     *
-     */
+
     private boolean finished;
     /**
      * Horizontale Geschwindigkeit [m/s].
@@ -57,8 +55,6 @@ public class Ball
     private double y;
 
     /**
-     * Erzeugt eine neue Instanz von {@link Ball}
-     *
      * @param maxX Horizontale Größe des Koordinatensystems [m].
      * @param maxY Vertikale Größe des Koordinatensystems [m].
      * @param x Aktuelle X-Koordinate [m].
@@ -74,8 +70,6 @@ public class Ball
     }
 
     /**
-     * Erzeugt eine neue Instanz von {@link Ball}
-     *
      * @param maxX {@link IntSupplier} [m].
      * @param maxY {@link IntSupplier} [m].
      * @param x Aktuelle X-Koordinate [m].
@@ -103,8 +97,6 @@ public class Ball
 
     /**
      * [m]
-     *
-     * @return double
      */
     public double getDurchmesser()
     {
@@ -113,8 +105,6 @@ public class Ball
 
     /**
      * Breite des Koordinatensystems [m].
-     *
-     * @return int
      */
     public int getMaxX()
     {
@@ -123,8 +113,6 @@ public class Ball
 
     /**
      * Höhe des Koordinatensystems [m].
-     *
-     * @return int
      */
     public int getMaxY()
     {
@@ -133,8 +121,6 @@ public class Ball
 
     /**
      * [m]
-     *
-     * @return double
      */
     public double getRadius()
     {
@@ -143,8 +129,6 @@ public class Ball
 
     /**
      * Aktuelle X-Koordinate [m].
-     *
-     * @return double
      */
     public double getX()
     {
@@ -153,8 +137,6 @@ public class Ball
 
     /**
      * Aktuelle Y-Koordinate [m].
-     *
-     * @return double
      */
     public double getY()
     {
@@ -163,8 +145,6 @@ public class Ball
 
     /**
      * Liefert true, wenn der Ball zum stillstand gekommen ist.
-     *
-     * @return boolean
      */
     public boolean isFinished()
     {
@@ -280,7 +260,6 @@ public class Ball
     /**
      * Berechnet die neue Position (Flugbahn) des Balls nach der angegebenen Zeitdifferenz.<br>
      *
-     * @param dt long
      * @param timeUnit {@link TimeUnit}
      */
     public void move(final long dt, final TimeUnit timeUnit)
@@ -292,8 +271,6 @@ public class Ball
      * Berechnung der Flugzeit zum linken Rand.<br>
      * Gleichmäßige Bewegung:<br>
      * s = v * t
-     *
-     * @return double
      */
     private double flytimeLinks()
     {
@@ -317,8 +294,6 @@ public class Ball
      * x = -p/2 ± sqrt((p/2)² - q)<br>
      * t² + (2Vₒ/g)*t + (2(sₒ - s)/g) = 0<br>
      * t = -(vₒ/g) ± sqrt((vₒ/g)² - (2(sₒ - s) / g))<br>
-     *
-     * @return double
      */
     private double flytimeOben()
     {
@@ -345,8 +320,6 @@ public class Ball
      * Berechnung der Flugzeit zum rechten Rand.<br>
      * Gleichmäßige Bewegung:<br>
      * s = v * t
-     *
-     * @return double
      */
     private double flytimeRechts()
     {
@@ -370,8 +343,6 @@ public class Ball
      * x = -p/2 ± sqrt((p/2)² - q)<br>
      * t² + (2Vₒ/g)*t + (2(sₒ - s)/g) = 0<br>
      * t = -(vₒ/g) ± sqrt((vₒ/g)² - (2(sₒ - s) / g))<br>
-     *
-     * @return double
      */
     private double flytimeUnten()
     {
@@ -397,8 +368,6 @@ public class Ball
      * Liefert die kinetische Energie [J oder Nm].<br>
      * Wird für die Berechnung des horizontalen Stillstandes verwendet.<br>
      * E = ½ * m * v²<br>
-     *
-     * @return double
      */
     private double getEKin()
     {
@@ -409,8 +378,6 @@ public class Ball
      * Liefert die potenzielle Energie [J oder Nm].<br>
      * Wird für die Berechnung des vertikalen Stillstandes verwendet.<br>
      * E = m * g * h<br>
-     *
-     * @return double
      */
     private double getEPot()
     {

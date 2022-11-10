@@ -6,41 +6,20 @@ package de.freese.binding.property;
  */
 public class SimpleBooleanProperty extends AbstractBooleanProperty
 {
-    /**
-    *
-    */
     private final Object bean;
-    /**
-    *
-    */
+
     private final String name;
 
-    /**
-     * Erstellt ein neues {@link SimpleBooleanProperty} Object.
-     */
     public SimpleBooleanProperty()
     {
         this(null, null, false);
     }
 
-    /**
-     * Erstellt ein neues {@link SimpleBooleanProperty} Object.
-     *
-     * @param bean Object
-     * @param name String
-     */
     public SimpleBooleanProperty(final Object bean, final String name)
     {
         this(bean, name, false);
     }
 
-    /**
-     * Erstellt ein neues {@link SimpleBooleanProperty} Object.
-     *
-     * @param bean Object
-     * @param name String
-     * @param initialValue boolean
-     */
     public SimpleBooleanProperty(final Object bean, final String name, final boolean initialValue)
     {
         super();

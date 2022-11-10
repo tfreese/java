@@ -8,14 +8,8 @@ import de.freese.ga.Config;
  */
 public class PatternConfig extends Config
 {
-    /**
-     *
-     */
     private boolean[] solution;
 
-    /**
-     * Erstellt ein neues {@link PatternConfig} Object.
-     */
     public PatternConfig()
     {
         super();
@@ -31,9 +25,6 @@ public class PatternConfig extends Config
         return getSizeChromosome();
     }
 
-    /**
-     * @param pattern String
-     */
     public void setPattern(final String pattern)
     {
         setSizeChromosome(pattern.length());
@@ -48,9 +39,6 @@ public class PatternConfig extends Config
         }
     }
 
-    /**
-     * @return boolean[]
-     */
     boolean[] getSolution()
     {
         return this.solution;

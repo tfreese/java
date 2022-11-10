@@ -11,16 +11,8 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  */
 public class HexDumpProxyBackendHandler extends ChannelInboundHandlerAdapter
 {
-    /**
-     *
-     */
     private final Channel inboundChannel;
 
-    /**
-     * Erstellt ein neues {@link HexDumpProxyBackendHandler} Object.
-     *
-     * @param inboundChannel {@link Channel}
-     */
     public HexDumpProxyBackendHandler(final Channel inboundChannel)
     {
         super();

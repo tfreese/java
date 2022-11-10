@@ -13,26 +13,11 @@ import de.freese.simulationen.model.AbstractRasterSimulation;
  */
 public class FractalRasterSimulation extends AbstractRasterSimulation
 {
-    /**
-     * Erstellt ein neues {@link FractalRasterSimulation} Object.
-     *
-     * @param width int
-     * @param height int
-     */
     public FractalRasterSimulation(final int width, final int height)
     {
         super(width, height);
 
         fillRaster(() -> new FractalCell(this));
-    }
-
-    /**
-     * @see de.freese.simulationen.model.AbstractRasterSimulation#getCell(int, int)
-     */
-    @Override
-    protected FractalCell getCell(final int x, final int y)
-    {
-        return (FractalCell) super.getCell(x, y);
     }
 
     /**
@@ -110,5 +95,14 @@ public class FractalRasterSimulation extends AbstractRasterSimulation
         }
 
         fireCompleted();
+    }
+
+    /**
+     * @see de.freese.simulationen.model.AbstractRasterSimulation#getCell(int, int)
+     */
+    @Override
+    protected FractalCell getCell(final int x, final int y)
+    {
+        return (FractalCell) super.getCell(x, y);
     }
 }

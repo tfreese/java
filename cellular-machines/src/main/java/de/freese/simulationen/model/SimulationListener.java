@@ -11,8 +11,6 @@ public interface SimulationListener
 {
     /**
      * Wird aufgerufen, wenn ein Simulations-Durchgang beendet ist.
-     *
-     * @param simulation {@link Simulation}
      */
     void completed(Simulation simulation);
 }

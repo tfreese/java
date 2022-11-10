@@ -10,22 +10,11 @@ import java.awt.Color;
  */
 public class EmptyCell extends AbstractCell
 {
-    /**
-     * Erstellt ein neues {@link EmptyCell} Object.
-     *
-     * @param simulation {@link AbstractRasterSimulation}
-     */
     public EmptyCell(final AbstractRasterSimulation simulation)
     {
         super(simulation);
     }
 
-    /**
-     * Erstellt ein neues {@link EmptyCell} Object.
-     *
-     * @param simulation {@link AbstractRasterSimulation}
-     * @param color {@link Color}
-     */
     public EmptyCell(final AbstractRasterSimulation simulation, final Color color)
     {
         super(simulation, color);

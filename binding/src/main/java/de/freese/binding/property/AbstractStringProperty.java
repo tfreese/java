@@ -12,9 +12,6 @@ import de.freese.binding.expression.AbstractStringExpression;
  */
 public abstract class AbstractStringProperty extends AbstractStringExpression implements Property<String>
 {
-    /**
-     *
-     */
     private String value;
 
     /**

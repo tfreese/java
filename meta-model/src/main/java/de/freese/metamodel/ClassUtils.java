@@ -256,8 +256,6 @@ public final class ClassUtils
     /**
      * Return the qualified name of the given class: usually simply the class name, but component type class name + "[]" for arrays.
      *
-     * @param clazz the class
-     *
      * @return the qualified name of the class
      */
     public static String getQualifiedName(final Class<?> clazz)
@@ -340,8 +338,6 @@ public final class ClassUtils
     /**
      * Determine if the supplied class is an <em>inner class</em>, i.e. a non-static member of an enclosing class.
      *
-     * @param clazz Class
-     *
      * @return {@code true} if the supplied class is an inner class
      *
      * @see Class#isMemberClass()
@@ -357,8 +353,6 @@ public final class ClassUtils
      * characteristics: no service-level operations, no bean property methods, no default methods.
      *
      * @param ifc the interface to check
-     *
-     * @return boolean
      */
     public static boolean isJavaLanguageInterface(final Class<?> ifc)
     {
@@ -392,8 +386,6 @@ public final class ClassUtils
 
     /**
      * Register the given common classes with the ClassUtils cache.
-     *
-     * @param commonClasses Class[]
      */
     private static void registerCommonClasses(final Class<?>... commonClasses)
     {
@@ -403,9 +395,6 @@ public final class ClassUtils
         }
     }
 
-    /**
-     * Erstellt ein neues {@link ClassUtils} Object.
-     */
     private ClassUtils()
     {
         super();

@@ -11,17 +11,7 @@ import de.freese.binding.property.Property;
  */
 public abstract class AbstractStringBinding extends AbstractStringExpression implements StringBinding
 {
-    /**
-    *
-    */
     private String value;
-
-    /**
-     * Ermittelt den neuen Wert des Bindings, falls sich einer der {@link Property} geändert hat.
-     *
-     * @return Object
-     */
-    protected abstract String computeValue();
 
     /**
      * @see de.freese.binding.value.ObservableValue#getValue()
@@ -46,4 +36,9 @@ public abstract class AbstractStringBinding extends AbstractStringExpression imp
             fireValueChangedEvent(old, this.value);
         }
     }
+
+    /**
+     * Ermittelt den neuen Wert des Bindings, falls sich einer der {@link Property} geändert hat.
+     */
+    protected abstract String computeValue();
 }

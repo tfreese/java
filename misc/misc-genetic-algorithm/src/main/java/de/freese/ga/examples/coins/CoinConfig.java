@@ -15,18 +15,13 @@ import de.freese.ga.Config;
  */
 public class CoinConfig extends Config
 {
-    /**
-     *
-     */
     private final List<Integer> existingCoins = new ArrayList<>();
     /**
      * Enthält die Anzahl von Münzen pro Wert.<br>
      * Key = Münze, Value = Anzahl
      */
     private Map<Integer, Long> coinCounter = new HashMap<>();
-    /**
-     *
-     */
+
     private int targetCents;
 
     /**
@@ -39,9 +34,6 @@ public class CoinConfig extends Config
         return 1_000D;
     }
 
-    /**
-     * @param existingCoins {@link List}<Integer>
-     */
     public void setExistingCoins(final List<Integer> existingCoins)
     {
         this.coinCounter.clear();
@@ -63,9 +55,6 @@ public class CoinConfig extends Config
         this.coinCounter = list.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
     }
 
-    /**
-     * @param cents int
-     */
     public void setTargetCents(final int cents)
     {
         if ((cents <= 0) || (cents > getMaximumCents()))
@@ -76,33 +65,21 @@ public class CoinConfig extends Config
         this.targetCents = cents;
     }
 
-    /**
-     * @return {@link Map}<Integer,Long>
-     */
     Map<Integer, Long> getCoinCounter()
     {
         return this.coinCounter;
     }
 
-    /**
-     * @return {@link List}<Integer>
-     */
     List<Integer> getExistingCoins()
     {
         return this.existingCoins;
     }
 
-    /**
-     * @return int
-     */
     int getMaximumCents()
     {
         return 99;
     }
 
-    /**
-     * @return int
-     */
     int getTargetCents()
     {
         return this.targetCents;

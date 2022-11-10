@@ -11,17 +11,7 @@ import de.freese.binding.property.Property;
  */
 public abstract class AbstractFloatBinding extends AbstractFloatExpression implements FloatBinding
 {
-    /**
-    *
-    */
     private float value;
-
-    /**
-     * Ermittelt den neuen Wert des Bindings, falls sich einer der {@link Property} geändert hat.
-     *
-     * @return float
-     */
-    protected abstract float computeValue();
 
     /**
      * @see de.freese.binding.value.ObservableValue#getValue()
@@ -47,4 +37,8 @@ public abstract class AbstractFloatBinding extends AbstractFloatExpression imple
         }
     }
 
+    /**
+     * Ermittelt den neuen Wert des Bindings, falls sich einer der {@link Property} geändert hat.
+     */
+    protected abstract float computeValue();
 }

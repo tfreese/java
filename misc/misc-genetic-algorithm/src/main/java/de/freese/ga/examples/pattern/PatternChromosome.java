@@ -12,11 +12,6 @@ import de.freese.ga.Gene;
  */
 public class PatternChromosome extends Chromosome
 {
-    /**
-     * Erstellt ein neues {@link PatternChromosome} Object.
-     *
-     * @param config {@link PatternConfig}
-     */
     public PatternChromosome(final PatternConfig config)
     {
         super(config);

@@ -14,25 +14,12 @@ import java.util.TreeMap;
  */
 public abstract class AbstractIndex
 {
-    /**
-    *
-    */
     private final Map<Integer, Column> columns = new TreeMap<>();
-    /**
-    *
-    */
+
     private String name;
-    /**
-    *
-    */
+
     private Table table;
 
-    /**
-     * Erstellt ein neues {@link AbstractIndex} Object.
-     *
-     * @param table {@link Table}
-     * @param name String
-     */
     AbstractIndex(final Table table, final String name)
     {
         super();
@@ -41,29 +28,13 @@ public abstract class AbstractIndex
         this.name = Objects.requireNonNull(name, "name required");
     }
 
-    /**
-     * Fügt eine weitere Spalte dem Key hinzu.
-     *
-     * @param keyIndex int
-     * @param column {@link Column}
-     */
     public void addColumn(final int keyIndex, final Column column)
     {
         this.columns.put(keyIndex, column);
     }
 
     /**
-     * @return {@link Map}
-     */
-    protected Map<Integer, Column> getColumnMap()
-    {
-        return this.columns;
-    }
-
-    /**
      * Liefert alle Spalten des Indexes sortiert nach KeyIndex.
-     *
-     * @return {@link List}
      */
     public List<Column> getColumnsOrdered()
     {
@@ -71,33 +42,21 @@ public abstract class AbstractIndex
         return new ArrayList<>(this.columns.values());
     }
 
-    /**
-     * @return String
-     */
     public String getName()
     {
         return this.name;
     }
 
-    /**
-     * @return {@link Table}
-     */
     public Table getTable()
     {
         return this.table;
     }
 
-    /**
-     * @param name String
-     */
     public void setName(final String name)
     {
         this.name = name;
     }
 
-    /**
-     * @param table {@link Table}
-     */
     public void setTable(final Table table)
     {
         this.table = table;
@@ -116,5 +75,10 @@ public abstract class AbstractIndex
         builder.append("]");
 
         return builder.toString();
+    }
+
+    protected Map<Integer, Column> getColumnMap()
+    {
+        return this.columns;
     }
 }

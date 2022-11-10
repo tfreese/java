@@ -12,13 +12,8 @@ import java.util.TreeMap;
  */
 public abstract class AbstractTypeMapping implements TypeMapping
 {
-    /**
-    *
-    */
     private final Map<JDBCType, Type> notNullMappings = new TreeMap<>();
-    /**
-     *
-     */
+
     private final Map<JDBCType, Type> nullableMappings = new TreeMap<>();
 
     /**
@@ -48,9 +43,6 @@ public abstract class AbstractTypeMapping implements TypeMapping
 
     /**
      * Verknüpft einen {@link JDBCType} mit seiner Code-Repräsentation.
-     *
-     * @param jdbcType {@link JDBCType}
-     * @param nullableType {@link Type}
      */
     protected void register(final JDBCType jdbcType, final Type nullableType)
     {
@@ -59,10 +51,6 @@ public abstract class AbstractTypeMapping implements TypeMapping
 
     /**
      * Verknüpft einen {@link JDBCType} mit seiner Code-Repräsentation.
-     *
-     * @param jdbcType {@link JDBCType}
-     * @param nullableType {@link Type}
-     * @param notNullType {@link Type}
      */
     protected void register(final JDBCType jdbcType, final Type nullableType, final Type notNullType)
     {

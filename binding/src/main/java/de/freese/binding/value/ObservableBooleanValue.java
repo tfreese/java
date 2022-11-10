@@ -6,10 +6,5 @@ package de.freese.binding.value;
  */
 public interface ObservableBooleanValue extends ObservableValue<Boolean>
 {
-    /**
-     * Liefert den aktuellen Wert.
-     *
-     * @return boolean
-     */
     boolean get();
 }

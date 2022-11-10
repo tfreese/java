@@ -9,26 +9,13 @@ import de.freese.binding.value.ChangeListener;
  */
 public final class LongConstant extends AbstractLongExpression
 {
-    /**
-     * @param value long
-     *
-     * @return {@link LongConstant}
-     */
     public static LongConstant valueOf(final long value)
     {
         return new LongConstant(value);
     }
 
-    /**
-     *
-     */
     private final long value;
 
-    /**
-     * Erstellt ein neues {@link LongConstant} Object.
-     *
-     * @param value long
-     */
     private LongConstant(final long value)
     {
         super();
@@ -42,16 +29,7 @@ public final class LongConstant extends AbstractLongExpression
     @Override
     public void addListener(final ChangeListener<? super Long> listener)
     {
-        // NO-OP
-    }
-
-    /**
-     * @see de.freese.binding.expression.AbstractExpression#fireValueChangedEvent(java.lang.Object, java.lang.Object)
-     */
-    @Override
-    protected void fireValueChangedEvent(final Long oldValue, final Long newValue)
-    {
-        // NO-OP
+        // Empty
     }
 
     /**
@@ -69,6 +47,15 @@ public final class LongConstant extends AbstractLongExpression
     @Override
     public void removeListener(final ChangeListener<? super Long> listener)
     {
-        // NO-OP
+        // Empty
+    }
+
+    /**
+     * @see de.freese.binding.expression.AbstractExpression#fireValueChangedEvent(java.lang.Object, java.lang.Object)
+     */
+    @Override
+    protected void fireValueChangedEvent(final Long oldValue, final Long newValue)
+    {
+        // Empty
     }
 }

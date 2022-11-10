@@ -9,27 +9,12 @@ import de.freese.simulationen.model.Cell;
  */
 public class GoFRasterSimulation extends AbstractRasterSimulation
 {
-    /**
-     * Erstellt ein neues {@link GoFRasterSimulation} Object.
-     *
-     * @param width int
-     * @param height int
-     */
     public GoFRasterSimulation(final int width, final int height)
     {
         super(width, height);
 
         fillRaster(() -> new GoFCell(this));
         reset();
-    }
-
-    /**
-     * @see de.freese.simulationen.model.AbstractRasterSimulation#getCell(int, int)
-     */
-    @Override
-    protected GoFCell getCell(final int x, final int y)
-    {
-        return (GoFCell) super.getCell(x, y);
     }
 
     /**
@@ -42,6 +27,15 @@ public class GoFRasterSimulation extends AbstractRasterSimulation
         getCellStream().forEach(Cell::nextGeneration);
 
         fireCompleted();
+    }
+
+    /**
+     * @see de.freese.simulationen.model.AbstractRasterSimulation#getCell(int, int)
+     */
+    @Override
+    protected GoFCell getCell(final int x, final int y)
+    {
+        return (GoFCell) super.getCell(x, y);
     }
 
     /**

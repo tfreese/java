@@ -13,21 +13,11 @@ import de.freese.binding.value.ObservableStringValue;
  */
 public interface StringExpression extends ObservableStringValue
 {
-    /**
-     * @param other {@link ObservableStringValue}
-     *
-     * @return {@link StringBinding}
-     */
     default StringBinding concat(final ObservableStringValue other)
     {
         return Bindings.concat(this, other);
     }
 
-    /**
-     * @param value String
-     *
-     * @return {@link StringBinding}
-     */
     default StringBinding concat(final String value)
     {
         return concat(StringConstant.valueOf(value));
@@ -35,8 +25,6 @@ public interface StringExpression extends ObservableStringValue
 
     /**
      * Liefert einen leeren String "", wenn null.
-     *
-     * @return String
      */
     default String getValueSafe()
     {
@@ -45,57 +33,36 @@ public interface StringExpression extends ObservableStringValue
         return value == null ? "" : value;
     }
 
-    /**
-     * @return {@link BooleanBinding}
-     */
     default BooleanBinding isBlank()
     {
         return Bindings.isBlank(this);
     }
 
-    /**
-     * @return {@link BooleanBinding}
-     */
     default BooleanBinding isEmpty()
     {
         return Bindings.isEmpty(this);
     }
 
-    /**
-     * @return {@link BooleanBinding}
-     */
     default BooleanBinding isNotBlank()
     {
         return Bindings.isNotBlank(this);
     }
 
-    /**
-     * @return {@link BooleanBinding}
-     */
     default BooleanBinding isNotEmpty()
     {
         return Bindings.isNotEmpty(this);
     }
 
-    /**
-     * @return {@link BooleanBinding}
-     */
     default BooleanBinding isNotNull()
     {
         return Bindings.isNotNull(this);
     }
 
-    /**
-     * @return {@link BooleanBinding}
-     */
     default BooleanBinding isNull()
     {
         return Bindings.isNull(this);
     }
 
-    /**
-     * @return {@link IntegerBinding}
-     */
     default IntegerBinding length()
     {
         return Bindings.length(this);

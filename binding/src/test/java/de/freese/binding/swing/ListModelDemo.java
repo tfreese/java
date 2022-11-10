@@ -20,11 +20,6 @@ import de.freese.binding.swing.list.DefaultObservableListListModel;
  */
 public class ListModelDemo
 {
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         JFrame frame = new JFrame("Test-ListModel");

@@ -12,25 +12,11 @@ import de.freese.ga.Config;
  */
 public class TspConfig extends Config
 {
-    /**
-    *
-    */
     private final List<City> cities = new ArrayList<>();
 
-    /**
-     * Erstellt ein neues {@link TspConfig} Object.
-     */
     public TspConfig()
     {
         super();
-    }
-
-    /**
-     * @return {@link List}<City>
-     */
-    List<City> getCities()
-    {
-        return this.cities;
     }
 
     /**
@@ -45,8 +31,6 @@ public class TspConfig extends Config
 
     /**
      * Anzahl Städte = Anzahl Gene im Chromosom/Tour
-     *
-     * @param cities {@link List}
      */
     public void setCities(final List<City> cities)
     {
@@ -56,5 +40,10 @@ public class TspConfig extends Config
         this.cities.addAll(cities);
 
         setSizeChromosome(this.cities.size());
+    }
+
+    List<City> getCities()
+    {
+        return this.cities;
     }
 }

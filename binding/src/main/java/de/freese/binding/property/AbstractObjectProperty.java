@@ -9,14 +9,9 @@ import de.freese.binding.expression.AbstractObjectExpression;
  * Basis-Implementierung eines {@link Property} (Read/Write).
  *
  * @author Thomas Freese
- *
- * @param <T> Konkreter Typ
  */
 public abstract class AbstractObjectProperty<T> extends AbstractObjectExpression<T> implements Property<T>
 {
-    /**
-     *
-     */
     private T value;
 
     /**

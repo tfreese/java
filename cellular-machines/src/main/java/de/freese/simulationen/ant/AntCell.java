@@ -19,21 +19,9 @@ public class AntCell extends AbstractCell
      */
     public enum CellType
     {
-        /**
-         *
-         */
         ANT,
-        /**
-         *
-         */
         BLACK,
-        /**
-         *
-         */
         EMPTY,
-        /**
-         *
-         */
         WHITE
     }
 
@@ -42,26 +30,11 @@ public class AntCell extends AbstractCell
      */
     private enum Direction
     {
-        /**
-         *
-         */
         EAST(+1, 0),
-        /**
-         *
-         */
         NORTH(0, +1),
-        /**
-         *
-         */
         SOUTH(0, -1),
-        /**
-         *
-         */
         WEST(-1, 0);
 
-        /**
-         *
-         */
         private static final List<Direction> DIRECTIONS;
 
         static
@@ -73,21 +46,10 @@ public class AntCell extends AbstractCell
             DIRECTIONS.add(WEST);
         }
 
-        /**
-         *
-         */
         private final int frontOffsetX;
-        /**
-         *
-         */
+
         private final int frontOffsetY;
 
-        /**
-         * Erstellt ein neues {@link Direction} Object.
-         *
-         * @param frontOffsetX int
-         * @param frontOffsetY int
-         */
         Direction(final int frontOffsetX, final int frontOffsetY)
         {
             this.frontOffsetX = frontOffsetX;
@@ -96,8 +58,6 @@ public class AntCell extends AbstractCell
 
         /**
          * Relative Koordinaten für die Zelle vor der Ameise.
-         *
-         * @return int[]
          */
         public int[] getFrontOffsets()
         {
@@ -109,8 +69,6 @@ public class AntCell extends AbstractCell
 
         /**
          * Dreht die Richtung nach links.
-         *
-         * @return {@link Direction}
          */
         public Direction turnLeft()
         {
@@ -130,8 +88,6 @@ public class AntCell extends AbstractCell
 
         /**
          * Dreht die Richtung nach rechts.
-         *
-         * @return {@link Direction}
          */
         public Direction turnRight()
         {
@@ -150,45 +106,20 @@ public class AntCell extends AbstractCell
         }
     }
 
-    /**
-     *
-     */
     private CellType cellType;
-    /**
-     *
-     */
+
     private Direction direction = Direction.NORTH;
 
-    /**
-     * Erstellt ein neues {@link AntCell} Object.
-     *
-     * @param simulation {@link AntRasterSimulation}
-     */
     public AntCell(final AntRasterSimulation simulation)
     {
         super(simulation);
     }
 
-    /**
-     * @see de.freese.simulationen.model.AbstractCell#getSimulation()
-     */
-    @Override
-    protected AntRasterSimulation getSimulation()
-    {
-        return (AntRasterSimulation) super.getSimulation();
-    }
-
-    /**
-     * @return boolean
-     */
     public boolean isAnt()
     {
         return CellType.ANT.equals(this.cellType);
     }
 
-    /**
-     * @return boolean
-     */
     public boolean isEmpty()
     {
         return CellType.EMPTY.equals(this.cellType);
@@ -255,9 +186,6 @@ public class AntCell extends AbstractCell
         }
     }
 
-    /**
-     * @param cellType {@link CellType}
-     */
     public void setCellType(final CellType cellType)
     {
         this.cellType = cellType;
@@ -289,5 +217,14 @@ public class AntCell extends AbstractCell
             {
             }
         }
+    }
+
+    /**
+     * @see de.freese.simulationen.model.AbstractCell#getSimulation()
+     */
+    @Override
+    protected AntRasterSimulation getSimulation()
+    {
+        return (AntRasterSimulation) super.getSimulation();
     }
 }

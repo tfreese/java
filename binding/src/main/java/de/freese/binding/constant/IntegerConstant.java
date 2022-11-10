@@ -9,26 +9,13 @@ import de.freese.binding.value.ChangeListener;
  */
 public final class IntegerConstant extends AbstractIntegerExpression
 {
-    /**
-     * @param value int
-     *
-     * @return {@link IntegerConstant}
-     */
     public static IntegerConstant valueOf(final int value)
     {
         return new IntegerConstant(value);
     }
 
-    /**
-     *
-     */
     private final int value;
 
-    /**
-     * Erstellt ein neues {@link IntegerConstant} Object.
-     *
-     * @param value int
-     */
     private IntegerConstant(final int value)
     {
         super();
@@ -42,16 +29,7 @@ public final class IntegerConstant extends AbstractIntegerExpression
     @Override
     public void addListener(final ChangeListener<? super Integer> listener)
     {
-        // NO-OP
-    }
-
-    /**
-     * @see de.freese.binding.expression.AbstractExpression#fireValueChangedEvent(java.lang.Object, java.lang.Object)
-     */
-    @Override
-    protected void fireValueChangedEvent(final Integer oldValue, final Integer newValue)
-    {
-        // NO-OP
+        // Empty
     }
 
     /**
@@ -69,6 +47,15 @@ public final class IntegerConstant extends AbstractIntegerExpression
     @Override
     public void removeListener(final ChangeListener<? super Integer> listener)
     {
-        // NO-OP
+        // Empty
+    }
+
+    /**
+     * @see de.freese.binding.expression.AbstractExpression#fireValueChangedEvent(java.lang.Object, java.lang.Object)
+     */
+    @Override
+    protected void fireValueChangedEvent(final Integer oldValue, final Integer newValue)
+    {
+        // Empty
     }
 }

@@ -9,22 +9,11 @@ import de.freese.ga.Genotype;
  */
 public class TspGenotype extends Genotype
 {
-    /**
-     * Erstellt ein neues {@link TspGenotype} Object.
-     *
-     * @param config {@link TspConfig}
-     */
     public TspGenotype(final TspConfig config)
     {
         super(config);
     }
 
-    /**
-     * Erstellt ein neues {@link TspGenotype} Object.
-     *
-     * @param config {@link TspConfig}
-     * @param size int
-     */
     public TspGenotype(final TspConfig config, final int size)
     {
         super(config, size);
@@ -110,20 +99,20 @@ public class TspGenotype extends Genotype
     }
 
     /**
-     * @see de.freese.ga.Genotype#getConfig()
-     */
-    @Override
-    protected TspConfig getConfig()
-    {
-        return (TspConfig) super.getConfig();
-    }
-
-    /**
      * @see de.freese.ga.Genotype#getFittest()
      */
     @Override
     public TspChromosome getFittest()
     {
         return (TspChromosome) super.getFittest();
+    }
+
+    /**
+     * @see de.freese.ga.Genotype#getConfig()
+     */
+    @Override
+    protected TspConfig getConfig()
+    {
+        return (TspConfig) super.getConfig();
     }
 }

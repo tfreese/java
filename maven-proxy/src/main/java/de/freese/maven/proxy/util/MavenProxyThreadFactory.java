@@ -38,7 +38,6 @@ public class MavenProxyThreadFactory implements ThreadFactory
      * Erstellt ein neues {@link MavenProxyThreadFactory} Object.
      *
      * @param namePattern String; Example: "thread-%d"
-     * @param daemon boolean
      */
     public MavenProxyThreadFactory(final String namePattern, final boolean daemon)
     {

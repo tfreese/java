@@ -12,24 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @param <T> Konkreter Typ
- *
  * @author Thomas Freese
  */
 public abstract class AbstractObservableList<T> extends AbstractList<T> implements ObservableList<T>
 {
-    /**
-     *
-     */
-    private boolean listenerEnabled = true;
-    /**
-     *
-     */
     private final EventListenerList listeners = new EventListenerList();
-    /**
-     *
-     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private boolean listenerEnabled = true;
 
     /**
      * @see java.util.AbstractList#add(int, java.lang.Object)
@@ -52,139 +41,11 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
     }
 
     /**
-     * @see AbstractList#add(int, Object)
-     */
-    protected abstract void doAdd(int index, T element);
-
-    /**
-     * @see AbstractList#remove(int)
-     */
-    protected abstract T doRemove(int index);
-
-    /**
-     * @see AbstractList#set(int, Object)
-     */
-    protected abstract T doSet(int index, T element);
-
-    /**
-     *
-     */
-    protected void fireContentsChanged(final int startIndex, final int endIndex)
-    {
-        if (!isListenerEnabled())
-        {
-            return;
-        }
-
-        int start = Math.min(startIndex, endIndex);
-        int end = Math.max(startIndex, endIndex);
-
-        final ListDataListener[] l = getListeners().getListeners(ListDataListener.class);
-        final ListDataEvent event = new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, start, end);
-
-        Runnable runnable = () ->
-        {
-            for (int i = l.length - 1; i >= 0; i--)
-            {
-                l[i].contentsChanged(event);
-            }
-        };
-
-        if (!SwingUtilities.isEventDispatchThread())
-        {
-            SwingUtilities.invokeLater(runnable);
-        }
-        else
-        {
-            runnable.run();
-        }
-    }
-
-    /**
-     *
-     */
-    protected void fireIntervalAdded(final int startIndex, final int endIndex)
-    {
-        if (!isListenerEnabled())
-        {
-            return;
-        }
-
-        int start = Math.min(startIndex, endIndex);
-        int end = Math.max(startIndex, endIndex);
-
-        final ListDataListener[] l = getListeners().getListeners(ListDataListener.class);
-        final ListDataEvent event = new ListDataEvent(this, ListDataEvent.INTERVAL_ADDED, start, end);
-
-        Runnable runnable = () ->
-        {
-            for (int i = l.length - 1; i >= 0; i--)
-            {
-                l[i].intervalAdded(event);
-            }
-        };
-
-        if (!SwingUtilities.isEventDispatchThread())
-        {
-            SwingUtilities.invokeLater(runnable);
-        }
-        else
-        {
-            runnable.run();
-        }
-    }
-
-    /**
-     *
-     */
-    protected void fireIntervalRemoved(final int startIndex, final int endIndex)
-    {
-        if (!isListenerEnabled())
-        {
-            return;
-        }
-
-        int start = Math.min(startIndex, endIndex);
-        int end = Math.max(startIndex, endIndex);
-
-        final ListDataListener[] l = getListeners().getListeners(ListDataListener.class);
-        final ListDataEvent event = new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, start, end);
-
-        Runnable runnable = () ->
-        {
-            for (int i = l.length - 1; i >= 0; i--)
-            {
-                l[i].intervalRemoved(event);
-            }
-        };
-
-        if (!SwingUtilities.isEventDispatchThread())
-        {
-            SwingUtilities.invokeLater(runnable);
-        }
-        else
-        {
-            runnable.run();
-        }
-    }
-
-    /**
      * @see java.util.AbstractList#get(int)
      */
     @Override
     public abstract T get(int index);
 
-    /**
-     *
-     */
-    protected EventListenerList getListeners()
-    {
-        return this.listeners;
-    }
-
-    /**
-     *
-     */
     public Logger getLogger()
     {
         return this.logger;
@@ -257,4 +118,117 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
      */
     @Override
     public abstract int size();
+
+    /**
+     * @see AbstractList#add(int, Object)
+     */
+    protected abstract void doAdd(int index, T element);
+
+    /**
+     * @see AbstractList#remove(int)
+     */
+    protected abstract T doRemove(int index);
+
+    /**
+     * @see AbstractList#set(int, Object)
+     */
+    protected abstract T doSet(int index, T element);
+
+    protected void fireContentsChanged(final int startIndex, final int endIndex)
+    {
+        if (!isListenerEnabled())
+        {
+            return;
+        }
+
+        int start = Math.min(startIndex, endIndex);
+        int end = Math.max(startIndex, endIndex);
+
+        final ListDataListener[] l = getListeners().getListeners(ListDataListener.class);
+        final ListDataEvent event = new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, start, end);
+
+        Runnable runnable = () ->
+        {
+            for (int i = l.length - 1; i >= 0; i--)
+            {
+                l[i].contentsChanged(event);
+            }
+        };
+
+        if (!SwingUtilities.isEventDispatchThread())
+        {
+            SwingUtilities.invokeLater(runnable);
+        }
+        else
+        {
+            runnable.run();
+        }
+    }
+
+    protected void fireIntervalAdded(final int startIndex, final int endIndex)
+    {
+        if (!isListenerEnabled())
+        {
+            return;
+        }
+
+        int start = Math.min(startIndex, endIndex);
+        int end = Math.max(startIndex, endIndex);
+
+        final ListDataListener[] l = getListeners().getListeners(ListDataListener.class);
+        final ListDataEvent event = new ListDataEvent(this, ListDataEvent.INTERVAL_ADDED, start, end);
+
+        Runnable runnable = () ->
+        {
+            for (int i = l.length - 1; i >= 0; i--)
+            {
+                l[i].intervalAdded(event);
+            }
+        };
+
+        if (!SwingUtilities.isEventDispatchThread())
+        {
+            SwingUtilities.invokeLater(runnable);
+        }
+        else
+        {
+            runnable.run();
+        }
+    }
+
+    protected void fireIntervalRemoved(final int startIndex, final int endIndex)
+    {
+        if (!isListenerEnabled())
+        {
+            return;
+        }
+
+        int start = Math.min(startIndex, endIndex);
+        int end = Math.max(startIndex, endIndex);
+
+        final ListDataListener[] l = getListeners().getListeners(ListDataListener.class);
+        final ListDataEvent event = new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, start, end);
+
+        Runnable runnable = () ->
+        {
+            for (int i = l.length - 1; i >= 0; i--)
+            {
+                l[i].intervalRemoved(event);
+            }
+        };
+
+        if (!SwingUtilities.isEventDispatchThread())
+        {
+            SwingUtilities.invokeLater(runnable);
+        }
+        else
+        {
+            runnable.run();
+        }
+    }
+
+    protected EventListenerList getListeners()
+    {
+        return this.listeners;
+    }
 }

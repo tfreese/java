@@ -240,10 +240,6 @@ public class NettyMavenRequestHandler extends SimpleChannelInboundHandler<FullHt
 
     /**
      * If Keep-Alive is disabled, attaches "Connection: close" header to the response and closes the connection after the response being sent.
-     *
-     * @param ctx {@link ChannelHandlerContext}
-     * @param response {@link FullHttpResponse}
-     * @param request {@link FullHttpRequest}
      */
     protected void sendAndCleanupConnection(final ChannelHandlerContext ctx, final FullHttpResponse response, final FullHttpRequest request)
     {

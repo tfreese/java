@@ -14,15 +14,9 @@ import de.freese.binding.value.ObservableValue;
  */
 public interface Binding<T> extends ObservableValue<T>
 {
-    // /**
-    // *
-    // */
     // @SuppressWarnings("unchecked")
     // public void bind(ObservableValue<? extends Object>...dependencies);
 
-    // /**
-    // *
-    // */
     // public void unbind();
 
     /**

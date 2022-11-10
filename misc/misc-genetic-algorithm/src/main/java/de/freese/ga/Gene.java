@@ -10,24 +10,13 @@ import java.util.Objects;
  */
 public class Gene implements Comparable<Gene>
 {
-    /**
-     *
-     */
     private Object value;
 
-    /**
-     * Erstellt ein neues {@link Gene} Object.
-     */
     public Gene()
     {
         super();
     }
 
-    /**
-     * Erstellt ein neues {@link Gene} Object.
-     *
-     * @param value Object
-     */
     public Gene(final Object value)
     {
         super();
@@ -76,36 +65,21 @@ public class Gene implements Comparable<Gene>
         return Objects.equals(getValue(), gene.getValue());
     }
 
-    /**
-     * @return Boolean
-     */
     public Boolean getBoolean()
     {
         return getValue();
     }
 
-    /**
-     * @return Double
-     */
     public Double getDouble()
     {
         return getValue();
     }
 
-    /**
-     * @return Integer
-     */
     public Integer getInteger()
     {
         return getValue();
     }
 
-    /**
-     * Liefert den Wert des Genoms.
-     *
-     * @return Object
-     */
-    @SuppressWarnings("unchecked")
     public <T> T getValue()
     {
         return (T) this.value;
@@ -117,11 +91,6 @@ public class Gene implements Comparable<Gene>
         return Objects.hash(getValue());
     }
 
-    /**
-     * Setzt den Wert des Genoms.
-     *
-     * @param value Object
-     */
     public void setValue(final Object value)
     {
         this.value = value;

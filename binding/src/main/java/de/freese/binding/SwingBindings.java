@@ -29,16 +29,10 @@ import org.slf4j.LoggerFactory;
  */
 public final class SwingBindings
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(SwingBindings.class);
 
     /**
      * Bindet bidirektional eine {@link JCheckBox} an ein {@link Property}.
-     *
-     * @param component {@link JCheckBox}
-     * @param property {@link Property}
      *
      * @see JEditorPane
      * @see JTextArea
@@ -53,9 +47,6 @@ public final class SwingBindings
     /**
      * Bindet bidirektional eine {@link JComboBox} an ein {@link Property}.
      *
-     * @param component {@link JComboBox}
-     * @param property {@link Property}
-     *
      * @see JEditorPane
      * @see JTextArea
      * @see JTextField
@@ -68,9 +59,6 @@ public final class SwingBindings
 
     /**
      * Bindet bidirektional einen {@link JSlider} an ein {@link Property}.
-     *
-     * @param component {@link JSlider}
-     * @param property {@link Property}
      *
      * @see JEditorPane
      * @see JTextArea
@@ -85,9 +73,6 @@ public final class SwingBindings
     /**
      * Bindet bidirektional einen {@link JSpinner} an ein {@link Property}.
      *
-     * @param component {@link JSpinner}
-     * @param property {@link Property}
-     *
      * @see JEditorPane
      * @see JTextArea
      * @see JTextField
@@ -101,9 +86,6 @@ public final class SwingBindings
     /**
      * Bindet bidirektional eine {@link JTextComponent} an ein {@link Property}.
      *
-     * @param component {@link JTextComponent}
-     * @param property {@link Property}
-     *
      * @see JEditorPane
      * @see JTextArea
      * @see JTextField
@@ -116,9 +98,6 @@ public final class SwingBindings
 
     /**
      * Bindet eine {@link JCheckBox} an ein {@link Property}.
-     *
-     * @param component {@link JCheckBox}
-     * @param property {@link Property}
      *
      * @see JEditorPane
      * @see JTextArea
@@ -145,9 +124,6 @@ public final class SwingBindings
     /**
      * Bindet eine {@link JCheckBox} an ein {@link Property}.
      *
-     * @param component {@link JCheckBox}
-     * @param property {@link Property}
-     *
      * @see JEditorPane
      * @see JTextArea
      * @see JTextField
@@ -173,9 +149,6 @@ public final class SwingBindings
     /**
      * Bindet ein {@link JSlider} an ein {@link Property}.
      *
-     * @param component {@link JSlider}
-     * @param property {@link Property}
-     *
      * @see JEditorPane
      * @see JTextArea
      * @see JTextField
@@ -200,9 +173,6 @@ public final class SwingBindings
 
     /**
      * Bindet ein {@link JSpinner} an ein {@link Property}.
-     *
-     * @param component {@link JSpinner}
-     * @param property {@link Property}d
      */
     public static <T> void bindToProperty(final JSpinner component, final Property<T> property)
     {
@@ -224,9 +194,6 @@ public final class SwingBindings
 
     /**
      * Bindet eine {@link JTextComponent} an ein {@link Property}.
-     *
-     * @param component {@link JTextComponent}
-     * @param property {@link Property}
      *
      * @see JEditorPane
      * @see JTextArea
@@ -259,9 +226,6 @@ public final class SwingBindings
 
     /**
      * Bindet ein {@link ObservableValue} an eine {@link JCheckBox}.
-     *
-     * @param value {@link ObservableValue}
-     * @param component {@link JCheckBox}
      */
     public static void bindToSwing(final ObservableValue<Boolean> value, final JCheckBox component)
     {
@@ -279,9 +243,6 @@ public final class SwingBindings
 
     /**
      * Bindet ein {@link ObservableValue} an einen {@link JSlider}.
-     *
-     * @param value {@link ObservableValue}
-     * @param component {@link JSlider}
      */
     public static void bindToSwing(final ObservableValue<Integer> value, final JSlider component)
     {
@@ -299,9 +260,6 @@ public final class SwingBindings
 
     /**
      * Bindet ein {@link ObservableValue} an ein {@link JLabel}.
-     *
-     * @param value {@link ObservableValue}
-     * @param component {@link JLabel}
      */
     public static void bindToSwing(final ObservableValue<String> value, final JLabel component)
     {
@@ -319,9 +277,6 @@ public final class SwingBindings
 
     /**
      * Bindet ein {@link ObservableValue} an eine {@link JTextComponent}.
-     *
-     * @param value {@link ObservableValue}
-     * @param component {@link JTextComponent}
      *
      * @see JEditorPane
      * @see JTextArea
@@ -343,9 +298,6 @@ public final class SwingBindings
 
     /**
      * Bindet ein {@link ObservableValue} an ein {@link TitledBorder}.
-     *
-     * @param value {@link ObservableValue}
-     * @param component {@link TitledBorder}
      */
     public static void bindToSwing(final ObservableValue<String> value, final TitledBorder component)
     {
@@ -363,9 +315,6 @@ public final class SwingBindings
 
     /**
      * Bindet ein {@link ObservableValue} an eine {@link JComboBox}.
-     *
-     * @param value {@link ObservableValue}
-     * @param component {@link JCheckBox}
      */
     public static <T> void bindToSwing(final ObservableValue<T> value, final JComboBox<T> component)
     {
@@ -383,9 +332,6 @@ public final class SwingBindings
 
     /**
      * Bindet ein {@link ObservableValue} an einen {@link JSpinner}.
-     *
-     * @param value {@link ObservableValue}
-     * @param component {@link JSpinner}
      */
     public static <T> void bindToSwing(final ObservableValue<T> value, final JSpinner component)
     {
@@ -403,9 +349,6 @@ public final class SwingBindings
 
     /**
      * Aktualisiert die Property mit dem neuen Wert aus der Komponente.
-     *
-     * @param property {@link Property}
-     * @param newValue Object
      */
     private static <T> void updateProperty(final Property<T> property, final T newValue)
     {
@@ -449,9 +392,6 @@ public final class SwingBindings
         // }
     }
 
-    /**
-     * Erstellt ein neues {@link SwingBindings} Object.
-     */
     private SwingBindings()
     {
         super();

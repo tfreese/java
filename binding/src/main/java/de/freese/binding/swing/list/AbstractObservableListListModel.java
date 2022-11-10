@@ -15,12 +15,13 @@ import de.freese.binding.collections.ObservableList;
 /**
  * {@link ListModel} das intern eine {@link ObservableList} verwendet.
  *
- * @param <T> Konkreter Typ
- *
  * @author Thomas Freese
  */
 public abstract class AbstractObservableListListModel<T> implements ListModel<T>, Serializable
 {
+    @Serial
+    private static final long serialVersionUID = 1051092247879991757L;
+
     /**
      * Listener auf der {@link ObservableList}.
      *
@@ -55,26 +56,10 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
             fireIntervalRemoved(e.getSource(), e.getIndex0(), e.getIndex1());
         }
     }
-
-    /**
-     *
-     */
-    @Serial
-    private static final long serialVersionUID = 1051092247879991757L;
-    /**
-     *
-     */
     private final EventListenerList eventListenerList = new EventListenerList();
-    /**
-     *
-     */
+
     private final ObservableList<T> list;
 
-    /**
-     * Creates a new {@link AbstractObservableListListModel} object.
-     *
-     * @param list {@link ObservableList}
-     */
     protected AbstractObservableListListModel(final ObservableList<T> list)
     {
         super();
@@ -93,10 +78,37 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
     }
 
     /**
-     * Erstellt den EventListListener.
-     *
-     * @return {@link EventListListener}
+     * @see javax.swing.ListModel#getElementAt(int)
      */
+    @Override
+    public T getElementAt(final int index)
+    {
+        return getList().get(index);
+    }
+
+    public ObservableList<T> getList()
+    {
+        return this.list;
+    }
+
+    /**
+     * @see javax.swing.ListModel#getSize()
+     */
+    @Override
+    public int getSize()
+    {
+        return getList().size();
+    }
+
+    /**
+     * @see javax.swing.ListModel#removeListDataListener(javax.swing.event.ListDataListener)
+     */
+    @Override
+    public synchronized void removeListDataListener(final ListDataListener listener)
+    {
+        this.eventListenerList.add(ListDataListener.class, listener);
+    }
+
     protected EventListListener createEventListener()
     {
         return new EventListListener();
@@ -191,40 +203,5 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
                 ((ListDataListener) listeners[i + 1]).intervalRemoved(e);
             }
         }
-    }
-
-    /**
-     * @see javax.swing.ListModel#getElementAt(int)
-     */
-    @Override
-    public T getElementAt(final int index)
-    {
-        return getList().get(index);
-    }
-
-    /**
-     * @return {@link ObservableList}<?>
-     */
-    public ObservableList<T> getList()
-    {
-        return this.list;
-    }
-
-    /**
-     * @see javax.swing.ListModel#getSize()
-     */
-    @Override
-    public int getSize()
-    {
-        return getList().size();
-    }
-
-    /**
-     * @see javax.swing.ListModel#removeListDataListener(javax.swing.event.ListDataListener)
-     */
-    @Override
-    public synchronized void removeListDataListener(final ListDataListener listener)
-    {
-        this.eventListenerList.add(ListDataListener.class, listener);
     }
 }

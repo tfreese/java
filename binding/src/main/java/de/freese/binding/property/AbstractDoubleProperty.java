@@ -8,9 +8,6 @@ import de.freese.binding.expression.AbstractDoubleExpression;
  */
 public abstract class AbstractDoubleProperty extends AbstractDoubleExpression implements Property<Double>
 {
-    /**
-     *
-     */
     private double value;
 
     /**

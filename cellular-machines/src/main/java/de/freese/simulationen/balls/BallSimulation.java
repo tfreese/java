@@ -26,28 +26,18 @@ public class BallSimulation extends AbstractSimulation
      * [m]
      */
     private static final int DURCHMESSER = 30;
-    /**
-     *
-     */
+
     private final List<Ball> balls = new ArrayList<>();
-    /**
-     *
-     */
+
     private final BufferedImage bufferedImage;
     /**
      * [ms]
      */
     private final int delay;
-    /**
-     *
-     */
+
     private final int numberOfBalls;
 
     /**
-     * Erzeugt eine neue Instanz von {@link BallSimulation}
-     *
-     * @param width int
-     * @param height int
      * @param delay int [ms]
      */
     public BallSimulation(final int width, final int height, final int delay)
@@ -56,12 +46,7 @@ public class BallSimulation extends AbstractSimulation
     }
 
     /**
-     * Erzeugt eine neue Instanz von {@link BallSimulation}
-     *
-     * @param width int
-     * @param height int
      * @param delay int [ms]
-     * @param numberOfBalls int
      */
     public BallSimulation(final int width, final int height, final int delay, final int numberOfBalls)
     {
@@ -92,8 +77,6 @@ public class BallSimulation extends AbstractSimulation
 
     /**
      * Liefert true, wenn alle Bälle zum Stillstand gekommen sind.
-     *
-     * @return boolean
      */
     public boolean isFinished()
     {
@@ -170,8 +153,6 @@ public class BallSimulation extends AbstractSimulation
     }
 
     /**
-     * Hinzufügen eines neuen Balls.
-     *
      * @param x Aktuelle X-Koordinate [m].
      * @param y Aktuelle Y-Koordinate [m].
      * @param vx Horizontale Geschwindigkeit [m/s].
@@ -187,9 +168,6 @@ public class BallSimulation extends AbstractSimulation
         }
     }
 
-    /**
-     * @param g {@link Graphics}
-     */
     private void gitter(final Graphics g)
     {
         g.setColor(Color.BLACK);
@@ -208,11 +186,6 @@ public class BallSimulation extends AbstractSimulation
         }
     }
 
-    /**
-     * @param g {@link Graphics}
-     * @param ball {@link Ball}
-     * @param color {@link Color}
-     */
     private void paint(final Graphics g, final Ball ball, final Color color)
     {
         g.setColor(color);

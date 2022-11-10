@@ -8,12 +8,6 @@ package de.freese.metamodel.metagen.model;
  */
 public class UniqueConstraint extends AbstractIndex
 {
-    /**
-     * Erstellt ein neues {@link UniqueConstraint} Object.
-     *
-     * @param table {@link Table}
-     * @param name String
-     */
     UniqueConstraint(final Table table, final String name)
     {
         super(table, name);

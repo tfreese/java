@@ -13,22 +13,11 @@ import de.freese.ga.Genotype;
  */
 public class CoinGenotype extends Genotype
 {
-    /**
-     * Erstellt ein neues {@link CoinGenotype} Object.
-     *
-     * @param config {@link CoinConfig}
-     */
     public CoinGenotype(final CoinConfig config)
     {
         super(config);
     }
 
-    /**
-     * Erstellt ein neues {@link CoinGenotype} Object.
-     *
-     * @param config {@link CoinConfig}
-     * @param size int
-     */
     private CoinGenotype(final CoinConfig config, final int size)
     {
         super(config, size);

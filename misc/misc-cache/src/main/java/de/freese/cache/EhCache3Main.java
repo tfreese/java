@@ -65,9 +65,6 @@ public final class EhCache3Main
         }
     }
 
-    /**
-     * Erstellt ein neues {@link EhCache3Main} Object.
-     */
     private EhCache3Main()
     {
         super();

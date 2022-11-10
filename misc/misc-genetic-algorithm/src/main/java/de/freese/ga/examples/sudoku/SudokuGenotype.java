@@ -9,22 +9,11 @@ import de.freese.ga.Genotype;
  */
 public class SudokuGenotype extends Genotype
 {
-    /**
-     * Erstellt ein neues {@link SudokuGenotype} Object.
-     *
-     * @param config {@link SudokuConfig}
-     */
     public SudokuGenotype(final SudokuConfig config)
     {
         super(config);
     }
 
-    /**
-     * Erstellt ein neues {@link SudokuGenotype} Object.
-     *
-     * @param config {@link SudokuConfig}
-     * @param size int
-     */
     public SudokuGenotype(final SudokuConfig config, final int size)
     {
         super(config, size);

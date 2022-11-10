@@ -8,12 +8,6 @@ package de.freese.metamodel.metagen.model;
  */
 public class Index extends AbstractIndex
 {
-    /**
-     * Erstellt ein neues {@link Index} Object.
-     *
-     * @param table {@link Table}
-     * @param name String
-     */
     Index(final Table table, final String name)
     {
         super(table, name);

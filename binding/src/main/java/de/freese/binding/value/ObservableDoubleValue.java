@@ -6,10 +6,5 @@ package de.freese.binding.value;
  */
 public interface ObservableDoubleValue extends ObservableNumberValue<Double>
 {
-    /**
-     * Liefert den aktuellen Wert.
-     *
-     * @return double
-     */
     double get();
 }

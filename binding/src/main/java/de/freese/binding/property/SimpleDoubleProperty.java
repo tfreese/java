@@ -6,41 +6,20 @@ package de.freese.binding.property;
  */
 public class SimpleDoubleProperty extends AbstractDoubleProperty
 {
-    /**
-    *
-    */
     private final Object bean;
-    /**
-    *
-    */
+
     private final String name;
 
-    /**
-     * Erstellt ein neues {@link SimpleDoubleProperty} Object.
-     */
     public SimpleDoubleProperty()
     {
         this(null, null, 0.0D);
     }
 
-    /**
-     * Erstellt ein neues {@link SimpleDoubleProperty} Object.
-     *
-     * @param bean Object
-     * @param name String
-     */
     public SimpleDoubleProperty(final Object bean, final String name)
     {
         this(bean, name, 0.0D);
     }
 
-    /**
-     * Erstellt ein neues {@link SimpleDoubleProperty} Object.
-     *
-     * @param bean Object
-     * @param name String
-     * @param initialValue double
-     */
     public SimpleDoubleProperty(final Object bean, final String name, final double initialValue)
     {
         super();

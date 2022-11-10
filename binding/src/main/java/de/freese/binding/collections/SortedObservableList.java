@@ -10,37 +10,18 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 /**
- * @param <T> Konkreter Typ
- *
  * @author Thomas Freese
  */
 public class SortedObservableList<T> extends DefaultObservableList<T>
 {
-    /**
-     *
-     */
-    private Comparator<T> comparator;
-    /**
-     *
-     */
     private final List<T> sortedList = new ArrayList<>();
+    private Comparator<T> comparator;
 
-    /**
-     * Erstellt ein neues {@link SortedObservableList} Object.
-     *
-     * @param source {@link ObservableList}
-     */
     public SortedObservableList(final ObservableList<T> source)
     {
         this(source, null);
     }
 
-    /**
-     * Erstellt ein neues {@link SortedObservableList} Object.
-     *
-     * @param source {@link ObservableList}
-     * @param comparator {@link Comparator}
-     */
     public SortedObservableList(final ObservableList<T> source, final Comparator<T> comparator)
     {
         super(source);
@@ -74,9 +55,23 @@ public class SortedObservableList<T> extends DefaultObservableList<T>
             @Override
             public void intervalRemoved(final ListDataEvent e)
             {
-                // NO-OP
+                // Empty
             }
         });
+    }
+
+    /**
+     * @see de.freese.binding.collections.DefaultObservableList#get(int)
+     */
+    @Override
+    public T get(final int index)
+    {
+        return this.sortedList.get(index);
+    }
+
+    public void setComparator(final Comparator<T> comparator)
+    {
+        this.comparator = Objects.requireNonNull(comparator, "comparator required");
     }
 
     /**
@@ -118,30 +113,10 @@ public class SortedObservableList<T> extends DefaultObservableList<T>
         return super.doSet(index, element);
     }
 
-    /**
-     *
-     */
     protected void doSort()
     {
         getLogger().debug("doSort");
 
         this.sortedList.sort(this.comparator);
-    }
-
-    /**
-     * @see de.freese.binding.collections.DefaultObservableList#get(int)
-     */
-    @Override
-    public T get(final int index)
-    {
-        return this.sortedList.get(index);
-    }
-
-    /**
-     * @param comparator {@link Comparator}
-     */
-    public void setComparator(final Comparator<T> comparator)
-    {
-        this.comparator = Objects.requireNonNull(comparator, "comparator required");
     }
 }

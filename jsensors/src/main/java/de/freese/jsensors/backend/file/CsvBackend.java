@@ -28,11 +28,7 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle
     private final Path path;
 
     /**
-     * Erstellt ein neues {@link CsvBackend} Object.
-     *
-     * @param path {@link Path}
      * @param exclusive boolean; File exclusive for only one {@link Sensor} -> no column 'NAME'
-     * @param batchSize int
      */
     public CsvBackend(final Path path, final boolean exclusive, final int batchSize)
     {

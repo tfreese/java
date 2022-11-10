@@ -11,20 +11,10 @@ import java.util.Objects;
  */
 public abstract class Chromosome
 {
-    /**
-     *
-     */
     private final Config config;
-    /**
-     *
-     */
+
     private final Gene[] genes;
 
-    /**
-     * Erstellt ein neues {@link Chromosome} Object.
-     *
-     * @param config {@link Config}
-     */
     protected Chromosome(final Config config)
     {
         super();
@@ -33,18 +23,8 @@ public abstract class Chromosome
         this.genes = new Gene[config.getSizeChromosome()];
     }
 
-    /**
-     * Berechnet die Fitness-Funktion.<br>
-     *
-     * @return double
-     */
     public abstract double calcFitnessValue();
 
-    /**
-     * @param gene {@link Gene}
-     *
-     * @return boolean
-     */
     public boolean contains(final Gene gene)
     {
         boolean contains = false;
@@ -66,21 +46,11 @@ public abstract class Chromosome
         return contains;
     }
 
-    /**
-     * Liefert das Genom am Index.
-     *
-     * @param index int
-     *
-     * @return {@link Gene}
-     */
     public Gene getGene(final int index)
     {
         return getGenes()[index];
     }
 
-    /**
-     * @return {@link Gene}[]
-     */
     public Gene[] getGenes()
     {
         return this.genes;
@@ -131,12 +101,6 @@ public abstract class Chromosome
      */
     public abstract void populate();
 
-    /**
-     * Setzt das Genom am Index.
-     *
-     * @param index int
-     * @param gene {@link Gene}
-     */
     public void setGene(final int index, final Gene gene)
     {
         getGenes()[index] = gene;
@@ -144,17 +108,12 @@ public abstract class Chromosome
 
     /**
      * Liefert die Größe des Chromosoms, Anzahl an Genen.
-     *
-     * @return int
      */
     public int size()
     {
         return getGenes().length;
     }
 
-    /**
-     * @return {@link Config}
-     */
     protected Config getConfig()
     {
         return this.config;

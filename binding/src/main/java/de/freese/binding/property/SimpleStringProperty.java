@@ -6,41 +6,20 @@ package de.freese.binding.property;
  */
 public class SimpleStringProperty extends AbstractStringProperty
 {
-    /**
-    *
-    */
     private final Object bean;
-    /**
-    *
-    */
+
     private final String name;
 
-    /**
-     * Erstellt ein neues {@link SimpleStringProperty} Object.
-     */
     public SimpleStringProperty()
     {
         this(null, null, null);
     }
 
-    /**
-     * Erstellt ein neues {@link SimpleStringProperty} Object.
-     *
-     * @param bean Object
-     * @param name String
-     */
     public SimpleStringProperty(final Object bean, final String name)
     {
         this(bean, name, null);
     }
 
-    /**
-     * Erstellt ein neues {@link SimpleStringProperty} Object.
-     *
-     * @param bean Object
-     * @param name String
-     * @param initialValue String
-     */
     public SimpleStringProperty(final Object bean, final String name, final String initialValue)
     {
         super();

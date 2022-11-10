@@ -10,16 +10,8 @@ import org.hibernate.mapping.Collection;
  */
 public class ClassType implements Type
 {
-    /**
-    *
-    */
     private final Class<?> javaClass;
 
-    /**
-     * Erstellt ein neues {@link ClassType} Object.
-     *
-     * @param javaClass {@link Class}
-     */
     public ClassType(final Class<?> javaClass)
     {
         super();
@@ -36,9 +28,6 @@ public class ClassType implements Type
         return getJavaClass().equals(clazz);
     }
 
-    /**
-     * @return {@link Class}
-     */
     public Class<?> getJavaClass()
     {
         return this.javaClass;

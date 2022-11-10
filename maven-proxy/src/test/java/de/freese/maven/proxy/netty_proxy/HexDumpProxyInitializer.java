@@ -11,21 +11,10 @@ import io.netty.handler.logging.LoggingHandler;
  */
 public class HexDumpProxyInitializer extends ChannelInitializer<SocketChannel>
 {
-    /**
-     *
-     */
     private final String remoteHost;
-    /**
-     *
-     */
+
     private final int remotePort;
 
-    /**
-     * Erstellt ein neues {@link HexDumpProxyInitializer} Object.
-     *
-     * @param remoteHost String
-     * @param remotePort String
-     */
     public HexDumpProxyInitializer(final String remoteHost, final int remotePort)
     {
         super();

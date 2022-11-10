@@ -8,9 +8,6 @@ import de.freese.binding.expression.AbstractIntegerExpression;
  */
 public abstract class AbstractIntegerProperty extends AbstractIntegerExpression implements Property<Integer>
 {
-    /**
-    *
-    */
     private int value;
 
     /**

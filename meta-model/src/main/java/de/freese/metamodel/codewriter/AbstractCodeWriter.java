@@ -24,9 +24,6 @@ import de.freese.metamodel.modelgen.model.FieldModel;
  */
 public abstract class AbstractCodeWriter implements CodeWriter
 {
-    /**
-     *
-     */
     protected static final String TAB = "    ";
 
     /**
@@ -68,19 +65,11 @@ public abstract class AbstractCodeWriter implements CodeWriter
         output.flush();
     }
 
-    /**
-     * @param classModel {@link ClassModel}
-     * @param output {@link PrintStream}
-     */
     protected void writeClassFooter(final ClassModel classModel, final PrintStream output)
     {
         output.println("}");
     }
 
-    /**
-     * @param classModel {@link ClassModel}
-     * @param output {@link PrintStream}
-     */
     protected void writeClassHeader(final ClassModel classModel, final PrintStream output)
     {
         // Class-JavaDoc
@@ -118,10 +107,6 @@ public abstract class AbstractCodeWriter implements CodeWriter
         }
     }
 
-    /**
-     * @param classModel {@link ClassModel}
-     * @param output {@link PrintStream}
-     */
     protected void writeConstructor(final ClassModel classModel, final PrintStream output)
     {
         if (classModel.isAddFullConstructor())
@@ -180,9 +165,6 @@ public abstract class AbstractCodeWriter implements CodeWriter
 
     /**
      * Ab Java 1.7
-     *
-     * @param classModel {@link ClassModel}
-     * @param output {@link PrintStream}
      */
     protected void writeEquals(final ClassModel classModel, final PrintStream output)
     {
@@ -239,9 +221,6 @@ public abstract class AbstractCodeWriter implements CodeWriter
 
     /**
      * Bis Java 1.7
-     *
-     * @param classModel {@link ClassModel}
-     * @param output {@link PrintStream}
      */
     protected void writeEqualsOldStyle(final ClassModel classModel, final PrintStream output)
     {
@@ -307,10 +286,6 @@ public abstract class AbstractCodeWriter implements CodeWriter
         output.println(TAB + "}");
     }
 
-    /**
-     * @param classModel {@link ClassModel}
-     * @param output {@link PrintStream}
-     */
     protected void writeFields(final ClassModel classModel, final PrintStream output)
     {
         if (classModel.isSerializeable())
@@ -343,9 +318,6 @@ public abstract class AbstractCodeWriter implements CodeWriter
 
     /**
      * Ab Java 1.7
-     *
-     * @param classModel {@link ClassModel}
-     * @param output {@link PrintStream}
      */
     protected void writeHashCode(final ClassModel classModel, final PrintStream output)
     {
@@ -379,9 +351,6 @@ public abstract class AbstractCodeWriter implements CodeWriter
 
     /**
      * Bis Java 1.7
-     *
-     * @param classModel {@link ClassModel}
-     * @param output {@link PrintStream}
      */
     protected void writeHashCodeOldStyle(final ClassModel classModel, final PrintStream output)
     {
@@ -438,32 +407,17 @@ public abstract class AbstractCodeWriter implements CodeWriter
         output.println(TAB + "}");
     }
 
-    /**
-     * @param classModel {@link ClassModel}
-     * @param output {@link PrintStream}
-     */
     protected void writeImports(final ClassModel classModel, final PrintStream output)
     {
         output.println();
         classModel.getImports().forEach(i -> output.printf("import %s;%n", i));
     }
 
-    /**
-     * @param output {@link PrintStream}
-     * @param comments {@link List}
-     * @param indent String
-     */
     protected void writeJavaDoc(final PrintStream output, final List<String> comments, final String indent)
     {
         writeJavaDoc(output, comments, indent, null);
     }
 
-    /**
-     * @param output {@link PrintStream}
-     * @param comments {@link List}
-     * @param indent String
-     * @param paramsOrReturn {@link Consumer}
-     */
     protected void writeJavaDoc(final PrintStream output, final List<String> comments, final String indent, final Consumer<PrintStream> paramsOrReturn)
     {
         output.println(indent + "/**");
@@ -502,10 +456,6 @@ public abstract class AbstractCodeWriter implements CodeWriter
         output.println(indent + " */");
     }
 
-    /**
-     * @param classModel {@link ClassModel}
-     * @param output {@link PrintStream}
-     */
     protected void writeMethods(final ClassModel classModel, final PrintStream output)
     {
         for (FieldModel fieldModel : classModel.getFields())
@@ -551,21 +501,12 @@ public abstract class AbstractCodeWriter implements CodeWriter
         }
     }
 
-    /**
-     * @param classModel {@link ClassModel}
-     * @param output {@link PrintStream}
-     */
     protected void writePackage(final ClassModel classModel, final PrintStream output)
     {
         output.printf("// Created: %1$tY-%1$tm-%1$td %1$tH.%1$tM.%1$tS,%1$tL%n", new Date());
         output.printf("package %s;%n", classModel.getPackageName());
     }
 
-    /**
-     * @param classModel {@link ClassModel}
-     * @param fields {@link ClassModel}
-     * @param output {@link PrintStream}
-     */
     protected void writeToString(final ClassModel classModel, final List<FieldModel> fields, final PrintStream output)
     {
         output.println();
@@ -610,10 +551,6 @@ public abstract class AbstractCodeWriter implements CodeWriter
         output.println(TAB + "}");
     }
 
-    /**
-     * @param classModel {@link ClassModel}
-     * @param output {@link PrintStream}
-     */
     protected void writeToString(final ClassModel classModel, final PrintStream output)
     {
         writeToString(classModel, classModel.getFields().stream().filter(FieldModel::isUseForToStringMethod).toList(), output);

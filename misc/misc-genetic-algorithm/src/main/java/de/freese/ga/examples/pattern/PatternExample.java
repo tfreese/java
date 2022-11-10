@@ -9,9 +9,6 @@ import de.freese.ga.Genotype;
  */
 public class PatternExample
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         String pattern = "11110000000000100000000001000000000010000000000100000000001111";

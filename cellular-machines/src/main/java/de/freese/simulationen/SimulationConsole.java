@@ -21,7 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Consolenprogramm für Bilderstellung.<br>
+ * Console-Programm für Bilderstellung.<br>
  * Umwandlung in Video:<br>
  *
  * <pre>

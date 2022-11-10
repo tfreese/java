@@ -35,32 +35,20 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestPojoCodeGenerator
 {
-    /**
-     *
-     */
     private static DataSource dataSource;
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @AfterAll
     static void afterAll() throws Exception
     {
         TestUtil.closeDataSource(dataSource);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @BeforeAll
     static void beforeAll() throws Exception
     {
         dataSource = TestUtil.createHsqlDBDataSource("jdbc:hsqldb:res:hsqldb/person;create=false;readonly=true");
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     @Order(1)
     void testCreate() throws Exception

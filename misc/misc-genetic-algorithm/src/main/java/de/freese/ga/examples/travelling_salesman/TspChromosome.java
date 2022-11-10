@@ -15,11 +15,6 @@ import de.freese.ga.Gene;
  */
 public class TspChromosome extends Chromosome
 {
-    /**
-     * Erstellt ein neues {@link TspChromosome} Object.
-     *
-     * @param config {@link TspConfig}
-     */
     public TspChromosome(final TspConfig config)
     {
         super(config);
@@ -36,8 +31,6 @@ public class TspChromosome extends Chromosome
 
     /**
      * Gets the total distance of the tour.
-     *
-     * @return double
      */
     public double getDistance()
     {

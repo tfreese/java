@@ -19,33 +19,16 @@ import java.util.stream.Stream;
  */
 public abstract class AbstractRasterSimulation extends AbstractSimulation
 {
-    /**
-     *
-     */
     private final Image image;
-    /**
-     *
-     */
+
     private final MemoryImageSource imageSource;
     /**
      * Pixel-Backend für {@link MemoryImageSource} und {@link Image}.
      */
     private final int[] pixelsRGB;
-    /**
-     *
-     */
-    private Set<Cell> cells;
-    /**
-     *
-     */
     private final Cell[][] raster;
+    private Set<Cell> cells;
 
-    /**
-     * Erstellt ein neues {@link AbstractRasterSimulation} Object.
-     *
-     * @param width int
-     * @param height int
-     */
     protected AbstractRasterSimulation(final int width, final int height)
     {
         super(width, height);
@@ -97,8 +80,6 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation
 
     /**
      * Einmaliges befüllen des Rasters.
-     *
-     * @param cellSupplier {@link Supplier}
      */
     protected final void fillRaster(final Supplier<Cell> cellSupplier)
     {
@@ -129,12 +110,6 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation
         this.cells = Set.copyOf(set);
     }
 
-    /**
-     * @param x int
-     * @param y int
-     *
-     * @return {@link Cell}
-     */
     protected Cell getCell(final int x, final int y)
     {
         return this.raster[x][y];
@@ -142,12 +117,10 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation
 
     /**
      * Liefert einen parallelen {@link Stream} für die Zellen.
-     *
-     * @return {@link Stream}
      */
     protected Stream<Cell> getCellStream()
     {
-        // Der Stream vom Raster bildet Wellenfronten, da immer von oben links angefangen wird zu rechnen.
+        // Der Stream vom Raster bildet Wellen-Fronten, da immer von oben links angefangen wird zu rechnen.
         // return Stream.of(this.raster).parallel().flatMap(Stream::of).parallel();
 
         return this.cells.stream().parallel();
@@ -155,9 +128,6 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation
 
     /**
      * Reset einer Zelle des Rasters.
-     *
-     * @param x int
-     * @param y int
      */
     protected void reset(final int x, final int y)
     {
@@ -166,10 +136,6 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation
 
     /**
      * Ändert die Pixel-Farbe an den Koordinaten.
-     *
-     * @param x int
-     * @param y int
-     * @param color {@link Color}
      */
     protected void setCellColor(final int x, final int y, final Color color)
     {

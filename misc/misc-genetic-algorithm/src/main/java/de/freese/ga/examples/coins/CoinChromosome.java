@@ -15,11 +15,6 @@ import de.freese.ga.Gene;
  */
 public class CoinChromosome extends Chromosome
 {
-    /**
-     * Erstellt ein neues {@link CoinChromosome} Object.
-     *
-     * @param config {@link CoinConfig}
-     */
     public CoinChromosome(final CoinConfig config)
     {
         super(config);

@@ -6,10 +6,5 @@ package de.freese.binding.value;
  */
 public interface ObservableFloatValue extends ObservableNumberValue<Float>
 {
-    /**
-     * Liefert den aktuellen Wert.
-     *
-     * @return float
-     */
     float get();
 }

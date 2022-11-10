@@ -8,9 +8,6 @@ import de.freese.binding.expression.AbstractFloatExpression;
  */
 public abstract class AbstractFloatProperty extends AbstractFloatExpression implements Property<Float>
 {
-    /**
-     *
-     */
     private float value;
 
     /**

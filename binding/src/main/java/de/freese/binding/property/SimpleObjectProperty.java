@@ -3,46 +3,23 @@ package de.freese.binding.property;
 
 /**
  * @author Thomas Freese
- *
- * @param <T> Konkreter Typ
  */
 public class SimpleObjectProperty<T> extends AbstractObjectProperty<T>
 {
-    /**
-    *
-    */
     private final Object bean;
-    /**
-    *
-    */
+
     private final String name;
 
-    /**
-     * Erstellt ein neues {@link SimpleObjectProperty} Object.
-     */
     public SimpleObjectProperty()
     {
         this(null, null, null);
     }
 
-    /**
-     * Erstellt ein neues {@link SimpleObjectProperty} Object.
-     *
-     * @param bean Object
-     * @param name String
-     */
     public SimpleObjectProperty(final Object bean, final String name)
     {
         this(bean, name, null);
     }
 
-    /**
-     * Erstellt ein neues {@link SimpleObjectProperty} Object.
-     *
-     * @param bean Object
-     * @param name String
-     * @param initialValue Object
-     */
     public SimpleObjectProperty(final Object bean, final String name, final T initialValue)
     {
         super();

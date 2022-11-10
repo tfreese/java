@@ -9,26 +9,13 @@ import de.freese.binding.value.ChangeListener;
  */
 public final class StringConstant extends AbstractStringExpression
 {
-    /**
-     * @param value String
-     *
-     * @return {@link StringConstant}
-     */
     public static StringConstant valueOf(final String value)
     {
         return new StringConstant(value);
     }
 
-    /**
-     *
-     */
     private final String value;
 
-    /**
-     * Erstellt ein neues {@link StringConstant} Object.
-     *
-     * @param value {@link String}
-     */
     private StringConstant(final String value)
     {
         super();
@@ -42,16 +29,7 @@ public final class StringConstant extends AbstractStringExpression
     @Override
     public void addListener(final ChangeListener<? super String> listener)
     {
-        // NO-OP
-    }
-
-    /**
-     * @see de.freese.binding.expression.AbstractExpression#fireValueChangedEvent(java.lang.Object, java.lang.Object)
-     */
-    @Override
-    protected void fireValueChangedEvent(final String oldValue, final String newValue)
-    {
-        // NO-OP
+        // Empty
     }
 
     /**
@@ -69,6 +47,15 @@ public final class StringConstant extends AbstractStringExpression
     @Override
     public void removeListener(final ChangeListener<? super String> listener)
     {
-        // NO-OP
+        // Empty
+    }
+
+    /**
+     * @see de.freese.binding.expression.AbstractExpression#fireValueChangedEvent(java.lang.Object, java.lang.Object)
+     */
+    @Override
+    protected void fireValueChangedEvent(final String oldValue, final String newValue)
+    {
+        // Empty
     }
 }

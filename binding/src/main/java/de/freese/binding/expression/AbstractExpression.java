@@ -11,14 +11,9 @@ import de.freese.binding.value.ObservableValue;
  * Expression = ReadOnly-Property
  *
  * @author Thomas Freese
- *
- * @param <T> Konkreter Typ
  */
 public abstract class AbstractExpression<T> implements ObservableValue<T>
 {
-    /**
-    *
-    */
     private final List<ChangeListener<? super T>> listeners = new ArrayList<>(4);
 
     /**
@@ -34,23 +29,19 @@ public abstract class AbstractExpression<T> implements ObservableValue<T>
     }
 
     /**
-     * @param oldValue Object
-     * @param newValue Object
-     */
-    protected void fireValueChangedEvent(final T oldValue, final T newValue)
-    {
-        for (ChangeListener<? super T> changeListener : this.listeners)
-        {
-            changeListener.changed(this, oldValue, newValue);
-        }
-    }
-
-    /**
      * @see de.freese.binding.value.ObservableValue#removeListener(de.freese.binding.value.ChangeListener)
      */
     @Override
     public void removeListener(final ChangeListener<? super T> listener)
     {
         this.listeners.remove(listener);
+    }
+
+    protected void fireValueChangedEvent(final T oldValue, final T newValue)
+    {
+        for (ChangeListener<? super T> changeListener : this.listeners)
+        {
+            changeListener.changed(this, oldValue, newValue);
+        }
     }
 }

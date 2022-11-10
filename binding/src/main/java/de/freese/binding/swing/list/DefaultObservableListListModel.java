@@ -10,23 +10,13 @@ import de.freese.binding.collections.ObservableList;
 /**
  * Default-Implementierung eines {@link ListModel} für die {@link ObservableList}.
  *
- * @param <T> Konkreter Typ
- *
  * @author Thomas Freese
  */
 public class DefaultObservableListListModel<T> extends AbstractObservableListListModel<T>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -578288830889934793L;
 
-    /**
-     * Erstellt ein neues {@link DefaultObservableListListModel} Object.
-     *
-     * @param list {@link ObservableList}
-     */
     public DefaultObservableListListModel(final ObservableList<T> list)
     {
         super(list);

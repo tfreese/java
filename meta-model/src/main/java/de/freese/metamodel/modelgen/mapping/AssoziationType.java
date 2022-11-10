@@ -8,20 +8,9 @@ import java.util.Objects;
  */
 public class AssoziationType implements Type
 {
-    /**
-     *
-     */
-    private boolean isCollection;
-    /**
-     *
-     */
     private final String simpleName;
+    private boolean isCollection;
 
-    /**
-     * Erstellt ein neues {@link AssoziationType} Object.
-     *
-     * @param simpleName String
-     */
     public AssoziationType(final String simpleName)
     {
         super();
@@ -83,9 +72,6 @@ public class AssoziationType implements Type
         return false;
     }
 
-    /**
-     * @param isCollection boolean
-     */
     public void setCollection(final boolean isCollection)
     {
         this.isCollection = isCollection;

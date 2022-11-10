@@ -15,19 +15,11 @@ import org.slf4j.LoggerFactory;
  */
 public final class MetaResolver
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(MetaResolver.class);
 
     /**
      * Liefert auf Basis der DB-MetaDaten den entsprechenden Exporter für die Quelle.
      *
-     * @param dataSource {@link DataSource}
-     *
-     * @return {@link MetaExporter}
-     *
-     * @throws SQLException Falls was schiefgeht.
      * @throws IllegalStateException, wenn keine Quelle ermittelt werden konnte.
      */
     public static MetaExporter determineMetaData(final DataSource dataSource) throws SQLException
@@ -57,9 +49,6 @@ public final class MetaResolver
         }
     }
 
-    /**
-     * Erstellt ein neues {@link MetaResolver} Object.
-     */
     private MetaResolver()
     {
         super();

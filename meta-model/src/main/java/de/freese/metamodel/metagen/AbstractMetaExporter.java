@@ -27,9 +27,6 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractMetaExporter implements MetaExporter
 {
-    /**
-     *
-     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
@@ -87,11 +84,6 @@ public abstract class AbstractMetaExporter implements MetaExporter
 
     /**
      * Erzeugt das Meta-Modell der Spalten einer Tabelle.
-     *
-     * @param table {@link Table}
-     * @param resultSet ResultSet {@link ResultSet}
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     protected void createColumn(final Table table, final ResultSet resultSet) throws SQLException
     {
@@ -131,11 +123,6 @@ public abstract class AbstractMetaExporter implements MetaExporter
 
     /**
      * Erzeugt das Meta-Modell eines PrimaryKeys einer Tabelle.
-     *
-     * @param table {@link Table}
-     * @param resultSet ResultSet {@link ResultSet}
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     protected void createForeignKey(final Table table, final ResultSet resultSet) throws SQLException
     {
@@ -169,11 +156,6 @@ public abstract class AbstractMetaExporter implements MetaExporter
 
     /**
      * Erzeugt das Meta-Modell der Indices einer Tabelle.
-     *
-     * @param table {@link Table}
-     * @param resultSet ResultSet {@link ResultSet}
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     protected void createIndices(final Table table, final ResultSet resultSet) throws SQLException
     {
@@ -217,11 +199,6 @@ public abstract class AbstractMetaExporter implements MetaExporter
 
     /**
      * Erzeugt das Meta-Modell eines PrimaryKeys einer Tabelle.
-     *
-     * @param table {@link Table}
-     * @param resultSet ResultSet {@link ResultSet}
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     protected void createPrimaryKey(final Table table, final ResultSet resultSet) throws SQLException
     {
@@ -244,12 +221,6 @@ public abstract class AbstractMetaExporter implements MetaExporter
 
     /**
      * Erzeugt das Meta-Modell eines Schemas.
-     *
-     * @param resultSet ResultSet {@link ResultSet}
-     *
-     * @return {@link Schema}
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     protected Schema createSchema(final ResultSet resultSet) throws SQLException
     {
@@ -268,11 +239,6 @@ public abstract class AbstractMetaExporter implements MetaExporter
 
     /**
      * Erzeugt das Meta-Modell einer Tabelle.
-     *
-     * @param schema {@link Schema}
-     * @param resultSet ResultSet {@link ResultSet}
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     protected void createTable(final Schema schema, final ResultSet resultSet) throws SQLException
     {
@@ -295,12 +261,6 @@ public abstract class AbstractMetaExporter implements MetaExporter
         table.setComment(comment);
     }
 
-    /**
-     * @param dataSource {@link DataSource}
-     * @param table {@link Table}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     protected void generateColumns(final DataSource dataSource, final Table table) throws SQLException
     {
         try (Connection connection = dataSource.getConnection())
@@ -317,12 +277,6 @@ public abstract class AbstractMetaExporter implements MetaExporter
         }
     }
 
-    /**
-     * @param dataSource {@link DataSource}
-     * @param table {@link Table}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     protected void generateForeignKeys(final DataSource dataSource, final Table table) throws SQLException
     {
         try (Connection connection = dataSource.getConnection())
@@ -349,12 +303,6 @@ public abstract class AbstractMetaExporter implements MetaExporter
         }
     }
 
-    /**
-     * @param dataSource {@link DataSource}
-     * @param table {@link Table}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     protected void generateIndices(final DataSource dataSource, final Table table) throws SQLException
     {
         try (Connection connection = dataSource.getConnection())
@@ -371,12 +319,6 @@ public abstract class AbstractMetaExporter implements MetaExporter
         }
     }
 
-    /**
-     * @param dataSource {@link DataSource}
-     * @param table {@link Table}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     protected void generatePrimaryKeys(final DataSource dataSource, final Table table) throws SQLException
     {
         try (Connection connection = dataSource.getConnection())
@@ -393,14 +335,6 @@ public abstract class AbstractMetaExporter implements MetaExporter
         }
     }
 
-    /**
-     * @param dataSource {@link DataSource}
-     * @param schemaNamePattern {@link Schema}
-     *
-     * @return {@link List}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     protected List<Schema> generateSchemas(final DataSource dataSource, final String schemaNamePattern) throws SQLException
     {
         List<Schema> schemas = new ArrayList<>();
@@ -423,21 +357,8 @@ public abstract class AbstractMetaExporter implements MetaExporter
         return schemas;
     }
 
-    /**
-     * @param dataSource {@link DataSource}
-     * @param schema {@link Schema}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     protected abstract void generateSequences(final DataSource dataSource, final Schema schema) throws SQLException;
 
-    /**
-     * @param dataSource {@link DataSource}
-     * @param schema {@link Schema}
-     * @param tableNamePattern String
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     protected void generateTables(final DataSource dataSource, final Schema schema, final String tableNamePattern) throws SQLException
     {
         try (Connection connection = dataSource.getConnection())
@@ -457,9 +378,6 @@ public abstract class AbstractMetaExporter implements MetaExporter
         }
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;

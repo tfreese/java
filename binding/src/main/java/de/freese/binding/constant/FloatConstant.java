@@ -9,26 +9,13 @@ import de.freese.binding.value.ChangeListener;
  */
 public final class FloatConstant extends AbstractFloatExpression
 {
-    /**
-     * @param value float
-     *
-     * @return {@link FloatConstant}
-     */
     public static FloatConstant valueOf(final float value)
     {
         return new FloatConstant(value);
     }
 
-    /**
-     *
-     */
     private final float value;
 
-    /**
-     * Erstellt ein neues {@link FloatConstant} Object.
-     *
-     * @param value float
-     */
     private FloatConstant(final float value)
     {
         super();
@@ -42,16 +29,7 @@ public final class FloatConstant extends AbstractFloatExpression
     @Override
     public void addListener(final ChangeListener<? super Float> listener)
     {
-        // NO-OP
-    }
-
-    /**
-     * @see de.freese.binding.expression.AbstractExpression#fireValueChangedEvent(java.lang.Object, java.lang.Object)
-     */
-    @Override
-    protected void fireValueChangedEvent(final Float oldValue, final Float newValue)
-    {
-        // NO-OP
+        // Empty
     }
 
     /**
@@ -69,6 +47,15 @@ public final class FloatConstant extends AbstractFloatExpression
     @Override
     public void removeListener(final ChangeListener<? super Float> listener)
     {
-        // NO-OP
+        // Empty
+    }
+
+    /**
+     * @see de.freese.binding.expression.AbstractExpression#fireValueChangedEvent(java.lang.Object, java.lang.Object)
+     */
+    @Override
+    protected void fireValueChangedEvent(final Float oldValue, final Float newValue)
+    {
+        // Empty
     }
 }

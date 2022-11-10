@@ -14,11 +14,6 @@ import de.freese.ga.Chromosome;
  */
 public class SudokuChromosome extends Chromosome
 {
-    /**
-     * Erstellt ein neues {@link SudokuChromosome} Object.
-     *
-     * @param config {@link SudokuConfig}
-     */
     public SudokuChromosome(final SudokuConfig config)
     {
         super(config);
@@ -216,11 +211,6 @@ public class SudokuChromosome extends Chromosome
     /**
      * Wie viele unterschiedliche Zahlen sind im Block und wie ist deren Summe ?<br>
      * Soll: bei 9 Zahlen 45 in Summe
-     *
-     * @param block int
-     * @param puzzleBlockSize int
-     *
-     * @return double
      */
     double calcBlockFitness(final int block, final int puzzleBlockSize)
     {
@@ -265,11 +255,6 @@ public class SudokuChromosome extends Chromosome
     /**
      * Wie viele unterschiedliche Zahlen sind in der Spalte und wie ist deren Summe ?<br>
      * Soll: bei 9 Zahlen 45 in Summe
-     *
-     * @param column int
-     * @param puzzleSize int
-     *
-     * @return double
      */
     double calcColumnFitness(final int column, final int puzzleSize)
     {
@@ -290,10 +275,6 @@ public class SudokuChromosome extends Chromosome
     /**
      * Wie viele unterschiedliche Zahlen sind in der Reihe und wie ist deren Summe ?<br>
      * Soll: bei 9 Zahlen 45 in Summe
-     *
-     * @param row int
-     *
-     * @return double
      */
     double calcRowFitness(final int row)
     {

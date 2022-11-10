@@ -11,14 +11,8 @@ import de.freese.binding.property.Property;
  */
 public abstract class AbstractBooleanBinding extends AbstractBooleanExpression implements BooleanBinding
 {
-    // /**
-    // *
-    // */
     // private final ChangeListener<? super Object> listener = (observable, oldValue, newValue) -> update();
 
-    /**
-    *
-    */
     private Boolean value;
 
     // /**
@@ -35,13 +29,6 @@ public abstract class AbstractBooleanBinding extends AbstractBooleanExpression i
     //
     // update();
     // }
-
-    /**
-     * Ermittelt den neuen Wert des Bindings, falls sich einer der {@link Property} geändert hat.
-     *
-     * @return Boolean
-     */
-    protected abstract Boolean computeValue();
 
     /**
      * @see de.freese.binding.value.ObservableValue#getValue()
@@ -66,4 +53,9 @@ public abstract class AbstractBooleanBinding extends AbstractBooleanExpression i
             fireValueChangedEvent(old, this.value);
         }
     }
+
+    /**
+     * Ermittelt den neuen Wert des Bindings, falls sich einer der {@link Property} geändert hat.
+     */
+    protected abstract Boolean computeValue();
 }

@@ -35,37 +35,23 @@ class TestHsqlPersonDb
      * "PUBLIC"
      */
     private static final String SCHEMA_NAME = "PUBLIC";
-    /**
-     *
-     */
+
     private static DataSource dataSource;
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @AfterAll
     static void afterAll() throws Exception
     {
         TestUtil.closeDataSource(dataSource);
     }
 
-    /**
-     *
-     */
     @BeforeAll
     static void beforeAll()
     {
         dataSource = TestUtil.createHsqlDBDataSource("jdbc:hsqldb:res:hsqldb/person;create=false;readonly=true");
     }
 
-    /**
-     *
-     */
     private final MetaExporter metaExporter = new HsqldbMetaExporter();
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     @Order(40)
     void testColumns() throws Exception
@@ -93,8 +79,6 @@ class TestHsqlPersonDb
 
     /**
      * T_ADDRESS.PERSON_ID -> T_PERSON.ID
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     @Test
     @Order(60)
@@ -126,8 +110,6 @@ class TestHsqlPersonDb
 
     /**
      * T_ADDRESS.PERSON_ID -> T_PERSON.ID
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     @Test
     @Order(70)
@@ -170,9 +152,6 @@ class TestHsqlPersonDb
         assertEquals("NAME", columns.get(0).getName());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     @Order(50)
     void testPrimaryKey() throws Exception
@@ -195,9 +174,6 @@ class TestHsqlPersonDb
         assertEquals("ID", columns.get(0).getName());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     @Order(10)
     void testSchema() throws Exception
@@ -208,9 +184,6 @@ class TestHsqlPersonDb
         assertEquals(3, schemas.size());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     @Order(20)
     void testSequences() throws Exception
@@ -230,9 +203,6 @@ class TestHsqlPersonDb
         assertEquals("PERSON_SEQ", sequences.get(1).getName());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     @Order(30)
     void testTable() throws Exception

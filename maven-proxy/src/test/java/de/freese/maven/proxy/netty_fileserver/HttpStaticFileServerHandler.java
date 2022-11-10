@@ -357,9 +357,6 @@ public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<Ful
 
     /**
      * If Keep-Alive is disabled, attaches "Connection: close" header to the response and closes the connection after the response being sent.
-     *
-     * @param ctx {@link ChannelHandlerContext}
-     * @param response {@link FullHttpResponse}
      */
     private void sendAndCleanupConnection(final ChannelHandlerContext ctx, final FullHttpResponse response)
     {
@@ -441,8 +438,6 @@ public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<Ful
 
     /**
      * When file timestamp is the same as what the browser is sending up, send a "304 Not Modified"
-     *
-     * @param ctx {@link ChannelHandlerContext}
      */
     private void sendNotModified(final ChannelHandlerContext ctx)
     {

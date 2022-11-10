@@ -13,10 +13,6 @@ public abstract class AbstractNamingStrategy implements NamingStrategy
      * - \r<br>
      * - \n<br>
      * und führt ein trim und toLowerCase durch.
-     *
-     * @param value String
-     *
-     * @return String
      */
     protected String normalize(final String value)
     {
@@ -28,11 +24,6 @@ public abstract class AbstractNamingStrategy implements NamingStrategy
         return null;
     }
 
-    /**
-     * @param value String
-     *
-     * @return String
-     */
     protected String toCamelCase(final String value)
     {
         if (value == null)

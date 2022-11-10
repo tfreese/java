@@ -27,11 +27,6 @@ public class OracleMetaExporter extends AbstractMetaExporter
     // select * from ALL_COL_COMMENTS where table_name = 'ANWENDUNG_SCHEMA' and comments is not null;
     // select * from USER_TAB_COMMENTS where table_name = 'ANWENDUNG_SCHEMA' and comments is not null;
 
-    // /**
-    // * @param dataSource {@link DataSource}
-    // * @param table {@link Table}
-    // * @throws SQLException Falls was schief geht.
-    // */
     // void handleIndices(final DataSource dataSource, final Table table) throws SQLException
     // {
     // StringBuilder sql = new StringBuilder();
@@ -60,11 +55,6 @@ public class OracleMetaExporter extends AbstractMetaExporter
     // }
     // }
 
-    // /**
-    // * @param dataSource {@link DataSource}
-    // * @param table {@link Table}
-    // * @throws SQLException Falls was schief geht.
-    // */
     // void handlePrimaryKeys(final DataSource dataSource, final Table table) throws SQLException
     // {
     // // select ui.table_name, ui.index_name, uic.column_name, uic.column_position from user_indexes ui
@@ -75,11 +65,6 @@ public class OracleMetaExporter extends AbstractMetaExporter
     // // order by ui.table_name asc, ui.index_name asc, uic.column_position asc;
     // }
 
-    // /**
-    // * @param dataSource {@link DataSource}
-    // * @param table {@link Table}
-    // * @throws SQLException Falls was schief geht.
-    // */
     // void handleUniqueConstraints(final DataSource dataSource, final Table table) throws SQLException
     // {
     // StringBuilder sql = new StringBuilder();

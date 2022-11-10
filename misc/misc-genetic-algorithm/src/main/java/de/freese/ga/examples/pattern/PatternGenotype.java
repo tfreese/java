@@ -9,22 +9,11 @@ import de.freese.ga.Genotype;
  */
 public class PatternGenotype extends Genotype
 {
-    /**
-     * Erstellt ein neues {@link PatternGenotype} Object.
-     *
-     * @param config {@link PatternConfig}
-     */
     public PatternGenotype(final PatternConfig config)
     {
         super(config);
     }
 
-    /**
-     * Erstellt ein neues {@link PatternGenotype} Object.
-     *
-     * @param config {@link PatternConfig}
-     * @param size int
-     */
     private PatternGenotype(final PatternConfig config, final int size)
     {
         super(config, size);

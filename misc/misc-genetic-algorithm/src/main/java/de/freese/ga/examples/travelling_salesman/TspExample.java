@@ -11,9 +11,6 @@ import java.util.List;
  */
 public class TspExample
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         List<City> cities = new ArrayList<>(20);

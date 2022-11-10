@@ -16,6 +16,8 @@ import de.freese.simulationen.wator.WaTorCell.CellType;
  */
 public class WaTorRasterSimulation extends AbstractRasterSimulation
 {
+    private final LongAdder fishCounter = new LongAdder();
+    private final LongAdder sharkCounter = new LongAdder();
     /**
      * Richtung der Berechnung.
      */
@@ -25,10 +27,6 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
      */
     private int fishBreedEnergy = 5;
     /**
-     *
-     */
-    private final LongAdder fishCounter = new LongAdder();
-    /**
      * Start-Energie der Fische.
      */
     private int fishStartEnergy = 1;
@@ -36,10 +34,6 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
      * Brut-Energie der Haie.
      */
     private int sharkBreedEnergy = 15;
-    /**
-     *
-     */
-    private final LongAdder sharkCounter = new LongAdder();
     /**
      * Start-Energie der Haie.
      */
@@ -49,12 +43,6 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
      */
     private int sharkStarveEnergy = 0;
 
-    /**
-     * Erstellt ein neues {@link WaTorRasterSimulation} Object.
-     *
-     * @param width int
-     * @param height int
-     */
     public WaTorRasterSimulation(final int width, final int height)
     {
         super(width, height);
@@ -90,18 +78,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
     }
 
     /**
-     * @see de.freese.simulationen.model.AbstractRasterSimulation#getCell(int, int)
-     */
-    @Override
-    protected WaTorCell getCell(final int x, final int y)
-    {
-        return (WaTorCell) super.getCell(x, y);
-    }
-
-    /**
      * Brut-Energie der Fische.
-     *
-     * @return int
      */
     public int getFishBreedEnergy()
     {
@@ -110,8 +87,6 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
 
     /**
      * Start-Energie der Fische.
-     *
-     * @return int
      */
     public int getFishStartEnergy()
     {
@@ -120,8 +95,6 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
 
     /**
      * Brut-Energie der Haie.
-     *
-     * @return int
      */
     public int getSharkBreedEnergy()
     {
@@ -130,8 +103,6 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
 
     /**
      * Start-Energie der Haie.
-     *
-     * @return int
      */
     public int getSharkStartEnergy()
     {
@@ -140,8 +111,6 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
 
     /**
      * Sterbe-Energie der Haie.
-     *
-     * @return int
      */
     public int getSharkStarveEnergy()
     {
@@ -162,8 +131,58 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
     }
 
     /**
+     * Brut-Energie der Fische.
+     *
+     * @param fishBreedEnergy int
+     */
+    public void setFishBreedEnergy(final int fishBreedEnergy)
+    {
+        this.fishBreedEnergy = fishBreedEnergy;
+    }
+
+    /**
+     * Start-Energie der Fische.
+     *
+     * @param fishStartEnergy int
+     */
+    public void setFishStartEnergy(final int fishStartEnergy)
+    {
+        this.fishStartEnergy = fishStartEnergy;
+    }
+
+    /**
+     * Brut-Energie der Haie.
+     *
+     * @param sharkBreedEnergy int
+     */
+    public void setSharkBreedEnergy(final int sharkBreedEnergy)
+    {
+        this.sharkBreedEnergy = sharkBreedEnergy;
+    }
+
+    /**
+     * Start-Energie der Haie.
+     *
+     * @param sharkStartEnergy int
+     */
+    public void setSharkStartEnergy(final int sharkStartEnergy)
+    {
+        this.sharkStartEnergy = sharkStartEnergy;
+    }
+
+    /**
+     * Sterbe-Energie der Haie.
+     *
+     * @param sharkStarveEnergy int
+     */
+    public void setSharkStarveEnergy(final int sharkStarveEnergy)
+    {
+        this.sharkStarveEnergy = sharkStarveEnergy;
+    }
+
+    /**
      * Alte Berechnung.<br>
-     * Richtung der Berechnung ändern, um Wellenfronten zu vermeiden.<br>
+     * Richtung der Berechnung ändern, um Wellen-Fronten zu vermeiden.<br>
      */
     void nextGenerationNestedFor()
     {
@@ -238,7 +257,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
 
     /**
      * Alte Berechnung.<br>
-     * Richtung der Berechnung ändern, um Wellenfronten zu vermeiden.<br>
+     * Richtung der Berechnung ändern, um Wellen-Fronten zu vermeiden.<br>
      */
     void nextGenerationStreams()
     {
@@ -328,6 +347,15 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
     }
 
     /**
+     * @see de.freese.simulationen.model.AbstractRasterSimulation#getCell(int, int)
+     */
+    @Override
+    protected WaTorCell getCell(final int x, final int y)
+    {
+        return (WaTorCell) super.getCell(x, y);
+    }
+
+    /**
      * @see de.freese.simulationen.model.AbstractRasterSimulation#reset(int, int)
      */
     @Override
@@ -354,55 +382,5 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
 
             default -> cell.setCellType(CellType.EMPTY);
         }
-    }
-
-    /**
-     * Brut-Energie der Fische.
-     *
-     * @param fishBreedEnergy int
-     */
-    public void setFishBreedEnergy(final int fishBreedEnergy)
-    {
-        this.fishBreedEnergy = fishBreedEnergy;
-    }
-
-    /**
-     * Start-Energie der Fische.
-     *
-     * @param fishStartEnergy int
-     */
-    public void setFishStartEnergy(final int fishStartEnergy)
-    {
-        this.fishStartEnergy = fishStartEnergy;
-    }
-
-    /**
-     * Brut-Energie der Haie.
-     *
-     * @param sharkBreedEnergy int
-     */
-    public void setSharkBreedEnergy(final int sharkBreedEnergy)
-    {
-        this.sharkBreedEnergy = sharkBreedEnergy;
-    }
-
-    /**
-     * Start-Energie der Haie.
-     *
-     * @param sharkStartEnergy int
-     */
-    public void setSharkStartEnergy(final int sharkStartEnergy)
-    {
-        this.sharkStartEnergy = sharkStartEnergy;
-    }
-
-    /**
-     * Sterbe-Energie der Haie.
-     *
-     * @param sharkStarveEnergy int
-     */
-    public void setSharkStarveEnergy(final int sharkStarveEnergy)
-    {
-        this.sharkStarveEnergy = sharkStarveEnergy;
     }
 }

@@ -8,12 +8,6 @@ package de.freese.metamodel.metagen.model;
  */
 public class PrimaryKey extends AbstractIndex
 {
-    /**
-     * Erstellt ein neues {@link PrimaryKey} Object.
-     *
-     * @param table {@link Table}
-     * @param name String
-     */
     PrimaryKey(final Table table, final String name)
     {
         super(table, name);

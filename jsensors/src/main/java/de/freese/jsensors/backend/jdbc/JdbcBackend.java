@@ -33,12 +33,7 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle
     private final String tableName;
 
     /**
-     * Erstellt ein neues {@link JdbcBackend} Object.
-     *
-     * @param dataSource {@link DataSource}
-     * @param tableName String
      * @param exclusive boolean; Table exclusive for only one {@link Sensor} -> no column 'NAME'
-     * @param batchSize int
      */
     public JdbcBackend(final DataSource dataSource, final String tableName, final boolean exclusive, final int batchSize)
     {

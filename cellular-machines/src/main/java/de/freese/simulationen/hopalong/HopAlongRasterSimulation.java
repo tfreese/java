@@ -15,25 +15,12 @@ import de.freese.simulationen.model.EmptyCell;
  */
 public class HopAlongRasterSimulation extends AbstractRasterSimulation
 {
-    /**
-     *
-     */
     private final Point center;
-    /**
-     *
-     */
+
     private double x;
-    /**
-     *
-     */
+
     private double y;
 
-    /**
-     * Erstellt ein neues {@link HopAlongRasterSimulation} Object.
-     *
-     * @param width int
-     * @param height int
-     */
     public HopAlongRasterSimulation(final int width, final int height)
     {
         super(width, height);

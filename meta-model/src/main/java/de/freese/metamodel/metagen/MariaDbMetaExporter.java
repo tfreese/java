@@ -23,11 +23,6 @@ public class MariaDbMetaExporter extends AbstractMetaExporter
         throw new UnsupportedOperationException("not implemented");
     }
 
-    // /**
-    // * @param dataSource {@link DataSource}
-    // * @param table {@link Table}
-    // * @throws SQLException Falls was schief geht.
-    // */
     // void handleIndices(final DataSource dataSource, final Table table) throws SQLException
     // {
     // StringBuilder sql = new StringBuilder();
@@ -56,11 +51,6 @@ public class MariaDbMetaExporter extends AbstractMetaExporter
     // }
     // }
 
-    // /**
-    // * @param dataSource {@link DataSource}
-    // * @param table {@link Table}
-    // * @throws SQLException Falls was schief geht.
-    // */
     // void handleUniqueConstraints(final DataSource dataSource, final Table table) throws SQLException
     // {
     // StringBuilder sql = new StringBuilder();

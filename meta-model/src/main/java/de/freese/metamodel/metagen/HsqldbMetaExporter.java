@@ -52,11 +52,6 @@ public class HsqldbMetaExporter extends AbstractMetaExporter
         }
     }
 
-    // /**
-    // * @param dataSource {@link DataSource}
-    // * @param table {@link Table}
-    // * @throws SQLException Falls was schief geht.
-    // */
     // void handleIndices(final DataSource dataSource, final Table table) throws SQLException
     // {
     // StringBuilder sql = new StringBuilder();
@@ -85,11 +80,6 @@ public class HsqldbMetaExporter extends AbstractMetaExporter
     // }
     // }
 
-    // /**
-    // * @param dataSource {@link DataSource}
-    // * @param table {@link Table}
-    // * @throws SQLException Falls was schief geht.
-    // */
     // void handleUniqueConstraints(final DataSource dataSource, final Table table) throws SQLException
     // {
     // StringBuilder sql = new StringBuilder();
@@ -119,11 +109,6 @@ public class HsqldbMetaExporter extends AbstractMetaExporter
     // }
     // }
 
-    // /**
-    // * @param dataSource {@link DataSource}
-    // * @param schema {@link Schema}
-    // * @throws SQLException Falls was schief geht.
-    // */
     // void handleViews(final DataSource dataSource, final Schema schema) throws SQLException
     // {
     // // List<View> viewList = new ArrayList<>();

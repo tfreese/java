@@ -17,8 +17,6 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter
 {
     /**
      * Closes the specified channel after all queued write requests are flushed.
-     *
-     * @param ch {@link Channel}
      */
     static void closeOnFlush(final Channel ch)
     {
@@ -27,27 +25,14 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter
             ch.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
         }
     }
-
+    private final String remoteHost;
+    private final int remotePort;
     /**
      * As we use inboundChannel.eventLoop() when building the Bootstrap this does not need to be volatile as the outboundChannel will use the same EventLoop
      * (and therefore Thread) as the inboundChannel.
      */
     private Channel outboundChannel;
-    /**
-     *
-     */
-    private final String remoteHost;
-    /**
-     *
-     */
-    private final int remotePort;
 
-    /**
-     * Erstellt ein neues {@link HexDumpProxyFrontendHandler} Object.
-     *
-     * @param remoteHost String
-     * @param remotePort String
-     */
     public HexDumpProxyFrontendHandler(final String remoteHost, final int remotePort)
     {
         super();
@@ -77,7 +62,8 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter
         ChannelFuture channelFuture = bootstrap.connect(this.remoteHost, this.remotePort);
         this.outboundChannel = channelFuture.channel();
 
-        channelFuture.addListener(future -> {
+        channelFuture.addListener(future ->
+        {
             if (future.isSuccess())
             {
                 // connection complete start to read first data
@@ -112,7 +98,8 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter
         if (this.outboundChannel.isActive())
         {
             // ChannelFutureListener
-            this.outboundChannel.writeAndFlush(msg).addListener(future -> {
+            this.outboundChannel.writeAndFlush(msg).addListener(future ->
+            {
                 if (future.isSuccess())
                 {
                     // was able to flush out data, start to read the next chunk

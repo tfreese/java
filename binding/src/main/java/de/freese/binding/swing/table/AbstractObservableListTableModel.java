@@ -11,12 +11,13 @@ import de.freese.binding.collections.ObservableList;
 /**
  * TableModel das intern eine {@link ObservableList} verwendet.
  *
- * @param <T> Konkreter Typ
- *
  * @author Thomas Freese
  */
 public abstract class AbstractObservableListTableModel<T> extends AbstractListTableModel<T>
 {
+    @Serial
+    private static final long serialVersionUID = -863675813360039937L;
+
     /**
      * Listener auf der {@link ObservableList}.
      *
@@ -64,18 +65,6 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
         }
     }
 
-    /**
-     *
-     */
-    @Serial
-    private static final long serialVersionUID = -863675813360039937L;
-
-    /**
-     * Erstellt ein neues {@link AbstractObservableListTableModel} Objekt.
-     *
-     * @param columnCount int
-     * @param list {@link ObservableList}
-     */
     protected AbstractObservableListTableModel(final int columnCount, final ObservableList<T> list)
     {
         super(columnCount, list);
@@ -83,12 +72,6 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
         list.addListener(new EventListListener());
     }
 
-    /**
-     * Erstellt ein neues {@link AbstractObservableListTableModel} Objekt.
-     *
-     * @param columnNames {@link List}
-     * @param list {@link ObservableList}
-     */
     protected AbstractObservableListTableModel(final List<String> columnNames, final ObservableList<T> list)
     {
         super(columnNames, list);

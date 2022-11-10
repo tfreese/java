@@ -35,32 +35,20 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestHibernateCodeGenerator
 {
-    /**
-     *
-     */
     private static DataSource dataSource;
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @AfterAll
     static void afterAll() throws Exception
     {
         TestUtil.closeDataSource(dataSource);
     }
 
-    /**
-     *
-     */
     @BeforeAll
     static void beforeAll()
     {
         dataSource = TestUtil.createHsqlDBDataSource("jdbc:hsqldb:res:hsqldb/person;create=false;readonly=true");
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     @Order(1)
     void testCreate() throws Exception

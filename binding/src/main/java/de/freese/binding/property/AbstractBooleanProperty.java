@@ -12,9 +12,6 @@ import de.freese.binding.expression.AbstractBooleanExpression;
  */
 public abstract class AbstractBooleanProperty extends AbstractBooleanExpression implements Property<Boolean>
 {
-    /**
-     *
-     */
     private Boolean value;
 
     /**

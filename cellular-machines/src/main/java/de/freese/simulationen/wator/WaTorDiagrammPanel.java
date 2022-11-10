@@ -35,23 +35,13 @@ import org.jfree.data.time.TimeSeriesCollection;
  */
 public class WaTorDiagrammPanel extends JPanel implements SimulationListener
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -7891438395009637657L;
-    /**
-     *
-     */
+
     private final TimeSeries timeSeriesFische;
-    /**
-     *
-     */
+
     private final TimeSeries timeSeriesHaie;
 
-    /**
-     * Erstellt ein neues {@link WaTorDiagrammPanel} Object.
-     */
     public WaTorDiagrammPanel()
     {
         super();
@@ -127,9 +117,6 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener
 
     /**
      * Aktualisiert das Diagramm.
-     *
-     * @param fishes int
-     * @param sharks int
      */
     protected void update(final int fishes, final int sharks)
     {
@@ -155,9 +142,6 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener
         }
     }
 
-    /**
-     * @return {@link ScheduledExecutorService}
-     */
     private ScheduledExecutorService getScheduledExecutorService()
     {
         return SimulationEnvironment.getInstance().getScheduledExecutorService();

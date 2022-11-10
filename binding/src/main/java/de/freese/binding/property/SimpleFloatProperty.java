@@ -6,41 +6,20 @@ package de.freese.binding.property;
  */
 public class SimpleFloatProperty extends AbstractFloatProperty
 {
-    /**
-    *
-    */
     private final Object bean;
-    /**
-    *
-    */
+
     private final String name;
 
-    /**
-     * Erstellt ein neues {@link SimpleFloatProperty} Object.
-     */
     public SimpleFloatProperty()
     {
         this(null, null, 0.0F);
     }
 
-    /**
-     * Erstellt ein neues {@link SimpleFloatProperty} Object.
-     *
-     * @param bean Object
-     * @param name String
-     */
     public SimpleFloatProperty(final Object bean, final String name)
     {
         this(bean, name, 0.0F);
     }
 
-    /**
-     * Erstellt ein neues {@link SimpleFloatProperty} Object.
-     *
-     * @param bean Object
-     * @param name String
-     * @param initialValue float
-     */
     public SimpleFloatProperty(final Object bean, final String name, final float initialValue)
     {
         super();

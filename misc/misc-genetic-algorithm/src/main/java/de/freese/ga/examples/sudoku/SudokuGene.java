@@ -10,17 +10,8 @@ import de.freese.ga.Gene;
  */
 public class SudokuGene extends Gene
 {
-    /**
-     *
-     */
     private final boolean mutable;
 
-    /**
-     * Erstellt ein neues {@link SudokuGene} Object.
-     *
-     * @param value Integer
-     * @param mutable boolean
-     */
     public SudokuGene(final Integer value, final boolean mutable)
     {
         super();
@@ -36,7 +27,7 @@ public class SudokuGene extends Gene
         {
             return true;
         }
-        
+
         if (!(o instanceof SudokuGene gene))
         {
             return false;
@@ -58,8 +49,6 @@ public class SudokuGene extends Gene
 
     /**
      * Beim Sudoku dürfen die fest vorgegebenen Zahlen nicht verändert werden !
-     *
-     * @return boolean
      */
     public boolean isMutable()
     {

@@ -15,9 +15,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestNaming
 {
-    /**
-     *
-     */
     @Test
     void testClassNaming()
     {
@@ -31,9 +28,6 @@ class TestNaming
         assertEquals("TestTest", namingStrategy.getClassName("TEST_TEST"));
     }
 
-    /**
-    *
-    */
     @Test
     void testFieldNaming()
     {

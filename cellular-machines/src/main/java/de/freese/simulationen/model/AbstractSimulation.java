@@ -13,29 +13,14 @@ import java.util.Random;
  */
 public abstract class AbstractSimulation implements Simulation
 {
-    /**
-     *
-     */
     private final int height;
-    /**
-     *
-     */
+
     private final Random random;
-    /**
-     *
-     */
+
     private final List<SimulationListener> simulationListeners;
-    /**
-     *
-     */
+
     private final int width;
 
-    /**
-     * Erstellt ein neues {@link AbstractSimulation} Object.
-     *
-     * @param width int
-     * @param height int
-     */
     protected AbstractSimulation(final int width, final int height)
     {
         super();
@@ -67,9 +52,6 @@ public abstract class AbstractSimulation implements Simulation
         return this.height;
     }
 
-    /**
-     * @return {@link Random}
-     */
     public Random getRandom()
     {
         return this.random;
@@ -85,12 +67,8 @@ public abstract class AbstractSimulation implements Simulation
     }
 
     /**
-     * Liefert die entsprechende Torus-Koordinate.
-     *
      * @param pos int, Aktuelle Position
      * @param offSet int, Positionsänderung
-     *
-     * @return int
      */
     public int getXTorusKoord(final int pos, final int offSet)
     {
@@ -98,12 +76,8 @@ public abstract class AbstractSimulation implements Simulation
     }
 
     /**
-     * Liefert die entsprechende Torus-Koordinate.
-     *
      * @param pos int, Aktuelle Position
      * @param offSet int, Positionsänderung
-     *
-     * @return int
      */
     public int getYTorusKoord(final int pos, final int offSet)
     {
@@ -136,8 +110,6 @@ public abstract class AbstractSimulation implements Simulation
      * @param size int, Grösse des Simulationsfeldes
      * @param pos int, Aktuelle Position
      * @param offSet int, Positionsänderung
-     *
-     * @return int
      */
     private int getTorusKoord(final int size, final int pos, final int offSet)
     {

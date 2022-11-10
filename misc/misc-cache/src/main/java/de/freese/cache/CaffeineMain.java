@@ -21,14 +21,8 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
  */
 public class CaffeineMain
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(CaffeineMain.class);
 
-    /**
-     * @param args String[]
-     */
     public static void main(String[] args)
     {
         // Caffeine JUL-Logger auf Slf4J umleiten.

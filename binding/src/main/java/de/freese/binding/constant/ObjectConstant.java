@@ -6,31 +6,16 @@ import de.freese.binding.value.ChangeListener;
 
 /**
  * @author Thomas Freese
- *
- * @param <T> Konkreter Typ
  */
 public final class ObjectConstant<T> extends AbstractObjectExpression<T>
 {
-    /**
-     * @param value Object
-     *
-     * @return {@link ObjectConstant}
-     */
     public static <T> ObjectConstant<T> valueOf(final T value)
     {
         return new ObjectConstant<>(value);
     }
 
-    /**
-     *
-     */
     private final T value;
 
-    /**
-     * Erstellt ein neues {@link ObjectConstant} Object.
-     *
-     * @param value Object
-     */
     private ObjectConstant(final T value)
     {
         super();
@@ -44,16 +29,7 @@ public final class ObjectConstant<T> extends AbstractObjectExpression<T>
     @Override
     public void addListener(final ChangeListener<? super T> listener)
     {
-        // NO-OP
-    }
-
-    /**
-     * @see de.freese.binding.expression.AbstractExpression#fireValueChangedEvent(java.lang.Object, java.lang.Object)
-     */
-    @Override
-    protected void fireValueChangedEvent(final T oldValue, final T newValue)
-    {
-        // NO-OP
+        // Empty
     }
 
     /**
@@ -71,6 +47,15 @@ public final class ObjectConstant<T> extends AbstractObjectExpression<T>
     @Override
     public void removeListener(final ChangeListener<? super T> listener)
     {
-        // NO-OP
+        // Empty
+    }
+
+    /**
+     * @see de.freese.binding.expression.AbstractExpression#fireValueChangedEvent(java.lang.Object, java.lang.Object)
+     */
+    @Override
+    protected void fireValueChangedEvent(final T oldValue, final T newValue)
+    {
+        // Empty
     }
 }

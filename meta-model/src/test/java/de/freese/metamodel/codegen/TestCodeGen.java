@@ -23,9 +23,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestCodeGen
 {
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testJavaCodeGen() throws Exception
     {

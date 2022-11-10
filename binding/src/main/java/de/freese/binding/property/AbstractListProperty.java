@@ -10,14 +10,9 @@ import de.freese.binding.expression.AbstractListExpression;
  * Basis-Implementierung eines {@link Property} (Read/Write).
  *
  * @author Thomas Freese
- *
- * @param <T> Konkreter Typ
  */
 public abstract class AbstractListProperty<T> extends AbstractListExpression<T> implements Property<ObservableList<T>>
 {
-    /**
-     *
-     */
     private ObservableList<T> value;
 
     /**

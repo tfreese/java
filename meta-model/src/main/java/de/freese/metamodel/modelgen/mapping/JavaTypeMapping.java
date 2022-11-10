@@ -11,9 +11,6 @@ import java.util.Date;
  */
 public class JavaTypeMapping extends AbstractTypeMapping
 {
-    /**
-     * Erstellt ein neues {@link JavaTypeMapping} Object.
-     */
     public JavaTypeMapping()
     {
         super();

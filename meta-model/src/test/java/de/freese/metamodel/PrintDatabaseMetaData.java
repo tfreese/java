@@ -16,11 +16,6 @@ import javax.sql.DataSource;
  */
 public class PrintDatabaseMetaData
 {
-    /**
-     * @param args final String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         DataSource dataSource = TestUtil.createHsqlDBDataSource("jdbc:hsqldb:res:hsqldb/person;create=false;readonly=true");
@@ -61,11 +56,6 @@ public class PrintDatabaseMetaData
         }
     }
 
-    /**
-     * @param connection {@link Connection}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     private static void printCatalogsAndSchemas(final Connection connection) throws SQLException
     {
         System.out.printf("%nConnection Catalog: %s%n", connection.getCatalog());
@@ -84,11 +74,6 @@ public class PrintDatabaseMetaData
         }
     }
 
-    /**
-     * @param connection {@link Connection}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     private static void printClientInfoAndClientProperties(final Connection connection) throws SQLException
     {
         Properties properties = connection.getClientInfo();
@@ -110,13 +95,6 @@ public class PrintDatabaseMetaData
         // }
     }
 
-    /**
-     * @param connection {@link Connection}
-     * @param schema String
-     * @param tableName String
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     private static void printColumns(final Connection connection, final String schema, final String tableName) throws SQLException
     {
         DatabaseMetaData metaData = connection.getMetaData();
@@ -128,13 +106,6 @@ public class PrintDatabaseMetaData
         }
     }
 
-    /**
-     * @param connection {@link Connection}
-     * @param schema String
-     * @param tableName String
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     private static void printForeignKeys(final Connection connection, final String schema, final String tableName) throws SQLException
     {
         DatabaseMetaData metaData = connection.getMetaData();
@@ -154,13 +125,6 @@ public class PrintDatabaseMetaData
         }
     }
 
-    /**
-     * @param connection {@link Connection}
-     * @param schema String
-     * @param tableName String
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     private static void printIndices(final Connection connection, final String schema, final String tableName) throws SQLException
     {
         DatabaseMetaData metaData = connection.getMetaData();
@@ -180,13 +144,6 @@ public class PrintDatabaseMetaData
         }
     }
 
-    /**
-     * @param connection {@link Connection}
-     * @param schema String
-     * @param tableName String
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     private static void printPrimaryKeys(final Connection connection, final String schema, final String tableName) throws SQLException
     {
         DatabaseMetaData metaData = connection.getMetaData();
@@ -198,12 +155,6 @@ public class PrintDatabaseMetaData
         }
     }
 
-    /**
-     * @param connection {@link Connection}
-     * @param schema String
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     private static void printSequences(final Connection connection, final String schema) throws SQLException
     {
         // information_schema.sequences
@@ -221,13 +172,6 @@ public class PrintDatabaseMetaData
         }
     }
 
-    /**
-     * @param connection {@link Connection}
-     * @param schema String
-     * @param tableNamePattern String
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     private static void printTables(final Connection connection, final String schema, final String tableNamePattern) throws SQLException
     {
         String[] types =
@@ -244,12 +188,6 @@ public class PrintDatabaseMetaData
         }
     }
 
-    /**
-     * @param resultSet {@link ResultSet}
-     * @param ps {@link PrintStream}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     private static void write(final ResultSet resultSet, final PrintStream ps) throws SQLException
     {
         TestUtil.write(resultSet, ps);

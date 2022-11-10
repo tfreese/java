@@ -23,18 +23,11 @@ public class SudokuConfig extends Config
      * Beim Sudoku dürfen die fest vorgegebenen Zahlen nicht verändert werden !
      */
     private final Map<Integer, SudokuGene> fixNumbers = new TreeMap<>();
-    /**
-     *
-     */
+
     private int puzzleBlockSize = (int) Math.sqrt(this.puzzleSize);
-    /**
-     *
-     */
+
     private int puzzleSize = 9;
 
-    /**
-     * Erstellt ein neues {@link SudokuConfig} Object.
-     */
     public SudokuConfig()
     {
         super();
@@ -67,13 +60,6 @@ public class SudokuConfig extends Config
         return fitness;
     }
 
-    /**
-     * @param inputStream {@link InputStream}
-     *
-     * @return {@link List}>
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public List<String[]> parsePuzzle(final InputStream inputStream) throws IOException
     {
         List<String[]> puzzle = new ArrayList<>();
@@ -106,8 +92,6 @@ public class SudokuConfig extends Config
      * Ungekannte Zahlen sind als X markiert.<br>
      * Index 0 = Rows<br>
      * Index 1 = Columns
-     *
-     * @param puzzle {@link List}]
      */
     public void setPuzzle(final List<String[]> puzzle)
     {
@@ -143,25 +127,16 @@ public class SudokuConfig extends Config
         setSizeChromosome(this.puzzleSize * this.puzzleSize);
     }
 
-    /**
-     * @return {@link Map}
-     */
     Map<Integer, SudokuGene> getFixNumbers()
     {
         return this.fixNumbers;
     }
 
-    /**
-     * @return int
-     */
     int getPuzzleBlockSize()
     {
         return this.puzzleBlockSize;
     }
 
-    /**
-     * @return int
-     */
     int getPuzzleSize()
     {
         return this.puzzleSize;

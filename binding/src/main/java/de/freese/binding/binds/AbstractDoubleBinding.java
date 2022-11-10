@@ -11,17 +11,7 @@ import de.freese.binding.property.Property;
  */
 public abstract class AbstractDoubleBinding extends AbstractDoubleExpression implements DoubleBinding
 {
-    /**
-    *
-    */
     private double value;
-
-    /**
-     * Ermittelt den neuen Wert des Bindings, falls sich einer der {@link Property} geändert hat.
-     *
-     * @return double
-     */
-    protected abstract double computeValue();
 
     /**
      * @see de.freese.binding.value.ObservableValue#getValue()
@@ -47,4 +37,8 @@ public abstract class AbstractDoubleBinding extends AbstractDoubleExpression imp
         }
     }
 
+    /**
+     * Ermittelt den neuen Wert des Bindings, falls sich einer der {@link Property} geändert hat.
+     */
+    protected abstract double computeValue();
 }

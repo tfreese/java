@@ -9,26 +9,13 @@ import de.freese.binding.value.ChangeListener;
  */
 public final class DoubleConstant extends AbstractDoubleExpression
 {
-    /**
-     * @param value double
-     *
-     * @return {@link DoubleConstant}
-     */
     public static DoubleConstant valueOf(final double value)
     {
         return new DoubleConstant(value);
     }
 
-    /**
-     *
-     */
     private final double value;
 
-    /**
-     * Erstellt ein neues {@link DoubleConstant} Object.
-     *
-     * @param value double
-     */
     private DoubleConstant(final double value)
     {
         super();
@@ -42,16 +29,7 @@ public final class DoubleConstant extends AbstractDoubleExpression
     @Override
     public void addListener(final ChangeListener<? super Double> listener)
     {
-        // NO-OP
-    }
-
-    /**
-     * @see de.freese.binding.expression.AbstractExpression#fireValueChangedEvent(java.lang.Object, java.lang.Object)
-     */
-    @Override
-    protected void fireValueChangedEvent(final Double oldValue, final Double newValue)
-    {
-        // NO-OP
+        // Empty
     }
 
     /**
@@ -69,6 +47,15 @@ public final class DoubleConstant extends AbstractDoubleExpression
     @Override
     public void removeListener(final ChangeListener<? super Double> listener)
     {
-        // NO-OP
+        // Empty
+    }
+
+    /**
+     * @see de.freese.binding.expression.AbstractExpression#fireValueChangedEvent(java.lang.Object, java.lang.Object)
+     */
+    @Override
+    protected void fireValueChangedEvent(final Double oldValue, final Double newValue)
+    {
+        // Empty
     }
 }

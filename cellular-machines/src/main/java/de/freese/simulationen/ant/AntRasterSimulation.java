@@ -22,30 +22,18 @@ public class AntRasterSimulation extends AbstractRasterSimulation
      * Performance-Optimierung: Nur die Ameisen verarbeiten lassen.
      */
     private final Set<AntCell> antsNextGeneration = Collections.synchronizedSet(new HashSet<>());
-    /**
-     *
-     */
+
     private final int numberOfAnts;
 
     /**
      * Erstellt ein neues {@link AntRasterSimulation} Object.<br>
      * Anzahl Ameisen bei 640x480 = Math.sqrt(width * height) / 3 ≈ 185
-     *
-     * @param width int
-     * @param height int
      */
     public AntRasterSimulation(final int width, final int height)
     {
         this(width, height, (int) Math.sqrt((double) width * height) / 3);
     }
 
-    /**
-     * Erstellt ein neues {@link AntRasterSimulation} Object.
-     *
-     * @param width int
-     * @param height int
-     * @param numberOfAnts int
-     */
     public AntRasterSimulation(final int width, final int height, final int numberOfAnts)
     {
         super(width, height);
@@ -54,33 +42,6 @@ public class AntRasterSimulation extends AbstractRasterSimulation
 
         fillRaster(() -> new AntCell(this));
         reset();
-    }
-
-    /**
-     * @param cell {@link AntCell}
-     */
-    void addNextGeneration(final AntCell cell)
-    {
-        this.antsNextGeneration.add(cell);
-    }
-
-    /**
-     * @see de.freese.simulationen.model.AbstractRasterSimulation#getCell(int, int)
-     */
-    @Override
-    protected AntCell getCell(final int x, final int y)
-    {
-        return (AntCell) super.getCell(x, y);
-    }
-
-    /**
-     * Liefert eine zufällige Marsch-Richtung.
-     *
-     * @return int; 0 - 3
-     */
-    int getRandomDirection()
-    {
-        return getRandom().nextInt(4);
     }
 
     /**
@@ -125,5 +86,29 @@ public class AntRasterSimulation extends AbstractRasterSimulation
         }
 
         fireCompleted();
+    }
+
+    void addNextGeneration(final AntCell cell)
+    {
+        this.antsNextGeneration.add(cell);
+    }
+
+    /**
+     * Liefert eine zufällige Marsch-Richtung.
+     *
+     * @return int; 0 - 3
+     */
+    int getRandomDirection()
+    {
+        return getRandom().nextInt(4);
+    }
+
+    /**
+     * @see de.freese.simulationen.model.AbstractRasterSimulation#getCell(int, int)
+     */
+    @Override
+    protected AntCell getCell(final int x, final int y)
+    {
+        return (AntCell) super.getCell(x, y);
     }
 }

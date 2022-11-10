@@ -54,8 +54,6 @@ public class SimulationLauncher
 
     /**
      * -type wator -cycles 1500 -size 3840 2160 -dir /tmp/simulationen
-     *
-     * @param parameter {@link List}
      */
     private static void launchConsole(final List<String> parameter)
     {

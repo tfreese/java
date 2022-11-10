@@ -27,18 +27,9 @@ public class TableModelDemo
      */
     private static class MyTableModel extends AbstractObservableListTableModel<Map<Integer, String>>
     {
-        /**
-         *
-         */
         @Serial
         private static final long serialVersionUID = -4124180013372465407L;
 
-        /**
-         * Erstellt ein neues {@link MyTableModel} Object.
-         *
-         * @param columnCount int
-         * @param list {@link ObservableList}
-         */
         public MyTableModel(final int columnCount, final ObservableList<Map<Integer, String>> list)
         {
             super(columnCount, list);
@@ -56,11 +47,6 @@ public class TableModelDemo
         }
     }
 
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         JFrame frame = new JFrame("Test-TableModel");

@@ -128,13 +128,6 @@ public class WaTorView extends SimulationView<WaTorRasterSimulation>
         getControlPanel().add(sliderPanel, BorderLayout.CENTER);
     }
 
-    /**
-     * @param title String
-     * @param value int
-     * @param titleColor {@link Color}
-     *
-     * @return {@link JSlider}
-     */
     private JSlider createSlider(final String title, final int value, final Color titleColor)
     {
         JSlider slider = new JSlider(SwingConstants.VERTICAL, 0, 20, value);

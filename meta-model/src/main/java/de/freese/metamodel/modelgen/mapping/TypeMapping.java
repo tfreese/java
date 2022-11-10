@@ -13,11 +13,6 @@ public interface TypeMapping
 {
     /**
      * Liefert den konkreten Klassentyp eines {@link JDBCType}.
-     *
-     * @param jdbcType {@link JDBCType}
-     * @param nullable boolean
-     *
-     * @return {@link Type}
      */
     Type getType(JDBCType jdbcType, boolean nullable);
 }

@@ -96,7 +96,7 @@ public class SimulationCanvas extends JComponent implements SimulationListener
         }
 
         // Main rendering loop. Volatile images may lose their contents.
-        // This loop will continually render to (and produce if neccessary) volatile images
+        // This loop will continually render to (and produce if necessary) volatile images
         // until the rendering was completed successfully.
         if (this.volatileImage == null)
         {

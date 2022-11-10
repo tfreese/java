@@ -6,10 +6,5 @@ package de.freese.binding.value;
  */
 public interface ObservableLongValue extends ObservableNumberValue<Long>
 {
-    /**
-     * Liefert den aktuellen Wert.
-     *
-     * @return long
-     */
     long get();
 }

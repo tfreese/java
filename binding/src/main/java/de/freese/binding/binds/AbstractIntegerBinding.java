@@ -11,17 +11,7 @@ import de.freese.binding.property.Property;
  */
 public abstract class AbstractIntegerBinding extends AbstractIntegerExpression implements IntegerBinding
 {
-    /**
-    *
-    */
     private int value;
-
-    /**
-     * Ermittelt den neuen Wert des Bindings, falls sich einer der {@link Property} geändert hat.
-     *
-     * @return int
-     */
-    protected abstract int computeValue();
 
     /**
      * @see de.freese.binding.value.ObservableValue#getValue()
@@ -47,4 +37,8 @@ public abstract class AbstractIntegerBinding extends AbstractIntegerExpression i
         }
     }
 
+    /**
+     * Ermittelt den neuen Wert des Bindings, falls sich einer der {@link Property} geändert hat.
+     */
+    protected abstract int computeValue();
 }

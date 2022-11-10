@@ -4,7 +4,6 @@ package de.freese.jsensors.backend;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.freese.jsensors.sensor.Sensor;
 import de.freese.jsensors.sensor.SensorValue;
 
 /**
@@ -16,9 +15,6 @@ public class CompositeBackend extends AbstractBackend
 {
     private final List<Backend> backends = new ArrayList<>();
 
-    /**
-     * Add a {@link Backend} for a {@link Sensor}.
-     */
     public CompositeBackend add(final Backend backend)
     {
         this.backends.add(backend);

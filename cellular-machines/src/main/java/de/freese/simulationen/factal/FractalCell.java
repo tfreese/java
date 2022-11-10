@@ -10,33 +10,14 @@ import de.freese.simulationen.model.AbstractCell;
  */
 public class FractalCell extends AbstractCell
 {
-    /**
-     *
-     */
-    private static final double EPSILON = 0.0001D;
-    /**
-     *
-     */
     static final int ITERATIONEN = 50;
+    private static final double EPSILON = 0.0001D;
 
-    /**
-     * @param xi double
-     * @param x double
-     * @param yi double
-     * @param y double
-     *
-     * @return boolean
-     */
     private static boolean equal(final double xi, final double x, final double yi, final double y)
     {
         return (fabs(x - y) < EPSILON) && (fabs(xi - yi) < EPSILON);
     }
 
-    /**
-     * @param a double
-     *
-     * @return double
-     */
     private static double fabs(final double a)
     {
         if (a < 0)
@@ -47,22 +28,11 @@ public class FractalCell extends AbstractCell
         return a;
     }
 
-    /**
-     * Erstellt ein neues {@link FractalCell} Object.
-     *
-     * @param simulation {@link FractalRasterSimulation}
-     */
     public FractalCell(final FractalRasterSimulation simulation)
     {
         super(simulation, Color.BLACK);
     }
 
-    /**
-     * @param ci double
-     * @param cr double
-     *
-     * @return int
-     */
     public int checkConvergence(final double ci, final double cr)
     {
         // Startwerte sind veränderbar.
@@ -92,12 +62,6 @@ public class FractalCell extends AbstractCell
         return ITERATIONEN;
     }
 
-    /**
-     * @param ci double
-     * @param cr double
-     *
-     * @return int
-     */
     public int checkFast(final double ci, final double cr)
     {
         // Startwerte sind veränderbar.

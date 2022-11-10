@@ -10,8 +10,6 @@ import java.util.concurrent.TimeoutException;
 /**
  * The {@link #get()}-Method blocks until {@link #setResponse(Object)} is called.
  *
- * @param <T> Type of Response
- *
  * @author Thomas Freese
  */
 public class SyncFuture<T> implements Future<T>

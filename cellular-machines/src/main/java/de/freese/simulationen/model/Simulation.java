@@ -10,31 +10,20 @@ import java.awt.Image;
  */
 public interface Simulation
 {
-    /**
-     * Fügt einen neuen Listener hinzu.
-     *
-     * @param simulationListener {@link SimulationListener}
-     */
     void addWorldListener(final SimulationListener simulationListener);
 
     /**
      * Höhe in Pixeln.
-     *
-     * @return int
      */
     int getHeight();
 
     /**
      * Liefert das Bild der zuletzt berechneten Generation.
-     *
-     * @return {@link Image}
      */
     Image getImage();
 
     /**
      * Breite in Pixeln.
-     *
-     * @return int
      */
     int getWidth();
 

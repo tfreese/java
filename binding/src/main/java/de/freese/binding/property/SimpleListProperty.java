@@ -5,46 +5,23 @@ import de.freese.binding.collections.ObservableList;
 
 /**
  * @author Thomas Freese
- *
- * @param <T> Konkreter Typ
  */
 public class SimpleListProperty<T> extends AbstractListProperty<T>
 {
-    /**
-    *
-    */
     private final Object bean;
-    /**
-    *
-    */
+
     private final String name;
 
-    /**
-     * Erstellt ein neues {@link SimpleListProperty} Object.
-     */
     public SimpleListProperty()
     {
         this(null, null, null);
     }
 
-    /**
-     * Erstellt ein neues {@link SimpleListProperty} Object.
-     *
-     * @param bean Object
-     * @param name String
-     */
     public SimpleListProperty(final Object bean, final String name)
     {
         this(bean, name, null);
     }
 
-    /**
-     * Erstellt ein neues {@link SimpleListProperty} Object.
-     *
-     * @param bean Object
-     * @param name String
-     * @param initialValue {@link ObservableList}
-     */
     public SimpleListProperty(final Object bean, final String name, final ObservableList<T> initialValue)
     {
         super();

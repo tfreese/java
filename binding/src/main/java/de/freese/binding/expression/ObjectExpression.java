@@ -7,22 +7,14 @@ import de.freese.binding.value.ObservableObjectValue;
 
 /**
  * @author Thomas Freese
- *
- * @param <T> Konkreter Typ
  */
 public interface ObjectExpression<T> extends ObservableObjectValue<T>
 {
-    /**
-     * @return {@link BooleanBinding}
-     */
     default BooleanBinding isNotNull()
     {
         return Bindings.isNotNull(this);
     }
 
-    /**
-     * @return {@link BooleanBinding}
-     */
     default BooleanBinding isNull()
     {
         return Bindings.isNull(this);

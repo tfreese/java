@@ -11,23 +11,58 @@ import de.freese.simulationen.model.AbstractCell;
  */
 public class GoFCell extends AbstractCell
 {
-    /**
-     *
-     */
-    private boolean alive = true;
-    /**
-     *
-     */
     private final LongAdder lebendeNachbarn = new LongAdder();
+    private boolean alive = true;
 
-    /**
-     * Erstellt ein neues {@link GoFCell} Object.
-     *
-     * @param simulation {@link GoFRasterSimulation}
-     */
     public GoFCell(final GoFRasterSimulation simulation)
     {
         super(simulation);
+    }
+
+    /**
+     * @see de.freese.simulationen.model.AbstractCell#getColor()
+     */
+    @Override
+    public Color getColor()
+    {
+        return isAlive() ? Color.BLACK : Color.WHITE;
+    }
+
+    /**
+     * <ol>
+     * <li>1. Eine tote Zelle mit genau drei lebenden Nachbarn wird in der nächsten Generation neu geboren.
+     * <li>2. Lebende Zellen mit weniger als zwei lebenden Nachbarn sterben in der nächsten Generation an Einsamkeit.
+     * <li>3. Eine lebende Zelle mit zwei oder drei lebenden Nachbarn bleibt in der nächsten Generation lebend.
+     * <li>4. Lebende Zellen mit mehr als drei lebenden Nachbarn sterben in der nächsten Generation an Überbevölkerung.
+     * </ol>
+     *
+     * @see de.freese.simulationen.model.Cell#nextGeneration()
+     */
+    @Override
+    public void nextGeneration()
+    {
+        final int lebendNachbarn = this.lebendeNachbarn.intValue();
+
+        if (!isAlive() && (lebendNachbarn == 3))
+        {
+            // 1.
+            setAlive(true);
+        }
+        else if (isAlive() && (lebendNachbarn < 2))
+        {
+            // 2.
+            setAlive(false);
+        }
+        else if (isAlive() && ((lebendNachbarn == 2) || (lebendNachbarn == 3)))
+        {
+            // 3.
+            setAlive(true);
+        }
+        else if (isAlive() && ((lebendNachbarn) > 3))
+        {
+            // 4.
+            setAlive(false);
+        }
     }
 
     /**
@@ -79,72 +114,11 @@ public class GoFCell extends AbstractCell
         // this.lebendeNachbarn = anzahlLebendeNachbarn;
     }
 
-    /**
-     * @see de.freese.simulationen.model.AbstractCell#getColor()
-     */
-    @Override
-    public Color getColor()
-    {
-        return isAlive() ? Color.BLACK : Color.WHITE;
-    }
-
-    /**
-     * @see de.freese.simulationen.model.AbstractCell#getSimulation()
-     */
-    @Override
-    protected GoFRasterSimulation getSimulation()
-    {
-        return (GoFRasterSimulation) super.getSimulation();
-    }
-
-    /**
-     * @return boolean
-     */
     boolean isAlive()
     {
         return this.alive;
     }
 
-    /**
-     * <ol>
-     * <li>1. Eine tote Zelle mit genau drei lebenden Nachbarn wird in der nächsten Generation neu geboren.
-     * <li>2. Lebende Zellen mit weniger als zwei lebenden Nachbarn sterben in der nächsten Generation an Einsamkeit.
-     * <li>3. Eine lebende Zelle mit zwei oder drei lebenden Nachbarn bleibt in der nächsten Generation lebend.
-     * <li>4. Lebende Zellen mit mehr als drei lebenden Nachbarn sterben in der nächsten Generation an Überbevölkerung.
-     * </ol>
-     *
-     * @see de.freese.simulationen.model.Cell#nextGeneration()
-     */
-    @Override
-    public void nextGeneration()
-    {
-        final int lebendNachbarn = this.lebendeNachbarn.intValue();
-
-        if (!isAlive() && (lebendNachbarn == 3))
-        {
-            // 1.
-            setAlive(true);
-        }
-        else if (isAlive() && (lebendNachbarn < 2))
-        {
-            // 2.
-            setAlive(false);
-        }
-        else if (isAlive() && ((lebendNachbarn == 2) || (lebendNachbarn == 3)))
-        {
-            // 3.
-            setAlive(true);
-        }
-        else if (isAlive() && ((lebendNachbarn) > 3))
-        {
-            // 4.
-            setAlive(false);
-        }
-    }
-
-    /**
-     * @param alive boolean
-     */
     void setAlive(final boolean alive)
     {
         this.alive = alive;
@@ -157,5 +131,14 @@ public class GoFCell extends AbstractCell
         {
             setColor(Color.WHITE);
         }
+    }
+
+    /**
+     * @see de.freese.simulationen.model.AbstractCell#getSimulation()
+     */
+    @Override
+    protected GoFRasterSimulation getSimulation()
+    {
+        return (GoFRasterSimulation) super.getSimulation();
     }
 }

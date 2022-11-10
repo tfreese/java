@@ -48,10 +48,6 @@ public class DisruptorBackend extends AbstractBackend implements LifeCycle
     }
 
     /**
-     * Erstellt ein neues {@link DisruptorBackend} Object.
-     *
-     * @param backend {@link Backend}
-     * @param parallelism int
      * @param ringBufferSize int; must be a power of 2
      */
     public DisruptorBackend(final Backend backend, final int parallelism, final int ringBufferSize)

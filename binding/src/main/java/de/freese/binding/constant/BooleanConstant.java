@@ -9,26 +9,13 @@ import de.freese.binding.value.ChangeListener;
  */
 public final class BooleanConstant extends AbstractBooleanExpression
 {
-    /**
-     * @param value boolean
-     *
-     * @return {@link BooleanConstant}
-     */
     public static BooleanConstant valueOf(final boolean value)
     {
         return new BooleanConstant(value);
     }
 
-    /**
-     *
-     */
     private final boolean value;
 
-    /**
-     * Erstellt ein neues {@link BooleanConstant} Object.
-     *
-     * @param value boolean}
-     */
     private BooleanConstant(final boolean value)
     {
         super();
@@ -42,16 +29,7 @@ public final class BooleanConstant extends AbstractBooleanExpression
     @Override
     public void addListener(final ChangeListener<? super Boolean> listener)
     {
-        // NO-OP
-    }
-
-    /**
-     * @see de.freese.binding.expression.AbstractExpression#fireValueChangedEvent(java.lang.Object, java.lang.Object)
-     */
-    @Override
-    protected void fireValueChangedEvent(final Boolean oldValue, final Boolean newValue)
-    {
-        // NO-OP
+        // Empty
     }
 
     /**
@@ -69,6 +47,15 @@ public final class BooleanConstant extends AbstractBooleanExpression
     @Override
     public void removeListener(final ChangeListener<? super Boolean> listener)
     {
-        // NO-OP
+        // Empty
+    }
+
+    /**
+     * @see de.freese.binding.expression.AbstractExpression#fireValueChangedEvent(java.lang.Object, java.lang.Object)
+     */
+    @Override
+    protected void fireValueChangedEvent(final Boolean oldValue, final Boolean newValue)
+    {
+        // Empty
     }
 }

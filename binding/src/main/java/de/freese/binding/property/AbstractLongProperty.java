@@ -8,9 +8,6 @@ import de.freese.binding.expression.AbstractLongExpression;
  */
 public abstract class AbstractLongProperty extends AbstractLongExpression implements Property<Long>
 {
-    /**
-    *
-    */
     private long value;
 
     /**

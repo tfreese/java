@@ -19,9 +19,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestBooleanBinding
 {
-    /**
-     *
-     */
     @Test
     void testBinding()
     {
@@ -38,9 +35,6 @@ class TestBooleanBinding
         assertTrue(binding.getValue());
     }
 
-    /**
-     *
-     */
     @Test
     void testProperty()
     {

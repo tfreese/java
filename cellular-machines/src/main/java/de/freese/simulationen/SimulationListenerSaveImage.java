@@ -57,6 +57,7 @@ public class SimulationListenerSaveImage implements SimulationListener
             write(this.bufferedImage, this.file);
         }
     }
+
     private final AtomicInteger counter;
 
     private final Path directory;
@@ -68,12 +69,7 @@ public class SimulationListenerSaveImage implements SimulationListener
     private final SimulationType type;
 
     /**
-     * Erstellt ein neues {@link SimulationListenerSaveImage} Object.
-     *
      * @param format String; JPEG, PNG, BMP, WBMP, GIF
-     * @param directory {@link Path}
-     * @param type {@link SimulationType}
-     * @param executor {@link Executor}
      */
     public SimulationListenerSaveImage(final String format, final Path directory, final SimulationType type, final Executor executor)
     {

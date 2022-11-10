@@ -22,9 +22,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestStringBinding
 {
-    /**
-     *
-     */
     @Test
     void testBindingConcat()
     {
@@ -42,9 +39,6 @@ class TestStringBinding
         assertEquals("a-b", binding.getValue());
     }
 
-    /**
-     *
-     */
     @Test
     void testBindingIsEmpty()
     {
@@ -61,9 +55,6 @@ class TestStringBinding
         assertTrue(bindingNotEmpty.get());
     }
 
-    /**
-     *
-     */
     @Test
     void testBindingLength()
     {
@@ -79,9 +70,6 @@ class TestStringBinding
         assertEquals(4, binding.get());
     }
 
-    /**
-     *
-     */
     @Test
     void testProperty()
     {

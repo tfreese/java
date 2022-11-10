@@ -11,12 +11,13 @@ import de.freese.binding.swing.list.AbstractObservableListListModel;
 /**
  * Basis ComboBoxModel, das intern eine {@link ObservableList} verwendet.
  *
- * @param <T> Konkreter Typ
- *
  * @author Thomas Freese
  */
 public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObservableListListModel<T> implements ComboBoxModel<T>
 {
+    @Serial
+    private static final long serialVersionUID = -5837879226873538114L;
+
     /**
      * @author Thomas Freese
      */
@@ -35,49 +36,11 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
             super.contentsChanged(e);
         }
     }
-
-    /**
-     *
-     */
-    @Serial
-    private static final long serialVersionUID = -5837879226873538114L;
-
-    /**
-     *
-     */
     private Object selectedObject;
 
-    /**
-     *
-     */
     protected AbstractObservableListComboBoxModel(final ObservableList<T> list)
     {
         super(list);
-    }
-
-    /**
-     * @see de.freese.binding.swing.list.AbstractObservableListListModel#createEventListener()
-     */
-    @Override
-    protected EventListListener createEventListener()
-    {
-        return new ComboBoxEventListListener();
-    }
-
-    /**
-     * Überschrieben, da beim Entfernen von Objekten auch das selektierte Objekt der ComboBox angepasst werden muss.
-     *
-     * @see de.freese.binding.swing.list.AbstractObservableListListModel#fireIntervalRemoved(java.lang.Object, int, int)
-     */
-    @Override
-    protected void fireIntervalRemoved(final Object source, final int index0, final int index1)
-    {
-        if (this.selectedObject != null)
-        {
-            setSelectedItem(null);
-        }
-
-        super.fireIntervalRemoved(source, index0, index1);
     }
 
     /**
@@ -107,5 +70,30 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
         }
 
         fireContentsChanged(this, index, index);
+    }
+
+    /**
+     * @see de.freese.binding.swing.list.AbstractObservableListListModel#createEventListener()
+     */
+    @Override
+    protected EventListListener createEventListener()
+    {
+        return new ComboBoxEventListListener();
+    }
+
+    /**
+     * Überschrieben, da beim Entfernen von Objekten auch das selektierte Objekt der ComboBox angepasst werden muss.
+     *
+     * @see de.freese.binding.swing.list.AbstractObservableListListModel#fireIntervalRemoved(java.lang.Object, int, int)
+     */
+    @Override
+    protected void fireIntervalRemoved(final Object source, final int index0, final int index1)
+    {
+        if (this.selectedObject != null)
+        {
+            setSelectedItem(null);
+        }
+
+        super.fireIntervalRemoved(source, index0, index1);
     }
 }

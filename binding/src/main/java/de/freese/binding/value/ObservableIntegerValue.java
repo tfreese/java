@@ -6,10 +6,5 @@ package de.freese.binding.value;
  */
 public interface ObservableIntegerValue extends ObservableNumberValue<Integer>
 {
-    /**
-     * Liefert den aktuellen Wert.
-     *
-     * @return int
-     */
     int get();
 }

@@ -11,17 +11,7 @@ import de.freese.binding.property.Property;
  */
 public abstract class AbstractLongBinding extends AbstractLongExpression implements LongBinding
 {
-    /**
-    *
-    */
     private long value;
-
-    /**
-     * Ermittelt den neuen Wert des Bindings, falls sich einer der {@link Property} geändert hat.
-     *
-     * @return long
-     */
-    protected abstract long computeValue();
 
     /**
      * @see de.freese.binding.value.ObservableValue#getValue()
@@ -47,4 +37,8 @@ public abstract class AbstractLongBinding extends AbstractLongExpression impleme
         }
     }
 
+    /**
+     * Ermittelt den neuen Wert des Bindings, falls sich einer der {@link Property} geändert hat.
+     */
+    protected abstract long computeValue();
 }
