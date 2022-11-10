@@ -25,9 +25,6 @@ public class Bounds
      */
     private LatLon myMin;
 
-    /**
-     * Construct bounds that span the whole world.
-     */
     public Bounds()
     {
         super();
@@ -36,14 +33,6 @@ public class Bounds
         this.myMax = new LatLon(Projection.MAX_LAT, Projection.MAX_LON);
     }
 
-    /**
-     * Construct bounds out of two points.
-     *
-     * @param lat0 the first edge
-     * @param lon0 the first edge
-     * @param lat1 the second edge
-     * @param lon1 the second edge
-     */
     public Bounds(final double lat0, final double lon0, final double lat1, final double lon1)
     {
         super();
@@ -52,29 +41,16 @@ public class Bounds
         this.myMax = new LatLon(Math.max(lat0, lat1), Math.max(lon0, lon1));
     }
 
-    /**
-     * @param pCenter the center-point
-     * @param pRadius the radius
-     */
-    public Bounds(final LatLon pCenter, final double pRadius)
+    public Bounds(final LatLon center, final double radius)
     {
-        this(pCenter.lat() - pRadius, pCenter.lon() - pRadius, pCenter.lat() + pRadius, pCenter.lon() + pRadius);
+        this(center.lat() - radius, center.lon() - radius, center.lat() + radius, center.lon() + radius);
     }
 
-    /**
-     * Construct bounds out of two points.
-     *
-     * @param min the first edge
-     * @param max the second edge
-     */
     public Bounds(final LatLon min, final LatLon max)
     {
         this(min.lat(), min.lon(), max.lat(), max.lon());
     }
 
-    /**
-     * @return Center of the bounding box.
-     */
     public LatLon center()
     {
         // not sure, whether this calculation is right... maybe there is some
@@ -84,14 +60,11 @@ public class Bounds
     }
 
     /**
-     * @param aLatitude the latitude to test.
-     * @param aLongitude the longitude to test.
-     *
      * @return true if the given coordinates are within this bounding-box
      */
-    public boolean contains(final double aLatitude, final double aLongitude)
+    public boolean contains(final double latitude, final double longitude)
     {
-        return (!(aLatitude < this.myMin.lat())) && (!(aLatitude > this.myMax.lat())) && (!(aLongitude < this.myMin.lon())) && (!(aLongitude > this.myMax.lon()));
+        return (!(latitude < this.myMin.lat())) && (!(latitude > this.myMax.lat())) && (!(longitude < this.myMin.lon())) && (!(longitude > this.myMax.lon()));
     }
 
     // /**
@@ -108,9 +81,6 @@ public class Bounds
     // }
     // }
 
-    /**
-     * @return the center of these bounds.
-     */
     public LatLon getCenter()
     {
         double centerLat = getMin().lat() + ((getMax().lat() - getMin().lat()) / 2.0);
@@ -119,17 +89,11 @@ public class Bounds
         return new LatLon(centerLat, centerLon);
     }
 
-    /**
-     * @return the max
-     */
     public LatLon getMax()
     {
         return this.myMax;
     }
 
-    /**
-     * @return the min
-     */
     public LatLon getMin()
     {
         return this.myMin;
@@ -143,17 +107,11 @@ public class Bounds
         return Math.max(Math.abs(getMax().lat() - getMin().lat()), getMax().lon() - getMin().lon());
     }
 
-    /**
-     * @param aMax the max to set
-     */
     public void setMax(final LatLon aMax)
     {
         this.myMax = aMax;
     }
 
-    /**
-     * @param aMin the min to set
-     */
     public void setMin(final LatLon aMin)
     {
         this.myMin = aMin;

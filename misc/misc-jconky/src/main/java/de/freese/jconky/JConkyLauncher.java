@@ -12,9 +12,6 @@ import javafx.application.Application;
  */
 public class JConkyLauncher
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         if (System.getProperty("LOG_DIR") == null)
@@ -40,9 +37,6 @@ public class JConkyLauncher
         Application.launch(JConky.class, args);
     }
 
-    /**
-     * @param args String[]
-     */
     private static void dumpSystemInfo(final String[] args)
     {
         final Runtime runtime = Runtime.getRuntime();

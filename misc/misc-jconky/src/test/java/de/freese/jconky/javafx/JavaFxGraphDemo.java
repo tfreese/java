@@ -38,9 +38,6 @@ import org.slf4j.LoggerFactory;
  */
 public class JavaFxGraphDemo extends Application
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaFxGraphDemo.class);
 
     /**
@@ -48,18 +45,10 @@ public class JavaFxGraphDemo extends Application
      */
     private static class CompositeGraphPainter extends AbstractFxGraphPainter
     {
-        /**
-         *
-         */
         private final BarFxGraphPainter barPainter = new BarFxGraphPainter();
-        /**
-         *
-         */
+
         private final LineFxGraphPainter linePainter = new LineFxGraphPainter();
 
-        /**
-         * @param value float
-         */
         public synchronized void addValue(final float value)
         {
             this.linePainter.getValues().addValue(value);
@@ -95,25 +84,15 @@ public class JavaFxGraphDemo extends Application
         }
     }
 
-    /**
-     * @param args final String[]
-     */
     public static void main(final String[] args)
     {
         launch(args);
     }
 
-    /**
-     *
-     */
     private GraphicsContext gc;
-    /**
-     *
-     */
+
     private ScheduledExecutorService scheduledExecutorService;
-    /**
-     *
-     */
+
     private Supplier<Float> valueSupplier;
 
     /**
@@ -232,9 +211,6 @@ public class JavaFxGraphDemo extends Application
         System.exit(0);
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return LOGGER;

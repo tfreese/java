@@ -26,196 +26,115 @@ public final class Context
      */
     private static final class JConkyContextHolder
     {
-        /**
-         *
-         */
         private static final Context INSTANCE = new Context();
 
-        /**
-         * Erstellt ein neues {@link JConkyContextHolder} Object.
-         */
         private JConkyContextHolder()
         {
             super();
         }
     }
 
-    /**
-     * @return {@link Context}
-     */
     public static Context getInstance()
     {
         return JConkyContextHolder.INSTANCE;
     }
 
-    /**
-     *
-     */
     private CpuInfos cpuInfos = new CpuInfos();
-    /**
-     *
-     */
+
     private CpuLoadAvg cpuLoadAvg = new CpuLoadAvg();
-    /**
-     *
-     */
+
     private String externalIp = "";
-    /**
-     *
-     */
+
     private HostInfo hostInfo = new HostInfo();
-    /**
-     *
-     */
+
     private MusicInfo musicInfo = new MusicInfo();
-    /**
-     *
-     */
+
     private NetworkInfos networkInfos = new NetworkInfos();
-    /**
-     *
-     */
+
     private int numberOfCores;
-    /**
-     *
-     */
+
     private ProcessInfos processInfos = new ProcessInfos();
-    /**
-     *
-     */
+
     private Map<String, TemperatureInfo> temperatures = new HashMap<>();
-    /**
-     *
-     */
+
     private long totalSystemMemory;
-    /**
-     *
-     */
+
     private int updates;
-    /**
-     *
-     */
+
     private double uptimeInSeconds;
-    /**
-     *
-     */
+
     private Map<String, UsageInfo> usages = new HashMap<>();
 
-    /**
-     * Erstellt ein neues {@link Context} Object.
-     */
     private Context()
     {
         super();
     }
 
-    /**
-     * @return {@link CpuInfos}
-     */
     public CpuInfos getCpuInfos()
     {
         return this.cpuInfos;
     }
 
-    /**
-     * @return {@link CpuLoadAvg}
-     */
     public CpuLoadAvg getCpuLoadAvg()
     {
         return this.cpuLoadAvg;
     }
 
-    /**
-     * @return String
-     */
     public String getExternalIp()
     {
         return this.externalIp;
     }
 
-    /**
-     * @return {@link HostInfo}
-     */
     public HostInfo getHostInfo()
     {
         return this.hostInfo;
     }
 
-    /**
-     * @return {@link MusicInfo}
-     */
     public MusicInfo getMusicInfo()
     {
         return this.musicInfo;
     }
 
-    /**
-     * @return {@link NetworkInfos}
-     */
     public NetworkInfos getNetworkInfos()
     {
         return this.networkInfos;
     }
 
-    /**
-     * @return int
-     */
     public int getNumberOfCores()
     {
         return this.numberOfCores;
     }
 
-    /**
-     * @return {@link ProcessInfos}
-     */
     public ProcessInfos getProcessInfos()
     {
         return this.processInfos;
     }
 
-    /**
-     * @return {@link Map}<String,TemperatureInfo>
-     */
     public Map<String, TemperatureInfo> getTemperatures()
     {
         return this.temperatures;
     }
 
-    /**
-     * @return long
-     */
     public long getTotalSystemMemory()
     {
         return this.totalSystemMemory;
     }
 
-    /**
-     * @return int
-     */
     public int getUpdates()
     {
         return this.updates;
     }
 
-    /**
-     * @return double
-     */
     public double getUptimeInSeconds()
     {
         return this.uptimeInSeconds;
     }
 
-    /**
-     * @return {@link Map}<String,UsageInfo>
-     */
     public Map<String, UsageInfo> getUsages()
     {
         return this.usages;
     }
 
-    /**
-     *
-     */
     public void updateCpuInfos()
     {
         try
@@ -239,9 +158,6 @@ public final class Context
         }
     }
 
-    /**
-     *
-     */
     public void updateHostInfo()
     {
         try
@@ -254,9 +170,6 @@ public final class Context
         }
     }
 
-    /**
-     *
-     */
     public void updateMusicInfo()
     {
         try
@@ -320,9 +233,6 @@ public final class Context
         }
     }
 
-    /**
-     *
-     */
     public void updateProcessInfos()
     {
         try
@@ -335,9 +245,6 @@ public final class Context
         }
     }
 
-    /**
-     *
-     */
     public void updateTemperatures()
     {
         try
@@ -350,9 +257,6 @@ public final class Context
         }
     }
 
-    /**
-     *
-     */
     public void updateUpdates()
     {
         try
@@ -365,9 +269,6 @@ public final class Context
         }
     }
 
-    /**
-     *
-     */
     public void updateUptimeInSeconds()
     {
         try
@@ -399,17 +300,11 @@ public final class Context
         }
     }
 
-    /**
-     * @return {@link Settings}
-     */
     private Settings getSettings()
     {
         return Settings.getInstance();
     }
 
-    /**
-     * @return {@link SystemMonitor}
-     */
     private SystemMonitor getSystemMonitor()
     {
         return getSettings().getSystemMonitor();

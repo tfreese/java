@@ -15,9 +15,6 @@ import javafx.scene.image.Image;
  */
 public class MusicMonitorPainter extends AbstractMonitorPainter
 {
-    /**
-     *
-     */
     private Image image;
 
     /**
@@ -73,8 +70,6 @@ public class MusicMonitorPainter extends AbstractMonitorPainter
 
     /**
      * Bild nur laden, wenn nicht vorhanden oder URL sich verändert hat.
-     *
-     * @param uri {@link URI}
      */
     void updateImage(final URI uri)
     {

@@ -6,34 +6,17 @@ package de.freese.jconky.model;
  */
 public class HostInfo
 {
-    /**
-     *
-     */
     private final String architecture;
-    /**
-     *
-     */
+
     private final String name;
-    /**
-     *
-     */
+
     private final String version;
 
-    /**
-     * Erstellt ein neues {@link HostInfo} Object.
-     */
     public HostInfo()
     {
         this("", "", "");
     }
 
-    /**
-     * Erstellt ein neues {@link HostInfo} Object.
-     *
-     * @param name String String
-     * @param version String String
-     * @param architecture String
-     */
     public HostInfo(final String name, final String version, final String architecture)
     {
         super();
@@ -43,25 +26,16 @@ public class HostInfo
         this.architecture = architecture;
     }
 
-    /**
-     * @return String
-     */
     public String getArchitecture()
     {
         return this.architecture;
     }
 
-    /**
-     * @return String
-     */
     public String getName()
     {
         return this.name;
     }
 
-    /**
-     * @return String
-     */
     public String getVersion()
     {
         return this.version;

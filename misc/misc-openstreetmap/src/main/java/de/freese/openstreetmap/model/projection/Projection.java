@@ -70,8 +70,6 @@ public interface Projection
 
     /**
      * The factor to multiply with an easting coordinate to get from "easting units per pixel" to "meters per pixel".
-     *
-     * @return the factor
      */
     double scaleFactor();
 }

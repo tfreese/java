@@ -19,21 +19,11 @@ import de.freese.openstreetmap.model.OsmModel;
  */
 public class MyFrame extends JFrame implements ActionListener
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 9060490859375473760L;
-    /**
-     *
-     */
+
     private final MyPanel myPanel;
 
-    /**
-     * Erstellt ein neues {@link MyFrame} Object.
-     *
-     * @param model {@link OsmModel}
-     */
     public MyFrame(final OsmModel model)
     {
         super("");
@@ -93,9 +83,6 @@ public class MyFrame extends JFrame implements ActionListener
         }
     }
 
-    /**
-     *
-     */
     public void initGui()
     {
         BorderLayout myLayout = new BorderLayout();
@@ -149,9 +136,6 @@ public class MyFrame extends JFrame implements ActionListener
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
-    /**
-     *
-     */
     public void zoomToFit()
     {
         this.myPanel.zoomToFit();

@@ -19,18 +19,10 @@ import javafx.scene.paint.Stop;
  */
 public class CpuMonitorPainter extends AbstractMonitorPainter
 {
-    /**
-     *
-     */
     private final Map<Integer, Values<Double>> coreUsageMap = new HashMap<>();
-    /**
-     *
-     */
+
     private final Stop[] gradientStops;
 
-    /**
-     * Erstellt ein neues {@link CpuMonitorPainter} Object.
-     */
     public CpuMonitorPainter()
     {
         super();
@@ -69,13 +61,6 @@ public class CpuMonitorPainter extends AbstractMonitorPainter
         return height;
     }
 
-    /**
-     * @param gc {@link GraphicsContext}
-     * @param width double
-     * @param cpuInfo {@link CpuInfo}
-     *
-     * @return double Höhe
-     */
     private double paintCore(final GraphicsContext gc, final double width, final CpuInfo cpuInfo)
     {
         double fontSize = getSettings().getFontSize();
@@ -114,13 +99,6 @@ public class CpuMonitorPainter extends AbstractMonitorPainter
         return fontSize * 1.25D;
     }
 
-    /**
-     * @param gc {@link GraphicsContext}
-     * @param width double
-     * @param cpuInfos {@link CpuInfos}
-     *
-     * @return double Höhe
-     */
     private double paintCores(final GraphicsContext gc, final double width, final CpuInfos cpuInfos)
     {
         double fontSize = getSettings().getFontSize();
@@ -141,13 +119,6 @@ public class CpuMonitorPainter extends AbstractMonitorPainter
         return y;
     }
 
-    /**
-     * @param gc {@link GraphicsContext}
-     * @param width double
-     * @param cpuInfos {@link CpuInfos}
-     *
-     * @return double Höhe
-     */
     private double paintTotal(final GraphicsContext gc, final double width, final CpuInfos cpuInfos)
     {
         CpuLoadAvg cpuLoadAvg = getContext().getCpuLoadAvg();
@@ -190,13 +161,6 @@ public class CpuMonitorPainter extends AbstractMonitorPainter
         return y;
     }
 
-    /**
-     * @param gc {@link GraphicsContext}
-     * @param width double
-     * @param cpuInfos {@link CpuInfos}
-     *
-     * @return double Höhe
-     */
     private double paintTotalBar(final GraphicsContext gc, final double width, final CpuInfos cpuInfos)
     {
         double height = 15D;
@@ -225,12 +189,6 @@ public class CpuMonitorPainter extends AbstractMonitorPainter
         return height;
     }
 
-    /**
-     * @param gc {@link GraphicsContext}
-     * @param width double
-     *
-     * @return double Höhe
-     */
     private double paintTotalGraph(final GraphicsContext gc, final double width)
     {
         Values<Double> values = this.coreUsageMap.computeIfAbsent(-1, key -> new Values<>());

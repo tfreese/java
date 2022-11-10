@@ -21,22 +21,12 @@ import javafx.scene.paint.Stop;
  */
 public class NetworkMonitorPainter extends AbstractMonitorPainter
 {
-    /**
-     *
-     */
     private final Map<String, Values<Double>> downloadMap = new HashMap<>();
-    /**
-     *
-     */
+
     private final Stop[] gradientStops;
-    /**
-     *
-     */
+
     private final Map<String, Values<Double>> uploadMap = new HashMap<>();
 
-    /**
-     * Erstellt ein neues {@link NetworkMonitorPainter} Object.
-     */
     public NetworkMonitorPainter()
     {
         super();
@@ -86,13 +76,6 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter
         return height;
     }
 
-    /**
-     * @param gc {@link GraphicsContext}
-     * @param width double
-     * @param networkInfo {@link NetworkInfo}
-     *
-     * @return double
-     */
     private double paintInterface(final GraphicsContext gc, final double width, final NetworkInfo networkInfo)
     {
         double fontSize = getSettings().getFontSize();
@@ -130,12 +113,6 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter
         return y;
     }
 
-    /**
-     * @param gc {@link GraphicsContext}
-     * @param width double
-     * @param height double
-     * @param values {@link Values}
-     */
     private void paintInterfaceGraph(final GraphicsContext gc, final double width, final double height, final Values<Double> values)
     {
         List<Double> valueList = values.getLastValues((int) width);

@@ -6,29 +6,15 @@ package de.freese.jconky.model;
  */
 public class TemperatureInfo
 {
-    /**
-     *
-     */
     private final String device;
-    /**
-    *
-    */
+
     private final double temperature;
 
-    /**
-     * Erstellt ein neues {@link TemperatureInfo} Object.
-     */
     public TemperatureInfo()
     {
         this("", 0D);
     }
 
-    /**
-     * Erstellt ein neues {@link TemperatureInfo} Object.
-     *
-     * @param device String
-     * @param temperature temperature
-     */
     public TemperatureInfo(final String device, final double temperature)
     {
         super();
@@ -37,17 +23,11 @@ public class TemperatureInfo
         this.temperature = temperature;
     }
 
-    /**
-     * @return String
-     */
     public String getDevice()
     {
         return this.device;
     }
 
-    /**
-     * @return double
-     */
     public double getTemperature()
     {
         return this.temperature;

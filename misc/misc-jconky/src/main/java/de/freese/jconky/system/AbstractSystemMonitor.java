@@ -27,23 +27,14 @@ public abstract class AbstractSystemMonitor implements SystemMonitor
      * "[ ]" = "\\s+" = Whitespace: einer oder mehrere
      */
     protected static final Pattern SPACE_PATTERN = Pattern.compile("\\s+", Pattern.UNICODE_CHARACTER_CLASS);
-    /**
-     *
-     */
+
     private static final com.sun.management.OperatingSystemMXBean OPERATING_SYSTEM_MX_BEAN =
             (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-    /**
-     *
-     */
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+
     private long myPid;
 
-    /**
-     * Erstellt ein neues {@link AbstractSystemMonitor} Object.
-     */
     protected AbstractSystemMonitor()
     {
         super();
@@ -53,8 +44,6 @@ public abstract class AbstractSystemMonitor implements SystemMonitor
 
     /**
      * Liefert die eigene Process-ID
-     *
-     * @return long
      */
     public long getMyPid()
     {
@@ -79,27 +68,16 @@ public abstract class AbstractSystemMonitor implements SystemMonitor
         return OPERATING_SYSTEM_MX_BEAN.getTotalMemorySize();
     }
 
-    /**
-     * @param myPid long
-     */
     public void setMyPid(final long myPid)
     {
         this.myPid = myPid;
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;
     }
 
-    /**
-     * @param processBuilder {@link ProcessBuilder}
-     *
-     * @return {@link List}
-     */
     protected List<String> readContent(final ProcessBuilder processBuilder)
     {
         List<String> lines = null;
@@ -145,22 +123,11 @@ public abstract class AbstractSystemMonitor implements SystemMonitor
         return lines;
     }
 
-    /**
-     * @param fileName String
-     *
-     * @return {@link List}
-     */
     protected List<String> readContent(final String fileName)
     {
         return readContent(fileName, StandardCharsets.UTF_8);
     }
 
-    /**
-     * @param fileName String
-     * @param charset {@link Charset}
-     *
-     * @return {@link List}
-     */
     protected List<String> readContent(final String fileName, final Charset charset)
     {
         Path path = Paths.get(fileName);

@@ -162,10 +162,6 @@ public class Matrix
 
     /**
      * Liefert eine Translationsmatrix.
-     *
-     * @param point {@link Point}
-     *
-     * @return Die Translationsmatrix
      */
     public static Matrix translate(final Point point)
     {
@@ -235,54 +231,24 @@ public class Matrix
 
     }
 
-    /**
-     *
-     */
     private double m11;
 
-    /**
-     *
-     */
     private double m12;
 
-    /**
-     *
-     */
     private double m13;
 
-    /**
-     *
-     */
     private double m21;
 
-    /**
-     *
-     */
     private double m22;
 
-    /**
-     *
-     */
     private double m23;
 
-    /**
-     *
-     */
     private double m31;
 
-    /**
-     *
-     */
     private double m32;
 
-    /**
-     *
-     */
     private double m33;
 
-    /**
-     * Standardkonstruktor
-     */
     public Matrix()
     {
         super();
@@ -302,8 +268,6 @@ public class Matrix
 
     /**
      * Liefert die Invers-Matrix der Transformationsmatrix.
-     *
-     * @return Die Invers-Matrix
      */
     public Matrix invers()
     {
@@ -427,8 +391,6 @@ public class Matrix
      * Liefert eine String-Repräsentation der Matrix
      *
      * @return Ein String mit dem Inhalt der Matrix
-     *
-     * @see java.lang.String
      */
     @Override
     public String toString()

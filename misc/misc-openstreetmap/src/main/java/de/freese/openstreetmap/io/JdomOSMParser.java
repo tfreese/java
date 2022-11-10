@@ -56,12 +56,6 @@ public class JdomOSMParser implements OSMParser
         return model;
     }
 
-    /**
-     * Auslesen der Nodes.
-     *
-     * @param document {@link Document}
-     * @param model {@link OsmModel}
-     */
     private void parseNodes(final Document document, final OsmModel model)
     {
         NodeList nodeList = document.getElementsByTagName("node");
@@ -111,12 +105,6 @@ public class JdomOSMParser implements OSMParser
         }
     }
 
-    /**
-     * Auslesen der Relations.
-     *
-     * @param document {@link Document}
-     * @param model {@link OsmModel}
-     */
     private void parseRelations(final Document document, final OsmModel model)
     {
         NodeList nodeList = document.getElementsByTagName("relation");
@@ -182,12 +170,6 @@ public class JdomOSMParser implements OSMParser
         }
     }
 
-    /**
-     * Auslesen der Ways.
-     *
-     * @param document {@link Document}
-     * @param model {@link OsmModel}
-     */
     private void parseWays(final Document document, final OsmModel model)
     {
         NodeList nodeList = document.getElementsByTagName("way");

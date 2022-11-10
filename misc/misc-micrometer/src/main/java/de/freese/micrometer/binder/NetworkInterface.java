@@ -19,32 +19,16 @@ import org.slf4j.LoggerFactory;
  */
 class NetworkInterface
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(NetworkInterface.class);
-    /**
-     *
-     */
+
     private static final Pattern PATTERN_BYTES = Pattern.compile(" bytes (.+?) ", Pattern.UNICODE_CHARACTER_CLASS);
-    /**
-     *
-     */
+
     private final String iface;
-    /**
-     *
-     */
+
     private double input;
-    /**
-     *
-     */
+
     private double output;
 
-    /**
-     * Erstellt ein neues {@link NetworkInterface} Object.
-     *
-     * @param iface String
-     */
     NetworkInterface(final String iface)
     {
         super();
@@ -54,8 +38,6 @@ class NetworkInterface
 
     /**
      * Die Reihenfolge der Meter-Abfrage ergibt sich aus deren Reihenfolge der Registrierung.
-     *
-     * @return double
      */
     double getInput()
     {
@@ -68,8 +50,6 @@ class NetworkInterface
 
     /**
      * Die Reihenfolge der Meter-Abfrage ergibt sich aus deren Reihenfolge der Registrierung.
-     *
-     * @return double
      */
     double getOutput()
     {
@@ -82,10 +62,6 @@ class NetworkInterface
      * Ausführen eines OS-Commands über {@link Process}.<br>
      * Leerzeilen werden bei der Ausgabe entfernt.<br>
      * Bei Exceptions wird eine leere Liste geliefert.
-     *
-     * @param command String[]
-     *
-     * @return {@link List}
      */
     private List<String> executeCommand(final String... command)
     {
@@ -130,9 +106,6 @@ class NetworkInterface
         return list;
     }
 
-    /**
-     *
-     */
     private void update()
     {
         LOGGER.info("update: {}", this.iface);

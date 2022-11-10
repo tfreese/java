@@ -17,34 +17,19 @@ import org.slf4j.LoggerFactory;
  */
 public class ContextPainter
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ContextPainter.class);
-    /**
-     *
-     */
+
     private final List<MonitorPainter> painters = new ArrayList<>();
-    /**
-     *
-     */
+
     private Canvas canvas;
-    /**
-     *
-     */
+
     private GraphicsContext gc;
 
-    /**
-     * @param monitorPainter {@link MonitorPainter}
-     */
     public void addMonitorPainter(final MonitorPainter monitorPainter)
     {
         this.painters.add(monitorPainter);
     }
 
-    /**
-     *
-     */
     public void paint()
     {
         getLogger().debug("paint");
@@ -75,9 +60,6 @@ public class ContextPainter
         this.gc.restore();
     }
 
-    /**
-     * @param canvas {@link Canvas}
-     */
     public void setCanvas(final Canvas canvas)
     {
         this.canvas = Objects.requireNonNull(canvas, "canvas required");
@@ -87,9 +69,6 @@ public class ContextPainter
         // this.gc.setFontSmoothingType(FontSmoothingType.LCD);
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return LOGGER;

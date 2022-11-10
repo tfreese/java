@@ -9,11 +9,5 @@ import javafx.scene.canvas.GraphicsContext;
 @FunctionalInterface
 public interface MonitorPainter
 {
-    /**
-     * @param gc {@link GraphicsContext}
-     * @param width double
-     *
-     * @return double Höhe
-     */
     double paintValue(GraphicsContext gc, final double width);
 }

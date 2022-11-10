@@ -8,13 +8,5 @@ package de.freese.misc.junit5;
 @FunctionalInterface
 public interface ExchangeRateService
 {
-    /**
-     * Gets rate.
-     *
-     * @param sourceCurrency String
-     * @param targetCurrency String
-     *
-     * @return double rate
-     */
     double getRate(String sourceCurrency, String targetCurrency);
 }

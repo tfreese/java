@@ -17,76 +17,31 @@ import de.freese.jconky.model.UsageInfo;
  */
 public interface SystemMonitor
 {
-    /**
-     * @return {@link CpuInfos}
-     */
     CpuInfos getCpuInfos();
 
-    /**
-     * @return {@link CpuLoadAvg}
-     */
     CpuLoadAvg getCpuLoadAvg();
 
-    /**
-     * @return String
-     */
     String getExternalIp();
 
-    /**
-     * @return {@link Map}
-     */
     Map<String, UsageInfo> getFilesystems();
 
-    /**
-     * @return {@link HostInfo}
-     */
     HostInfo getHostInfo();
 
-    /**
-     * @return {@link MusicInfo}
-     */
     MusicInfo getMusicInfo();
 
-    /**
-     * @return {@link NetworkInfos}
-     */
     NetworkInfos getNetworkInfos();
 
-    /**
-     * @return int
-     */
     int getNumberOfCores();
 
-    /**
-     * @param uptimeInSeconds double
-     * @param totalSystemMemory long
-     *
-     * @return {@link ProcessInfos}
-     */
     ProcessInfos getProcessInfos(double uptimeInSeconds, long totalSystemMemory);
 
-    /**
-     * @return {@link Map}
-     */
     Map<String, UsageInfo> getRamAndSwap();
 
-    /**
-     * @return {@link Map}
-     */
     Map<String, TemperatureInfo> getTemperatures();
 
-    /**
-     * @return long
-     */
     long getTotalSystemMemory();
 
-    /**
-     * @return int
-     */
     int getUpdates();
 
-    /**
-     * @return double
-     */
     double getUptimeInSeconds();
 }

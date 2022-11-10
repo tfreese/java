@@ -6,35 +6,18 @@ package de.freese.jconky.model;
  */
 public class CpuLoadAvg
 {
-    /**
-     *
-     */
     private final double fifteenMinutes;
-    /**
-     *
-     */
+
     private final double fiveMinutes;
-    /**
-     *
-     */
+
     private final double oneMinute;
 
-    /**
-     * Erstellt ein neues {@link CpuLoadAvg} Object.
-     */
     public CpuLoadAvg()
     {
         this(0D, 0D, 0D);
 
     }
 
-    /**
-     * Erstellt ein neues {@link CpuLoadAvg} Object.
-     *
-     * @param oneMinute double
-     * @param fiveMinutes double
-     * @param fifteenMinutes double
-     */
     public CpuLoadAvg(final double oneMinute, final double fiveMinutes, final double fifteenMinutes)
     {
         super();
@@ -44,25 +27,16 @@ public class CpuLoadAvg
         this.fifteenMinutes = fifteenMinutes;
     }
 
-    /**
-     * @return double
-     */
     public double getFifteenMinutes()
     {
         return this.fifteenMinutes;
     }
 
-    /**
-     * @return double
-     */
     public double getFiveMinutes()
     {
         return this.fiveMinutes;
     }
 
-    /**
-     * @return double
-     */
     public double getOneMinute()
     {
         return this.oneMinute;

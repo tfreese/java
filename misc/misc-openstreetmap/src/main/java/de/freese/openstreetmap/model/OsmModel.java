@@ -11,22 +11,12 @@ import java.util.Map;
  */
 public class OsmModel
 {
-    /**
-     *
-     */
     public final Map<Long, OsmNode> nodeMap;
-    /**
-     *
-     */
+
     public final Map<Long, OsmRelation> relationMap;
-    /**
-     *
-     */
+
     public final Map<Long, OsmWay> wayMap;
 
-    /**
-     * Erstellt ein neues {@link OsmModel} Object.
-     */
     public OsmModel()
     {
         super();
@@ -36,9 +26,6 @@ public class OsmModel
         this.relationMap = new HashMap<>();
     }
 
-    /**
-     * Leeren der Maps.
-     */
     public void clear()
     {
         this.nodeMap.clear();
@@ -46,25 +33,16 @@ public class OsmModel
         this.relationMap.clear();
     }
 
-    /**
-     * @return {@link Map}
-     */
     public Map<Long, OsmNode> getNodeMap()
     {
         return this.nodeMap;
     }
 
-    /**
-     * @return {@link Map}
-     */
     public Map<Long, OsmRelation> getRelationMap()
     {
         return this.relationMap;
     }
 
-    /**
-     * @return {@link Map}
-     */
     public Map<Long, OsmWay> getWayMap()
     {
         return this.wayMap;

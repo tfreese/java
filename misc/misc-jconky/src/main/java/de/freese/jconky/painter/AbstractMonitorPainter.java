@@ -1,28 +1,20 @@
 // Created: 13.12.2020
 package de.freese.jconky.painter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import de.freese.jconky.Context;
 import de.freese.jconky.Settings;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
  */
 public abstract class AbstractMonitorPainter implements MonitorPainter
 {
-    /**
-     *
-     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    /**
-     * @param gc {@link GraphicsContext}
-     * @param width double
-     * @param height double
-     */
     protected void drawDebugBorder(final GraphicsContext gc, final double width, final double height)
     {
         if (getSettings().isDebug())
@@ -33,49 +25,27 @@ public abstract class AbstractMonitorPainter implements MonitorPainter
         }
     }
 
-    /**
-     * @return {@link Context}
-     */
     protected Context getContext()
     {
         return Context.getInstance();
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;
     }
 
-    /**
-     * @return {@link Settings}
-     */
     protected Settings getSettings()
     {
         return Settings.getInstance();
     }
 
-    /**
-     * @param gc {@link GraphicsContext}
-     * @param text String
-     * @param x double
-     * @param y double
-     */
     protected void paintText(final GraphicsContext gc, final String text, final double x, final double y)
     {
         gc.setFill(getSettings().getColorText());
         gc.fillText(text, x, y);
     }
 
-    /**
-     * @param gc {@link GraphicsContext}
-     * @param text text
-     * @param value String
-     * @param x double
-     * @param y double
-     */
     protected void paintTextAndValue(final GraphicsContext gc, final String text, final String value, final double x, final double y)
     {
         paintText(gc, text, x, y);
@@ -97,25 +67,12 @@ public abstract class AbstractMonitorPainter implements MonitorPainter
         paintTextValue(gc, value, x + (length * lengthFactor), y);
     }
 
-    /**
-     * @param gc {@link GraphicsContext}
-     * @param value String
-     * @param x double
-     * @param y double
-     */
     protected void paintTextValue(final GraphicsContext gc, final String value, final double x, final double y)
     {
         gc.setFill(getSettings().getColorValue());
         gc.fillText(value, x, y);
     }
 
-    /**
-     * @param gc {@link GraphicsContext}
-     * @param title String
-     * @param x double
-     * @param y double
-     * @param width double
-     */
     protected void paintTitle(final GraphicsContext gc, final String title, final double x, final double y, final double width)
     {
         gc.setFill(getSettings().getColorTitle());

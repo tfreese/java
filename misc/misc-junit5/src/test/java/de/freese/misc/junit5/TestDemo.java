@@ -38,31 +38,16 @@ import org.junit.jupiter.params.provider.MethodSource;
 @DisplayName("Test Junit5")
 class TestDemo
 {
-    /**
-     *
-     */
     static final MyObject[] MY_OBJECTS =
             {
                     new MyObject(0, 0), new MyObject(0, 1), new MyObject(1, 0), new MyObject(1, 1)
             };
 
-    /**
-     * The type My object.
-     */
     static class MyObject extends Point
     {
-        /**
-         *
-         */
         @Serial
         private static final long serialVersionUID = -2330553112363031008L;
 
-        /**
-         * Instantiates a new My object.
-         *
-         * @param x int
-         * @param y int
-         */
         public MyObject(final int x, final int y)
         {
             super(x, y);
@@ -80,14 +65,8 @@ class TestDemo
         }
     }
 
-    /**
-     * The type My parameter resolver.
-     */
     static class MyParameterResolver implements ParameterResolver
     {
-        /**
-         *
-         */
         static final Random RANDOM = new Random();
 
         /**
@@ -116,21 +95,11 @@ class TestDemo
         }
     }
 
-    /**
-     * Create objects stream.
-     *
-     * @return {@link Stream}
-     */
     static Stream<MyObject> createObjects()
     {
         return Stream.of(MY_OBJECTS);
     }
 
-    /**
-     * Create objects stream.
-     *
-     * @return {@link Stream}
-     */
     static Stream<Arguments> createObjectsArgumented()
     {
         // @formatter:off
@@ -143,9 +112,6 @@ class TestDemo
         // @formatter:on
     }
 
-    /**
-     * @return {@link Stream}
-     */
     @TestFactory
     Stream<DynamicTest> testDynamic()
     {
@@ -157,9 +123,6 @@ class TestDemo
         // @formatter:on
     }
 
-    /**
-     * @return {@link Stream}
-     */
     @TestFactory
     Stream<DynamicTest> testDynamic2()
     {
@@ -175,9 +138,6 @@ class TestDemo
         // @formatter:on
     }
 
-    /**
-     * @return {@link Stream}
-     */
     @TestFactory
     Stream<DynamicNode> testDynamic3()
     {
@@ -197,11 +157,6 @@ class TestDemo
         // @formatter:on
     }
 
-    /**
-     * Test method source.
-     *
-     * @param obj {@link MyObject}
-     */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createObjects")
     @DisplayName("Test @MethodSource")
@@ -210,10 +165,10 @@ class TestDemo
             {
                     OS.WINDOWS, OS.LINUX
             })
-    // @EnabledOnJre(JRE.JAVA_11)
-    // @DisabledOnJre(JRE.JAVA_8)
-    // @EnabledIfSystemProperty(named = "os.arch", matches = ".*64.*")
-    // @EnabledIfEnvironmentVariable(named = "ENV", matches = "staging-server")
+        // @EnabledOnJre(JRE.JAVA_11)
+        // @DisabledOnJre(JRE.JAVA_8)
+        // @EnabledIfSystemProperty(named = "os.arch", matches = ".*64.*")
+        // @EnabledIfEnvironmentVariable(named = "ENV", matches = "staging-server")
     void testMethodSource(final MyObject obj)
     {
         assertNotNull(obj);
@@ -221,12 +176,6 @@ class TestDemo
         assertTrue(obj.getY() < 2);
     }
 
-    /**
-     * Test method source.
-     *
-     * @param name String
-     * @param obj {@link MyObject}
-     */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createObjectsArgumented")
     @DisplayName("Test @MethodSource Argumented")
@@ -237,11 +186,6 @@ class TestDemo
         assertTrue(obj.getY() < 2);
     }
 
-    /**
-     * Test parameter resolver.
-     *
-     * @param obj {@link MyObject}
-     */
     @RepeatedTest(value = 4, name = "{displayName}: {currentRepetition}/{totalRepetitions}")
     @ExtendWith(TestDemo.MyParameterResolver.class)
     @DisplayName("Test @ExtendWith")

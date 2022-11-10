@@ -28,11 +28,8 @@ import io.micrometer.core.instrument.util.TimeUtils;
 public final class MeterExporter
 {
     /**
-     * @param registry {@link MeterRegistry}
      * @param step {@link Duration}; see {@link PushRegistryConfig#step()}
      * @param baseTimeUnit {@link TimeUnit}; see {@link MeterRegistry#getBaseTimeUnit()}
-     *
-     * @return List
      *
      * @see Metrics#globalRegistry#getMeters()
      */
@@ -172,10 +169,6 @@ public final class MeterExporter
 
     /**
      * See <a href="https://stackoverflow.com/a/3758880/510017">stackoverflow</a>.
-     *
-     * @param bytes double
-     *
-     * @return String
      */
     private static String humanReadableByteCount(final double bytes)
     {

@@ -104,8 +104,6 @@ class TestMicrometer
 
     /**
      * Siehe io.micrometer.core.instrument.logging.LoggingMeterRegistry.publish()
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     @Test
     @Order(10)

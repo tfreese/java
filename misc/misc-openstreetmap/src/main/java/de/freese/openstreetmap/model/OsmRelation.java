@@ -16,26 +16,14 @@ import de.freese.openstreetmap.Mercator;
  */
 public class OsmRelation extends AbstractOsmEntity
 {
-    /**
-     *
-     */
     public List<OsmNode> nodes;
-    /**
-     *
-     */
+
     public List<OsmWay> ways;
-    /**
-     *
-     */
+
     private Rectangle bounds;
-    /**
-     *
-     */
+
     private Polygon polygon;
 
-    /**
-     * @return {@link Rectangle}
-     */
     public Rectangle getBounds()
     {
         if (this.bounds == null)
@@ -69,11 +57,6 @@ public class OsmRelation extends AbstractOsmEntity
         return this.bounds;
     }
 
-    /**
-     * @param myZTFMatrix {@link Matrix}
-     *
-     * @return {@link Polygon}
-     */
     public Polygon getDrawablePolygon(final Matrix myZTFMatrix)
     {
         if (this.polygon == null)
@@ -101,9 +84,6 @@ public class OsmRelation extends AbstractOsmEntity
         return myZTFMatrix.multiply(this.polygon);
     }
 
-    /**
-     * @return {@link List}<OsmNode>
-     */
     public List<OsmNode> getNodes()
     {
         if (this.nodes == null)
@@ -114,9 +94,6 @@ public class OsmRelation extends AbstractOsmEntity
         return this.nodes;
     }
 
-    /**
-     * @return {@link List}<OsmWay>
-     */
     public List<OsmWay> getWays()
     {
         if (this.ways == null)

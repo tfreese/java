@@ -16,29 +16,15 @@ import de.freese.openstreetmap.model.OsmWay;
  */
 public class MyPanel extends JPanel
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -1375597059859723042L;
-    /**
-     *
-     */
+
     private final OsmModel model;
-    /**
-     *
-     */
+
     private Rectangle mapBounds;
-    /**
-     *
-     */
+
     private Matrix myZTFMatrix;
 
-    /**
-     * Erstellt ein neues {@link MyPanel} Object.
-     *
-     * @param model {@link OsmModel}
-     */
     public MyPanel(final OsmModel model)
     {
         super();
@@ -46,11 +32,6 @@ public class MyPanel extends JPanel
         this.model = model;
     }
 
-    /**
-     * Ermittelt die gemeinsame BoundingBox der übergebenen Polygone.
-     *
-     * @return Die BoundingBox
-     */
     public Rectangle getMapBounds()
     {
         if (this.mapBounds == null)
@@ -106,22 +87,22 @@ public class MyPanel extends JPanel
     /**
      * Verändert die interne Transformationsmatrix so, dass die zu zeichnenden Objekt horizontal verschoben werden.
      *
-     * @param _delta Die Strecke, um die verschoben werden soll
+     * @param delta Die Strecke, um die verschoben werden soll
      */
-    public void scrollHorizontal(final int _delta)
+    public void scrollHorizontal(final int delta)
     {
-        Matrix transMat = Matrix.translate(_delta, 0);
+        Matrix transMat = Matrix.translate(delta, 0);
         this.myZTFMatrix = transMat.multiply(this.myZTFMatrix);
     }
 
     /**
      * Verändert die interne Transformationsmatrix so, dass die zu zeichnenden Objekt horizontal verschoben werden.
      *
-     * @param _delta Die Strecke, um die verschoben werden soll
+     * @param delta Die Strecke, um die verschoben werden soll
      */
-    public void scrollVertical(final int _delta)
+    public void scrollVertical(final int delta)
     {
-        Matrix transMat = Matrix.translate(0, _delta);
+        Matrix transMat = Matrix.translate(0, delta);
         this.myZTFMatrix = transMat.multiply(this.myZTFMatrix);
     }
 

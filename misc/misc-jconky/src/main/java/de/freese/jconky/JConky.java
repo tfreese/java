@@ -43,22 +43,13 @@ import org.slf4j.LoggerFactory;
  */
 public final class JConky extends Application
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(JConky.class);
 
-    /**
-     * @return {@link Logger}
-     */
     public static Logger getLogger()
     {
         return LOGGER;
     }
 
-    // /**
-    // * @param args final String[]
-    // */
     // public static void main(final String[] args)
     // {
     // // Kein Taskbar Icon, funktioniert unter Linux aber nicht.
@@ -76,18 +67,10 @@ public final class JConky extends Application
     // launch(args);
     // }
 
-    /**
-     *
-     */
     private ContextPainter conkyContextPainter;
-    /**
-     *
-     */
+
     private ScheduledExecutorService scheduledExecutorService;
 
-    /**
-     * @return {@link Scene}
-     */
     public Scene createScene()
     {
         // Font-Antialiasing
@@ -216,9 +199,6 @@ public final class JConky extends Application
         primaryStage.show();
     }
 
-    /**
-     *
-     */
     public void startRepaintSchedule()
     {
         getScheduledExecutorService().scheduleWithFixedDelay(() ->
@@ -247,9 +227,6 @@ public final class JConky extends Application
         System.exit(0);
     }
 
-    /**
-     * @return {@link ScheduledExecutorService}
-     */
     private ScheduledExecutorService getScheduledExecutorService()
     {
         return this.scheduledExecutorService;

@@ -11,34 +11,20 @@ import java.util.Map;
  */
 public abstract class AbstractOsmEntity
 {
-    /**
-     *
-     */
     public final Map<String, String> tags = new HashMap<>();
-    /**
-     *
-     */
+
     public long id;
 
-    /**
-     * @return long
-     */
     public long getID()
     {
         return this.id;
     }
 
-    /**
-     * @return Map<String, String>
-     */
     public Map<String, String> getTags()
     {
         return this.tags;
     }
 
-    /**
-     * @param id long
-     */
     public void setID(final long id)
     {
         this.id = id;

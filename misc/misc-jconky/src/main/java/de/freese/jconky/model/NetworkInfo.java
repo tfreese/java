@@ -6,51 +6,20 @@ package de.freese.jconky.model;
  */
 public class NetworkInfo
 {
-    /**
-     *
-     */
     private final long bytesReceived;
-    /**
-     *
-     */
+
     private final long bytesTransmitted;
-    /**
-     *
-     */
-    private double downloadPerSecond;
-    /**
-     *
-     */
     private final String interfaceName;
-    /**
-     *
-     */
     private final String ip;
-    /**
-     *
-     */
     private final long timestamp;
-    /**
-     *
-     */
+    private double downloadPerSecond;
     private double uploadPerSecond;
 
-    /**
-     * Erstellt ein neues {@link NetworkInfo} Object.
-     */
     public NetworkInfo()
     {
         this("", "", 0L, 0L);
     }
 
-    /**
-     * Erstellt ein neues {@link NetworkInfo} Object.
-     *
-     * @param interfaceName String
-     * @param ip String
-     * @param bytesReceived long
-     * @param bytesTransmitted long
-     */
     public NetworkInfo(final String interfaceName, final String ip, final long bytesReceived, final long bytesTransmitted)
     {
         super();
@@ -62,9 +31,6 @@ public class NetworkInfo
         this.timestamp = System.currentTimeMillis();
     }
 
-    /**
-     * @param previous {@link NetworkInfo}
-     */
     public void calculateUpAndDownload(final NetworkInfo previous)
     {
         double time = (getTimestamp() - previous.getTimestamp()) / 1000D;
@@ -73,57 +39,36 @@ public class NetworkInfo
         this.uploadPerSecond = (getBytesTransmitted() - previous.getBytesTransmitted()) / time;
     }
 
-    /**
-     * @return long
-     */
     public long getBytesReceived()
     {
         return this.bytesReceived;
     }
 
-    /**
-     * @return long
-     */
     public long getBytesTransmitted()
     {
         return this.bytesTransmitted;
     }
 
-    /**
-     * @return double
-     */
     public double getDownloadPerSecond()
     {
         return this.downloadPerSecond;
     }
 
-    /**
-     * @return String
-     */
     public String getInterfaceName()
     {
         return this.interfaceName;
     }
 
-    /**
-     * @return String
-     */
     public String getIp()
     {
         return this.ip;
     }
 
-    /**
-     * @return long
-     */
     public long getTimestamp()
     {
         return this.timestamp;
     }
 
-    /**
-     * @return double
-     */
     public double getUploadPerSecond()
     {
         return this.uploadPerSecond;

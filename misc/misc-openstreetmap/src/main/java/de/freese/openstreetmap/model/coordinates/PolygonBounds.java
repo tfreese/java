@@ -22,12 +22,6 @@ public class PolygonBounds extends Bounds
      */
     private final GeneralPath myPolygonPath = new GeneralPath(Path2D.WIND_EVEN_ODD);
 
-    /**
-     * Add a point to this polygon.
-     *
-     * @param lat the latitude
-     * @param lon the longitude
-     */
     public void addPoint(final double lat, final double lon)
     {
         if (this.myPolygonPath.getCurrentPoint() == null)
@@ -40,19 +34,11 @@ public class PolygonBounds extends Bounds
         }
     }
 
-    /**
-     * Add a point to this polygon.
-     *
-     * @param point the point to add.
-     */
     public void addPoint(final LatLon point)
     {
         addPoint(point.lat(), point.lon());
     }
 
-    /**
-     * @return the center of these bounds.
-     */
     @Override
     public LatLon center()
     {
@@ -63,11 +49,11 @@ public class PolygonBounds extends Bounds
      * @see de.freese.openstreetmap.model.coordinates.Bounds#contains(double, double)
      */
     @Override
-    public boolean contains(final double aLatitude, final double aLongitude)
+    public boolean contains(final double aLatitude, final double longitude)
     {
         this.myPolygonPath.closePath();
 
-        return this.myPolygonPath.contains(aLatitude, aLongitude);
+        return this.myPolygonPath.contains(aLatitude, longitude);
     }
 
     /**

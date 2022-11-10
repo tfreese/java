@@ -12,21 +12,9 @@ public final class Mercator
 {
     // @formatter:off
     /**
-     * Minimaler Erdradius in m.
-     */
-    private static final double MITTLERER_RADIUS = 6371000.8D;
-    /**
      * Maximaler Erdradius in m.
      */
     private static final double AEQUATOR_RADIUS = 6378137.0D;
-    /**
-     * Rad = Winkel * (Math.PI / 180.0D) = Math.toRadians(Winkel)
-     */
-    private static final double RAD = Math.PI / 180.0D;
-    /**
-     * Minimaler Erdradius in m.
-     */
-    private static final double POLAR_RADIUS = 6356752.3142D;
     /**
      * Erdumfang in Meter.
      */
@@ -50,21 +38,30 @@ public final class Mercator
     /**
      * EXZENTRIZITAET / 2.0D
      */
-    @SuppressWarnings("unused")
     private static final double EXZENTRIZITAET_HALBE = EXZENTRIZITAET / 2.0D;
+    /**
+     * Minimaler Erdradius in m.
+     */
+    private static final double MITTLERER_RADIUS = 6371000.8D;
     /**
      * Math.PI / 2.0D
      */
-    @SuppressWarnings("unused")
     private static final double PI_HALBE = Math.PI / 2.0D;
     /**
      * Math.PI / 4.0D
      */
     private static final double PI_VIERTEL = Math.PI / 4.0D;
     /**
+     * Minimaler Erdradius in m.
+     */
+    private static final double POLAR_RADIUS = 6356752.3142D;
+    /**
+     * Rad = Winkel * (Math.PI / 180.0D) = Math.toRadians(Winkel)
+     */
+    private static final double RAD = Math.PI / 180.0D;
+    /**
      * RAD * ERD_UMFANG
      */
-    @SuppressWarnings("unused")
     private static final double RAD_AEQUATOR_RADIUS = RAD * AEQUATOR_RADIUS;
     /**
      * RAD / 2.0D
@@ -74,10 +71,6 @@ public final class Mercator
 
     /**
      * Breitengrad.<br>
-     *
-     * @param longitude double
-     *
-     * @return double
      */
     public static double mercX(final double longitude)
     {
@@ -94,10 +87,6 @@ public final class Mercator
 
     /**
      * Längengrad.<br>
-     *
-     * @param latitude double
-     *
-     * @return double
      */
     public static double mercY(final double latitude)
     {
@@ -128,9 +117,6 @@ public final class Mercator
         return y;
     }
 
-    /**
-     * Erstellt ein neues {@link Mercator} Object.
-     */
     private Mercator()
     {
         super();

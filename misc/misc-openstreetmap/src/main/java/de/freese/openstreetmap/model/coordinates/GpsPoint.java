@@ -23,9 +23,6 @@ import de.freese.openstreetmap.model.projection.Projection;
  */
 public class GpsPoint
 {
-    /**
-     *
-     */
     private static final SimpleDateFormat SDF_TO_DATE = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
     /**
      * The actual coordinates.
@@ -66,27 +63,17 @@ public class GpsPoint
 
     /**
      * The coordinates eastined by the current projection.
-     *
-     * @param projection {@link Projection}
-     *
-     * @return {@link EastNorth}
      */
     public final EastNorth getEastNorth(final Projection projection)
     {
         return projection.latLon2EastNorth(getLatLon().lat(), getLatLon().lon());
     }
 
-    /**
-     * @return The actual coordinates
-     */
     public LatLon getLatLon()
     {
         return this.latLon;
     }
 
-    /**
-     * @return {@link Date}
-     */
     public Date getTime()
     {
         return this.time;

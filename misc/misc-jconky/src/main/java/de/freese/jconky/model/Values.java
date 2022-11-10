@@ -12,22 +12,12 @@ import java.util.TreeSet;
  */
 public final class Values<T extends Comparable<?>>
 {
-    /**
-     *
-     */
     private final TreeSet<T> treeSet = new TreeSet<>();
-    /**
-     *
-     */
+
     private final LinkedList<T> valueList = new LinkedList<>();
-    /**
-     *
-     */
+
     private LinkedList<T> newValues;
 
-    /**
-     * @param value Object
-     */
     public synchronized void addValue(final T value)
     {
         if (this.newValues == null)
@@ -40,10 +30,6 @@ public final class Values<T extends Comparable<?>>
 
     /**
      * Liefert die letzten n Werte.<br>
-     *
-     * @param count int
-     *
-     * @return List<Object>
      */
     public synchronized List<T> getLastValues(final int count)
     {
@@ -75,17 +61,11 @@ public final class Values<T extends Comparable<?>>
         return this.valueList;
     }
 
-    /**
-     * @return Object
-     */
     public T getMaxValue()
     {
         return this.treeSet.last();
     }
 
-    /**
-     * @return Object
-     */
     public T getMinValue()
     {
         return this.treeSet.first();

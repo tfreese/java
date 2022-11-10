@@ -22,8 +22,6 @@ public class OsmNode extends AbstractOsmEntity
     /**
      * Längengrad.<br>
      * >−90.0 and <90.0
-     *
-     * @return float
      */
     public float getLatitude()
     {
@@ -33,8 +31,6 @@ public class OsmNode extends AbstractOsmEntity
     /**
      * Breitengrad.<br>
      * >−180 and <180
-     *
-     * @return float
      */
     public float getLongitude()
     {
@@ -44,8 +40,6 @@ public class OsmNode extends AbstractOsmEntity
     /**
      * Längengrad.<br>
      * >−90.0 and <90.0
-     *
-     * @param latitude float
      */
     public void setLatitude(final float latitude)
     {
@@ -55,8 +49,6 @@ public class OsmNode extends AbstractOsmEntity
     /**
      * Breitengrad.<br>
      * >−180 and <180
-     *
-     * @param longitude float
      */
     public void setLongitude(final float longitude)
     {

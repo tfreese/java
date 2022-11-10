@@ -54,13 +54,9 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor
      * /proc/stat: cpu\\d+
      */
     protected static final Pattern STAT_NUM_CPU_PATTERN = Pattern.compile("cpu\\d+", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
-    /**
-     *
-     */
+
     private static final Pattern APROC_DIR_PATTERN = Pattern.compile("([\\d]*)");
-    /**
-     *
-     */
+
     private static final FilenameFilter PROCESS_DIRECTORY_FILTER = (dir, name) ->
     {
         File fileToTest = new File(dir, name);
@@ -89,62 +85,33 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor
     // * totalBytes
     // */
     // private static final Pattern STATUS_VM_SIZE_MATCHER = Pattern.compile("VmSize:\\s+(\\d+) kB", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
-    /**
-     *
-     */
+
     private final ProcessBuilder processBuilderCheckUpdates;
-    /**
-     *
-     */
+
     private final ProcessBuilder processBuilderDf;
-    /**
-     *
-     */
+
     private final ProcessBuilder processBuilderFree;
-    /**
-     *
-     */
+
     private final ProcessBuilder processBuilderHddtemp;
-    /**
-     *
-     */
+
     private final ProcessBuilder processBuilderIfconfig;
-    /**
-     *
-     */
+
     private final ProcessBuilder processBuilderNetstat;
-    /**
-     *
-     */
+
     private final ProcessBuilder processBuilderNvidiaSmi;
-    /**
-     *
-     */
+
     private final ProcessBuilder processBuilderPlayerctlMetaData;
-    /**
-     *
-     */
+
     private final ProcessBuilder processBuilderPlayerctlPosition;
-    /**
-     *
-     */
+
     private final ProcessBuilder processBuilderSensors;
-    /**
-     *
-     */
+
     private final ProcessBuilder processBuilderSmartctl;
-    /**
-     *
-     */
+
     private final ProcessBuilder processBuilderTop;
-    /**
-     *
-     */
+
     private final ProcessBuilder processBuilderUname;
 
-    /**
-     * Erstellt ein neues {@link LinuxSystemMonitor} Object.
-     */
     public LinuxSystemMonitor()
     {
         super();
@@ -722,12 +689,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor
         return uptimeInSeconds;
     }
 
-    /**
-     * @param uptimeInSeconds double
-     * @param totalSystemMemory long
-     *
-     * @return {@link ProcessInfos}
-     */
     ProcessInfos getProcessInfosByProc(final double uptimeInSeconds, final long totalSystemMemory)
     {
         String[] pids = new File("/proc").list(PROCESS_DIRECTORY_FILTER);
@@ -827,9 +788,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor
         return new ProcessInfos(infos);
     }
 
-    /**
-     * @return {@link ProcessInfos}
-     */
     ProcessInfos getProcessInfosByTop()
     {
         List<ProcessInfo> infos = new ArrayList<>(300);
@@ -891,10 +849,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor
 
     /**
      * /sys/devices/system/cpu/cpu<N>/cpufreq/scaling_cur_freq
-     *
-     * @param numCpus int
-     *
-     * @return {@link Map}
      */
     private Map<Integer, Integer> getCpuFrequencies(final int numCpus)
     {
@@ -916,9 +870,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor
         return frequencies;
     }
 
-    /**
-     * @return {@link Map}
-     */
     private Map<Integer, Double> getCpuTemperatures()
     {
         Map<Integer, Double> temperatures = new HashMap<>();
@@ -965,11 +916,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor
         return temperatures;
     }
 
-    /**
-     * @param line String
-     *
-     * @return {@link CpuTimes}
-     */
     private CpuTimes parseCpuTimes(final String line)
     {
         String[] splits = SPACE_PATTERN.split(line);

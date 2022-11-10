@@ -12,30 +12,20 @@ public final class JConkyUtils
      * ArchLinux: getconf CLK_TCK;<br>
      */
     public static final int USER_HZ = 100;
-    /**
-     *
-     */
+
     private static final String[] SIZE_UNITS = new String[]
             {
                     "B", "K", "M", "G", "T", "P", "E"
             };
 
-    /**
-     * @param jiffie double
-     *
-     * @return double
-     */
     public static double jiffieToMillies(final double jiffie)
     {
         return jiffieToMillies(jiffie, USER_HZ);
     }
 
     /**
-     * @param jiffie double
      * @param userHz int Betriebssystem spezifischer Faktor, bei Linux in der Regel 100.<br>
      * ArchLinux: getconf CLK_TCK;<br>
-     *
-     * @return double
      */
     public static double jiffieToMillies(final double jiffie, final int userHz)
     {
@@ -44,22 +34,14 @@ public final class JConkyUtils
         return jiffie * multiplier;
     }
 
-    /**
-     * @param jiffie double
-     *
-     * @return double
-     */
     public static double jiffieToSeconds(final double jiffie)
     {
         return jiffieToSeconds(jiffie, USER_HZ);
     }
 
     /**
-     * @param jiffie double
      * @param userHz int Betriebssystem spezifischer Faktor, bei Linux in der Regel 100.<br>
      * ArchLinux: getconf CLK_TCK;<br>
-     *
-     * @return double
      */
     public static double jiffieToSeconds(final double jiffie, final int userHz)
     {
@@ -67,8 +49,6 @@ public final class JConkyUtils
     }
 
     /**
-     * @param duration double
-     *
      * @return String, z.B. 'HH:mm:ss', oder 'm:ss'
      */
     public static String toClockString(final double duration)
@@ -77,11 +57,8 @@ public final class JConkyUtils
     }
 
     /**
-     * @param duration double
      * @param withHourPattern String; %02d:%02d:%02d
      * @param withoutHourPattern String; %1d:%02d
-     *
-     * @return String
      */
     public static String toClockString(final double duration, final String withHourPattern, final String withoutHourPattern)
     {
@@ -104,8 +81,6 @@ public final class JConkyUtils
     }
 
     /**
-     * @param size double
-     *
      * @return String, z.B. '___,___ MB'
      */
     public static String toHumanReadableSize(final double size)
@@ -114,9 +89,6 @@ public final class JConkyUtils
     }
 
     /**
-     * @param size double
-     * @param format String
-     *
      * @return String, z.B. '___,___ MB'
      */
     public static String toHumanReadableSize(final double size, final String format)
@@ -190,9 +162,6 @@ public final class JConkyUtils
         // return String.format("%.1f %cB", value, ci.previous());
     }
 
-    /**
-     * Erstellt ein neues {@link JConkyUtils} Object.
-     */
     private JConkyUtils()
     {
         super();

@@ -6,34 +6,17 @@ package de.freese.jconky.model;
  */
 public class UsageInfo
 {
-    /**
-     *
-     */
     private final String path;
-    /**
-     *
-     */
+
     private final long size;
-    /**
-     *
-     */
+
     private final long used;
 
-    /**
-     * Erstellt ein neues {@link UsageInfo} Object.
-     */
     public UsageInfo()
     {
         this("", 0L, 0L);
     }
 
-    /**
-     * Erstellt ein neues {@link UsageInfo} Object.
-     *
-     * @param path String
-     * @param size long
-     * @param used long
-     */
     public UsageInfo(final String path, final long size, final long used)
     {
         super();
@@ -43,25 +26,16 @@ public class UsageInfo
         this.used = used;
     }
 
-    /**
-     * @return long
-     */
     public long getFree()
     {
         return getSize() - getUsed();
     }
 
-    /**
-     * @return String
-     */
     public String getPath()
     {
         return this.path;
     }
 
-    /**
-     * @return long
-     */
     public long getSize()
     {
         return this.size;
@@ -69,17 +43,12 @@ public class UsageInfo
 
     /**
      * Liefert die Auslastung von 0 bis 1.<br>
-     *
-     * @return double
      */
     public double getUsage()
     {
         return (double) getUsed() / getSize();
     }
 
-    /**
-     * @return long
-     */
     public long getUsed()
     {
         return this.used;

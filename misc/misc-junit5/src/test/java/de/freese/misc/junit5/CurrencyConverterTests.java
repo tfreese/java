@@ -16,18 +16,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class CurrencyConverterTests
 {
-    /**
-     *
-     */
     private static final Currency EUR = Currency.getInstance("EUR");
-    /**
-     *
-     */
+
     private static final Currency USD = Currency.getInstance("USD");
 
-    /**
-     * @param exchangeRateService {@link ExchangeRateService}
-     */
     @Test
     void testConvertsEurToUsd(@Mock final ExchangeRateService exchangeRateService)
     {

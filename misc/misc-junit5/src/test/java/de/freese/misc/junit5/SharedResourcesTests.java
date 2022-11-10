@@ -1,6 +1,7 @@
 package de.freese.misc.junit5;
 
 import java.util.Properties;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,14 +17,8 @@ import org.junit.jupiter.api.parallel.ResourceLock;
 @Execution(ExecutionMode.CONCURRENT)
 class SharedResourcesTests
 {
-    /**
-     *
-     */
     private Properties backup;
 
-    /**
-     *
-     */
     @BeforeEach
     void backup()
     {
@@ -31,18 +26,12 @@ class SharedResourcesTests
         this.backup.putAll(System.getProperties());
     }
 
-    /**
-     *
-     */
     @AfterEach
     void restore()
     {
         System.setProperties(this.backup);
     }
 
-    /**
-     *
-     */
     @Test
     @ResourceLock(value = "system.properties", mode = ResourceAccessMode.READ_WRITE)
     void testCanSetCustomPropertyToBar()
@@ -51,9 +40,6 @@ class SharedResourcesTests
         Assertions.assertEquals("bar", System.getProperty("my.prop"));
     }
 
-    /**
-     *
-     */
     @Test
     @ResourceLock(value = "system.properties", mode = ResourceAccessMode.READ_WRITE)
     void testCanSetCustomPropertyToFoo()
@@ -62,9 +48,6 @@ class SharedResourcesTests
         Assertions.assertEquals("foo", System.getProperty("my.prop"));
     }
 
-    /**
-     *
-     */
     @Test
     @ResourceLock(value = "system.properties", mode = ResourceAccessMode.READ)
     void testCustomPropertyIsNotSetByDefault()

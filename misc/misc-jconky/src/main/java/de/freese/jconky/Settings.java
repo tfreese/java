@@ -19,80 +19,43 @@ public final class Settings
      */
     private static final class SettingsHolder
     {
-        /**
-         *
-         */
         private static final Settings INSTANCE = new Settings();
 
-        /**
-         * Erstellt ein neues {@link SettingsHolder} Object.
-         */
         private SettingsHolder()
         {
             super();
         }
     }
 
-    /**
-     * @return {@link Settings}
-     */
     public static Settings getInstance()
     {
         return SettingsHolder.INSTANCE;
     }
 
-    /**
-     *
-     */
     private final double alpha;
-    /**
-     *
-     */
+
     private final Color colorGradientStart;
-    /**
-     *
-     */
+
     private final Color colorGradientStop;
-    /**
-     *
-     */
+
     private final Color colorText;
-    /**
-     *
-     */
+
     private final Color colorTitle;
-    /**
-     *
-     */
+
     private final Color colorValue;
-    /**
-     *
-     */
+
     private final Font font;
-    /**
-     *
-     */
+
     private final String fontName;
-    /**
-     *
-     */
+
     private final double fontSize;
-    /**
-     *
-     */
+
     private final Insets marginInner;
-    /**
-     *
-     */
+
     private final Insets marginOuter;
-    /**
-     *
-     */
+
     private final SystemMonitor systemMonitor;
 
-    /**
-     * Erstellt ein neues {@link Settings} Object.
-     */
     private Settings()
     {
         super();
@@ -114,73 +77,46 @@ public final class Settings
         this.marginInner = new Insets(2.5D, 2.5D, 2.5D, 2.5D);
     }
 
-    /**
-     * @return double
-     */
     public double getAlpha()
     {
         return this.alpha;
     }
 
-    /**
-     * @return {@link Color}
-     */
     public Color getColorGradientStart()
     {
         return this.colorGradientStart;
     }
 
-    /**
-     * @return {@link Color}
-     */
     public Color getColorGradientStop()
     {
         return this.colorGradientStop;
     }
 
-    /**
-     * @return {@link Color}
-     */
     public Color getColorText()
     {
         return this.colorText;
     }
 
-    /**
-     * @return {@link Color}
-     */
     public Color getColorTitle()
     {
         return this.colorTitle;
     }
 
-    /**
-     * @return {@link Color}
-     */
     public Color getColorValue()
     {
         return this.colorValue;
     }
 
-    /**
-     * @return {@link Font}
-     */
     public Font getFont()
     {
         return this.font;
     }
 
-    /**
-     * @return int
-     */
     public String getFontName()
     {
         return this.fontName;
     }
 
-    /**
-     * @return double
-     */
     public double getFontSize()
     {
         return this.fontSize;
@@ -188,8 +124,6 @@ public final class Settings
 
     /**
      * Innerer Rand.
-     *
-     * @return {@link Insets}
      */
     public Insets getMarginInner()
     {
@@ -198,25 +132,17 @@ public final class Settings
 
     /**
      * Äusserer Rand.
-     *
-     * @return {@link Insets}
      */
     public Insets getMarginOuter()
     {
         return this.marginOuter;
     }
 
-    /**
-     * @return {@link SystemMonitor}
-     */
     public SystemMonitor getSystemMonitor()
     {
         return this.systemMonitor;
     }
 
-    /**
-     * @return boolean
-     */
     public boolean isDebug()
     {
         return false;
