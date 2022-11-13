@@ -6,21 +6,10 @@ package de.freese.sonstiges.mockito;
  */
 public class VendingMaschine
 {
-    /**
-     *
-     */
     private final Box[] boxes;
-    /**
-     *
-     */
+
     private final CashBox cashBox;
 
-    /**
-     * Erstellt ein neues {@link VendingMaschine} Objekt.
-     *
-     * @param cashBox {@link CashBox}
-     * @param boxes {@link Box}
-     */
     public VendingMaschine(final CashBox cashBox, final Box[] boxes)
     {
         super();
@@ -29,11 +18,6 @@ public class VendingMaschine
         this.boxes = boxes;
     }
 
-    /**
-     * @param boxIndex int
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public void selectItem(final int boxIndex) throws Exception
     {
         Box box = this.boxes[boxIndex];

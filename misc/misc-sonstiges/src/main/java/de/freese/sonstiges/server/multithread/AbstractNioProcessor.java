@@ -17,28 +17,14 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractNioProcessor implements Runnable
 {
-    /**
-     *
-     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+
     private final Selector selector;
-    /**
-     *
-     */
+
     private final Semaphore stopLock = new Semaphore(1, true);
-    /**
-     *
-     */
+
     private boolean isShutdown;
 
-    /**
-     * Erstellt ein neues {@link AbstractNioProcessor} Object.
-     *
-     * @param selector {@link Selector}
-     */
     protected AbstractNioProcessor(final Selector selector)
     {
         super();
@@ -175,17 +161,12 @@ public abstract class AbstractNioProcessor implements Runnable
 
     /**
      * Methode vor der while-Schleife.
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     protected void beforeSelectorWhile() throws Exception
     {
         // Empty
     }
 
-    /**
-     *
-     */
     protected void cancelKeys()
     {
         Set<SelectionKey> selected = getSelector().selectedKeys();
@@ -212,9 +193,6 @@ public abstract class AbstractNioProcessor implements Runnable
         }
     }
 
-    /**
-     *
-     */
     protected void closeSelector()
     {
         if (getSelector().isOpen())
@@ -230,91 +208,56 @@ public abstract class AbstractNioProcessor implements Runnable
         }
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;
     }
 
-    /**
-     * @return {@link Selector}
-     */
     protected Selector getSelector()
     {
         return this.selector;
     }
 
-    /**
-     * @return {@link Semaphore}
-     */
     protected Semaphore getStopLock()
     {
         return this.stopLock;
     }
 
-    /**
-     * @param readyChannels int
-     *
-     * @return boolean
-     */
     protected boolean isExitCondition(final int readyChannels)
     {
         return isShutdown() || !getSelector().isOpen();
     }
 
-    /**
-     * @return boolean
-     */
     protected boolean isShutdown()
     {
         return this.isShutdown;
     }
 
-    /**
-     * @param selectionKey {@link SelectionKey}
-     */
     protected void onAcceptable(final SelectionKey selectionKey)
     {
         // Empty
     }
 
-    /**
-     * @param selectionKey {@link SelectionKey}
-     */
     protected void onConnectable(final SelectionKey selectionKey)
     {
         // Empty
     }
 
-    /**
-     * @param selectionKey {@link SelectionKey}
-     */
     protected void onInValid(final SelectionKey selectionKey)
     {
         // Empty
     }
 
-    /**
-     * @param selectionKey {@link SelectionKey}
-     */
     protected void onReadable(final SelectionKey selectionKey)
     {
         // Empty
     }
 
-    /**
-     * @param selectionKey {@link SelectionKey}
-     */
     protected void onWritable(final SelectionKey selectionKey)
     {
         // Empty
     }
 
-    /**
-     *
-     */
     protected void setShutdown()
     {
         this.isShutdown = true;

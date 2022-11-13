@@ -18,52 +18,33 @@ import javax.swing.TransferHandler;
  */
 class DTPicture extends Picture implements MouseMotionListener
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 7035716073636112614L;
-    /**
-     *
-     */
+
     private static boolean installInputMapBindings = true;
 
-    /**
-     * @return boolean
-     */
     public static boolean hasInstallInputMapBindings()
     { // for completeness
 
         return installInputMapBindings;
     }
 
-    // This method is necessary because DragPictureDemo and
-    // DragPictureDemo2 both use this class and DragPictureDemo
+    // This method is necessary because DragPictureMain and
+    // DragPicture2Main both use this class and DragPictureMain
     // needs to have the input map bindings installed for
-    // cut/copy/paste. DragPictureDemo2 uses menu accelerators
+    // cut/copy/paste. DragPicture2Main uses menu accelerators
     // and does not need to have the input map bindings installed.
     // Your program would use one approach or the other, but not
     // both. The default for installInputMapBindings is true.
 
-    /**
-     * @param flag boolean
-     */
     public static void setInstallInputMapBindings(final boolean flag)
     {
         installInputMapBindings = flag;
     }
 
-    /**
-     *
-     */
     private MouseEvent firstMouseEvent;
 
-    /**
-     * Creates a new DTPicture object.
-     *
-     * @param image {@link Image}
-     */
-    public DTPicture(final Image image)
+    DTPicture(final Image image)
     {
         super(image);
 
@@ -72,9 +53,9 @@ class DTPicture extends Picture implements MouseMotionListener
         // Add the cut/copy/paste key bindings to the input map.
         // Note that this step is redundant if you are installing
         // menu accelerators that cause these actions to be invoked.
-        // DragPictureDemo does not use menu accelerators and, since
+        // DragPictureMain does not use menu accelerators and, since
         // the default value of installInputMapBindings is true,
-        // the bindings are installed. DragPictureDemo2 does use
+        // the bindings are installed. DragPicture2Main does use
         // menu accelerators and so calls setInstallInputMapBindings
         // with a value of false. Your program would do one or the
         // other, but not both.
@@ -167,9 +148,6 @@ class DTPicture extends Picture implements MouseMotionListener
         this.firstMouseEvent = null;
     }
 
-    /**
-     * @param image {@link Image}
-     */
     @Override
     public void setImage(final Image image)
     {

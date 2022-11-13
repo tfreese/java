@@ -15,9 +15,6 @@ import javax.swing.TransferHandler;
  */
 class PictureTransferHandler extends TransferHandler
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 8896193065899268221L;
 
@@ -26,16 +23,8 @@ class PictureTransferHandler extends TransferHandler
      */
     class PictureTransferable implements Transferable
     {
-        /**
-         *
-         */
         private final Image image;
 
-        /**
-         * Creates a new PictureTransferable object.
-         *
-         * @param pic {@link DTPicture}
-         */
         PictureTransferable(final DTPicture pic)
         {
             this.image = pic.getImage();
@@ -77,17 +66,10 @@ class PictureTransferHandler extends TransferHandler
         }
     }
 
-    /**
-     *
-     */
     private final DataFlavor pictureFlavor = DataFlavor.imageFlavor;
-    /**
-     *
-     */
+
     private boolean shouldRemove;
-    /**
-     *
-     */
+
     private DTPicture sourcePic;
 
     /**

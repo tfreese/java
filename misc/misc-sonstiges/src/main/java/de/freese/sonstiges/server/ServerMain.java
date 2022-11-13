@@ -19,15 +19,8 @@ import de.freese.sonstiges.server.singlethread.ServerSingleThread;
 /**
  * @author Thomas Freese
  */
-public class ServerMain
+public final class ServerMain
 {
-    /**
-     * @param selectionKey {@link SelectionKey}
-     *
-     * @return String
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public static String getRemoteAddress(final SelectionKey selectionKey) throws IOException
     {
         SelectableChannel selectableChannel = selectionKey.channel();
@@ -40,23 +33,11 @@ public class ServerMain
         return null;
     }
 
-    /**
-     * @param socketChannel {@link SocketChannel}
-     *
-     * @return String
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public static String getRemoteAddress(final SocketChannel socketChannel) throws IOException
     {
         return socketChannel.getRemoteAddress().toString();
     }
 
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         // final SelectorProvider selectorProvider = SelectorProvider.provider();
@@ -126,12 +107,6 @@ public class ServerMain
         System.exit(0);
     }
 
-    /**
-     * @param client {@link SocketChannel}
-     * @param charset {@link Charset}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     private static void requestResponse(final SocketChannel client, final Charset charset) throws Exception
     {
         // Request
@@ -167,5 +142,10 @@ public class ServerMain
 
             buffer.clear();
         }
+    }
+
+    private ServerMain()
+    {
+        super();
     }
 }

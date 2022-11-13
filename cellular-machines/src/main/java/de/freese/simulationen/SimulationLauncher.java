@@ -21,7 +21,7 @@ import de.freese.simulationen.model.SimulationType;
  *
  * @author Thomas Freese
  */
-public class SimulationLauncher
+public final class SimulationLauncher
 {
     public static void main(final String[] args) throws Exception
     {
@@ -160,5 +160,10 @@ public class SimulationLauncher
             // demo.setExtendedState(Frame.MAXIMIZED_BOTH); // Full-Screen
             demo.setVisible(true);
         });
+    }
+
+    private SimulationLauncher()
+    {
+        super();
     }
 }

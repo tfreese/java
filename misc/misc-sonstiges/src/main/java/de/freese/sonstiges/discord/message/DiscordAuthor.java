@@ -9,55 +9,34 @@ import com.fasterxml.jackson.annotation.JsonRootName;
  * @author Thomas Freese
  */
 @JsonPropertyOrder(
-{
-        "name", "nameUrl", "iconUrl"
-})
+        {
+                "name", "nameUrl", "iconUrl"
+        })
 @JsonRootName(value = "author")
 public class DiscordAuthor
 {
-    /**
-     *
-     */
     private String iconUrl;
-    /**
-     *
-     */
+
     private String name;
-    /**
-    *
-    */
+
     private String nameUrl;
 
-    /**
-     * @return String
-     */
     public String getIconUrl()
     {
         return this.iconUrl;
     }
 
-    /**
-     * @return String
-     */
     public String getName()
     {
         return this.name;
     }
 
-    /**
-     * @return String
-     */
     @JsonGetter("url")
     public String getNameUrl()
     {
         return this.nameUrl;
     }
 
-    /**
-     * @param iconUrl String
-     *
-     * @return {@link DiscordAuthor}
-     */
     public DiscordAuthor setIconUrl(final String iconUrl)
     {
         this.iconUrl = iconUrl;
@@ -65,11 +44,6 @@ public class DiscordAuthor
         return this;
     }
 
-    /**
-     * @param name String
-     *
-     * @return {@link DiscordAuthor}
-     */
     public DiscordAuthor setName(final String name)
     {
         this.name = name;
@@ -77,11 +51,6 @@ public class DiscordAuthor
         return this;
     }
 
-    /**
-     * @param nameUrl String
-     *
-     * @return {@link DiscordAuthor}
-     */
     public DiscordAuthor setNameUrl(final String nameUrl)
     {
         this.nameUrl = nameUrl;

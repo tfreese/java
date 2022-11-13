@@ -13,25 +13,15 @@ import javax.swing.tree.TreePath;
 /**
  * @author Thomas Freese
  */
-public class TreeDropTargetListener implements DropTargetListener
+class TreeDropTargetListener implements DropTargetListener
 {
-    /**
-     *
-     */
     private final Timer expandTimer;
-    /**
-     *
-     */
+
     private TreePath lastPath;
-    /**
-     *
-     */
+
     private JTree tree;
 
-    /**
-     *
-     */
-    public TreeDropTargetListener()
+    TreeDropTargetListener()
     {
         super();
 

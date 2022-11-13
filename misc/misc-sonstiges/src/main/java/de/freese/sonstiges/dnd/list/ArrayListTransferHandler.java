@@ -16,15 +16,10 @@ import javax.swing.TransferHandler;
 /**
  * @author Thomas Freese
  */
-public class ArrayListTransferHandler extends TransferHandler
+class ArrayListTransferHandler extends TransferHandler
 {
-    /**
-     *
-     */
     private static final String LOCAL_ARRAY_LIST_TYPE = DataFlavor.javaJVMLocalObjectMimeType + ";class=java.util.ArrayList";
-    /**
-     *
-     */
+
     @Serial
     private static final long serialVersionUID = -5057942587610930744L;
 
@@ -33,14 +28,8 @@ public class ArrayListTransferHandler extends TransferHandler
      */
     public class ArrayListTransferable implements Transferable
     {
-        /**
-         *
-         */
         private final List<?> data;
 
-        /**
-         *
-         */
         public ArrayListTransferable(final List<?> data)
         {
             super();
@@ -84,13 +73,8 @@ public class ArrayListTransferHandler extends TransferHandler
         }
     }
 
-    /**
-     *
-     */
     private final DataFlavor localArrayListFlavor;
-    /**
-     *
-     */
+
     private final DataFlavor serialArrayListFlavor;
     /**
      * Number of items added
@@ -100,21 +84,12 @@ public class ArrayListTransferHandler extends TransferHandler
      * Location where items were added
      */
     private int addIndex = -1;
-    /**
-     *
-     */
+
     private int[] indices;
-    /**
-     *
-     */
+
     private JList<?> source;
 
-    /**
-     * Creates a new ArrayListTransferHandler object.
-     *
-     * @throws ClassNotFoundException Falls was schiefgeht.
-     */
-    public ArrayListTransferHandler() throws ClassNotFoundException
+    ArrayListTransferHandler() throws ClassNotFoundException
     {
         super();
 
@@ -143,10 +118,6 @@ public class ArrayListTransferHandler extends TransferHandler
     /**
      * @see javax.swing.TransferHandler#importData(javax.swing.JComponent, java.awt.datatransfer.Transferable)
      */
-    @SuppressWarnings(
-            {
-                    "rawtypes", "unchecked"
-            })
     @Override
     public boolean importData(final JComponent c, final Transferable t)
     {
@@ -311,11 +282,6 @@ public class ArrayListTransferHandler extends TransferHandler
         this.addCount = 0;
     }
 
-    /**
-     * @param flavors {@link DataFlavor}[]
-     *
-     * @return boolean
-     */
     private boolean hasLocalArrayListFlavor(final DataFlavor[] flavors)
     {
         if (this.localArrayListFlavor == null)
@@ -334,11 +300,6 @@ public class ArrayListTransferHandler extends TransferHandler
         return false;
     }
 
-    /**
-     * @param flavors {@link DataFlavor}[]
-     *
-     * @return boolean
-     */
     private boolean hasSerialArrayListFlavor(final DataFlavor[] flavors)
     {
         if (this.serialArrayListFlavor == null)

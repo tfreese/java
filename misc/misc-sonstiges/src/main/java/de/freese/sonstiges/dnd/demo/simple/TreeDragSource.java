@@ -19,33 +19,17 @@ import javax.swing.tree.TreePath;
 /**
  * @author Thomas Freese
  */
-public class TreeDragSource implements DragSourceListener, DragGestureListener
+class TreeDragSource implements DragSourceListener, DragGestureListener
 {
-    /**
-     *
-     */
-    @SuppressWarnings("unused")
     private final DragGestureRecognizer recognizer;
-    /**
-     *
-     */
+
     private final DragSource source;
-    /**
-     *
-     */
+
     private final JTree sourceTree;
-    /**
-     *
-     */
+
     private DefaultMutableTreeNode oldNode;
 
-    /**
-     * Creates a new {@link TreeDragSource} object.
-     *
-     * @param tree {@link JTree}
-     * @param actions int
-     */
-    public TreeDragSource(final JTree tree, final int actions)
+    TreeDragSource(final JTree tree, final int actions)
     {
         super();
 

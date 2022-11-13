@@ -11,37 +11,20 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * @author Thomas Freese
  */
 @JsonPropertyOrder(
-{
-        "tts", "avatar_url", "username", "content"
-})
+        {
+                "tts", "avatar_url", "username", "content"
+        })
 public class DiscordWebHookMessage
 {
-    /**
-    *
-    */
-    private String avatarContent;
-    /**
-    *
-    */
-    private String avatarUrl;
-    /**
-    *
-    */
-    private String avatarUsername;
-    /**
-    *
-    */
     private final List<DiscordEmbed> embeds = new ArrayList<>();
+    private String avatarContent;
+    private String avatarUrl;
+    private String avatarUsername;
     /**
      * Text-To-Speech
      */
     private boolean tts;
 
-    /**
-     * @param embed {@link DiscordEmbed}
-     *
-     * @return {@link DiscordWebHookMessage}
-     */
     public DiscordWebHookMessage addEmbed(final DiscordEmbed embed)
     {
         this.embeds.add(embed);
@@ -49,36 +32,24 @@ public class DiscordWebHookMessage
         return this;
     }
 
-    /**
-     * @return String
-     */
     @JsonGetter("content")
     public String getAvatarContent()
     {
         return this.avatarContent;
     }
 
-    /**
-     * @return String
-     */
     @JsonGetter("avatar_url")
     public String getAvatarUrl()
     {
         return this.avatarUrl;
     }
 
-    /**
-     * @return String
-     */
     @JsonGetter("username")
     public String getAvatarUsername()
     {
         return this.avatarUsername;
     }
 
-    /**
-     * @return List<Embed>
-     */
     public List<DiscordEmbed> getEmbeds()
     {
         return this.embeds;
@@ -86,19 +57,12 @@ public class DiscordWebHookMessage
 
     /**
      * Text-To-Speech
-     *
-     * @return boolean
      */
     public boolean isTts()
     {
         return this.tts;
     }
 
-    /**
-     * @param avatarContent String
-     *
-     * @return {@link DiscordWebHookMessage}
-     */
     public DiscordWebHookMessage setAvatarContent(final String avatarContent)
     {
         this.avatarContent = avatarContent;
@@ -106,11 +70,6 @@ public class DiscordWebHookMessage
         return this;
     }
 
-    /**
-     * @param avatarUrl String
-     *
-     * @return {@link DiscordWebHookMessage}
-     */
     public DiscordWebHookMessage setAvatarUrl(final String avatarUrl)
     {
         this.avatarUrl = avatarUrl;
@@ -118,11 +77,6 @@ public class DiscordWebHookMessage
         return this;
     }
 
-    /**
-     * @param avatarUsername String
-     *
-     * @return {@link DiscordWebHookMessage}
-     */
     public DiscordWebHookMessage setAvatarUsername(final String avatarUsername)
     {
         this.avatarUsername = avatarUsername;
@@ -132,10 +86,6 @@ public class DiscordWebHookMessage
 
     /**
      * Text-To-Speech
-     *
-     * @param tts boolean
-     *
-     * @return {@link DiscordWebHookMessage}
      */
     public DiscordWebHookMessage setTts(final boolean tts)
     {

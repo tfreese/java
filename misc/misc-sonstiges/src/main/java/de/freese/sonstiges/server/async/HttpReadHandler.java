@@ -18,9 +18,6 @@ import org.slf4j.LoggerFactory;
  */
 class HttpReadHandler implements CompletionHandler<Integer, MyAttachment>
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpReadHandler.class);
 
     /**
@@ -94,9 +91,6 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment>
         LOGGER.error(exc.getMessage(), exc);
     }
 
-    /**
-     * @param channel {@link AsynchronousSocketChannel}
-     */
     private void write(final AsynchronousSocketChannel channel)
     {
         Charset charset = IoHandler.DEFAULT_CHARSET;

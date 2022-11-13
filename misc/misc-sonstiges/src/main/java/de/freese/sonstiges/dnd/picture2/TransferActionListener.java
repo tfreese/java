@@ -15,17 +15,11 @@ import javax.swing.JComponent;
  *
  * @author Thomas Freese
  */
-public class TransferActionListener implements ActionListener, PropertyChangeListener
+class TransferActionListener implements ActionListener, PropertyChangeListener
 {
-    /**
-     *
-     */
     private JComponent focusOwner;
 
-    /**
-     * Creates a new {@link TransferActionListener} object.
-     */
-    public TransferActionListener()
+    TransferActionListener()
     {
         KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         manager.addPropertyChangeListener("permanentFocusOwner", this);

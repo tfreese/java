@@ -24,47 +24,19 @@ import de.freese.sonstiges.server.multithread.dispatcher.DispatcherPool;
  */
 public class ServerMultiThread extends AbstractServer
 {
-    /**
-     *
-     */
     private final DispatcherPool dispatcherPool;
-    /**
-     *
-     */
+
     private final SelectorProvider selectorProvider;
-    /**
-     *
-     */
+
     private Acceptor acceptor;
-    /**
-     *
-     */
+
     private ServerSocketChannel serverSocketChannel;
 
-    /**
-     * Erstellt ein neues {@link ServerMultiThread} Object.
-     *
-     * @param port int
-     * @param numOfDispatcher int
-     * @param numOfWorker int
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public ServerMultiThread(final int port, final int numOfDispatcher, final int numOfWorker) throws IOException
     {
         this(port, numOfDispatcher, numOfWorker, SelectorProvider.provider());
     }
 
-    /**
-     * Erstellt ein neues {@link ServerMultiThread} Object.
-     *
-     * @param port int
-     * @param numOfDispatcher int
-     * @param numOfWorker int
-     * @param selectorProvider {@link SelectorProvider}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public ServerMultiThread(final int port, final int numOfDispatcher, final int numOfWorker, final SelectorProvider selectorProvider) throws IOException
     {
         super(port);

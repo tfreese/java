@@ -23,18 +23,13 @@ import org.apache.commons.lang3.RandomStringUtils;
  *
  * @author Thomas Freese
  */
-public class HttpEventMain
+public final class HttpEventMain
 {
     /**
      * -2 damit noch Platz für den CleaningEventHandler und sonstige Ressourcen bleibt.
      */
     public static final int THREAD_COUNT = Math.max(2, Runtime.getRuntime().availableProcessors() - 2);
 
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         System.out.println("----- Running the server on machine with " + Runtime.getRuntime().availableProcessors() + " cores -----");
@@ -72,39 +67,19 @@ public class HttpEventMain
         }
     }
 
-    /**
-     *
-     */
     private final InetAddress address;
-    /**
-     *
-     */
+
     private final Map<SelectionKey, String> mapKey;
-    /**
-     *
-     */
+
     private final Map<String, Boolean> mapResponseReady;
-    /**
-     *
-     */
+
     private final int port;
-    /**
-     *
-     */
+
     private HttpEventProducer producer;
 
-    /**
-     *
-     */
     private Selector selector;
 
-    /**
-     * @param address {@link java.net.InetAddress}
-     * @param port int
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
-    public HttpEventMain(final InetAddress address, final int port) throws IOException
+    private HttpEventMain(final InetAddress address, final int port) throws IOException
     {
         super();
 
@@ -114,35 +89,21 @@ public class HttpEventMain
         this.mapKey = new ConcurrentHashMap<>();
     }
 
-    /**
-     * @return {@link Map}
-     */
     public Map<String, Boolean> getMapResponseReady()
     {
         return this.mapResponseReady;
     }
 
-    /**
-     * @return int
-     */
     public int getPort()
     {
         return this.port;
     }
 
-    /**
-     * @param producer {@link HttpEventProducer}
-     */
     public void setProducer(final HttpEventProducer producer)
     {
         this.producer = producer;
     }
 
-    /**
-     * @param key {@link SelectionKey}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     private void accept(final SelectionKey key) throws IOException
     {
         ServerSocketChannel serverChannel = (ServerSocketChannel) key.channel();
@@ -155,11 +116,6 @@ public class HttpEventMain
         channel.register(this.selector, SelectionKey.OP_READ);
     }
 
-    /**
-     * @param key {@link SelectionKey}
-     *
-     * @return boolean
-     */
     private boolean isResponseReady(final SelectionKey key)
     {
         String requestId = this.mapKey.get(key);
@@ -176,11 +132,6 @@ public class HttpEventMain
         return true;
     }
 
-    /**
-     * @param key {@link SelectionKey}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     private void read(final SelectionKey key) throws IOException
     {
         SocketChannel channel = (SocketChannel) key.channel();
@@ -215,9 +166,6 @@ public class HttpEventMain
         channel.register(this.selector, SelectionKey.OP_WRITE, buffer);
     }
 
-    /**
-     * @throws IOException Falls was schiefgeht.
-     */
     private void start() throws IOException
     {
         this.selector = Selector.open();
@@ -267,11 +215,6 @@ public class HttpEventMain
         }
     }
 
-    /**
-     * @param key {@link SelectionKey}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     private void write(final SelectionKey key) throws IOException
     {
         if (isResponseReady(key))

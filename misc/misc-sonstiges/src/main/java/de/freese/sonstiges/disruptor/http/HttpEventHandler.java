@@ -16,25 +16,12 @@ import org.slf4j.LoggerFactory;
  */
 public class HttpEventHandler implements EventHandler<HttpEvent>
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpEventHandler.class);
-    /**
-     *
-     */
+
     private final Map<String, Boolean> mapResponseReady;
-    /**
-     *
-     */
+
     private final int ordinal;
 
-    /**
-     * Erstellt ein neues {@link HttpEventHandler} Object.
-     *
-     * @param ordinal int
-     * @param mapResponseReady {@link Map}
-     */
     public HttpEventHandler(final int ordinal, final Map<String, Boolean> mapResponseReady)
     {
         super();
@@ -70,13 +57,6 @@ public class HttpEventHandler implements EventHandler<HttpEvent>
         }
     }
 
-    /**
-     * @param buffer {@link ByteBuffer}
-     * @param numRead int
-     * @param sequence long
-     *
-     * @return {@link ByteBuffer}
-     */
     private ByteBuffer handleRequest(final ByteBuffer buffer, final int numRead, final long sequence)
     {
         buffer.flip();
@@ -101,11 +81,6 @@ public class HttpEventHandler implements EventHandler<HttpEvent>
         return buffer;
     }
 
-    /**
-     * @param sequence long
-     *
-     * @return String
-     */
     private String serverResponse(final long sequence)
     {
         StringBuilder body = new StringBuilder();

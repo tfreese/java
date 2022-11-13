@@ -9,16 +9,8 @@ import java.util.Collection;
  */
 public class NaiveBayesClassifier
 {
-    /**
-     *
-     */
     private static final double DEFAULT_FACTOR = 1.0D;
 
-    /**
-     * @param vector {@link Collection}
-     *
-     * @return double
-     */
     public double classify(Collection<Merkmal> vector)
     {
         if (vector == null || vector.isEmpty())
@@ -31,11 +23,6 @@ public class NaiveBayesClassifier
         return classifyBigDecimal(vector);
     }
 
-    /**
-     * @param vector {@link Collection}
-     *
-     * @return double
-     */
     double classifyBigDecimal(Collection<Merkmal> vector)
     {
         BigDecimal spamLikelihood = BigDecimal.valueOf(1.0D);
@@ -62,10 +49,6 @@ public class NaiveBayesClassifier
 
     /**
      * Hier können sehr kleine oder sehr große Zahlen entstehen.
-     *
-     * @param vector {@link Collection}
-     *
-     * @return double
      */
     double classifyClassic(Collection<Merkmal> vector)
     {
@@ -91,10 +74,6 @@ public class NaiveBayesClassifier
 
     /**
      * Hier können NaN oder INVALID Zahlen entstehen.
-     *
-     * @param vector {@link Collection}
-     *
-     * @return double
      */
     double classifyLog(Collection<Merkmal> vector)
     {

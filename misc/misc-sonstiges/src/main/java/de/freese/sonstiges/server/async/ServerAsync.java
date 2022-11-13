@@ -24,10 +24,6 @@ import org.slf4j.Logger;
  */
 public class ServerAsync extends AbstractServer
 {
-    /**
-     * @param channel {@link AsynchronousSocketChannel}
-     * @param logger {@link Logger}
-     */
     public static void close(final AsynchronousSocketChannel channel, final Logger logger)
     {
         try
@@ -42,35 +38,15 @@ public class ServerAsync extends AbstractServer
         }
     }
 
-    /**
-     *
-     */
     private final AsynchronousChannelGroup channelGroup;
-    /**
-     *
-     */
+
     private AsynchronousServerSocketChannel serverSocketChannel;
 
-    /**
-     * Erstellt ein neues {@link ServerAsync} Object.
-     *
-     * @param port int
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public ServerAsync(final int port) throws IOException
     {
         this(port, 3);
     }
 
-    /**
-     * Erstellt ein neues {@link ServerAsync} Object.
-     *
-     * @param port int
-     * @param channelGroup {@link AsynchronousChannelGroup}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public ServerAsync(final int port, final AsynchronousChannelGroup channelGroup) throws IOException
     {
         super(port);
@@ -78,14 +54,6 @@ public class ServerAsync extends AbstractServer
         this.channelGroup = Objects.requireNonNull(channelGroup, "channelGroup required");
     }
 
-    /**
-     * Erstellt ein neues {@link ServerAsync} Object.
-     *
-     * @param port int
-     * @param poolSize int
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public ServerAsync(final int port, final int poolSize) throws IOException
     {
         this(port, AsynchronousChannelGroup.withThreadPool(Executors.newFixedThreadPool(poolSize, new NamedThreadFactory("worker-%d"))));
@@ -184,10 +152,6 @@ public class ServerAsync extends AbstractServer
         });
     }
 
-    /**
-     * @param channel {@link AsynchronousSocketChannel}
-     * @param byteBuffer {@link ByteBuffer}
-     */
     private void read(final AsynchronousSocketChannel channel, final ByteBuffer byteBuffer)
     {
         MyAttachment attachment = new MyAttachment();
@@ -197,12 +161,6 @@ public class ServerAsync extends AbstractServer
         channel.read(byteBuffer, attachment, new HttpReadHandler());
     }
 
-    /**
-     * Shutdown der {@link AsynchronousChannelGroup}.
-     *
-     * @param channelGroup {@link AsynchronousChannelGroup}
-     * @param logger {@link Logger}
-     */
     private void shutdown(final AsynchronousChannelGroup channelGroup, final Logger logger)
     {
         logger.debug("shutdown AsynchronousChannelGroup");

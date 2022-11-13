@@ -23,7 +23,7 @@
 
                 <!-- mvn exec:java; Ausführung in der gleichen Runtime-Instanz wie Maven. -->
                 <configuration>
-                    <mainClass>de.freese.sonstiges.javafx.JavaFxDemo</mainClass>
+                    <mainClass>de.freese.sonstiges.javafx.JavaFxApplication</mainClass>
                 </configuration>
 
                 <!-- mvn exec:exec; Ausführung in einer separaten Runtime-Instanz. -->
@@ -33,7 +33,7 @@
 					<arguments>
 					<argument>-classpath</argument>
 					<classpath />
-					<argument>de.freese.sonstiges.javafx.JavaFxDemo</argument>
+					<argument>de.freese.sonstiges.javafx.JavaFxApplicationication</argument>
 					</arguments>
 					</configuration -->
             </plugin>

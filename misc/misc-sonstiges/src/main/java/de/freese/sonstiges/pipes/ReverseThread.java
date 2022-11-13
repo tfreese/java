@@ -9,21 +9,10 @@ import java.io.PrintWriter;
  */
 public class ReverseThread extends Thread
 {
-    /**
-     *
-     */
     private final BufferedReader in;
-    /**
-     *
-     */
+
     private final PrintWriter out;
 
-    /**
-     * Creates a new {@link ReverseThread} object.
-     *
-     * @param out {@link PrintWriter}
-     * @param in {@link BufferedReader}
-     */
     public ReverseThread(final PrintWriter out, final BufferedReader in)
     {
         super();
@@ -59,11 +48,6 @@ public class ReverseThread extends Thread
         }
     }
 
-    /**
-     * @param source String
-     *
-     * @return String
-     */
     private String reverseIt(final String source)
     {
         int i = 0;

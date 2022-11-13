@@ -48,7 +48,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public class MavenProxyLauncher
+public final class MavenProxyLauncher
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(MavenProxyLauncher.class);
 
@@ -137,5 +137,10 @@ public class MavenProxyLauncher
             ProxyUtils.shutdown(executorServiceHttpServer, LOGGER);
             ProxyUtils.shutdown(executorServiceHttpClient, LOGGER);
         }, "Shutdown"));
+    }
+
+    private MavenProxyLauncher()
+    {
+        super();
     }
 }

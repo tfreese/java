@@ -9,10 +9,6 @@ public final class JulianDayConverter
 {
     /**
      * Berechnet den Wert des Julianischen Tages.
-     *
-     * @param day {@link Day}
-     *
-     * @return int
      */
     public static int calculateJD(final Day day)
     {
@@ -21,12 +17,6 @@ public final class JulianDayConverter
 
     /**
      * Berechnet den Wert des Julianischen Tages.
-     *
-     * @param year int
-     * @param month int
-     * @param day int
-     *
-     * @return int
      */
     public static int calculateJD(final int year, final int month, final int day)
     {
@@ -51,10 +41,6 @@ public final class JulianDayConverter
 
     /**
      * Berechnet das Tagesobjekt aus dem Julianischen Wert.
-     *
-     * @param julianDay int
-     *
-     * @return {@link Day}
      */
     public static Day createDayFromJD(final int julianDay)
     {
@@ -83,9 +69,6 @@ public final class JulianDayConverter
         return new Day(readableDay / 10000, (readableDay % 10000) / 100, readableDay % 100);
     }
 
-    /**
-     * Erstellt ein neues {@link JulianDayConverter} Object.
-     */
     private JulianDayConverter()
     {
         super();

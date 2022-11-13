@@ -10,7 +10,7 @@ import de.freese.openstreetmap.model.OsmModel;
 /**
  * @author Thomas Freese
  */
-public class OpenStreetMapMain
+public final class OpenStreetMapMain
 {
     public static void main(final String[] args)
     {
@@ -36,5 +36,10 @@ public class OpenStreetMapMain
         {
             ex.printStackTrace();
         }
+    }
+
+    private OpenStreetMapMain()
+    {
+        super();
     }
 }

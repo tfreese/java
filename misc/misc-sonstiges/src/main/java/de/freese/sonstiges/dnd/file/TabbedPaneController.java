@@ -15,44 +15,18 @@ import javax.swing.JTextArea;
  *
  * @author Thomas Freese
  */
-public class TabbedPaneController
+class TabbedPaneController
 {
-    /**
-     *
-     */
     private final JTabbedPane tabbedPane;
-    /**
-     *
-     */
-    private final JPanel tabbedPanel;
-    /**
-     *
-     */
-    private JTextArea emptyFileArea;
-    /**
-     *
-     */
-    private JPanel emptyFilePanel;
-    /**
-     *
-     */
-    private String fileSeparator;
-    /**
-     *
-     */
-    private boolean noFiles = true;
-    /**
-     *
-     */
-    private final FileAndTextTransferHandler transferHandler;
 
-    /**
-     * Creates a new TabbedPaneController object.
-     *
-     * @param tb {@link JTabbedPane}
-     * @param tp {@link JPanel}
-     */
-    public TabbedPaneController(final JTabbedPane tb, final JPanel tp)
+    private final JPanel tabbedPanel;
+    private final FileAndTextTransferHandler transferHandler;
+    private JTextArea emptyFileArea;
+    private JPanel emptyFilePanel;
+    private String fileSeparator;
+    private boolean noFiles = true;
+
+    TabbedPaneController(final JTabbedPane tb, final JPanel tp)
     {
         this.tabbedPane = tb;
         this.tabbedPanel = tp;
@@ -73,11 +47,6 @@ public class TabbedPaneController
         init();
     }
 
-    /**
-     * @param filename String
-     *
-     * @return {@link JTextArea}
-     */
     public JTextArea addTab(final String filename)
     {
         if (this.noFiles)
@@ -92,9 +61,6 @@ public class TabbedPaneController
         return makeTextPanel(str[str.length - 1], filename);
     }
 
-    /**
-     *
-     */
     public void clearAll()
     {
         if (!this.noFiles)
@@ -106,12 +72,6 @@ public class TabbedPaneController
         init();
     }
 
-    /**
-     * @param name String
-     * @param toolTip String
-     *
-     * @return {@link JTextArea}
-     */
     protected JTextArea makeTextPanel(final String name, final String toolTip)
     {
         JTextArea fileArea = new JTextArea(20, 15);
@@ -126,9 +86,6 @@ public class TabbedPaneController
         return fileArea;
     }
 
-    /**
-     *
-     */
     private void init()
     {
         String defaultText = "Select one or more files from the file chooser and drop here...";

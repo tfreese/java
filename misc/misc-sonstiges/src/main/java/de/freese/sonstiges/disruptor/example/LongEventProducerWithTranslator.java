@@ -11,18 +11,10 @@ import com.lmax.disruptor.RingBuffer;
  */
 public class LongEventProducerWithTranslator
 {
-    /**
-     *
-     */
     private static final EventTranslatorOneArg<LongEvent, ByteBuffer> TRANSLATOR = (event, sequence, bb) -> event.setValue(bb.getLong(0));
-    /**
-     *
-     */
+
     private final RingBuffer<LongEvent> ringBuffer;
 
-    /**
-     * @param ringBuffer {@link com.lmax.disruptor.RingBuffer}
-     */
     public LongEventProducerWithTranslator(final RingBuffer<LongEvent> ringBuffer)
     {
         super();
@@ -30,9 +22,6 @@ public class LongEventProducerWithTranslator
         this.ringBuffer = ringBuffer;
     }
 
-    /**
-     * @param bb {@link java.nio.ByteBuffer}
-     */
     public void onData(final ByteBuffer bb)
     {
         this.ringBuffer.publishEvent(TRANSLATOR, bb);

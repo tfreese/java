@@ -9,28 +9,17 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Thomas Freese
  */
-public class ProducerConsumerBlockingQueue
+public final class ProducerConsumerBlockingQueue
 {
     /**
      * @author Thomas Freese
      */
     private static class Consumer implements Runnable
     {
-        /**
-         *
-         */
         private final int number;
-        /**
-         *
-         */
+
         private final BlockingQueue<Integer> queue;
 
-        /**
-         * Erstellt ein neues {@link Consumer} Objekt.
-         *
-         * @param queue {@link BlockingQueue}
-         * @param number int
-         */
         public Consumer(final BlockingQueue<Integer> queue, final int number)
         {
             super();
@@ -78,21 +67,9 @@ public class ProducerConsumerBlockingQueue
      */
     private static class Producer implements Runnable
     {
-        /**
-         *
-         */
         private final int number;
-        /**
-         *
-         */
         private final BlockingQueue<Integer> queue;
 
-        /**
-         * Erstellt ein neues {@link Producer} Objekt.
-         *
-         * @param queue {@link BlockingQueue}
-         * @param number int
-         */
         public Producer(final BlockingQueue<Integer> queue, final int number)
         {
             super();
@@ -129,11 +106,6 @@ public class ProducerConsumerBlockingQueue
         }
     }
 
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         // BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(5);
@@ -155,5 +127,10 @@ public class ProducerConsumerBlockingQueue
         {
             executor.execute(new Consumer(queue, i + 1));
         }
+    }
+
+    private ProducerConsumerBlockingQueue()
+    {
+        super();
     }
 }

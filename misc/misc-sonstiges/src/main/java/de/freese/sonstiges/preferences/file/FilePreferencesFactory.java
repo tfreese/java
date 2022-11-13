@@ -2,9 +2,6 @@
 package de.freese.sonstiges.preferences.file;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 import java.util.prefs.PreferencesFactory;
 
@@ -22,22 +19,12 @@ import org.slf4j.LoggerFactory;
  */
 public class FilePreferencesFactory implements PreferencesFactory
 {
-    /**
-     *
-     */
     public static final String SYSTEM_PROPERTY_FILE = "net.infotrek.util.prefs.FilePreferencesFactory.file";
-    /**
-     *
-     */
+    
     private static final Logger LOGGER = LoggerFactory.getLogger(FilePreferencesFactory.class);
-    /**
-     *
-     */
+
     private static File preferencesFile;
 
-    /**
-     * @return {@link File}
-     */
     public static File getPreferencesFile()
     {
         if (preferencesFile == null)
@@ -56,39 +43,6 @@ public class FilePreferencesFactory implements PreferencesFactory
         return preferencesFile;
     }
 
-    /**
-     * @param args String[]
-     *
-     * @throws BackingStoreException Falls was schiefgeht.
-     * @throws IOException Falls was schiefgeht.
-     */
-    public static void main(final String[] args) throws BackingStoreException, IOException
-    {
-        System.setProperty("java.util.prefs.PreferencesFactory", FilePreferencesFactory.class.getName());
-        System.setProperty(SYSTEM_PROPERTY_FILE, "myprefs.txt");
-
-        Preferences p = Preferences.userRoot();// Preferences.userNodeForPackage(List.class);
-
-        for (String s : p.keys())
-        {
-            System.out.println("p[" + s + "]=" + p.get(s, null));
-        }
-
-        p.putBoolean("hi", true);
-        p.put("Number", String.valueOf(System.currentTimeMillis()));
-
-        p = p.node("test");
-        System.out.println(p.get("user", null));
-        p.put("user", "freese");
-        System.out.println(new String(p.getByteArray("test", "null".getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8));
-        p.putByteArray("test", "Thomas Freese".getBytes(StandardCharsets.UTF_8));
-
-        Preferences.userRoot().exportSubtree(System.out);
-    }
-
-    /**
-     *
-     */
     private Preferences rootPreferences;
 
     /**

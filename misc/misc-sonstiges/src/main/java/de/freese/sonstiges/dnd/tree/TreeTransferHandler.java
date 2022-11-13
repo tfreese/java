@@ -20,11 +20,8 @@ import javax.swing.tree.TreePath;
  *
  * @author Thomas Freese
  */
-public class TreeTransferHandler extends TransferHandler
+class TreeTransferHandler extends TransferHandler
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -3761501619688863055L;
     /**
@@ -138,10 +135,6 @@ public class TreeTransferHandler extends TransferHandler
 
     /**
      * ServiceMethode, liefert den SourcePath aus dem Transferable-Daten.
-     *
-     * @param t Transferable
-     *
-     * @return SourcePath
      */
     private TreePath getSourcePath(final Transferable t)
     {

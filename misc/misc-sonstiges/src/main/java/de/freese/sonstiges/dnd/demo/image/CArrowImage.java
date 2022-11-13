@@ -15,43 +15,22 @@ import java.util.Map;
 /**
  * A BufferedImage of one of four types of arrow (up, down, left or right) drawn to the size specified on the constructor.
  */
-public class CArrowImage extends BufferedImage
+class CArrowImage extends BufferedImage
 {
-    /**
-     *
-     */
     public static final int ARROW_DOWN = 1;
-    /**
-     *
-     */
+
     public static final int ARROW_LEFT = 2;
-    /**
-     *
-     */
+
     public static final int ARROW_RIGHT = 3;
-    /**
-     *
-     */
+
     public static final int ARROW_UP = 0;
 
-    /**
-     * Erstellt ein neues {@link CArrowImage} Object.
-     *
-     * @param nArrowDirection int
-     */
     public CArrowImage(final int nArrowDirection)
     {
         this(15, 9, nArrowDirection);
     }
 
-    /**
-     * Creates a new CArrowImage object.
-     *
-     * @param width int
-     * @param height int
-     * @param arrowDirection int
-     */
-    public CArrowImage(final int width, final int height, final int arrowDirection)
+    CArrowImage(final int width, final int height, final int arrowDirection)
     {
         super(width, height, TYPE_INT_ARGB_PRE); // Set the width, height and image type
 

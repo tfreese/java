@@ -61,13 +61,6 @@ public class AlgorithmRecursiveBacktracking implements SudokuAlgorithm
 
     /**
      * Prüft, ob der Wert bereits in der Box existiert.
-     *
-     * @param grid int[][]
-     * @param x int
-     * @param y int
-     * @param value int
-     *
-     * @return boolean
      */
     private boolean checkBox(final int[][] grid, final int x, final int y, final int value)
     {
@@ -93,12 +86,6 @@ public class AlgorithmRecursiveBacktracking implements SudokuAlgorithm
 
     /**
      * Prüft, ob der Wert bereits in der Spalte existiert.
-     *
-     * @param grid int[][]
-     * @param column int
-     * @param value int
-     *
-     * @return boolean
      */
     private boolean checkColumn(final int[][] grid, final int column, final int value)
     {
@@ -115,12 +102,6 @@ public class AlgorithmRecursiveBacktracking implements SudokuAlgorithm
 
     /**
      * Prüft, ob der Wert bereits in der Zeile existiert.
-     *
-     * @param grid int[][]
-     * @param row int
-     * @param value int
-     *
-     * @return boolean
      */
     private boolean checkRow(final int[][] grid, final int row, final int value)
     {
@@ -137,13 +118,6 @@ public class AlgorithmRecursiveBacktracking implements SudokuAlgorithm
 
     /**
      * Liefert true, wenn Value noch nicht in der Zeile, Spalte oder der Box vorhanden ist.
-     *
-     * @param grid int[][]
-     * @param x int
-     * @param y int
-     * @param value int
-     *
-     * @return boolean
      */
     private boolean isLegal(final int[][] grid, final int x, final int y, final int value)
     {
@@ -152,10 +126,6 @@ public class AlgorithmRecursiveBacktracking implements SudokuAlgorithm
 
     /**
      * Liefert ein Array der verwendeten Zahlen in zufälliger Reihenfolge.
-     *
-     * @param size int
-     *
-     * @return int[]
      */
     private int[] shuffleNumbers(final int size)
     {

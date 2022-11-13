@@ -25,50 +25,26 @@ import javax.swing.text.Position;
  */
 class FileAndTextTransferHandler extends TransferHandler
 {
-    /**
-     *
-     */
     private static final String NEW_LINE = "\n";
-    /**
-     *
-     */
+
     @Serial
     private static final long serialVersionUID = 6906658392318378092L;
-    /**
-     *
-     */
+
     private final DataFlavor fileFlavor;
-    /**
-     *
-     */
+
     private final DataFlavor stringFlavor;
-    /**
-     *
-     */
+
     private final TabbedPaneController tpc;
-    /**
-     *
-     */
+
     private Position p0;
-    /**
-     *
-     */
+
     private Position p1;
-    /**
-     *
-     */
+
     private boolean shouldRemove;
-    /**
-     *
-     */
+
     private JTextArea source;
 
-    /**
-     * Creates a new FileAndTextTransferHandler object.
-     *
-     * @param t {@link TabbedPaneController}
-     */
-    public FileAndTextTransferHandler(final TabbedPaneController t)
+    FileAndTextTransferHandler(final TabbedPaneController t)
     {
         super();
 
@@ -231,11 +207,6 @@ class FileAndTextTransferHandler extends TransferHandler
         this.source = null;
     }
 
-    /**
-     * @param flavors {@link DataFlavor}{}
-     *
-     * @return boolean
-     */
     private boolean hasFileFlavor(final DataFlavor[] flavors)
     {
         for (DataFlavor flavor : flavors)
@@ -249,11 +220,6 @@ class FileAndTextTransferHandler extends TransferHandler
         return false;
     }
 
-    /**
-     * @param flavors {@link DataFlavor}{}
-     *
-     * @return boolean
-     */
     private boolean hasStringFlavor(final DataFlavor[] flavors)
     {
         for (DataFlavor flavor : flavors)

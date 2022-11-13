@@ -32,17 +32,11 @@ import javax.swing.tree.TreeSelectionModel;
 /**
  * Created on 31.08.2004
  */
-public class BasicDnD extends JPanel implements ActionListener
+public final class BasicDnD extends JPanel implements ActionListener
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -1712718559600336190L;
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         // Schedule a job for the event-dispatching thread:
@@ -71,45 +65,21 @@ public class BasicDnD extends JPanel implements ActionListener
         frame.setVisible(true);
     }
 
-    /**
-     *
-     */
     private final JColorChooser colorChooser;
 
-    /**
-     *
-     */
     private final JList<String> list;
 
-    /**
-     *
-     */
     private final JTable table;
 
-    /**
-     *
-     */
     private final JTextArea textArea;
 
-    /**
-     *
-     */
     private final JTextField textField;
 
-    /**
-     *
-     */
     private final JCheckBox toggleDnD;
 
-    /**
-     *
-     */
     private final JTree tree;
 
-    /**
-     * Creates a new BasicDnD object.
-     */
-    public BasicDnD()
+    private BasicDnD()
     {
         super(new BorderLayout());
 
@@ -230,12 +200,6 @@ public class BasicDnD extends JPanel implements ActionListener
         }
     }
 
-    /**
-     * @param comp {@link JComponent}
-     * @param title String
-     *
-     * @return {@link JPanel}
-     */
     public JPanel createPanelForComponent(final JComponent comp, final String title)
     {
         JPanel panel = new JPanel(new BorderLayout());
@@ -249,10 +213,7 @@ public class BasicDnD extends JPanel implements ActionListener
         return panel;
     }
 
-    /**
-     * @return {@link JPanel}
-     */
-    protected JPanel createVerticalBoxPanel()
+    private JPanel createVerticalBoxPanel()
     {
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.PAGE_AXIS));

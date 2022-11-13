@@ -23,41 +23,20 @@ import org.slf4j.LoggerFactory;
  */
 public class DispatcherPool implements Dispatcher
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(DispatcherPool.class);
-    /**
-     *
-     */
+
     private static final AtomicIntegerFieldUpdater<DispatcherPool> NEXT_INDEX = AtomicIntegerFieldUpdater.newUpdater(DispatcherPool.class, "nextIndex");
-    /**
-     *
-     */
+
     private final List<DefaultDispatcher> dispatchers;
-    /**
-     *
-     */
+
     private final int numOfDispatcher;
-    /**
-     *
-     */
+
     private final int numOfWorker;
-    /**
-     *
-     */
+
     volatile int nextIndex;
-    /**
-     *
-     */
+
     private ExecutorService executorServiceWorker;
 
-    /**
-     * Erstellt ein neues {@link DispatcherPool} Object.
-     *
-     * @param numOfDispatcher int
-     * @param numOfWorker int
-     */
     public DispatcherPool(final int numOfDispatcher, final int numOfWorker)
     {
         super();
@@ -93,13 +72,6 @@ public class DispatcherPool implements Dispatcher
         nextDispatcher().register(socketChannel);
     }
 
-    /**
-     * @param ioHandler {@link IoHandler}
-     * @param selectorProvider {@link SelectorProvider}
-     * @param serverName String
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public void start(final IoHandler<SelectionKey> ioHandler, final SelectorProvider selectorProvider, final String serverName) throws Exception
     {
         ThreadFactory threadFactoryDispatcher = new NamedThreadFactory(serverName + "-dispatcher-%d");
@@ -120,18 +92,12 @@ public class DispatcherPool implements Dispatcher
         }
     }
 
-    /**
-     *
-     */
     public void stop()
     {
         this.dispatchers.forEach(DefaultDispatcher::stop);
         this.executorServiceWorker.shutdown();
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return LOGGER;
@@ -139,8 +105,6 @@ public class DispatcherPool implements Dispatcher
 
     /**
      * Liefert den nächsten {@link Dispatcher} im Round-Robin Verfahren.<br>
-     *
-     * @return {@link Dispatcher}
      */
     private synchronized Dispatcher nextDispatcher()
     {

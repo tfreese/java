@@ -7,24 +7,12 @@ import java.util.Objects;
  */
 public class Token
 {
-    /**
-     *
-     */
     private final int hamCount;
-    /**
-     *
-     */
+
     private final int spamCount;
-    /**
-     *
-     */
+
     private final String value;
 
-    /**
-     * @param value String
-     * @param hamCount int
-     * @param spamCount int
-     */
     public Token(final String value, final int hamCount, final int spamCount)
     {
         this.value = value;
@@ -50,25 +38,16 @@ public class Token
         return hamCount == token.hamCount && spamCount == token.spamCount && value.equals(token.value);
     }
 
-    /**
-     * @return int
-     */
     public int getHamCount()
     {
         return this.hamCount;
     }
 
-    /**
-     * @return int
-     */
     public int getSpamCount()
     {
         return this.spamCount;
     }
 
-    /**
-     * @return java.lang.String
-     */
     public String getValue()
     {
         return this.value;

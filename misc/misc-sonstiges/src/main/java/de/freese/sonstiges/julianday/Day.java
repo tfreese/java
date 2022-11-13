@@ -10,33 +10,17 @@ import java.io.Serializable;
  */
 public class Day implements Serializable
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 4560714541840783730L;
-    /**
-     *
-     */
+
     private final int dayOfMonth;
-    /**
-     *
-     */
+
     private final int month;
-    /**
-     *
-     */
+
     private final int year;
-    /**
-     *
-     */
+
     private transient String asString;
 
-    /**
-     * @param year int
-     * @param month int
-     * @param day int
-     */
     public Day(final int year, final int month, final int day)
     {
         super();
@@ -75,25 +59,16 @@ public class Day implements Serializable
         return this.year == other.year;
     }
 
-    /**
-     * @return int
-     */
     public int getDayOfMonth()
     {
         return this.dayOfMonth;
     }
 
-    /**
-     * @return int
-     */
     public int getMonth()
     {
         return this.month;
     }
 
-    /**
-     * @return int
-     */
     public int getYear()
     {
         return this.year;

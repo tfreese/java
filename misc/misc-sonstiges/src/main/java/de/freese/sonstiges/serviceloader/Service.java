@@ -9,8 +9,5 @@ package de.freese.sonstiges.serviceloader;
 @FunctionalInterface
 public interface Service
 {
-    /**
-     * @return String
-     */
     String getText();
 }

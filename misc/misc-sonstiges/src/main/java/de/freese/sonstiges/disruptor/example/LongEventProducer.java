@@ -2,6 +2,7 @@
 package de.freese.sonstiges.disruptor.example;
 
 import java.nio.ByteBuffer;
+
 import com.lmax.disruptor.RingBuffer;
 
 /**
@@ -9,14 +10,8 @@ import com.lmax.disruptor.RingBuffer;
  */
 public class LongEventProducer
 {
-    /**
-     *
-     */
     private final RingBuffer<LongEvent> ringBuffer;
 
-    /**
-     * @param ringBuffer {@link com.lmax.disruptor.RingBuffer}
-     */
     public LongEventProducer(final RingBuffer<LongEvent> ringBuffer)
     {
         super();
@@ -24,9 +19,6 @@ public class LongEventProducer
         this.ringBuffer = ringBuffer;
     }
 
-    /**
-     * @param bb {@link java.nio.ByteBuffer}
-     */
     public void onData(final ByteBuffer bb)
     {
         // Grab the next sequence

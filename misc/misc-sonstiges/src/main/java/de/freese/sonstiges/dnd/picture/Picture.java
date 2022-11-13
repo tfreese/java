@@ -17,22 +17,12 @@ import javax.swing.JComponent;
  */
 class Picture extends JComponent implements MouseListener, FocusListener, Accessible
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -3852485343304069467L;
-    /**
-     *
-     */
+
     private Image image;
 
-    /**
-     * Creates a new Picture object.
-     *
-     * @param image {@link Image}
-     */
-    public Picture(final Image image)
+    Picture(final Image image)
     {
         super();
 
@@ -110,17 +100,11 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
         // Empty
     }
 
-    /**
-     * @return {@link Image}
-     */
     Image getImage()
     {
         return this.image;
     }
 
-    /**
-     * @param image {@link Image}
-     */
     void setImage(final Image image)
     {
         this.image = image;

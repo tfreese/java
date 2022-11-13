@@ -20,18 +20,13 @@ import com.lmax.disruptor.util.DaemonThreadFactory;
  *
  * @author Thomas Freese
  */
-public class LongEventMain
+public final class LongEventMain
 {
     /**
      * -2 damit noch Platz für den CleaningEventHandler und sonstige Ressourcen bleibt.
      */
     public static final int THREAD_COUNT = Math.max(2, Runtime.getRuntime().availableProcessors() - 2);
 
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         // Specify the size of the ring buffer, must be power of 2.
@@ -119,5 +114,10 @@ public class LongEventMain
         disruptor.shutdown(5, TimeUnit.SECONDS);
 
         executorService.shutdown();
+    }
+
+    private LongEventMain()
+    {
+        super();
     }
 }

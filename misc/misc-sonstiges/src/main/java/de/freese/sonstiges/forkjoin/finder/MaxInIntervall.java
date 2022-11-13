@@ -12,40 +12,21 @@ import java.util.concurrent.RecursiveAction;
  */
 public class MaxInIntervall extends RecursiveAction
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -6829518464952417401L;
-    /**
-     *
-     */
+
     private final int[] array;
-    /**
-     *
-     */
+
     private final int end;
     /**
-     *
+     * Schwellenwert, bei dem die Suche sequenziell durchgeführt wird.
      */
     private final int intervalThreshold;
-    /**
-     *
-     */
+
     private final int start;
-    /**
-     *
-     */
+
     private volatile int result;
 
-    /**
-     * Erstellt ein neues {@link MaxInIntervall} Object.
-     *
-     * @param array int[] Array
-     * @param start int Start Index
-     * @param end int End Index
-     * @param intervalThreshold Schwellenwert, bei dem die Suche sequenziell durchgeführt wird.
-     */
     public MaxInIntervall(final int[] array, final int start, final int end, final int intervalThreshold)
     {
         super();
@@ -56,9 +37,6 @@ public class MaxInIntervall extends RecursiveAction
         this.intervalThreshold = intervalThreshold;
     }
 
-    /**
-     * @return int
-     */
     public int getResult()
     {
         return this.result;
@@ -87,9 +65,6 @@ public class MaxInIntervall extends RecursiveAction
         }
     }
 
-    /**
-     * @return int
-     */
     private int findMaxSequentially()
     {
         int max = Integer.MIN_VALUE;

@@ -11,16 +11,8 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 @JsonRootName(value = "thumbnail")
 public class DiscordThumbnail
 {
-    /**
-    *
-    */
     private final String url;
 
-    /**
-     * Erstellt ein neues {@link DiscordThumbnail} Object.
-     *
-     * @param url String
-     */
     public DiscordThumbnail(final String url)
     {
         super();
@@ -28,9 +20,6 @@ public class DiscordThumbnail
         this.url = url;
     }
 
-    /**
-     * @return String
-     */
     public String getUrl()
     {
         return this.url;

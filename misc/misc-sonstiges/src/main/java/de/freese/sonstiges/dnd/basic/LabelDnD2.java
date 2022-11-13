@@ -22,11 +22,8 @@ import javax.swing.border.TitledBorder;
 /**
  * @author Thomas Freese
  */
-public class LabelDnD2 extends JPanel
+public final class LabelDnD2 extends JPanel
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 8991761070190202012L;
 
@@ -47,9 +44,6 @@ public class LabelDnD2 extends JPanel
         }
     }
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         // Schedule a job for the event-dispatching thread:
@@ -79,10 +73,7 @@ public class LabelDnD2 extends JPanel
         frame.setVisible(true);
     }
 
-    /**
-     * Creates a new LabelDnD2 object.
-     */
-    public LabelDnD2()
+    private LabelDnD2()
     {
         super(new BorderLayout());
 

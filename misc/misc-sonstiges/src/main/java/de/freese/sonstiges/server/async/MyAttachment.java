@@ -9,16 +9,9 @@ import java.nio.channels.AsynchronousSocketChannel;
  */
 class MyAttachment
 {
-    /**
-     *
-     */
     final StringBuilder httpHeader = new StringBuilder();
-    /**
-     *
-     */
+
     ByteBuffer byteBuffer;
-    /**
-     *
-     */
+
     AsynchronousSocketChannel channel;
 }

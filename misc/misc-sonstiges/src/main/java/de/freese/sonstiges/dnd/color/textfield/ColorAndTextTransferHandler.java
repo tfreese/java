@@ -19,30 +19,17 @@ import javax.swing.text.Position;
  */
 class ColorAndTextTransferHandler extends ColorTransferHandler
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -2099117900708234471L;
-    /**
-     *
-     */
+
     private final DataFlavor stringFlavor = DataFlavor.stringFlavor;
-    /**
-     *
-     */
+
     private Position p0;
-    /**
-     *
-     */
+
     private Position p1;
-    /**
-     *
-     */
+
     private boolean shouldRemove;
-    /**
-     *
-     */
+
     private JTextComponent source;
 
     /**
@@ -172,10 +159,6 @@ class ColorAndTextTransferHandler extends ColorTransferHandler
 
     /**
      * Does the flavor list have a string flavor?
-     *
-     * @param flavors {@link DataFlavor}[]
-     *
-     * @return boolean
      */
     protected boolean hasStringFlavor(final DataFlavor[] flavors)
     {

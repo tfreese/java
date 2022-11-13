@@ -8,26 +8,12 @@ import java.util.Random;
  */
 class Particle
 {
-    /**
-     *
-     */
     protected final Random random;
-    /**
-     *
-     */
+
     protected int x;
-    /**
-     *
-     */
+
     protected int y;
 
-    /**
-     * Erstellt ein neues {@link Particle} Object.
-     *
-     * @param random {@link Random}
-     * @param initialX int
-     * @param initialY int
-     */
     Particle(final Random random, final int initialX, final int initialY)
     {
         super();
@@ -37,9 +23,6 @@ class Particle
         this.y = initialY;
     }
 
-    /**
-     * @param g {@link Graphics}
-     */
     public void draw(final Graphics g)
     {
         int lx;
@@ -54,9 +37,6 @@ class Particle
         g.drawRect(lx, ly, 10, 10);
     }
 
-    /**
-     *
-     */
     public synchronized void move()
     {
         this.x += (this.random.nextInt(10) - 5);

@@ -1,7 +1,7 @@
 package de.freese.sonstiges.dnd.extended;
 
 /*
- * StringTransferHandler.java is used by the 1.4 ExtendedDnDDemo.java example.
+ * StringTransferHandler.java is used by the 1.4 ExtendedDnDMain.java example.
  */
 
 import java.awt.datatransfer.DataFlavor;
@@ -17,11 +17,8 @@ import javax.swing.TransferHandler;
 /**
  * @author Thomas Freese
  */
-public abstract class StringTransferHandler extends TransferHandler
+abstract class StringTransferHandler extends TransferHandler
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -7174980141806424667L;
 
@@ -75,10 +72,6 @@ public abstract class StringTransferHandler extends TransferHandler
         return false;
     }
 
-    /**
-     * @param c {@link JComponent}
-     * @param remove boolean
-     */
     protected abstract void cleanup(JComponent c, boolean remove);
 
     /**
@@ -99,16 +92,7 @@ public abstract class StringTransferHandler extends TransferHandler
         cleanup(c, action == MOVE);
     }
 
-    /**
-     * @param c {@link JComponent}
-     *
-     * @return String
-     */
     protected abstract String exportString(JComponent c);
 
-    /**
-     * @param c {@link JComponent}
-     * @param str String
-     */
     protected abstract void importString(JComponent c, String str);
 }

@@ -11,21 +11,10 @@ import com.lmax.disruptor.RingBuffer;
  */
 public class HttpEventProducer
 {
-    /**
-     *
-     */
     private final Map<String, Boolean> mapResponseReady;
-    /**
-     *
-     */
+
     private final RingBuffer<HttpEvent> ringBuffer;
 
-    /**
-     * Erstellt ein neues {@link HttpEventProducer} Object.
-     *
-     * @param ringBuffer {@link RingBuffer}
-     * @param mapResponseReady {@link Map}
-     */
     public HttpEventProducer(final RingBuffer<HttpEvent> ringBuffer, final Map<String, Boolean> mapResponseReady)
     {
         super();
@@ -34,11 +23,6 @@ public class HttpEventProducer
         this.mapResponseReady = mapResponseReady;
     }
 
-    /**
-     * @param requestId String
-     * @param buffer {@link ByteBuffer}
-     * @param numRead int
-     */
     public void onData(final String requestId, final ByteBuffer buffer, final int numRead)
     {
         long sequence = this.ringBuffer.next();

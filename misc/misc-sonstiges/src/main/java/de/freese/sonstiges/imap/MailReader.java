@@ -27,11 +27,6 @@ public class MailReader implements AutoCloseable
 
     private Store store;
 
-    //    public MailReader(String host, String user, String password)
-    //    {
-    //        super();
-    //    }
-
     @Override
     public void close() throws Exception
     {

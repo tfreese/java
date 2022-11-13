@@ -22,49 +22,26 @@ import java.util.prefs.Preferences;
  */
 public final class SimplePreferences extends Preferences
 {
-    /**
-     *
-     */
     private final String absolutePath;
-    /**
-     *
-     */
+
     private final Map<String, SimplePreferences> children = new HashMap<>();
-    /**
-     *
-     */
+
     private final String name;
-    /**
-     *
-     */
+
     private final SimplePreferences parent;
-    /**
-     *
-     */
+
     private final Map<String, String> properties = new HashMap<>();
     /**
      * Relativ zu diesem Knoten
      */
     private final SimplePreferences root;
-    /**
-     *
-     */
+
     private NodeChangeListener[] nodeListeners = {};
-    /**
-     *
-     */
+
     private PreferenceChangeListener[] prefListeners = {};
-    /**
-     *
-     */
+
     private boolean removed;
 
-    /**
-     * Erstellt ein neues {@link SimplePreferences} Object.
-     *
-     * @param parent {@link SimplePreferences}
-     * @param name {@link String}
-     */
     SimplePreferences(final SimplePreferences parent, final String name)
     {
         super();
@@ -725,9 +702,6 @@ public final class SimplePreferences extends Preferences
         return (isUserNode() ? "User" : "System") + " Preference Node: " + absolutePath();
     }
 
-    /**
-     * @param child {@link SimplePreferences}
-     */
     private void fireNodeAddedEvent(final SimplePreferences child)
     {
         NodeChangeEvent event = new NodeChangeEvent(this, child);
@@ -738,9 +712,6 @@ public final class SimplePreferences extends Preferences
         }
     }
 
-    /**
-     * @param child {@link SimplePreferences}
-     */
     private void fireNodeRemovedEvent(final SimplePreferences child)
     {
         NodeChangeEvent event = new NodeChangeEvent(this, child);
@@ -751,10 +722,6 @@ public final class SimplePreferences extends Preferences
         }
     }
 
-    /**
-     * @param key String
-     * @param newValue String
-     */
     private void firePreferenceChangeEvent(final String key, final String newValue)
     {
         PreferenceChangeEvent event = new PreferenceChangeEvent(this, key, newValue);
@@ -765,11 +732,6 @@ public final class SimplePreferences extends Preferences
         }
     }
 
-    /**
-     * @param path {@link StringTokenizer}
-     *
-     * @return {@link SimplePreferences}
-     */
     private SimplePreferences node(final StringTokenizer path)
     {
         String token = path.nextToken();
@@ -808,13 +770,6 @@ public final class SimplePreferences extends Preferences
         }
     }
 
-    /**
-     * @param path {@link StringTokenizer}
-     *
-     * @return boolean
-     *
-     * @throws BackingStoreException Falls was schiefgeht.
-     */
     private boolean nodeExists(final StringTokenizer path) throws BackingStoreException
     {
         String token = path.nextToken();

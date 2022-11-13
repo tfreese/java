@@ -12,34 +12,18 @@ import javax.swing.tree.TreePath;
  */
 class CTransferableTreePath implements Transferable
 {
-    // The type of DnD object being dragged...
-
-    /**
-     *
-     */
     public static final DataFlavor FLAVOR_TREE_PATH = new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType, "TreePath");
 
     // public static final DataFlavor TREEPATH_FLAVOR = new DataFlavor(TreePath.class, "TreePath");
 
-    /**
-     *
-     */
     private static final DataFlavor[] FLAVORS =
             {
                     FLAVOR_TREE_PATH
             };
 
-    /**
-     *
-     */
     private final TreePath path;
 
-    /**
-     * Constructs a transferable tree path object for the specified path.
-     *
-     * @param path {@link TreePath}
-     */
-    public CTransferableTreePath(final TreePath path)
+    CTransferableTreePath(final TreePath path)
     {
         super();
 

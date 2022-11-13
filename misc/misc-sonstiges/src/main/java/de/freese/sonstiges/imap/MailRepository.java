@@ -33,11 +33,6 @@ import org.springframework.beans.factory.DisposableBean;
  */
 public class MailRepository implements AutoCloseable
 {
-    /**
-     * @param dbPath {@link Path}
-     *
-     * @return DataSource
-     */
     private static DataSource toDataSource(final Path dbPath)
     {
         // H2
@@ -70,14 +65,8 @@ public class MailRepository implements AutoCloseable
         return pool;
     }
 
-    /**
-     *
-     */
     private DataSource dataSource;
 
-    /**
-     * @param dataSource {@link DataSource}
-     */
     public MailRepository(final DataSource dataSource)
     {
         super();
@@ -85,9 +74,6 @@ public class MailRepository implements AutoCloseable
         this.dataSource = Objects.requireNonNull(dataSource, "dataSource required");
     }
 
-    /**
-     * @param dbPath {@link Path}
-     */
     public MailRepository(final Path dbPath)
     {
         this(toDataSource(dbPath));
@@ -131,13 +117,6 @@ public class MailRepository implements AutoCloseable
         this.dataSource = null;
     }
 
-    /**
-     * @param messageId long
-     *
-     * @return long
-     *
-     * @throws SQLException Falls was schiefgeht
-     */
     public boolean containsMessageId(final long messageId) throws SQLException
     {
         String sql = "select count(*) from MESSAGE where MESSAGE_ID = ?";
@@ -158,13 +137,6 @@ public class MailRepository implements AutoCloseable
         }
     }
 
-    /**
-     * @param folderName String
-     *
-     * @return int
-     *
-     * @throws SQLException Falls was schiefgeht
-     */
     public int countMessagesForFolder(final String folderName) throws SQLException
     {
         String sql = "select count(*) from MESSAGE where FOLDER_NAME = ?";
@@ -183,9 +155,6 @@ public class MailRepository implements AutoCloseable
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht
-     */
     public void createDatabaseIfNotExist() throws Exception
     {
         String dbName = "";
@@ -251,13 +220,6 @@ public class MailRepository implements AutoCloseable
         }
     }
 
-    /**
-     * @param values {@link Collection}
-     *
-     * @return {@link Set}
-     *
-     * @throws SQLException Falls was schiefgeht
-     */
     public Set<Token> getToken(final Collection<String> values) throws SQLException
     {
         // @formatter:off
@@ -302,11 +264,6 @@ public class MailRepository implements AutoCloseable
         return result;
     }
 
-    /**
-     * @param messageWrapper {@link MessageWrapper}
-     *
-     * @throws Exception Falls was schiefgeht
-     */
     public void insertMessage(final MessageWrapper messageWrapper) throws Exception
     {
         try (Connection connection = this.dataSource.getConnection())
@@ -339,12 +296,6 @@ public class MailRepository implements AutoCloseable
         }
     }
 
-    /**
-     * @param messageWrapper {@link MessageWrapper}
-     * @param wordCount {@link Map}
-     *
-     * @throws SQLException Falls was schiefgeht
-     */
     public void insertMessageTokens(final MessageWrapper messageWrapper, final Map<String, Integer> wordCount) throws SQLException
     {
         // Mysql/Mariadb kennen keinen MERGE.

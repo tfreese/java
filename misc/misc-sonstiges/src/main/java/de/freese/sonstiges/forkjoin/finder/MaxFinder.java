@@ -11,26 +11,14 @@ import java.util.concurrent.ForkJoinPool;
  */
 public class MaxFinder
 {
-    /**
-     *
-     */
     private final int[] array;
-    /**
-     *
-     */
+
     private final ForkJoinPool forkJoinPool;
     /**
-     *
+     * Schwellenwert, bei dem die Suche sequenziell durchgeführt wird.
      */
     private final int intervalThreshold;
 
-    /**
-     * Erstellt ein neues {@link MaxFinder} Object.
-     *
-     * @param array Array
-     * @param intervalThreshold Schwellenwert, bei dem die Suche sequenziell durchgeführt wird.
-     * @param forkJoinPool {@link ForkJoinPool}
-     */
     public MaxFinder(final int[] array, final int intervalThreshold, final ForkJoinPool forkJoinPool)
     {
         super();
@@ -40,9 +28,6 @@ public class MaxFinder
         this.forkJoinPool = forkJoinPool;
     }
 
-    /**
-     * @return int
-     */
     public int find()
     {
         MaxInIntervall task = new MaxInIntervall(this.array, 0, this.array.length, this.intervalThreshold);

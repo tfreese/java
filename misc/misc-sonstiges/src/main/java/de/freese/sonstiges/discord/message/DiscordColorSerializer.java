@@ -14,23 +14,14 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
  */
 public class DiscordColorSerializer extends StdSerializer<Color>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 8153995700042146023L;
 
-    /**
-     * Erstellt ein neues {@link DiscordColorSerializer} Object.
-     */
     public DiscordColorSerializer()
     {
         this(null);
     }
 
-    /**
-     * @param clazz {@link Class}
-     */
     public DiscordColorSerializer(final Class<Color> clazz)
     {
         super(clazz);

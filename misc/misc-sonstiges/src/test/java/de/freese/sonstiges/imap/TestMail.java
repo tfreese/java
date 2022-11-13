@@ -67,26 +67,14 @@ class TestMail
         }
     }
 
-    /**
-     *
-     */
     private static PrintStream PRINT_STREAM = System.out;
-    /**
-     *
-     */
+
     private static String TEXT_HTML1;
-    /**
-     *
-     */
+
     private static String TEXT_HTML2;
-    /**
-     *
-     */
+
     private static String TEXT_PLAIN;
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @BeforeAll
     public static void beforeAll() throws Exception
     {
@@ -113,27 +101,18 @@ class TestMail
         }
     }
 
-    /**
-     *
-     */
     @AfterEach
     public void afterEach()
     {
         // Empty
     }
 
-    /**
-     *
-     */
     @BeforeEach
     public void beforeEach()
     {
         // Empty
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testFunctionStemmer() throws Exception
     {
@@ -146,9 +125,6 @@ class TestMail
         assertEquals(ref, FunctionStemmer.EN.apply("trademarks"));
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testFunctionStripNotLetter() throws Exception
     {
@@ -168,9 +144,6 @@ class TestMail
         assertEquals("    aBc    ", FunctionStripNotLetter.INSTANCE.apply(text));
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testHtml1ToText() throws Exception
     {
@@ -182,9 +155,6 @@ class TestMail
         assertTrue(true);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testHtml2ToText() throws Exception
     {
@@ -196,9 +166,6 @@ class TestMail
         assertTrue(true);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testTextPlain() throws Exception
     {
@@ -213,8 +180,6 @@ class TestMail
 
     /**
      * Verarbeitet den Text für die Verwendung als Spamfilter.
-     *
-     * @param text {@link String}
      */
     private void prepare(final String text)
     {
@@ -232,12 +197,12 @@ class TestMail
 
         Locale locale = FunctionStripStopWords.guessLocale(token);
 
-        token = MailClassifier.PRE_FILTER.apply(token);
+        token = MailClassifierMain.PRE_FILTER.apply(token);
         token.forEach(PRINT_STREAM::println);
 
         PRINT_STREAM.println();
         PRINT_STREAM.println("Stemmer --------------------");
-        Map<String, Integer> wordCount = MailClassifier.STEMMER_FILTER.apply(token, locale);
+        Map<String, Integer> wordCount = MailClassifierMain.STEMMER_FILTER.apply(token, locale);
         wordCount.forEach((word, count) -> PRINT_STREAM.printf("%s - %d%n", word, count));
     }
 }

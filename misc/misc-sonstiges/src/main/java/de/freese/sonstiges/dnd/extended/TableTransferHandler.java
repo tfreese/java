@@ -9,11 +9,8 @@ import javax.swing.table.DefaultTableModel;
 /**
  * @author Thomas Freese
  */
-public class TableTransferHandler extends StringTransferHandler
+class TableTransferHandler extends StringTransferHandler
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 8631829448750837938L;
     /**
@@ -24,9 +21,7 @@ public class TableTransferHandler extends StringTransferHandler
      * Location where items were added
      */
     private int addIndex = -1;
-    /**
-     *
-     */
+
     private int[] rows;
 
     /**

@@ -19,41 +19,22 @@ import java.util.concurrent.TimeUnit;
  */
 class ParticleCanvas extends Canvas
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -7875942028557880029L;
-    /**
-     *
-     */
+
     protected final Random random = new Random();
-    /**
-     *
-     */
+
     private final ScheduledExecutorService scheduledExecutorService;
-    /**
-     *
-     */
+
     private ScheduledFuture<?> future;
-    /**
-     *
-     */
+
     private List<Particle> particles = Collections.emptyList();
 
-    /**
-     * Creates a new {@link ParticleCanvas} object.
-     */
     ParticleCanvas()
     {
         this(800);
     }
 
-    /**
-     * Creates a new {@link ParticleCanvas} object.
-     *
-     * @param size int
-     */
     ParticleCanvas(final int size)
     {
         setSize(new Dimension(size, size));
@@ -70,9 +51,6 @@ class ParticleCanvas extends Canvas
         this.particles.forEach(p -> p.draw(g));
     }
 
-    /**
-     *
-     */
     public synchronized void shutdown()
     {
         stop();
@@ -107,9 +85,6 @@ class ParticleCanvas extends Canvas
         System.out.println("ParticleCanvas.shutdown() ... finished");
     }
 
-    /**
-     * @param numOfParticles int
-     */
     public synchronized void start(final int numOfParticles)
     {
         System.out.println("ParticleCanvas.start()");
@@ -134,9 +109,6 @@ class ParticleCanvas extends Canvas
         }, 250, 250, TimeUnit.MILLISECONDS);
     }
 
-    /**
-     *
-     */
     public synchronized void stop()
     {
         System.out.println("ParticleCanvas.stop()");

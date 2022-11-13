@@ -27,15 +27,9 @@ import javax.swing.WindowConstants;
  */
 public class TestAttraktor extends JComponent implements Runnable
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 1852796219960955003L;
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(3);
@@ -66,34 +60,18 @@ public class TestAttraktor extends JComponent implements Runnable
         scheduledExecutorService.scheduleWithFixedDelay(canvas, 1000, 500, TimeUnit.MILLISECONDS);
     }
 
-    /**
-     *
-     */
     private final transient Image image;
-    /**
-     *
-     */
+
     private final transient MemoryImageSource imageSource;
-    /**
-     *
-     */
+
     private final int[] pixels;
-    /**
-     *
-     */
+
     private final transient Random random;
-    /**
-     *
-     */
+
     private double x = 200D;
-    /**
-     *
-     */
+
     private double y = 200D;
 
-    /**
-     * Erstellt ein neues {@link TestAttraktor} Object.
-     */
     public TestAttraktor()
     {
         super();
@@ -173,9 +151,6 @@ public class TestAttraktor extends JComponent implements Runnable
         repaint();
     }
 
-    /**
-     * @return {@link Random}
-     */
     Random getRandom()
     {
         return this.random;

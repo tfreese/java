@@ -10,9 +10,6 @@ import org.mockito.Mockito;
  */
 class TestVendingMaschine
 {
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testWithMockito() throws Exception
     {

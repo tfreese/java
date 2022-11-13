@@ -11,17 +11,8 @@ import java.util.zip.Checksum;
  */
 public class CheckedInputStream extends FilterInputStream
 {
-    /**
-     *
-     */
     private final Checksum checksum;
 
-    /**
-     * Creates a new {@link CheckedInputStream} object.
-     *
-     * @param in {@link InputStream}
-     * @param checksum {@link Checksum}
-     */
     public CheckedInputStream(final InputStream in, final Checksum checksum)
     {
         super(in);
@@ -29,9 +20,6 @@ public class CheckedInputStream extends FilterInputStream
         this.checksum = Objects.requireNonNull(checksum, "checksum required");
     }
 
-    /**
-     * @return {@link Checksum}
-     */
     public Checksum getChecksum()
     {
         return this.checksum;

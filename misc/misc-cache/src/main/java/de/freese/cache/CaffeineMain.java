@@ -19,7 +19,7 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 /**
  * @author Thomas Freese
  */
-public class CaffeineMain
+public final class CaffeineMain
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(CaffeineMain.class);
 
@@ -93,5 +93,10 @@ public class CaffeineMain
             executorService.shutdown();
             scheduledExecutorService.shutdown();
         }
+    }
+
+    private CaffeineMain()
+    {
+        super();
     }
 }

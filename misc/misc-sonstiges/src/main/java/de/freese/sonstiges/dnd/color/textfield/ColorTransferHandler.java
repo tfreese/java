@@ -17,27 +17,17 @@ import javax.swing.TransferHandler;
  */
 class ColorTransferHandler extends TransferHandler
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -8161007208324025782L;
-    /**
-     *
-     */
-    final String mimeType = DataFlavor.javaJVMLocalObjectMimeType + ";class=java.awt.Color";
+
+    private final String mimeType = DataFlavor.javaJVMLocalObjectMimeType + ";class=java.awt.Color";
+    
+    private boolean changesForegroundColor = true;
     /**
      * The data type exported from JColorChooser.
      */
-    DataFlavor colorFlavor;
-    /**
-     *
-     */
-    private boolean changesForegroundColor = true;
+    private DataFlavor colorFlavor;
 
-    /**
-     * Creates a new ColorTransferHandler object.
-     */
     ColorTransferHandler()
     {
         super();
@@ -98,9 +88,6 @@ class ColorTransferHandler extends TransferHandler
         return false;
     }
 
-    /**
-     * @return boolean
-     */
     protected boolean hasChangesForegroundColor()
     {
         return this.changesForegroundColor;
@@ -108,10 +95,6 @@ class ColorTransferHandler extends TransferHandler
 
     /**
      * Does the flavor list have a Color flavor?
-     *
-     * @param flavors {@link DataFlavor}[]
-     *
-     * @return boolean
      */
     protected boolean hasColorFlavor(final DataFlavor[] flavors)
     {
@@ -131,9 +114,6 @@ class ColorTransferHandler extends TransferHandler
         return false;
     }
 
-    /**
-     * @param flag boolean
-     */
     protected void setChangesForegroundColor(final boolean flag)
     {
         this.changesForegroundColor = flag;

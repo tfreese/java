@@ -15,21 +15,12 @@ public class FibonacciTask extends RecursiveTask<Long>
      * Schwellenwert, bei dem die Berechnung sequenziell durchgeführt wird.
      */
     private static final int THRESHOLD = 15;
-    /**
-     *
-     */
+
     @Serial
     private static final long serialVersionUID = 67781993370162624L;
-    /**
-     *
-     */
+
     public final int n;
 
-    /**
-     * Erstellt ein neues {@link FibonacciTask} Object.
-     *
-     * @param n int
-     */
     public FibonacciTask(final int n)
     {
         super();

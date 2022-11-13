@@ -14,29 +14,15 @@ import java.util.prefs.BackingStoreException;
  */
 public final class PropertyPreferences extends AbstractPreferences
 {
-    /**
-     *
-     */
     private final Map<String, PropertyPreferences> children = new TreeMap<>();
-    /**
-     *
-     */
+
     private final Map<String, String> properties = new TreeMap<>();
 
-    /**
-     * Erstellt ein neues {@link PropertyPreferences} Object.
-     */
     PropertyPreferences()
     {
         super(null, "");
     }
 
-    /**
-     * Erstellt ein neues {@link PropertyPreferences} Object.
-     *
-     * @param parent {@link AbstractPreferences}
-     * @param name {@link String}
-     */
     private PropertyPreferences(final AbstractPreferences parent, final String name)
     {
         super(parent, name);

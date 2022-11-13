@@ -20,24 +20,13 @@ import javax.swing.tree.TreePath;
 /**
  * @author Thomas Freese
  */
-public class TreeDropTarget implements DropTargetListener
+class TreeDropTarget implements DropTargetListener
 {
-    /**
-     *
-     */
-    @SuppressWarnings("unused")
     private final DropTarget target;
-    /**
-     *
-     */
+
     private final JTree targetTree;
 
-    /**
-     * Creates a new TreeDropTarget object.
-     *
-     * @param tree {@link JTree}
-     */
-    public TreeDropTarget(final JTree tree)
+    TreeDropTarget(final JTree tree)
     {
         this.targetTree = tree;
         this.target = new DropTarget(this.targetTree, this);
@@ -150,11 +139,6 @@ public class TreeDropTarget implements DropTargetListener
         // Empty
     }
 
-    /**
-     * @param event {@link DropTargetDragEvent}
-     *
-     * @return {@link TreeNode}
-     */
     private TreeNode getNodeForEvent(final DropTargetDragEvent event)
     {
         Point p = event.getLocation();

@@ -12,30 +12,21 @@ import javax.swing.tree.TreePath;
  *
  * @author Thomas Freese
  */
-public class TransferableTreeNode implements Transferable
+class TransferableTreeNode implements Transferable
 {
     /**
      * Datentyp-Definition
      */
-    public static final DataFlavor TREE_PATH_FLAVOR = new DataFlavor(TreePath.class, "Tree Path");
-    /**
-     *
-     */
+    static final DataFlavor TREE_PATH_FLAVOR = new DataFlavor(TreePath.class, "Tree Path");
+
     private final DataFlavor[] flavors =
             {
                     TREE_PATH_FLAVOR
             };
-    /**
-     *
-     */
+
     private final TreePath path;
 
-    /**
-     * Creates a new {@link TransferableTreeNode} object.
-     *
-     * @param tp {@link TreePath}
-     */
-    public TransferableTreeNode(final TreePath tp)
+    TransferableTreeNode(final TreePath tp)
     {
         this.path = tp;
     }

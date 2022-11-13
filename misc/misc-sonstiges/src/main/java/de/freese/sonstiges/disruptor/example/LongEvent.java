@@ -6,22 +6,13 @@ package de.freese.sonstiges.disruptor.example;
  */
 public class LongEvent
 {
-    /**
-     *
-     */
     private long value;
 
-    /**
-     *
-     */
     public void clear()
     {
         this.value = 0;
     }
 
-    /**
-     * @param value long
-     */
     public void setValue(final long value)
     {
         this.value = value;

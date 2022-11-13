@@ -9,16 +9,8 @@ import java.io.PrintWriter;
  */
 public class SortThread extends Thread
 {
-    /**
-     *
-     */
     private static final int MAXWORDS = 50;
 
-    /**
-     * @param a String[]
-     * @param lo0 int
-     * @param hi0 int
-     */
     private static void quicksort(final String[] a, final int lo0, final int hi0)
     {
         int lo = lo0;
@@ -64,21 +56,10 @@ public class SortThread extends Thread
         quicksort(a, (lo == lo0) ? (lo + 1) : lo, hi0);
     }
 
-    /**
-     *
-     */
     private final BufferedReader in;
-    /**
-     *
-     */
+
     private final PrintWriter out;
 
-    /**
-     * Creates a new {@link SortThread} object.
-     *
-     * @param out {@link PrintWriter}
-     * @param in {@link BufferedReader}
-     */
     public SortThread(final PrintWriter out, final BufferedReader in)
     {
         super();

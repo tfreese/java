@@ -17,9 +17,6 @@ import java.util.function.UnaryOperator;
  */
 public class FunctionNormalizeGerman implements UnaryOperator<String>
 {
-    /**
-     *
-     */
     public static final UnaryOperator<String> INSTANCE = new FunctionNormalizeGerman();
 
     /**

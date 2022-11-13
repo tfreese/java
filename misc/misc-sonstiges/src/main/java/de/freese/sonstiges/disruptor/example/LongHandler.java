@@ -13,26 +13,15 @@ import org.slf4j.LoggerFactory;
  */
 public class LongHandler implements EventHandler<LongEvent>, WorkHandler<LongEvent>
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(LongHandler.class);
-    /**
-     *
-     */
+
     private final int ordinal;
 
-    /**
-     *
-     */
     public LongHandler()
     {
         this(-1);
     }
 
-    /**
-     * @param ordinal int
-     */
     public LongHandler(final int ordinal)
     {
         super();
@@ -63,9 +52,6 @@ public class LongHandler implements EventHandler<LongEvent>, WorkHandler<LongEve
         handleEvent(event);
     }
 
-    /**
-     * @param event {@link LongEvent}
-     */
     private void handleEvent(final LongEvent event)
     {
         LOGGER.info("{}: LongEventHandler.onEvent: Event = {}", Thread.currentThread().getName(), event);

@@ -12,20 +12,10 @@ import java.util.TreeSet;
  */
 final class Report implements Comparable<Report>
 {
-    /**
-     *
-     */
     private final File file;
-    /**
-     *
-     */
+
     private final Set<String> messages = new TreeSet<>();
 
-    /**
-     * Erstellt ein neues {@link Report} Object.
-     *
-     * @param file {@link File}
-     */
     Report(final File file)
     {
         super();
@@ -33,9 +23,6 @@ final class Report implements Comparable<Report>
         this.file = file;
     }
 
-    /**
-     * @param text String
-     */
     public void addMessage(final String text)
     {
         this.messages.add(text);
@@ -97,11 +84,6 @@ final class Report implements Comparable<Report>
         return sb.toString();
     }
 
-    /**
-     * @param rootDirectory {@link Path}
-     *
-     * @return String
-     */
     public String toString(final Path rootDirectory)
     {
         StringBuilder sb = new StringBuilder();

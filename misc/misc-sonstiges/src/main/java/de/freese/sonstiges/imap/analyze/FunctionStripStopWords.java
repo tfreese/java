@@ -25,13 +25,8 @@ import java.util.function.UnaryOperator;
  */
 public class FunctionStripStopWords implements UnaryOperator<String>
 {
-    /**
-     *
-     */
     public static final Function<String, String> INSTANCE = new FunctionStripStopWords();
-    /**
-     *
-     */
+
     private static final Map<Locale, Set<String>> CACHE = new HashMap<>();
 
     static
@@ -66,8 +61,6 @@ public class FunctionStripStopWords implements UnaryOperator<String>
     /**
      * Liefert das {@link Locale} dessen Stop-Wörter am häufigsten in den Text vorkommen.<br>
      * <b>Im Mail Header 'Content-Language' ist je nach Provider das Locale schon enthalten !</b> Ist die Collection leer, wird null geliefert.<br>
-     *
-     * @param texte {@link Collection}
      *
      * @return {@link Locale}; null oder {@link Locale#GERMAN} oder {@link Locale#ENGLISH}
      */

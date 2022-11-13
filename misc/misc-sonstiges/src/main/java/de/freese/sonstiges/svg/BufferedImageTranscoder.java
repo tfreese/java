@@ -18,9 +18,6 @@ import org.apache.batik.transcoder.image.TIFFTranscoder;
  */
 public class BufferedImageTranscoder extends ImageTranscoder
 {
-    /**
-     *
-     */
     private BufferedImage image;
 
     /**
@@ -32,9 +29,6 @@ public class BufferedImageTranscoder extends ImageTranscoder
         return new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
     }
 
-    /**
-     * @return {@link BufferedImage}
-     */
     public BufferedImage getBufferedImage()
     {
         return this.image;

@@ -14,9 +14,6 @@ import org.slf4j.LoggerFactory;
  */
 class HttpWriteHandler implements CompletionHandler<Integer, MyAttachment>
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpWriteHandler.class);
 
     /**

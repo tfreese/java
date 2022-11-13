@@ -15,9 +15,6 @@ import org.junit.jupiter.api.Test;
  */
 class TestJulianDay
 {
-    /**
-     *
-     */
     @Test
     void fristBerechnungMonat()
     {
@@ -30,9 +27,6 @@ class TestJulianDay
         assertEquals("2012-07-08", d2.toString());
     }
 
-    /**
-     *
-     */
     @Test
     void fristBerechnungTag()
     {
@@ -45,9 +39,6 @@ class TestJulianDay
         assertEquals("2012-06-28", d2.toString());
     }
 
-    /**
-     *
-     */
     @Test
     void konvertierungJavaUtilDate()
     {
@@ -63,9 +54,6 @@ class TestJulianDay
         assertEquals("2012-08-13", JulianDayConverter.createDayFromJD(jdLosAngeles).toString());
     }
 
-    /**
-     *
-     */
     @Test
     void readable()
     {
@@ -83,9 +71,6 @@ class TestJulianDay
         assertEquals("2012-07-08", d3.toString());
     }
 
-    /**
-     *
-     */
     @Test
     void vergleich()
     {
@@ -99,9 +84,6 @@ class TestJulianDay
         assertEquals("1990-01-01", d2.toString());
     }
 
-    /**
-     *
-     */
     @Test
     void wochentagsErmittlung()
     {

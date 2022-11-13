@@ -14,27 +14,15 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  * @author Thomas Freese
  */
 @JsonPropertyOrder(
-{
-        "color", "author", "title", "titleDescription", "url", "thumbnail", "image", "fields", "footer"
-})
+        {
+                "color", "author", "title", "titleDescription", "url", "thumbnail", "image", "fields", "footer"
+        })
 @JsonRootName(value = "embed")
 public class DiscordEmbed
 {
-    /**
-     *
-     */
-    private DiscordAuthor author;
-    /**
-    *
-    */
-    private Color color;
-    /**
-    *
-    */
     private final List<DiscordField> fields = new ArrayList<>();
-    /**
-    *
-    */
+    private DiscordAuthor author;
+    private Color color;
     private DiscordFooter footer;
     /**
      * Großes Bild
@@ -44,24 +32,13 @@ public class DiscordEmbed
      * Kleines Bild oben rechts
      */
     private DiscordThumbnail thumbnail;
-    /**
-     *
-     */
+
     private String title;
-    /**
-     *
-     */
+
     private String titleDescription;
-    /**
-     *
-     */
+
     private String titleUrl;
 
-    /**
-     * @param field {@link DiscordField}
-     *
-     * @return {@link DiscordEmbed}
-     */
     public DiscordEmbed addField(final DiscordField field)
     {
         this.fields.add(field);
@@ -69,34 +46,22 @@ public class DiscordEmbed
         return this;
     }
 
-    /**
-     * @return {@link DiscordAuthor}
-     */
     public DiscordAuthor getAuthor()
     {
         return this.author;
     }
 
-    /**
-     * @return {@link Color}
-     */
     @JsonSerialize(using = DiscordColorSerializer.class)
     public Color getColor()
     {
         return this.color;
     }
 
-    /**
-     * @return List<Field>
-     */
     public List<DiscordField> getFields()
     {
         return this.fields;
     }
 
-    /**
-     * @return {@link DiscordFooter}
-     */
     public DiscordFooter getFooter()
     {
         return this.footer;
@@ -104,8 +69,6 @@ public class DiscordEmbed
 
     /**
      * Großes Bild
-     *
-     * @return {@link DiscordImage}
      */
     public DiscordImage getImage()
     {
@@ -114,45 +77,29 @@ public class DiscordEmbed
 
     /**
      * Kleines Bild oben rechts
-     *
-     * @return {@link DiscordThumbnail}
      */
     public DiscordThumbnail getThumbnail()
     {
         return this.thumbnail;
     }
 
-    /**
-     * @return String
-     */
     public String getTitle()
     {
         return this.title;
     }
 
-    /**
-     * @return String
-     */
     @JsonGetter("description")
     public String getTitleDescription()
     {
         return this.titleDescription;
     }
 
-    /**
-     * @return String
-     */
     @JsonGetter("url")
     public String getTitleUrl()
     {
         return this.titleUrl;
     }
 
-    /**
-     * @param author {@link DiscordAuthor}
-     *
-     * @return {@link DiscordEmbed}
-     */
     public DiscordEmbed setAuthor(final DiscordAuthor author)
     {
         this.author = author;
@@ -160,11 +107,6 @@ public class DiscordEmbed
         return this;
     }
 
-    /**
-     * @param color {@link Color}
-     *
-     * @return {@link DiscordEmbed}
-     */
     public DiscordEmbed setColor(final Color color)
     {
         this.color = color;
@@ -172,11 +114,6 @@ public class DiscordEmbed
         return this;
     }
 
-    /**
-     * @param footer {@link DiscordFooter}
-     *
-     * @return {@link DiscordEmbed}
-     */
     public DiscordEmbed setFooter(final DiscordFooter footer)
     {
         this.footer = footer;
@@ -186,10 +123,6 @@ public class DiscordEmbed
 
     /**
      * Großes Bild
-     *
-     * @param image {@link DiscordImage}
-     *
-     * @return {@link DiscordEmbed}
      */
     public DiscordEmbed setImage(final DiscordImage image)
     {
@@ -200,10 +133,6 @@ public class DiscordEmbed
 
     /**
      * Kleines Bild oben rechts
-     *
-     * @param thumbnail {@link DiscordThumbnail}
-     *
-     * @return {@link DiscordEmbed}
      */
     public DiscordEmbed setThumbnail(final DiscordThumbnail thumbnail)
     {
@@ -212,11 +141,6 @@ public class DiscordEmbed
         return this;
     }
 
-    /**
-     * @param title String
-     *
-     * @return {@link DiscordEmbed}
-     */
     public DiscordEmbed setTitle(final String title)
     {
         this.title = title;
@@ -224,11 +148,6 @@ public class DiscordEmbed
         return this;
     }
 
-    /**
-     * @param titleDescription String
-     *
-     * @return {@link DiscordEmbed}
-     */
     public DiscordEmbed setTitleDescription(final String titleDescription)
 
     {
@@ -237,11 +156,6 @@ public class DiscordEmbed
         return this;
     }
 
-    /**
-     * @param titleUrl String
-     *
-     * @return {@link DiscordEmbed}
-     */
     public DiscordEmbed setTitleUrl(final String titleUrl)
     {
         this.titleUrl = titleUrl;

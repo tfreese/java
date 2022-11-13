@@ -14,14 +14,8 @@ import javax.swing.text.html.parser.ParserDelegator;
  */
 public class Html2Text extends HTMLEditorKit.ParserCallback
 {
-    /**
-     *
-     */
     private StringBuilder sb;
 
-    /**
-     * @return String
-     */
     public String getText()
     {
         return this.sb.toString();
@@ -36,13 +30,6 @@ public class Html2Text extends HTMLEditorKit.ParserCallback
         this.sb.append(data).append(" ");
     }
 
-    /**
-     * @param html String
-     *
-     * @return {@link Html2Text}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public Html2Text parse(final String html) throws Exception
     {
         this.sb = new StringBuilder();

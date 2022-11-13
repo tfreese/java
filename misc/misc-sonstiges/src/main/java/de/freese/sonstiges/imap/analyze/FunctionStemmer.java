@@ -35,11 +35,6 @@ public class FunctionStemmer implements UnaryOperator<String>
     @FunctionalInterface
     private interface Stemmer
     {
-        /**
-         * @param token String
-         *
-         * @return String
-         */
         String stem(String token);
     }
 
@@ -71,9 +66,6 @@ public class FunctionStemmer implements UnaryOperator<String>
      */
     static class LuceneGermanLightStemmer implements Stemmer
     {
-        /**
-         *
-         */
         private final GermanLightStemmer impl = new GermanLightStemmer();
 
         /**
@@ -94,9 +86,6 @@ public class FunctionStemmer implements UnaryOperator<String>
      */
     static class SnowballEnglishStemmer implements Stemmer
     {
-        /**
-         *
-         */
         private final SnowballProgram impl = new EnglishStemmer();
 
         /**
@@ -117,9 +106,6 @@ public class FunctionStemmer implements UnaryOperator<String>
      */
     static class SnowballGerman2Stemmer implements Stemmer
     {
-        /**
-         *
-         */
         private final SnowballProgram impl = new German2Stemmer();
 
         /**
@@ -137,10 +123,6 @@ public class FunctionStemmer implements UnaryOperator<String>
 
     /**
      * Liefert die Stemmer-{@link Function} des entsprechenden Locales.
-     *
-     * @param locale {@link Locale}
-     *
-     * @return {@link Function}
      */
     public static Function<String, String> get(final Locale locale)
     {
@@ -158,16 +140,8 @@ public class FunctionStemmer implements UnaryOperator<String>
         }
     }
 
-    /**
-     *
-     */
     private final Stemmer stemmer;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link FunctionStemmer}
-     *
-     * @param locale {@link Locale}
-     */
     public FunctionStemmer(final Locale locale)
     {
         super();

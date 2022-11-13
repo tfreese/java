@@ -7,26 +7,17 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Thomas Freese
  */
-public class ProducerConsumerWaitNotify
+public final class ProducerConsumerWaitNotify
 {
     /**
      * @author Thomas Freese
      */
     private static class Consumer implements Runnable
     {
-        /**
-         *
-         */
         private final CubbyHole cubbyhole;
-        /**
-         *
-         */
+
         private final int number;
 
-        /**
-         * @param cubbyHole {@link CubbyHole}
-         * @param number int
-         */
         public Consumer(final CubbyHole cubbyHole, final int number)
         {
             super();
@@ -64,20 +55,10 @@ public class ProducerConsumerWaitNotify
      */
     private static class CubbyHole
     {
-        /**
-         *
-         */
         private boolean available;
-        /**
-         *
-         */
+
         private int content;
 
-        /**
-         * Liefert Wert.
-         *
-         * @return int
-         */
         public synchronized int get()
         {
             while (!this.available)
@@ -98,11 +79,6 @@ public class ProducerConsumerWaitNotify
             return this.content;
         }
 
-        /**
-         * Setzt Wert.
-         *
-         * @param value int
-         */
         public synchronized void put(final int value)
         {
             while (this.available)
@@ -129,19 +105,10 @@ public class ProducerConsumerWaitNotify
      */
     private static class Producer implements Runnable
     {
-        /**
-         *
-         */
         private final CubbyHole cubbyhole;
-        /**
-         *
-         */
+
         private final int number;
 
-        /**
-         * @param cubbyHole {@link CubbyHole}
-         * @param number int
-         */
         public Producer(final CubbyHole cubbyHole, final int number)
         {
             super();
@@ -176,11 +143,6 @@ public class ProducerConsumerWaitNotify
         }
     }
 
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         CubbyHole cubbyHole = new CubbyHole();
@@ -202,5 +164,10 @@ public class ProducerConsumerWaitNotify
         }
 
         // System.exit(0);
+    }
+
+    private ProducerConsumerWaitNotify()
+    {
+        super();
     }
 }

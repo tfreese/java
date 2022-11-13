@@ -15,17 +15,10 @@ import java.util.List;
 @Deprecated
 public class AlgorithmLinear implements SudokuAlgorithm
 {
-    /**
-     *
-     */
     private int blockSize = 0;
-    /**
-     *
-     */
+
     private int[][] grid;
-    /**
-     *
-     */
+
     private List<Integer> numberList;
 
     /**
@@ -108,9 +101,6 @@ public class AlgorithmLinear implements SudokuAlgorithm
     /**
      * Füllen der internen Liste mit allen noch verfügbaren Zahlen.
      *
-     * @param row int
-     * @param col int
-     *
      * @return int, Anzahl verfügbarer Zahlen
      */
     private int fillArrayList(final int row, final int col)
@@ -169,10 +159,6 @@ public class AlgorithmLinear implements SudokuAlgorithm
 
     /**
      * Versuchen eine Zeile aufzubauen.
-     *
-     * @param row int
-     *
-     * @return boolean
      */
     private boolean generateRow(final int row)
     {
@@ -194,10 +180,6 @@ public class AlgorithmLinear implements SudokuAlgorithm
 
     /**
      * Liefert die erste und letzte Zeile/Spalte innerhalb des Blocks.
-     *
-     * @param rowOrCol int
-     *
-     * @return {@link Point}
      */
     private Point getRegionRowsOrCols(final int rowOrCol)
     {

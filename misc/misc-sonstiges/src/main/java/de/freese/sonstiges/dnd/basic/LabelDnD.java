@@ -25,11 +25,8 @@ import javax.swing.border.TitledBorder;
 /**
  * @author Thomas Freese
  */
-public class LabelDnD extends JPanel
+public final class LabelDnD extends JPanel
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -8569374356503714387L;
 
@@ -50,9 +47,6 @@ public class LabelDnD extends JPanel
         }
     }
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         // Schedule a job for the event-dispatching thread:
@@ -85,7 +79,7 @@ public class LabelDnD extends JPanel
     /**
      * Creates a new {@link LabelDnD} object.
      */
-    public LabelDnD()
+    private LabelDnD()
     {
         super(new GridLayout(2, 1));
 

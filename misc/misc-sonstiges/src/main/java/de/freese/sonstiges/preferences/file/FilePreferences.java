@@ -29,29 +29,14 @@ import org.slf4j.LoggerFactory;
  */
 final class FilePreferences extends AbstractPreferences
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(FilePreferences.class);
-    /**
-     *
-     */
+
     private final Map<String, FilePreferences> children;
-    /**
-     *
-     */
+
     private final Map<String, String> root;
-    /**
-     *
-     */
+
     private boolean isRemoved;
 
-    /**
-     * Erstellt ein neues {@link FilePreferences} Object.
-     *
-     * @param parent {@link AbstractPreferences}
-     * @param name String
-     */
     FilePreferences(final AbstractPreferences parent, final String name)
     {
         super(parent, name);
@@ -295,9 +280,6 @@ final class FilePreferences extends AbstractPreferences
         }
     }
 
-    /**
-     * @param sb {@link StringBuilder}
-     */
     private void getPath(final StringBuilder sb)
     {
         final FilePreferences parent = (FilePreferences) parent();

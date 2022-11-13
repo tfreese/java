@@ -10,7 +10,7 @@ import javafx.application.Application;
 /**
  * @author Thomas Freese
  */
-public class JConkyLauncher
+public final class JConkyLauncher
 {
     public static void main(final String[] args)
     {
@@ -70,5 +70,10 @@ public class JConkyLauncher
         // {
         // ex.printStackTrace();
         // }
+    }
+
+    private JConkyLauncher()
+    {
+        super();
     }
 }

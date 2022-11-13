@@ -11,16 +11,8 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 @JsonRootName(value = "image")
 public class DiscordImage
 {
-    /**
-    *
-    */
     private final String url;
 
-    /**
-     * Erstellt ein neues {@link DiscordImage} Object.
-     *
-     * @param url String
-     */
     public DiscordImage(final String url)
     {
         super();
@@ -28,9 +20,6 @@ public class DiscordImage
         this.url = url;
     }
 
-    /**
-     * @return String
-     */
     public String getUrl()
     {
         return this.url;

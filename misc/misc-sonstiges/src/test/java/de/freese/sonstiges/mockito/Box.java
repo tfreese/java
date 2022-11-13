@@ -6,18 +6,9 @@ package de.freese.sonstiges.mockito;
  */
 public interface Box
 {
-    /**
-     * @return int
-     */
     int getPrice();
 
-    /**
-     * @return boolean
-     */
     boolean isEmpty();
 
-    /**
-     *
-     */
     void releaseItem();
 }

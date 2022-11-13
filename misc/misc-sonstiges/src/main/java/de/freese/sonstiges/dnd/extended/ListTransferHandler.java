@@ -10,11 +10,8 @@ import javax.swing.JList;
 /**
  * @author Thomas Freese
  */
-public class ListTransferHandler extends StringTransferHandler
+class ListTransferHandler extends StringTransferHandler
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -3208151404479849978L;
     /**
@@ -25,9 +22,7 @@ public class ListTransferHandler extends StringTransferHandler
      * Location where items were added
      */
     private int addIndex = -1;
-    /**
-     *
-     */
+
     private int[] indices;
 
     /**
@@ -96,7 +91,6 @@ public class ListTransferHandler extends StringTransferHandler
     /**
      * @see de.freese.sonstiges.dnd.extended.StringTransferHandler#importString(javax.swing.JComponent, java.lang.String)
      */
-    @SuppressWarnings("unchecked")
     @Override
     protected void importString(final JComponent c, final String str)
     {

@@ -25,47 +25,23 @@ import de.freese.sonstiges.server.ServerMain;
  */
 public class ServerSingleThread extends AbstractServer
 {
-    /**
-     *
-     */
     private final SelectorProvider selectorProvider;
     /**
      * ReentrantLock nicht möglich, da dort die Locks auf Thread-Ebene verwaltet werden.
      */
     private final Semaphore stopLock = new Semaphore(1, true);
-    /**
-     *
-     */
+
     private boolean isShutdown;
-    /**
-     *
-     */
+
     private Selector selector;
-    /**
-     *
-     */
+
     private ServerSocketChannel serverSocketChannel;
 
-    /**
-     * Erstellt ein neues {@link ServerSingleThread} Object.
-     *
-     * @param port int
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public ServerSingleThread(final int port) throws IOException
     {
         this(port, SelectorProvider.provider());
     }
 
-    /**
-     * Erstellt ein neues {@link ServerSingleThread} Object.
-     *
-     * @param port int
-     * @param selectorProvider {@link SelectorProvider}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public ServerSingleThread(final int port, final SelectorProvider selectorProvider) throws IOException
     {
         super(port);

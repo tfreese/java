@@ -24,9 +24,6 @@ import org.tartarus.snowball.ext.GermanStemmer;
  */
 class TestStemmer
 {
-    /**
-     *
-     */
     // @formatter:off
     private static final List<Arguments> STEMMER = List.of(
             Arguments.of("Tartarus German",  wrap(new GermanStemmer()))
@@ -43,20 +40,10 @@ class TestStemmer
     @FunctionalInterface
     private interface Stemmer
     {
-        /**
-         * @param charSequence String
-         *
-         * @return String
-         */
         String stem(String charSequence);
     }
     // @formatter:on
 
-    /**
-     * @param stemmerImpl Object
-     *
-     * @return {@link Stemmer}
-     */
     private static Stemmer wrap(final Object stemmerImpl)
     {
         if (stemmerImpl instanceof SnowballProgram)
@@ -95,33 +82,18 @@ class TestStemmer
         }
     }
 
-    /**
-     * @param stemmer {@link Stemmer}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     void testBaeume(final Stemmer stemmer) throws Exception
     {
         String stem = stemmer.stem("bäume");
         assertEquals("baum", stem);
     }
 
-    /**
-     * @param stemmer {@link Stemmer}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     void testBaum(final Stemmer stemmer) throws Exception
     {
         String stem = stemmer.stem("baum");
         assertEquals("baum", stem);
     }
 
-    /**
-     * @param stemmer {@link Stemmer}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     void testBewaldet(final Stemmer stemmer) throws Exception
     {
         String stem = stemmer.stem("bewaldet");
@@ -131,9 +103,6 @@ class TestStemmer
         assertEquals("bewaldet", stem);
     }
 
-    /**
-     * @return {@link Stream}
-     */
     @TestFactory
     Stream<DynamicNode> testFactory()
     {
@@ -158,88 +127,48 @@ class TestStemmer
         // @formatter:on
     }
 
-    /**
-     * @param stemmer {@link Stemmer}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     void testHuehner(final Stemmer stemmer) throws Exception
     {
         String stem = stemmer.stem("hühner");
         assertEquals("huhn", stem);
     }
 
-    /**
-     * @param stemmer {@link Stemmer}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     void testHuhn(final Stemmer stemmer) throws Exception
     {
         String stem = stemmer.stem("huhn");
         assertEquals("huhn", stem);
     }
 
-    /**
-     * @param stemmer {@link Stemmer}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     void testTaegig(final Stemmer stemmer) throws Exception
     {
         String stem = stemmer.stem("tägig");
         assertEquals("tagig", stem);
     }
 
-    /**
-     * @param stemmer {@link Stemmer}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     void testTage(final Stemmer stemmer) throws Exception
     {
         String stem = stemmer.stem("tage");
         assertEquals("tag", stem);
     }
 
-    /**
-     * @param stemmer {@link Stemmer}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     void testTagung(final Stemmer stemmer) throws Exception
     {
         String stem = stemmer.stem("tagung");
         assertEquals("tagung", stem);
     }
 
-    /**
-     * @param stemmer {@link Stemmer}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     void testWaelder(final Stemmer stemmer) throws Exception
     {
         String stem = stemmer.stem("wälder");
         assertEquals("wald", stem);
     }
 
-    /**
-     * @param stemmer {@link Stemmer}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     void testWald(final Stemmer stemmer) throws Exception
     {
         String stem = stemmer.stem("wald");
         assertEquals("wald", stem);
     }
 
-    /**
-     * @param stemmer {@link Stemmer}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     void testWeisse(final Stemmer stemmer) throws Exception
     {
         String stem = stemmer.stem("weisse");
