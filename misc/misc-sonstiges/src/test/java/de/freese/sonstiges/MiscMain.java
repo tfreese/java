@@ -128,7 +128,7 @@ public final class MiscMain
         //        httpRedirect();
         //        introspector();
         //        javaVersion();
-        jndi();
+        //        jndi();
         //        listDirectories();
         //        nioPipeChannels();
         //        processBuilder();
@@ -137,7 +137,7 @@ public final class MiscMain
         //        reactorStream();
         //        reactorSinks();
         //        securityProviders();
-        //        streamParallelCustomThreadPool();
+        streamParallelCustomThreadPool();
         //        showMemory();
         //        splitList();
         //        systemMXBean();
@@ -1323,10 +1323,10 @@ public final class MiscMain
     {
         int availableCpus = Runtime.getRuntime().availableProcessors();
 
-        List<Long> list = LongStream.rangeClosed(1, (int) (availableCpus * 1.5D)).boxed().toList();
+        List<Long> list = LongStream.rangeClosed(1, 10).boxed().toList();
 
         // Alle Threads des ForkJoinPool.commonPool() werden verwendet.
-        // list.stream().parallel().forEach(value -> LOGGER.info("{}", value));
+        list.stream().parallel().forEach(value -> LOGGER.info("{}", value));
 
         System.out.println();
 

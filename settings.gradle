@@ -3,7 +3,9 @@ rootProject.name = "java"
 
 include "binding"
 include "cellular-machines"
+include "jsensors"
 include "maven-proxy"
+include "meta-model"
 
 file("${rootDir}/misc").eachDirMatch(~/misc-.*/) {
     include "misc:${it.name}"

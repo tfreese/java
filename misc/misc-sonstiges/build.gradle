@@ -9,12 +9,11 @@ dependencies {
         version = "$version_javafxBase"
         modules = ["javafx.controls"]
     }
-    
+
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
     implementation("com.fasterxml.jackson.module:jackson-module-jaxb-annotations")
     implementation("com.h2database:h2")
     implementation("com.lmax:disruptor")
-    implementation("com.sun.mail:jakarta.mail")
     implementation("com.zaxxer:HikariCP")
     implementation("dev.failsafe:failsafe")
     implementation("io.projectreactor:reactor-test")
@@ -33,7 +32,7 @@ dependencies {
     implementation("org.hsqldb:hsqldb")
     implementation("org.jsoup:jsoup")
     implementation("org.mariadb.jdbc:mariadb-java-client")
-    implementation("org.springframework.boot:spring-boot-starter") {
+    implementation("org.springframework.boot:spring-boot-starter-mail") {
         exclude group: "ch.qos.logback", module: "logback-classic"
         exclude group: "org.apache.logging.log4j", module: "log4j-to-slf4j"
     }

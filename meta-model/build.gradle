@@ -1,0 +1,34 @@
+plugins {
+    id "java-library"
+}
+
+description = "Code-Generierung durch MetaDaten."
+
+dependencies {
+    api("jakarta.persistence:jakarta.persistence-api")
+    api("jakarta.validation:jakarta.validation-api")
+    api("org.hibernate.orm:hibernate-core")
+    api("org.hibernate.orm:hibernate-core")
+
+    implementation("org.slf4j:slf4j-api")
+
+    testImplementation("com.oracle.database.jdbc:ojdbc11")
+    testImplementation("org.hibernate.validator:hibernate-validator")
+    testImplementation("org.hsqldb:hsqldb")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.mariadb.jdbc:mariadb-java-client")
+    testImplementation("org.slf4j:slf4j-simple")
+    testImplementation("org.xerial:sqlite-jdbc")
+}
+
+tasks.register("cleanAppFiles", Delete) {
+    description "Leeren des erzeugten src-Ordners."
+    group = "Wartung"
+
+    logger.lifecycle "leere erzeugten src-Ordner: ${projectDir}/src/test/generated"
+
+    delete fileTree("src/test/generated") {
+        include "**/*.*"
+    }
+}
+clean.configure { finalizedBy cleanAppFiles }
