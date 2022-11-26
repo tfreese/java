@@ -18,7 +18,7 @@ dependencies {
 // The archive name. If the name has not been explicitly set, the pattern for the name is:
 // [archiveBaseName]-[archiveAppendix]-[archiveVersion]-[archiveClassifier].[archiveExtension]
 // archiveFileName = "my-boot.jar"
-bootJar {
+springBoot {
     mainClass = "de.freese.simulationen.SimulationLauncher"
 }
 

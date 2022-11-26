@@ -19,6 +19,6 @@ dependencies {
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
-bootJar {
+springBoot {
     mainClass = "de.freese.jconky.JConkyLauncher"
 }
