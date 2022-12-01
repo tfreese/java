@@ -78,10 +78,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -137,12 +140,13 @@ public final class MiscMain
         //        reactorStream();
         //        reactorSinks();
         //        securityProviders();
-        streamParallelCustomThreadPool();
+        //        streamParallelCustomThreadPool();
         //        showMemory();
         //        splitList();
         //        systemMXBean();
         //        textBlocks();
         //        utilLogging();
+        virtualThreads();
 
         Schedulers.shutdownNow();
         executorService.shutdown();
@@ -1431,6 +1435,33 @@ public final class MiscMain
         logger.fine("Fein");
         logger.finer("Feiner");
         logger.finest("Am feinsten");
+    }
+
+    static void virtualThreads() throws Exception
+    {
+        Consumer<Thread> printThreadInfos = thread -> System.out.printf("Thread-Name = %10s, isVirtual = %b, ID = %s%n", thread.getName(), thread.isVirtual(), thread);
+
+        // Executors.newVirtualThreadPerTaskExecutor(): Hier haben virtuelle Threads keine Namen.
+        ThreadFactory threadFactory = Thread.ofVirtual().name("virtual-", 1).factory();
+
+        try (ExecutorService executorService = Executors.newThreadPerTaskExecutor(threadFactory))
+        {
+            IntStream.range(0, 20).forEach(i ->
+            {
+                executorService.submit(() ->
+                {
+                    printThreadInfos.accept(Thread.currentThread());
+                    TimeUnit.MILLISECONDS.sleep(500L);
+                    return i;
+                });
+            });
+        }
+
+        System.out.println();
+
+        Thread.ofVirtual().name("virtual").start(() -> printThreadInfos.accept(Thread.currentThread()));
+
+        Thread.startVirtualThread(() -> printThreadInfos.accept(Thread.currentThread()));
     }
 
     private MiscMain()
