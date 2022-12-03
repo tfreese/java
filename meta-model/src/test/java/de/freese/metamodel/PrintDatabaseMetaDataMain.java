@@ -65,6 +65,7 @@ public final class PrintDatabaseMetaDataMain
         try (ResultSet rs = metaData.getCatalogs())
         {
             System.out.println("\nCatalogs:");
+            write(rs, System.out);
         }
 
         try (ResultSet rs = metaData.getSchemas())

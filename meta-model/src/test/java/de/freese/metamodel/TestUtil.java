@@ -1,7 +1,6 @@
 // Created: 08.07.2018
 package de.freese.metamodel;
 
-import java.io.Closeable;
 import java.io.PrintStream;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -31,10 +30,6 @@ public final class TestUtil
         if (dataSource instanceof AutoCloseable ac)
         {
             ac.close();
-        }
-        else if (dataSource instanceof Closeable c)
-        {
-            c.close();
         }
         else if (dataSource instanceof JDBCPool p)
         {
@@ -194,7 +189,7 @@ public final class TestUtil
 
         int columnCount = rows.get(0).length;
 
-        // Breite pro Spalte rausfinden.
+        // Breite pro Spalte herausfinden.
         int[] columnWidth = new int[columnCount];
 
         // @formatter:off

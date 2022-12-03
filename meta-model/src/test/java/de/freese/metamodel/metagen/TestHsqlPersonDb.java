@@ -31,9 +31,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestHsqlPersonDb
 {
-    /**
-     * "PUBLIC"
-     */
     private static final String SCHEMA_NAME = "PUBLIC";
 
     private static DataSource dataSource;

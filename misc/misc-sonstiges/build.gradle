@@ -41,12 +41,12 @@ dependencies {
     runtimeOnly("org.glassfish.jaxb:jaxb-runtime") // Implementierung von jakarta.json.bind:jakarta.json.bind-api
     runtimeOnly("org.slf4j:slf4j-simple")
 
+    // tomcat-juli ist in tomcat-catalina enthalten, aber auch viele andere Jars die nicht benötigt werden.
     testImplementation("org.apache.tomcat:tomcat-catalina") {
         exclude group: "org.apache.tomcat"
     }
-
-    // tomcat-juli ist in tomcat-catalina enthalten, aber auch viele andere Jars die nicht benötigt werden.
     testImplementation("org.apache.tomcat:tomcat-juli")
+
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
     testImplementation("org.junit.jupiter:junit-jupiter-params")
     testImplementation("org.mockito:mockito-junit-jupiter")

@@ -182,6 +182,7 @@
 
         <!-- provided scope -->
         <!-- test scope -->
+        <!-- tomcat-juli ist in tomcat-catalina enthalten, aber auch viele andere Jars die nicht benötigt werden.  -->
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-catalina</artifactId>
@@ -194,7 +195,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- tomcat-juli ist in tomcat-catalina enthalten, aber auch viele andere Jars die nicht benötigt werden.  -->
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-juli</artifactId>
