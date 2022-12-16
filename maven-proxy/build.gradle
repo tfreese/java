@@ -2,7 +2,7 @@ plugins {
     id "org.springframework.boot"
 }
 
-description = "Einfache Implementierung eines virtuellen Repositories."
+description = "Basic Implemention of a Maven-Proxy."
 
 dependencies {
     implementation("org.slf4j:slf4j-api")
@@ -41,17 +41,17 @@ bootRun {
 //        buildInfo()
 //    }
 
-tasks.register("cleanAppFiles", Delete) {
-    description "Leeren des app-Ordners."
-    group = "Wartung"
+tasks.register("deleteAppFolder", Delete) {
+    description "Delete app-Folder."
+    group = "Maintenance"
 
-    logger.lifecycle "leere app-Ordner: ${projectDir}/app"
+    logger.lifecycle "delete app-Folder: ${projectDir}/app"
 
     delete fileTree("app") {
         include "**/*.*"
     }
 }
-clean.configure { finalizedBy cleanAppFiles }
+clean.configure { finalizedBy deleteAppFolder }
 
 bootJar.doLast {
     logger.lifecycle "copy to /opt/jvmapps/maven-proxy: ${archiveFileName.get()}"
