@@ -1,0 +1,7 @@
+# These we want to keep.
+!misc/misc-openstreetmap/*.zip
+
+# These not.
+misc/misc-sonstiges/stax-writer1.xml
+misc/misc-sonstiges/stax-writer2.xml
+misc/misc-sonstiges/customerTotals.csv

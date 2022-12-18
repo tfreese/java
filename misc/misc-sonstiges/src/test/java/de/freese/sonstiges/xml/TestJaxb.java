@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 import jakarta.xml.bind.JAXBContext;
@@ -68,14 +67,14 @@ class TestJaxb
         Marshaller m = TestJaxb.jaxbContext.createMarshaller();
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-        try (OutputStream os = baos)
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
         {
             m.marshal(club, baos);
+
+            baos.flush();
+            TestJaxb.bytes = baos.toByteArray();
         }
 
-        TestJaxb.bytes = baos.toByteArray();
         assertNotNull(TestJaxb.bytes);
 
         System.out.println(new String(TestJaxb.bytes, StandardCharsets.UTF_8));

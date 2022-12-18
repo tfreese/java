@@ -14,7 +14,6 @@ file("${rootDir}/misc").eachDirMatch(~/misc-.*/) {
 //include "misc:misc-cache"
 //include "misc:misc-genetic-algorithm"
 //include "misc:misc-jconky"
-//include "misc:misc-jsensors"
 //include "misc:misc-junit5"
 //include "misc:misc-micrometer"
 //include "misc:misc-openstreetmap"

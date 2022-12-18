@@ -21,14 +21,14 @@ dependencies {
     testImplementation("org.xerial:sqlite-jdbc")
 }
 
-tasks.register("cleanAppFiles", Delete) {
-    description "Leeren des erzeugten src-Ordners."
-    group = "Wartung"
+tasks.register("deleteAppFolder", Delete) {
+    description "Delete app-Folder."
+    group = "Maintenance"
 
-    logger.lifecycle "leere erzeugten src-Ordner: ${projectDir}/src/test/generated"
+    logger.lifecycle "delete app-Folder: ${projectDir}/src/test/generated"
 
     delete fileTree("src/test/generated") {
         include "**/*.*"
     }
 }
-clean.configure { finalizedBy cleanAppFiles }
+clean.configure { finalizedBy deleteAppFolder }
