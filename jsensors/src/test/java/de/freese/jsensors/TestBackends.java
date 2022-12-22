@@ -15,8 +15,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import de.freese.jsensors.backend.async.ExecutorBackend;
 import de.freese.jsensors.backend.async.WorkerBackend;
@@ -44,8 +44,6 @@ import org.junit.jupiter.api.condition.OS;
 class TestBackends
 {
     private static final Path LOG_PATH = Paths.get(System.getProperty("user.home"), ".java-apps", "jSensors");
-
-    private static final long PAUSE_MILLIES = 400L;
 
     private static JDBCPool dataSource;
 
@@ -112,17 +110,20 @@ class TestBackends
     {
         List<SensorValue> sensorValues = createSensorValues();
         List<SensorValue> consumedValues = new ArrayList<>();
+        CountDownLatch countDownLatch = new CountDownLatch(sensorValues.size());
 
-        DisruptorBackend backend = new DisruptorBackend(consumedValues::add, 3);
+        DisruptorBackend backend = new DisruptorBackend(sensorValue ->
+        {
+            consumedValues.add(sensorValue);
+            countDownLatch.countDown();
+        }, 3);
         backend.start();
 
         sensorValues.forEach(backend::store);
 
-        TimeUnit.MILLISECONDS.sleep(PAUSE_MILLIES);
+        countDownLatch.await();
 
         backend.stop();
-
-        TimeUnit.MILLISECONDS.sleep(PAUSE_MILLIES);
 
         testValues(sensorValues, consumedValues);
     }
@@ -132,12 +133,17 @@ class TestBackends
     {
         List<SensorValue> sensorValues = createSensorValues();
         List<SensorValue> consumedValues = new ArrayList<>();
+        CountDownLatch countDownLatch = new CountDownLatch(sensorValues.size());
 
-        ExecutorBackend backend = new ExecutorBackend(consumedValues::add, Executors.newFixedThreadPool(3));
+        ExecutorBackend backend = new ExecutorBackend(sensorValue ->
+        {
+            consumedValues.add(sensorValue);
+            countDownLatch.countDown();
+        }, Executors.newFixedThreadPool(3));
 
         sensorValues.forEach(backend::store);
 
-        TimeUnit.MILLISECONDS.sleep(PAUSE_MILLIES);
+        countDownLatch.await();
 
         testValues(sensorValues, consumedValues);
     }
@@ -208,9 +214,14 @@ class TestBackends
     {
         List<SensorValue> sensorValues = createSensorValues();
         List<SensorValue> consumedValues = new ArrayList<>();
+        CountDownLatch countDownLatch = new CountDownLatch(sensorValues.size());
 
         // RSocket-Server starten.
-        JSensorRSocketServer rSocketServer = new JSensorRSocketServer(consumedValues::add, 7000, 2);
+        JSensorRSocketServer rSocketServer = new JSensorRSocketServer(sensorValue ->
+        {
+            consumedValues.add(sensorValue);
+            countDownLatch.countDown();
+        }, 7000, 2);
         rSocketServer.start();
 
         RSocketBackend backend = new RSocketBackend(URI.create("rsocket://localhost:" + 7000), 2);
@@ -218,12 +229,10 @@ class TestBackends
 
         sensorValues.forEach(backend::store);
 
-        TimeUnit.MILLISECONDS.sleep(PAUSE_MILLIES);
+        countDownLatch.await();
 
         backend.stop();
         rSocketServer.stop();
-
-        TimeUnit.MILLISECONDS.sleep(PAUSE_MILLIES);
 
         testValues(sensorValues, consumedValues);
     }
@@ -252,17 +261,20 @@ class TestBackends
     {
         List<SensorValue> sensorValues = createSensorValues();
         List<SensorValue> consumedValues = new ArrayList<>();
+        CountDownLatch countDownLatch = new CountDownLatch(sensorValues.size());
 
-        WorkerBackend backend = new WorkerBackend(consumedValues::add);
+        WorkerBackend backend = new WorkerBackend(sensorValue ->
+        {
+            consumedValues.add(sensorValue);
+            countDownLatch.countDown();
+        });
         backend.start();
 
         sensorValues.forEach(backend::store);
 
-        TimeUnit.MILLISECONDS.sleep(PAUSE_MILLIES);
+        countDownLatch.await();
 
         backend.stop();
-
-        //        TimeUnit.MILLISECONDS.sleep(PAUSE_MILLIES);
 
         testValues(sensorValues, consumedValues);
     }
@@ -278,7 +290,7 @@ class TestBackends
     {
         consumedValues = consumedValues.stream().sorted(Comparator.comparing(SensorValue::getTimestamp)).toList();
 
-        assertEquals(2, consumedValues.size());
+        assertEquals(sensorValues.size(), consumedValues.size());
 
         for (int i = 0; i < consumedValues.size(); i++)
         {

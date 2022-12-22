@@ -15,10 +15,10 @@ import de.freese.sonstiges.server.multithread.dispatcher.Dispatcher;
 import de.freese.sonstiges.server.multithread.dispatcher.DispatcherPool;
 
 /**
- * Dieser Server arbeitet nach dem Acceptor-Reactor Pattern.<br>
- * Der {@link Acceptor} nimmt die neuen Client-Verbindungen entgegen und übergibt sie einem {@link Dispatcher}.<br>
- * Der {@link Dispatcher} kümmert sich um das Connection-Handling der Clients nach dem 'accept'.<br>
- * Der {@link IoHandler} übernimmt das Lesen und Schreiben von Request und Response in einem separaten Thread.<br>
+ * These Server is working by the Acceptor-Reactor Pattern.<br>
+ * The {@link Acceptor} handles the Client-Connections and delegate them to the {@link Dispatcher}.<br>
+ * The {@link Dispatcher} handles the Client Connections after the 'accept'.<br>
+ * The {@link IoHandler} handles the Request and Response in a separate Thread.<br>
  *
  * @author Thomas Freese
  */
@@ -97,10 +97,10 @@ public class ServerMultiThread extends AbstractServer
             // socket.setReuseAddress(true);
             // socket.bind(new InetSocketAddress(getPort()), 50);
 
-            // Erzeugen der Dispatcher.
+            // Create Dispatcher.
             this.dispatcherPool.start(getIoHandler(), this.selectorProvider, getName());
 
-            // Erzeugen des Acceptors
+            // Create Acceptor.
             this.acceptor = new Acceptor(this.selectorProvider.openSelector(), this.serverSocketChannel, this.dispatcherPool);
 
             Thread thread = new NamedThreadFactory(getName() + "-acceptor-%d").newThread(this.acceptor);
@@ -124,7 +124,7 @@ public class ServerMultiThread extends AbstractServer
     {
         run();
 
-        // Warten bis fertig.
+        // Wait if ready.
         // this.startLock.acquireUninterruptibly();
         // this.startLock.release();
     }

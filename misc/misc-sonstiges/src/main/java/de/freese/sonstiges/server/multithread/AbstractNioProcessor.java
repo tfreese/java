@@ -126,7 +126,7 @@ public abstract class AbstractNioProcessor implements Runnable
     }
 
     /**
-     * Stoppen des Processors.
+     * Stop the Processor.
      */
     public void stop()
     {
@@ -143,7 +143,7 @@ public abstract class AbstractNioProcessor implements Runnable
     }
 
     /**
-     * Methode nach einem {@link Selector#select()} Durchlauf.
+     * Method after {@link Selector#select()}.
      */
     protected void afterSelectorLoop()
     {
@@ -151,7 +151,7 @@ public abstract class AbstractNioProcessor implements Runnable
     }
 
     /**
-     * Methode nach der while-Schleife.
+     * Methode after the while-Loop.
      */
     protected void afterSelectorWhile()
     {
@@ -160,7 +160,7 @@ public abstract class AbstractNioProcessor implements Runnable
     }
 
     /**
-     * Methode vor der while-Schleife.
+     * Methode before the while-Loop.
      */
     protected void beforeSelectorWhile() throws Exception
     {

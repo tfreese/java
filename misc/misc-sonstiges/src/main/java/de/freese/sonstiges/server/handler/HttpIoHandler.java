@@ -13,9 +13,6 @@ import java.time.LocalDateTime;
 import de.freese.sonstiges.server.ServerMain;
 
 /**
- * Verarbeitet den Request und Response.<br>
- * HTTP-Implementierung des {@link IoHandler}.
- *
  * @author Thomas Freese
  * @see IoHandler
  */
@@ -105,11 +102,11 @@ public class HttpIoHandler extends AbstractIoHandler<SelectionKey>
                 channel.write(buffer);
             }
 
-            // Bei HTTP ist nach dem Response die Session vorbei.
+            // For HTTP the session is over after the Response.
             channel.close();
             selectionKey.cancel();
 
-            // Ansonsten wieder READ-Mode:
+            // Otherwise again READ-Mode:
             // selectionKey.interestOps(SelectionKey.OP_READ);
         }
         catch (Exception ex)
