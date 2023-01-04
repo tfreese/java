@@ -44,6 +44,11 @@
         <tag>HEAD</tag>
     </scm>
 
+    <properties>
+        <checkstyle.skip>false</checkstyle.skip>
+        <checkstyle.xml>../parents/ci/config/checkstyle.xml</checkstyle.xml>
+    </properties>
+
     <modules>
         <module>binding</module>
         <module>cellular-machines</module>
