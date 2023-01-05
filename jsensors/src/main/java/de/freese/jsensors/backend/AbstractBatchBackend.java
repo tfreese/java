@@ -66,5 +66,5 @@ public abstract class AbstractBatchBackend extends AbstractBackend
         }
     }
 
-    protected abstract void storeValues(final List<SensorValue> values);
+    protected abstract void storeValues(List<SensorValue> values);
 }

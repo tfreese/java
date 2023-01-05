@@ -27,7 +27,7 @@ class SimulationSwing extends JFrame
     @Serial
     private static final long serialVersionUID = -8931412063622174282L;
 
-    public SimulationSwing()
+    SimulationSwing()
     {
         super(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
     }

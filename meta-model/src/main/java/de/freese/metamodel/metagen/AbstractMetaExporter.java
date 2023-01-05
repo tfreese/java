@@ -357,7 +357,7 @@ public abstract class AbstractMetaExporter implements MetaExporter
         return schemas;
     }
 
-    protected abstract void generateSequences(final DataSource dataSource, final Schema schema) throws SQLException;
+    protected abstract void generateSequences(DataSource dataSource, Schema schema) throws SQLException;
 
     protected void generateTables(final DataSource dataSource, final Schema schema, final String tableNamePattern) throws SQLException
     {

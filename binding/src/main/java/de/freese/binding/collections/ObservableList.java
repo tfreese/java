@@ -19,7 +19,7 @@ public interface ObservableList<T> extends List<T>
         return addAll(Arrays.asList(elements));
     }
 
-    void addListener(final ListDataListener listener);
+    void addListener(ListDataListener listener);
 
     default FilteredObservableList<T> filtered(final Predicate<T> predicate)
     {
@@ -39,7 +39,7 @@ public interface ObservableList<T> extends List<T>
         return removeAll(Arrays.asList(elements));
     }
 
-    void removeListener(final ListDataListener listener);
+    void removeListener(ListDataListener listener);
 
     default boolean retainAll(final T... elements)
     {
@@ -58,7 +58,7 @@ public interface ObservableList<T> extends List<T>
         return setAll(Arrays.asList(elements));
     }
 
-    void setListenerEnabled(final boolean listenerEnabled);
+    void setListenerEnabled(boolean listenerEnabled);
 
     default SortedObservableList<T> sorted(final Comparator<T> comparator)
     {

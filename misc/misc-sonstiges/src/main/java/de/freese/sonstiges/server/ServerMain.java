@@ -79,7 +79,7 @@ public final class ServerMain
 
             while (!client.finishConnect())
             {
-                // can do something here...
+                TimeUnit.MILLISECONDS.sleep(10);
             }
 
             client.configureBlocking(true);

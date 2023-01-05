@@ -12,11 +12,11 @@ import de.freese.maven.proxy.repository.Repository;
  */
 public interface MavenProxy
 {
-    void setExecutor(final Executor executor);
+    void setExecutor(Executor executor);
 
-    void setPort(final int port);
+    void setPort(int port);
 
-    void setRepository(final Repository repository);
+    void setRepository(Repository repository);
 
     void start();
 

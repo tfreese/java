@@ -14,9 +14,9 @@ public interface SensorRegistry
     /**
      * Throws an IllegalStateException if no {@link Sensor} exist for this Name.
      */
-    Sensor getSensor(final String name);
+    Sensor getSensor(String name);
 
     Stream<Sensor> getSensors();
 
-    <T> Sensor newSensor(final String name, final T obj, final Function<T, String> valueFunction, int keepLastNValues, String description);
+    <T> Sensor newSensor(String name, T obj, Function<T, String> valueFunction, int keepLastNValues, String description);
 }

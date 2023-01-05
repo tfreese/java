@@ -121,7 +121,7 @@ public final class SudokuGeneratorMain
 
         while (!this.algorithm.create(grid))
         {
-            // Empty
+            System.out.println("Rätsel ungültig");
         }
 
         return grid;

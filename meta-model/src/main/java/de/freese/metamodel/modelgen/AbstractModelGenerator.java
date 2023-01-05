@@ -195,10 +195,10 @@ public abstract class AbstractModelGenerator
 
     protected void transformClassAnnotations(final Table table, final ClassModel classModel)
     {
-        // NO OP
+        // Empty
     }
 
-    protected abstract void transformClassJavaDoc(final Table table, final ClassModel classModel);
+    protected abstract void transformClassJavaDoc(Table table, ClassModel classModel);
 
     protected void transformField(final Column column, final ClassModel classModel)
     {

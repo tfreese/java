@@ -48,7 +48,7 @@ class TestDemo
         @Serial
         private static final long serialVersionUID = -2330553112363031008L;
 
-        public MyObject(final int x, final int y)
+        MyObject(final int x, final int y)
         {
             super(x, y);
 

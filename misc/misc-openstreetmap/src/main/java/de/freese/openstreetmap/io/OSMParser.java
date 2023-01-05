@@ -18,7 +18,7 @@ public interface OSMParser
      * Einlesen der Kartendaten.<br>
      * Der Stream wird NICHT geschlossen !
      */
-    OsmModel parse(final InputStream inputStream) throws Exception;
+    OsmModel parse(InputStream inputStream) throws Exception;
 
     /**
      * Einlesen der Kartendaten.

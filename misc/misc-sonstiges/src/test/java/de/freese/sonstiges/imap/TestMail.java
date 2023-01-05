@@ -67,37 +67,37 @@ class TestMail
         }
     }
 
-    private static PrintStream PRINT_STREAM = System.out;
+    private static PrintStream printStream = System.out;
 
-    private static String TEXT_HTML1;
+    private static String textHtml1;
 
-    private static String TEXT_HTML2;
+    private static String textHtml2;
 
-    private static String TEXT_PLAIN;
+    private static String textPlain;
 
     @BeforeAll
     public static void beforeAll() throws Exception
     {
         if (!Boolean.parseBoolean(System.getProperty("run_in_ide", "false")))
         {
-            PRINT_STREAM = new PrintStream(new NullOutputStream(), false);
+            printStream = new PrintStream(new NullOutputStream(), false);
         }
 
         Charset charset = StandardCharsets.UTF_8;
 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream("mail1.txt"), charset)))
         {
-            TEXT_PLAIN = bufferedReader.lines().collect(Collectors.joining(" "));
+            textPlain = bufferedReader.lines().collect(Collectors.joining(" "));
         }
 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream("mail1.html"), charset)))
         {
-            TEXT_HTML1 = bufferedReader.lines().collect(Collectors.joining(" "));
+            textHtml1 = bufferedReader.lines().collect(Collectors.joining(" "));
         }
 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream("mail2.html"), charset)))
         {
-            TEXT_HTML2 = bufferedReader.lines().collect(Collectors.joining(" "));
+            textHtml2 = bufferedReader.lines().collect(Collectors.joining(" "));
         }
     }
 
@@ -147,8 +147,8 @@ class TestMail
     @Test
     void testHtml1ToText() throws Exception
     {
-        String text = Jsoup.parse(TEXT_HTML1).text();
-        PRINT_STREAM.println(text);
+        String text = Jsoup.parse(textHtml1).text();
+        printStream.println(text);
 
         prepare(text);
 
@@ -158,8 +158,8 @@ class TestMail
     @Test
     void testHtml2ToText() throws Exception
     {
-        String text = Jsoup.parse(TEXT_HTML2).text();
-        PRINT_STREAM.println(text);
+        String text = Jsoup.parse(textHtml2).text();
+        printStream.println(text);
 
         prepare(text);
 
@@ -170,8 +170,8 @@ class TestMail
     void testTextPlain() throws Exception
     {
         // String text = new Html2Text().parse(TEXT_PLAIN).getText();
-        String text = TEXT_PLAIN;
-        PRINT_STREAM.println(text);
+        String text = textPlain;
+        printStream.println(text);
 
         prepare(text);
 
@@ -183,8 +183,8 @@ class TestMail
      */
     private void prepare(final String text)
     {
-        PRINT_STREAM.println();
-        PRINT_STREAM.println("========================================================================================================");
+        printStream.println();
+        printStream.println("========================================================================================================");
 
         // @formatter:off
         List<String> token = Stream.of(text)
@@ -198,11 +198,11 @@ class TestMail
         Locale locale = FunctionStripStopWords.guessLocale(token);
 
         token = MailClassifierMain.PRE_FILTER.apply(token);
-        token.forEach(PRINT_STREAM::println);
+        token.forEach(printStream::println);
 
-        PRINT_STREAM.println();
-        PRINT_STREAM.println("Stemmer --------------------");
+        printStream.println();
+        printStream.println("Stemmer --------------------");
         Map<String, Integer> wordCount = MailClassifierMain.STEMMER_FILTER.apply(token, locale);
-        wordCount.forEach((word, count) -> PRINT_STREAM.printf("%s - %d%n", word, count));
+        wordCount.forEach((word, count) -> printStream.printf("%s - %d%n", word, count));
     }
 }

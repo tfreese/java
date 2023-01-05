@@ -4,6 +4,7 @@ package de.freese.jsensors.backend.async;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import de.freese.jsensors.backend.AbstractBackend;
@@ -104,9 +105,19 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle
             getLogger().debug("{} is signaled to stop.", getName());
         }
 
-        // There is a slight chance that the thread is not started yet, wait for
-        // it to run. Otherwise, interrupt+join might block.
-        while (Thread.State.NEW.equals(this.worker.getState())) ;
+        // There is a slight chance that the thread is not started yet, wait for it to run.
+        // Otherwise, interrupt + join might block.
+        while (Thread.State.NEW.equals(this.worker.getState()))
+        {
+            try
+            {
+                TimeUnit.MILLISECONDS.sleep(10);
+            }
+            catch (InterruptedException ex)
+            {
+                getLogger().error(ex.getMessage(), ex);
+            }
+        }
 
         final boolean added = queue.offer(STOP_VALUE);
 

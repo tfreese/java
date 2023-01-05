@@ -14,5 +14,5 @@ public interface SudokuAlgorithm
      *
      * @return boolean, true, wenn das Rätsel gültig ist.
      */
-    boolean create(final int[][] grid);
+    boolean create(int[][] grid);
 }

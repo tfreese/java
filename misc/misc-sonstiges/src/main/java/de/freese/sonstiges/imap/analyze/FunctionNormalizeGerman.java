@@ -23,6 +23,7 @@ public class FunctionNormalizeGerman implements UnaryOperator<String>
      * @see java.util.function.Function#apply(java.lang.Object)
      */
     @Override
+    @SuppressWarnings("checkstyle:EmptyBlock")
     public String apply(final String text)
     {
         String t = text.replace("ß", "ss");
@@ -37,7 +38,7 @@ public class FunctionNormalizeGerman implements UnaryOperator<String>
 
             if ((c == 'a') || (c == 'e') || (c == 'i') || (c == 'o') || (c == 'u') || (c == 'q'))
             {
-                // NOOP
+                // Empty
             }
             else
             {

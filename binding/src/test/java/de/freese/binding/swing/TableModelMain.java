@@ -30,7 +30,7 @@ public final class TableModelMain
         @Serial
         private static final long serialVersionUID = -4124180013372465407L;
 
-        public MyTableModel(final int columnCount, final ObservableList<Map<Integer, String>> list)
+        MyTableModel(final int columnCount, final ObservableList<Map<Integer, String>> list)
         {
             super(columnCount, list);
         }

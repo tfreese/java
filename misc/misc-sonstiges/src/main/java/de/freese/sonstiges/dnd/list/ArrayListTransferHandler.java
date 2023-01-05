@@ -30,7 +30,7 @@ class ArrayListTransferHandler extends TransferHandler
     {
         private final List<?> data;
 
-        public ArrayListTransferable(final List<?> data)
+        ArrayListTransferable(final List<?> data)
         {
             super();
 

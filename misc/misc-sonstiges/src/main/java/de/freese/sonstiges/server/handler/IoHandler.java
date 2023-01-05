@@ -13,12 +13,7 @@ public interface IoHandler<T>
 {
     Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
-    default Charset getCharset()
-    {
-        return DEFAULT_CHARSET;
-    }
+    void read(T input);
 
-    void read(final T input);
-
-    void write(final T output);
+    void write(T output);
 }

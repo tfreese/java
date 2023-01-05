@@ -25,7 +25,7 @@ class CArrowImage extends BufferedImage
 
     public static final int ARROW_UP = 0;
 
-    public CArrowImage(final int nArrowDirection)
+    CArrowImage(final int nArrowDirection)
     {
         this(15, 9, nArrowDirection);
     }
@@ -131,7 +131,6 @@ class CArrowImage extends BufferedImage
 
             case ARROW_RIGHT:
             default:
-            {
                 pathArrow.moveTo(0, h13);
                 pathArrow.lineTo(w23, h13);
                 pathArrow.lineTo(w23, 0);
@@ -166,7 +165,6 @@ class CArrowImage extends BufferedImage
                 g2.draw(pathArrow);
 
                 break;
-            }
         }
     }
 }

@@ -37,12 +37,12 @@ public abstract class AbstractCodeWriter implements CodeWriter
             classModel.addInterface(Serializable.class);
         }
 
-        if (classModel.isAddFullConstructor())
-        {
-            // // Für Validierung.
-            // classModel.addImport(Objects.class);
-            // Empty
-        }
+        //        if (classModel.isAddFullConstructor())
+        //        {
+        // // Für Validierung.
+        //            // classModel.addImport(Objects.class);
+        //            // Empty
+        //        }
 
         // Für hashCode und equals.
         classModel.addImport(Objects.class);
@@ -422,11 +422,7 @@ public abstract class AbstractCodeWriter implements CodeWriter
     {
         output.println(indent + "/**");
 
-        if ((comments == null) || comments.isEmpty())
-        {
-            // output.println(indent + " *");
-        }
-        else
+        if (comments != null && !comments.isEmpty())
         {
             for (Iterator<String> iterator = comments.iterator(); iterator.hasNext(); )
             {

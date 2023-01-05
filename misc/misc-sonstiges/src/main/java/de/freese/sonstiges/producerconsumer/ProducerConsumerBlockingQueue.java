@@ -20,7 +20,7 @@ public final class ProducerConsumerBlockingQueue
 
         private final BlockingQueue<Integer> queue;
 
-        public Consumer(final BlockingQueue<Integer> queue, final int number)
+        Consumer(final BlockingQueue<Integer> queue, final int number)
         {
             super();
 
@@ -70,7 +70,7 @@ public final class ProducerConsumerBlockingQueue
         private final int number;
         private final BlockingQueue<Integer> queue;
 
-        public Producer(final BlockingQueue<Integer> queue, final int number)
+        Producer(final BlockingQueue<Integer> queue, final int number)
         {
             super();
 

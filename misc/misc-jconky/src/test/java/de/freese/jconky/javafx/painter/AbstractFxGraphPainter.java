@@ -30,7 +30,7 @@ public abstract class AbstractFxGraphPainter
         // g.dispose(); // Dispose nur wenn man es selbst erzeugt hat.
     }
 
-    public abstract void paintGraph(final GraphicsContext gc, final double width, final double height);
+    public abstract void paintGraph(GraphicsContext gc, double width, double height);
 
     protected void configureBackground(final GraphicsContext gc, final double width, final double height)
     {

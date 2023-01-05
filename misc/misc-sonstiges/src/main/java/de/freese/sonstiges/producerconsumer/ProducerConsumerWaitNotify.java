@@ -18,7 +18,7 @@ public final class ProducerConsumerWaitNotify
 
         private final int number;
 
-        public Consumer(final CubbyHole cubbyHole, final int number)
+        Consumer(final CubbyHole cubbyHole, final int number)
         {
             super();
 
@@ -109,7 +109,7 @@ public final class ProducerConsumerWaitNotify
 
         private final int number;
 
-        public Producer(final CubbyHole cubbyHole, final int number)
+        Producer(final CubbyHole cubbyHole, final int number)
         {
             super();
 

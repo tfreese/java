@@ -40,7 +40,7 @@ public class SimulationListenerSaveImage implements SimulationListener
 
         private final Path file;
 
-        public WriteImageTask(final BufferedImage bufferedImage, final Path file)
+        WriteImageTask(final BufferedImage bufferedImage, final Path file)
         {
             super();
 

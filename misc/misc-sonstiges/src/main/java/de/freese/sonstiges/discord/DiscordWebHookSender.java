@@ -37,7 +37,7 @@ public interface DiscordWebHookSender
     /**
      * URL für den WebHook: Servereinstellungen -> Integrationen -> WebHooks anzeigen -> WebHook-URL kopieren
      */
-    void send(final DiscordWebHookMessage message, final URI uri) throws IOException;
+    void send(DiscordWebHookMessage message, URI uri) throws IOException;
 
     default String toJson(final DiscordWebHookMessage message) throws JacksonException
     {

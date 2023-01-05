@@ -121,7 +121,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
 
         private int shift;
 
-        public CDropTargetListener()
+        CDropTargetListener()
         {
             this.colorCueLine = new Color(SystemColor.controlShadow.getRed(), SystemColor.controlShadow.getGreen(), SystemColor.controlShadow.getBlue(), 64);
 
@@ -334,10 +334,10 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
                         // Löschen des Sources in der Methode dragDropEnd
 
                         // if (pathNewChild != null)
-                        {
-                            // Mark this as the selected path in the tree
-                            setSelectionPath(pathNewChild);
-                        }
+                        //                        {
+                        // Mark this as the selected path in the tree
+                        setSelectionPath(pathNewChild);
+                        //                        }
 
                         // No need to check remaining flavors
                         break;

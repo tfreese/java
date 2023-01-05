@@ -10,7 +10,7 @@ import java.awt.Image;
  */
 public interface Simulation
 {
-    void addWorldListener(final SimulationListener simulationListener);
+    void addWorldListener(SimulationListener simulationListener);
 
     /**
      * Höhe in Pixeln.
