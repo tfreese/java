@@ -1439,9 +1439,13 @@ public final class MiscMain
 
     static void virtualThreads() throws Exception
     {
-        Consumer<Thread> printThreadInfos = thread -> System.out.printf("Thread-Name = %10s, isVirtual = %b, ID = %s%n", thread.getName(), thread.isVirtual(), thread);
+        Consumer<Thread> printThreadInfos = thread ->
+        {
+            String message = "isVirtual = %b, ID = %s".formatted(thread.isVirtual(), thread);
+            LOGGER.info(message);
+        };
 
-        // Executors.newVirtualThreadPerTaskExecutor(): Hier haben virtuelle Threads keine Namen.
+        // Executors.newVirtualThreadPerTaskExecutor(): Virtuell Threads do not have Names.
         ThreadFactory threadFactory = Thread.ofVirtual().name("virtual-", 1).factory();
 
         try (ExecutorService executorService = Executors.newThreadPerTaskExecutor(threadFactory))
