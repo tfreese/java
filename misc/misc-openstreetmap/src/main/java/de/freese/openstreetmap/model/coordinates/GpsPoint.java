@@ -3,9 +3,6 @@
  * by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. LibOSM is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public
  * License for more details. You should have received a copy of the GNU General Public License along with LibOSM. If not, see <http://www.gnu.org/licenses/>.
- * Editing this file: -For consistent code-quality this file should be checked with the checkstyle-ruleset enclosed in this project. -After the design of this
- * file has settled it should get its own JUnit-Test that shall be executed regularly. It is best to write the test-case BEFORE writing this class and to run
- * it on every build as a regression-test.
  */
 package de.freese.openstreetmap.model.coordinates;
 
@@ -62,7 +59,7 @@ public class GpsPoint
     }
 
     /**
-     * The coordinates eastined by the current projection.
+     * The coordinates destined by the current projection.
      */
     public final EastNorth getEastNorth(final Projection projection)
     {
