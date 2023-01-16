@@ -39,7 +39,7 @@ public class SimulationCanvas extends JComponent implements SimulationListener
 
     private transient Image image;
 
-    private VolatileImage volatileImage;
+    private transient VolatileImage volatileImage;
 
     public SimulationCanvas(final Simulation simulation)
     {

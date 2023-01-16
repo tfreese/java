@@ -1,5 +1,5 @@
 // Created: 07.11.2009
-package de.freese.sudoku.generator.algorythm;
+package de.freese.misc.generator.algorythm;
 
 import java.awt.Point;
 import java.util.ArrayList;

@@ -11,11 +11,11 @@ import java.util.Map;
  */
 public class OsmModel
 {
-    public final Map<Long, OsmNode> nodeMap;
+    private final Map<Long, OsmNode> nodeMap;
 
-    public final Map<Long, OsmRelation> relationMap;
+    private final Map<Long, OsmRelation> relationMap;
 
-    public final Map<Long, OsmWay> wayMap;
+    private final Map<Long, OsmWay> wayMap;
 
     public OsmModel()
     {

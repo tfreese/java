@@ -20,7 +20,7 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
     @Serial
     private static final long serialVersionUID = -3852485343304069467L;
 
-    private Image image;
+    private transient Image image;
 
     Picture(final Image image)
     {

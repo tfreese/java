@@ -8,11 +8,11 @@ import java.util.Random;
  */
 class Particle
 {
-    protected final Random random;
+    private final Random random;
 
-    protected int x;
+    private int x;
 
-    protected int y;
+    private int y;
 
     Particle(final Random random, final int initialX, final int initialY)
     {

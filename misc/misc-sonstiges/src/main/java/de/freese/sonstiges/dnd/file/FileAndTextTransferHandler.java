@@ -34,11 +34,11 @@ class FileAndTextTransferHandler extends TransferHandler
 
     private final DataFlavor stringFlavor;
 
-    private final TabbedPaneController tpc;
+    private transient final TabbedPaneController tpc;
 
-    private Position p0;
+    private transient Position p0;
 
-    private Position p1;
+    private transient Position p1;
 
     private boolean shouldRemove;
 

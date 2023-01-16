@@ -11,9 +11,9 @@ import java.util.Map;
  */
 public abstract class AbstractOsmEntity
 {
-    public final Map<String, String> tags = new HashMap<>();
+    private final Map<String, String> tags = new HashMap<>();
 
-    public long id;
+    private long id;
 
     public long getID()
     {

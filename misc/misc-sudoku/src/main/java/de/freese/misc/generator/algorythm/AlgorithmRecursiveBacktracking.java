@@ -1,5 +1,5 @@
 // Created: 07.11.2009
-package de.freese.sudoku.generator.algorythm;
+package de.freese.misc.generator.algorythm;
 
 /**
  * Algorithmus zum Erstellen von Sudoku-Rätseln mit rekursivem Backtracking.

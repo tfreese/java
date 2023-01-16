@@ -7,11 +7,10 @@ import java.nio.channels.AsynchronousSocketChannel;
 /**
  * @author Thomas Freese
  */
-class MyAttachment
+record MyAttachment(StringBuilder httpHeader, ByteBuffer byteBuffer, AsynchronousSocketChannel channel)
 {
-    final StringBuilder httpHeader = new StringBuilder();
-
-    ByteBuffer byteBuffer;
-
-    AsynchronousSocketChannel channel;
+    MyAttachment(final ByteBuffer byteBuffer, final AsynchronousSocketChannel channel)
+    {
+        this(new StringBuilder(), byteBuffer, channel);
+    }
 }

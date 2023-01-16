@@ -55,7 +55,7 @@ public final class DragFileMain extends JPanel implements ActionListener
 
     private final JButton clear;
 
-    private final TabbedPaneController tpc;
+    private transient final TabbedPaneController tpc;
 
     private DragFileMain()
     {

@@ -571,7 +571,7 @@ public final class MiscMain
         LOGGER.info("Files.walkFileTree");
         Files.walkFileTree(path, new SimpleFileVisitor<>()
         {
-            String indent = "";
+            private String indent = "";
 
             /**
              * @see SimpleFileVisitor#postVisitDirectory(Object, IOException)

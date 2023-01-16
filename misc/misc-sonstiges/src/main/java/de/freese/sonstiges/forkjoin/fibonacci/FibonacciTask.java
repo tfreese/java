@@ -19,7 +19,7 @@ public class FibonacciTask extends RecursiveTask<Long>
     @Serial
     private static final long serialVersionUID = 67781993370162624L;
 
-    public final int n;
+    private final int n;
 
     public FibonacciTask(final int n)
     {

@@ -17,7 +17,7 @@ public interface Sensor
      *
      * @author Thomas Freese
      */
-    class Builder<T>
+    final class Builder<T>
     {
         private final String name;
         private final T obj;

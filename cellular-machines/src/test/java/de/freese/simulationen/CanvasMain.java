@@ -65,9 +65,9 @@ public final class CanvasMain extends JComponent implements Runnable
         scheduledExecutorService.scheduleWithFixedDelay(canvas, 0, 100, TimeUnit.MILLISECONDS);
     }
 
-    private final Image image;
+    private transient final Image image;
 
-    private final MemoryImageSource imageSource;
+    private transient final MemoryImageSource imageSource;
 
     private final int[] pixelsRGB;
 

@@ -12,12 +12,12 @@ public class OsmNode extends AbstractOsmEntity
      * Längengrad.<br>
      * >−90.0 and <90.0
      */
-    public float latitude;
+    private float latitude;
     /**
      * Breitengrad.<br>
      * >−180 and <180
      */
-    public float longitude;
+    private float longitude;
 
     /**
      * Längengrad.<br>

@@ -26,9 +26,9 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment>
     @Override
     public void completed(final Integer bytesRead, final MyAttachment attachment)
     {
-        AsynchronousSocketChannel channel = attachment.channel;
-        ByteBuffer byteBuffer = attachment.byteBuffer;
-        StringBuilder httpHeader = attachment.httpHeader;
+        AsynchronousSocketChannel channel = attachment.channel();
+        ByteBuffer byteBuffer = attachment.byteBuffer();
+        StringBuilder httpHeader = attachment.httpHeader();
 
         try
         {
@@ -85,7 +85,7 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment>
     @Override
     public void failed(final Throwable exc, final MyAttachment attachment)
     {
-        AsynchronousSocketChannel channel = attachment.channel;
+        AsynchronousSocketChannel channel = attachment.channel();
 
         ServerAsync.close(channel, LOGGER);
         LOGGER.error(exc.getMessage(), exc);
@@ -119,9 +119,7 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment>
 
         ByteBuffer byteBuffer = charset.encode(charBuffer);
 
-        MyAttachment attachment = new MyAttachment();
-        attachment.channel = channel;
-        attachment.byteBuffer = byteBuffer;
+        MyAttachment attachment = new MyAttachment(byteBuffer, channel);
 
         channel.write(byteBuffer, attachment, new HttpWriteHandler());
     }

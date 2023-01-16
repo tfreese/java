@@ -58,7 +58,7 @@ class TestMicrometer
     @Order(1)
     void testCounter()
     {
-        class CountedObject
+        final class CountedObject
         {
             private CountedObject()
             {

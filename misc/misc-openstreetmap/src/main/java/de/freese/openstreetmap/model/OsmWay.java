@@ -16,10 +16,8 @@ import de.freese.openstreetmap.Mercator;
  */
 public class OsmWay extends AbstractOsmEntity
 {
-    public List<OsmNode> nodes;
-
     private Rectangle bounds;
-
+    private List<OsmNode> nodes;
     private Polygon polygon;
 
     public Rectangle getBounds()

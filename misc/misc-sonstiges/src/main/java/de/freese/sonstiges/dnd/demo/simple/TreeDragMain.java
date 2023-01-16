@@ -22,9 +22,9 @@ public final class TreeDragMain extends JFrame
         new TreeDragMain();
     }
 
-    private final TreeDragSource ds;
+    private transient final TreeDragSource ds;
 
-    private final TreeDropTarget dt;
+    private transient final TreeDropTarget dt;
 
     private final JTree tree;
 

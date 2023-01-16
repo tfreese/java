@@ -19,7 +19,7 @@ public final class DateServerMain extends Thread
     /**
      * @author Thomas Freese
      */
-    private static class Connect implements Runnable
+    private static final class Connect implements Runnable
     {
         private final Socket clientSocket;
 

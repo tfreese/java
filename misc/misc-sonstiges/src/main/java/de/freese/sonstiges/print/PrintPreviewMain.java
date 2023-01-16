@@ -125,13 +125,9 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
         frame.pack();
         frame.setVisible(true);
     }
-
-    final transient PrinterJob printerJob;
-
     private final transient Image imgCup;
-
     private final transient Image imgDuke;
-
+    private final transient PrinterJob printerJob;
     private double mdPreviewScale = 0.5D;
 
     private transient PageFormat pageFormat;

@@ -22,13 +22,13 @@ class ParticleCanvas extends Canvas
     @Serial
     private static final long serialVersionUID = -7875942028557880029L;
 
-    protected final Random random = new Random();
+    private final Random random = new Random();
 
-    private final ScheduledExecutorService scheduledExecutorService;
+    private transient final ScheduledExecutorService scheduledExecutorService;
 
-    private ScheduledFuture<?> future;
+    private transient ScheduledFuture<?> future;
 
-    private List<Particle> particles = Collections.emptyList();
+    private transient List<Particle> particles = Collections.emptyList();
 
     ParticleCanvas()
     {

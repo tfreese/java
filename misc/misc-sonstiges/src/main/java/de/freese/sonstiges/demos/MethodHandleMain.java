@@ -16,11 +16,41 @@ public final class MethodHandleMain
      */
     static class MyPoint
     {
-        int x;
+        private int x;
 
-        int y;
+        private int y;
 
-        int z;
+        private int z;
+
+        public int getX()
+        {
+            return x;
+        }
+
+        public int getY()
+        {
+            return y;
+        }
+
+        public int getZ()
+        {
+            return z;
+        }
+
+        public void setX(final int x)
+        {
+            this.x = x;
+        }
+
+        public void setY(final int y)
+        {
+            this.y = y;
+        }
+
+        public void setZ(final int z)
+        {
+            this.z = z;
+        }
     }
 
     public static void main(final String[] args) throws Throwable

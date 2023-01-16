@@ -1,10 +1,10 @@
 // Created: 07.11.2009
-package de.freese.sudoku.generator;
+package de.freese.misc.generator;
 
 import java.util.Objects;
 
-import de.freese.sudoku.generator.algorythm.AlgorithmRecursiveBacktracking;
-import de.freese.sudoku.generator.algorythm.SudokuAlgorithm;
+import de.freese.misc.generator.algorythm.AlgorithmRecursiveBacktracking;
+import de.freese.misc.generator.algorythm.SudokuAlgorithm;
 
 /**
  * Erstellt mit einem {@link SudokuAlgorithm} ein gültiges Rätsel.
