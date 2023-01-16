@@ -46,7 +46,7 @@ class Port implements Runnable
         try (Socket socket = new Socket(this.host, this.port))
         {
             // Verbindungsaufbau reicht zum Testen.
-            this.openPorts.put(this.port, this);
+            this.openPorts.put(socket.getPort(), this);
         }
         catch (IOException ex)
         {

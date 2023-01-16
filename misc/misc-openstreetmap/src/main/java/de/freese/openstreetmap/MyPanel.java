@@ -19,11 +19,11 @@ public class MyPanel extends JPanel
     @Serial
     private static final long serialVersionUID = -1375597059859723042L;
 
-    private final OsmModel model;
+    private transient final OsmModel model;
 
     private Rectangle mapBounds;
 
-    private Matrix myZTFMatrix;
+    private transient Matrix myZTFMatrix;
 
     public MyPanel(final OsmModel model)
     {

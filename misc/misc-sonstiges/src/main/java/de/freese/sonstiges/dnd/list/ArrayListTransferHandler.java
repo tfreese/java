@@ -127,7 +127,7 @@ class ArrayListTransferHandler extends TransferHandler
         }
 
         JList<?> target = null;
-        List list = null;
+        List<?> list = null;
 
         try
         {
@@ -180,7 +180,7 @@ class ArrayListTransferHandler extends TransferHandler
             }
         }
 
-        DefaultListModel listModel = (DefaultListModel) target.getModel();
+        DefaultListModel<Object> listModel = (DefaultListModel<Object>) target.getModel();
         int max = listModel.getSize();
 
         if (index < 0)
