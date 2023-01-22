@@ -36,7 +36,8 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
             super.contentsChanged(e);
         }
     }
-    private Object selectedObject;
+
+    private transient Object selectedObject;
 
     protected AbstractObservableListComboBoxModel(final ObservableList<T> list)
     {

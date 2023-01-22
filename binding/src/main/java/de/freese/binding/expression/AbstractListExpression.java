@@ -57,15 +57,6 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
     }
 
     /**
-     * @see de.freese.binding.collections.ObservableList#addAll(java.lang.Object[])
-     */
-    @Override
-    public boolean addAll(final T... elements)
-    {
-        return getValue().addAll(elements);
-    }
-
-    /**
      * @see de.freese.binding.value.ObservableValue#addListener(de.freese.binding.value.ChangeListener)
      */
     @Override
@@ -222,15 +213,6 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
     }
 
     /**
-     * @see de.freese.binding.collections.ObservableList#removeAll(java.lang.Object[])
-     */
-    @Override
-    public boolean removeAll(final T... elements)
-    {
-        return getValue().removeAll(elements);
-    }
-
-    /**
      * @see de.freese.binding.value.ObservableValue#removeListener(de.freese.binding.value.ChangeListener)
      */
     @Override
@@ -258,15 +240,6 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
     }
 
     /**
-     * @see de.freese.binding.collections.ObservableList#retainAll(java.lang.Object[])
-     */
-    @Override
-    public boolean retainAll(final T... elements)
-    {
-        return getValue().removeAll(elements);
-    }
-
-    /**
      * @see java.util.List#set(int, java.lang.Object)
      */
     @Override
@@ -282,15 +255,6 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
     public boolean setAll(final Collection<? extends T> col)
     {
         return getValue().setAll(col);
-    }
-
-    /**
-     * @see de.freese.binding.collections.ObservableList#setAll(java.lang.Object[])
-     */
-    @Override
-    public boolean setAll(final T... elements)
-    {
-        return getValue().setAll(elements);
     }
 
     /**

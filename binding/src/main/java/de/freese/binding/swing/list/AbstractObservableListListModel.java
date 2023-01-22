@@ -56,9 +56,10 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
             fireIntervalRemoved(e.getSource(), e.getIndex0(), e.getIndex1());
         }
     }
+
     private final EventListenerList eventListenerList = new EventListenerList();
 
-    private final ObservableList<T> list;
+    private transient final ObservableList<T> list;
 
     protected AbstractObservableListListModel(final ObservableList<T> list)
     {

@@ -1,7 +1,6 @@
 // Created: 08.08.2018
 package de.freese.binding.collections;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -14,10 +13,6 @@ import javax.swing.event.ListDataListener;
  */
 public interface ObservableList<T> extends List<T>
 {
-    default boolean addAll(final T... elements)
-    {
-        return addAll(Arrays.asList(elements));
-    }
 
     void addListener(ListDataListener listener);
 
@@ -34,28 +29,13 @@ public interface ObservableList<T> extends List<T>
      */
     void remove(int from, int to);
 
-    default boolean removeAll(final T... elements)
-    {
-        return removeAll(Arrays.asList(elements));
-    }
-
     void removeListener(ListDataListener listener);
-
-    default boolean retainAll(final T... elements)
-    {
-        return retainAll(Arrays.asList(elements));
-    }
 
     default boolean setAll(final Collection<? extends T> col)
     {
         clear();
 
         return addAll(col);
-    }
-
-    default boolean setAll(final T... elements)
-    {
-        return setAll(Arrays.asList(elements));
     }
 
     void setListenerEnabled(boolean listenerEnabled);
