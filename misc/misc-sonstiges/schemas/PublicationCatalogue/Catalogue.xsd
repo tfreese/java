@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.eclipse.org/webtools/Catalogue"
-	xmlns:c="http://www.eclipse.org/webtools/Catalogue">
+<schema xmlns:c="http://www.eclipse.org/webtools/Catalogue" xmlns="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="http://www.eclipse.org/webtools/Catalogue">
 
 	<complexType name="PublicationType">
 		<sequence>
@@ -27,7 +27,7 @@
 				<sequence>
 					<element name="title" type="string" />
 					<element name="author" type="string" minOccurs="0"
-						maxOccurs="0" />
+							 maxOccurs="0" />
 					<element name="date" type="gYear"></element>
 				</sequence>
 			</restriction>
@@ -38,8 +38,7 @@
 
 	<element name="Book" type="c:BookType" substitutionGroup="c:Publication"></element>
 
-	<element name="Magazine" type="c:MagazineType"
-		substitutionGroup="c:Publication"></element>
+	<element name="Magazine" type="c:MagazineType" substitutionGroup="c:Publication"></element>
 
 	<element name="Catalogue">
 		<complexType>

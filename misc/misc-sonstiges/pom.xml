@@ -16,6 +16,12 @@
     <description>Alles zum ausprobieren</description>
 
     <build>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/schemas</directory>
+                <targetPath>META-INF</targetPath>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -36,6 +42,41 @@
 					<argument>de.freese.sonstiges.javafx.JavaFxApplicationication</argument>
 					</arguments>
 					</configuration -->
+            </plugin>
+            <plugin>
+                <!-- jaxb2:xjc -->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>xjc</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <sources>
+                        <source>${project.basedir}/schemas/GolfCountryClub/GolfCountryClub.xsd</source>
+                        <source>${project.basedir}/schemas/PhoneBanking/PhoneBanking.xsd</source>
+                        <source>${project.basedir}/schemas/PublicationCatalogue/Catalogue.xsd</source>
+                        <source>${project.basedir}/schemas/SpaceWarGame/SpaceWarGame.xsd</source>
+                    </sources>
+                    <xjbSources>
+                        <xjbSource>${project.basedir}/schema.xjb</xjbSource>
+                    </xjbSources>
+                    <outputDirectory>${project.build.directory}/generated-sources</outputDirectory>
+                    <packageName>de.freese.xjc</packageName>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <extension>true</extension>
+                    <failOnNoSchemas>false</failOnNoSchemas>
+                    <noPackageLevelAnnotations>true</noPackageLevelAnnotations>
+                    <readOnly>true</readOnly>
+                    <generateEpisode>false</generateEpisode>
+                    <clearOutputDir>false</clearOutputDir>
+                    <verbose>false</verbose>
+                    <quiet>false</quiet>
+                </configuration>
             </plugin>
         </plugins>
     </build>
