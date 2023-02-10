@@ -4,21 +4,18 @@ package de.freese.jconky.model;
 /**
  * @author Thomas Freese
  */
-public class UsageInfo
-{
+public class UsageInfo {
     private final String path;
 
     private final long size;
 
     private final long used;
 
-    public UsageInfo()
-    {
+    public UsageInfo() {
         this("", 0L, 0L);
     }
 
-    public UsageInfo(final String path, final long size, final long used)
-    {
+    public UsageInfo(final String path, final long size, final long used) {
         super();
 
         this.path = path;
@@ -26,31 +23,26 @@ public class UsageInfo
         this.used = used;
     }
 
-    public long getFree()
-    {
+    public long getFree() {
         return getSize() - getUsed();
     }
 
-    public String getPath()
-    {
+    public String getPath() {
         return this.path;
     }
 
-    public long getSize()
-    {
+    public long getSize() {
         return this.size;
     }
 
     /**
      * Liefert die Auslastung von 0 bis 1.<br>
      */
-    public double getUsage()
-    {
+    public double getUsage() {
         return (double) getUsed() / getSize();
     }
 
-    public long getUsed()
-    {
+    public long getUsed() {
         return this.used;
     }
 
@@ -58,8 +50,7 @@ public class UsageInfo
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
         builder.append(" path=").append(this.path);

@@ -4,21 +4,18 @@ package de.freese.jconky.model;
 /**
  * @author Thomas Freese
  */
-public class GpuInfo extends TemperatureInfo
-{
+public class GpuInfo extends TemperatureInfo {
     private final int fanSpeed;
 
     private final double power;
 
     private final int usage;
 
-    public GpuInfo()
-    {
+    public GpuInfo() {
         this(0D, 0D, 0, 0);
     }
 
-    public GpuInfo(final double temperature, final double power, final int fanSpeed, final int usage)
-    {
+    public GpuInfo(final double temperature, final double power, final int fanSpeed, final int usage) {
         super("GPU", temperature);
 
         this.power = power;
@@ -26,18 +23,15 @@ public class GpuInfo extends TemperatureInfo
         this.usage = usage;
     }
 
-    public int getFanSpeed()
-    {
+    public int getFanSpeed() {
         return this.fanSpeed;
     }
 
-    public double getPower()
-    {
+    public double getPower() {
         return this.power;
     }
 
-    public int getUsage()
-    {
+    public int getUsage() {
         return this.usage;
     }
 
@@ -45,8 +39,7 @@ public class GpuInfo extends TemperatureInfo
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
         builder.append(" device=").append(getDevice());

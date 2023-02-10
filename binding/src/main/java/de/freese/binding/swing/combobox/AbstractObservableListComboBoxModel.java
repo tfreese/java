@@ -13,24 +13,21 @@ import de.freese.binding.swing.list.AbstractObservableListListModel;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObservableListListModel<T> implements ComboBoxModel<T>
-{
+public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObservableListListModel<T> implements ComboBoxModel<T> {
     @Serial
     private static final long serialVersionUID = -5837879226873538114L;
 
     /**
      * @author Thomas Freese
      */
-    private class ComboBoxEventListListener extends EventListListener
-    {
+    private class ComboBoxEventListListener extends EventListListener {
         /**
          * Überschrieben, um sicherzustellen, das das selektierte Objekt in der ComboBox angepasst wird, wenn sich die Daten der {ObservableList} anpassen.
          *
          * @see de.freese.binding.swing.list.AbstractObservableListListModel.EventListListener#contentsChanged(javax.swing.event.ListDataEvent)
          */
         @Override
-        public void contentsChanged(final ListDataEvent e)
-        {
+        public void contentsChanged(final ListDataEvent e) {
             AbstractObservableListComboBoxModel.this.selectedObject = null;
 
             super.contentsChanged(e);
@@ -39,8 +36,7 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
 
     private transient Object selectedObject;
 
-    protected AbstractObservableListComboBoxModel(final ObservableList<T> list)
-    {
+    protected AbstractObservableListComboBoxModel(final ObservableList<T> list) {
         super(list);
     }
 
@@ -48,8 +44,7 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
      * @see javax.swing.ComboBoxModel#getSelectedItem()
      */
     @Override
-    public Object getSelectedItem()
-    {
+    public Object getSelectedItem() {
         return this.selectedObject;
     }
 
@@ -57,16 +52,13 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
      * @see javax.swing.ComboBoxModel#setSelectedItem(java.lang.Object)
      */
     @Override
-    public void setSelectedItem(final Object anItem)
-    {
+    public void setSelectedItem(final Object anItem) {
         int index = getList().indexOf(anItem);
 
-        if (index != -1)
-        {
+        if (index != -1) {
             this.selectedObject = getList().get(index);
         }
-        else
-        {
+        else {
             this.selectedObject = null;
         }
 
@@ -77,8 +69,7 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
      * @see de.freese.binding.swing.list.AbstractObservableListListModel#createEventListener()
      */
     @Override
-    protected EventListListener createEventListener()
-    {
+    protected EventListListener createEventListener() {
         return new ComboBoxEventListListener();
     }
 
@@ -88,10 +79,8 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
      * @see de.freese.binding.swing.list.AbstractObservableListListModel#fireIntervalRemoved(java.lang.Object, int, int)
      */
     @Override
-    protected void fireIntervalRemoved(final Object source, final int index0, final int index1)
-    {
-        if (this.selectedObject != null)
-        {
+    protected void fireIntervalRemoved(final Object source, final int index0, final int index1) {
+        if (this.selectedObject != null) {
             setSelectedItem(null);
         }
 

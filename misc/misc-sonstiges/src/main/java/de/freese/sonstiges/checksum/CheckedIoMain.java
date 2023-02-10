@@ -8,21 +8,16 @@ import java.util.zip.Adler32;
 /**
  * @author Thomas Freese
  */
-public final class CheckedIoMain
-{
-    public static void main(final String[] args) throws Exception
-    {
+public final class CheckedIoMain {
+    public static void main(final String[] args) throws Exception {
         Adler32 inChecker = new Adler32();
         Adler32 outChecker = new Adler32();
 
-        try (CheckedInputStream in = new CheckedInputStream(new FileInputStream("words.txt"), inChecker))
-        {
-            try (CheckedOutputStream out = new CheckedOutputStream(new FileOutputStream("out.txt"), outChecker))
-            {
+        try (CheckedInputStream in = new CheckedInputStream(new FileInputStream("words.txt"), inChecker)) {
+            try (CheckedOutputStream out = new CheckedOutputStream(new FileOutputStream("out.txt"), outChecker)) {
                 int c = 0;
 
-                while ((c = in.read()) != -1)
-                {
+                while ((c = in.read()) != -1) {
                     out.write(c);
                 }
 
@@ -30,15 +25,13 @@ public final class CheckedIoMain
                 System.out.println("Output stream check sum: " + outChecker.getValue());
             }
         }
-        catch (FileNotFoundException ex)
-        {
+        catch (FileNotFoundException ex) {
             System.err.println("CheckedIoMain: " + ex);
             System.exit(-1);
         }
     }
 
-    private CheckedIoMain()
-    {
+    private CheckedIoMain() {
         super();
     }
 }

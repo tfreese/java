@@ -22,30 +22,26 @@ import javax.swing.border.TitledBorder;
 /**
  * @author Thomas Freese
  */
-public final class LabelDnD2 extends JPanel
-{
+public final class LabelDnD2 extends JPanel {
     @Serial
     private static final long serialVersionUID = 8991761070190202012L;
 
     /**
      * @author Thomas Freese
      */
-    private static class DragMouseAdapter extends MouseAdapter
-    {
+    private static class DragMouseAdapter extends MouseAdapter {
         /**
          * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
          */
         @Override
-        public void mousePressed(final MouseEvent e)
-        {
+        public void mousePressed(final MouseEvent e) {
             JComponent c = (JComponent) e.getSource();
             TransferHandler handler = c.getTransferHandler();
             handler.exportAsDrag(c, e, TransferHandler.COPY);
         }
     }
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         // Schedule a job for the event-dispatching thread:
         // creating and showing this application's GUI.
         SwingUtilities.invokeLater(LabelDnD2::createAndShowGUI);
@@ -54,8 +50,7 @@ public final class LabelDnD2 extends JPanel
     /**
      * Create the GUI and show it. For thread safety, this method should be invoked from the event-dispatching thread.
      */
-    private static void createAndShowGUI()
-    {
+    private static void createAndShowGUI() {
         // Make sure we have nice window decorations.
         JFrame.setDefaultLookAndFeelDecorated(true);
 
@@ -73,8 +68,7 @@ public final class LabelDnD2 extends JPanel
         frame.setVisible(true);
     }
 
-    private LabelDnD2()
-    {
+    private LabelDnD2() {
         super(new BorderLayout());
 
         JColorChooser chooser = new JColorChooser();

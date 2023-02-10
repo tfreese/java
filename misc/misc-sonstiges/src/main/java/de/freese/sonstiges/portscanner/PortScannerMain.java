@@ -17,8 +17,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public final class PortScannerMain
-{
+public final class PortScannerMain {
     public static final int FIRST_PORT = 1;
 
     public static final int LAST_PORT = 65535;
@@ -28,8 +27,7 @@ public final class PortScannerMain
     /**
      * @param args -host ip -threads num -ports firstPort lastPort
      */
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         int firstPort = FIRST_PORT;
         int lastPort = LAST_PORT;
         int threads = 8;
@@ -37,58 +35,45 @@ public final class PortScannerMain
 
         int nextArg = 0;
 
-        while (nextArg < args.length)
-        {
+        while (nextArg < args.length) {
             String arg = args[nextArg++];
 
-            try
-            {
-                if ("-threads".equalsIgnoreCase(arg))
-                {
+            try {
+                if ("-threads".equalsIgnoreCase(arg)) {
                     threads = Integer.parseInt(args[nextArg++]);
                 }
-                else if ("-host".equalsIgnoreCase(arg))
-                {
+                else if ("-host".equalsIgnoreCase(arg)) {
                     host = InetAddress.getByName(args[nextArg++]);
                 }
-                else if ("-ports".equalsIgnoreCase(arg))
-                {
+                else if ("-ports".equalsIgnoreCase(arg)) {
                     firstPort = Integer.parseInt(args[nextArg++]);
                     lastPort = Integer.parseInt(args[nextArg++]);
                 }
-                else if ("-?".equalsIgnoreCase(arg) || "-h".equalsIgnoreCase(arg) || "-help".equalsIgnoreCase(arg))
-                {
+                else if ("-?".equalsIgnoreCase(arg) || "-h".equalsIgnoreCase(arg) || "-help".equalsIgnoreCase(arg)) {
                     LOGGER.error("Syntax: java [-jar] PortScannerMain[.class/.jar] -host ip -threads num -ports firstPort lastPort");
                     System.exit(0);
                 }
-                else
-                {
+                else {
                     badArg("Unknown command-line argument: " + arg);
                 }
             }
-            catch (ArrayIndexOutOfBoundsException ex)
-            {
+            catch (ArrayIndexOutOfBoundsException ex) {
                 badArg("missing item after " + arg);
             }
-            catch (NumberFormatException ex)
-            {
+            catch (NumberFormatException ex) {
                 badArg("bad number format for " + arg + ": " + args[nextArg - 1]);
             }
-            catch (UnknownHostException ex)
-            {
+            catch (UnknownHostException ex) {
                 badArg(args[nextArg - 1] + " is not a valid host name.");
             }
         }
 
-        if (host == null)
-        {
+        if (host == null) {
             badArg("No host specified");
         }
 
-        if (LOGGER.isInfoEnabled())
-        {
-            LOGGER.info(String.format("host: %s, ports: %d-%d, threads: %d", host, firstPort, lastPort,
-                    threads));
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info(String.format("host: %s, ports: %d-%d, threads: %d", host, firstPort, lastPort, threads));
         }
 
         final ExecutorService executor = Executors.newFixedThreadPool(threads);
@@ -97,13 +82,11 @@ public final class PortScannerMain
 
         final Map<Integer, Port> openPorts = Collections.synchronizedMap(new TreeMap<>());
 
-        for (int port = firstPort; port < (lastPort + 1); port++)
-        {
+        for (int port = firstPort; port < (lastPort + 1); port++) {
             executor.execute(new Port(openPorts, host, port));
         }
 
-        executor.execute(() ->
-        {
+        executor.execute(() -> {
             LOGGER.info("ThreadPool (Active): {}", ((ThreadPoolExecutor) executor).getActiveCount());
             LOGGER.info("ThreadPool (Tasks): {}", ((ThreadPoolExecutor) executor).getTaskCount());
             LOGGER.info("ThreadPool (Queue): {}", ((ThreadPoolExecutor) executor).getQueue().size());
@@ -112,8 +95,7 @@ public final class PortScannerMain
 
             LOGGER.info("");
 
-            for (Port port : openPorts.values())
-            {
+            for (Port port : openPorts.values()) {
                 LOGGER.info("Open Port on {}", port);
             }
 
@@ -121,15 +103,13 @@ public final class PortScannerMain
         });
     }
 
-    private static void badArg(final String param)
-    {
+    private static void badArg(final String param) {
         LOGGER.error(param);
 
         System.exit(1);
     }
 
-    private PortScannerMain()
-    {
+    private PortScannerMain() {
         super();
     }
 }

@@ -32,13 +32,11 @@ import javax.swing.tree.TreeSelectionModel;
 /**
  * Created on 31.08.2004
  */
-public final class BasicDnD extends JPanel implements ActionListener
-{
+public final class BasicDnD extends JPanel implements ActionListener {
     @Serial
     private static final long serialVersionUID = -1712718559600336190L;
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         // Schedule a job for the event-dispatching thread:
         // creating and showing this application's GUI.
         SwingUtilities.invokeLater(BasicDnD::createAndShowGUI);
@@ -47,8 +45,7 @@ public final class BasicDnD extends JPanel implements ActionListener
     /**
      * Create the GUI and show it. For thread safety, this method should be invoked from the event-dispatching thread.
      */
-    private static void createAndShowGUI()
-    {
+    private static void createAndShowGUI() {
         // Make sure we have nice window decorations.
         // JFrame.setDefaultLookAndFeelDecorated(true);
         // Create and set up the window.
@@ -79,8 +76,7 @@ public final class BasicDnD extends JPanel implements ActionListener
 
     private final JTree tree;
 
-    private BasicDnD()
-    {
+    private BasicDnD() {
         super(new BorderLayout());
 
         JPanel leftPanel = createVerticalBoxPanel();
@@ -92,22 +88,10 @@ public final class BasicDnD extends JPanel implements ActionListener
         tm.addColumn("Column 1");
         tm.addColumn("Column 2");
         tm.addColumn("Column 3");
-        tm.addRow(new String[]
-                {
-                        "Table 00", "Table 01", "Table 02", "Table 03"
-                });
-        tm.addRow(new String[]
-                {
-                        "Table 10", "Table 11", "Table 12", "Table 13"
-                });
-        tm.addRow(new String[]
-                {
-                        "Table 20", "Table 21", "Table 22", "Table 23"
-                });
-        tm.addRow(new String[]
-                {
-                        "Table 30", "Table 31", "Table 32", "Table 33"
-                });
+        tm.addRow(new String[]{"Table 00", "Table 01", "Table 02", "Table 03"});
+        tm.addRow(new String[]{"Table 10", "Table 11", "Table 12", "Table 13"});
+        tm.addRow(new String[]{"Table 20", "Table 21", "Table 22", "Table 23"});
+        tm.addRow(new String[]{"Table 30", "Table 31", "Table 32", "Table 33"});
 
         // LEFT COLUMN
         // Use the table model to create a table.
@@ -186,10 +170,8 @@ public final class BasicDnD extends JPanel implements ActionListener
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     @Override
-    public void actionPerformed(final ActionEvent e)
-    {
-        if ("toggleDnD".equals(e.getActionCommand()))
-        {
+    public void actionPerformed(final ActionEvent e) {
+        if ("toggleDnD".equals(e.getActionCommand())) {
             boolean toggle = this.toggleDnD.isSelected();
             this.textArea.setDragEnabled(toggle);
             this.textField.setDragEnabled(toggle);
@@ -200,21 +182,18 @@ public final class BasicDnD extends JPanel implements ActionListener
         }
     }
 
-    public JPanel createPanelForComponent(final JComponent comp, final String title)
-    {
+    public JPanel createPanelForComponent(final JComponent comp, final String title) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(comp, BorderLayout.CENTER);
 
-        if (title != null)
-        {
+        if (title != null) {
             panel.setBorder(BorderFactory.createTitledBorder(title));
         }
 
         return panel;
     }
 
-    private JPanel createVerticalBoxPanel()
-    {
+    private JPanel createVerticalBoxPanel() {
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.PAGE_AXIS));
         p.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));

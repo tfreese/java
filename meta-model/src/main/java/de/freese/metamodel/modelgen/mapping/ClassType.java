@@ -8,12 +8,10 @@ import org.hibernate.mapping.Collection;
 /**
  * @author Thomas Freese
  */
-public class ClassType implements Type
-{
+public class ClassType implements Type {
     private final Class<?> javaClass;
 
-    public ClassType(final Class<?> javaClass)
-    {
+    public ClassType(final Class<?> javaClass) {
         super();
 
         this.javaClass = Objects.requireNonNull(javaClass, "javaClass required");
@@ -23,13 +21,11 @@ public class ClassType implements Type
      * @see de.freese.metamodel.modelgen.mapping.Type#equals(java.lang.Class)
      */
     @Override
-    public boolean equals(final Class<?> clazz)
-    {
+    public boolean equals(final Class<?> clazz) {
         return getJavaClass().equals(clazz);
     }
 
-    public Class<?> getJavaClass()
-    {
+    public Class<?> getJavaClass() {
         return this.javaClass;
     }
 
@@ -37,8 +33,7 @@ public class ClassType implements Type
      * @see de.freese.metamodel.modelgen.mapping.Type#getSimpleName()
      */
     @Override
-    public String getSimpleName()
-    {
+    public String getSimpleName() {
         return getJavaClass().getSimpleName();
     }
 
@@ -46,8 +41,7 @@ public class ClassType implements Type
      * @see de.freese.metamodel.modelgen.mapping.Type#isArray()
      */
     @Override
-    public boolean isArray()
-    {
+    public boolean isArray() {
         return getJavaClass().isArray();
     }
 
@@ -55,8 +49,7 @@ public class ClassType implements Type
      * @see de.freese.metamodel.modelgen.mapping.Type#isAssoziation()
      */
     @Override
-    public boolean isAssoziation()
-    {
+    public boolean isAssoziation() {
         return false;
     }
 
@@ -64,8 +57,7 @@ public class ClassType implements Type
      * @see de.freese.metamodel.modelgen.mapping.Type#isCollection()
      */
     @Override
-    public boolean isCollection()
-    {
+    public boolean isCollection() {
         return Collection.class.isAssignableFrom(getJavaClass());
     }
 
@@ -73,8 +65,7 @@ public class ClassType implements Type
      * @see de.freese.metamodel.modelgen.mapping.Type#isPrimitive()
      */
     @Override
-    public boolean isPrimitive()
-    {
+    public boolean isPrimitive() {
         return getJavaClass().isPrimitive();
     }
 }

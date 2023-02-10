@@ -11,14 +11,15 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.simulationen.ant.AntRasterSimulation;
 import de.freese.simulationen.balls.BallSimulation;
 import de.freese.simulationen.gameoflife.GoFRasterSimulation;
 import de.freese.simulationen.model.Simulation;
 import de.freese.simulationen.model.SimulationType;
 import de.freese.simulationen.wator.WaTorRasterSimulation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Console-Programm für Bilderstellung.<br>
@@ -33,49 +34,38 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-class SimulationConsole
-{
+class SimulationConsole {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimulationConsole.class);
 
-    public void start(final SimulationType type, final int cycles, final int width, final int height, final Path path)
-    {
+    public void start(final SimulationType type, final int cycles, final int width, final int height, final Path path) {
         int cpus = Runtime.getRuntime().availableProcessors();
 
         // Jeder CPU-Kern soll ausgelastet werden, wenn die Queue voll ist, wird die Grafik im Caller verarbeitet.
-        ExecutorService executorService =
-                new ThreadPoolExecutor(cpus, cpus, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(cpus), new ThreadPoolExecutor.CallerRunsPolicy());
+        ExecutorService executorService = new ThreadPoolExecutor(cpus, cpus, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(cpus), new ThreadPoolExecutor.CallerRunsPolicy());
 
-        try
-        {
-            Simulation simulation = switch (type)
-                    {
-                        case ANTS -> new AntRasterSimulation(width, height);
-                        case GAME_OF_LIFE -> new GoFRasterSimulation(width, height);
-                        case WATER_TORUS -> new WaTorRasterSimulation(width, height);
-                        case BOUNCING_BALLS -> new BallSimulation(width, height, SimulationEnvironment.getInstance().getAsInt("simulation.delay", 40));
-                    };
+        try {
+            Simulation simulation = switch (type) {
+                case ANTS -> new AntRasterSimulation(width, height);
+                case GAME_OF_LIFE -> new GoFRasterSimulation(width, height);
+                case WATER_TORUS -> new WaTorRasterSimulation(width, height);
+                case BOUNCING_BALLS -> new BallSimulation(width, height, SimulationEnvironment.getInstance().getAsInt("simulation.delay", 40));
+            };
 
             Path directory = path.resolve(type.getNameShort());
 
-            if (!Files.exists(directory))
-            {
+            if (!Files.exists(directory)) {
                 Files.createDirectories(directory);
             }
 
-            if (Files.exists(directory))
-            {
+            if (Files.exists(directory)) {
                 // Alten Inhalt löschen.
-                try (Stream<Path> stream = Files.list(directory))
-                {
+                try (Stream<Path> stream = Files.list(directory)) {
                     //                    stream.forEach(System.out::println);
-                    stream.forEach(file ->
-                    {
-                        try
-                        {
+                    stream.forEach(file -> {
+                        try {
                             Files.delete(file);
                         }
-                        catch (IOException ex)
-                        {
+                        catch (IOException ex) {
                             throw new UncheckedIOException(ex);
                         }
                     });
@@ -89,26 +79,22 @@ class SimulationConsole
             // # 40ms = 25 Bilder/Sekunde
             // int delay = SimulationEnvironment.getInstance().getAsInt("simulation.delay", 40);
 
-            for (int cycle = 0; cycle < cycles; cycle++)
-            {
+            for (int cycle = 0; cycle < cycles; cycle++) {
                 simulation.nextGeneration();
 
-                if ((simulation instanceof BallSimulation bs) && bs.isFinished())
-                {
+                if ((simulation instanceof BallSimulation bs) && bs.isFinished()) {
                     break;
                 }
 
                 // TimeUnit.MILLISECONDS.sleep(delay);
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             System.exit(-1);
         }
-        finally
-        {
+        finally {
             SimulationEnvironment.shutdown(executorService, LOGGER);
         }
 

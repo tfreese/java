@@ -13,8 +13,7 @@ import de.freese.binding.collections.ObservableList;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractObservableListTableModel<T> extends AbstractListTableModel<T>
-{
+public abstract class AbstractObservableListTableModel<T> extends AbstractListTableModel<T> {
     @Serial
     private static final long serialVersionUID = -863675813360039937L;
 
@@ -23,14 +22,12 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
      *
      * @author Thomas Freese
      */
-    private class EventListListener implements ListDataListener
-    {
+    private class EventListListener implements ListDataListener {
         /**
          * @see javax.swing.event.ListDataListener#contentsChanged(javax.swing.event.ListDataEvent)
          */
         @Override
-        public void contentsChanged(final ListDataEvent e)
-        {
+        public void contentsChanged(final ListDataEvent e) {
             // int firstRow = e.getIndex0();
             // int lastRow = e.getIndex1();
             //
@@ -44,8 +41,7 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
          * @see javax.swing.event.ListDataListener#intervalAdded(javax.swing.event.ListDataEvent)
          */
         @Override
-        public void intervalAdded(final ListDataEvent e)
-        {
+        public void intervalAdded(final ListDataEvent e) {
             int firstRow = e.getIndex0();
             int lastRow = e.getIndex1();
 
@@ -56,8 +52,7 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
          * @see javax.swing.event.ListDataListener#intervalRemoved(javax.swing.event.ListDataEvent)
          */
         @Override
-        public void intervalRemoved(final ListDataEvent e)
-        {
+        public void intervalRemoved(final ListDataEvent e) {
             int firstRow = e.getIndex0();
             int lastRow = e.getIndex1();
 
@@ -65,15 +60,13 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
         }
     }
 
-    protected AbstractObservableListTableModel(final int columnCount, final ObservableList<T> list)
-    {
+    protected AbstractObservableListTableModel(final int columnCount, final ObservableList<T> list) {
         super(columnCount, list);
 
         list.addListener(new EventListListener());
     }
 
-    protected AbstractObservableListTableModel(final List<String> columnNames, final ObservableList<T> list)
-    {
+    protected AbstractObservableListTableModel(final List<String> columnNames, final ObservableList<T> list) {
         super(columnNames, list);
 
         list.addListener(new EventListListener());
@@ -83,8 +76,7 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
      * @see de.freese.binding.swing.table.AbstractListTableModel#getList()
      */
     @Override
-    protected ObservableList<T> getList()
-    {
+    protected ObservableList<T> getList() {
         return (ObservableList<T>) super.getList();
     }
 }

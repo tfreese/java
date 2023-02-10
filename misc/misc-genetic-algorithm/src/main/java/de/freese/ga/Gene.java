@@ -8,17 +8,14 @@ import java.util.Objects;
  *
  * @author Thomas Freese
  */
-public class Gene implements Comparable<Gene>
-{
+public class Gene implements Comparable<Gene> {
     private Object value;
 
-    public Gene()
-    {
+    public Gene() {
         super();
     }
 
-    public Gene(final Object value)
-    {
+    public Gene(final Object value) {
         super();
 
         setValue(value);
@@ -28,21 +25,17 @@ public class Gene implements Comparable<Gene>
      * Selber Typ und selber Wert.
      */
     @Override
-    public int compareTo(final Gene o)
-    {
-        if ((o == null) || (o == this) || (getClass() != o.getClass()))
-        {
+    public int compareTo(final Gene o) {
+        if ((o == null) || (o == this) || (getClass() != o.getClass())) {
             return 0;
         }
 
         int comp = 0;
 
-        if (getValue() instanceof Comparable)
-        {
+        if (getValue() instanceof Comparable) {
             comp = ((Comparable<?>) getValue()).compareTo(o.getValue());
         }
-        else
-        {
+        else {
             throw new IllegalStateException("GeneValue must implement Comparable");
         }
 
@@ -50,49 +43,40 @@ public class Gene implements Comparable<Gene>
     }
 
     @Override
-    public boolean equals(final Object o)
-    {
-        if (this == o)
-        {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
 
-        if (!(o instanceof Gene gene))
-        {
+        if (!(o instanceof Gene gene)) {
             return false;
         }
 
         return Objects.equals(getValue(), gene.getValue());
     }
 
-    public Boolean getBoolean()
-    {
+    public Boolean getBoolean() {
         return getValue();
     }
 
-    public Double getDouble()
-    {
+    public Double getDouble() {
         return getValue();
     }
 
-    public Integer getInteger()
-    {
+    public Integer getInteger() {
         return getValue();
     }
 
-    public <T> T getValue()
-    {
+    public <T> T getValue() {
         return (T) this.value;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(getValue());
     }
 
-    public void setValue(final Object value)
-    {
+    public void setValue(final Object value) {
         this.value = value;
     }
 
@@ -100,8 +84,7 @@ public class Gene implements Comparable<Gene>
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName()).append(": ");
         sb.append(Objects.toString(getValue(), "null"));

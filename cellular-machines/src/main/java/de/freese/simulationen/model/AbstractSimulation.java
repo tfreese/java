@@ -11,8 +11,7 @@ import java.util.Random;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractSimulation implements Simulation
-{
+public abstract class AbstractSimulation implements Simulation {
     private final int height;
 
     private final Random random;
@@ -21,8 +20,7 @@ public abstract class AbstractSimulation implements Simulation
 
     private final int width;
 
-    protected AbstractSimulation(final int width, final int height)
-    {
+    protected AbstractSimulation(final int width, final int height) {
         super();
 
         this.width = width;
@@ -35,10 +33,8 @@ public abstract class AbstractSimulation implements Simulation
      * @see de.freese.simulationen.model.Simulation#addWorldListener(de.freese.simulationen.model.SimulationListener)
      */
     @Override
-    public void addWorldListener(final SimulationListener simulationListener)
-    {
-        if (!this.simulationListeners.contains(simulationListener))
-        {
+    public void addWorldListener(final SimulationListener simulationListener) {
+        if (!this.simulationListeners.contains(simulationListener)) {
             this.simulationListeners.add(simulationListener);
         }
     }
@@ -47,13 +43,11 @@ public abstract class AbstractSimulation implements Simulation
      * @see de.freese.simulationen.model.Simulation#getHeight()
      */
     @Override
-    public int getHeight()
-    {
+    public int getHeight() {
         return this.height;
     }
 
-    public Random getRandom()
-    {
+    public Random getRandom() {
         return this.random;
     }
 
@@ -61,8 +55,7 @@ public abstract class AbstractSimulation implements Simulation
      * @see de.freese.simulationen.model.Simulation#getWidth()
      */
     @Override
-    public int getWidth()
-    {
+    public int getWidth() {
         return this.width;
     }
 
@@ -70,8 +63,7 @@ public abstract class AbstractSimulation implements Simulation
      * @param pos int, Aktuelle Position
      * @param offSet int, Positionsänderung
      */
-    public int getXTorusKoord(final int pos, final int offSet)
-    {
+    public int getXTorusKoord(final int pos, final int offSet) {
         return getTorusKoord(getWidth(), pos, offSet);
     }
 
@@ -79,20 +71,17 @@ public abstract class AbstractSimulation implements Simulation
      * @param pos int, Aktuelle Position
      * @param offSet int, Positionsänderung
      */
-    public int getYTorusKoord(final int pos, final int offSet)
-    {
+    public int getYTorusKoord(final int pos, final int offSet) {
         return getTorusKoord(getHeight(), pos, offSet);
     }
 
     /**
      * Feuert das Event, wenn ein Simulations-Durchgang beendet ist.
      */
-    protected void fireCompleted()
-    {
+    protected void fireCompleted() {
         updateImage();
 
-        for (SimulationListener listener : this.simulationListeners)
-        {
+        for (SimulationListener listener : this.simulationListeners) {
             listener.completed(this);
         }
     }
@@ -111,10 +100,8 @@ public abstract class AbstractSimulation implements Simulation
      * @param pos int, Aktuelle Position
      * @param offSet int, Positionsänderung
      */
-    private int getTorusKoord(final int size, final int pos, final int offSet)
-    {
-        if ((pos == 0) && (offSet < 0))
-        {
+    private int getTorusKoord(final int size, final int pos, final int offSet) {
+        if ((pos == 0) && (offSet < 0)) {
             return size + offSet;
         }
 

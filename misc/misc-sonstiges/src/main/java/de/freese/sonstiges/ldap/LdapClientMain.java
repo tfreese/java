@@ -19,10 +19,8 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * @author Thomas Freese
  */
-public final class LdapClientMain
-{
-    public static void main(final String[] args) throws Exception
-    {
+public final class LdapClientMain {
+    public static void main(final String[] args) throws Exception {
         Properties env = new Properties();
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
         env.put(Context.PROVIDER_URL, "ldap://localhost:3389");
@@ -34,10 +32,7 @@ public final class LdapClientMain
         InitialDirContext context = new InitialDirContext(env);
 
         // Specify the attributes to return
-        String[] returnedAttributes =
-                {
-                        "*"
-                };
+        String[] returnedAttributes = {"*"};
 
         SearchControls searchControls = new SearchControls();
         searchControls.setSearchScope(SearchControls.ONELEVEL_SCOPE);
@@ -50,8 +45,7 @@ public final class LdapClientMain
         NamingEnumeration<SearchResult> search = context.search("ou=addressbook,dc=freese,dc=de", searchFilter, searchControls);
         List<SearchResult> results = new ArrayList<>();
 
-        while (search.hasMoreElements())
-        {
+        while (search.hasMoreElements()) {
             SearchResult searchResult = search.nextElement();
             System.out.println(searchResult.toString());
             results.add(searchResult);
@@ -61,10 +55,8 @@ public final class LdapClientMain
 
         results.sort(new SearchResultComparator());
 
-        try (PrintWriter pw = new PrintWriter("/tmp/ldap-backup.ldif", StandardCharsets.UTF_8))
-        {
-            for (SearchResult searchResult : results)
-            {
+        try (PrintWriter pw = new PrintWriter("/tmp/ldap-backup.ldif", StandardCharsets.UTF_8)) {
+            for (SearchResult searchResult : results) {
                 // System.out.println(searchResult.getAttributes().get("mobile"));
                 String cn = getValue(searchResult, "cn");
                 String uid = getValue(searchResult, "uid");
@@ -72,20 +64,16 @@ public final class LdapClientMain
                 String givenName = getValue(searchResult, "givenName");
 
                 // Prüfen, ob cn aus Vor- und Nachname besteht.
-                if ((cn != null) && cn.contains(" "))
-                {
+                if ((cn != null) && cn.contains(" ")) {
                     pw.printf("dn: cn=%s,ou=addressbook,dc=freese,dc=de%n", cn);
                 }
-                else if (StringUtils.isNotBlank(givenName))
-                {
+                else if (StringUtils.isNotBlank(givenName)) {
                     pw.printf("dn: cn=%s %s,ou=addressbook,dc=freese,dc=de%n", givenName, sn);
                 }
-                else if (StringUtils.isNotBlank(uid))
-                {
+                else if (StringUtils.isNotBlank(uid)) {
                     pw.printf("dn: cn=%s,ou=addressbook,dc=freese,dc=de%n", uid);
                 }
-                else
-                {
+                else {
                     pw.printf("dn: cn=%s,ou=addressbook,dc=freese,dc=de%n", cn);
                 }
 
@@ -135,41 +123,34 @@ public final class LdapClientMain
                 pw.println();
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             System.err.println(ex);
         }
 
         context.close();
     }
 
-    private static String getValue(final SearchResult searchResult, final String key) throws Exception
-    {
+    private static String getValue(final SearchResult searchResult, final String key) throws Exception {
         Attribute attribute = searchResult.getAttributes().get(key);
 
-        if (attribute == null)
-        {
+        if (attribute == null) {
             return null;
         }
 
         return attribute.get().toString();
     }
 
-    private static void writeMultiValue(final PrintWriter pw, final SearchResult searchResult, final String key) throws Exception
-    {
+    private static void writeMultiValue(final PrintWriter pw, final SearchResult searchResult, final String key) throws Exception {
         Attribute attribute = searchResult.getAttributes().get(key);
 
-        if (attribute == null)
-        {
+        if (attribute == null) {
             return;
         }
 
-        for (int i = 0; i < attribute.size(); i++)
-        {
+        for (int i = 0; i < attribute.size(); i++) {
             String value = StringUtils.trim(attribute.get(i).toString());
 
-            if (StringUtils.isBlank(value))
-            {
+            if (StringUtils.isBlank(value)) {
                 continue;
             }
 
@@ -177,19 +158,16 @@ public final class LdapClientMain
         }
     }
 
-    private static void writeSingleValue(final PrintWriter pw, final SearchResult searchResult, final String key) throws Exception
-    {
+    private static void writeSingleValue(final PrintWriter pw, final SearchResult searchResult, final String key) throws Exception {
         Attribute attribute = searchResult.getAttributes().get(key);
 
-        if (attribute == null)
-        {
+        if (attribute == null) {
             return;
         }
 
         String value = StringUtils.trim(attribute.get().toString());
 
-        if (StringUtils.isBlank(value))
-        {
+        if (StringUtils.isBlank(value)) {
             return;
         }
 
@@ -197,8 +175,7 @@ public final class LdapClientMain
 
     }
 
-    private LdapClientMain()
-    {
+    private LdapClientMain() {
         super();
     }
 }

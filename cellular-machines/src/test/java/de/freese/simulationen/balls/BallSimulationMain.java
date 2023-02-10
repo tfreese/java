@@ -26,8 +26,7 @@ import javax.swing.SwingUtilities;
  *
  * @author Thomas Freese
  */
-public final class BallSimulationMain extends JComponent
-{
+public final class BallSimulationMain extends JComponent {
     /**
      * [ms]
      */
@@ -36,8 +35,7 @@ public final class BallSimulationMain extends JComponent
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         // Dimensionen [m]
         int w = 400;
         int h = 240;
@@ -54,14 +52,12 @@ public final class BallSimulationMain extends JComponent
 
         final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(8);
 
-        frame.addWindowListener(new WindowAdapter()
-        {
+        frame.addWindowListener(new WindowAdapter() {
             /**
              * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
              */
             @Override
-            public void windowClosing(final WindowEvent event)
-            {
+            public void windowClosing(final WindowEvent event) {
                 ((JFrame) event.getSource()).setVisible(false);
                 ((JFrame) event.getSource()).dispose();
                 scheduledExecutorService.shutdownNow();
@@ -71,12 +67,9 @@ public final class BallSimulationMain extends JComponent
         frame.setVisible(true);
         frame.toFront();
 
-        final ScheduledFuture<?> scheduledFuture =
-                scheduledExecutorService.scheduleWithFixedDelay(simulation::moveAndPaintBalls, 1, DELAY, TimeUnit.MILLISECONDS);
-        scheduledExecutorService.scheduleWithFixedDelay(() ->
-        {
-            if (simulation.isFinished())
-            {
+        final ScheduledFuture<?> scheduledFuture = scheduledExecutorService.scheduleWithFixedDelay(simulation::moveAndPaintBalls, 1, DELAY, TimeUnit.MILLISECONDS);
+        scheduledExecutorService.scheduleWithFixedDelay(() -> {
+            if (simulation.isFinished()) {
                 scheduledFuture.cancel(true);
                 scheduledExecutorService.shutdownNow();
                 System.exit(0);
@@ -88,8 +81,7 @@ public final class BallSimulationMain extends JComponent
 
     private transient final BufferedImage image;
 
-    private BallSimulationMain(final int width, final int height)
-    {
+    private BallSimulationMain(final int width, final int height) {
         super();
 
         setPreferredSize(new Dimension(width, height));
@@ -113,12 +105,10 @@ public final class BallSimulationMain extends JComponent
      * @param vy Vertikale Geschwindigkeit [m/s].
      * @param durchmesser [m]
      */
-    public void addBall(final double x, final double y, final double vx, final double vy, final double durchmesser)
-    {
+    public void addBall(final double x, final double y, final double vx, final double vy, final double durchmesser) {
         Ball ball = new Ball(getImageWidth(), getImageHeight(), x, y, vx, vy, durchmesser, 0.1D);
 
-        if (!this.balls.contains(ball))
-        {
+        if (!this.balls.contains(ball)) {
             this.balls.add(ball);
         }
     }
@@ -126,16 +116,14 @@ public final class BallSimulationMain extends JComponent
     /**
      * Liefert true, wenn alle Bälle zum stillstand gekommen sind.
      */
-    public boolean isFinished()
-    {
+    public boolean isFinished() {
         return this.balls.stream().allMatch(Ball::isFinished);
     }
 
     /**
      * Bewegen der Bälle und neu zeichnen.
      */
-    public void moveAndPaintBalls()
-    {
+    public void moveAndPaintBalls() {
         Graphics2D g = this.image.createGraphics();
 
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -161,8 +149,7 @@ public final class BallSimulationMain extends JComponent
      * @see java.awt.Window#paint(java.awt.Graphics)
      */
     @Override
-    public void paint(final Graphics g)
-    {
+    public void paint(final Graphics g) {
         // g.drawImage(this.image, 0, 0, this);
         g.drawImage(this.image, 0, 0, getWidth(), getHeight(), null);
     }
@@ -170,39 +157,33 @@ public final class BallSimulationMain extends JComponent
     /**
      * Liefert die Höhe des Bildes, und NICHT die der {@link JComponent}.
      */
-    private int getImageHeight()
-    {
+    private int getImageHeight() {
         return getPreferredSize().height;
     }
 
     /**
      * Liefert die Breite des Bildes, und NICHT die der {@link JComponent}.
      */
-    private int getImageWidth()
-    {
+    private int getImageWidth() {
         return getPreferredSize().width;
     }
 
-    private void gitter(final Graphics g)
-    {
+    private void gitter(final Graphics g) {
         g.setColor(Color.BLACK);
 
         int stepX = getImageWidth() / 10;
         int stepY = getImageHeight() / 5;
 
-        for (int i = stepX; i <= getImageWidth(); i += stepX)
-        {
+        for (int i = stepX; i <= getImageWidth(); i += stepX) {
             g.drawLine(i, 0, i, getImageHeight());
         }
 
-        for (int i = stepY; i <= getImageHeight(); i += stepY)
-        {
+        for (int i = stepY; i <= getImageHeight(); i += stepY) {
             g.drawLine(0, i, getImageWidth(), i);
         }
     }
 
-    private void paint(final Graphics g, final Ball ball, final Color color)
-    {
+    private void paint(final Graphics g, final Ball ball, final Color color) {
         g.setColor(color);
         // g.translate(0, 0);
 

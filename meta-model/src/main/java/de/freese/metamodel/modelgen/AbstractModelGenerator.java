@@ -25,8 +25,7 @@ import de.freese.metamodel.modelgen.naming.NamingStrategy;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractModelGenerator
-{
+public abstract class AbstractModelGenerator {
     private boolean addFullConstructor;
 
     private NamingStrategy namingStrategy = new DefaultNamingStrategy();
@@ -39,14 +38,12 @@ public abstract class AbstractModelGenerator
 
     private boolean validationAnnotations;
 
-    public List<ClassModel> generate(final Schema schema)
-    {
+    public List<ClassModel> generate(final Schema schema) {
         Objects.requireNonNull(schema, "schema required");
 
         List<ClassModel> classModels = new ArrayList<>(schema.getTables().size());
 
-        for (Table table : schema.getTables())
-        {
+        for (Table table : schema.getTables()) {
             ClassModel classModel = transformClass(table);
             classModel.setPackageName(getPackageName());
 
@@ -70,51 +67,42 @@ public abstract class AbstractModelGenerator
         return classModels;
     }
 
-    public void setAddFullConstructor(final boolean addFullConstructor)
-    {
+    public void setAddFullConstructor(final boolean addFullConstructor) {
         this.addFullConstructor = addFullConstructor;
     }
 
-    public void setNamingStrategy(final NamingStrategy namingStrategy)
-    {
+    public void setNamingStrategy(final NamingStrategy namingStrategy) {
         this.namingStrategy = namingStrategy;
     }
 
-    public void setPackageName(final String packageName)
-    {
+    public void setPackageName(final String packageName) {
         this.packageName = packageName;
     }
 
-    public void setSerializeable(final boolean serializeable)
-    {
+    public void setSerializeable(final boolean serializeable) {
         this.serializeable = serializeable;
     }
 
-    public void setTypeMapping(final TypeMapping typeMapping)
-    {
+    public void setTypeMapping(final TypeMapping typeMapping) {
         this.typeMapping = typeMapping;
     }
 
     /**
      * true = jakarta.validation.constraints.* Annotations mit einbauen.
      */
-    public void setValidationAnnotations(final boolean validationAnnotations)
-    {
+    public void setValidationAnnotations(final boolean validationAnnotations) {
         this.validationAnnotations = validationAnnotations;
     }
 
-    protected List<Column> getColumnsForToString(final Table table)
-    {
+    protected List<Column> getColumnsForToString(final Table table) {
         List<Column> columns = null;
 
         // Finde alle Columns des PrimaryKeys.
-        if (table.getPrimaryKey() != null)
-        {
+        if (table.getPrimaryKey() != null) {
             columns = table.getPrimaryKey().getColumnsOrdered();
         }
 
-        if ((columns == null) || columns.isEmpty())
-        {
+        if ((columns == null) || columns.isEmpty()) {
             // Finde alle Columns mit UniqueConstraints.
             // @formatter:off
             columns = table.getUniqueConstraints().stream()
@@ -124,8 +112,7 @@ public abstract class AbstractModelGenerator
             // @formatter:on
         }
 
-        if ((columns == null) || columns.isEmpty())
-        {
+        if ((columns == null) || columns.isEmpty()) {
             // Finde alle Columns mit ForeignKeys.
             // @formatter:off
             columns = table.getColumnsOrdered().stream()
@@ -136,8 +123,7 @@ public abstract class AbstractModelGenerator
             // @formatter:on
         }
 
-        if ((columns == null) || columns.isEmpty())
-        {
+        if ((columns == null) || columns.isEmpty()) {
             // Alle Columns.
             columns = table.getColumnsOrdered();
         }
@@ -145,38 +131,31 @@ public abstract class AbstractModelGenerator
         return columns;
     }
 
-    protected NamingStrategy getNamingStrategy()
-    {
+    protected NamingStrategy getNamingStrategy() {
         return this.namingStrategy;
     }
 
-    protected String getPackageName()
-    {
+    protected String getPackageName() {
         return this.packageName;
     }
 
-    protected TypeMapping getTypeMapping()
-    {
+    protected TypeMapping getTypeMapping() {
         return this.typeMapping;
     }
 
-    protected boolean isAddFullConstructor()
-    {
+    protected boolean isAddFullConstructor() {
         return this.addFullConstructor;
     }
 
-    protected boolean isSerializeable()
-    {
+    protected boolean isSerializeable() {
         return this.serializeable;
     }
 
-    protected boolean isValidationAnnotations()
-    {
+    protected boolean isValidationAnnotations() {
         return this.validationAnnotations;
     }
 
-    protected ClassModel transformClass(final Table table)
-    {
+    protected ClassModel transformClass(final Table table) {
         String name = getNamingStrategy().getClassName(table.getName());
         ClassModel classModel = new ClassModel(name);
         classModel.setSerializeable(isSerializeable());
@@ -185,23 +164,20 @@ public abstract class AbstractModelGenerator
         transformClassJavaDoc(table, classModel);
         transformClassAnnotations(table, classModel);
 
-        for (Column column : table.getColumnsOrdered())
-        {
+        for (Column column : table.getColumnsOrdered()) {
             transformField(column, classModel);
         }
 
         return classModel;
     }
 
-    protected void transformClassAnnotations(final Table table, final ClassModel classModel)
-    {
+    protected void transformClassAnnotations(final Table table, final ClassModel classModel) {
         // Empty
     }
 
     protected abstract void transformClassJavaDoc(Table table, ClassModel classModel);
 
-    protected void transformField(final Column column, final ClassModel classModel)
-    {
+    protected void transformField(final Column column, final ClassModel classModel) {
         String fieldName = getNamingStrategy().getFieldName(column.getName());
         ClassType type = (ClassType) getTypeMapping().getType(column.getJdbcType(), column.isNullable());
 
@@ -212,20 +188,16 @@ public abstract class AbstractModelGenerator
         transformFieldAnnotations(column, fieldModel);
     }
 
-    protected void transformFieldAnnotations(final Column column, final FieldModel fieldModel)
-    {
+    protected void transformFieldAnnotations(final Column column, final FieldModel fieldModel) {
         // Validation Annotations
-        if (isValidationAnnotations())
-        {
-            if (!column.isNullable())
-            {
+        if (isValidationAnnotations()) {
+            if (!column.isNullable()) {
                 // @NotNull
                 fieldModel.addImport(NotNull.class);
                 fieldModel.addAnnotation("@" + NotNull.class.getSimpleName());
             }
 
-            if (JDBCType.VARCHAR.equals(column.getJdbcType()))
-            {
+            if (JDBCType.VARCHAR.equals(column.getJdbcType())) {
                 // @Size(max=50)
                 fieldModel.addImport(Size.class);
                 fieldModel.addAnnotation("@" + Size.class.getSimpleName() + "(max = " + column.getSize() + ")");
@@ -233,12 +205,10 @@ public abstract class AbstractModelGenerator
         }
     }
 
-    protected void transformFieldComments(final Column column, final FieldModel fieldModel)
-    {
+    protected void transformFieldComments(final Column column, final FieldModel fieldModel) {
         String comment = column.getComment();
 
-        if ((comment != null) && !comment.isBlank())
-        {
+        if ((comment != null) && !comment.isBlank()) {
             fieldModel.addComment(comment);
         }
     }

@@ -11,10 +11,8 @@ import java.util.List;
 /**
  * @author Thomas Freese
  */
-public final class RsyncMain
-{
-    public static void main(final String[] args)
-    {
+public final class RsyncMain {
+    public static void main(final String[] args) {
         List<String> command = new ArrayList<>();
         command.add("rsync");
         command.add("--verbose");
@@ -55,8 +53,7 @@ public final class RsyncMain
 
         Charset charset = StandardCharsets.UTF_8;
 
-        try
-        {
+        try {
             Process process = Runtime.getRuntime().exec(command.toArray(String[]::new));
 
             BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream(), charset));
@@ -68,27 +65,23 @@ public final class RsyncMain
 
             String line = null;
 
-            while ((line = inputReader.readLine()) != null)
-            {
+            while ((line = inputReader.readLine()) != null) {
                 System.out.println(line);
             }
 
-            while ((line = errorReader.readLine()) != null)
-            {
+            while ((line = errorReader.readLine()) != null) {
                 System.err.println(line);
             }
 
             int exitVal = process.waitFor();
             System.out.println("Exit value: " + exitVal);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    private RsyncMain()
-    {
+    private RsyncMain() {
         super();
     }
 }

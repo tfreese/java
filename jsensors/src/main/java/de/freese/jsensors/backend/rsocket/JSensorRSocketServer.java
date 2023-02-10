@@ -5,12 +5,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Objects;
 
-import de.freese.jsensors.backend.Backend;
-import de.freese.jsensors.backend.RoutingBackend;
-import de.freese.jsensors.sensor.DefaultSensorValue;
-import de.freese.jsensors.sensor.Sensor;
-import de.freese.jsensors.sensor.SensorValue;
-import de.freese.jsensors.utils.LifeCycle;
 import io.netty.buffer.ByteBuf;
 import io.rsocket.Payload;
 import io.rsocket.SocketAcceptor;
@@ -27,13 +21,19 @@ import reactor.netty.resources.LoopResources;
 import reactor.netty.tcp.TcpServer;
 import reactor.util.retry.Retry;
 
+import de.freese.jsensors.backend.Backend;
+import de.freese.jsensors.backend.RoutingBackend;
+import de.freese.jsensors.sensor.DefaultSensorValue;
+import de.freese.jsensors.sensor.Sensor;
+import de.freese.jsensors.sensor.SensorValue;
+import de.freese.jsensors.utils.LifeCycle;
+
 /**
  * Use this with {@link RoutingBackend} to support multiple {@link Sensor}s.
  *
  * @author Thomas Freese
  */
-public class JSensorRSocketServer implements LifeCycle
-{
+public class JSensorRSocketServer implements LifeCycle {
     private static final Logger LOGGER = LoggerFactory.getLogger(JSensorRSocketServer.class);
 
     private final Backend backend;
@@ -44,21 +44,18 @@ public class JSensorRSocketServer implements LifeCycle
 
     private Disposable server;
 
-    public JSensorRSocketServer(final Backend backend, final int port, final int parallelism)
-    {
+    public JSensorRSocketServer(final Backend backend, final int port, final int parallelism) {
         super();
 
         this.backend = Objects.requireNonNull(backend, "backend required");
 
-        if (port < 1)
-        {
+        if (port < 1) {
             throw new IllegalArgumentException("port < 1: " + port);
         }
 
         this.port = port;
 
-        if (parallelism < 1)
-        {
+        if (parallelism < 1) {
             throw new IllegalArgumentException("parallelism < 1: " + parallelism);
         }
 
@@ -69,14 +66,12 @@ public class JSensorRSocketServer implements LifeCycle
      * @see de.freese.jsensors.utils.LifeCycle#start()
      */
     @Override
-    public void start()
-    {
+    public void start() {
         getLogger().info("starting jSensor-rSocket server on port: {}", this.port);
 
         // Fehlermeldung, wenn Client die Verbindung schliesst.
         // Hooks.onErrorDropped(th -> LOGGER.error(th.getMessage()));
-        Hooks.onErrorDropped(th ->
-        {
+        Hooks.onErrorDropped(th -> {
             // Empty
         });
 
@@ -115,15 +110,13 @@ public class JSensorRSocketServer implements LifeCycle
      * @see de.freese.jsensors.utils.LifeCycle#stop()
      */
     @Override
-    public void stop()
-    {
+    public void stop() {
         getLogger().info("stopping jSensor-rSocket server");
 
         this.server.dispose();
     }
 
-    protected SensorValue decode(final Payload payload)
-    {
+    protected SensorValue decode(final Payload payload) {
         ByteBuf byteBuf = payload.data();
 
         int length = byteBuf.readInt();
@@ -137,8 +130,7 @@ public class JSensorRSocketServer implements LifeCycle
         return new DefaultSensorValue(name, value, timeStamp);
     }
 
-    protected Mono<Void> forFireAndForget(final Payload payload)
-    {
+    protected Mono<Void> forFireAndForget(final Payload payload) {
         SensorValue sensorValue = decode(payload);
 
         this.backend.store(sensorValue);
@@ -146,8 +138,7 @@ public class JSensorRSocketServer implements LifeCycle
         return Mono.empty();
     }
 
-    protected Logger getLogger()
-    {
+    protected Logger getLogger() {
         return LOGGER;
     }
 }

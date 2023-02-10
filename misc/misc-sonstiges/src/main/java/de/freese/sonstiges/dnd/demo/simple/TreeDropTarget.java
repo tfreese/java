@@ -20,14 +20,12 @@ import javax.swing.tree.TreePath;
 /**
  * @author Thomas Freese
  */
-class TreeDropTarget implements DropTargetListener
-{
+class TreeDropTarget implements DropTargetListener {
     private final DropTarget target;
 
     private final JTree targetTree;
 
-    TreeDropTarget(final JTree tree)
-    {
+    TreeDropTarget(final JTree tree) {
         this.targetTree = tree;
         this.target = new DropTarget(this.targetTree, this);
     }
@@ -36,16 +34,13 @@ class TreeDropTarget implements DropTargetListener
      * @see java.awt.dnd.DropTargetListener#dragEnter(java.awt.dnd.DropTargetDragEvent)
      */
     @Override
-    public void dragEnter(final DropTargetDragEvent event)
-    {
+    public void dragEnter(final DropTargetDragEvent event) {
         TreeNode node = getNodeForEvent(event);
 
-        if (node.isLeaf())
-        {
+        if (node.isLeaf()) {
             event.rejectDrag();
         }
-        else
-        {
+        else {
             // start by supporting move operations
             // event.acceptDrag(DnDConstants.ACTION_MOVE);
             event.acceptDrag(event.getDropAction());
@@ -56,8 +51,7 @@ class TreeDropTarget implements DropTargetListener
      * @see java.awt.dnd.DropTargetListener#dragExit(java.awt.dnd.DropTargetEvent)
      */
     @Override
-    public void dragExit(final DropTargetEvent event)
-    {
+    public void dragExit(final DropTargetEvent event) {
         // Empty
     }
 
@@ -65,16 +59,13 @@ class TreeDropTarget implements DropTargetListener
      * @see java.awt.dnd.DropTargetListener#dragOver(java.awt.dnd.DropTargetDragEvent)
      */
     @Override
-    public void dragOver(final DropTargetDragEvent event)
-    {
+    public void dragOver(final DropTargetDragEvent event) {
         TreeNode node = getNodeForEvent(event);
 
-        if (node.isLeaf())
-        {
+        if (node.isLeaf()) {
             event.rejectDrag();
         }
-        else
-        {
+        else {
             // start by supporting move operations
             // event.acceptDrag(DnDConstants.ACTION_MOVE);
             event.acceptDrag(event.getDropAction());
@@ -85,30 +76,25 @@ class TreeDropTarget implements DropTargetListener
      * @see java.awt.dnd.DropTargetListener#drop(java.awt.dnd.DropTargetDropEvent)
      */
     @Override
-    public void drop(final DropTargetDropEvent event)
-    {
+    public void drop(final DropTargetDropEvent event) {
         Point pt = event.getLocation();
         DropTargetContext dtc = event.getDropTargetContext();
         JTree tree = (JTree) dtc.getComponent();
         TreePath parentPath = tree.getClosestPathForLocation(pt.x, pt.y);
         DefaultMutableTreeNode parent = (DefaultMutableTreeNode) parentPath.getLastPathComponent();
 
-        if (parent.isLeaf())
-        {
+        if (parent.isLeaf()) {
             event.rejectDrop();
 
             return;
         }
 
-        try
-        {
+        try {
             Transferable tr = event.getTransferable();
             DataFlavor[] flavors = tr.getTransferDataFlavors();
 
-            for (DataFlavor flavor : flavors)
-            {
-                if (tr.isDataFlavorSupported(flavor))
-                {
+            for (DataFlavor flavor : flavors) {
+                if (tr.isDataFlavorSupported(flavor)) {
                     event.acceptDrop(event.getDropAction());
 
                     TreePath p = (TreePath) tr.getTransferData(flavor);
@@ -123,8 +109,7 @@ class TreeDropTarget implements DropTargetListener
 
             event.rejectDrop();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             ex.printStackTrace();
             event.rejectDrop();
         }
@@ -134,13 +119,11 @@ class TreeDropTarget implements DropTargetListener
      * @see java.awt.dnd.DropTargetListener#dropActionChanged(java.awt.dnd.DropTargetDragEvent)
      */
     @Override
-    public void dropActionChanged(final DropTargetDragEvent event)
-    {
+    public void dropActionChanged(final DropTargetDragEvent event) {
         // Empty
     }
 
-    private TreeNode getNodeForEvent(final DropTargetDragEvent event)
-    {
+    private TreeNode getNodeForEvent(final DropTargetDragEvent event) {
         Point p = event.getLocation();
         DropTargetContext dtc = event.getDropTargetContext();
         JTree tree = (JTree) dtc.getComponent();

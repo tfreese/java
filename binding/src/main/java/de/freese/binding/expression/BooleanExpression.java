@@ -9,40 +9,32 @@ import de.freese.binding.value.ObservableBooleanValue;
 /**
  * @author Thomas Freese
  */
-public interface BooleanExpression extends ObservableBooleanValue
-{
-    default BooleanBinding and(final boolean value)
-    {
+public interface BooleanExpression extends ObservableBooleanValue {
+    default BooleanBinding and(final boolean value) {
         return Bindings.and(this, BooleanConstant.valueOf(value));
     }
 
-    default BooleanBinding and(final ObservableBooleanValue other)
-    {
+    default BooleanBinding and(final ObservableBooleanValue other) {
         return Bindings.and(this, other);
     }
 
-    default BooleanBinding isNotNull()
-    {
+    default BooleanBinding isNotNull() {
         return Bindings.isNotNull(this);
     }
 
-    default BooleanBinding isNull()
-    {
+    default BooleanBinding isNull() {
         return Bindings.isNull(this);
     }
 
-    default BooleanBinding not()
-    {
+    default BooleanBinding not() {
         return Bindings.not(this);
     }
 
-    default BooleanBinding or(final boolean value)
-    {
+    default BooleanBinding or(final boolean value) {
         return Bindings.or(this, BooleanConstant.valueOf(value));
     }
 
-    default BooleanBinding or(final ObservableBooleanValue other)
-    {
+    default BooleanBinding or(final ObservableBooleanValue other) {
         return Bindings.or(this, other);
     }
 }

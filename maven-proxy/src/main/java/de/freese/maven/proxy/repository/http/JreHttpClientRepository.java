@@ -19,17 +19,14 @@ import de.freese.maven.proxy.util.ProxyUtils;
  *
  * @author Thomas Freese
  */
-public class JreHttpClientRepository extends AbstractHttpRepository
-{
+public class JreHttpClientRepository extends AbstractHttpRepository {
     private final HttpClient httpClient;
 
-    public JreHttpClientRepository(final HttpClient httpClient, final String uri)
-    {
+    public JreHttpClientRepository(final HttpClient httpClient, final String uri) {
         this(httpClient, URI.create(uri));
     }
 
-    public JreHttpClientRepository(final HttpClient httpClient, final URI uri)
-    {
+    public JreHttpClientRepository(final HttpClient httpClient, final URI uri) {
         super(uri);
 
         this.httpClient = Objects.requireNonNull(httpClient, "httpClient required");
@@ -39,8 +36,7 @@ public class JreHttpClientRepository extends AbstractHttpRepository
      * @see de.freese.maven.proxy.repository.Repository#exist(java.net.URI)
      */
     @Override
-    public boolean exist(final URI resource) throws Exception
-    {
+    public boolean exist(final URI resource) throws Exception {
         URI uri = createResourceUri(getBaseUri(), resource);
 
         // @formatter:off
@@ -61,8 +57,7 @@ public class JreHttpClientRepository extends AbstractHttpRepository
      * @see de.freese.maven.proxy.repository.Repository#getInputStream(java.net.URI)
      */
     @Override
-    public RepositoryResponse getInputStream(final URI resource) throws Exception
-    {
+    public RepositoryResponse getInputStream(final URI resource) throws Exception {
         URI uri = createResourceUri(getBaseUri(), resource);
 
         // @formatter:off
@@ -76,8 +71,7 @@ public class JreHttpClientRepository extends AbstractHttpRepository
 
         HttpResponse<InputStream> response = this.httpClient.send(request, BodyHandlers.ofInputStream());
 
-        if (response.statusCode() != ProxyUtils.HTTP_OK)
-        {
+        if (response.statusCode() != ProxyUtils.HTTP_OK) {
             return null;
         }
 

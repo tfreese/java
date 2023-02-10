@@ -14,6 +14,9 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.maven.proxy.jreserver.MavenProxyJreServer;
 import de.freese.maven.proxy.repository.CompositeRepository;
 import de.freese.maven.proxy.repository.Repository;
@@ -21,8 +24,6 @@ import de.freese.maven.proxy.repository.file.FileRepository;
 import de.freese.maven.proxy.repository.http.JreHttpClientRepository;
 import de.freese.maven.proxy.util.MavenProxyThreadFactory;
 import de.freese.maven.proxy.util.ProxyUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Startet den Maven Proxy.<br>
@@ -48,24 +49,20 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public final class MavenProxyLauncher
-{
+public final class MavenProxyLauncher {
     private static final Logger LOGGER = LoggerFactory.getLogger(MavenProxyLauncher.class);
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         LOGGER.info("Process User: {}", System.getProperty("user.name"));
 
         String fileCacheDirectory = System.getProperty("mavenproxy.fileCache");
 
         Path fileCachePath = null;
 
-        if ((fileCacheDirectory != null) && !fileCacheDirectory.isBlank())
-        {
+        if ((fileCacheDirectory != null) && !fileCacheDirectory.isBlank()) {
             fileCachePath = Paths.get(fileCacheDirectory);
 
-            if (!Files.exists(fileCachePath))
-            {
+            if (!Files.exists(fileCachePath)) {
                 Files.createDirectories(fileCachePath);
             }
 
@@ -74,8 +71,7 @@ public final class MavenProxyLauncher
 
         Integer port = Integer.getInteger("mavenproxy.port");
 
-        if (port == null || port <= 0)
-        {
+        if (port == null || port <= 0) {
             LOGGER.error("A Port must be set by '-Dmavenproxy.port=...'");
             return;
         }
@@ -86,10 +82,8 @@ public final class MavenProxyLauncher
 
         // ExecutorService executorService = Executors.newFixedThreadPool(poolSize, new MavenProxyThreadFactory("maven-proxy-"));
         // ExecutorService executorService = Executors.newCachedThreadPool(new MavenProxyThreadFactory("maven-proxy-"));
-        ExecutorService executorServiceHttpClient =
-                new ThreadPoolExecutor(1, poolSize, 60L, TimeUnit.SECONDS, new SynchronousQueue<>(), new MavenProxyThreadFactory("http-client-%d"));
-        ExecutorService executorServiceHttpServer =
-                new ThreadPoolExecutor(1, poolSize, 60L, TimeUnit.SECONDS, new SynchronousQueue<>(), new MavenProxyThreadFactory("http-server-%d"));
+        ExecutorService executorServiceHttpClient = new ThreadPoolExecutor(1, poolSize, 60L, TimeUnit.SECONDS, new SynchronousQueue<>(), new MavenProxyThreadFactory("http-client-%d"));
+        ExecutorService executorServiceHttpServer = new ThreadPoolExecutor(1, poolSize, 60L, TimeUnit.SECONDS, new SynchronousQueue<>(), new MavenProxyThreadFactory("http-server-%d"));
 
         // @formatter:off
         HttpClient.Builder builder = HttpClient.newBuilder()
@@ -116,8 +110,7 @@ public final class MavenProxyLauncher
 
         Repository repository = compositeRepository;
 
-        if (fileCachePath != null)
-        {
+        if (fileCachePath != null) {
             repository = new FileRepository(fileCachePath, compositeRepository);
         }
 
@@ -130,8 +123,7 @@ public final class MavenProxyLauncher
 
         new Thread(proxy::start, "Maven-Proxy").start();
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() ->
-        {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             proxy.stop();
 
             ProxyUtils.shutdown(executorServiceHttpServer, LOGGER);
@@ -139,8 +131,7 @@ public final class MavenProxyLauncher
         }, "Shutdown"));
     }
 
-    private MavenProxyLauncher()
-    {
+    private MavenProxyLauncher() {
         super();
     }
 }

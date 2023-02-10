@@ -12,12 +12,10 @@ import javax.swing.text.html.parser.ParserDelegator;
  *
  * @author Thomas Freese
  */
-public class Html2Text extends HTMLEditorKit.ParserCallback
-{
+public class Html2Text extends HTMLEditorKit.ParserCallback {
     private StringBuilder sb;
 
-    public String getText()
-    {
+    public String getText() {
         return this.sb.toString();
     }
 
@@ -25,20 +23,17 @@ public class Html2Text extends HTMLEditorKit.ParserCallback
      * @see javax.swing.text.html.HTMLEditorKit.ParserCallback#handleText(char[], int)
      */
     @Override
-    public void handleText(final char[] data, final int pos)
-    {
+    public void handleText(final char[] data, final int pos) {
         this.sb.append(data).append(" ");
     }
 
-    public Html2Text parse(final String html) throws Exception
-    {
+    public Html2Text parse(final String html) throws Exception {
         this.sb = new StringBuilder();
 
         ParserDelegator delegator = new ParserDelegator();
 
         // org.apache.lucene.analysis.charfilter.HTMLStripCharFilter
-        try (Reader reader = new StringReader(html))
-        {
+        try (Reader reader = new StringReader(html)) {
             delegator.parse(reader, this, Boolean.TRUE);
         }
 

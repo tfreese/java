@@ -16,8 +16,7 @@ import javax.swing.WindowConstants;
 /**
  * @author Thomas Freese
  */
-public final class DragPictureMain extends JPanel
-{
+public final class DragPictureMain extends JPanel {
     private static final String ADELE = "Adele";
 
     private static final String ALEXI = "Alexi";
@@ -33,8 +32,7 @@ public final class DragPictureMain extends JPanel
     @Serial
     private static final long serialVersionUID = 3063560622968069521L;
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         // Schedule a job for the event-dispatching thread:
         // creating and showing this application's GUI.
         SwingUtilities.invokeLater(DragPictureMain::createAndShowGUI);
@@ -43,8 +41,7 @@ public final class DragPictureMain extends JPanel
     /**
      * Create the GUI and show it. For thread safety, this method should be invoked from the event-dispatching thread.
      */
-    private static void createAndShowGUI()
-    {
+    private static void createAndShowGUI() {
         // Make sure we have nice window decorations.
         JFrame.setDefaultLookAndFeelDecorated(true);
 
@@ -65,12 +62,10 @@ public final class DragPictureMain extends JPanel
     /**
      * Returns an ImageIcon, or null if the path was invalid.
      */
-    private static ImageIcon createImageIcon(final String path, final String description)
-    {
+    private static ImageIcon createImageIcon(final String path, final String description) {
         URL imageURL = DragPictureMain.class.getResource(path);
 
-        if (imageURL == null)
-        {
+        if (imageURL == null) {
             System.err.println("Resource not found: " + path);
 
             return null;
@@ -79,8 +74,7 @@ public final class DragPictureMain extends JPanel
         return new ImageIcon(imageURL, description);
     }
 
-    private DragPictureMain()
-    {
+    private DragPictureMain() {
         super(new BorderLayout());
 
         PictureTransferHandler picHandler = new PictureTransferHandler();

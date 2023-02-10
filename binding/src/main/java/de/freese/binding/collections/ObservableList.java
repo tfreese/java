@@ -11,13 +11,11 @@ import javax.swing.event.ListDataListener;
 /**
  * @author Thomas Freese
  */
-public interface ObservableList<T> extends List<T>
-{
+public interface ObservableList<T> extends List<T> {
 
     void addListener(ListDataListener listener);
 
-    default FilteredObservableList<T> filtered(final Predicate<T> predicate)
-    {
+    default FilteredObservableList<T> filtered(final Predicate<T> predicate) {
         return new FilteredObservableList<>(this, predicate);
     }
 
@@ -31,8 +29,7 @@ public interface ObservableList<T> extends List<T>
 
     void removeListener(ListDataListener listener);
 
-    default boolean setAll(final Collection<? extends T> col)
-    {
+    default boolean setAll(final Collection<? extends T> col) {
         clear();
 
         return addAll(col);
@@ -40,8 +37,7 @@ public interface ObservableList<T> extends List<T>
 
     void setListenerEnabled(boolean listenerEnabled);
 
-    default SortedObservableList<T> sorted(final Comparator<T> comparator)
-    {
+    default SortedObservableList<T> sorted(final Comparator<T> comparator) {
         return new SortedObservableList<>(this, comparator);
     }
 }

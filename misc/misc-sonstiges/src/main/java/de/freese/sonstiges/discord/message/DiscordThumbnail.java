@@ -9,19 +9,16 @@ import com.fasterxml.jackson.annotation.JsonRootName;
  * @author Thomas Freese
  */
 @JsonRootName(value = "thumbnail")
-public class DiscordThumbnail
-{
+public class DiscordThumbnail {
     private final String url;
 
-    public DiscordThumbnail(final String url)
-    {
+    public DiscordThumbnail(final String url) {
         super();
 
         this.url = url;
     }
 
-    public String getUrl()
-    {
+    public String getUrl() {
         return this.url;
     }
 }

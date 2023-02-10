@@ -12,8 +12,7 @@ import de.freese.binding.value.ObservableValue;
  *
  * @author Thomas Freese
  */
-public interface Binding<T> extends ObservableValue<T>
-{
+public interface Binding<T> extends ObservableValue<T> {
     // @SuppressWarnings("unchecked")
     // public void bind(ObservableValue<? extends Object>...dependencies);
 

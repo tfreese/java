@@ -10,12 +10,9 @@ import java.util.Date;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
- * JAXB Adapter für ein {@link Date} Objekt.
- *
  * @author Thomas Freese
  */
-public class OpeningDateAdapter extends XmlAdapter<String, Date>
-{
+public class OpeningDateAdapter extends XmlAdapter<String, Date> {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     // /**
     // * Ist nicht Thread-Safe !
@@ -26,8 +23,7 @@ public class OpeningDateAdapter extends XmlAdapter<String, Date>
      * @see jakarta.xml.bind.annotation.adapters.XmlAdapter#marshal(java.lang.Object)
      */
     @Override
-    public String marshal(final Date date) throws Exception
-    {
+    public String marshal(final Date date) throws Exception {
         Instant instant = date.toInstant();
         LocalDate localDate = LocalDate.ofInstant(instant, ZoneId.systemDefault());
 
@@ -39,8 +35,7 @@ public class OpeningDateAdapter extends XmlAdapter<String, Date>
      * @see jakarta.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.Object)
      */
     @Override
-    public Date unmarshal(final String date) throws Exception
-    {
+    public Date unmarshal(final String date) throws Exception {
         LocalDate localDate = LocalDate.parse(date, DATE_TIME_FORMATTER);
         Instant instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
 

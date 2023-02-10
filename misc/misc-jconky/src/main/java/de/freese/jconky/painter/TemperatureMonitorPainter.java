@@ -3,21 +3,20 @@ package de.freese.jconky.painter;
 
 import java.util.Map;
 
+import javafx.scene.canvas.GraphicsContext;
+
 import de.freese.jconky.model.GpuInfo;
 import de.freese.jconky.model.TemperatureInfo;
-import javafx.scene.canvas.GraphicsContext;
 
 /**
  * @author Thomas Freese
  */
-public class TemperatureMonitorPainter extends AbstractMonitorPainter
-{
+public class TemperatureMonitorPainter extends AbstractMonitorPainter {
     /**
      * @see de.freese.jconky.painter.MonitorPainter#paintValue(javafx.scene.canvas.GraphicsContext, double)
      */
     @Override
-    public double paintValue(final GraphicsContext gc, final double width)
-    {
+    public double paintValue(final GraphicsContext gc, final double width) {
         Map<String, TemperatureInfo> temperatures = getContext().getTemperatures();
 
         double fontSize = getSettings().getFontSize();

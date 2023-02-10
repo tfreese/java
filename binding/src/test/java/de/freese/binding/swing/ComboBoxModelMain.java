@@ -18,19 +18,15 @@ import de.freese.binding.swing.combobox.DefaultObservableListComboBoxModel;
 /**
  * @author Thomas Freese
  */
-public final class ComboBoxModelMain
-{
-    public static void main(final String[] args) throws Exception
-    {
+public final class ComboBoxModelMain {
+    public static void main(final String[] args) throws Exception {
         JFrame frame = new JFrame("Test-ComboBoxModel");
-        frame.addWindowListener(new WindowAdapter()
-        {
+        frame.addWindowListener(new WindowAdapter() {
             /**
              * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
              */
             @Override
-            public void windowClosing(final WindowEvent e)
-            {
+            public void windowClosing(final WindowEvent e) {
                 System.exit(0);
             }
         });
@@ -47,8 +43,7 @@ public final class ComboBoxModelMain
         frame.setVisible(true);
 
         // Add Rows
-        for (int i = 0; i < 7; i++)
-        {
+        for (int i = 0; i < 7; i++) {
             TimeUnit.MILLISECONDS.sleep(2000);
 
             Map<Integer, String> row = new HashMap<>();
@@ -70,8 +65,7 @@ public final class ComboBoxModelMain
         list.clear();
     }
 
-    private ComboBoxModelMain()
-    {
+    private ComboBoxModelMain() {
         super();
     }
 }

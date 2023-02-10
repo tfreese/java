@@ -12,8 +12,7 @@ public class NonNegativeIntegerMatcher implements ArgumentMatcher<Integer> // Cu
      * @see org.mockito.ArgumentMatcher#matches(java.lang.Object)
      */
     @Override
-    public boolean matches(final Integer argument)
-    {
+    public boolean matches(final Integer argument) {
         return argument < 0;
     }
 }

@@ -13,10 +13,8 @@ import de.freese.ga.Gene;
 /**
  * @author Thomas Freese
  */
-public class CoinChromosome extends Chromosome
-{
-    public CoinChromosome(final CoinConfig config)
-    {
+public class CoinChromosome extends Chromosome {
+    public CoinChromosome(final CoinConfig config) {
         super(config);
     }
 
@@ -24,8 +22,7 @@ public class CoinChromosome extends Chromosome
      * @see de.freese.ga.Chromosome#calcFitnessValue()
      */
     @Override
-    public double calcFitnessValue()
-    {
+    public double calcFitnessValue() {
         // Münzinhalt des Chromosoms in Cent.
         int cents = Stream.of(getGenes()).mapToInt(Gene::getInteger).sum();
 
@@ -37,8 +34,7 @@ public class CoinChromosome extends Chromosome
         double fitness = (getConfig().getMaximumCents() - changeDifference);
 
         // Zielbetrag erreicht.
-        if (cents == targetCent)
-        {
+        if (cents == targetCent) {
             // fitness += 100 - (10 * totalCoins);
             fitness = getConfig().getMaxFitness();
         }
@@ -50,22 +46,19 @@ public class CoinChromosome extends Chromosome
      * @see de.freese.ga.Chromosome#populate()
      */
     @Override
-    public void populate()
-    {
+    public void populate() {
         List<Integer> existingCoins = getConfig().getExistingCoins();
 
         List<Gene> genes = new ArrayList<>();
 
-        for (int i = 0; i < size(); i++)
-        {
+        for (int i = 0; i < size(); i++) {
             genes.add(new Gene(existingCoins.get(i)));
         }
 
         // Zufällig neu zusammenstellen.
         Collections.shuffle(genes);
 
-        for (int i = 0; i < size(); i++)
-        {
+        for (int i = 0; i < size(); i++) {
             setGene(i, genes.get(i));
         }
     }
@@ -74,8 +67,7 @@ public class CoinChromosome extends Chromosome
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         // @formatter:off
         return Stream.of(getGenes())
                  .map(Gene::getInteger)
@@ -89,8 +81,7 @@ public class CoinChromosome extends Chromosome
      * @see de.freese.ga.Chromosome#getConfig()
      */
     @Override
-    protected CoinConfig getConfig()
-    {
+    protected CoinConfig getConfig() {
         return (CoinConfig) super.getConfig();
     }
 }

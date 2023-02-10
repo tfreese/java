@@ -4,14 +4,12 @@ package de.freese.binding.expression;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractFloatExpression extends AbstractNumberExpression<Float> implements FloatExpression
-{
+public abstract class AbstractFloatExpression extends AbstractNumberExpression<Float> implements FloatExpression {
     /**
      * @see de.freese.binding.value.ObservableIntegerValue#get()
      */
     @Override
-    public float get()
-    {
+    public float get() {
         return floatValue();
     }
 }

@@ -4,8 +4,7 @@ package de.freese.sonstiges.mockito;
 /**
  * @author Thomas Freese
  */
-public interface Box
-{
+public interface Box {
     int getPrice();
 
     boolean isEmpty();

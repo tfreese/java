@@ -4,7 +4,6 @@ package de.freese.binding.value;
 /**
  * @author Thomas Freese
  */
-public interface ObservableFloatValue extends ObservableNumberValue<Float>
-{
+public interface ObservableFloatValue extends ObservableNumberValue<Float> {
     float get();
 }

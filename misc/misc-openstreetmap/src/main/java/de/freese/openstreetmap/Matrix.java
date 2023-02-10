@@ -10,8 +10,7 @@ import java.awt.Rectangle;
  *
  * @author Thomas Freese
  */
-public class Matrix
-{
+public class Matrix {
     /**
      * Liefert den Faktor, der benötigt wird, um das world-Rechteck in das win-Rechteck zu skalieren (einzupassen) bezogen auf die Breite der x-Achse.
      *
@@ -20,8 +19,7 @@ public class Matrix
      *
      * @return Der Skalierungsfaktor
      */
-    public static double getZoomFactorX(final Rectangle world, final Rectangle win)
-    {
+    public static double getZoomFactorX(final Rectangle world, final Rectangle win) {
         return win.getWidth() / world.getWidth();
     }
 
@@ -33,8 +31,7 @@ public class Matrix
      *
      * @return Der Skalierungsfaktor
      */
-    public static double getZoomFactorY(final Rectangle world, final Rectangle win)
-    {
+    public static double getZoomFactorY(final Rectangle world, final Rectangle win) {
         return win.getHeight() / world.getHeight();
     }
 
@@ -43,8 +40,7 @@ public class Matrix
      *
      * @return Die Spiegelungsmatrix
      */
-    public static Matrix mirrorX()
-    {
+    public static Matrix mirrorX() {
         Matrix myMat = new Matrix();
         myMat.m11 = 1;
         myMat.m12 = 0;
@@ -66,8 +62,7 @@ public class Matrix
      *
      * @return Die Spiegelungsmatrix
      */
-    public static Matrix mirrorY()
-    {
+    public static Matrix mirrorY() {
         Matrix myMat = new Matrix();
         myMat.m11 = -1;
         myMat.m12 = 0;
@@ -91,8 +86,7 @@ public class Matrix
      *
      * @return Die Rotationsmatrix
      */
-    public static Matrix rotate(final double alpha)
-    {
+    public static Matrix rotate(final double alpha) {
         Matrix myMat = new Matrix();
         myMat.m11 = Math.cos(alpha);
         myMat.m12 = -1 * Math.sin(alpha);
@@ -116,8 +110,7 @@ public class Matrix
      *
      * @return Die Skalierungsmatrix
      */
-    public static Matrix scale(final double scaleVal)
-    {
+    public static Matrix scale(final double scaleVal) {
         Matrix myMat = new Matrix();
         myMat.m11 = scaleVal;
         myMat.m12 = 0;
@@ -142,8 +135,7 @@ public class Matrix
      *
      * @return Die Translationsmatrix
      */
-    public static Matrix translate(final double x, final double y)
-    {
+    public static Matrix translate(final double x, final double y) {
         Matrix myMat = new Matrix();
         myMat.m11 = 1;
         myMat.m12 = 0;
@@ -163,8 +155,7 @@ public class Matrix
     /**
      * Liefert eine Translationsmatrix.
      */
-    public static Matrix translate(final Point point)
-    {
+    public static Matrix translate(final Point point) {
         return translate(point.getX(), point.getY());
     }
 
@@ -178,8 +169,7 @@ public class Matrix
      *
      * @return Die neue Transformationsmatrix
      */
-    public static Matrix zoomPoint(final Matrix old, final Point zoomPt, final double zoomScale)
-    {
+    public static Matrix zoomPoint(final Matrix old, final Point zoomPt, final double zoomScale) {
         // create translatermatrix (point to 0/0)
         Matrix transform1 = translate(-zoomPt.getX(), -zoomPt.getY());
 
@@ -202,8 +192,7 @@ public class Matrix
      *
      * @return Die Transformationsmatrix
      */
-    public static Matrix zoomToFit(final Rectangle world, final Rectangle win)
-    {
+    public static Matrix zoomToFit(final Rectangle world, final Rectangle win) {
         // 1 - move center to 0
         // double alpha = 0 - _world.getCenterX();
         Matrix translateStep1 = translate(0 - world.getCenterX(), 0 - world.getCenterY());
@@ -211,12 +200,10 @@ public class Matrix
         // 2 - Scale
         Matrix scaleBy = null;
 
-        if (getZoomFactorX(world, win) < getZoomFactorY(world, win))
-        {
+        if (getZoomFactorX(world, win) < getZoomFactorY(world, win)) {
             scaleBy = scale(getZoomFactorX(world, win));
         }
-        else
-        {
+        else {
             scaleBy = scale(getZoomFactorY(world, win));
         }
 
@@ -249,8 +236,7 @@ public class Matrix
 
     private double m33;
 
-    public Matrix()
-    {
+    public Matrix() {
         super();
 
         this.m11 = 0.0D;
@@ -269,10 +255,8 @@ public class Matrix
     /**
      * Liefert die Invers-Matrix der Transformationsmatrix.
      */
-    public Matrix invers()
-    {
-        double myDet = ((this.m11 * this.m22 * this.m33) + (this.m12 * this.m23 * this.m31) + (this.m13 * this.m21 * this.m32))
-                - (this.m11 * this.m23 * this.m32) - (this.m12 * this.m21 * this.m33) - (this.m13 * this.m22 * this.m31);
+    public Matrix invers() {
+        double myDet = ((this.m11 * this.m22 * this.m33) + (this.m12 * this.m23 * this.m31) + (this.m13 * this.m21 * this.m32)) - (this.m11 * this.m23 * this.m32) - (this.m12 * this.m21 * this.m33) - (this.m13 * this.m22 * this.m31);
 
         Matrix retval = new Matrix();
         retval.m11 = (this.m22 * this.m33) - (this.m32 * this.m23);
@@ -309,8 +293,7 @@ public class Matrix
      *
      * @return Die Ergebnismatrix der Multiplikation
      */
-    public Matrix multiply(final Matrix other)
-    {
+    public Matrix multiply(final Matrix other) {
         Matrix retval = new Matrix();
         retval.m11 = (this.m11 * other.m11) + (this.m12 * other.m21) + (this.m13 * other.m31);
         retval.m12 = (this.m11 * other.m12) + (this.m12 * other.m22) + (this.m13 * other.m32);
@@ -334,8 +317,7 @@ public class Matrix
      *
      * @return Ein neuer Punkt, der das Ergebnis der Multiplikation repräsentiert
      */
-    public Point multiply(final Point pt)
-    {
+    public Point multiply(final Point pt) {
         Point retval = new Point();
         retval.x = (int) ((pt.x * this.m11) + (pt.y * this.m12) + this.m13);
         retval.y = (int) ((pt.x * this.m21) + (pt.y * this.m22) + this.m23);
@@ -350,12 +332,10 @@ public class Matrix
      *
      * @return Ein neues Polygon, das das Ergebnis der Multiplikation repräsentiert
      */
-    public Polygon multiply(final Polygon polygon)
-    {
+    public Polygon multiply(final Polygon polygon) {
         Polygon retval = new Polygon();
 
-        for (int i = 0; i < polygon.npoints; i++)
-        {
+        for (int i = 0; i < polygon.npoints; i++) {
             Point oldpoint = new Point();
             oldpoint.x = polygon.xpoints[i];
             oldpoint.y = polygon.ypoints[i];
@@ -373,8 +353,7 @@ public class Matrix
      *
      * @return Ein neues Rechteck, das das Ergebnis der Multiplikation repräsentiert
      */
-    public Rectangle multiply(final Rectangle rect)
-    {
+    public Rectangle multiply(final Rectangle rect) {
         Point toppoint = new Point(rect.x, rect.y);
         Point btpoint = new Point(rect.x + rect.width, rect.y + rect.height);
 
@@ -393,8 +372,7 @@ public class Matrix
      * @return Ein String mit dem Inhalt der Matrix
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder x = new StringBuilder();
         x.append("|");
         x.append(this.m11);

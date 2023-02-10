@@ -4,8 +4,7 @@ package de.freese.jconky.model;
 /**
  * @author Thomas Freese
  */
-public class CpuInfo
-{
+public class CpuInfo {
     private final int core;
 
     private final CpuTimes cpuTimes;
@@ -16,13 +15,11 @@ public class CpuInfo
 
     private double usage;
 
-    public CpuInfo()
-    {
+    public CpuInfo() {
         this(-1, 0D, 0, new CpuTimes());
     }
 
-    public CpuInfo(final int core, final double temperature, final int frequency, final CpuTimes cpuTimes)
-    {
+    public CpuInfo(final int core, final double temperature, final int frequency, final CpuTimes cpuTimes) {
         super();
 
         this.core = core;
@@ -34,36 +31,30 @@ public class CpuInfo
     /**
      * Berechnet die CPU-Auslastung von 0 bis 1.<br>
      */
-    public void calculateCpuUsage(final CpuInfo previous)
-    {
+    public void calculateCpuUsage(final CpuInfo previous) {
         this.usage = getCpuTimes().getCpuUsage(previous.getCpuTimes());
     }
 
-    public int getCore()
-    {
+    public int getCore() {
         return this.core;
     }
 
-    public CpuTimes getCpuTimes()
-    {
+    public CpuTimes getCpuTimes() {
         return this.cpuTimes;
     }
 
     /**
      * Liefert die CPU-Auslastung von 0 bis 1.<br>
      */
-    public double getCpuUsage()
-    {
+    public double getCpuUsage() {
         return this.usage;
     }
 
-    public int getFrequency()
-    {
+    public int getFrequency() {
         return this.frequency;
     }
 
-    public double getTemperature()
-    {
+    public double getTemperature() {
         return this.temperature;
     }
 
@@ -71,8 +62,7 @@ public class CpuInfo
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
         builder.append("core=").append(this.core);

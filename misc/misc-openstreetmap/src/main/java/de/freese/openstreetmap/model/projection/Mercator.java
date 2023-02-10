@@ -10,8 +10,7 @@ import de.freese.openstreetmap.model.coordinates.LatLon;
  *
  * @author Thomas Freese
  */
-public class Mercator implements Projection
-{
+public class Mercator implements Projection {
     /**
      * 180 Grad.
      */
@@ -29,8 +28,7 @@ public class Mercator implements Projection
      * @see de.freese.openstreetmap.model.projection.Projection#eastNorth2LatLon(de.freese.openstreetmap.model.coordinates.EastNorth)
      */
     @Override
-    public LatLon eastNorth2LatLon(final EastNorth p)
-    {
+    public LatLon eastNorth2LatLon(final EastNorth p) {
         return new LatLon((Math.atan(Math.sinh(p.north())) * C_180) / Math.PI, (p.east() * C_180) / Math.PI);
     }
 
@@ -38,8 +36,7 @@ public class Mercator implements Projection
      * @see de.freese.openstreetmap.model.projection.Projection#latLon2EastNorth(double, double)
      */
     @Override
-    public EastNorth latLon2EastNorth(final double lat, final double lon)
-    {
+    public EastNorth latLon2EastNorth(final double lat, final double lon) {
         return new EastNorth((lon * Math.PI) / C_180, Math.log(Math.tan(QUARTERPI + ((lat * Math.PI) / C_360))));
     }
 
@@ -47,8 +44,7 @@ public class Mercator implements Projection
      * @see de.freese.openstreetmap.model.projection.Projection#latLon2EastNorth(de.freese.openstreetmap.model.coordinates.LatLon)
      */
     @Override
-    public EastNorth latLon2EastNorth(final LatLon pLatLon)
-    {
+    public EastNorth latLon2EastNorth(final LatLon pLatLon) {
         return latLon2EastNorth(pLatLon.lat(), pLatLon.lon());
     }
 
@@ -58,8 +54,7 @@ public class Mercator implements Projection
      * @see de.freese.openstreetmap.model.projection.Projection#scaleFactor()
      */
     @Override
-    public double scaleFactor()
-    {
+    public double scaleFactor() {
         return 1 / Math.PI / 2;
     }
 
@@ -67,8 +62,7 @@ public class Mercator implements Projection
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Mercator";
     }
 }

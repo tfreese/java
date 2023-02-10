@@ -17,8 +17,7 @@ import javax.swing.TransferHandler;
 /**
  * @author Thomas Freese
  */
-abstract class StringTransferHandler extends TransferHandler
-{
+abstract class StringTransferHandler extends TransferHandler {
     @Serial
     private static final long serialVersionUID = -7174980141806424667L;
 
@@ -26,12 +25,9 @@ abstract class StringTransferHandler extends TransferHandler
      * @see javax.swing.TransferHandler#canImport(javax.swing.JComponent, java.awt.datatransfer.DataFlavor[])
      */
     @Override
-    public boolean canImport(final JComponent c, final DataFlavor[] flavors)
-    {
-        for (DataFlavor flavor : flavors)
-        {
-            if (DataFlavor.stringFlavor.equals(flavor))
-            {
+    public boolean canImport(final JComponent c, final DataFlavor[] flavors) {
+        for (DataFlavor flavor : flavors) {
+            if (DataFlavor.stringFlavor.equals(flavor)) {
                 return true;
             }
         }
@@ -43,8 +39,7 @@ abstract class StringTransferHandler extends TransferHandler
      * @see javax.swing.TransferHandler#getSourceActions(javax.swing.JComponent)
      */
     @Override
-    public int getSourceActions(final JComponent c)
-    {
+    public int getSourceActions(final JComponent c) {
         return COPY_OR_MOVE;
     }
 
@@ -52,19 +47,15 @@ abstract class StringTransferHandler extends TransferHandler
      * @see javax.swing.TransferHandler#importData(javax.swing.JComponent, java.awt.datatransfer.Transferable)
      */
     @Override
-    public boolean importData(final JComponent c, final Transferable t)
-    {
-        if (canImport(c, t.getTransferDataFlavors()))
-        {
-            try
-            {
+    public boolean importData(final JComponent c, final Transferable t) {
+        if (canImport(c, t.getTransferDataFlavors())) {
+            try {
                 String str = (String) t.getTransferData(DataFlavor.stringFlavor);
                 importString(c, str);
 
                 return true;
             }
-            catch (UnsupportedFlavorException | IOException ex)
-            {
+            catch (UnsupportedFlavorException | IOException ex) {
                 // Empty
             }
         }
@@ -78,8 +69,7 @@ abstract class StringTransferHandler extends TransferHandler
      * @see javax.swing.TransferHandler#createTransferable(javax.swing.JComponent)
      */
     @Override
-    protected Transferable createTransferable(final JComponent c)
-    {
+    protected Transferable createTransferable(final JComponent c) {
         return new StringSelection(exportString(c));
     }
 
@@ -87,8 +77,7 @@ abstract class StringTransferHandler extends TransferHandler
      * @see javax.swing.TransferHandler#exportDone(javax.swing.JComponent, java.awt.datatransfer.Transferable, int)
      */
     @Override
-    protected void exportDone(final JComponent c, final Transferable data, final int action)
-    {
+    protected void exportDone(final JComponent c, final Transferable data, final int action) {
         cleanup(c, action == MOVE);
     }
 

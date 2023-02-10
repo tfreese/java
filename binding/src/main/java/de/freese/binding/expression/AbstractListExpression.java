@@ -16,16 +16,14 @@ import de.freese.binding.value.ChangeListener;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractListExpression<T> implements ObservableListValue<T>
-{
+public abstract class AbstractListExpression<T> implements ObservableListValue<T> {
     private final List<ChangeListener<? super ObservableList<T>>> listeners = new ArrayList<>(4);
 
     /**
      * @see java.util.List#add(int, java.lang.Object)
      */
     @Override
-    public void add(final int index, final T element)
-    {
+    public void add(final int index, final T element) {
         getValue().add(index, element);
     }
 
@@ -33,8 +31,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#add(java.lang.Object)
      */
     @Override
-    public boolean add(final T e)
-    {
+    public boolean add(final T e) {
         return getValue().add(e);
     }
 
@@ -42,8 +39,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#addAll(java.util.Collection)
      */
     @Override
-    public boolean addAll(final Collection<? extends T> c)
-    {
+    public boolean addAll(final Collection<? extends T> c) {
         return getValue().addAll(c);
     }
 
@@ -51,8 +47,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#addAll(int, java.util.Collection)
      */
     @Override
-    public boolean addAll(final int index, final Collection<? extends T> c)
-    {
+    public boolean addAll(final int index, final Collection<? extends T> c) {
         return getValue().addAll(index, c);
     }
 
@@ -60,10 +55,8 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see de.freese.binding.value.ObservableValue#addListener(de.freese.binding.value.ChangeListener)
      */
     @Override
-    public void addListener(final ChangeListener<? super ObservableList<T>> listener)
-    {
-        if (!this.listeners.contains(listener))
-        {
+    public void addListener(final ChangeListener<? super ObservableList<T>> listener) {
+        if (!this.listeners.contains(listener)) {
             this.listeners.add(listener);
         }
     }
@@ -72,8 +65,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see de.freese.binding.collections.ObservableList#addListener(javax.swing.event.ListDataListener)
      */
     @Override
-    public void addListener(final ListDataListener listener)
-    {
+    public void addListener(final ListDataListener listener) {
         getValue().addListener(listener);
     }
 
@@ -81,8 +73,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#clear()
      */
     @Override
-    public void clear()
-    {
+    public void clear() {
         getValue().clear();
     }
 
@@ -90,8 +81,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#contains(java.lang.Object)
      */
     @Override
-    public boolean contains(final Object o)
-    {
+    public boolean contains(final Object o) {
         return getValue().contains(o);
     }
 
@@ -99,8 +89,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#containsAll(java.util.Collection)
      */
     @Override
-    public boolean containsAll(final Collection<?> c)
-    {
+    public boolean containsAll(final Collection<?> c) {
         return getValue().containsAll(c);
     }
 
@@ -108,8 +97,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#get(int)
      */
     @Override
-    public T get(final int index)
-    {
+    public T get(final int index) {
         return getValue().get(index);
     }
 
@@ -117,8 +105,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#indexOf(java.lang.Object)
      */
     @Override
-    public int indexOf(final Object o)
-    {
+    public int indexOf(final Object o) {
         return getValue().indexOf(o);
     }
 
@@ -126,8 +113,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#isEmpty()
      */
     @Override
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return getValue().isEmpty();
     }
 
@@ -135,8 +121,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see de.freese.binding.collections.ObservableList#isListenerEnabled()
      */
     @Override
-    public boolean isListenerEnabled()
-    {
+    public boolean isListenerEnabled() {
         return getValue().isListenerEnabled();
     }
 
@@ -144,8 +129,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#iterator()
      */
     @Override
-    public Iterator<T> iterator()
-    {
+    public Iterator<T> iterator() {
         return getValue().iterator();
     }
 
@@ -153,8 +137,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#lastIndexOf(java.lang.Object)
      */
     @Override
-    public int lastIndexOf(final Object o)
-    {
+    public int lastIndexOf(final Object o) {
         return getValue().lastIndexOf(o);
     }
 
@@ -162,8 +145,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#listIterator()
      */
     @Override
-    public ListIterator<T> listIterator()
-    {
+    public ListIterator<T> listIterator() {
         return getValue().listIterator();
     }
 
@@ -171,8 +153,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#listIterator(int)
      */
     @Override
-    public ListIterator<T> listIterator(final int index)
-    {
+    public ListIterator<T> listIterator(final int index) {
         return getValue().listIterator(index);
     }
 
@@ -180,8 +161,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#remove(int)
      */
     @Override
-    public T remove(final int index)
-    {
+    public T remove(final int index) {
         return getValue().remove(index);
     }
 
@@ -189,8 +169,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see de.freese.binding.collections.ObservableList#remove(int, int)
      */
     @Override
-    public void remove(final int from, final int to)
-    {
+    public void remove(final int from, final int to) {
         getValue().remove(from, to);
     }
 
@@ -198,8 +177,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#remove(java.lang.Object)
      */
     @Override
-    public boolean remove(final Object o)
-    {
+    public boolean remove(final Object o) {
         return getValue().remove(o);
     }
 
@@ -207,8 +185,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#removeAll(java.util.Collection)
      */
     @Override
-    public boolean removeAll(final Collection<?> c)
-    {
+    public boolean removeAll(final Collection<?> c) {
         return getValue().removeAll(c);
     }
 
@@ -216,8 +193,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see de.freese.binding.value.ObservableValue#removeListener(de.freese.binding.value.ChangeListener)
      */
     @Override
-    public void removeListener(final ChangeListener<? super ObservableList<T>> listener)
-    {
+    public void removeListener(final ChangeListener<? super ObservableList<T>> listener) {
         this.listeners.remove(listener);
     }
 
@@ -225,8 +201,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see de.freese.binding.collections.ObservableList#removeListener(javax.swing.event.ListDataListener)
      */
     @Override
-    public void removeListener(final ListDataListener listener)
-    {
+    public void removeListener(final ListDataListener listener) {
         getValue().removeListener(listener);
     }
 
@@ -234,8 +209,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#retainAll(java.util.Collection)
      */
     @Override
-    public boolean retainAll(final Collection<?> c)
-    {
+    public boolean retainAll(final Collection<?> c) {
         return getValue().retainAll(c);
     }
 
@@ -243,8 +217,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#set(int, java.lang.Object)
      */
     @Override
-    public T set(final int index, final T element)
-    {
+    public T set(final int index, final T element) {
         return getValue().set(index, element);
     }
 
@@ -252,8 +225,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see de.freese.binding.collections.ObservableList#setAll(java.util.Collection)
      */
     @Override
-    public boolean setAll(final Collection<? extends T> col)
-    {
+    public boolean setAll(final Collection<? extends T> col) {
         return getValue().setAll(col);
     }
 
@@ -261,8 +233,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see de.freese.binding.collections.ObservableList#setListenerEnabled(boolean)
      */
     @Override
-    public void setListenerEnabled(final boolean listenerEnabled)
-    {
+    public void setListenerEnabled(final boolean listenerEnabled) {
         getValue().setListenerEnabled(listenerEnabled);
     }
 
@@ -270,8 +241,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#size()
      */
     @Override
-    public int size()
-    {
+    public int size() {
         return getValue().size();
     }
 
@@ -279,8 +249,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#subList(int, int)
      */
     @Override
-    public List<T> subList(final int fromIndex, final int toIndex)
-    {
+    public List<T> subList(final int fromIndex, final int toIndex) {
         return getValue().subList(fromIndex, toIndex);
     }
 
@@ -288,8 +257,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#toArray()
      */
     @Override
-    public Object[] toArray()
-    {
+    public Object[] toArray() {
         return getValue().toArray();
     }
 
@@ -297,15 +265,12 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
      * @see java.util.List#toArray(java.lang.Object[])
      */
     @Override
-    public <T> T[] toArray(final T[] a)
-    {
+    public <T> T[] toArray(final T[] a) {
         return getValue().toArray(a);
     }
 
-    protected void fireValueChangedEvent(final ObservableList<T> oldValue, final ObservableList<T> newValue)
-    {
-        for (ChangeListener<? super ObservableList<T>> changeListener : this.listeners)
-        {
+    protected void fireValueChangedEvent(final ObservableList<T> oldValue, final ObservableList<T> newValue) {
+        for (ChangeListener<? super ObservableList<T>> changeListener : this.listeners) {
             changeListener.changed(this, oldValue, newValue);
         }
     }

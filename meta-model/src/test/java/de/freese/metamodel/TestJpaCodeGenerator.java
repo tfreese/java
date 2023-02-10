@@ -13,6 +13,13 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
 import de.freese.metamodel.codewriter.AbstractCodeWriter;
 import de.freese.metamodel.codewriter.JavaCodeWriter;
 import de.freese.metamodel.metagen.HsqldbMetaExporter;
@@ -22,37 +29,27 @@ import de.freese.metamodel.modelgen.AbstractModelGenerator;
 import de.freese.metamodel.modelgen.JpaModelGenerator;
 import de.freese.metamodel.modelgen.mapping.JavaTypeMapping;
 import de.freese.metamodel.modelgen.model.ClassModel;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 
 /**
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class TestJpaCodeGenerator
-{
+class TestJpaCodeGenerator {
     private static DataSource dataSource;
 
     @AfterAll
-    static void afterAll() throws Exception
-    {
+    static void afterAll() throws Exception {
         TestUtil.closeDataSource(dataSource);
     }
 
     @BeforeAll
-    static void beforeAll()
-    {
+    static void beforeAll() {
         dataSource = TestUtil.createHsqlDBDataSource("jdbc:hsqldb:res:hsqldb/person;create=false;readonly=true");
     }
 
     @Test
     @Order(1)
-    void testCreate() throws Exception
-    {
+    void testCreate() throws Exception {
         // MetaDaten extrahieren-
         MetaExporter metaExporter = new HsqldbMetaExporter();
         List<Schema> schemas = metaExporter.export(dataSource, null, null);
@@ -77,16 +74,13 @@ class TestJpaCodeGenerator
         // ClassModel als Code schreiben.
         AbstractCodeWriter codeWriter = new JavaCodeWriter();
 
-        for (Schema schema : schemas)
-        {
+        for (Schema schema : schemas) {
             List<ClassModel> classModels = modelGenerator.generate(schema);
 
-            for (ClassModel classModel : classModels)
-            {
+            for (ClassModel classModel : classModels) {
                 Path pathFile = pathJpa.resolve(classModel.getName() + codeWriter.getFileExtension());
 
-                try (PrintStream ps = new PrintStream(new BufferedOutputStream(Files.newOutputStream(pathFile)), true, StandardCharsets.UTF_8))
-                {
+                try (PrintStream ps = new PrintStream(new BufferedOutputStream(Files.newOutputStream(pathFile)), true, StandardCharsets.UTF_8)) {
                     codeWriter.write(classModel, ps);
 
                     ps.flush();

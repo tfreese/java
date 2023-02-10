@@ -16,8 +16,7 @@ import de.freese.simulationen.model.AbstractSimulation;
  *
  * @author Thomas Freese
  */
-public class BallSimulation extends AbstractSimulation
-{
+public class BallSimulation extends AbstractSimulation {
     /**
      * [%] = 10 %
      */
@@ -40,22 +39,19 @@ public class BallSimulation extends AbstractSimulation
     /**
      * @param delay int [ms]
      */
-    public BallSimulation(final int width, final int height, final int delay)
-    {
+    public BallSimulation(final int width, final int height, final int delay) {
         this(width, height, delay, 3);
     }
 
     /**
      * @param delay int [ms]
      */
-    public BallSimulation(final int width, final int height, final int delay, final int numberOfBalls)
-    {
+    public BallSimulation(final int width, final int height, final int delay, final int numberOfBalls) {
         super(width, height);
 
         this.delay = delay;
 
-        if (numberOfBalls < 1)
-        {
+        if (numberOfBalls < 1) {
             throw new IllegalArgumentException("numberOfBalls < 1");
         }
 
@@ -70,16 +66,14 @@ public class BallSimulation extends AbstractSimulation
      * @see de.freese.simulationen.model.Simulation#getImage()
      */
     @Override
-    public BufferedImage getImage()
-    {
+    public BufferedImage getImage() {
         return this.bufferedImage;
     }
 
     /**
      * Liefert true, wenn alle Bälle zum Stillstand gekommen sind.
      */
-    public boolean isFinished()
-    {
+    public boolean isFinished() {
         return this.balls.stream().allMatch(Ball::isFinished);
     }
 
@@ -87,8 +81,7 @@ public class BallSimulation extends AbstractSimulation
      * @see de.freese.simulationen.model.Simulation#nextGeneration()
      */
     @Override
-    public void nextGeneration()
-    {
+    public void nextGeneration() {
         // Bälle bewegen.
         this.balls.forEach(b -> b.move(this.delay));
 
@@ -99,24 +92,20 @@ public class BallSimulation extends AbstractSimulation
      * @see de.freese.simulationen.model.Simulation#reset()
      */
     @Override
-    public void reset()
-    {
+    public void reset() {
         this.balls.clear();
 
-        for (int i = 0; i < this.numberOfBalls; i++)
-        {
+        for (int i = 0; i < this.numberOfBalls; i++) {
             int x = getRandom().nextInt(getWidth() - DURCHMESSER) + DURCHMESSER;
             int y = getRandom().nextInt(getHeight() - DURCHMESSER) + DURCHMESSER;
             int vx = getRandom().nextInt(160) + 20;
             int vy = getRandom().nextInt(160) + 20;
 
-            if (getRandom().nextBoolean())
-            {
+            if (getRandom().nextBoolean()) {
                 vx *= -1;
             }
 
-            if (getRandom().nextBoolean())
-            {
+            if (getRandom().nextBoolean()) {
                 vy *= -1;
             }
 
@@ -130,12 +119,10 @@ public class BallSimulation extends AbstractSimulation
      * @see de.freese.simulationen.model.AbstractSimulation#updateImage()
      */
     @Override
-    protected void updateImage()
-    {
+    protected void updateImage() {
         Graphics g = getImage().getGraphics();
 
-        if (g instanceof Graphics2D g2d)
-        {
+        if (g instanceof Graphics2D g2d) {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             // g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
             // g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
@@ -158,36 +145,30 @@ public class BallSimulation extends AbstractSimulation
      * @param vx Horizontale Geschwindigkeit [m/s].
      * @param vy Vertikale Geschwindigkeit [m/s].
      */
-    private void addBall(final double x, final double y, final double vx, final double vy)
-    {
+    private void addBall(final double x, final double y, final double vx, final double vy) {
         Ball ball = new Ball(getWidth(), getHeight(), x, y, vx, vy, DURCHMESSER, DAEMPFUNG);
 
-        if (!this.balls.contains(ball))
-        {
+        if (!this.balls.contains(ball)) {
             this.balls.add(ball);
         }
     }
 
-    private void gitter(final Graphics g)
-    {
+    private void gitter(final Graphics g) {
         g.setColor(Color.BLACK);
 
         int stepX = getWidth() / 10;
         int stepY = getHeight() / 5;
 
-        for (int i = stepX; i <= getWidth(); i += stepX)
-        {
+        for (int i = stepX; i <= getWidth(); i += stepX) {
             g.drawLine(i, 0, i, getHeight());
         }
 
-        for (int i = stepY; i <= getHeight(); i += stepY)
-        {
+        for (int i = stepY; i <= getHeight(); i += stepY) {
             g.drawLine(0, i, getWidth(), i);
         }
     }
 
-    private void paint(final Graphics g, final Ball ball, final Color color)
-    {
+    private void paint(final Graphics g, final Ball ball, final Color color) {
         g.setColor(color);
         // g.translate(0, 0);
 

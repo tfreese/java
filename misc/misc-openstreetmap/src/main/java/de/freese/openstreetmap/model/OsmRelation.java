@@ -14,24 +14,19 @@ import de.freese.openstreetmap.Mercator;
  *
  * @author Thomas Freese
  */
-public class OsmRelation extends AbstractOsmEntity
-{
+public class OsmRelation extends AbstractOsmEntity {
     private Rectangle bounds;
     private List<OsmNode> nodes;
     private Polygon polygon;
     private List<OsmWay> ways;
 
-    public Rectangle getBounds()
-    {
-        if (this.bounds == null)
-        {
-            for (OsmNode osmNode : getNodes())
-            {
+    public Rectangle getBounds() {
+        if (this.bounds == null) {
+            for (OsmNode osmNode : getNodes()) {
                 double x = Mercator.mercX(osmNode.getLongitude());
                 double y = Mercator.mercY(osmNode.getLatitude());
 
-                if (this.bounds == null)
-                {
+                if (this.bounds == null) {
                     this.bounds = new Rectangle();
                     this.bounds.x = (int) x;
                     this.bounds.y = (int) y;
@@ -40,13 +35,11 @@ public class OsmRelation extends AbstractOsmEntity
                 this.bounds.add(x, y);
             }
 
-            if (this.bounds == null)
-            {
+            if (this.bounds == null) {
                 this.bounds = new Rectangle(0, 0);
             }
 
-            for (OsmWay osmWay : getWays())
-            {
+            for (OsmWay osmWay : getWays()) {
                 this.bounds = this.bounds.union(osmWay.getBounds());
             }
         }
@@ -54,25 +47,20 @@ public class OsmRelation extends AbstractOsmEntity
         return this.bounds;
     }
 
-    public Polygon getDrawablePolygon(final Matrix myZTFMatrix)
-    {
-        if (this.polygon == null)
-        {
+    public Polygon getDrawablePolygon(final Matrix myZTFMatrix) {
+        if (this.polygon == null) {
             this.polygon = new Polygon();
 
-            for (OsmNode osmNode : getNodes())
-            {
+            for (OsmNode osmNode : getNodes()) {
                 double x = Mercator.mercX(osmNode.getLongitude());
                 double y = Mercator.mercY(osmNode.getLatitude());
                 this.polygon.addPoint((int) x, (int) y);
             }
 
-            for (OsmWay osmWay : getWays())
-            {
+            for (OsmWay osmWay : getWays()) {
                 Polygon pWay = osmWay.getDrawablePolygon(myZTFMatrix);
 
-                for (int i = 0; i < pWay.npoints; i++)
-                {
+                for (int i = 0; i < pWay.npoints; i++) {
                     this.polygon.addPoint(pWay.xpoints[i], pWay.ypoints[i]);
                 }
             }
@@ -81,20 +69,16 @@ public class OsmRelation extends AbstractOsmEntity
         return myZTFMatrix.multiply(this.polygon);
     }
 
-    public List<OsmNode> getNodes()
-    {
-        if (this.nodes == null)
-        {
+    public List<OsmNode> getNodes() {
+        if (this.nodes == null) {
             this.nodes = new ArrayList<>();
         }
 
         return this.nodes;
     }
 
-    public List<OsmWay> getWays()
-    {
-        if (this.ways == null)
-        {
+    public List<OsmWay> getWays() {
+        if (this.ways == null) {
             this.ways = new ArrayList<>();
         }
 

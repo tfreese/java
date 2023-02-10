@@ -4,32 +4,27 @@ package de.freese.jconky.model;
 /**
  * @author Thomas Freese
  */
-public class TemperatureInfo
-{
+public class TemperatureInfo {
     private final String device;
 
     private final double temperature;
 
-    public TemperatureInfo()
-    {
+    public TemperatureInfo() {
         this("", 0D);
     }
 
-    public TemperatureInfo(final String device, final double temperature)
-    {
+    public TemperatureInfo(final String device, final double temperature) {
         super();
 
         this.device = device;
         this.temperature = temperature;
     }
 
-    public String getDevice()
-    {
+    public String getDevice() {
         return this.device;
     }
 
-    public double getTemperature()
-    {
+    public double getTemperature() {
         return this.temperature;
     }
 
@@ -37,8 +32,7 @@ public class TemperatureInfo
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
         builder.append(" device=").append(this.device);

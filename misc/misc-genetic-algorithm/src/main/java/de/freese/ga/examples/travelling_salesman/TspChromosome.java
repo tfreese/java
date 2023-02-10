@@ -13,10 +13,8 @@ import de.freese.ga.Gene;
 /**
  * @author Thomas Freese
  */
-public class TspChromosome extends Chromosome
-{
-    public TspChromosome(final TspConfig config)
-    {
+public class TspChromosome extends Chromosome {
+    public TspChromosome(final TspConfig config) {
         super(config);
     }
 
@@ -24,21 +22,18 @@ public class TspChromosome extends Chromosome
      * @see de.freese.ga.Chromosome#calcFitnessValue()
      */
     @Override
-    public double calcFitnessValue()
-    {
+    public double calcFitnessValue() {
         return 1.0D / getDistance();
     }
 
     /**
      * Gets the total distance of the tour.
      */
-    public double getDistance()
-    {
+    public double getDistance() {
         double tourDistance = 0.0D;
 
         // Loop through our tour's cities.
-        for (int i = 0; i < size(); i++)
-        {
+        for (int i = 0; i < size(); i++) {
             // Get city we're travelling from
             City fromCity = getGene(i).getValue();
 
@@ -47,12 +42,10 @@ public class TspChromosome extends Chromosome
 
             // Check we're not on our tour's last city, if we are set our
             // tour's final destination city to our starting city
-            if ((i + 1) < size())
-            {
+            if ((i + 1) < size()) {
                 destinationCity = getGene(i + 1).getValue();
             }
-            else
-            {
+            else {
                 destinationCity = getGene(0).getValue();
             }
 
@@ -67,23 +60,20 @@ public class TspChromosome extends Chromosome
      * @see de.freese.ga.Chromosome#populate()
      */
     @Override
-    public void populate()
-    {
+    public void populate() {
         List<City> cities = getConfig().getCities();
 
         List<Gene> genes = new ArrayList<>();
 
         // Loop through all our destination cities and add them to our tour
-        for (int i = 0; i < size(); i++)
-        {
+        for (int i = 0; i < size(); i++) {
             genes.add(new Gene(cities.get(i)));
         }
 
         // Zufällig neu zusammenstellen.
         Collections.shuffle(genes);
 
-        for (int i = 0; i < size(); i++)
-        {
+        for (int i = 0; i < size(); i++) {
             setGene(i, genes.get(i));
         }
     }
@@ -92,8 +82,7 @@ public class TspChromosome extends Chromosome
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         // @formatter:off
         return Stream.of(getGenes())
                .map(g -> (City) g.getValue())
@@ -106,8 +95,7 @@ public class TspChromosome extends Chromosome
      * @see de.freese.ga.Chromosome#getConfig()
      */
     @Override
-    protected TspConfig getConfig()
-    {
+    protected TspConfig getConfig() {
         return (TspConfig) super.getConfig();
     }
 }

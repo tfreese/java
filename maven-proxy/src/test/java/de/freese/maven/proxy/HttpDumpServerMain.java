@@ -9,16 +9,13 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 /**
  * @author Thomas Freese
  */
-public final class HttpDumpServerMain
-{
-    public static void main(final String[] args) throws Exception
-    {
+public final class HttpDumpServerMain {
+    public static void main(final String[] args) throws Exception {
         HttpServer server = HttpServer.create(new InetSocketAddress(8085), 0);
         // server.setExecutor(Executors.newSingleThreadExecutor());
         // server.setExecutor(null);
 
-        server.createContext("/", httpExchange ->
-        {
+        server.createContext("/", httpExchange -> {
 
             System.out.println();
             // System.out.println(Thread.currentThread().getName());
@@ -32,8 +29,7 @@ public final class HttpDumpServerMain
         new Thread(server::start).start();
     }
 
-    private HttpDumpServerMain()
-    {
+    private HttpDumpServerMain() {
         super();
     }
 }

@@ -11,13 +11,11 @@ import javax.swing.SwingUtilities;
 /**
  * @author Thomas Freese
  */
-public final class ParticleFrameMain extends JFrame
-{
+public final class ParticleFrameMain extends JFrame {
     @Serial
     private static final long serialVersionUID = 6280027925982262751L;
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         int numOfParticles = 10;
 
         //        ParticleFrameMain frame = new ParticleFrameMain();
@@ -42,19 +40,16 @@ public final class ParticleFrameMain extends JFrame
         SwingUtilities.invokeLater(() -> showGui(numOfParticles));
     }
 
-    private static void showGui(int numOfParticles)
-    {
+    private static void showGui(int numOfParticles) {
         ParticleFrameMain frame = new ParticleFrameMain();
         frame.initAndShowGUI();
 
-        frame.addWindowListener(new WindowAdapter()
-        {
+        frame.addWindowListener(new WindowAdapter() {
             /**
              * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
              */
             @Override
-            public void windowClosing(final WindowEvent e)
-            {
+            public void windowClosing(final WindowEvent e) {
                 frame.stop();
                 frame.shutdown();
                 frame.dispose();
@@ -68,8 +63,7 @@ public final class ParticleFrameMain extends JFrame
 
     private final ParticleCanvas canvas;
 
-    private ParticleFrameMain()
-    {
+    private ParticleFrameMain() {
         super();
 
         this.canvas = new ParticleCanvas(800);
@@ -77,26 +71,22 @@ public final class ParticleFrameMain extends JFrame
         setTitle("Particles");
     }
 
-    public void initAndShowGUI()
-    {
+    public void initAndShowGUI() {
         add(this.canvas);
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
-    void shutdown()
-    {
+    void shutdown() {
         this.canvas.shutdown();
     }
 
-    void start(final int numOfParticles)
-    {
+    void start(final int numOfParticles) {
         this.canvas.start(numOfParticles);
     }
 
-    void stop()
-    {
+    void stop() {
         this.canvas.stop();
     }
 }

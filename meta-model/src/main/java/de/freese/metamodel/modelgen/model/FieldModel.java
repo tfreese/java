@@ -10,8 +10,7 @@ import de.freese.metamodel.ClassUtils;
  *
  * @author Thomas Freese
  */
-public class FieldModel extends AbstractModel
-{
+public class FieldModel extends AbstractModel {
     private final ClassModel classModel;
 
     private final String fieldClazzName;
@@ -24,123 +23,99 @@ public class FieldModel extends AbstractModel
 
     private boolean useForToStringMethod = true;
 
-    protected FieldModel(final String name, final ClassModel classModel, final String fieldClazzName)
-    {
+    protected FieldModel(final String name, final ClassModel classModel, final String fieldClazzName) {
         super(name);
 
         this.classModel = Objects.requireNonNull(classModel, "classModel required");
         this.fieldClazzName = Objects.requireNonNull(fieldClazzName, "fieldClazzName required");
     }
 
-    public void addImport(final Class<?> clazz)
-    {
+    public void addImport(final Class<?> clazz) {
         getClassModel().addImport(clazz);
     }
 
-    public ClassModel getClassModel()
-    {
+    public ClassModel getClassModel() {
         return this.classModel;
     }
 
-    public String getFieldClazzName()
-    {
+    public String getFieldClazzName() {
         return this.fieldClazzName;
     }
 
-    public String getFieldClazzSimpleName()
-    {
+    public String getFieldClazzSimpleName() {
         return ClassUtils.getShortName(getFieldClazzName());
     }
 
-    public boolean isAssoziation()
-    {
+    public boolean isAssoziation() {
         return this.isAssoziation;
     }
 
-    public boolean isCollection()
-    {
+    public boolean isCollection() {
         return this.isCollection;
     }
 
-    public boolean isFieldClassArray()
-    {
+    public boolean isFieldClassArray() {
         // return getFieldClazz().isArray();
         return getFieldClazzName().contains("[]");
     }
 
-    public boolean isFieldClassInstanceOf(final Class<?> clazz)
-    {
+    public boolean isFieldClassInstanceOf(final Class<?> clazz) {
         String clazzSimpleName = clazz.getSimpleName();
         String fieldClassSimpleName = getFieldClazzSimpleName();
 
         return clazzSimpleName.startsWith(fieldClassSimpleName);
     }
 
-    public boolean isFieldClassPrimitive()
-    {
+    public boolean isFieldClassPrimitive() {
         // return getFieldClazz().isPrimitive();
 
         boolean isPrimitive = false;
 
-        if (getFieldClazzName().startsWith("int"))
-        {
+        if (getFieldClazzName().startsWith("int")) {
             isPrimitive = true;
         }
-        else if (getFieldClazzName().startsWith("long"))
-        {
+        else if (getFieldClazzName().startsWith("long")) {
             isPrimitive = true;
         }
-        else if (getFieldClazzName().startsWith("float"))
-        {
+        else if (getFieldClazzName().startsWith("float")) {
             isPrimitive = true;
         }
-        else if (getFieldClazzName().startsWith("double"))
-        {
+        else if (getFieldClazzName().startsWith("double")) {
             isPrimitive = true;
         }
-        else if (getFieldClazzName().startsWith("byte"))
-        {
+        else if (getFieldClazzName().startsWith("byte")) {
             isPrimitive = true;
         }
-        else if (getFieldClazzName().startsWith("short"))
-        {
+        else if (getFieldClazzName().startsWith("short")) {
             isPrimitive = true;
         }
 
         return isPrimitive;
     }
 
-    public boolean isUseForToStringMethod()
-    {
+    public boolean isUseForToStringMethod() {
         return this.useForToStringMethod;
     }
 
-    public void setAssoziation(final boolean isAssoziation)
-    {
+    public void setAssoziation(final boolean isAssoziation) {
         this.isAssoziation = isAssoziation;
     }
 
-    public void setCollection(final boolean isCollection)
-    {
+    public void setCollection(final boolean isCollection) {
         this.isCollection = isCollection;
     }
 
-    public void setUseForToString(final boolean useForToStringMethod)
-    {
+    public void setUseForToString(final boolean useForToStringMethod) {
         this.useForToStringMethod = useForToStringMethod;
     }
 
-    synchronized Class<?> getFieldClazz()
-    {
-        if (this.fieldClazz == null)
-        {
-            try
-            {
+    synchronized Class<?> getFieldClazz() {
+        if (this.fieldClazz == null) {
+            try {
 
                 this.fieldClazz = ClassUtils.forName(getFieldClazzName(), null);
             }
-            catch (ClassNotFoundException ex)
-            {
+            catch (ClassNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
         }

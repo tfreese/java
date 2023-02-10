@@ -39,24 +39,20 @@ import org.w3c.dom.svg.SVGDocument;
  * @author Thomas Freese
  * @see SVGGraphics2D
  */
-public final class SvgMain extends JFrame
-{
+public final class SvgMain extends JFrame {
     @Serial
     private static final long serialVersionUID = 8384522285700890883L;
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         SvgMain application = new SvgMain();
         application.initAndShowGUI();
 
-        application.addWindowListener(new WindowAdapter()
-        {
+        application.addWindowListener(new WindowAdapter() {
             /**
              * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
              */
             @Override
-            public void windowClosing(final WindowEvent event)
-            {
+            public void windowClosing(final WindowEvent event) {
                 application.dispose();
                 System.exit(0);
             }
@@ -64,8 +60,7 @@ public final class SvgMain extends JFrame
     }
 
     // private static void saveImageAsPng(final InputStream inputStream, final OutputStream outputStream, final float width, final float height)
-    private static void saveImageAsPng(final SVGDocument svgDocument, final OutputStream outputStream, final float width, final float height)
-    {
+    private static void saveImageAsPng(final SVGDocument svgDocument, final OutputStream outputStream, final float width, final float height) {
         // JPEGTranscoder transcoder = new JPEGTranscoder();
         // transcoder.addTranscodingHint(JPEGTranscoder.KEY_QUALITY, 0.8F);
 
@@ -77,29 +72,25 @@ public final class SvgMain extends JFrame
         // TranscoderInput input = new TranscoderInput(inputStream);
         TranscoderInput input = new TranscoderInput(svgDocument);
 
-        try
-        {
+        try {
             TranscoderOutput output = new TranscoderOutput(outputStream);
 
             transcoder.transcode(input, output);
 
             outputStream.flush();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    private SvgMain()
-    {
+    private SvgMain() {
         super();
 
         setTitle("Batik");
     }
 
-    public void initAndShowGUI()
-    {
+    public void initAndShowGUI() {
         final JPanel panel = new JPanel(new BorderLayout());
         add(panel);
 
@@ -119,8 +110,7 @@ public final class SvgMain extends JFrame
         panel.add("North", p);
         panel.add("Center", svgCanvas);
 
-        buttonLoad.addActionListener(event ->
-        {
+        buttonLoad.addActionListener(event -> {
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Vector / SVG Images", "svg");
 
             JFileChooser fc = new JFileChooser(".");
@@ -128,26 +118,22 @@ public final class SvgMain extends JFrame
 
             int choice = fc.showOpenDialog(panel);
 
-            if (choice == JFileChooser.APPROVE_OPTION)
-            {
+            if (choice == JFileChooser.APPROVE_OPTION) {
                 File svgFile = fc.getSelectedFile();
 
                 svgCanvas.setURI(svgFile.toURI().toString());
             }
         });
 
-        buttonSave.addActionListener(event ->
-        {
+        buttonSave.addActionListener(event -> {
             Path path = Paths.get(System.getProperty("java.io.tmpdir"), "svg-demo.png");
             // URL url = ClassLoader.getSystemResource("image.svg");
             // InputStream inputStream = new FileInputStream(url.getPath());
 
-            try
-            {
+            try {
                 // Dimension2D dimension = svgCanvas.getSVGDocumentSize();
 
-                try (OutputStream outputStream = new FileOutputStream(path.toFile()))
-                {
+                try (OutputStream outputStream = new FileOutputStream(path.toFile())) {
                     // saveImageAsPng(svgCanvas.getSVGDocument(), outputStream, (float) dimension.getWidth(), (float) dimension.getHeight());
                     saveImageAsPng(svgCanvas.getSVGDocument(), outputStream, 600F, 600F);
                     // saveImageAsPng(inputStream, outputStream, 600F, 600F);
@@ -157,33 +143,27 @@ public final class SvgMain extends JFrame
 
                 System.out.println("PNG written to: " + path);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 ex.printStackTrace();
             }
         });
 
-        SwingUtilities.invokeLater(() ->
-        {
-            try
-            {
+        SwingUtilities.invokeLater(() -> {
+            try {
                 URL url = ClassLoader.getSystemResource("image.svg");
                 svgCanvas.setURI(url.toURI().toString());
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 ex.printStackTrace();
             }
         });
 
-        svgCanvas.addSVGDocumentLoaderListener(new SVGDocumentLoaderAdapter()
-        {
+        svgCanvas.addSVGDocumentLoaderListener(new SVGDocumentLoaderAdapter() {
             /**
              * @see org.apache.batik.swing.svg.SVGDocumentLoaderAdapter#documentLoadingCompleted(org.apache.batik.swing.svg.SVGDocumentLoaderEvent)
              */
             @Override
-            public void documentLoadingCompleted(final SVGDocumentLoaderEvent e)
-            {
+            public void documentLoadingCompleted(final SVGDocumentLoaderEvent e) {
                 System.out.println("Document Loaded.");
                 label.setText("Document Loaded.");
             }
@@ -192,21 +172,18 @@ public final class SvgMain extends JFrame
              * @see org.apache.batik.swing.svg.SVGDocumentLoaderAdapter#documentLoadingStarted(org.apache.batik.swing.svg.SVGDocumentLoaderEvent)
              */
             @Override
-            public void documentLoadingStarted(final SVGDocumentLoaderEvent e)
-            {
+            public void documentLoadingStarted(final SVGDocumentLoaderEvent e) {
                 System.out.println("Document Loading...");
                 label.setText("Document Loading...");
             }
         });
 
-        svgCanvas.addGVTTreeBuilderListener(new GVTTreeBuilderAdapter()
-        {
+        svgCanvas.addGVTTreeBuilderListener(new GVTTreeBuilderAdapter() {
             /**
              * @see org.apache.batik.swing.svg.GVTTreeBuilderAdapter#gvtBuildCompleted(org.apache.batik.swing.svg.GVTTreeBuilderEvent)
              */
             @Override
-            public void gvtBuildCompleted(final GVTTreeBuilderEvent e)
-            {
+            public void gvtBuildCompleted(final GVTTreeBuilderEvent e) {
                 System.out.println("Build Done.");
                 label.setText("Build Done.");
                 pack();
@@ -216,21 +193,18 @@ public final class SvgMain extends JFrame
              * @see org.apache.batik.swing.svg.GVTTreeBuilderAdapter#gvtBuildStarted(org.apache.batik.swing.svg.GVTTreeBuilderEvent)
              */
             @Override
-            public void gvtBuildStarted(final GVTTreeBuilderEvent e)
-            {
+            public void gvtBuildStarted(final GVTTreeBuilderEvent e) {
                 System.out.println("Build Started...");
                 label.setText("Build Started...");
             }
         });
 
-        svgCanvas.addGVTTreeRendererListener(new GVTTreeRendererAdapter()
-        {
+        svgCanvas.addGVTTreeRendererListener(new GVTTreeRendererAdapter() {
             /**
              * @see org.apache.batik.swing.gvt.GVTTreeRendererAdapter#gvtRenderingCompleted(org.apache.batik.swing.gvt.GVTTreeRendererEvent)
              */
             @Override
-            public void gvtRenderingCompleted(final GVTTreeRendererEvent e)
-            {
+            public void gvtRenderingCompleted(final GVTTreeRendererEvent e) {
                 label.setText("");
             }
 
@@ -238,8 +212,7 @@ public final class SvgMain extends JFrame
              * @see org.apache.batik.swing.gvt.GVTTreeRendererAdapter#gvtRenderingPrepare(org.apache.batik.swing.gvt.GVTTreeRendererEvent)
              */
             @Override
-            public void gvtRenderingPrepare(final GVTTreeRendererEvent e)
-            {
+            public void gvtRenderingPrepare(final GVTTreeRendererEvent e) {
                 System.out.println("Rendering Started...");
                 label.setText("Rendering Started...");
             }

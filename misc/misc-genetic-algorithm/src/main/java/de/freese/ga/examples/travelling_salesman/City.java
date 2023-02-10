@@ -10,10 +10,8 @@ package de.freese.ga.examples.travelling_salesman;
  *
  * @author Thomas Freese
  */
-public record City(String name, int x, int y)
-{
-    public double distanceTo(final City city)
-    {
+public record City(String name, int x, int y) {
+    public double distanceTo(final City city) {
         double xDistance = Math.abs(x() - city.x());
         double yDistance = Math.abs(y() - city.y());
 
@@ -24,8 +22,7 @@ public record City(String name, int x, int y)
      * @see Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(name());
         sb.append("(").append(x()).append(":").append(y()).append(")");

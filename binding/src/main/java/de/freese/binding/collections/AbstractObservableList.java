@@ -14,8 +14,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractObservableList<T> extends AbstractList<T> implements ObservableList<T>
-{
+public abstract class AbstractObservableList<T> extends AbstractList<T> implements ObservableList<T> {
     private final EventListenerList listeners = new EventListenerList();
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private boolean listenerEnabled = true;
@@ -24,8 +23,7 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
      * @see java.util.AbstractList#add(int, java.lang.Object)
      */
     @Override
-    public void add(final int index, final T element)
-    {
+    public void add(final int index, final T element) {
         doAdd(index, element);
 
         fireIntervalAdded(index, index);
@@ -35,8 +33,7 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
      * @see de.freese.binding.collections.ObservableList#addListener(javax.swing.event.ListDataListener)
      */
     @Override
-    public void addListener(final ListDataListener listener)
-    {
+    public void addListener(final ListDataListener listener) {
         getListeners().add(ListDataListener.class, listener);
     }
 
@@ -46,8 +43,7 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
     @Override
     public abstract T get(int index);
 
-    public Logger getLogger()
-    {
+    public Logger getLogger() {
         return this.logger;
     }
 
@@ -55,8 +51,7 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
      * @see de.freese.binding.collections.ObservableList#isListenerEnabled()
      */
     @Override
-    public boolean isListenerEnabled()
-    {
+    public boolean isListenerEnabled() {
         return this.listenerEnabled;
     }
 
@@ -64,8 +59,7 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
      * @see java.util.AbstractList#remove(int)
      */
     @Override
-    public T remove(final int index)
-    {
+    public T remove(final int index) {
         T old = doRemove(index);
 
         fireIntervalRemoved(index, index);
@@ -77,8 +71,7 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
      * @see de.freese.binding.collections.ObservableList#remove(int, int)
      */
     @Override
-    public void remove(final int from, final int to)
-    {
+    public void remove(final int from, final int to) {
         removeRange(from, to);
     }
 
@@ -86,8 +79,7 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
      * @see de.freese.binding.collections.ObservableList#removeListener(javax.swing.event.ListDataListener)
      */
     @Override
-    public void removeListener(final ListDataListener listener)
-    {
+    public void removeListener(final ListDataListener listener) {
         getListeners().remove(ListDataListener.class, listener);
     }
 
@@ -95,8 +87,7 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
      * @see java.util.AbstractList#set(int, java.lang.Object)
      */
     @Override
-    public T set(final int index, final T element)
-    {
+    public T set(final int index, final T element) {
         T old = doSet(index, element);
 
         fireContentsChanged(index, index);
@@ -108,8 +99,7 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
      * @see de.freese.binding.collections.ObservableList#setListenerEnabled(boolean)
      */
     @Override
-    public void setListenerEnabled(final boolean listenerEnabled)
-    {
+    public void setListenerEnabled(final boolean listenerEnabled) {
         this.listenerEnabled = listenerEnabled;
     }
 
@@ -134,10 +124,8 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
      */
     protected abstract T doSet(int index, T element);
 
-    protected void fireContentsChanged(final int startIndex, final int endIndex)
-    {
-        if (!isListenerEnabled())
-        {
+    protected void fireContentsChanged(final int startIndex, final int endIndex) {
+        if (!isListenerEnabled()) {
             return;
         }
 
@@ -147,28 +135,22 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
         final ListDataListener[] l = getListeners().getListeners(ListDataListener.class);
         final ListDataEvent event = new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, start, end);
 
-        Runnable runnable = () ->
-        {
-            for (int i = l.length - 1; i >= 0; i--)
-            {
+        Runnable runnable = () -> {
+            for (int i = l.length - 1; i >= 0; i--) {
                 l[i].contentsChanged(event);
             }
         };
 
-        if (!SwingUtilities.isEventDispatchThread())
-        {
+        if (!SwingUtilities.isEventDispatchThread()) {
             SwingUtilities.invokeLater(runnable);
         }
-        else
-        {
+        else {
             runnable.run();
         }
     }
 
-    protected void fireIntervalAdded(final int startIndex, final int endIndex)
-    {
-        if (!isListenerEnabled())
-        {
+    protected void fireIntervalAdded(final int startIndex, final int endIndex) {
+        if (!isListenerEnabled()) {
             return;
         }
 
@@ -178,28 +160,22 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
         final ListDataListener[] l = getListeners().getListeners(ListDataListener.class);
         final ListDataEvent event = new ListDataEvent(this, ListDataEvent.INTERVAL_ADDED, start, end);
 
-        Runnable runnable = () ->
-        {
-            for (int i = l.length - 1; i >= 0; i--)
-            {
+        Runnable runnable = () -> {
+            for (int i = l.length - 1; i >= 0; i--) {
                 l[i].intervalAdded(event);
             }
         };
 
-        if (!SwingUtilities.isEventDispatchThread())
-        {
+        if (!SwingUtilities.isEventDispatchThread()) {
             SwingUtilities.invokeLater(runnable);
         }
-        else
-        {
+        else {
             runnable.run();
         }
     }
 
-    protected void fireIntervalRemoved(final int startIndex, final int endIndex)
-    {
-        if (!isListenerEnabled())
-        {
+    protected void fireIntervalRemoved(final int startIndex, final int endIndex) {
+        if (!isListenerEnabled()) {
             return;
         }
 
@@ -209,26 +185,21 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
         final ListDataListener[] l = getListeners().getListeners(ListDataListener.class);
         final ListDataEvent event = new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, start, end);
 
-        Runnable runnable = () ->
-        {
-            for (int i = l.length - 1; i >= 0; i--)
-            {
+        Runnable runnable = () -> {
+            for (int i = l.length - 1; i >= 0; i--) {
                 l[i].intervalRemoved(event);
             }
         };
 
-        if (!SwingUtilities.isEventDispatchThread())
-        {
+        if (!SwingUtilities.isEventDispatchThread()) {
             SwingUtilities.invokeLater(runnable);
         }
-        else
-        {
+        else {
             runnable.run();
         }
     }
 
-    protected EventListenerList getListeners()
-    {
+    protected EventListenerList getListeners() {
         return this.listeners;
     }
 }

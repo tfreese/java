@@ -4,6 +4,5 @@ package de.freese.binding.expression;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractStringExpression extends AbstractExpression<String> implements StringExpression
-{
+public abstract class AbstractStringExpression extends AbstractExpression<String> implements StringExpression {
 }

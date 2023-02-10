@@ -7,15 +7,12 @@ import de.freese.ga.Genotype;
 /**
  * @author Thomas Freese
  */
-public class TspGenotype extends Genotype
-{
-    public TspGenotype(final TspConfig config)
-    {
+public class TspGenotype extends Genotype {
+    public TspGenotype(final TspConfig config) {
         super(config);
     }
 
-    public TspGenotype(final TspConfig config, final int size)
-    {
+    public TspGenotype(final TspConfig config, final int size) {
         super(config, size);
     }
 
@@ -23,8 +20,7 @@ public class TspGenotype extends Genotype
      * @see de.freese.ga.Genotype#createEmptyChromosome()
      */
     @Override
-    public Chromosome createEmptyChromosome()
-    {
+    public Chromosome createEmptyChromosome() {
         return new TspChromosome(getConfig());
     }
 
@@ -32,8 +28,7 @@ public class TspGenotype extends Genotype
      * @see de.freese.ga.Genotype#createEmptyGenotype(int)
      */
     @Override
-    public Genotype createEmptyGenotype(final int size)
-    {
+    public Genotype createEmptyGenotype(final int size) {
         return new TspGenotype(getConfig(), size);
     }
 
@@ -41,8 +36,7 @@ public class TspGenotype extends Genotype
      * @see de.freese.ga.Genotype#crossover(de.freese.ga.Chromosome, de.freese.ga.Chromosome)
      */
     @Override
-    public Chromosome crossover(final Chromosome parent1, final Chromosome parent2)
-    {
+    public Chromosome crossover(final Chromosome parent1, final Chromosome parent2) {
         // Create new child tour
         Chromosome childChromosome = createEmptyChromosome();
 
@@ -51,34 +45,26 @@ public class TspGenotype extends Genotype
         int endPos = getConfig().getRandom().nextInt(parent1.size());
 
         // Loop and add the sub tour from parent1 to our child
-        for (int i = 0; i < childChromosome.size(); i++)
-        {
+        for (int i = 0; i < childChromosome.size(); i++) {
             // If our start position is less than the end position
-            if ((startPos < endPos) && (i > startPos) && (i < endPos))
-            {
+            if ((startPos < endPos) && (i > startPos) && (i < endPos)) {
                 childChromosome.setGene(i, parent1.getGene(i));
             } // If our start position is larger
-            else if (startPos > endPos)
-            {
-                if (!((i < startPos) && (i > endPos)))
-                {
+            else if (startPos > endPos) {
+                if (!((i < startPos) && (i > endPos))) {
                     childChromosome.setGene(i, parent1.getGene(i));
                 }
             }
         }
 
         // Loop through parent2's city tour
-        for (int i = 0; i < parent2.size(); i++)
-        {
+        for (int i = 0; i < parent2.size(); i++) {
             // If child doesn't have the city add it
-            if (!childChromosome.contains(parent2.getGene(i)))
-            {
+            if (!childChromosome.contains(parent2.getGene(i))) {
                 // Loop to find a spare position in the child's tour
-                for (int ii = 0; ii < childChromosome.size(); ii++)
-                {
+                for (int ii = 0; ii < childChromosome.size(); ii++) {
                     // Spare position found, add city
-                    if (childChromosome.getGene(ii) == null)
-                    {
+                    if (childChromosome.getGene(ii) == null) {
                         childChromosome.setGene(ii, parent2.getGene(i));
                         break;
                     }
@@ -93,8 +79,7 @@ public class TspGenotype extends Genotype
      * @see de.freese.ga.Genotype#evolve()
      */
     @Override
-    public TspGenotype evolve()
-    {
+    public TspGenotype evolve() {
         return (TspGenotype) super.evolve();
     }
 
@@ -102,8 +87,7 @@ public class TspGenotype extends Genotype
      * @see de.freese.ga.Genotype#getFittest()
      */
     @Override
-    public TspChromosome getFittest()
-    {
+    public TspChromosome getFittest() {
         return (TspChromosome) super.getFittest();
     }
 
@@ -111,8 +95,7 @@ public class TspGenotype extends Genotype
      * @see de.freese.ga.Genotype#getConfig()
      */
     @Override
-    protected TspConfig getConfig()
-    {
+    protected TspConfig getConfig() {
         return (TspConfig) super.getConfig();
     }
 }

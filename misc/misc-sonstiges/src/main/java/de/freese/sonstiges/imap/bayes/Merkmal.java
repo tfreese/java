@@ -9,8 +9,7 @@ import java.util.Objects;
  *
  * @author Thomas Freese
  */
-public class Merkmal implements Serializable
-{
+public class Merkmal implements Serializable {
     public static final Double DEFAULT_HAM_PROBABILITY = 0.001D;
 
     public static final Double DEFAULT_SPAM_PROBABILITY = 0.001D;
@@ -26,13 +25,11 @@ public class Merkmal implements Serializable
 
     private final int weight;
 
-    public Merkmal(String token, int hamCount, int spamCount)
-    {
+    public Merkmal(String token, int hamCount, int spamCount) {
         this(token, hamCount, spamCount, 1);
     }
 
-    public Merkmal(String token, int hamCount, int spamCount, int weight)
-    {
+    public Merkmal(String token, int hamCount, int spamCount, int weight) {
         this.token = Objects.requireNonNull(token, "token required");
         this.hamCount = hamCount;
         this.spamCount = spamCount;
@@ -40,15 +37,12 @@ public class Merkmal implements Serializable
     }
 
     @Override
-    public boolean equals(final Object o)
-    {
-        if (this == o)
-        {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
 
-        if (o == null || getClass() != o.getClass())
-        {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
@@ -57,54 +51,44 @@ public class Merkmal implements Serializable
         return hamCount == merkmal.hamCount && spamCount == merkmal.spamCount && weight == merkmal.weight && token.equals(merkmal.token);
     }
 
-    public int getCount()
-    {
+    public int getCount() {
         return getHamCount() + getSpamCount();
     }
 
-    public int getHamCount()
-    {
+    public int getHamCount() {
         return this.hamCount;
     }
 
-    public double getHamProbability()
-    {
-        if (getHamCount() == 0)
-        {
+    public double getHamProbability() {
+        if (getHamCount() == 0) {
             return DEFAULT_HAM_PROBABILITY;
         }
 
         return (double) getHamCount() / getCount();
     }
 
-    public int getSpamCount()
-    {
+    public int getSpamCount() {
         return this.spamCount;
     }
 
-    public double getSpamProbability()
-    {
-        if (getSpamCount() == 0)
-        {
+    public double getSpamProbability() {
+        if (getSpamCount() == 0) {
             return DEFAULT_SPAM_PROBABILITY;
         }
 
         return (double) getSpamCount() / getCount();
     }
 
-    public String getToken()
-    {
+    public String getToken() {
         return token;
     }
 
-    public int getWeight()
-    {
+    public int getWeight() {
         return weight;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(hamCount, spamCount, token, weight);
     }
 }

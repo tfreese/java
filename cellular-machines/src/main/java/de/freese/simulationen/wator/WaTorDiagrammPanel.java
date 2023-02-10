@@ -12,9 +12,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import de.freese.simulationen.SimulationEnvironment;
-import de.freese.simulationen.model.Simulation;
-import de.freese.simulationen.model.SimulationListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
@@ -28,13 +25,16 @@ import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 
+import de.freese.simulationen.SimulationEnvironment;
+import de.freese.simulationen.model.Simulation;
+import de.freese.simulationen.model.SimulationListener;
+
 /**
  * DiagrammPanel der WaTor-Simulation.
  *
  * @author Thomas Freese
  */
-public class WaTorDiagrammPanel extends JPanel implements SimulationListener
-{
+public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
     @Serial
     private static final long serialVersionUID = -7891438395009637657L;
 
@@ -42,8 +42,7 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener
 
     private final TimeSeries timeSeriesHaie;
 
-    public WaTorDiagrammPanel()
-    {
+    public WaTorDiagrammPanel() {
         super();
 
         this.timeSeriesFische = new TimeSeries("Fische");
@@ -101,10 +100,8 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener
      * @see de.freese.simulationen.model.SimulationListener#completed(de.freese.simulationen.model.Simulation)
      */
     @Override
-    public void completed(final Simulation simulation)
-    {
-        Runnable runnable = () ->
-        {
+    public void completed(final Simulation simulation) {
+        Runnable runnable = () -> {
             WaTorRasterSimulation watorRasterSimulation = (WaTorRasterSimulation) simulation;
 
             int[] fischeUndHaie = watorRasterSimulation.countFishesAndSharks();
@@ -118,10 +115,8 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener
     /**
      * Aktualisiert das Diagramm.
      */
-    protected void update(final int fishes, final int sharks)
-    {
-        Runnable runnable = () ->
-        {
+    protected void update(final int fishes, final int sharks) {
+        Runnable runnable = () -> {
             RegularTimePeriod timePeriod = new FixedMillisecond();
 
             this.timeSeriesFische.addOrUpdate(timePeriod, fishes);
@@ -132,18 +127,15 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener
             Toolkit.getDefaultToolkit().sync();
         };
 
-        if (SwingUtilities.isEventDispatchThread())
-        {
+        if (SwingUtilities.isEventDispatchThread()) {
             runnable.run();
         }
-        else
-        {
+        else {
             SwingUtilities.invokeLater(runnable);
         }
     }
 
-    private ScheduledExecutorService getScheduledExecutorService()
-    {
+    private ScheduledExecutorService getScheduledExecutorService() {
         return SimulationEnvironment.getInstance().getScheduledExecutorService();
     }
 }

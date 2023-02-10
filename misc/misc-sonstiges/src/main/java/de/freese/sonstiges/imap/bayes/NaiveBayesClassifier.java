@@ -7,14 +7,11 @@ import java.util.Collection;
 /**
  * @author Thomas Freese
  */
-public class NaiveBayesClassifier
-{
+public class NaiveBayesClassifier {
     private static final double DEFAULT_FACTOR = 1.0D;
 
-    public double classify(Collection<Merkmal> vector)
-    {
-        if (vector == null || vector.isEmpty())
-        {
+    public double classify(Collection<Merkmal> vector) {
+        if (vector == null || vector.isEmpty()) {
             return 0.0D;
         }
 
@@ -23,16 +20,13 @@ public class NaiveBayesClassifier
         return classifyBigDecimal(vector);
     }
 
-    double classifyBigDecimal(Collection<Merkmal> vector)
-    {
+    double classifyBigDecimal(Collection<Merkmal> vector) {
         BigDecimal spamLikelihood = BigDecimal.valueOf(1.0D);
         BigDecimal hamLikelihood = BigDecimal.valueOf(1.0D);
 
-        for (Merkmal merkmal : vector)
-        {
+        for (Merkmal merkmal : vector) {
             // Je nach Häufigkeit/Wichtigkeit des Wortes entsprechend dazu multiplizieren.
-            for (int i = 0; i < merkmal.getWeight(); i++)
-            {
+            for (int i = 0; i < merkmal.getWeight(); i++) {
                 // Spam-Likelihood berechnen (Produkt der Log-Wahrscheinlichkeiten)
                 spamLikelihood = spamLikelihood.multiply(BigDecimal.valueOf(merkmal.getSpamProbability()));
 
@@ -50,16 +44,13 @@ public class NaiveBayesClassifier
     /**
      * Hier können sehr kleine oder sehr große Zahlen entstehen.
      */
-    double classifyClassic(Collection<Merkmal> vector)
-    {
+    double classifyClassic(Collection<Merkmal> vector) {
         double spamLikelihood = 1.0D;
         double hamLikelihood = 1.0D;
 
-        for (Merkmal merkmal : vector)
-        {
+        for (Merkmal merkmal : vector) {
             // Je nach Häufigkeit/Wichtigkeit des Wortes entsprechend dazu multiplizieren.
-            for (int i = 0; i < merkmal.getWeight(); i++)
-            {
+            for (int i = 0; i < merkmal.getWeight(); i++) {
                 // Spam-Likelihood berechnen (Produkt der Wahrscheinlichkeiten)
                 spamLikelihood *= (merkmal.getSpamProbability() * DEFAULT_FACTOR);
 
@@ -75,16 +66,13 @@ public class NaiveBayesClassifier
     /**
      * Hier können NaN oder INVALID Zahlen entstehen.
      */
-    double classifyLog(Collection<Merkmal> vector)
-    {
+    double classifyLog(Collection<Merkmal> vector) {
         double spamLikelihood = 0.0D;
         double hamLikelihood = 0.0D;
 
-        for (Merkmal merkmal : vector)
-        {
+        for (Merkmal merkmal : vector) {
             // Je nach Häufigkeit/Wichtigkeit des Wortes entsprechend dazu multiplizieren.
-            for (int i = 0; i < merkmal.getWeight(); i++)
-            {
+            for (int i = 0; i < merkmal.getWeight(); i++) {
                 // Spam-Likelihood berechnen (Produkt der Log-Wahrscheinlichkeiten)
                 spamLikelihood += Math.log(merkmal.getSpamProbability());
 

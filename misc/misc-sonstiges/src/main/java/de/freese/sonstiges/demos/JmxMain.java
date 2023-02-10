@@ -26,8 +26,7 @@ import org.springframework.boot.jdbc.DatabaseDriver;
 /**
  * @author Thomas Freese
  */
-public final class JmxMain
-{
+public final class JmxMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(JmxMain.class);
 
     /**
@@ -37,13 +36,11 @@ public final class JmxMain
      * @author Thomas Freese
      */
     @FunctionalInterface
-    public interface DateMXBean
-    {
+    public interface DateMXBean {
         String getCurrentTime();
     }
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         // Siehe auch org.springframework.jmx.support.JmxUtils
 
         MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
@@ -69,28 +66,21 @@ public final class JmxMain
         ObjectName poolName = new ObjectName("com.zaxxer.hikari:type=Pool (" + config.getPoolName() + ")");
         HikariPoolMXBean poolProxy = JMX.newMXBeanProxy(mBeanServer, poolName, HikariPoolMXBean.class);
 
-        scheduledExecutorService.scheduleWithFixedDelay(() ->
-        {
-            try
-            {
-                if (poolProxy == null)
-                {
+        scheduledExecutorService.scheduleWithFixedDelay(() -> {
+            try {
+                if (poolProxy == null) {
                     LOGGER.info("Hikari not initialized, please wait...");
                 }
-                else
-                {
+                else {
                     LOGGER.info("HikariPoolState: Active={}; Idle={}, Wait={}, Total={}", poolProxy.getActiveConnections(), poolProxy.getIdleConnections(), poolProxy.getThreadsAwaitingConnection(), poolProxy.getTotalConnections());
                 }
             }
-            catch (Throwable ex)
-            {
+            catch (Throwable ex) {
                 LOGGER.error(ex.getMessage());
             }
         }, 100, 1000, TimeUnit.MILLISECONDS);
-        scheduledExecutorService.scheduleWithFixedDelay(() ->
-        {
-            try
-            {
+        scheduledExecutorService.scheduleWithFixedDelay(() -> {
+            try {
                 ObjectName on = ObjectName.getInstance("com.zaxxer.hikari:type=Pool (HikariConnectionPool)");
                 MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 
@@ -100,24 +90,18 @@ public final class JmxMain
                 //                LOGGER.info("DateBean: {}", mBeanServer.invoke(ObjectName.getInstance("bean:name=dateBean"), "getCurrentTime", null, null));
                 LOGGER.info("DateBean: {}", mBeanServer.getAttribute(ObjectName.getInstance("bean:name=dateBean"), "CurrentTime"));
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 LOGGER.error(ex.getMessage());
             }
         }, 1L, 3L, TimeUnit.SECONDS);
 
-        Callable<Void> job = () ->
-        {
+        Callable<Void> job = () -> {
             String query = "VALUES (NOW())";
             //            String query = DatabaseDriver.H2.getValidationQuery();
 
-            for (int i = 0; i < 10; i++)
-            {
-                try (Connection connection = dataSource.getConnection();
-                     Statement statement = connection.createStatement())
-                {
-                    try (ResultSet resultSet = statement.executeQuery(query))
-                    {
+            for (int i = 0; i < 10; i++) {
+                try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement()) {
+                    try (ResultSet resultSet = statement.executeQuery(query)) {
                         resultSet.next();
 
                         LOGGER.info("Query: {}", resultSet.getObject(1));
@@ -145,8 +129,7 @@ public final class JmxMain
         System.exit(0);
     }
 
-    private JmxMain()
-    {
+    private JmxMain() {
         super();
     }
 }

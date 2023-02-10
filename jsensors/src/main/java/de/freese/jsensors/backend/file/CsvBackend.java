@@ -21,8 +21,7 @@ import de.freese.jsensors.utils.LifeCycle;
  *
  * @author Thomas Freese
  */
-public class CsvBackend extends AbstractBatchBackend implements LifeCycle
-{
+public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
     private final boolean exclusive;
 
     private final Path path;
@@ -30,8 +29,7 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle
     /**
      * @param exclusive boolean; File exclusive for only one {@link Sensor} -> no column 'NAME'
      */
-    public CsvBackend(final Path path, final boolean exclusive, final int batchSize)
-    {
+    public CsvBackend(final Path path, final boolean exclusive, final int batchSize) {
         super(batchSize);
 
         this.path = Objects.requireNonNull(path, "path required");
@@ -42,30 +40,24 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle
      * @see de.freese.jsensors.utils.LifeCycle#start()
      */
     @Override
-    public void start()
-    {
-        try
-        {
+    public void start() {
+        try {
             // Create Directories.
             Path parent = this.path.getParent();
             Files.createDirectories(parent);
 
-            if (!Files.exists(this.path))
-            {
+            if (!Files.exists(this.path)) {
                 getLogger().info("create file: {}", this.path);
 
                 // Create CSV-Header
-                try (OutputStream os = Files.newOutputStream(this.path, StandardOpenOption.CREATE))
-                {
+                try (OutputStream os = Files.newOutputStream(this.path, StandardOpenOption.CREATE)) {
                     String header = null;
 
-                    if (this.exclusive)
-                    {
+                    if (this.exclusive) {
                         // Without SensorName.
                         header = String.format("\"%s\",\"%s\",\"%s\"%n", "VALUE", "TIMESTAMP", "TIME");
                     }
-                    else
-                    {
+                    else {
                         // With SensorName.
                         header = String.format("\"%s\",\"%s\",\"%s\",\"%s\"%n", "NAME", "VALUE", "TIMESTAMP", "TIME");
                     }
@@ -76,8 +68,7 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle
                 }
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // throw new UncheckedIOException(ex);
             getLogger().error(ex.getMessage(), ex);
         }
@@ -87,25 +78,20 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle
      * @see de.freese.jsensors.utils.LifeCycle#stop()
      */
     @Override
-    public void stop()
-    {
+    public void stop() {
         submit();
     }
 
-    protected byte[] encode(final SensorValue sensorValue)
-    {
+    protected byte[] encode(final SensorValue sensorValue) {
         String formatted = null;
 
-        if (this.exclusive)
-        {
+        if (this.exclusive) {
             // Ohne SensorName.
             formatted = String.format("\"%s\",\"%d\",\"%s\"%n", sensorValue.getValue(), sensorValue.getTimestamp(), sensorValue.getLocalDateTime());
         }
-        else
-        {
+        else {
             // Mit SensorName.
-            formatted =
-                    String.format("\"%s\",\"%s\",\"%d\",\"%s\"%n", sensorValue.getName(), sensorValue.getValue(), sensorValue.getTimestamp(), sensorValue.getLocalDateTime());
+            formatted = String.format("\"%s\",\"%s\",\"%d\",\"%s\"%n", sensorValue.getName(), sensorValue.getValue(), sensorValue.getTimestamp(), sensorValue.getLocalDateTime());
         }
 
         return formatted.getBytes(StandardCharsets.UTF_8);
@@ -115,17 +101,13 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle
      * @see de.freese.jsensors.backend.AbstractBatchBackend#storeValues(java.util.List)
      */
     @Override
-    protected void storeValues(final List<SensorValue> values)
-    {
-        if ((values == null) || values.isEmpty())
-        {
+    protected void storeValues(final List<SensorValue> values) {
+        if ((values == null) || values.isEmpty()) {
             return;
         }
 
-        try (OutputStream os = new BufferedOutputStream(Files.newOutputStream(this.path, StandardOpenOption.APPEND)))
-        {
-            for (SensorValue sensorValue : values)
-            {
+        try (OutputStream os = new BufferedOutputStream(Files.newOutputStream(this.path, StandardOpenOption.APPEND))) {
+            for (SensorValue sensorValue : values) {
                 byte[] bytes = encode(sensorValue);
 
                 os.write(bytes);
@@ -133,8 +115,7 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle
 
             os.flush();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // throw new UncheckedIOException(ex);
             getLogger().error(ex.getMessage(), ex);
         }

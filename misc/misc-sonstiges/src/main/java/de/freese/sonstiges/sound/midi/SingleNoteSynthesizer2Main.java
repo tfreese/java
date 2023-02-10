@@ -13,10 +13,8 @@ import javax.sound.midi.Synthesizer;
 /**
  * @author Thomas Freese
  */
-public final class SingleNoteSynthesizer2Main
-{
-    public static void main(final String[] args)
-    {
+public final class SingleNoteSynthesizer2Main {
+    public static void main(final String[] args) {
         SingleNoteSynthesizer2Main synth = new SingleNoteSynthesizer2Main();
         synth.setInstrument(19);
         synth.playMajorChord(60);
@@ -28,24 +26,20 @@ public final class SingleNoteSynthesizer2Main
 
     private Synthesizer synth;
 
-    private SingleNoteSynthesizer2Main()
-    {
+    private SingleNoteSynthesizer2Main() {
         super();
 
-        try
-        {
+        try {
             this.synth = MidiSystem.getSynthesizer();
             this.synth.open();
             this.receiver = this.synth.getReceiver();
         }
-        catch (MidiUnavailableException ex)
-        {
+        catch (MidiUnavailableException ex) {
             ex.printStackTrace();
         }
     }
 
-    public void playMajorChord(final int baseNote)
-    {
+    public void playMajorChord(final int baseNote) {
         playNote(baseNote, 1000);
         playNote(baseNote + 4, 1000);
         playNote(baseNote + 7, 1000);
@@ -56,16 +50,13 @@ public final class SingleNoteSynthesizer2Main
         stopNote(baseNote);
     }
 
-    public void playNote(final int note, final int duration)
-    {
+    public void playNote(final int note, final int duration) {
         startNote(note);
 
-        try
-        {
+        try {
             TimeUnit.MILLISECONDS.sleep(duration);
         }
-        catch (InterruptedException ex)
-        {
+        catch (InterruptedException ex) {
             ex.printStackTrace();
 
             Thread.currentThread().interrupt();
@@ -74,31 +65,25 @@ public final class SingleNoteSynthesizer2Main
         stopNote(note);
     }
 
-    public void setInstrument(final int instrument)
-    {
+    public void setInstrument(final int instrument) {
         this.synth.getChannels()[0].programChange(instrument);
     }
 
-    public void startNote(final int note)
-    {
+    public void startNote(final int note) {
         setShortMessage(ShortMessage.NOTE_ON, note);
         this.receiver.send(this.message, -1);
     }
 
-    public void stopNote(final int note)
-    {
+    public void stopNote(final int note) {
         setShortMessage(ShortMessage.NOTE_OFF, note);
         this.receiver.send(this.message, -1);
     }
 
-    private void setShortMessage(final int onOrOff, final int note)
-    {
-        try
-        {
+    private void setShortMessage(final int onOrOff, final int note) {
+        try {
             this.message.setMessage(onOrOff, 0, note, 70);
         }
-        catch (InvalidMidiDataException ex)
-        {
+        catch (InvalidMidiDataException ex) {
             ex.printStackTrace();
         }
     }

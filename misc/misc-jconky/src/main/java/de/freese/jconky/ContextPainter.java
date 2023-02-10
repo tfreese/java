@@ -5,18 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import de.freese.jconky.painter.MonitorPainter;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.freese.jconky.painter.MonitorPainter;
+
 /**
  * @author Thomas Freese
  */
-public class ContextPainter
-{
+public class ContextPainter {
     private static final Logger LOGGER = LoggerFactory.getLogger(ContextPainter.class);
 
     private final List<MonitorPainter> painters = new ArrayList<>();
@@ -25,13 +25,11 @@ public class ContextPainter
 
     private GraphicsContext gc;
 
-    public void addMonitorPainter(final MonitorPainter monitorPainter)
-    {
+    public void addMonitorPainter(final MonitorPainter monitorPainter) {
         this.painters.add(monitorPainter);
     }
 
-    public void paint()
-    {
+    public void paint() {
         getLogger().debug("paint");
 
         double width = this.canvas.getWidth();
@@ -46,8 +44,7 @@ public class ContextPainter
         double monitorWidth = width - (marginOuter.getRight() * 2D);
         // double totalY = 0D;
 
-        for (MonitorPainter painter : this.painters)
-        {
+        for (MonitorPainter painter : this.painters) {
             double monitorHeight = painter.paintValue(this.gc, monitorWidth);
 
             this.gc.translate(0D, monitorHeight);
@@ -60,8 +57,7 @@ public class ContextPainter
         this.gc.restore();
     }
 
-    public void setCanvas(final Canvas canvas)
-    {
+    public void setCanvas(final Canvas canvas) {
         this.canvas = Objects.requireNonNull(canvas, "canvas required");
         this.gc = Objects.requireNonNull(canvas.getGraphicsContext2D(), "graphicsContext required");
 
@@ -69,8 +65,7 @@ public class ContextPainter
         // this.gc.setFontSmoothingType(FontSmoothingType.LCD);
     }
 
-    protected Logger getLogger()
-    {
+    protected Logger getLogger() {
         return LOGGER;
     }
 }

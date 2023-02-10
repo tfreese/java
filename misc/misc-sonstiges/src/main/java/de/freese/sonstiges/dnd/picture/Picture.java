@@ -15,15 +15,13 @@ import javax.swing.JComponent;
 /**
  * @author Thomas Freese
  */
-class Picture extends JComponent implements MouseListener, FocusListener, Accessible
-{
+class Picture extends JComponent implements MouseListener, FocusListener, Accessible {
     @Serial
     private static final long serialVersionUID = -3852485343304069467L;
 
     private transient Image image;
 
-    Picture(final Image image)
-    {
+    Picture(final Image image) {
         super();
 
         this.image = image;
@@ -36,8 +34,7 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
      * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
      */
     @Override
-    public void focusGained(final FocusEvent e)
-    {
+    public void focusGained(final FocusEvent e) {
         // Draw the component with a red border
         // indicating that it has focus.
         this.repaint();
@@ -47,8 +44,7 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
      * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
      */
     @Override
-    public void focusLost(final FocusEvent e)
-    {
+    public void focusLost(final FocusEvent e) {
         // Draw the component with a black border
         // indicating that it doesn't have focus.
         this.repaint();
@@ -58,8 +54,7 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
      * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
      */
     @Override
-    public void mouseClicked(final MouseEvent e)
-    {
+    public void mouseClicked(final MouseEvent e) {
         // Since the user clicked on us, let's get focus!
         requestFocusInWindow();
     }
@@ -68,8 +63,7 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
      * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
      */
     @Override
-    public void mouseEntered(final MouseEvent e)
-    {
+    public void mouseEntered(final MouseEvent e) {
         // Empty
     }
 
@@ -77,8 +71,7 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
      * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
      */
     @Override
-    public void mouseExited(final MouseEvent e)
-    {
+    public void mouseExited(final MouseEvent e) {
         // Empty
     }
 
@@ -86,8 +79,7 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
      * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
      */
     @Override
-    public void mousePressed(final MouseEvent e)
-    {
+    public void mousePressed(final MouseEvent e) {
         // Empty
     }
 
@@ -95,18 +87,15 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
      * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
      */
     @Override
-    public void mouseReleased(final MouseEvent e)
-    {
+    public void mouseReleased(final MouseEvent e) {
         // Empty
     }
 
-    Image getImage()
-    {
+    Image getImage() {
         return this.image;
     }
 
-    void setImage(final Image image)
-    {
+    void setImage(final Image image) {
         this.image = image;
     }
 
@@ -114,27 +103,23 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
      * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
      */
     @Override
-    protected void paintComponent(final Graphics graphics)
-    {
+    protected void paintComponent(final Graphics graphics) {
         Graphics g = graphics.create();
 
         // Draw in our entire space, even if isOpaque is false.
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, (this.image == null) ? 125 : this.image.getWidth(this), (this.image == null) ? 125 : this.image.getHeight(this));
 
-        if (this.image != null)
-        {
+        if (this.image != null) {
             // Draw image at its natural size of 125x125.
             g.drawImage(this.image, 0, 0, this);
         }
 
         // Add a border, red if picture currently has focus
-        if (isFocusOwner())
-        {
+        if (isFocusOwner()) {
             g.setColor(Color.RED);
         }
-        else
-        {
+        else {
             g.setColor(Color.BLACK);
         }
 

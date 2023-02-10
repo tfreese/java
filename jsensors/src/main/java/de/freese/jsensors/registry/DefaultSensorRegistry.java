@@ -9,21 +9,16 @@ import de.freese.jsensors.sensor.SensorValue;
  *
  * @author Thomas Freese
  */
-public class DefaultSensorRegistry extends AbstractSensorRegistry
-{
+public class DefaultSensorRegistry extends AbstractSensorRegistry {
     /**
      * Determine the next values for all sensors.
      */
-    public void measureAll()
-    {
-        getSensors().forEach(sensor ->
-        {
-            try
-            {
+    public void measureAll() {
+        getSensors().forEach(sensor -> {
+            try {
                 sensor.measure();
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
             }
         });

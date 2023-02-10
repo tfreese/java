@@ -12,10 +12,8 @@ import de.freese.ga.Genotype;
 /**
  * @author Thomas Freese
  */
-public final class CoinsMain
-{
-    public static void main(final String[] args)
-    {
+public final class CoinsMain {
+    public static void main(final String[] args) {
         List<Integer> existingCoins = new ArrayList<>();
         // existingCoins.add(50);
         existingCoins.add(50);
@@ -43,11 +41,9 @@ public final class CoinsMain
         Chromosome fittest = population.getFittest();
 
         // for (int i = 0; i < config.getSizeGenotype(); i++)
-        for (int i = 0; fittest.calcFitnessValue() < config.getMaxFitness(); i++)
-        {
+        for (int i = 0; fittest.calcFitnessValue() < config.getMaxFitness(); i++) {
             // %8.3f = 8 Stellen, 3 davon nach dem Komma.
-            System.out.printf("Generation: %2d; Fittest: %8.3f; %s = %d Cent%n", i, fittest.calcFitnessValue(), fittest,
-                    Stream.of(fittest.getGenes()).mapToInt(Gene::getInteger).sum());
+            System.out.printf("Generation: %2d; Fittest: %8.3f; %s = %d Cent%n", i, fittest.calcFitnessValue(), fittest, Stream.of(fittest.getGenes()).mapToInt(Gene::getInteger).sum());
 
             population = population.evolve();
 
@@ -59,8 +55,7 @@ public final class CoinsMain
         System.out.printf("Genes: %s = %d Cent%n", fittest, config.getTargetCents());
     }
 
-    private CoinsMain()
-    {
+    private CoinsMain() {
         super();
     }
 }

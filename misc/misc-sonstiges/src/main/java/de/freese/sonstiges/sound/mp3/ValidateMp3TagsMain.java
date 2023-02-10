@@ -27,10 +27,8 @@ import org.jaudiotagger.tag.datatype.Artwork;
 /**
  * @author Thomas Freese
  */
-public final class ValidateMp3TagsMain
-{
-    public static void main(final String[] args)
-    {
+public final class ValidateMp3TagsMain {
+    public static void main(final String[] args) {
         // JUL-Logger ausschalten.
         LogManager.getLogManager().reset();
 
@@ -68,22 +66,18 @@ public final class ValidateMp3TagsMain
 
         Map<File, Report> reports = new HashMap<>();
 
-        try
-        {
-            walk(rootDirectory, audioFile ->
-            {
+        try {
+            walk(rootDirectory, audioFile -> {
                 validateName(reports, audioFile, fields);
 
-                containsText(reports, audioFile, fields, Set.of(" Feat", " Vs", " By ", " Van ", " De ", " La ", " With ", " version", " video", " remix", " dub",
-                        " mix", " cut"));
+                containsText(reports, audioFile, fields, Set.of(" Feat", " Vs", " By ", " Van ", " De ", " La ", " With ", " version", " video", " remix", " dub", " mix", " cut"));
 
                 containsCovers(reports, audioFile);
 
                 //containsFlag(reports, audioFile, unwantedKeys);
             });
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             ex.printStackTrace();
         }
 
@@ -91,8 +85,7 @@ public final class ValidateMp3TagsMain
 
         int i = 1;
 
-        for (Report report : new TreeSet<>(reports.values()))
-        {
+        for (Report report : new TreeSet<>(reports.values())) {
             System.out.printf("%03d: %s%n", i++, report.toString(rootDirectory));
         }
     }
@@ -102,13 +95,11 @@ public final class ValidateMp3TagsMain
     /**
      * Prüfen ob Cover vorhanden sind.
      */
-    static void containsCovers(final Map<File, Report> reports, final AudioFile audioFile)
-    {
+    static void containsCovers(final Map<File, Report> reports, final AudioFile audioFile) {
         Tag tag = audioFile.getTag();
         List<Artwork> artworks = tag.getArtworkList();
 
-        if ((artworks == null) || artworks.isEmpty())
-        {
+        if ((artworks == null) || artworks.isEmpty()) {
             return;
         }
 
@@ -127,33 +118,26 @@ public final class ValidateMp3TagsMain
     /**
      * Prüfen, ob die Tags Inhalte haben.
      */
-    static void containsFlag(final Map<File, Report> reports, final AudioFile audioFile, final List<FieldKey> keys)
-    {
+    static void containsFlag(final Map<File, Report> reports, final AudioFile audioFile, final List<FieldKey> keys) {
         Tag tag = audioFile.getTag();
 
-        for (FieldKey key : keys)
-        {
-            for (TagField field : tag.getFields(key))
-            {
-                if (!(field instanceof TagTextField))
-                {
+        for (FieldKey key : keys) {
+            for (TagField field : tag.getFields(key)) {
+                if (!(field instanceof TagTextField)) {
                     continue;
                 }
 
                 String value = null;
 
-                try
-                {
+                try {
                     TagTextField textField = (TagTextField) field;
                     value = textField.getContent();
                 }
-                catch (NullPointerException ex)
-                {
+                catch (NullPointerException ex) {
                     // Ignore
                 }
 
-                if ((value == null) || value.isBlank() || (FieldKey.ENCODER.equals(key) && audioFile.getFile().getName().toLowerCase().endsWith("flac")))
-                {
+                if ((value == null) || value.isBlank() || (FieldKey.ENCODER.equals(key) && audioFile.getFile().getName().toLowerCase().endsWith("flac"))) {
                     // Bei FLAC steht immer die Bibliothek drin.
                     continue;
                 }
@@ -163,30 +147,23 @@ public final class ValidateMp3TagsMain
         }
     }
 
-    static void containsText(final Map<File, Report> reports, final AudioFile audioFile, final List<FieldKey> fields, final Set<String> texte)
-    {
+    static void containsText(final Map<File, Report> reports, final AudioFile audioFile, final List<FieldKey> fields, final Set<String> texte) {
         Tag tag = audioFile.getTag();
 
-        for (FieldKey field : fields)
-        {
-            for (TagField tagField : tag.getFields(field))
-            {
-                if (!(tagField instanceof TagTextField))
-                {
+        for (FieldKey field : fields) {
+            for (TagField tagField : tag.getFields(field)) {
+                if (!(tagField instanceof TagTextField)) {
                     continue;
                 }
 
                 String value = ((TagTextField) tagField).getContent();
 
-                if ((value == null) || value.isEmpty())
-                {
+                if ((value == null) || value.isEmpty()) {
                     continue;
                 }
 
-                for (String text : texte)
-                {
-                    if (value.contains(text))
-                    {
+                for (String text : texte) {
+                    if (value.contains(text)) {
                         addReport(reports, audioFile.getFile(), "containsText");
                         break;
                     }
@@ -198,45 +175,36 @@ public final class ValidateMp3TagsMain
     /**
      * Prüfen die Schreibweise der Tags.
      */
-    static void validateName(final Map<File, Report> reports, final AudioFile audioFile, final List<FieldKey> keys)
-    {
+    static void validateName(final Map<File, Report> reports, final AudioFile audioFile, final List<FieldKey> keys) {
         Tag tag = audioFile.getTag();
 
         String fileName = audioFile.getFile().getName();
 
-        if (fileName.endsWith("MP3") || fileName.endsWith("WMA") || fileName.endsWith("FLAC"))
-        {
+        if (fileName.endsWith("MP3") || fileName.endsWith("WMA") || fileName.endsWith("FLAC")) {
             addReport(reports, audioFile.getFile(), "dateiname");
         }
 
-        for (FieldKey key : keys)
-        {
-            for (TagField field : tag.getFields(key))
-            {
-                if (!(field instanceof TagTextField textField))
-                {
+        for (FieldKey key : keys) {
+            for (TagField field : tag.getFields(key)) {
+                if (!(field instanceof TagTextField textField)) {
                     continue;
                 }
 
                 String value = textField.getContent();
 
-                if ((value == null) || value.isBlank())
-                {
+                if ((value == null) || value.isBlank()) {
                     continue;
                 }
 
-                if (value.contains("`") || value.contains("´") || value.contains("\""))
-                {
+                if (value.contains("`") || value.contains("´") || value.contains("\"")) {
                     addReport(reports, audioFile.getFile(), "sonderzeichen");
                 }
 
-                if (value.startsWith(" ") || value.endsWith(" ") || value.contains("  "))
-                {
+                if (value.startsWith(" ") || value.endsWith(" ") || value.contains("  ")) {
                     addReport(reports, audioFile.getFile(), "leerzeichen");
                 }
 
-                if (value.toLowerCase().contains(" vs ") || value.toLowerCase().contains(" feat ") || value.toLowerCase().contains(" ft "))
-                {
+                if (value.toLowerCase().contains(" vs ") || value.toLowerCase().contains(" feat ") || value.toLowerCase().contains(" ft ")) {
                     addReport(reports, audioFile.getFile(), "schreibweise");
                 }
 
@@ -248,17 +216,14 @@ public final class ValidateMp3TagsMain
 
                 String[] splits = value.split(" ");
 
-                for (String split : splits)
-                {
-                    if ((split == null) || split.isBlank())
-                    {
+                for (String split : splits) {
+                    if ((split == null) || split.isBlank()) {
                         continue;
                     }
 
                     char c = split.charAt(0);
 
-                    if (Character.isLetter(c) && !Character.isUpperCase(c))
-                    {
+                    if (Character.isLetter(c) && !Character.isUpperCase(c)) {
                         addReport(reports, audioFile.getFile(), "schreibweise");
                     }
                 }
@@ -266,17 +231,14 @@ public final class ValidateMp3TagsMain
         }
     }
 
-    private static void addReport(final Map<File, Report> reports, final File file, final String text)
-    {
+    private static void addReport(final Map<File, Report> reports, final File file, final String text) {
         Report report = reports.computeIfAbsent(file, key -> new Report(file));
 
         report.addMessage(text);
     }
 
-    private static void walk(final Path directory, final Consumer<AudioFile> consumer) throws Exception
-    {
-        try (Stream<Path> stream = Files.walk(directory))
-        {
+    private static void walk(final Path directory, final Consumer<AudioFile> consumer) throws Exception {
+        try (Stream<Path> stream = Files.walk(directory)) {
             //@formatter:off
             stream
                     .filter(path -> !Files.isDirectory(path))
@@ -312,8 +274,7 @@ public final class ValidateMp3TagsMain
         }
     }
 
-    private ValidateMp3TagsMain()
-    {
+    private ValidateMp3TagsMain() {
         super();
     }
 }

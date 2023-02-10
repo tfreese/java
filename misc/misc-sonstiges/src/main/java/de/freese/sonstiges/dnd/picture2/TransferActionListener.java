@@ -15,12 +15,10 @@ import javax.swing.JComponent;
  *
  * @author Thomas Freese
  */
-class TransferActionListener implements ActionListener, PropertyChangeListener
-{
+class TransferActionListener implements ActionListener, PropertyChangeListener {
     private JComponent focusOwner;
 
-    TransferActionListener()
-    {
+    TransferActionListener() {
         KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         manager.addPropertyChangeListener("permanentFocusOwner", this);
     }
@@ -29,18 +27,15 @@ class TransferActionListener implements ActionListener, PropertyChangeListener
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     @Override
-    public void actionPerformed(final ActionEvent e)
-    {
-        if (this.focusOwner == null)
-        {
+    public void actionPerformed(final ActionEvent e) {
+        if (this.focusOwner == null) {
             return;
         }
 
         String action = e.getActionCommand();
         Action a = this.focusOwner.getActionMap().get(action);
 
-        if (a != null)
-        {
+        if (a != null) {
             a.actionPerformed(new ActionEvent(this.focusOwner, ActionEvent.ACTION_PERFORMED, null));
         }
     }
@@ -49,16 +44,13 @@ class TransferActionListener implements ActionListener, PropertyChangeListener
      * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
      */
     @Override
-    public void propertyChange(final PropertyChangeEvent e)
-    {
+    public void propertyChange(final PropertyChangeEvent e) {
         Object o = e.getNewValue();
 
-        if (o instanceof JComponent c)
-        {
+        if (o instanceof JComponent c) {
             this.focusOwner = c;
         }
-        else
-        {
+        else {
             this.focusOwner = null;
         }
     }

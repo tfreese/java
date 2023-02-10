@@ -1,28 +1,25 @@
 // Created: 27.11.2020
 package de.freese.jconky.javafx.painter;
 
-import de.freese.jconky.model.Values;
 import javafx.scene.canvas.GraphicsContext;
+
+import de.freese.jconky.model.Values;
 
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractFxGraphPainter
-{
+public abstract class AbstractFxGraphPainter {
     private final Values<Float> values = new Values<>();
 
-    protected AbstractFxGraphPainter()
-    {
+    protected AbstractFxGraphPainter() {
         super();
     }
 
-    public Values<Float> getValues()
-    {
+    public Values<Float> getValues() {
         return this.values;
     }
 
-    public void paint(final GraphicsContext gc, final double width, final double height)
-    {
+    public void paint(final GraphicsContext gc, final double width, final double height) {
         configureBackground(gc, width, height);
 
         paintGraph(gc, width, height);
@@ -32,8 +29,7 @@ public abstract class AbstractFxGraphPainter
 
     public abstract void paintGraph(GraphicsContext gc, double width, double height);
 
-    protected void configureBackground(final GraphicsContext gc, final double width, final double height)
-    {
+    protected void configureBackground(final GraphicsContext gc, final double width, final double height) {
         gc.clearRect(0, 0, width, height);
     }
 }

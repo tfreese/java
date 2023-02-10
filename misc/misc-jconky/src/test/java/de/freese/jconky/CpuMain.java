@@ -16,14 +16,11 @@ import de.freese.jconky.model.CpuTimes;
 /**
  * @author Thomas Freese
  */
-public final class CpuMain
-{
-    private static final com.sun.management.OperatingSystemMXBean operatingSystemMXBean =
-            (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+public final class CpuMain {
+    private static final com.sun.management.OperatingSystemMXBean operatingSystemMXBean = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
     private static CpuTimes prev = new CpuTimes();
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         // cat /proc/stat
         // cpu 247721 450 70350 2534219 43469 8434 2372 0 0 0
         // cpu0 32043 74 7737 310311 11885 570 673 0 0 0
@@ -54,13 +51,11 @@ public final class CpuMain
         scheduledExecutorService.scheduleWithFixedDelay(CpuMain::showCpuLoad, 1, 1, TimeUnit.SECONDS);
     }
 
-    private static CpuTimes getCpuTimes()
-    {
+    private static CpuTimes getCpuTimes() {
         // Files.lines(path, cs)
         // Files.readAllLines(path, cs)
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("/proc/stat", StandardCharsets.UTF_8)))
-        {
+        try (BufferedReader reader = new BufferedReader(new FileReader("/proc/stat", StandardCharsets.UTF_8))) {
             String line = reader.readLine();
 
             // "[ ]" = "\\s+" = Whitespace: einer oder mehrere
@@ -79,14 +74,12 @@ public final class CpuMain
 
             return new CpuTimes(user, nice, system, idle, ioWait, irq, softIrq, steal, guest, guestNice);
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex) {
             throw new UncheckedIOException(ex);
         }
     }
 
-    private static void showCpuLoad()
-    {
+    private static void showCpuLoad() {
         System.out.println("CPU-Load [%] - OperatingSystemMXBean: " + (operatingSystemMXBean.getCpuLoad() * 100D));
 
         CpuTimes cpuTimes = getCpuTimes();
@@ -96,8 +89,7 @@ public final class CpuMain
         System.out.println();
     }
 
-    private CpuMain()
-    {
+    private CpuMain() {
         super();
     }
 }

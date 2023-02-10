@@ -4,8 +4,7 @@ package de.freese.jconky.util;
 /**
  * @author Thomas Freese
  */
-public final class JConkyUtils
-{
+public final class JConkyUtils {
     /**
      * Periodendauer des Timer-Interrupts.<br>
      * Betriebssystem spezifischer Faktor, bei Linux in der Regel 100.<br>
@@ -13,13 +12,9 @@ public final class JConkyUtils
      */
     public static final int USER_HZ = 100;
 
-    private static final String[] SIZE_UNITS = new String[]
-            {
-                    "B", "K", "M", "G", "T", "P", "E"
-            };
+    private static final String[] SIZE_UNITS = new String[]{"B", "K", "M", "G", "T", "P", "E"};
 
-    public static double jiffieToMillies(final double jiffie)
-    {
+    public static double jiffieToMillies(final double jiffie) {
         return jiffieToMillies(jiffie, USER_HZ);
     }
 
@@ -27,15 +22,13 @@ public final class JConkyUtils
      * @param userHz int Betriebssystem spezifischer Faktor, bei Linux in der Regel 100.<br>
      * ArchLinux: getconf CLK_TCK;<br>
      */
-    public static double jiffieToMillies(final double jiffie, final int userHz)
-    {
+    public static double jiffieToMillies(final double jiffie, final int userHz) {
         double multiplier = 1000D / userHz;
 
         return jiffie * multiplier;
     }
 
-    public static double jiffieToSeconds(final double jiffie)
-    {
+    public static double jiffieToSeconds(final double jiffie) {
         return jiffieToSeconds(jiffie, USER_HZ);
     }
 
@@ -43,16 +36,14 @@ public final class JConkyUtils
      * @param userHz int Betriebssystem spezifischer Faktor, bei Linux in der Regel 100.<br>
      * ArchLinux: getconf CLK_TCK;<br>
      */
-    public static double jiffieToSeconds(final double jiffie, final int userHz)
-    {
+    public static double jiffieToSeconds(final double jiffie, final int userHz) {
         return jiffie / userHz;
     }
 
     /**
      * @return String, z.B. 'HH:mm:ss', oder 'm:ss'
      */
-    public static String toClockString(final double duration)
-    {
+    public static String toClockString(final double duration) {
         return toClockString(duration, "%02d:%02d:%02d", "%02d:%02d");
     }
 
@@ -60,20 +51,17 @@ public final class JConkyUtils
      * @param withHourPattern String; %02d:%02d:%02d
      * @param withoutHourPattern String; %1d:%02d
      */
-    public static String toClockString(final double duration, final String withHourPattern, final String withoutHourPattern)
-    {
+    public static String toClockString(final double duration, final String withHourPattern, final String withoutHourPattern) {
         int seconds = (int) duration % 60;
         int minutes = (int) (duration / 60) % 60;
         int hours = (int) (duration / 60 / 60) % 60;
 
         String clock = null;
 
-        if (hours > 0)
-        {
+        if (hours > 0) {
             clock = String.format(withHourPattern, hours, minutes, seconds);
         }
-        else
-        {
+        else {
             clock = String.format(withoutHourPattern, minutes, seconds);
         }
 
@@ -83,20 +71,17 @@ public final class JConkyUtils
     /**
      * @return String, z.B. '___,___ MB'
      */
-    public static String toHumanReadableSize(final double size)
-    {
+    public static String toHumanReadableSize(final double size) {
         return toHumanReadableSize(size, "%.1f %s");
     }
 
     /**
      * @return String, z.B. '___,___ MB'
      */
-    public static String toHumanReadableSize(final double size, final String format)
-    {
+    public static String toHumanReadableSize(final double size, final String format) {
         int unitIndex = 0;
 
-        if (size > 0)
-        {
+        if (size > 0) {
             unitIndex = (int) (Math.log10(size) / 3);
         }
 
@@ -162,8 +147,7 @@ public final class JConkyUtils
         // return String.format("%.1f %cB", value, ci.previous());
     }
 
-    private JConkyUtils()
-    {
+    private JConkyUtils() {
         super();
     }
 }

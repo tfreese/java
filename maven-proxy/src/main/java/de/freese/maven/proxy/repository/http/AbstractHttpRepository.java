@@ -11,20 +11,17 @@ import de.freese.maven.proxy.repository.AbstractRepository;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractHttpRepository extends AbstractRepository
-{
+public abstract class AbstractHttpRepository extends AbstractRepository {
     private final URI baseUri;
 
-    protected AbstractHttpRepository(final URI baseUri)
-    {
+    protected AbstractHttpRepository(final URI baseUri) {
         super();
 
         this.baseUri = Objects.requireNonNull(baseUri, "baseUri required");
 
         String scheme = baseUri.getScheme();
 
-        if (!"http".equalsIgnoreCase(scheme) && !"https".equalsIgnoreCase(scheme))
-        {
+        if (!"http".equalsIgnoreCase(scheme) && !"https".equalsIgnoreCase(scheme)) {
             String msg = "HTTP or HTTPS protocol required: " + scheme;
 
             getLogger().error(msg);
@@ -36,34 +33,28 @@ public abstract class AbstractHttpRepository extends AbstractRepository
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return getBaseUri().toString();
     }
 
-    protected URI createResourceUri(final URI uri, final URI resource)
-    {
+    protected URI createResourceUri(final URI uri, final URI resource) {
         String path = uri.getPath();
         String pathResource = resource.getPath();
 
-        if (path.endsWith("/") && pathResource.startsWith("/"))
-        {
+        if (path.endsWith("/") && pathResource.startsWith("/")) {
             path += pathResource.substring(1);
         }
-        else if (path.endsWith("/") && !pathResource.startsWith("/"))
-        {
+        else if (path.endsWith("/") && !pathResource.startsWith("/")) {
             path += pathResource;
         }
-        else if (!path.endsWith("/") && pathResource.startsWith("/"))
-        {
+        else if (!path.endsWith("/") && pathResource.startsWith("/")) {
             path += pathResource;
         }
 
         return uri.resolve(path);
     }
 
-    protected URI getBaseUri()
-    {
+    protected URI getBaseUri() {
         return this.baseUri;
     }
 }

@@ -14,18 +14,15 @@ import javax.swing.filechooser.FileSystemView;
 /**
  * @author Thomas Freese
  */
-public final class ShowDevicesMain
-{
-    public static void main(final String[] args) throws Exception
-    {
+public final class ShowDevicesMain {
+    public static void main(final String[] args) throws Exception {
         showFileStores();
         showRootDirectories();
         showRootsFromFileSystemView();
         showFileStoreFromPath();
     }
 
-    private static void showFileStoreFromPath() throws Exception
-    {
+    private static void showFileStoreFromPath() throws Exception {
         System.out.println();
         System.out.println("ShowDevicesMain.showFileStoreFromPath()");
 
@@ -42,32 +39,27 @@ public final class ShowDevicesMain
         System.out.printf("FileStore from %s: %s, %s%n", path, fileStore.name(), fileStore.type());
     }
 
-    private static void showFileStores()
-    {
+    private static void showFileStores() {
         System.out.println();
         System.out.println("ShowDevicesMain.showFileStores()");
 
-        for (FileStore store : FileSystems.getDefault().getFileStores())
-        {
+        for (FileStore store : FileSystems.getDefault().getFileStores()) {
             System.out.printf("%s: %s%n", store.name(), store.type());
         }
     }
 
-    private static void showRootDirectories() throws Exception
-    {
+    private static void showRootDirectories() throws Exception {
         System.out.println();
         System.out.println("ShowDevicesMain.showRootDirectories()");
 
-        for (Path root : FileSystems.getDefault().getRootDirectories())
-        {
+        for (Path root : FileSystems.getDefault().getRootDirectories()) {
             FileStore fileStore = Files.getFileStore(root);
             // System.out.format("%s\t%s\n", root, fileStore.getAttribute("volume:isRemovable"));
             System.out.printf("%s: %s%n", fileStore.name(), fileStore.type());
         }
     }
 
-    private static void showRootsFromFileSystemView()
-    {
+    private static void showRootsFromFileSystemView() {
         System.out.println();
         System.out.println("ShowDevicesMain.showRootsFromFileSystemView()");
 
@@ -76,8 +68,7 @@ public final class ShowDevicesMain
         // List<File> roots = List.of(fsv.getRoots());
         List<File> roots = List.of(File.listRoots());
 
-        for (File path : roots)
-        {
+        for (File path : roots) {
             // System.out.printf("Drive Name: %s, %s%n", path, fsv.getSystemTypeDescription(path));
 
             System.out.println("System Drive: " + path);
@@ -91,8 +82,7 @@ public final class ShowDevicesMain
         }
     }
 
-    private ShowDevicesMain()
-    {
+    private ShowDevicesMain() {
         super();
     }
 }

@@ -15,8 +15,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public class SimulationEnvironment
-{
+public class SimulationEnvironment {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimulationEnvironment.class);
 
     /**
@@ -24,27 +23,22 @@ public class SimulationEnvironment
      *
      * @author Thomas Freese
      */
-    private static final class SimulationEnvironmentHolder
-    {
+    private static final class SimulationEnvironmentHolder {
         private static final SimulationEnvironment INSTANCE = new SimulationEnvironment();
 
-        private SimulationEnvironmentHolder()
-        {
+        private SimulationEnvironmentHolder() {
             super();
         }
     }
 
-    public static SimulationEnvironment getInstance()
-    {
+    public static SimulationEnvironment getInstance() {
         return SimulationEnvironmentHolder.INSTANCE;
     }
 
-    public static void shutdown(final ExecutorService executorService, final Logger logger)
-    {
+    public static void shutdown(final ExecutorService executorService, final Logger logger) {
         logger.info("shutdown ExecutorService");
 
-        if (executorService == null)
-        {
+        if (executorService == null) {
             logger.warn("ExecutorService is null");
 
             return;
@@ -52,11 +46,9 @@ public class SimulationEnvironment
 
         executorService.shutdown();
 
-        try
-        {
+        try {
             // Wait a while for existing tasks to terminate.
-            if (!executorService.awaitTermination(10, TimeUnit.SECONDS))
-            {
+            if (!executorService.awaitTermination(10, TimeUnit.SECONDS)) {
                 logger.warn("Timed out while waiting for ExecutorService");
 
                 // Cancel currently executing tasks.
@@ -69,22 +61,18 @@ public class SimulationEnvironment
                 // @formatter:on
 
                 // Wait a while for tasks to respond to being cancelled.
-                if (!executorService.awaitTermination(5, TimeUnit.SECONDS))
-                {
+                if (!executorService.awaitTermination(5, TimeUnit.SECONDS)) {
                     logger.error("ExecutorService did not terminate");
                 }
-                else
-                {
+                else {
                     logger.info("ExecutorService terminated");
                 }
             }
-            else
-            {
+            else {
                 logger.info("ExecutorService terminated");
             }
         }
-        catch (InterruptedException iex)
-        {
+        catch (InterruptedException iex) {
             logger.warn("Interrupted while waiting for ExecutorService");
 
             // (Re-)Cancel if current thread also interrupted.
@@ -99,37 +87,31 @@ public class SimulationEnvironment
 
     private ScheduledExecutorService scheduledExecutorService;
 
-    public boolean getAsBoolean(final String property, final boolean nullDefault)
-    {
+    public boolean getAsBoolean(final String property, final boolean nullDefault) {
         String value = this.properties.getProperty(property);
 
         return value != null ? Boolean.parseBoolean(value) : nullDefault;
     }
 
-    public int getAsInt(final String property, final int nullDefault)
-    {
+    public int getAsInt(final String property, final int nullDefault) {
         String value = this.properties.getProperty(property);
 
         return value != null ? Integer.parseInt(value) : nullDefault;
     }
 
-    public ScheduledExecutorService getScheduledExecutorService()
-    {
+    public ScheduledExecutorService getScheduledExecutorService() {
         return this.scheduledExecutorService;
     }
 
-    public void init() throws Exception
-    {
-        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("simulation.properties"))
-        {
+    public void init() throws Exception {
+        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("simulation.properties")) {
             this.properties.load(inputStream);
         }
 
         this.scheduledExecutorService = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
     }
 
-    public void shutdown()
-    {
+    public void shutdown() {
         shutdown(this.scheduledExecutorService, LOGGER);
     }
 }

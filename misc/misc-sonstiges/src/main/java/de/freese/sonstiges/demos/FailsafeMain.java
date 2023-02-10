@@ -5,7 +5,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import de.freese.sonstiges.NamedThreadFactory;
 import dev.failsafe.Bulkhead;
 import dev.failsafe.CircuitBreaker;
 import dev.failsafe.Failsafe;
@@ -19,15 +18,15 @@ import dev.failsafe.function.CheckedSupplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.freese.sonstiges.NamedThreadFactory;
+
 /**
  * @author Thomas Freese
  */
-public final class FailsafeMain
-{
+public final class FailsafeMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(FailsafeMain.class);
 
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
         // @formatter:off
         CircuitBreaker<Object> circuitBreaker = CircuitBreaker.builder()
                 //.handle(SQLException.class) // Alle Exceptions von diesem Typ werden als Fehler behandelt.
@@ -51,8 +50,7 @@ public final class FailsafeMain
         //        ipBlock(circuitBreaker);
     }
 
-    private static void fallback(CircuitBreaker<Object> circuitBreaker) throws Exception
-    {
+    private static void fallback(CircuitBreaker<Object> circuitBreaker) throws Exception {
         // @formatter:off
         RetryPolicy<Object> retryPolicy = RetryPolicy.builder()
                 .withMaxRetries(2)
@@ -101,10 +99,8 @@ public final class FailsafeMain
                 ;
         // @formatter:on
 
-        CheckedSupplier<String> checkedSupplier = () ->
-        {
-            if (System.currentTimeMillis() % 3 == 0)
-            {
+        CheckedSupplier<String> checkedSupplier = () -> {
+            if (System.currentTimeMillis() % 3 == 0) {
                 throw new RuntimeException("Test Exception");
             }
 
@@ -113,8 +109,7 @@ public final class FailsafeMain
             return "value";
         };
 
-        for (int i = 0; i < 20; i++)
-        {
+        for (int i = 0; i < 20; i++) {
             //            String result = failsafeExecutor.get(checkedSupplier);
             String result = failsafeExecutor.getAsync(checkedSupplier).get();
 
@@ -126,43 +121,34 @@ public final class FailsafeMain
         printMetrics(circuitBreaker);
     }
 
-    private static void ipBlock(CircuitBreaker<Object> circuitBreaker) throws Exception
-    {
+    private static void ipBlock(CircuitBreaker<Object> circuitBreaker) throws Exception {
         Fallback<Object> fallback = Fallback.ofException(event -> new Exception("ERROR: Your IP is blocked !", event.getLastException()));
 
         // Ausführung in umgekehrter Reihenfolge: CircuitBreaker -> Fallback
         FailsafeExecutor<Object> failsafeExecutor = Failsafe.with(fallback, circuitBreaker);
 
-        CheckedRunnable checkedRunnable = () ->
-        {
-            if (circuitBreaker.isOpen() || circuitBreaker.isHalfOpen())
-            {
+        CheckedRunnable checkedRunnable = () -> {
+            if (circuitBreaker.isOpen() || circuitBreaker.isHalfOpen()) {
                 return;
             }
 
-            if (System.currentTimeMillis() % 3 == 0)
-            {
+            if (System.currentTimeMillis() % 3 == 0) {
                 throw new RuntimeException("Test Exception");
             }
         };
 
-        for (int i = 0; i < 20; i++)
-        {
-            try
-            {
+        for (int i = 0; i < 20; i++) {
+            try {
                 failsafeExecutor.run(checkedRunnable);
             }
-            catch (FailsafeException ex)
-            {
+            catch (FailsafeException ex) {
                 Throwable cause = ex.getCause();
 
-                if (cause != null)
-                {
+                if (cause != null) {
                     LOGGER.error(cause.getMessage());
                 }
             }
-            catch (RuntimeException ex)
-            {
+            catch (RuntimeException ex) {
                 LOGGER.error(ex.getMessage());
             }
 
@@ -174,12 +160,10 @@ public final class FailsafeMain
             //                circuitBreaker.recordSuccess();
             //            }
 
-            if (circuitBreaker.isOpen())
-            {
+            if (circuitBreaker.isOpen()) {
                 LOGGER.info("IP is blocked");
             }
-            else
-            {
+            else {
                 LOGGER.info("IP is open");
             }
 
@@ -189,8 +173,7 @@ public final class FailsafeMain
         printMetrics(circuitBreaker);
     }
 
-    private static void printMetrics(CircuitBreaker<?> circuitBreaker)
-    {
+    private static void printMetrics(CircuitBreaker<?> circuitBreaker) {
         System.out.println("ExecutionCount = " + circuitBreaker.getExecutionCount());
         System.out.println("FailureCount = " + circuitBreaker.getFailureCount());
         System.out.println("FailureRate = " + circuitBreaker.getFailureRate());
@@ -198,8 +181,7 @@ public final class FailsafeMain
         System.out.println("SuccessRate = " + circuitBreaker.getSuccessRate());
     }
 
-    private FailsafeMain()
-    {
+    private FailsafeMain() {
         super();
     }
 }

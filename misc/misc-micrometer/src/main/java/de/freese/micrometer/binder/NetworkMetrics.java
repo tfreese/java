@@ -22,31 +22,26 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public class NetworkMetrics implements MeterBinder
-{
+public class NetworkMetrics implements MeterBinder {
     private static final Logger LOGGER = LoggerFactory.getLogger(NetworkMetrics.class);
 
     private final List<String> activeInterfaces = new ArrayList<>();
 
     private final Iterable<Tag> tags;
 
-    public NetworkMetrics()
-    {
+    public NetworkMetrics() {
         this(Collections.emptyList());
     }
 
-    public NetworkMetrics(final Iterable<Tag> tags)
-    {
+    public NetworkMetrics(final Iterable<Tag> tags) {
         super();
 
         this.tags = Objects.requireNonNull(tags, "tags required");
 
-        try
-        {
+        try {
             this.activeInterfaces.addAll(getActiveInterfaces());
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }
@@ -55,13 +50,11 @@ public class NetworkMetrics implements MeterBinder
      * @see io.micrometer.core.instrument.binder.MeterBinder#bindTo(io.micrometer.core.instrument.MeterRegistry)
      */
     @Override
-    public void bindTo(final MeterRegistry registry)
-    {
+    public void bindTo(final MeterRegistry registry) {
         // Mit StepCounter müsste die Differenz aus altem und neuem Wert gesetzt werden.
         // Der StepFunctionCounter berechnet die Differenz automatisch.
         // Die Reihenfolge der Meter-Abfrage ergibt sich aus deren Reihenfolge der Registrierung.
-        this.activeInterfaces.forEach(iface ->
-        {
+        this.activeInterfaces.forEach(iface -> {
             NetworkInterface networkInterface = new NetworkInterface(iface);
 
             // @formatter:off
@@ -80,25 +73,21 @@ public class NetworkMetrics implements MeterBinder
         });
     }
 
-    private List<String> getActiveInterfaces() throws IOException
-    {
+    private List<String> getActiveInterfaces() throws IOException {
         List<Path> interfacePaths = null;
 
-        try (Stream<Path> interfaces = Files.list(Paths.get("/sys/class/net/")))
-        {
+        try (Stream<Path> interfaces = Files.list(Paths.get("/sys/class/net/"))) {
             interfacePaths = interfaces.toList();
         }
 
         List<String> interfaces = new ArrayList<>();
 
-        for (Path interfacePath : interfacePaths)
-        {
+        for (Path interfacePath : interfacePaths) {
             Path pathState = interfacePath.resolve("operstate");
 
             String state = Files.readString(pathState);
 
-            if ("up".equals(state.strip()))
-            {
+            if ("up".equals(state.strip())) {
                 interfaces.add(interfacePath.getFileName().toString());
             }
         }

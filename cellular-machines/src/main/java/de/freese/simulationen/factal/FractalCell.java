@@ -8,33 +8,27 @@ import de.freese.simulationen.model.AbstractCell;
 /**
  * @author Thomas Freese
  */
-public class FractalCell extends AbstractCell
-{
+public class FractalCell extends AbstractCell {
     static final int ITERATIONEN = 50;
     private static final double EPSILON = 0.0001D;
 
-    private static boolean equal(final double xi, final double x, final double yi, final double y)
-    {
+    private static boolean equal(final double xi, final double x, final double yi, final double y) {
         return (fabs(x - y) < EPSILON) && (fabs(xi - yi) < EPSILON);
     }
 
-    private static double fabs(final double a)
-    {
-        if (a < 0)
-        {
+    private static double fabs(final double a) {
+        if (a < 0) {
             return -a;
         }
 
         return a;
     }
 
-    public FractalCell(final FractalRasterSimulation simulation)
-    {
+    public FractalCell(final FractalRasterSimulation simulation) {
         super(simulation, Color.BLACK);
     }
 
-    public int checkConvergence(final double ci, final double cr)
-    {
+    public int checkConvergence(final double ci, final double cr) {
         // Startwerte sind veränderbar.
         double zi = 0.0D;
         double z = 0.0D;
@@ -42,10 +36,8 @@ public class FractalCell extends AbstractCell
         double ziLast = 0D;
         double zLast = 999D;
 
-        for (int i = 0; i < ITERATIONEN; i++)
-        {
-            if (equal(zi, z, ziLast, zLast))
-            {
+        for (int i = 0; i < ITERATIONEN; i++) {
+            if (equal(zi, z, ziLast, zLast)) {
                 return i;
             }
 
@@ -62,22 +54,19 @@ public class FractalCell extends AbstractCell
         return ITERATIONEN;
     }
 
-    public int checkFast(final double ci, final double cr)
-    {
+    public int checkFast(final double ci, final double cr) {
         // Startwerte sind veränderbar.
         double zi = 0.0D;
         double z = 0.0D;
 
-        for (int i = 0; i < ITERATIONEN; i++)
-        {
+        for (int i = 0; i < ITERATIONEN; i++) {
             double ziT = 2 * (z * zi);
             double zT = (z * z) - (zi * zi);
 
             z = zT + cr;
             zi = ziT + ci;
 
-            if (((z * z) + (zi * zi)) >= 4.0)
-            {
+            if (((z * z) + (zi * zi)) >= 4.0) {
                 return i;
             }
         }
@@ -89,8 +78,7 @@ public class FractalCell extends AbstractCell
      * @see de.freese.simulationen.model.Cell#nextGeneration()
      */
     @Override
-    public void nextGeneration()
-    {
+    public void nextGeneration() {
         // Empty
     }
 }

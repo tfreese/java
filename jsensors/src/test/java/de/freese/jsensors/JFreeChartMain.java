@@ -10,10 +10,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.WindowConstants;
 
-import de.freese.jsensors.binder.CpuMetrics;
-import de.freese.jsensors.binder.MemoryMetrics;
-import de.freese.jsensors.registry.ScheduledSensorRegistry;
-import de.freese.jsensors.utils.JSensorThreadFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
@@ -27,23 +23,24 @@ import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 
+import de.freese.jsensors.binder.CpuMetrics;
+import de.freese.jsensors.binder.MemoryMetrics;
+import de.freese.jsensors.registry.ScheduledSensorRegistry;
+import de.freese.jsensors.utils.JSensorThreadFactory;
+
 /**
  * @author Thomas Freese
  */
-public final class JFreeChartMain
-{
-    public static void main(final String[] args) throws Exception
-    {
+public final class JFreeChartMain {
+    public static void main(final String[] args) throws Exception {
         ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("scheduler"), 2);
         registry.start();
 
         new CpuMetrics().bindTo(registry);
         TimeSeries timeSeriesCpuUsage = new TimeSeries("cpu.usage");
 
-        registry.scheduleSensor("cpu.usage", 1, 1, TimeUnit.SECONDS, sensorValue ->
-        {
-            if ((sensorValue.getValue() == null) || sensorValue.getValue().isBlank())
-            {
+        registry.scheduleSensor("cpu.usage", 1, 1, TimeUnit.SECONDS, sensorValue -> {
+            if ((sensorValue.getValue() == null) || sensorValue.getValue().isBlank()) {
                 return;
             }
 
@@ -54,10 +51,8 @@ public final class JFreeChartMain
         new MemoryMetrics().bindTo(registry);
         TimeSeries timeSeriesMemoryUsage = new TimeSeries("memory.usage");
 
-        registry.scheduleSensor("memory.usage", 1, 1, TimeUnit.SECONDS, sensorValue ->
-        {
-            if ((sensorValue.getValue() == null) || sensorValue.getValue().isBlank())
-            {
+        registry.scheduleSensor("memory.usage", 1, 1, TimeUnit.SECONDS, sensorValue -> {
+            if ((sensorValue.getValue() == null) || sensorValue.getValue().isBlank()) {
                 return;
             }
 
@@ -115,14 +110,12 @@ public final class JFreeChartMain
         chartFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         chartFrame.setSize(1280, 800);
         chartFrame.setLocationRelativeTo(null);
-        chartFrame.addWindowListener(new WindowAdapter()
-        {
+        chartFrame.addWindowListener(new WindowAdapter() {
             /**
              * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
              */
             @Override
-            public void windowClosing(final WindowEvent event)
-            {
+            public void windowClosing(final WindowEvent event) {
                 registry.stop();
                 System.exit(0);
             }
@@ -130,8 +123,7 @@ public final class JFreeChartMain
         chartFrame.setVisible(true);
     }
 
-    private JFreeChartMain()
-    {
+    private JFreeChartMain() {
         super();
     }
 }

@@ -27,8 +27,7 @@ import javax.swing.WindowConstants;
  *
  * @author Thomas Freese
  */
-public final class DragPicture2Main extends JPanel
-{
+public final class DragPicture2Main extends JPanel {
     private static final String ADELE = "Adele";
 
     private static final String ALEXI = "Alexi";
@@ -44,8 +43,7 @@ public final class DragPicture2Main extends JPanel
     @Serial
     private static final long serialVersionUID = -3292264415574380091L;
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         // Schedule a job for the event-dispatching thread:
         // creating and showing this application's GUI.
         SwingUtilities.invokeLater(DragPicture2Main::createAndShowGUI);
@@ -54,8 +52,7 @@ public final class DragPicture2Main extends JPanel
     /**
      * Create the GUI and show it. For thread safety, this method should be invoked from the event-dispatching thread.
      */
-    private static void createAndShowGUI()
-    {
+    private static void createAndShowGUI() {
         // Make sure we have nice window decorations.
         JFrame.setDefaultLookAndFeelDecorated(true);
 
@@ -77,12 +74,10 @@ public final class DragPicture2Main extends JPanel
     /**
      * Returns an ImageIcon, or null if the path was invalid.
      */
-    private static ImageIcon createImageIcon(final String path, final String description)
-    {
+    private static ImageIcon createImageIcon(final String path, final String description) {
         URL imageURL = DragPicture2Main.class.getResource(path);
 
-        if (imageURL == null)
-        {
+        if (imageURL == null) {
             System.err.println("Resource not found: " + path);
 
             return null;
@@ -91,8 +86,7 @@ public final class DragPicture2Main extends JPanel
         return new ImageIcon(imageURL, description);
     }
 
-    private DragPicture2Main()
-    {
+    private DragPicture2Main() {
         super(new BorderLayout());
 
         PictureTransferHandler picHandler = new PictureTransferHandler();
@@ -157,8 +151,7 @@ public final class DragPicture2Main extends JPanel
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
     }
 
-    public JMenuBar createMenuBar()
-    {
+    public JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         JMenu mainMenu = new JMenu("Edit");
         mainMenu.setMnemonic(KeyEvent.VK_E);

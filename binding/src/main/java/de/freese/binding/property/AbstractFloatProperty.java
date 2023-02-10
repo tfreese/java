@@ -6,16 +6,14 @@ import de.freese.binding.expression.AbstractFloatExpression;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractFloatProperty extends AbstractFloatExpression implements Property<Float>
-{
+public abstract class AbstractFloatProperty extends AbstractFloatExpression implements Property<Float> {
     private float value;
 
     /**
      * @see de.freese.binding.value.ObservableValue#getValue()
      */
     @Override
-    public Float getValue()
-    {
+    public Float getValue() {
         return this.value;
     }
 
@@ -23,13 +21,11 @@ public abstract class AbstractFloatProperty extends AbstractFloatExpression impl
      * @see de.freese.binding.value.WritableValue#setValue(java.lang.Object)
      */
     @Override
-    public void setValue(final Float value)
-    {
+    public void setValue(final Float value) {
         float old = this.value;
         this.value = value;
 
-        if (Float.compare(old, value) != 0)
-        {
+        if (Float.compare(old, value) != 0) {
             fireValueChangedEvent(old, value);
         }
     }

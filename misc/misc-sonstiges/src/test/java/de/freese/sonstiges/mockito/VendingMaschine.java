@@ -4,33 +4,28 @@ package de.freese.sonstiges.mockito;
 /**
  * @author Thomas Freese
  */
-public class VendingMaschine
-{
+public class VendingMaschine {
     private final Box[] boxes;
 
     private final CashBox cashBox;
 
-    public VendingMaschine(final CashBox cashBox, final Box[] boxes)
-    {
+    public VendingMaschine(final CashBox cashBox, final Box[] boxes) {
         super();
 
         this.cashBox = cashBox;
         this.boxes = boxes;
     }
 
-    public void selectItem(final int boxIndex) throws Exception
-    {
+    public void selectItem(final int boxIndex) throws Exception {
         Box box = this.boxes[boxIndex];
 
-        if (box.isEmpty())
-        {
+        if (box.isEmpty()) {
             throw new Exception("box is empty");
         }
 
         int amountRequired = box.getPrice();
 
-        if (amountRequired > this.cashBox.getCurrentAmount())
-        {
+        if (amountRequired > this.cashBox.getCurrentAmount()) {
             throw new Exception("not enough money");
         }
 

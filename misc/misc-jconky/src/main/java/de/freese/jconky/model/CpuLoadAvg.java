@@ -4,22 +4,19 @@ package de.freese.jconky.model;
 /**
  * @author Thomas Freese
  */
-public class CpuLoadAvg
-{
+public class CpuLoadAvg {
     private final double fifteenMinutes;
 
     private final double fiveMinutes;
 
     private final double oneMinute;
 
-    public CpuLoadAvg()
-    {
+    public CpuLoadAvg() {
         this(0D, 0D, 0D);
 
     }
 
-    public CpuLoadAvg(final double oneMinute, final double fiveMinutes, final double fifteenMinutes)
-    {
+    public CpuLoadAvg(final double oneMinute, final double fiveMinutes, final double fifteenMinutes) {
         super();
 
         this.oneMinute = oneMinute;
@@ -27,18 +24,15 @@ public class CpuLoadAvg
         this.fifteenMinutes = fifteenMinutes;
     }
 
-    public double getFifteenMinutes()
-    {
+    public double getFifteenMinutes() {
         return this.fifteenMinutes;
     }
 
-    public double getFiveMinutes()
-    {
+    public double getFiveMinutes() {
         return this.fiveMinutes;
     }
 
-    public double getOneMinute()
-    {
+    public double getOneMinute() {
         return this.oneMinute;
     }
 
@@ -46,8 +40,7 @@ public class CpuLoadAvg
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
         builder.append("oneMinute=").append(this.oneMinute);

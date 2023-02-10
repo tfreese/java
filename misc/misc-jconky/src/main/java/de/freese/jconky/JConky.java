@@ -7,13 +7,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import de.freese.jconky.painter.CpuMonitorPainter;
-import de.freese.jconky.painter.HostMonitorPainter;
-import de.freese.jconky.painter.MusicMonitorPainter;
-import de.freese.jconky.painter.NetworkMonitorPainter;
-import de.freese.jconky.painter.ProcessMonitorPainter;
-import de.freese.jconky.painter.SystemMonitorPainter;
-import de.freese.jconky.painter.TemperatureMonitorPainter;
 import javafx.application.Application;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
@@ -29,6 +22,14 @@ import javafx.stage.StageStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.freese.jconky.painter.CpuMonitorPainter;
+import de.freese.jconky.painter.HostMonitorPainter;
+import de.freese.jconky.painter.MusicMonitorPainter;
+import de.freese.jconky.painter.NetworkMonitorPainter;
+import de.freese.jconky.painter.ProcessMonitorPainter;
+import de.freese.jconky.painter.SystemMonitorPainter;
+import de.freese.jconky.painter.TemperatureMonitorPainter;
+
 /**
  * Mit JConkyLauncher ausführen oder JConky direkt mit folgenden Restriktionen:<br>
  * <br>
@@ -41,12 +42,10 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public final class JConky extends Application
-{
+public final class JConky extends Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(JConky.class);
 
-    public static Logger getLogger()
-    {
+    public static Logger getLogger() {
         return LOGGER;
     }
 
@@ -71,8 +70,7 @@ public final class JConky extends Application
 
     private ScheduledExecutorService scheduledExecutorService;
 
-    public Scene createScene()
-    {
+    public Scene createScene() {
         // Font-Antialiasing
         System.setProperty("prism.lcdtext", "true");
 
@@ -101,8 +99,7 @@ public final class JConky extends Application
      * @see javafx.application.Application#init()
      */
     @Override
-    public void init() throws Exception
-    {
+    public void init() throws Exception {
         // "JavaFX-Launcher" umbenennen.
         Thread.currentThread().setName("JavaFX-Init");
 
@@ -143,8 +140,7 @@ public final class JConky extends Application
      * @see javafx.application.Application#start(javafx.stage.Stage)
      */
     @Override
-    public void start(final Stage primaryStage) throws Exception
-    {
+    public void start(final Stage primaryStage) throws Exception {
         // "JavaFX Application Thread" umbenennen.
         Thread.currentThread().setName("JavaFX-Thread");
 
@@ -156,8 +152,7 @@ public final class JConky extends Application
         boolean isTransparentSupported = Platform.isSupported(ConditionalFeature.TRANSPARENT_WINDOW);
         // isTransparentSupported = false;
 
-        if (isTransparentSupported)
-        {
+        if (isTransparentSupported) {
             // Fenster wird hierbei undecorated, aber der Content wird normal gezeichnet.
 
             // For Stage
@@ -177,8 +172,7 @@ public final class JConky extends Application
             // pane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
             // pane.setStyle("-fx-background-color: transparent;");
         }
-        else
-        {
+        else {
             scene.setFill(Color.BLACK);
         }
 
@@ -199,16 +193,12 @@ public final class JConky extends Application
         primaryStage.show();
     }
 
-    public void startRepaintSchedule()
-    {
-        getScheduledExecutorService().scheduleWithFixedDelay(() ->
-        {
-            try
-            {
+    public void startRepaintSchedule() {
+        getScheduledExecutorService().scheduleWithFixedDelay(() -> {
+            try {
                 Platform.runLater(this.conkyContextPainter::paint);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
             }
         }, 400, 3000, TimeUnit.MILLISECONDS);
@@ -218,8 +208,7 @@ public final class JConky extends Application
      * @see javafx.application.Application#stop()
      */
     @Override
-    public void stop() throws Exception
-    {
+    public void stop() throws Exception {
         getLogger().info("stop");
 
         getScheduledExecutorService().shutdown();
@@ -227,8 +216,7 @@ public final class JConky extends Application
         System.exit(0);
     }
 
-    private ScheduledExecutorService getScheduledExecutorService()
-    {
+    private ScheduledExecutorService getScheduledExecutorService() {
         return this.scheduledExecutorService;
     }
 }

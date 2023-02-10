@@ -17,8 +17,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-class NetworkInterface
-{
+class NetworkInterface {
     private static final Logger LOGGER = LoggerFactory.getLogger(NetworkInterface.class);
 
     private static final Pattern PATTERN_BYTES = Pattern.compile(" bytes (.+?) ", Pattern.UNICODE_CHARACTER_CLASS);
@@ -29,8 +28,7 @@ class NetworkInterface
 
     private double output;
 
-    NetworkInterface(final String iface)
-    {
+    NetworkInterface(final String iface) {
         super();
 
         this.iface = Objects.requireNonNull(iface, "iface required");
@@ -39,8 +37,7 @@ class NetworkInterface
     /**
      * Die Reihenfolge der Meter-Abfrage ergibt sich aus deren Reihenfolge der Registrierung.
      */
-    double getInput()
-    {
+    double getInput() {
         LOGGER.info("getInput: {}", this.iface);
 
         update();
@@ -51,8 +48,7 @@ class NetworkInterface
     /**
      * Die Reihenfolge der Meter-Abfrage ergibt sich aus deren Reihenfolge der Registrierung.
      */
-    double getOutput()
-    {
+    double getOutput() {
         LOGGER.info("getOutput: {}", this.iface);
 
         return this.output;
@@ -63,12 +59,10 @@ class NetworkInterface
      * Leerzeilen werden bei der Ausgabe entfernt.<br>
      * Bei Exceptions wird eine leere Liste geliefert.
      */
-    private List<String> executeCommand(final String... command)
-    {
+    private List<String> executeCommand(final String... command) {
         List<String> list = Collections.emptyList();
 
-        try
-        {
+        try {
             // @formatter:off
             Process process = new ProcessBuilder()
                     .command(command)
@@ -83,45 +77,39 @@ class NetworkInterface
             // {
             // System.out.println(isr.getEncoding());
             // }
-            try (BufferedReader readerIn = new BufferedReader(new InputStreamReader(process.getInputStream(), charset)))
-            {
+            try (BufferedReader readerIn = new BufferedReader(new InputStreamReader(process.getInputStream(), charset))) {
                 list = readerIn.lines().toList();
             }
 
             process.waitFor();
             process.destroy();
         }
-        catch (InterruptedException ex)
-        {
+        catch (InterruptedException ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             // Restore interrupted state.
             Thread.currentThread().interrupt();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 
         return list;
     }
 
-    private void update()
-    {
+    private void update() {
         LOGGER.info("update: {}", this.iface);
 
         List<String> lines = executeCommand("ifconfig", this.iface).stream().map(String::strip).filter(line -> !line.isEmpty()).toList();
 
-        this.input = lines.stream().filter(l -> l.startsWith("RX packets")).mapToLong(l ->
-        {
+        this.input = lines.stream().filter(l -> l.startsWith("RX packets")).mapToLong(l -> {
             Matcher matcher = PATTERN_BYTES.matcher(l);
             matcher.find();
 
             return Long.parseLong(matcher.group(1));
         }).findFirst().orElse(0L);
 
-        this.output = lines.stream().filter(l -> l.startsWith("TX packets")).mapToLong(l ->
-        {
+        this.output = lines.stream().filter(l -> l.startsWith("TX packets")).mapToLong(l -> {
             Matcher matcher = PATTERN_BYTES.matcher(l);
             matcher.find();
 

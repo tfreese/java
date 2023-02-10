@@ -21,22 +21,18 @@ import io.netty.handler.ssl.util.SelfSignedCertificate;
 /**
  * @author Thomas Freese
  */
-public final class HttpStaticFileServerMain
-{
+public final class HttpStaticFileServerMain {
     static final boolean SSL = System.getProperty("ssl") != null;
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         // Configure SSL.
         final SslContext sslCtx;
 
-        if (SSL)
-        {
+        if (SSL) {
             SelfSignedCertificate ssc = new SelfSignedCertificate();
             sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey()).sslProvider(SslProvider.JDK).build();
         }
-        else
-        {
+        else {
             sslCtx = null;
         }
 
@@ -45,8 +41,7 @@ public final class HttpStaticFileServerMain
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup(2);
 
-        try
-        {
+        try {
             ServerBootstrap bootstrap = new ServerBootstrap();
 
             // @formatter:off
@@ -62,15 +57,13 @@ public final class HttpStaticFileServerMain
 
             channel.closeFuture().sync();
         }
-        finally
-        {
+        finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
     }
 
-    private HttpStaticFileServerMain()
-    {
+    private HttpStaticFileServerMain() {
         super();
     }
 }

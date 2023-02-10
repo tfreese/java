@@ -9,16 +9,14 @@ import de.freese.binding.property.Property;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractStringBinding extends AbstractStringExpression implements StringBinding
-{
+public abstract class AbstractStringBinding extends AbstractStringExpression implements StringBinding {
     private String value;
 
     /**
      * @see de.freese.binding.value.ObservableValue#getValue()
      */
     @Override
-    public String getValue()
-    {
+    public String getValue() {
         return this.value;
     }
 
@@ -26,13 +24,11 @@ public abstract class AbstractStringBinding extends AbstractStringExpression imp
      * @see de.freese.binding.binds.Binding#update()
      */
     @Override
-    public void update()
-    {
+    public void update() {
         String old = this.value;
         this.value = computeValue();
 
-        if (Objects.equals(old, this.value))
-        {
+        if (Objects.equals(old, this.value)) {
             fireValueChangedEvent(old, this.value);
         }
     }

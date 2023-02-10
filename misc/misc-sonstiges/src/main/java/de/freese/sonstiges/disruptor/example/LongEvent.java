@@ -4,17 +4,14 @@ package de.freese.sonstiges.disruptor.example;
 /**
  * @author Thomas Freese
  */
-public class LongEvent
-{
+public class LongEvent {
     private long value;
 
-    public void clear()
-    {
+    public void clear() {
         this.value = 0;
     }
 
-    public void setValue(final long value)
-    {
+    public void setValue(final long value) {
         this.value = value;
     }
 
@@ -22,8 +19,7 @@ public class LongEvent
      * @see Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         final StringBuilder sb = new StringBuilder(getClass().getSimpleName());
         sb.append(" [");
         sb.append("value=").append(this.value);

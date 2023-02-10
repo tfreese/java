@@ -9,10 +9,8 @@ import java.util.List;
  *
  * @author Thomas Freese
  */
-public final class TspMain
-{
-    public static void main(final String[] args)
-    {
+public final class TspMain {
+    public static void main(final String[] args) {
         List<City> cities = new ArrayList<>(20);
         cities.add(new City("A", 60, 200));
         cities.add(new City("B", 180, 200));
@@ -47,8 +45,7 @@ public final class TspMain
 
         TspChromosome fittest = population.getFittest();
 
-        for (int i = 0; i < config.getSizeGenotype(); i++)
-        {
+        for (int i = 0; i < config.getSizeGenotype(); i++) {
             System.out.printf("Generation: %2d; Fittest: %2.9f; Distance: %4.3f; %s%n", i, fittest.calcFitnessValue(), fittest.getDistance(), fittest);
 
             population = population.evolve();
@@ -62,8 +59,7 @@ public final class TspMain
         System.out.printf("Genes: %s; Final distance: %4.3f%n", fittest, fittest.getDistance());
     }
 
-    private TspMain()
-    {
+    private TspMain() {
         super();
     }
 }

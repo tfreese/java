@@ -13,16 +13,14 @@ import de.freese.simulationen.model.EmptyCell;
  *
  * @author Thomas Freese
  */
-public class HopAlongRasterSimulation extends AbstractRasterSimulation
-{
+public class HopAlongRasterSimulation extends AbstractRasterSimulation {
     private final Point center;
 
     private double x;
 
     private double y;
 
-    public HopAlongRasterSimulation(final int width, final int height)
-    {
+    public HopAlongRasterSimulation(final int width, final int height) {
         super(width, height);
 
         this.center = new Point(width / 2, height / 2);
@@ -35,8 +33,7 @@ public class HopAlongRasterSimulation extends AbstractRasterSimulation
      * @see de.freese.simulationen.model.Simulation#nextGeneration()
      */
     @Override
-    public void nextGeneration()
-    {
+    public void nextGeneration() {
         // INPUT num
         // INPUT a, b, c
         // x = 0
@@ -95,24 +92,20 @@ public class HopAlongRasterSimulation extends AbstractRasterSimulation
         int newX = (int) this.x;
         int newY = (int) this.y;
 
-        if (newX < 0)
-        {
+        if (newX < 0) {
             newX = getXTorusKoord(0, newX);
             // return;
         }
-        else if (newX >= getWidth())
-        {
+        else if (newX >= getWidth()) {
             newX = getXTorusKoord(getWidth(), getWidth() - newX);
             // return;
         }
 
-        if (newY < 0)
-        {
+        if (newY < 0) {
             newY = getYTorusKoord(0, newY);
             // return;
         }
-        else if (newX >= getWidth())
-        {
+        else if (newX >= getWidth()) {
             newY = getYTorusKoord(getHeight(), getHeight() - newY);
             // return;
         }
@@ -127,8 +120,7 @@ public class HopAlongRasterSimulation extends AbstractRasterSimulation
      * @see de.freese.simulationen.model.AbstractRasterSimulation#reset()
      */
     @Override
-    public void reset()
-    {
+    public void reset() {
         this.x = this.center.x;
         this.y = this.center.y;
         // // this.x = 100.1D;
@@ -143,8 +135,7 @@ public class HopAlongRasterSimulation extends AbstractRasterSimulation
      * @see de.freese.simulationen.model.AbstractRasterSimulation#getCell(int, int)
      */
     @Override
-    protected EmptyCell getCell(final int x, final int y)
-    {
+    protected EmptyCell getCell(final int x, final int y) {
         return (EmptyCell) super.getCell(x, y);
     }
 
@@ -152,8 +143,7 @@ public class HopAlongRasterSimulation extends AbstractRasterSimulation
      * @see de.freese.simulationen.model.AbstractRasterSimulation#reset(int, int)
      */
     @Override
-    protected void reset(final int x, final int y)
-    {
+    protected void reset(final int x, final int y) {
         getCell(x, y).setColor(Color.WHITE);
     }
 }

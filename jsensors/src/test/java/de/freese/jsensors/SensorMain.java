@@ -5,6 +5,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.jsensors.backend.CompositeBackend;
 import de.freese.jsensors.backend.ConsoleBackend;
 import de.freese.jsensors.backend.file.CsvBackend;
@@ -13,18 +16,14 @@ import de.freese.jsensors.binder.MemoryMetrics;
 import de.freese.jsensors.binder.SwapMetrics;
 import de.freese.jsensors.registry.ScheduledSensorRegistry;
 import de.freese.jsensors.utils.JSensorThreadFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
  */
-public final class SensorMain
-{
+public final class SensorMain {
     static final Logger LOGGER = LoggerFactory.getLogger(SensorMain.class);
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         Path logPath = Paths.get(System.getProperty("user.home"), ".java-apps", "jSensors");
 
         ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("scheduler"), 4);
@@ -64,8 +63,7 @@ public final class SensorMain
         registry.stop();
     }
 
-    private SensorMain()
-    {
+    private SensorMain() {
         super();
     }
 }

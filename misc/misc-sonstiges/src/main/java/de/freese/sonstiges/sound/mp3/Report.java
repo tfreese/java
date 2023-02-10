@@ -10,21 +10,18 @@ import java.util.TreeSet;
 /**
  * @author Thomas Freese
  */
-final class Report implements Comparable<Report>
-{
+final class Report implements Comparable<Report> {
     private final File file;
 
     private final Set<String> messages = new TreeSet<>();
 
-    Report(final File file)
-    {
+    Report(final File file) {
         super();
 
         this.file = file;
     }
 
-    public void addMessage(final String text)
-    {
+    public void addMessage(final String text) {
         this.messages.add(text);
     }
 
@@ -32,8 +29,7 @@ final class Report implements Comparable<Report>
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     @Override
-    public int compareTo(final Report o)
-    {
+    public int compareTo(final Report o) {
 
         // if (comp == 0)
         // {
@@ -46,15 +42,12 @@ final class Report implements Comparable<Report>
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(final Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
         }
 
-        if (!(obj instanceof Report other))
-        {
+        if (!(obj instanceof Report other)) {
             return false;
         }
 
@@ -65,8 +58,7 @@ final class Report implements Comparable<Report>
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(this.file, this.messages);
     }
 
@@ -74,8 +66,7 @@ final class Report implements Comparable<Report>
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(this.file.getAbsolutePath());
         sb.append(": ");
@@ -84,8 +75,7 @@ final class Report implements Comparable<Report>
         return sb.toString();
     }
 
-    public String toString(final Path rootDirectory)
-    {
+    public String toString(final Path rootDirectory) {
         StringBuilder sb = new StringBuilder();
         sb.append(rootDirectory.relativize(this.file.toPath()));
         sb.append(": ");

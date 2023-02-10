@@ -16,16 +16,13 @@ import de.freese.sonstiges.server.ServerMain;
  * @author Thomas Freese
  * @see IoHandler
  */
-public class HttpIoHandler extends AbstractIoHandler<SelectionKey>
-{
+public class HttpIoHandler extends AbstractIoHandler<SelectionKey> {
     /**
      * @see de.freese.sonstiges.server.handler.IoHandler#read(java.lang.Object)
      */
     @Override
-    public void read(final SelectionKey selectionKey)
-    {
-        try
-        {
+    public void read(final SelectionKey selectionKey) {
+        try {
             getLogger().debug("{}: read request", ServerMain.getRemoteAddress(selectionKey));
 
             CharsetDecoder charsetDecoder = getCharsetDecoder();
@@ -34,14 +31,12 @@ public class HttpIoHandler extends AbstractIoHandler<SelectionKey>
 
             ByteBuffer inputBuffer = ByteBuffer.allocate(1024);
 
-            while (channel.read(inputBuffer) > 0)
-            {
+            while (channel.read(inputBuffer) > 0) {
                 inputBuffer.flip();
 
                 CharBuffer charBuffer = charsetDecoder.decode(inputBuffer);
 
-                if (getLogger().isDebugEnabled())
-                {
+                if (getLogger().isDebugEnabled()) {
                     getLogger().debug("\n{}", charBuffer.toString().strip());
                 }
 
@@ -51,8 +46,7 @@ public class HttpIoHandler extends AbstractIoHandler<SelectionKey>
             // WRITE-Mode für Channel.
             selectionKey.interestOps(SelectionKey.OP_WRITE);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }
@@ -61,10 +55,8 @@ public class HttpIoHandler extends AbstractIoHandler<SelectionKey>
      * @see de.freese.sonstiges.server.handler.IoHandler#write(java.lang.Object)
      */
     @Override
-    public void write(final SelectionKey selectionKey)
-    {
-        try
-        {
+    public void write(final SelectionKey selectionKey) {
+        try {
             getLogger().debug("{}: write response", ServerMain.getRemoteAddress(selectionKey));
 
             CharsetEncoder charsetEncoder = getCharsetEncoder();
@@ -96,8 +88,7 @@ public class HttpIoHandler extends AbstractIoHandler<SelectionKey>
             ByteBuffer buffer = charsetEncoder.encode(charBuffer);
             // int bytesWritten = 0;
 
-            while (buffer.hasRemaining())
-            {
+            while (buffer.hasRemaining()) {
                 // bytesWritten +=
                 channel.write(buffer);
             }
@@ -109,8 +100,7 @@ public class HttpIoHandler extends AbstractIoHandler<SelectionKey>
             // Otherwise again READ-Mode:
             // selectionKey.interestOps(SelectionKey.OP_READ);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }

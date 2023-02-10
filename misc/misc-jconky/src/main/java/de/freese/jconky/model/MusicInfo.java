@@ -6,8 +6,7 @@ import java.net.URI;
 /**
  * @author Thomas Freese
  */
-public class MusicInfo
-{
+public class MusicInfo {
     private final String album;
 
     private final String artist;
@@ -22,13 +21,11 @@ public class MusicInfo
 
     private final String title;
 
-    public MusicInfo()
-    {
+    public MusicInfo() {
         this(null, null, null, 0, 0, 0, null);
     }
 
-    public MusicInfo(final String artist, final String album, final String title, final int length, final int position, final int bitRate, final URI imageUri)
-    {
+    public MusicInfo(final String artist, final String album, final String title, final int length, final int position, final int bitRate, final URI imageUri) {
         super();
 
         this.artist = artist;
@@ -40,51 +37,42 @@ public class MusicInfo
         this.imageUri = imageUri;
     }
 
-    public String getAlbum()
-    {
+    public String getAlbum() {
         return this.album;
     }
 
-    public String getArtist()
-    {
+    public String getArtist() {
         return this.artist;
     }
 
-    public int getBitRate()
-    {
+    public int getBitRate() {
         return this.bitRate;
     }
 
-    public URI getImageUri()
-    {
+    public URI getImageUri() {
         return this.imageUri;
     }
 
-    public int getLength()
-    {
+    public int getLength() {
         return this.length;
     }
 
-    public int getPosition()
-    {
+    public int getPosition() {
         return this.position;
     }
 
     /**
      * Liefert den Fortschritt von 0 bis 1.<br>
      */
-    public double getProgress()
-    {
-        if (getPosition() == 0)
-        {
+    public double getProgress() {
+        if (getPosition() == 0) {
             return 0;
         }
 
         return (double) getPosition() / getLength();
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return this.title;
     }
 
@@ -92,8 +80,7 @@ public class MusicInfo
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
         builder.append("artist=").append(this.artist);

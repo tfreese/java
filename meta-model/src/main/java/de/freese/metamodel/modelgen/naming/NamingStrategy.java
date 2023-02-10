@@ -6,8 +6,7 @@ package de.freese.metamodel.modelgen.naming;
  *
  * @author Thomas Freese
  */
-public interface NamingStrategy
-{
+public interface NamingStrategy {
     /**
      * Konvertiert einen Tabellen-Namen in einen Klassen-Namen.
      */

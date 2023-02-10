@@ -7,8 +7,7 @@ package de.freese.simulationen.model;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface SimulationListener
-{
+public interface SimulationListener {
     /**
      * Wird aufgerufen, wenn ein Simulations-Durchgang beendet ist.
      */

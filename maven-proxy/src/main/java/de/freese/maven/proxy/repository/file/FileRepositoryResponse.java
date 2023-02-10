@@ -15,14 +15,12 @@ import de.freese.maven.proxy.repository.RepositoryResponse;
 /**
  * @author Thomas Freese
  */
-public class FileRepositoryResponse extends RepositoryResponse
-{
+public class FileRepositoryResponse extends RepositoryResponse {
     private static final int DEFAULT_BUFFER_SIZE = 8192;
 
     private final Path path;
 
-    public FileRepositoryResponse(final URI uri, final long contentLength, final InputStream inputStream, Path path)
-    {
+    public FileRepositoryResponse(final URI uri, final long contentLength, final InputStream inputStream, Path path) {
         super(uri, contentLength, inputStream);
 
         this.path = Objects.requireNonNull(path, "path required");
@@ -34,17 +32,13 @@ public class FileRepositoryResponse extends RepositoryResponse
      * @see de.freese.maven.proxy.repository.RepositoryResponse#transferTo(java.io.OutputStream)
      */
     @Override
-    public long transferTo(final OutputStream outputStream) throws IOException
-    {
+    public long transferTo(final OutputStream outputStream) throws IOException {
         byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
         int read;
         long transferred = 0L;
 
-        try (InputStream inputStream = getInputStream();
-             OutputStream fileOutputStream = new BufferedOutputStream(Files.newOutputStream(path), DEFAULT_BUFFER_SIZE))
-        {
-            while ((read = inputStream.read(buffer, 0, DEFAULT_BUFFER_SIZE)) >= 0)
-            {
+        try (InputStream inputStream = getInputStream(); OutputStream fileOutputStream = new BufferedOutputStream(Files.newOutputStream(path), DEFAULT_BUFFER_SIZE)) {
+            while ((read = inputStream.read(buffer, 0, DEFAULT_BUFFER_SIZE)) >= 0) {
                 fileOutputStream.write(buffer, 0, read);
                 outputStream.write(buffer, 0, read);
 

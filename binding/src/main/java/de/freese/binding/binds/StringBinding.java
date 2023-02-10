@@ -6,7 +6,6 @@ import de.freese.binding.expression.StringExpression;
 /**
  * @author Thomas Freese
  */
-public interface StringBinding extends Binding<String>, StringExpression
-{
+public interface StringBinding extends Binding<String>, StringExpression {
 
 }

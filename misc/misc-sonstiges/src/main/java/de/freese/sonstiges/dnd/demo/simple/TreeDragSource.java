@@ -19,8 +19,7 @@ import javax.swing.tree.TreePath;
 /**
  * @author Thomas Freese
  */
-class TreeDragSource implements DragSourceListener, DragGestureListener
-{
+class TreeDragSource implements DragSourceListener, DragGestureListener {
     private final DragGestureRecognizer recognizer;
 
     private final DragSource source;
@@ -29,8 +28,7 @@ class TreeDragSource implements DragSourceListener, DragGestureListener
 
     private DefaultMutableTreeNode oldNode;
 
-    TreeDragSource(final JTree tree, final int actions)
-    {
+    TreeDragSource(final JTree tree, final int actions) {
         super();
 
         this.sourceTree = tree;
@@ -42,13 +40,11 @@ class TreeDragSource implements DragSourceListener, DragGestureListener
      * @see java.awt.dnd.DragSourceListener#dragDropEnd(java.awt.dnd.DragSourceDropEvent)
      */
     @Override
-    public void dragDropEnd(final DragSourceDropEvent event)
-    {
+    public void dragDropEnd(final DragSourceDropEvent event) {
         //to support move or copy, we have to check which occurred:
         System.out.println("Drop Action: " + event.getDropAction());
 
-        if (event.getDropSuccess() && (event.getDropAction() == DnDConstants.ACTION_MOVE))
-        {
+        if (event.getDropSuccess() && (event.getDropAction() == DnDConstants.ACTION_MOVE)) {
             ((DefaultTreeModel) this.sourceTree.getModel()).removeNodeFromParent(this.oldNode);
         }
 
@@ -59,8 +55,7 @@ class TreeDragSource implements DragSourceListener, DragGestureListener
      * @see java.awt.dnd.DragSourceListener#dragEnter(java.awt.dnd.DragSourceDragEvent)
      */
     @Override
-    public void dragEnter(final DragSourceDragEvent event)
-    {
+    public void dragEnter(final DragSourceDragEvent event) {
         // Empty
     }
 
@@ -68,8 +63,7 @@ class TreeDragSource implements DragSourceListener, DragGestureListener
      * @see java.awt.dnd.DragSourceListener#dragExit(java.awt.dnd.DragSourceEvent)
      */
     @Override
-    public void dragExit(final DragSourceEvent event)
-    {
+    public void dragExit(final DragSourceEvent event) {
         // Empty
     }
 
@@ -77,12 +71,10 @@ class TreeDragSource implements DragSourceListener, DragGestureListener
      * @see java.awt.dnd.DragGestureListener#dragGestureRecognized(java.awt.dnd.DragGestureEvent)
      */
     @Override
-    public void dragGestureRecognized(final DragGestureEvent event)
-    {
+    public void dragGestureRecognized(final DragGestureEvent event) {
         TreePath path = this.sourceTree.getSelectionPath();
 
-        if ((path == null) || (path.getPathCount() <= 1))
-        {
+        if ((path == null) || (path.getPathCount() <= 1)) {
             // We can't move the root node or an empty selection
             return;
         }
@@ -100,8 +92,7 @@ class TreeDragSource implements DragSourceListener, DragGestureListener
      * @see java.awt.dnd.DragSourceListener#dragOver(java.awt.dnd.DragSourceDragEvent)
      */
     @Override
-    public void dragOver(final DragSourceDragEvent event)
-    {
+    public void dragOver(final DragSourceDragEvent event) {
         // Empty
     }
 
@@ -109,8 +100,7 @@ class TreeDragSource implements DragSourceListener, DragGestureListener
      * @see java.awt.dnd.DragSourceListener#dropActionChanged(java.awt.dnd.DragSourceDragEvent)
      */
     @Override
-    public void dropActionChanged(final DragSourceDragEvent event)
-    {
+    public void dropActionChanged(final DragSourceDragEvent event) {
         System.out.println("Action: " + event.getDropAction());
         System.out.println("Target Action: " + event.getTargetActions());
         System.out.println("User Action: " + event.getUserAction());

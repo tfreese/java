@@ -17,25 +17,21 @@ import de.freese.jconky.system.SystemMonitor;
 /**
  * @author Thomas Freese
  */
-public final class Context
-{
+public final class Context {
     /**
      * ThreadSafe Singleton-Pattern.
      *
      * @author Thomas Freese
      */
-    private static final class JConkyContextHolder
-    {
+    private static final class JConkyContextHolder {
         private static final Context INSTANCE = new Context();
 
-        private JConkyContextHolder()
-        {
+        private JConkyContextHolder() {
             super();
         }
     }
 
-    public static Context getInstance()
-    {
+    public static Context getInstance() {
         return JConkyContextHolder.INSTANCE;
     }
 
@@ -65,80 +61,64 @@ public final class Context
 
     private Map<String, UsageInfo> usages = new HashMap<>();
 
-    private Context()
-    {
+    private Context() {
         super();
     }
 
-    public CpuInfos getCpuInfos()
-    {
+    public CpuInfos getCpuInfos() {
         return this.cpuInfos;
     }
 
-    public CpuLoadAvg getCpuLoadAvg()
-    {
+    public CpuLoadAvg getCpuLoadAvg() {
         return this.cpuLoadAvg;
     }
 
-    public String getExternalIp()
-    {
+    public String getExternalIp() {
         return this.externalIp;
     }
 
-    public HostInfo getHostInfo()
-    {
+    public HostInfo getHostInfo() {
         return this.hostInfo;
     }
 
-    public MusicInfo getMusicInfo()
-    {
+    public MusicInfo getMusicInfo() {
         return this.musicInfo;
     }
 
-    public NetworkInfos getNetworkInfos()
-    {
+    public NetworkInfos getNetworkInfos() {
         return this.networkInfos;
     }
 
-    public int getNumberOfCores()
-    {
+    public int getNumberOfCores() {
         return this.numberOfCores;
     }
 
-    public ProcessInfos getProcessInfos()
-    {
+    public ProcessInfos getProcessInfos() {
         return this.processInfos;
     }
 
-    public Map<String, TemperatureInfo> getTemperatures()
-    {
+    public Map<String, TemperatureInfo> getTemperatures() {
         return this.temperatures;
     }
 
-    public long getTotalSystemMemory()
-    {
+    public long getTotalSystemMemory() {
         return this.totalSystemMemory;
     }
 
-    public int getUpdates()
-    {
+    public int getUpdates() {
         return this.updates;
     }
 
-    public double getUptimeInSeconds()
-    {
+    public double getUptimeInSeconds() {
         return this.uptimeInSeconds;
     }
 
-    public Map<String, UsageInfo> getUsages()
-    {
+    public Map<String, UsageInfo> getUsages() {
         return this.usages;
     }
 
-    public void updateCpuInfos()
-    {
-        try
-        {
+    public void updateCpuInfos() {
+        try {
             this.cpuLoadAvg = getSystemMonitor().getCpuLoadAvg();
 
             // CpuUsages berechnen.
@@ -147,37 +127,29 @@ public final class Context
 
             this.cpuInfos.getTotal().calculateCpuUsage(cpuInfosPrevious.getTotal());
 
-            for (int i = 0; i < getNumberOfCores(); i++)
-            {
+            for (int i = 0; i < getNumberOfCores(); i++) {
                 this.cpuInfos.get(i).calculateCpuUsage(cpuInfosPrevious.get(i));
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
         }
     }
 
-    public void updateHostInfo()
-    {
-        try
-        {
+    public void updateHostInfo() {
+        try {
             this.hostInfo = getSystemMonitor().getHostInfo();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
         }
     }
 
-    public void updateMusicInfo()
-    {
-        try
-        {
+    public void updateMusicInfo() {
+        try {
             this.musicInfo = getSystemMonitor().getMusicInfo();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
         }
     }
@@ -185,17 +157,14 @@ public final class Context
     /**
      * Netzwerk: Download/Upload berechnen.
      */
-    public void updateNetworkInfos()
-    {
-        try
-        {
+    public void updateNetworkInfos() {
+        try {
             NetworkInfos networkInfosPrevious = this.networkInfos;
             this.networkInfos = getSystemMonitor().getNetworkInfos();
 
             this.networkInfos.calculateUpAndDownload(networkInfosPrevious);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
         }
     }
@@ -203,80 +172,61 @@ public final class Context
     /**
      * Daten, die einmal ermittelt werden müssen.
      */
-    public void updateOneShot()
-    {
-        try
-        {
+    public void updateOneShot() {
+        try {
             this.numberOfCores = getSystemMonitor().getNumberOfCores();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
         }
 
-        try
-        {
+        try {
             this.totalSystemMemory = getSystemMonitor().getTotalSystemMemory();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
         }
 
-        try
-        {
+        try {
             this.externalIp = getSystemMonitor().getExternalIp();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
         }
     }
 
-    public void updateProcessInfos()
-    {
-        try
-        {
+    public void updateProcessInfos() {
+        try {
             this.processInfos = getSystemMonitor().getProcessInfos(getUptimeInSeconds(), getTotalSystemMemory());
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
         }
     }
 
-    public void updateTemperatures()
-    {
-        try
-        {
+    public void updateTemperatures() {
+        try {
             this.temperatures = getSystemMonitor().getTemperatures();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
         }
     }
 
-    public void updateUpdates()
-    {
-        try
-        {
+    public void updateUpdates() {
+        try {
             this.updates = getSystemMonitor().getUpdates();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
         }
     }
 
-    public void updateUptimeInSeconds()
-    {
-        try
-        {
+    public void updateUptimeInSeconds() {
+        try {
             this.uptimeInSeconds = getSystemMonitor().getUptimeInSeconds();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
         }
     }
@@ -284,29 +234,24 @@ public final class Context
     /**
      * Daten, die alle paar Sekunden aktualisiert werden müssen.
      */
-    public void updateUsages()
-    {
-        try
-        {
+    public void updateUsages() {
+        try {
             Map<String, UsageInfo> map = new HashMap<>();
             map.putAll(getSystemMonitor().getRamAndSwap());
             map.putAll(getSystemMonitor().getFilesystems());
 
             this.usages = map;
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
         }
     }
 
-    private Settings getSettings()
-    {
+    private Settings getSettings() {
         return Settings.getInstance();
     }
 
-    private SystemMonitor getSystemMonitor()
-    {
+    private SystemMonitor getSystemMonitor() {
         return getSettings().getSystemMonitor();
     }
 }

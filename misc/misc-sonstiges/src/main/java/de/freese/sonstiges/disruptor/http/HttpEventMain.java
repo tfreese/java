@@ -23,15 +23,13 @@ import org.apache.commons.lang3.RandomStringUtils;
  *
  * @author Thomas Freese
  */
-public final class HttpEventMain
-{
+public final class HttpEventMain {
     /**
      * -2 damit noch Platz für den CleaningEventHandler und sonstige Ressourcen bleibt.
      */
     public static final int THREAD_COUNT = Math.max(2, Runtime.getRuntime().availableProcessors() - 2);
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         System.out.println("----- Running the server on machine with " + Runtime.getRuntime().availableProcessors() + " cores -----");
 
         HttpEventMain server = new HttpEventMain(null, 4333);
@@ -42,8 +40,7 @@ public final class HttpEventMain
 
         HttpEventHandler[] handlers = new HttpEventHandler[THREAD_COUNT];
 
-        for (int i = 0; i < handlers.length; i++)
-        {
+        for (int i = 0; i < handlers.length; i++) {
             handlers[i] = new HttpEventHandler(i, server.getMapResponseReady());
         }
 
@@ -56,12 +53,10 @@ public final class HttpEventMain
         System.out.println("\n==================== Details ====================");
         System.out.println("Server: " + InetAddress.getLocalHost().getCanonicalHostName() + ":" + server.getPort());
 
-        try
-        {
+        try {
             server.start();
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex) {
             System.err.println("Error occurred in HttpEventMain:" + ex.getMessage());
             System.exit(0);
         }
@@ -79,8 +74,7 @@ public final class HttpEventMain
 
     private Selector selector;
 
-    private HttpEventMain(final InetAddress address, final int port) throws IOException
-    {
+    private HttpEventMain(final InetAddress address, final int port) throws IOException {
         super();
 
         this.address = address;
@@ -89,23 +83,19 @@ public final class HttpEventMain
         this.mapKey = new ConcurrentHashMap<>();
     }
 
-    public Map<String, Boolean> getMapResponseReady()
-    {
+    public Map<String, Boolean> getMapResponseReady() {
         return this.mapResponseReady;
     }
 
-    public int getPort()
-    {
+    public int getPort() {
         return this.port;
     }
 
-    public void setProducer(final HttpEventProducer producer)
-    {
+    public void setProducer(final HttpEventProducer producer) {
         this.producer = producer;
     }
 
-    private void accept(final SelectionKey key) throws IOException
-    {
+    private void accept(final SelectionKey key) throws IOException {
         ServerSocketChannel serverChannel = (ServerSocketChannel) key.channel();
         SocketChannel channel = serverChannel.accept();
         channel.configureBlocking(false);
@@ -116,13 +106,11 @@ public final class HttpEventMain
         channel.register(this.selector, SelectionKey.OP_READ);
     }
 
-    private boolean isResponseReady(final SelectionKey key)
-    {
+    private boolean isResponseReady(final SelectionKey key) {
         String requestId = this.mapKey.get(key);
         boolean responseReady = this.mapResponseReady.getOrDefault(requestId, false);
 
-        if (!responseReady)
-        {
+        if (!responseReady) {
             return false;
         }
 
@@ -132,8 +120,7 @@ public final class HttpEventMain
         return true;
     }
 
-    private void read(final SelectionKey key) throws IOException
-    {
+    private void read(final SelectionKey key) throws IOException {
         SocketChannel channel = (SocketChannel) key.channel();
 
         ByteBuffer buffer = ByteBuffer.allocate(8192);
@@ -141,8 +128,7 @@ public final class HttpEventMain
 
         numRead = channel.read(buffer);
 
-        if (numRead == -1)
-        {
+        if (numRead == -1) {
             // Socket socket = channel.socket();
             // SocketAddress remoteAddress = socket.getRemoteSocketAddress();
             channel.close();
@@ -154,8 +140,7 @@ public final class HttpEventMain
         String remoteAddress = channel.getRemoteAddress().toString();
         String requestID = remoteAddress + "_" + RandomStringUtils.randomNumeric(4);
 
-        while (this.mapKey.containsValue(requestID) || this.mapResponseReady.containsKey(requestID))
-        {
+        while (this.mapKey.containsValue(requestID) || this.mapResponseReady.containsKey(requestID)) {
             requestID = remoteAddress + "_" + RandomStringUtils.randomNumeric(4);
         }
 
@@ -166,8 +151,7 @@ public final class HttpEventMain
         channel.register(this.selector, SelectionKey.OP_WRITE, buffer);
     }
 
-    private void start() throws IOException
-    {
+    private void start() throws IOException {
         this.selector = Selector.open();
         ServerSocketChannel serverChannel = ServerSocketChannel.open();
         serverChannel.configureBlocking(false);
@@ -178,47 +162,38 @@ public final class HttpEventMain
 
         System.out.println("Server ready. Ctrl-C to stop.");
 
-        while (!Thread.interrupted())
-        {
+        while (!Thread.interrupted()) {
             int readyChannels = this.selector.select();
 
-            if (readyChannels == 0)
-            {
+            if (readyChannels == 0) {
                 continue;
             }
 
             Iterator<SelectionKey> keys = this.selector.selectedKeys().iterator();
 
-            while (keys.hasNext())
-            {
+            while (keys.hasNext()) {
                 SelectionKey key = keys.next();
                 keys.remove();
 
-                if (!key.isValid())
-                {
+                if (!key.isValid()) {
                     continue;
                 }
 
-                if (key.isAcceptable())
-                {
+                if (key.isAcceptable()) {
                     accept(key);
                 }
-                else if (key.isReadable())
-                {
+                else if (key.isReadable()) {
                     read(key);
                 }
-                else if (key.isWritable())
-                {
+                else if (key.isWritable()) {
                     write(key);
                 }
             }
         }
     }
 
-    private void write(final SelectionKey key) throws IOException
-    {
-        if (isResponseReady(key))
-        {
+    private void write(final SelectionKey key) throws IOException {
+        if (isResponseReady(key)) {
             SocketChannel channel = (SocketChannel) key.channel();
             ByteBuffer buffer = (ByteBuffer) key.attachment();
 

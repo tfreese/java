@@ -10,8 +10,7 @@ import de.freese.openstreetmap.model.projection.Projection;
  * @author imi
  * @author Thomas Freese
  */
-public class Bounds
-{
+public class Bounds {
     /**
      * The maximum bounds possible.
      */
@@ -25,34 +24,29 @@ public class Bounds
      */
     private LatLon myMin;
 
-    public Bounds()
-    {
+    public Bounds() {
         super();
 
         this.myMin = new LatLon(-Projection.MAX_LAT, -Projection.MAX_LON);
         this.myMax = new LatLon(Projection.MAX_LAT, Projection.MAX_LON);
     }
 
-    public Bounds(final double lat0, final double lon0, final double lat1, final double lon1)
-    {
+    public Bounds(final double lat0, final double lon0, final double lat1, final double lon1) {
         super();
 
         this.myMin = new LatLon(Math.min(lat0, lat1), Math.min(lon0, lon1));
         this.myMax = new LatLon(Math.max(lat0, lat1), Math.max(lon0, lon1));
     }
 
-    public Bounds(final LatLon center, final double radius)
-    {
+    public Bounds(final LatLon center, final double radius) {
         this(center.lat() - radius, center.lon() - radius, center.lat() + radius, center.lon() + radius);
     }
 
-    public Bounds(final LatLon min, final LatLon max)
-    {
+    public Bounds(final LatLon min, final LatLon max) {
         this(min.lat(), min.lon(), max.lat(), max.lon());
     }
 
-    public LatLon center()
-    {
+    public LatLon center() {
         // not sure, whether this calculation is right... maybe there is some
         // more complex calculation needed to get a center of a spherical
         // dimension?
@@ -62,8 +56,7 @@ public class Bounds
     /**
      * @return true if the given coordinates are within this bounding-box
      */
-    public boolean contains(final double latitude, final double longitude)
-    {
+    public boolean contains(final double latitude, final double longitude) {
         return (!(latitude < this.myMin.lat())) && (!(latitude > this.myMax.lat())) && (!(longitude < this.myMin.lon())) && (!(longitude > this.myMax.lon()));
     }
 
@@ -81,39 +74,33 @@ public class Bounds
     // }
     // }
 
-    public LatLon getCenter()
-    {
+    public LatLon getCenter() {
         double centerLat = getMin().lat() + ((getMax().lat() - getMin().lat()) / 2.0);
         double centerLon = getMin().lon() + ((getMax().lon() - getMin().lon()) / 2.0);
 
         return new LatLon(centerLat, centerLon);
     }
 
-    public LatLon getMax()
-    {
+    public LatLon getMax() {
         return this.myMax;
     }
 
-    public LatLon getMin()
-    {
+    public LatLon getMin() {
         return this.myMin;
     }
 
     /**
      * @return the maximum of the coordinate-distances of the max and min lat and lon-values.
      */
-    public double getSize()
-    {
+    public double getSize() {
         return Math.max(Math.abs(getMax().lat() - getMin().lat()), getMax().lon() - getMin().lon());
     }
 
-    public void setMax(final LatLon aMax)
-    {
+    public void setMax(final LatLon aMax) {
         this.myMax = aMax;
     }
 
-    public void setMin(final LatLon aMin)
-    {
+    public void setMin(final LatLon aMin) {
         this.myMin = aMin;
     }
 
@@ -121,8 +108,7 @@ public class Bounds
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Bounds[" + this.myMin.lat() + "," + this.myMin.lon() + "," + this.myMax.lat() + "," + this.myMax.lon() + "]";
     }
 }

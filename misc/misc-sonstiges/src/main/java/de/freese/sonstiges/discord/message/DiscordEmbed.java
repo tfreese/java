@@ -13,13 +13,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 /**
  * @author Thomas Freese
  */
-@JsonPropertyOrder(
-        {
-                "color", "author", "title", "titleDescription", "url", "thumbnail", "image", "fields", "footer"
-        })
+@JsonPropertyOrder({"color", "author", "title", "titleDescription", "url", "thumbnail", "image", "fields", "footer"})
 @JsonRootName(value = "embed")
-public class DiscordEmbed
-{
+public class DiscordEmbed {
     private final List<DiscordField> fields = new ArrayList<>();
     private DiscordAuthor author;
     private Color color;
@@ -39,83 +35,70 @@ public class DiscordEmbed
 
     private String titleUrl;
 
-    public DiscordEmbed addField(final DiscordField field)
-    {
+    public DiscordEmbed addField(final DiscordField field) {
         this.fields.add(field);
 
         return this;
     }
 
-    public DiscordAuthor getAuthor()
-    {
+    public DiscordAuthor getAuthor() {
         return this.author;
     }
 
     @JsonSerialize(using = DiscordColorSerializer.class)
-    public Color getColor()
-    {
+    public Color getColor() {
         return this.color;
     }
 
-    public List<DiscordField> getFields()
-    {
+    public List<DiscordField> getFields() {
         return this.fields;
     }
 
-    public DiscordFooter getFooter()
-    {
+    public DiscordFooter getFooter() {
         return this.footer;
     }
 
     /**
      * Großes Bild
      */
-    public DiscordImage getImage()
-    {
+    public DiscordImage getImage() {
         return this.image;
     }
 
     /**
      * Kleines Bild oben rechts
      */
-    public DiscordThumbnail getThumbnail()
-    {
+    public DiscordThumbnail getThumbnail() {
         return this.thumbnail;
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return this.title;
     }
 
     @JsonGetter("description")
-    public String getTitleDescription()
-    {
+    public String getTitleDescription() {
         return this.titleDescription;
     }
 
     @JsonGetter("url")
-    public String getTitleUrl()
-    {
+    public String getTitleUrl() {
         return this.titleUrl;
     }
 
-    public DiscordEmbed setAuthor(final DiscordAuthor author)
-    {
+    public DiscordEmbed setAuthor(final DiscordAuthor author) {
         this.author = author;
 
         return this;
     }
 
-    public DiscordEmbed setColor(final Color color)
-    {
+    public DiscordEmbed setColor(final Color color) {
         this.color = color;
 
         return this;
     }
 
-    public DiscordEmbed setFooter(final DiscordFooter footer)
-    {
+    public DiscordEmbed setFooter(final DiscordFooter footer) {
         this.footer = footer;
 
         return this;
@@ -124,8 +107,7 @@ public class DiscordEmbed
     /**
      * Großes Bild
      */
-    public DiscordEmbed setImage(final DiscordImage image)
-    {
+    public DiscordEmbed setImage(final DiscordImage image) {
         this.image = image;
 
         return this;
@@ -134,30 +116,25 @@ public class DiscordEmbed
     /**
      * Kleines Bild oben rechts
      */
-    public DiscordEmbed setThumbnail(final DiscordThumbnail thumbnail)
-    {
+    public DiscordEmbed setThumbnail(final DiscordThumbnail thumbnail) {
         this.thumbnail = thumbnail;
 
         return this;
     }
 
-    public DiscordEmbed setTitle(final String title)
-    {
+    public DiscordEmbed setTitle(final String title) {
         this.title = title;
 
         return this;
     }
 
-    public DiscordEmbed setTitleDescription(final String titleDescription)
-
-    {
+    public DiscordEmbed setTitleDescription(final String titleDescription) {
         this.titleDescription = titleDescription;
 
         return this;
     }
 
-    public DiscordEmbed setTitleUrl(final String titleUrl)
-    {
+    public DiscordEmbed setTitleUrl(final String titleUrl) {
         this.titleUrl = titleUrl;
 
         return this;

@@ -15,23 +15,19 @@ import de.freese.maven.proxy.util.ProxyUtils;
 /**
  * @author Thomas Freese
  */
-public class FileRepository extends AbstractRepository
-{
+public class FileRepository extends AbstractRepository {
     private final Repository delegate;
 
     private final Path fileCachePath;
 
-    public FileRepository(final Path fileCachePath, final Repository delegate) throws IOException
-    {
+    public FileRepository(final Path fileCachePath, final Repository delegate) throws IOException {
         super();
 
-        if (!Files.exists(fileCachePath))
-        {
+        if (!Files.exists(fileCachePath)) {
             throw new IOException("path not exist: " + fileCachePath);
         }
 
-        if (!Files.isWritable(fileCachePath))
-        {
+        if (!Files.isWritable(fileCachePath)) {
             throw new IOException("path not writeable: " + fileCachePath);
         }
 
@@ -43,22 +39,18 @@ public class FileRepository extends AbstractRepository
      * @see de.freese.maven.proxy.repository.Repository#exist(java.net.URI)
      */
     @Override
-    public boolean exist(final URI resource) throws Exception
-    {
+    public boolean exist(final URI resource) throws Exception {
         final Path path = toPath(resource);
 
         // Erst auf der Platte suchen.
         boolean exist = Files.exists(path);
 
-        if (!exist)
-        {
+        if (!exist) {
             // Dann erst im Repository suchen.
-            try
-            {
+            try {
                 exist = this.delegate.exist(resource);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 getLogger().warn("{}: {}", ex.getClass().getSimpleName(), ex.getMessage());
             }
         }
@@ -70,12 +62,10 @@ public class FileRepository extends AbstractRepository
      * @see de.freese.maven.proxy.repository.Repository#getInputStream(java.net.URI)
      */
     @Override
-    public RepositoryResponse getInputStream(final URI resource) throws Exception
-    {
+    public RepositoryResponse getInputStream(final URI resource) throws Exception {
         final Path path = toPath(resource);
 
-        if (path.endsWith("maven-metadata.xml"))
-        {
+        if (path.endsWith("maven-metadata.xml")) {
             // Diese Daten nie speichern !
             return this.delegate.getInputStream(resource);
         }
@@ -83,19 +73,15 @@ public class FileRepository extends AbstractRepository
         // Erst auf der Platte suchen.
         boolean exist = Files.exists(path);
 
-        if (!exist)
-        {
+        if (!exist) {
             Files.createDirectories(path.getParent());
 
             // Dann erst im Repository suchen.
             RepositoryResponse response = this.delegate.getInputStream(resource);
 
-            if (response != null)
-            {
-                if (getLogger().isDebugEnabled())
-                {
-                    getLogger().debug("Download {}, {} Bytes = {}", response.getUri(), response.getContentLength(),
-                            ProxyUtils.toHumanReadable(response.getContentLength()));
+            if (response != null) {
+                if (getLogger().isDebugEnabled()) {
+                    getLogger().debug("Download {}, {} Bytes = {}", response.getUri(), response.getContentLength(), ProxyUtils.toHumanReadable(response.getContentLength()));
                 }
 
                 // Den InputStream gleichzeitig in den File- und Response-OutputStream schreiben.
@@ -103,26 +89,22 @@ public class FileRepository extends AbstractRepository
             }
         }
 
-        if (exist)
-        {
+        if (exist) {
             return new RepositoryResponse(resource, Files.size(path), Files.newInputStream(path));
         }
 
         return null;
     }
 
-    private Path toPath(final URI resource)
-    {
+    private Path toPath(final URI resource) {
         Path path = null;
         String key = resource.getPath();
         key = key.replace(' ', '_');
 
-        if (key.startsWith("/"))
-        {
+        if (key.startsWith("/")) {
             path = this.fileCachePath.resolve(key.substring(1));
         }
-        else
-        {
+        else {
             path = this.fileCachePath.resolve(key);
         }
 

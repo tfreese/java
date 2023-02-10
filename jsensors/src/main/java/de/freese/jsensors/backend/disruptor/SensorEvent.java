@@ -6,17 +6,14 @@ import de.freese.jsensors.sensor.SensorValue;
 /**
  * @author Thomas Freese
  */
-class SensorEvent
-{
+class SensorEvent {
     private SensorValue sensorValue;
 
-    public SensorValue getSensorValue()
-    {
+    public SensorValue getSensorValue() {
         return this.sensorValue;
     }
 
-    public void setSensorValue(final SensorValue sensorValue)
-    {
+    public void setSensorValue(final SensorValue sensorValue) {
         this.sensorValue = sensorValue;
     }
 }

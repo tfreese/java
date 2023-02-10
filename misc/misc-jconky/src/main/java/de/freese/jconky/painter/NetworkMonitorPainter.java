@@ -5,44 +5,39 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.freese.jconky.model.NetworkInfo;
-import de.freese.jconky.model.NetworkInfos;
-import de.freese.jconky.model.NetworkProtocolInfo;
-import de.freese.jconky.model.Values;
-import de.freese.jconky.util.JConkyUtils;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 
+import de.freese.jconky.model.NetworkInfo;
+import de.freese.jconky.model.NetworkInfos;
+import de.freese.jconky.model.NetworkProtocolInfo;
+import de.freese.jconky.model.Values;
+import de.freese.jconky.util.JConkyUtils;
+
 /**
  * @author Thomas Freese
  */
-public class NetworkMonitorPainter extends AbstractMonitorPainter
-{
+public class NetworkMonitorPainter extends AbstractMonitorPainter {
     private final Map<String, Values<Double>> downloadMap = new HashMap<>();
 
     private final Stop[] gradientStops;
 
     private final Map<String, Values<Double>> uploadMap = new HashMap<>();
 
-    public NetworkMonitorPainter()
-    {
+    public NetworkMonitorPainter() {
         super();
 
-        this.gradientStops = new Stop[]
-                {
-                        new Stop(0D, Color.WHITE), new Stop(1D, getSettings().getColorValue())
-                };
+        this.gradientStops = new Stop[]{new Stop(0D, Color.WHITE), new Stop(1D, getSettings().getColorValue())};
     }
 
     /**
      * @see de.freese.jconky.painter.MonitorPainter#paintValue(javafx.scene.canvas.GraphicsContext, double)
      */
     @Override
-    public double paintValue(final GraphicsContext gc, final double width)
-    {
+    public double paintValue(final GraphicsContext gc, final double width) {
         NetworkInfos networkInfos = getContext().getNetworkInfos();
         NetworkInfo lan = networkInfos.getByName("enp5s0");
 
@@ -76,8 +71,7 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter
         return height;
     }
 
-    private double paintInterface(final GraphicsContext gc, final double width, final NetworkInfo networkInfo)
-    {
+    private double paintInterface(final GraphicsContext gc, final double width, final NetworkInfo networkInfo) {
         double fontSize = getSettings().getFontSize();
 
         double x = 0D;
@@ -104,8 +98,7 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter
         gc.restore();
 
         y += graphHeight + fontSize + 3;
-        paintTextAndValue(gc, String.format("%s: Total:", networkInfo.getInterfaceName()), JConkyUtils.toHumanReadableSize(networkInfo.getBytesReceived()), x,
-                y);
+        paintTextAndValue(gc, String.format("%s: Total:", networkInfo.getInterfaceName()), JConkyUtils.toHumanReadableSize(networkInfo.getBytesReceived()), x, y);
 
         x = width - (fontSize * 10.5D);
         paintTextAndValue(gc, "Total:", JConkyUtils.toHumanReadableSize(networkInfo.getBytesTransmitted()), x, y);
@@ -113,8 +106,7 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter
         return y;
     }
 
-    private void paintInterfaceGraph(final GraphicsContext gc, final double width, final double height, final Values<Double> values)
-    {
+    private void paintInterfaceGraph(final GraphicsContext gc, final double width, final double height, final Values<Double> values) {
         List<Double> valueList = values.getLastValues((int) width);
 
         double minValue = 0D;
@@ -129,8 +121,7 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter
         double xOffset = width - valueList.size(); // Diagramm von rechts aufbauen.
         // double xOffset = 0D; // Diagramm von links aufbauen.
 
-        for (int i = 0; i < valueList.size(); i++)
-        {
+        for (int i = 0; i < valueList.size(); i++) {
             double value = valueList.get(i);
             double x = i + xOffset;
             double y = minNorm + (((value - minValue) * (maxNorm - minNorm)) / (maxValue - minValue));

@@ -15,10 +15,8 @@ import javafx.scene.Scene;
 /**
  * @author Thomas Freese
  */
-public final class JConkySwingWindowMain
-{
-    public static void main(final String[] args)
-    {
+public final class JConkySwingWindowMain {
+    public static void main(final String[] args) {
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         JFrame frame = new JFrame();
@@ -36,16 +34,13 @@ public final class JConkySwingWindowMain
         // fxPanel.setBackground(Color.BLACK);
         frame.setContentPane(fxPanel);
 
-        Platform.runLater(() ->
-        {
+        Platform.runLater(() -> {
             JConky jConky = new JConky();
 
-            try
-            {
+            try {
                 jConky.init();
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 JConky.getLogger().error(ex.getMessage(), ex);
             }
 
@@ -53,16 +48,14 @@ public final class JConkySwingWindowMain
             scene.setFill(new javafx.scene.paint.Color(0D, 0D, 0D, Settings.getInstance().getAlpha()));
             fxPanel.setScene(scene);
 
-            SwingUtilities.invokeLater(() ->
-            {
+            SwingUtilities.invokeLater(() -> {
                 jConky.startRepaintSchedule();
                 frame.setVisible(true);
             });
         });
     }
 
-    private JConkySwingWindowMain()
-    {
+    private JConkySwingWindowMain() {
         super();
     }
 }

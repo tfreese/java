@@ -10,7 +10,6 @@ import de.freese.jsensors.sensor.Sensor;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface SensorBinder
-{
+public interface SensorBinder {
     void bindTo(SensorRegistry registry);
 }

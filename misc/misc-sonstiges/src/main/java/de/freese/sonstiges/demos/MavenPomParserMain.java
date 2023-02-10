@@ -26,16 +26,13 @@ import org.sonatype.plexus.components.sec.dispatcher.SecDispatcher;
 /**
  * @author Thomas Freese
  */
-public final class MavenPomParserMain
-{
-    public static void main(final String[] args) throws Exception
-    {
+public final class MavenPomParserMain {
+    public static void main(final String[] args) throws Exception {
         mavenModel();
         mavenSettings();
     }
 
-    private static void mavenModel()
-    {
+    private static void mavenModel() {
         File pomFile = new File("pom.xml");
 
         DefaultModelBuilderFactory modelBuilderFactory = new DefaultModelBuilderFactory();
@@ -48,8 +45,7 @@ public final class MavenPomParserMain
         model.getRepositories().forEach(repo -> System.out.println(repo.getUrl()));
     }
 
-    private static void mavenSettings() throws Exception
-    {
+    private static void mavenSettings() throws Exception {
         // @formatter:off
         DefaultSettingsBuildingRequest settingsBuildingRequest = new DefaultSettingsBuildingRequest()
                 .setSystemProperties(System.getProperties())
@@ -65,8 +61,7 @@ public final class MavenPomParserMain
 
         Settings settings = settingsBuildingResult.getEffectiveSettings();
 
-        for (Server server : settings.getServers())
-        {
+        for (Server server : settings.getServers()) {
             System.out.println("Server = " + server.getId() + " " + server.getUsername() + "/" + server.getPassword());
         }
 
@@ -87,14 +82,12 @@ public final class MavenPomParserMain
         SettingsDecryptionRequest decryptionRequest = new DefaultSettingsDecryptionRequest(settings);
         SettingsDecryptionResult decryptionResult = settingsDecrypter.decrypt(decryptionRequest);
 
-        for (Server server : decryptionResult.getServers())
-        {
+        for (Server server : decryptionResult.getServers()) {
             System.out.println("Server = " + server.getId() + " " + server.getUsername() + "/" + server.getPassword());
         }
     }
 
-    private MavenPomParserMain()
-    {
+    private MavenPomParserMain() {
         super();
     }
 }

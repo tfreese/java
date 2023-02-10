@@ -12,28 +12,22 @@ import javafx.scene.paint.Stop;
 /**
  * @author Thomas Freese
  */
-public class LineFxGraphPainter extends AbstractFxGraphPainter
-{
+public class LineFxGraphPainter extends AbstractFxGraphPainter {
     /**
      * @see de.freese.jconky.javafx.painter.AbstractFxGraphPainter#paintGraph(javafx.scene.canvas.GraphicsContext, double, double)
      */
     @Override
-    public void paintGraph(final GraphicsContext gc, final double width, final double height)
-    {
+    public void paintGraph(final GraphicsContext gc, final double width, final double height) {
         List<Float> values = getValues().getLastValues((int) width);
 
-        if (values.isEmpty())
-        {
+        if (values.isEmpty()) {
             return;
         }
 
         double xOffset = width - values.size(); // Diagramm von rechts aufbauen.
         // double xOffset = 0F; // Diagramm von links aufbauen.
 
-        Stop[] stops =
-                {
-                        new Stop(0D, Color.RED), new Stop(1D, Color.GREEN)
-                };
+        Stop[] stops = {new Stop(0D, Color.RED), new Stop(1D, Color.GREEN)};
 
         gc.setStroke(new LinearGradient(0D, 0D, 0D, height, false, CycleMethod.NO_CYCLE, stops));
 
@@ -41,8 +35,7 @@ public class LineFxGraphPainter extends AbstractFxGraphPainter
         double middle = height / 2D;
         double yLast = middle - (values.get(0) * middle);
 
-        for (int i = 1; i < values.size(); i++)
-        {
+        for (int i = 1; i < values.size(); i++) {
             float value = values.get(i);
 
             double x = i + xOffset;

@@ -10,8 +10,7 @@ import java.util.concurrent.RecursiveAction;
  *
  * @author Thomas Freese
  */
-public class MaxInIntervall extends RecursiveAction
-{
+public class MaxInIntervall extends RecursiveAction {
     @Serial
     private static final long serialVersionUID = -6829518464952417401L;
 
@@ -27,8 +26,7 @@ public class MaxInIntervall extends RecursiveAction
 
     private volatile int result;
 
-    public MaxInIntervall(final int[] array, final int start, final int end, final int intervalThreshold)
-    {
+    public MaxInIntervall(final int[] array, final int start, final int end, final int intervalThreshold) {
         super();
 
         this.array = array;
@@ -37,8 +35,7 @@ public class MaxInIntervall extends RecursiveAction
         this.intervalThreshold = intervalThreshold;
     }
 
-    public int getResult()
-    {
+    public int getResult() {
         return this.result;
     }
 
@@ -46,14 +43,11 @@ public class MaxInIntervall extends RecursiveAction
      * @see java.util.concurrent.RecursiveAction#compute()
      */
     @Override
-    protected void compute()
-    {
-        if ((this.end - this.start) < this.intervalThreshold)
-        {
+    protected void compute() {
+        if ((this.end - this.start) < this.intervalThreshold) {
             this.result = findMaxSequentially();
         }
-        else
-        {
+        else {
             int middle = (this.end - this.start) / 2;
 
             MaxInIntervall task1 = new MaxInIntervall(this.array, this.start, this.start + middle, this.intervalThreshold);
@@ -65,16 +59,13 @@ public class MaxInIntervall extends RecursiveAction
         }
     }
 
-    private int findMaxSequentially()
-    {
+    private int findMaxSequentially() {
         int max = Integer.MIN_VALUE;
 
-        for (int i = this.start; i < this.end; i++)
-        {
+        for (int i = this.start; i < this.end; i++) {
             int n = this.array[i];
 
-            if (n > max)
-            {
+            if (n > max) {
                 max = n;
             }
         }

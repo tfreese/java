@@ -13,8 +13,7 @@ import de.freese.ga.Config;
 /**
  * @author Thomas Freese
  */
-public class CoinConfig extends Config
-{
+public class CoinConfig extends Config {
     private final List<Integer> existingCoins = new ArrayList<>();
     /**
      * Enthält die Anzahl von Münzen pro Wert.<br>
@@ -28,21 +27,18 @@ public class CoinConfig extends Config
      * @see de.freese.ga.Config#getMaxFitness()
      */
     @Override
-    public double getMaxFitness()
-    {
+    public double getMaxFitness() {
         // Keine Lösung bekannt.
         return 1_000D;
     }
 
-    public void setExistingCoins(final List<Integer> existingCoins)
-    {
+    public void setExistingCoins(final List<Integer> existingCoins) {
         this.coinCounter.clear();
         this.existingCoins.clear();
         this.existingCoins.addAll(existingCoins);
 
         // 0 Münzen, falls wir nicht so viele brauchen, wie die das Chromosom lang ist.
-        for (int i = 0; i < existingCoins.size(); i++)
-        {
+        for (int i = 0; i < existingCoins.size(); i++) {
             this.existingCoins.add(0);
         }
 
@@ -55,33 +51,27 @@ public class CoinConfig extends Config
         this.coinCounter = list.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
     }
 
-    public void setTargetCents(final int cents)
-    {
-        if ((cents <= 0) || (cents > getMaximumCents()))
-        {
+    public void setTargetCents(final int cents) {
+        if ((cents <= 0) || (cents > getMaximumCents())) {
             throw new IllegalArgumentException("cents must be between 0 - " + getMaximumCents() + ": " + cents);
         }
 
         this.targetCents = cents;
     }
 
-    Map<Integer, Long> getCoinCounter()
-    {
+    Map<Integer, Long> getCoinCounter() {
         return this.coinCounter;
     }
 
-    List<Integer> getExistingCoins()
-    {
+    List<Integer> getExistingCoins() {
         return this.existingCoins;
     }
 
-    int getMaximumCents()
-    {
+    int getMaximumCents() {
         return 99;
     }
 
-    int getTargetCents()
-    {
+    int getTargetCents() {
         return this.targetCents;
     }
 }

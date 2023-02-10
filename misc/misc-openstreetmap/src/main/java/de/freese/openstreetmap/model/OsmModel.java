@@ -9,16 +9,14 @@ import java.util.Map;
  *
  * @author Thomas Freese
  */
-public class OsmModel
-{
+public class OsmModel {
     private final Map<Long, OsmNode> nodeMap;
 
     private final Map<Long, OsmRelation> relationMap;
 
     private final Map<Long, OsmWay> wayMap;
 
-    public OsmModel()
-    {
+    public OsmModel() {
         super();
 
         this.nodeMap = new HashMap<>();
@@ -26,25 +24,21 @@ public class OsmModel
         this.relationMap = new HashMap<>();
     }
 
-    public void clear()
-    {
+    public void clear() {
         this.nodeMap.clear();
         this.wayMap.clear();
         this.relationMap.clear();
     }
 
-    public Map<Long, OsmNode> getNodeMap()
-    {
+    public Map<Long, OsmNode> getNodeMap() {
         return this.nodeMap;
     }
 
-    public Map<Long, OsmRelation> getRelationMap()
-    {
+    public Map<Long, OsmRelation> getRelationMap() {
         return this.relationMap;
     }
 
-    public Map<Long, OsmWay> getWayMap()
-    {
+    public Map<Long, OsmWay> getWayMap() {
         return this.wayMap;
     }
 }

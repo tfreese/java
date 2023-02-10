@@ -8,8 +8,7 @@ import java.util.Objects;
  *
  * @author Thomas Freese
  */
-public class Sequence
-{
+public class Sequence {
     private long increment;
 
     private String name;
@@ -20,61 +19,50 @@ public class Sequence
 
     private long startWith;
 
-    Sequence(final Schema schema, final String name)
-    {
+    Sequence(final Schema schema, final String name) {
         super();
 
         this.schema = Objects.requireNonNull(schema, "schema required");
         this.name = Objects.requireNonNull(name, "name required");
     }
 
-    public long getIncrement()
-    {
+    public long getIncrement() {
         return this.increment;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
-    public long getNextValue()
-    {
+    public long getNextValue() {
         return this.nextValue;
     }
 
-    public Schema getSchema()
-    {
+    public Schema getSchema() {
         return this.schema;
     }
 
-    public long getStartWith()
-    {
+    public long getStartWith() {
         return this.startWith;
     }
 
-    public void setIncrement(final long increment)
-    {
+    public void setIncrement(final long increment) {
         this.increment = increment;
     }
 
-    public void setName(final String name)
-    {
+    public void setName(final String name) {
         this.name = name;
     }
 
-    public void setNextValue(final long nextValue)
-    {
+    public void setNextValue(final long nextValue) {
         this.nextValue = nextValue;
     }
 
-    public void setSchema(final Schema schema)
-    {
+    public void setSchema(final Schema schema) {
         this.schema = schema;
     }
 
-    public void setStartWith(final long startWith)
-    {
+    public void setStartWith(final long startWith) {
         this.startWith = startWith;
     }
 
@@ -82,8 +70,7 @@ public class Sequence
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("Sequence [");
         builder.append("schema=").append(getSchema().getName());

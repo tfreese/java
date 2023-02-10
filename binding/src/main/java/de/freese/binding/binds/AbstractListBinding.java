@@ -12,16 +12,14 @@ import de.freese.binding.property.Property;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractListBinding<T> extends AbstractListExpression<T> implements ListBinding<T>
-{
+public abstract class AbstractListBinding<T> extends AbstractListExpression<T> implements ListBinding<T> {
     private ObservableList<T> value;
 
     /**
      * @see de.freese.binding.value.ObservableValue#getValue()
      */
     @Override
-    public ObservableList<T> getValue()
-    {
+    public ObservableList<T> getValue() {
         return this.value;
     }
 
@@ -29,13 +27,11 @@ public abstract class AbstractListBinding<T> extends AbstractListExpression<T> i
      * @see de.freese.binding.binds.Binding#update()
      */
     @Override
-    public void update()
-    {
+    public void update() {
         ObservableList<T> old = this.value;
         this.value = computeValue();
 
-        if (Objects.equals(old, this.value))
-        {
+        if (Objects.equals(old, this.value)) {
             fireValueChangedEvent(old, this.value);
         }
     }

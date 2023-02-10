@@ -14,6 +14,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import de.freese.sonstiges.xml.jaxb.OpeningDateAdapter;
 
 /**
@@ -21,12 +22,8 @@ import de.freese.sonstiges.xml.jaxb.OpeningDateAdapter;
  */
 @XmlRootElement(name = "club")
 @XmlAccessorType(XmlAccessType.FIELD)
-@JsonPropertyOrder(
-        {
-                "opening", "employees", "guests", "dj"
-        })
-public class Club
-{
+@JsonPropertyOrder({"opening", "employees", "guests", "dj"})
+public class Club {
     @XmlElementWrapper(name = "djs")
     private final List<DJ> dj = new ArrayList<>();
     @XmlElementWrapper(name = "guests")
@@ -37,33 +34,27 @@ public class Club
     @XmlAttribute
     private int employees;
 
-    public void addDJ(final DJ dj)
-    {
+    public void addDJ(final DJ dj) {
         this.dj.add(dj);
     }
 
-    public List<DJ> getDJs()
-    {
+    public List<DJ> getDJs() {
         return this.dj;
     }
 
-    public int getEmployees()
-    {
+    public int getEmployees() {
         return this.employees;
     }
 
-    public Map<Integer, Integer> getGuests()
-    {
+    public Map<Integer, Integer> getGuests() {
         return this.guests;
     }
 
-    public Date getOpening()
-    {
+    public Date getOpening() {
         return this.opening;
     }
 
-    public void setEmployees(final int employees)
-    {
+    public void setEmployees(final int employees) {
         this.employees = employees;
     }
 }

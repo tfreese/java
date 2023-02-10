@@ -5,23 +5,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
 import de.freese.binding.binds.BooleanBinding;
 import de.freese.binding.property.Property;
 import de.freese.binding.property.SimpleBooleanProperty;
 import de.freese.binding.value.ChangeListener;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 
 /**
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class TestBooleanBinding
-{
+class TestBooleanBinding {
     @Test
-    void testBinding()
-    {
+    void testBinding() {
         SimpleBooleanProperty property1 = new SimpleBooleanProperty();
         SimpleBooleanProperty property2 = new SimpleBooleanProperty();
 
@@ -36,8 +35,7 @@ class TestBooleanBinding
     }
 
     @Test
-    void testProperty()
-    {
+    void testProperty() {
         Property<Boolean> property = new SimpleBooleanProperty();
 
         ChangeListener<Boolean> listener = (observable, oldValue, newValue) -> assertEquals(false, newValue);
@@ -45,8 +43,7 @@ class TestBooleanBinding
         property.setValue(false);
         property.removeListener(listener);
 
-        listener = (observable, oldValue, newValue) ->
-        {
+        listener = (observable, oldValue, newValue) -> {
             assertFalse(oldValue);
             assertTrue(newValue);
         };

@@ -13,18 +13,16 @@ import io.netty.channel.ChannelOption;
 /**
  * @author Thomas Freese
  */
-public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter
-{
+public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter {
     /**
      * Closes the specified channel after all queued write requests are flushed.
      */
-    static void closeOnFlush(final Channel ch)
-    {
-        if (ch.isActive())
-        {
+    static void closeOnFlush(final Channel ch) {
+        if (ch.isActive()) {
             ch.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
         }
     }
+
     private final String remoteHost;
     private final int remotePort;
     /**
@@ -33,8 +31,7 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter
      */
     private Channel outboundChannel;
 
-    public HexDumpProxyFrontendHandler(final String remoteHost, final int remotePort)
-    {
+    public HexDumpProxyFrontendHandler(final String remoteHost, final int remotePort) {
         super();
 
         this.remoteHost = remoteHost;
@@ -45,8 +42,7 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter
      * @see io.netty.channel.ChannelInboundHandlerAdapter#channelActive(io.netty.channel.ChannelHandlerContext)
      */
     @Override
-    public void channelActive(final ChannelHandlerContext ctx)
-    {
+    public void channelActive(final ChannelHandlerContext ctx) {
         final Channel inboundChannel = ctx.channel();
 
         // Start the connection attempt.
@@ -62,15 +58,12 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter
         ChannelFuture channelFuture = bootstrap.connect(this.remoteHost, this.remotePort);
         this.outboundChannel = channelFuture.channel();
 
-        channelFuture.addListener(future ->
-        {
-            if (future.isSuccess())
-            {
+        channelFuture.addListener(future -> {
+            if (future.isSuccess()) {
                 // connection complete start to read first data
                 inboundChannel.read();
             }
-            else
-            {
+            else {
                 // Close the connection if the connection attempt has failed.
                 inboundChannel.close();
             }
@@ -81,10 +74,8 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter
      * @see io.netty.channel.ChannelInboundHandlerAdapter#channelInactive(io.netty.channel.ChannelHandlerContext)
      */
     @Override
-    public void channelInactive(final ChannelHandlerContext ctx)
-    {
-        if (this.outboundChannel != null)
-        {
+    public void channelInactive(final ChannelHandlerContext ctx) {
+        if (this.outboundChannel != null) {
             closeOnFlush(this.outboundChannel);
         }
     }
@@ -93,20 +84,15 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter
      * @see io.netty.channel.ChannelInboundHandlerAdapter#channelRead(io.netty.channel.ChannelHandlerContext, java.lang.Object)
      */
     @Override
-    public void channelRead(final ChannelHandlerContext ctx, final Object msg)
-    {
-        if (this.outboundChannel.isActive())
-        {
+    public void channelRead(final ChannelHandlerContext ctx, final Object msg) {
+        if (this.outboundChannel.isActive()) {
             // ChannelFutureListener
-            this.outboundChannel.writeAndFlush(msg).addListener(future ->
-            {
-                if (future.isSuccess())
-                {
+            this.outboundChannel.writeAndFlush(msg).addListener(future -> {
+                if (future.isSuccess()) {
                     // was able to flush out data, start to read the next chunk
                     ctx.channel().read();
                 }
-                else
-                {
+                else {
                     ((ChannelFuture) future).channel().close();
                 }
             });
@@ -117,8 +103,7 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter
      * @see io.netty.channel.ChannelInboundHandlerAdapter#exceptionCaught(io.netty.channel.ChannelHandlerContext, java.lang.Throwable)
      */
     @Override
-    public void exceptionCaught(final ChannelHandlerContext ctx, final Throwable cause)
-    {
+    public void exceptionCaught(final ChannelHandlerContext ctx, final Throwable cause) {
         cause.printStackTrace();
         closeOnFlush(ctx.channel());
     }

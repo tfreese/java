@@ -9,8 +9,7 @@ import java.util.function.BiConsumer;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractCell implements Cell
-{
+public abstract class AbstractCell implements Cell {
     private final AbstractRasterSimulation simulation;
 
     private Color color;
@@ -19,15 +18,13 @@ public abstract class AbstractCell implements Cell
 
     private int y = -1;
 
-    protected AbstractCell(final AbstractRasterSimulation simulation)
-    {
+    protected AbstractCell(final AbstractRasterSimulation simulation) {
         super();
 
         this.simulation = simulation;
     }
 
-    protected AbstractCell(final AbstractRasterSimulation simulation, final Color color)
-    {
+    protected AbstractCell(final AbstractRasterSimulation simulation, final Color color) {
         super();
 
         this.simulation = simulation;
@@ -38,8 +35,7 @@ public abstract class AbstractCell implements Cell
      * @see de.freese.simulationen.model.Cell#getColor()
      */
     @Override
-    public Color getColor()
-    {
+    public Color getColor() {
         return this.color;
     }
 
@@ -47,8 +43,7 @@ public abstract class AbstractCell implements Cell
      * @see de.freese.simulationen.model.Cell#getX()
      */
     @Override
-    public int getX()
-    {
+    public int getX() {
         return this.x;
     }
 
@@ -56,13 +51,11 @@ public abstract class AbstractCell implements Cell
      * @see de.freese.simulationen.model.Cell#getY()
      */
     @Override
-    public int getY()
-    {
+    public int getY() {
         return this.y;
     }
 
-    public void setColor(final Color color)
-    {
+    public void setColor(final Color color) {
         this.color = color;
 
         getSimulation().setCellColor(getX(), getY(), color);
@@ -72,8 +65,7 @@ public abstract class AbstractCell implements Cell
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
         sb.append(" ");
@@ -82,22 +74,19 @@ public abstract class AbstractCell implements Cell
         return sb.toString();
     }
 
-    void setXY(final int x, final int y)
-    {
+    void setXY(final int x, final int y) {
         this.x = x;
         this.y = y;
     }
 
-    protected AbstractRasterSimulation getSimulation()
-    {
+    protected AbstractRasterSimulation getSimulation() {
         return this.simulation;
     }
 
     /**
      * Liefert nur die Nord-, Ost-, Süd- und West-Nachbarn dieser Zelle.
      */
-    protected void visitNeighbours(final BiConsumer<Integer, Integer> biConsumer)
-    {
+    protected void visitNeighbours(final BiConsumer<Integer, Integer> biConsumer) {
         int xWest = getSimulation().getXTorusKoord(getX(), -1);
         int xOst = getSimulation().getXTorusKoord(getX(), +1);
         int ySued = getSimulation().getYTorusKoord(getY(), -1);
@@ -119,8 +108,7 @@ public abstract class AbstractCell implements Cell
     /**
      * Liefert alle Nachbarn dieser Zelle.
      */
-    protected void visitNeighboursAll(final BiConsumer<Integer, Integer> biConsumer)
-    {
+    protected void visitNeighboursAll(final BiConsumer<Integer, Integer> biConsumer) {
         int xWest = getSimulation().getXTorusKoord(getX(), -1);
         int xOst = getSimulation().getXTorusKoord(getX(), +1);
         int ySued = getSimulation().getYTorusKoord(getY(), -1);

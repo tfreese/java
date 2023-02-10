@@ -11,8 +11,7 @@ import de.freese.openstreetmap.model.projection.Projection;
  * @author Imi
  * @author Thomas Freese
  */
-public class LatLon extends Coordinate
-{
+public class LatLon extends Coordinate {
     /**
      * @param lat1 position1
      * @param lon1 position1
@@ -21,10 +20,8 @@ public class LatLon extends Coordinate
      *
      * @return the course from position1 to position2
      */
-    public static double course(final double lat1, final double lon1, final double lat2, final double lon2)
-    {
-        return Math.atan2(Math.sin(lon1 - lon2) * Math.cos(lat2), (Math.cos(lat1) * Math.sin(lat2)) - (Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2)))
-                % (2 * Math.PI);
+    public static double course(final double lat1, final double lon1, final double lat2, final double lon2) {
+        return Math.atan2(Math.sin(lon1 - lon2) * Math.cos(lat2), (Math.cos(lat1) * Math.sin(lat2)) - (Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2))) % (2 * Math.PI);
     }
 
     /**
@@ -37,14 +34,12 @@ public class LatLon extends Coordinate
      *
      * @return the course (direction) in degrees
      */
-    public static double deriveCourse(final double lat1, final double lon1, final double lat2, final double lon2)
-    {
+    public static double deriveCourse(final double lat1, final double lon1, final double lat2, final double lon2) {
         double dLat = lat1 - lat2;
         double dLon = lon1 - lon2;
         double alpha = (Math.atan2(dLat, dLon) * 180D) / Math.PI;
 
-        if (alpha <= 90)
-        {
+        if (alpha <= 90) {
             return 90 - alpha;
         }
 
@@ -61,10 +56,8 @@ public class LatLon extends Coordinate
      *
      * @return the great-circle-distance
      */
-    public static double dist(final double lat1, final double lon1, final double lat2, final double lon2)
-    {
-        return 2 * Math
-                .asin(Math.sqrt(Math.pow(Math.sin((lat1 - lat2) / 2), 2) + (Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin((lon1 - lon2) / 2), 2))));
+    public static double dist(final double lat1, final double lon1, final double lat2, final double lon2) {
+        return 2 * Math.asin(Math.sqrt(Math.pow(Math.sin((lat1 - lat2) / 2), 2) + (Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin((lon1 - lon2) / 2), 2))));
     }
 
     /**
@@ -79,8 +72,7 @@ public class LatLon extends Coordinate
      *
      * @return distance in metres.
      */
-    public static int distanceInMeters(final double lat1, final double lon1, final double lat2, final double lon2)
-    {
+    public static int distanceInMeters(final double lat1, final double lon1, final double lat2, final double lon2) {
         final int factor = (int) ((6378 - (21 * Math.sin(Math.toRadians((lat1 + lat2) / 2)))) * 1000);
         // final int factor = 6371000;
         final double p1lat = Math.toRadians(lat1);
@@ -99,8 +91,7 @@ public class LatLon extends Coordinate
      *
      * @return distance in metres.
      */
-    public static int distanceInMeters(final LatLon point1, final LatLon point2)
-    {
+    public static int distanceInMeters(final LatLon point1, final LatLon point2) {
         return distanceInMeters(point1.lat(), point1.lon(), point2.lat(), point2.lon());
         // final int factor = (int) ((6378 - 21 * Math.sin(Math.toRadians((point1.lat() +
         // point2.lat()) / 2))) * 1000);
@@ -122,8 +113,7 @@ public class LatLon extends Coordinate
      *
      * @return the approximate distance in Km.
      */
-    public static double distanceToKilometers(final double aDist, final Projection projection)
-    {
+    public static double distanceToKilometers(final double aDist, final Projection projection) {
         final int kilo = 1000;
 
         return (Math.sqrt(aDist) * projection.scaleFactor() * Projection.EARTH_CIRCUMFENCE_IN_METERS) / kilo;
@@ -139,8 +129,7 @@ public class LatLon extends Coordinate
      *
      * @return the course-track-error.
      */
-    public static double xtd(final double lat1, final double lon1, final double lat2, final double lon2, final double lat3, final double lon3)
-    {
+    public static double xtd(final double lat1, final double lon1, final double lat2, final double lon2, final double lat3, final double lon3) {
         double distAD = dist(lat1, lon1, lat3, lon3);
         double crsAD = course(lat1, lon1, lat3, lon3);
         double crsAB = course(lat1, lon1, lat2, lon2);
@@ -152,8 +141,7 @@ public class LatLon extends Coordinate
      * @param lat unprojected latitude
      * @param lon unprojected longitude
      */
-    public LatLon(final double lat, final double lon)
-    {
+    public LatLon(final double lat, final double lon) {
         super(lat, lon);
     }
 
@@ -162,8 +150,7 @@ public class LatLon extends Coordinate
      *
      * @return <code>true</code>, if the other point has almost the same lat/lon values, only differ by no more than 1/Projection.MAX_SERVER_PRECISION.
      */
-    public boolean equalsEpsilon(final LatLon other)
-    {
+    public boolean equalsEpsilon(final LatLon other) {
         final double p = 1 / Projection.MAX_SERVER_PRECISION;
 
         return (Math.abs(lat() - other.lat()) <= p) && (Math.abs(lon() - other.lon()) <= p);
@@ -172,8 +159,7 @@ public class LatLon extends Coordinate
     /**
      * @return <code>true</code>, if the coordinate is outside the world, compared by using lat/lon.
      */
-    public boolean isOutSideWorld()
-    {
+    public boolean isOutSideWorld() {
         return (lat() < -Projection.MAX_LAT) || (lat() > Projection.MAX_LAT) || (lon() < -Projection.MAX_LON) || (lon() > Projection.MAX_LON);
     }
 
@@ -182,24 +168,21 @@ public class LatLon extends Coordinate
      *
      * @return <code>true</code> if this is within the given bounding box.
      */
-    public boolean isWithin(final Bounds b)
-    {
+    public boolean isWithin(final Bounds b) {
         return (lat() >= b.getMin().lat()) && (lat() <= b.getMax().lat()) && (lon() > b.getMin().lon()) && (lon() < b.getMax().lon());
     }
 
     /**
      * @return the unprojected latitude
      */
-    public double lat()
-    {
+    public double lat() {
         return super.getXCoord();
     }
 
     /**
      * @return the unprojected longitude
      */
-    public double lon()
-    {
+    public double lon() {
         return super.getYCoord();
     }
 
@@ -207,8 +190,7 @@ public class LatLon extends Coordinate
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "LatLon[lat=" + lat() + ",lon=" + lon() + "]";
     }
 }

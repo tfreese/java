@@ -14,10 +14,8 @@ import de.freese.sonstiges.discord.message.DiscordWebHookMessage;
 /**
  * @author Thomas Freese
  */
-public final class DiscordMain
-{
-    public static void main(final String[] args) throws Exception
-    {
+public final class DiscordMain {
+    public static void main(final String[] args) throws Exception {
         // URL für den WebHook: Servereinstellungen -> Integrationen -> WebHooks anzeigen -> WebHook-URL kopieren
         //        String webHookId = args[0];
         //        String webHookToken = args[1];
@@ -53,8 +51,7 @@ public final class DiscordMain
         //        discordWebHookSender.send(message, webHookId, webHookToken);
     }
 
-    private DiscordMain()
-    {
+    private DiscordMain() {
         super();
     }
 }

@@ -6,8 +6,7 @@ package de.freese.openstreetmap.model;
  *
  * @author Thomas Freese
  */
-public class OsmNode extends AbstractOsmEntity
-{
+public class OsmNode extends AbstractOsmEntity {
     /**
      * Längengrad.<br>
      * >−90.0 and <90.0
@@ -23,8 +22,7 @@ public class OsmNode extends AbstractOsmEntity
      * Längengrad.<br>
      * >−90.0 and <90.0
      */
-    public float getLatitude()
-    {
+    public float getLatitude() {
         return this.latitude;
     }
 
@@ -32,8 +30,7 @@ public class OsmNode extends AbstractOsmEntity
      * Breitengrad.<br>
      * >−180 and <180
      */
-    public float getLongitude()
-    {
+    public float getLongitude() {
         return this.longitude;
     }
 
@@ -41,8 +38,7 @@ public class OsmNode extends AbstractOsmEntity
      * Längengrad.<br>
      * >−90.0 and <90.0
      */
-    public void setLatitude(final float latitude)
-    {
+    public void setLatitude(final float latitude) {
         this.latitude = latitude;
     }
 
@@ -50,8 +46,7 @@ public class OsmNode extends AbstractOsmEntity
      * Breitengrad.<br>
      * >−180 and <180
      */
-    public void setLongitude(final float longitude)
-    {
+    public void setLongitude(final float longitude) {
         this.longitude = longitude;
     }
 }

@@ -13,10 +13,8 @@ import javax.sound.midi.Track;
 /**
  * @author Thomas Freese
  */
-public final class SequencerSoundMain
-{
-    public static void main(final String[] args)
-    {
+public final class SequencerSoundMain {
+    public static void main(final String[] args) {
         new SequencerSoundMain();
     }
 
@@ -26,17 +24,14 @@ public final class SequencerSoundMain
 
     private Track track;
 
-    private SequencerSoundMain()
-    {
+    private SequencerSoundMain() {
         super();
 
-        try
-        {
+        try {
             this.sequencer = MidiSystem.getSequencer();
             this.sequencer.open();
         }
-        catch (MidiUnavailableException ex)
-        {
+        catch (MidiUnavailableException ex) {
             ex.printStackTrace();
         }
 
@@ -45,10 +40,8 @@ public final class SequencerSoundMain
         startSequencer();
     }
 
-    public void makeScale(final int baseNote)
-    {
-        for (int i = 0; i < 13; i++)
-        {
+    public void makeScale(final int baseNote) {
+        for (int i = 0; i < 13; i++) {
             startNote(baseNote + i, i);
             stopNote(baseNote + i, i + 1);
             startNote(baseNote + i, 25 - i);
@@ -56,55 +49,44 @@ public final class SequencerSoundMain
         }
     }
 
-    public void startNote(final int note, final int tick)
-    {
+    public void startNote(final int note, final int tick) {
         setShortMessage(ShortMessage.NOTE_ON, note, tick);
     }
 
-    public void stopNote(final int note, final int tick)
-    {
+    public void stopNote(final int note, final int tick) {
         setShortMessage(ShortMessage.NOTE_OFF, note, tick);
     }
 
-    private void createTrack()
-    {
-        try
-        {
+    private void createTrack() {
+        try {
             this.sequence = new Sequence(Sequence.PPQ, 4);
         }
-        catch (InvalidMidiDataException ex)
-        {
+        catch (InvalidMidiDataException ex) {
             ex.printStackTrace();
         }
 
         this.track = this.sequence.createTrack();
     }
 
-    private void setShortMessage(final int onOrOff, final int note, final int tick)
-    {
+    private void setShortMessage(final int onOrOff, final int note, final int tick) {
         ShortMessage message = new ShortMessage();
 
-        try
-        {
+        try {
             message.setMessage(onOrOff, 0, note, 90);
 
             MidiEvent event = new MidiEvent(message, tick);
             this.track.add(event);
         }
-        catch (InvalidMidiDataException ex)
-        {
+        catch (InvalidMidiDataException ex) {
             ex.printStackTrace();
         }
     }
 
-    private void startSequencer()
-    {
-        try
-        {
+    private void startSequencer() {
+        try {
             this.sequencer.setSequence(this.sequence);
         }
-        catch (InvalidMidiDataException ex)
-        {
+        catch (InvalidMidiDataException ex) {
             ex.printStackTrace();
         }
 

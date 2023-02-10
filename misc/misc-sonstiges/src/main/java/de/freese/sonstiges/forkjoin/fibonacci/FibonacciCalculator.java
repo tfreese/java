@@ -13,25 +13,20 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public class FibonacciCalculator
-{
+public class FibonacciCalculator {
     private static final Map<Integer, Long> CACHE = new HashMap<>();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FibonacciCalculator.class);
 
-    public static long fibonacci(final int n)
-    {
-        if (n <= 1)
-        {
+    public static long fibonacci(final int n) {
+        if (n <= 1) {
             return n;
         }
 
         // return fibonacci(n - 1) + fibonacci(n - 2);
 
-        synchronized (CACHE)
-        {
-            return CACHE.computeIfAbsent(n, key ->
-            {
+        synchronized (CACHE) {
+            return CACHE.computeIfAbsent(n, key -> {
                 LOGGER.info("{}", key);
                 return fibonacci(key - 1) + fibonacci(key - 2);
             });
@@ -54,16 +49,14 @@ public class FibonacciCalculator
 
     private final int n;
 
-    public FibonacciCalculator(final int n, final ForkJoinPool forkJoinPool)
-    {
+    public FibonacciCalculator(final int n, final ForkJoinPool forkJoinPool) {
         super();
 
         this.n = n;
         this.forkJoinPool = forkJoinPool;
     }
 
-    public long calculate()
-    {
+    public long calculate() {
         FibonacciTask task = new FibonacciTask(this.n);
 
         return this.forkJoinPool.invoke(task);

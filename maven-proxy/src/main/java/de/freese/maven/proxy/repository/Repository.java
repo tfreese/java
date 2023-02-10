@@ -8,8 +8,7 @@ import java.net.URI;
  *
  * @author Thomas Freese
  */
-public interface Repository
-{
+public interface Repository {
     /**
      * Prüft, ob die Resource vorhanden ist.<br>
      */

@@ -93,7 +93,6 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.swing.filechooser.FileSystemView;
 
-import de.freese.sonstiges.xml.jaxb.model.DJ;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,16 +104,16 @@ import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 import reactor.test.StepVerifier;
 
+import de.freese.sonstiges.xml.jaxb.model.DJ;
+
 /**
  * @author Thomas Freese
  */
-public final class MiscMain
-{
+public final class MiscMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(MiscMain.class);
     private static final ExecutorService executorService = Executors.newCachedThreadPool();
 
-    public static void main(final String[] args) throws Throwable
-    {
+    public static void main(final String[] args) throws Throwable {
         // System.out.println("args = " + Arrays.deepToString(args));
         // System.out.printf("%s: %s.%s%n", Thread.currentThread().getName(), "de.freese.sonstiges.MiscMain", "main");
 
@@ -152,12 +151,10 @@ public final class MiscMain
         executorService.shutdown();
     }
 
-    static void artistsWithOnlyOneSubdir() throws Exception
-    {
+    static void artistsWithOnlyOneSubdir() throws Exception {
         final Path basePath = Paths.get(System.getProperty("user.home"), "mediathek", "musik");
 
-        try (Stream<Path> stream = Files.list(basePath))
-        {
+        try (Stream<Path> stream = Files.list(basePath)) {
             //@formatter:off
             stream.filter(Files::isDirectory)
                 .filter(p -> {
@@ -182,10 +179,8 @@ public final class MiscMain
         }
     }
 
-    static void bitShift()
-    {
-        for (int n = 0; n < 40; n++)
-        {
+    static void bitShift() {
+        for (int n = 0; n < 40; n++) {
             System.out.printf("n = %d%n", n);
 
             // Liefert den höchsten Wert (power of 2), der kleiner als n ist.
@@ -193,8 +188,7 @@ public final class MiscMain
 
             System.out.printf("Integer.highestOneBit = %d%n", nn);
 
-            for (int i = 0; i < 3; i++)
-            {
+            for (int i = 0; i < 3; i++) {
                 // << 1: Bit-Shift nach links, vergrößert um power of 2; 1,2,4,8,16,32,...
                 // >> 1: Bit-Shift nach rechts, verkleinert um power of 2; ...,32,16,8,4,2,1
                 System.out.printf("%d << %d = %d;   %d >> %d = %d%n", nn, i, nn << i, nn, i, nn >> i);
@@ -203,14 +197,12 @@ public final class MiscMain
             System.out.println();
         }
 
-        for (int parallelism : List.of(32, 24, 16, 8, 4, 2))
-        {
+        for (int parallelism : List.of(32, 24, 16, 8, 4, 2)) {
             System.out.printf("highestOneBit: %2d << 4 = %3d%n", parallelism, Integer.highestOneBit(parallelism) << 4);
         }
     }
 
-    static void byteBuffer() throws Exception
-    {
+    static void byteBuffer() throws Exception {
         CharsetEncoder encoder = StandardCharsets.UTF_8.newEncoder();
         CharsetDecoder decoder = StandardCharsets.UTF_8.newDecoder();
 
@@ -256,8 +248,7 @@ public final class MiscMain
         System.out.printf("Original: '%s'%n", originalString);
     }
 
-    static void collator()
-    {
+    static void collator() {
         Collator collator = Collator.getInstance(Locale.GERMAN);
         collator.setStrength(Collator.PRIMARY);
 
@@ -265,15 +256,13 @@ public final class MiscMain
         System.out.println((int) '■');
     }
 
-    static long copy(final InputStream source, final OutputStream sink, final int bufferSize) throws IOException
-    {
+    static long copy(final InputStream source, final OutputStream sink, final int bufferSize) throws IOException {
         byte[] buffer = new byte[bufferSize];
         long readTotal = 0;
 
         int read = 0;
 
-        while ((read = source.read(buffer)) > 0)
-        {
+        while ((read = source.read(buffer)) > 0) {
             sink.write(buffer, 0, read);
             readTotal += read;
         }
@@ -287,8 +276,7 @@ public final class MiscMain
         return readTotal;
     }
 
-    static void copyPipedStreamsInToOut() throws Throwable
-    {
+    static void copyPipedStreamsInToOut() throws Throwable {
         // 1 MB
         int chunk = 1024 * 1024;
 
@@ -298,28 +286,22 @@ public final class MiscMain
 
         Files.deleteIfExists(pathTarget);
 
-        if (Files.notExists(pathSource))
-        {
+        if (Files.notExists(pathSource)) {
             LOGGER.info("File not exist: {}", pathSource);
 
             return;
         }
 
-        try (PipedInputStream pipeIn = new PipedInputStream(chunk);
-             PipedOutputStream pipeOut = new PipedOutputStream(pipeIn))
-        {
+        try (PipedInputStream pipeIn = new PipedInputStream(chunk); PipedOutputStream pipeOut = new PipedOutputStream(pipeIn)) {
             AtomicReference<Throwable> referenceThrowable = new AtomicReference<>(null);
 
-            Runnable writeTask = () ->
-            {
+            Runnable writeTask = () -> {
                 LOGGER.info("start target copy: {}", Thread.currentThread().getName());
 
-                try (OutputStream fileOutput = new BufferedOutputStream(Files.newOutputStream(pathTarget), chunk))
-                {
+                try (OutputStream fileOutput = new BufferedOutputStream(Files.newOutputStream(pathTarget), chunk)) {
                     copy(pipeIn, fileOutput, chunk);
                 }
-                catch (Throwable th)
-                {
+                catch (Throwable th) {
                     referenceThrowable.set(th);
                 }
 
@@ -331,8 +313,7 @@ public final class MiscMain
             // readTask
             LOGGER.info("start source copy: {}", Thread.currentThread().getName());
 
-            try (InputStream fileInput = new BufferedInputStream(Files.newInputStream(pathSource), chunk))
-            {
+            try (InputStream fileInput = new BufferedInputStream(Files.newInputStream(pathSource), chunk)) {
                 copy(fileInput, pipeOut, chunk);
 
                 pipeOut.flush();
@@ -345,8 +326,7 @@ public final class MiscMain
 
             Throwable th = referenceThrowable.get();
 
-            if (th != null)
-            {
+            if (th != null) {
                 throw th;
             }
 
@@ -377,26 +357,20 @@ public final class MiscMain
         }
     }
 
-    static void copyPipedStreamsOutToIn() throws Throwable
-    {
+    static void copyPipedStreamsOutToIn() throws Throwable {
         // 1 MB
         int chunk = 1024 * 1024;
 
-        try (PipedOutputStream pipeOut = new PipedOutputStream();
-             PipedInputStream pipeIn = new PipedInputStream(pipeOut, chunk))
-        {
-            Runnable readTask = () ->
-            {
+        try (PipedOutputStream pipeOut = new PipedOutputStream(); PipedInputStream pipeIn = new PipedInputStream(pipeOut, chunk)) {
+            Runnable readTask = () -> {
                 LOGGER.info("start readTask: {}", Thread.currentThread().getName());
 
-                try
-                {
+                try {
                     byte[] bytes = pipeIn.readAllBytes();
 
                     LOGGER.info("readTask finished with: {}; {}", new String(bytes, StandardCharsets.UTF_8), Thread.currentThread().getName());
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     LOGGER.error(ex.getMessage(), ex);
                 }
             };
@@ -414,8 +388,7 @@ public final class MiscMain
         }
     }
 
-    static void dateTime()
-    {
+    static void dateTime() {
         System.out.println("01: " + Instant.now()); // UTC time-zone
         System.out.println("02: " + Instant.ofEpochMilli(System.currentTimeMillis()) + "; " + new Date()); // UTC time-zone
         System.out.println("03: " + Clock.system(ZoneId.of("Europe/Berlin")).instant()); // UTC time-zone
@@ -448,8 +421,7 @@ public final class MiscMain
         System.out.println("18: 2014-12-31 - weekOfYear = " + weekNumber);
     }
 
-    static void embeddedJndi()
-    {
+    static void embeddedJndi() {
         // SimpleNamingContextBuilder builder = new SimpleNamingContextBuilder();
         // SimpleNamingContextBuilder builder =
         // SimpleNamingContextBuilder.emptyActivatedContextBuilder();
@@ -467,12 +439,10 @@ public final class MiscMain
         // System.out.println(object);
     }
 
-    static void fileSystems() throws Exception
-    {
+    static void fileSystems() throws Exception {
         FileSystem defaultFileSystem = FileSystems.getDefault();
 
-        for (FileStore store : defaultFileSystem.getFileStores())
-        {
+        for (FileStore store : defaultFileSystem.getFileStores()) {
             long total = store.getTotalSpace() / 1024 / 1024 / 1024;
             long used = (store.getTotalSpace() - store.getUnallocatedSpace()) / 1024 / 1024 / 1024;
             long avail = store.getUsableSpace() / 1024 / 1024 / 1024;
@@ -482,8 +452,7 @@ public final class MiscMain
 
         System.out.println();
 
-        for (Path rootPath : defaultFileSystem.getRootDirectories())
-        {
+        for (Path rootPath : defaultFileSystem.getRootDirectories()) {
             FileStore fileStore = Files.getFileStore(rootPath);
 
             System.out.println("RootPath: " + rootPath + ", FileStore: " + fileStore);
@@ -501,8 +470,7 @@ public final class MiscMain
 
         FileSystemView fsv = FileSystemView.getFileSystemView();
 
-        for (File file : File.listRoots())
-        {
+        for (File file : File.listRoots()) {
             System.out.println("Drive Name: " + file);
             System.out.println("Display Name: " + fsv.getSystemDisplayName(file));
             System.out.println("Description: " + fsv.getSystemTypeDescription(file));
@@ -511,9 +479,7 @@ public final class MiscMain
 
         System.out.println();
 
-        for (Path path : List.of(Paths.get("pom.xml"), Paths.get(System.getProperty("user.home"), ".xinitrc"),
-                Paths.get(System.getProperty("user.home"), ".m2", "settings.xml"), Paths.get(System.getProperty("java.io.tmpdir"))))
-        {
+        for (Path path : List.of(Paths.get("pom.xml"), Paths.get(System.getProperty("user.home"), ".xinitrc"), Paths.get(System.getProperty("user.home"), ".m2", "settings.xml"), Paths.get(System.getProperty("java.io.tmpdir")))) {
             System.out.println("Path: " + path + ", Size=" + Files.size(path));
             System.out.println("Path Root: " + path.getRoot());
             System.out.println("Path FileSystem: " + path.getFileSystem());
@@ -523,20 +489,17 @@ public final class MiscMain
 
             System.out.println("Path Display Name: " + fsv.getSystemDisplayName(path.toFile()));
             System.out.println("Path Description: " + fsv.getSystemTypeDescription(path.toFile()));
-            System.out.println(
-                    StreamSupport.stream(path.getFileSystem().getFileStores().spliterator(), false).map(FileStore::toString).collect(Collectors.joining(", ")));
+            System.out.println(StreamSupport.stream(path.getFileSystem().getFileStores().spliterator(), false).map(FileStore::toString).collect(Collectors.joining(", ")));
             System.out.println();
         }
     }
 
-    static void fileWalker() throws Exception
-    {
+    static void fileWalker() throws Exception {
         final Path path = Paths.get(System.getProperty("user.home"), "mediathek", "musik", "ATC");
 
         LOGGER.info("Files.walk");
 
-        try (Stream<Path> stream = Files.walk(path))
-        {
+        try (Stream<Path> stream = Files.walk(path)) {
             //@formatter:off
             stream
                     //                .filter(p -> !Files.isDirectory(p))
@@ -556,31 +519,26 @@ public final class MiscMain
 
         LOGGER.info("Files.list");
 
-        try (Stream<Path> stream = Files.list(path))
-        {
+        try (Stream<Path> stream = Files.list(path)) {
             stream.sorted().forEach(p -> LOGGER.info("{}", p));
         }
 
         LOGGER.info("Files.newDirectoryStream");
 
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(path))
-        {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
             stream.forEach(p -> LOGGER.info("{}", p));
         }
 
         LOGGER.info("Files.walkFileTree");
-        Files.walkFileTree(path, new SimpleFileVisitor<>()
-        {
+        Files.walkFileTree(path, new SimpleFileVisitor<>() {
             private String indent = "";
 
             /**
              * @see SimpleFileVisitor#postVisitDirectory(Object, IOException)
              */
             @Override
-            public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException
-            {
-                if (StringUtils.isNotBlank(this.indent))
-                {
+            public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException {
+                if (StringUtils.isNotBlank(this.indent)) {
                     this.indent = this.indent.substring(0, this.indent.length() - 3);
                 }
 
@@ -591,8 +549,7 @@ public final class MiscMain
              * @see SimpleFileVisitor#preVisitDirectory(Object, BasicFileAttributes)
              */
             @Override
-            public FileVisitResult preVisitDirectory(final Path dir, final BasicFileAttributes attrs) throws IOException
-            {
+            public FileVisitResult preVisitDirectory(final Path dir, final BasicFileAttributes attrs) throws IOException {
                 this.indent = this.indent + "   ";
 
                 // System.out.println(dir);
@@ -608,8 +565,7 @@ public final class MiscMain
              * @see SimpleFileVisitor#visitFile(Object, BasicFileAttributes)
              */
             @Override
-            public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException
-            {
+            public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
                 LOGGER.info("{}{}", this.indent, file);
 
                 return FileVisitResult.CONTINUE;
@@ -628,19 +584,16 @@ public final class MiscMain
      * Pattern "lllll_UUUUU_dddddd." returns "vrifa_EMFCQ_399671."<br>
      * <br>
      */
-    static String generatePW(final Random random, final String pattern)
-    {
+    static String generatePW(final Random random, final String pattern) {
         Objects.requireNonNull(random, "random is required");
         Objects.requireNonNull(pattern, "pattern is required");
 
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < pattern.length(); i++)
-        {
+        for (int i = 0; i < pattern.length(); i++) {
             char c = pattern.charAt(i);
 
-            switch (c)
-            {
+            switch (c) {
                 case 'l' -> sb.append((char) (97 + random.nextInt(26))); // Kleinbuchstaben
                 case 'U' -> sb.append((char) (65 + random.nextInt(26))); // Großbuchstaben
                 case 'd' -> sb.append(random.nextInt(10)); // Zahlen
@@ -651,42 +604,35 @@ public final class MiscMain
         return sb.toString();
     }
 
-    static void hostName() throws Exception
-    {
+    static void hostName() throws Exception {
         // System.out.println(InetAddress.getByName("5.157.15.6").getHostName());
 
         String hostName = null;
 
-        try
-        {
+        try {
             hostName = InetAddress.getLocalHost().getHostName();
             System.out.printf("InetAddress.getLocalHost: %s%n", hostName);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // Bei Betriebssystemen ohne DNS-Konfiguration funktioniert InetAddress.getLocalHost nicht !
             System.out.printf("InetAddress.getLocalHost: %s%n", ex.getMessage());
         }
 
         // Cross Platform (Windows, Linux, Unix, Mac)
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec(new String[]{"hostname"}).getInputStream())))
-        {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec(new String[]{"hostname"}).getInputStream()))) {
             hostName = br.readLine();
             System.out.printf("CMD 'hostname': %s%n", hostName);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // Ignore
             System.out.printf("CMD 'hostname': %s%n", ex.getMessage());
         }
 
-        try
-        {
+        try {
             // List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
             Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
 
-            while (interfaces.hasMoreElements())
-            {
+            while (interfaces.hasMoreElements()) {
                 NetworkInterface nic = interfaces.nextElement();
 
                 // nic.getInterfaceAddresses().forEach(System.out::println);
@@ -694,36 +640,30 @@ public final class MiscMain
                 // Stream<InetAddress> addresses = nic.inetAddresses();
                 Enumeration<InetAddress> addresses = nic.getInetAddresses();
 
-                while (addresses.hasMoreElements())
-                {
+                while (addresses.hasMoreElements()) {
                     InetAddress address = addresses.nextElement();
 
-                    if (!address.isLoopbackAddress() && (address instanceof Inet4Address))
-                    {
+                    if (!address.isLoopbackAddress() && (address instanceof Inet4Address)) {
                         hostName = address.getHostName();
                         System.out.printf("NetworkInterface IPv4: %s%n", hostName);
                     }
-                    else if (!address.isLoopbackAddress() && !address.isLinkLocalAddress())
-                    {
+                    else if (!address.isLoopbackAddress() && !address.isLinkLocalAddress()) {
                         hostName = address.getHostName();
                         System.out.printf("NetworkInterface IPv6: %s%n", hostName);
                     }
-                    else if (!address.isLoopbackAddress())
-                    {
+                    else if (!address.isLoopbackAddress()) {
                         hostName = address.getHostName();
                         System.out.printf("NetworkInterface IPv6 Link: %s%n", hostName);
                     }
                 }
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // Ignore
         }
     }
 
-    static void httpRedirect() throws Exception
-    {
+    static void httpRedirect() throws Exception {
         URL url = new URL("http://gmail.com");
 
         // Ausgabe verfügbarer Proxies für eine URL.
@@ -746,15 +686,13 @@ public final class MiscMain
 
         int status = conn.getResponseCode();
 
-        if ((status == HttpURLConnection.HTTP_MOVED_TEMP) || (status == HttpURLConnection.HTTP_MOVED_PERM) || (status == HttpURLConnection.HTTP_SEE_OTHER))
-        {
+        if ((status == HttpURLConnection.HTTP_MOVED_TEMP) || (status == HttpURLConnection.HTTP_MOVED_PERM) || (status == HttpURLConnection.HTTP_SEE_OTHER)) {
             redirect = true;
         }
 
         System.out.println("Response Code ... " + status);
 
-        if (redirect)
-        {
+        if (redirect) {
             // get redirect url from "location" header field
             String newUrl = conn.getHeaderField("Location");
 
@@ -773,8 +711,7 @@ public final class MiscMain
 
         StringBuilder html = new StringBuilder();
 
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream())))
-        {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
             br.lines().forEach(line -> html.append(line).append(System.lineSeparator()));
         }
 
@@ -782,16 +719,13 @@ public final class MiscMain
         System.out.println("Done");
     }
 
-    static void introspector() throws IntrospectionException
-    {
-        for (PropertyDescriptor propertyDescriptor : Introspector.getBeanInfo(DJ.class).getPropertyDescriptors())
-        {
+    static void introspector() throws IntrospectionException {
+        for (PropertyDescriptor propertyDescriptor : Introspector.getBeanInfo(DJ.class).getPropertyDescriptors()) {
             System.out.printf("%s: %s, %s%n", propertyDescriptor.getName(), propertyDescriptor.getReadMethod(), propertyDescriptor.getWriteMethod());
         }
     }
 
-    static void javaVersion()
-    {
+    static void javaVersion() {
         // String javaVersion = SystemUtils.JAVA_VERSION;
         String javaVersion = System.getProperty("java.version");
         String javaVersionDate = System.getProperty("java.version.date");
@@ -804,21 +738,17 @@ public final class MiscMain
         // Minor
         versionString += "." + String.format("%03d", Integer.parseInt(splits[1]));
 
-        if (splits.length > 2)
-        {
+        if (splits.length > 2) {
             // Micro
             versionString += "." + String.format("%03d", Integer.parseInt(splits[2]));
         }
 
-        if ((splits.length > 3) && !splits[3].startsWith("ea"))
-        {
+        if ((splits.length > 3) && !splits[3].startsWith("ea")) {
             // Update
-            try
-            {
+            try {
                 versionString += "." + String.format("%03d", Integer.parseInt(splits[3]));
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 System.err.println(ex.getMessage());
             }
         }
@@ -830,8 +760,7 @@ public final class MiscMain
         System.out.printf("JavaVersion = %s = %s = %d%n", javaVersion, versionString, version);
     }
 
-    static void jndi() throws Exception
-    {
+    static void jndi() throws Exception {
         // Tomcat-JNDI Service
         System.setProperty(Context.INITIAL_CONTEXT_FACTORY, "org.apache.naming.java.javaURLContextFactory");
         System.setProperty(Context.URL_PKG_PREFIXES, "org.apache.naming");
@@ -859,18 +788,15 @@ public final class MiscMain
         LOGGER.info(new InitialContext().lookup("java:comp/env/jdbc/datasource").toString());
     }
 
-    static void listDirectories() throws Exception
-    {
+    static void listDirectories() throws Exception {
         Path base = Paths.get(System.getProperty("user.dir"));
 
         // Liefert alles im Verzeichnis, nicht rekursiv.
         System.out.println();
         DirectoryStream.Filter<Path> filter = path -> (Files.isDirectory(path) && !path.getFileName().toString().startsWith("."));
 
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(base, filter))
-        {
-            for (Path path : stream)
-            {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(base, filter)) {
+            for (Path path : stream) {
                 System.out.println(path);
             }
         }
@@ -878,8 +804,7 @@ public final class MiscMain
         // Liefert alles rekursiv, wenn definiert, auch den Root Path.
         System.out.println();
 
-        try (Stream<Path> stream = Files.walk(base, 1))
-        {
+        try (Stream<Path> stream = Files.walk(base, 1)) {
             stream.filter(Files::isDirectory).forEach(System.out::println);
         }
 
@@ -888,8 +813,7 @@ public final class MiscMain
         Predicate<Path> isDirectory = Files::isDirectory;
         Predicate<Path> isHidden = p -> p.getFileName().toString().startsWith(".");
 
-        try (Stream<Path> children = Files.list(base).filter(isDirectory.and(isHidden.negate())))
-        {
+        try (Stream<Path> children = Files.list(base).filter(isDirectory.and(isHidden.negate()))) {
             children.forEach(System.out::println);
         }
 
@@ -897,35 +821,30 @@ public final class MiscMain
         // Files.walk(path).sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
     }
 
-    static void nioPipeChannels() throws Exception
-    {
+    static void nioPipeChannels() throws Exception {
         Pipe pipe = Pipe.open();
 
-        Callable<Void> writeCallable = () ->
-        {
+        Callable<Void> writeCallable = () -> {
             // Schreiben
             Pipe.SinkChannel sinkChannel = pipe.sink();
 
             ByteBuffer buf = ByteBuffer.allocateDirect(24);
 
-            for (int i = 1; i <= 3; i++)
-            {
+            for (int i = 1; i <= 3; i++) {
                 System.out.printf("%s-%s: write %d%n", Thread.currentThread().getName(), "MiscMain.nioPipe", i);
                 buf.putInt(i);
             }
 
             buf.flip();
 
-            while (buf.hasRemaining())
-            {
+            while (buf.hasRemaining()) {
                 sinkChannel.write(buf);
             }
 
             return null;
         };
 
-        Callable<Void> readCallable = () ->
-        {
+        Callable<Void> readCallable = () -> {
             // Lesen
             Pipe.SourceChannel sourceChannel = pipe.source();
 
@@ -936,8 +855,7 @@ public final class MiscMain
 
             System.out.printf("%s-%s: bytesRead=%d%n", Thread.currentThread().getName(), "MiscMain.nioPipe", bytesRead);
 
-            while (buf.hasRemaining())
-            {
+            while (buf.hasRemaining()) {
                 System.out.printf("%s-%s: read %d%n", Thread.currentThread().getName(), "MiscMain.nioPipe", buf.getInt());
             }
 
@@ -956,34 +874,28 @@ public final class MiscMain
         readFuture.get();
     }
 
-    static void printCharsets()
-    {
+    static void printCharsets() {
         System.out.printf("Charsets: Default=%s", Charset.defaultCharset());
         Set<String> sets = Charset.availableCharsets().keySet();
         // Arrays.sort(ids);
 
-        for (String set : sets)
-        {
+        for (String set : sets) {
             System.out.println(set);
         }
     }
 
-    static void printTimeZones()
-    {
+    static void printTimeZones() {
         System.out.printf("TimeZones: Default=%s", TimeZone.getDefault());
         String[] ids = TimeZone.getAvailableIDs();
         Arrays.sort(ids);
 
-        for (String id : ids)
-        {
+        for (String id : ids) {
             System.out.println(id);
         }
     }
 
-    static void processBuilder()
-    {
-        try
-        {
+    static void processBuilder() {
+        try {
             // run the Unix "ps -ef" command
             // using the Runtime exec method:
             // Process process = Runtime.getRuntime().exec("ps -ef");
@@ -993,13 +905,10 @@ public final class MiscMain
             // .directory(directory);
             // .redirectErrorStream(true); // Gibt Fehler auf dem InputStream aus.
 
-            for (int i = 0; i < 10; i++)
-            {
+            for (int i = 0; i < 10; i++) {
                 Process process = processBuilder.start();
 
-                try (BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8));
-                     BufferedReader stdError = new BufferedReader(new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8)))
-                {
+                try (BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8)); BufferedReader stdError = new BufferedReader(new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8))) {
                     // read the output from the command
                     System.out.println("Here is the standard output of the command:");
                     stdInput.lines().forEach(System.out::println);
@@ -1016,15 +925,13 @@ public final class MiscMain
 
             System.exit(0);
         }
-        catch (final IOException ex)
-        {
+        catch (final IOException ex) {
             LOGGER.error(ex.getMessage(), ex);
             System.exit(-1);
         }
     }
 
-    static void reactor() throws Exception
-    {
+    static void reactor() throws Exception {
         // Debug einschalten.
         // Hooks.onOperatorDebug();
 
@@ -1090,8 +997,7 @@ public final class MiscMain
         System.exit(0);
     }
 
-    static void reactorParallel() throws Exception
-    {
+    static void reactorParallel() throws Exception {
         System.setProperty("reactor.schedulers.defaultBoundedElasticSize", Integer.toString(2 * Runtime.getRuntime().availableProcessors()));
 
         // Statischer Thread-Pool -> analog Executors.newFixedThreadPool(X)
@@ -1111,8 +1017,7 @@ public final class MiscMain
         Schedulers.shutdownNow();
     }
 
-    static void reactorSinks() throws Exception
-    {
+    static void reactorSinks() throws Exception {
         // Debug einschalten.
         Hooks.onOperatorDebug();
 
@@ -1126,8 +1031,7 @@ public final class MiscMain
         // Nur das letzte Element innerhalb des Zeitraums.
         latestChange.asFlux().sample(Duration.ofMillis(250)).subscribe(LOGGER::info);
 
-        for (int i = 0; i < 100; i++)
-        {
+        for (int i = 0; i < 100; i++) {
             // latestChange.emitNext(Integer.toString(i), EmitFailureHandler.FAIL_FAST);
             latestChange.tryEmitNext(Integer.toString(i));
             TimeUnit.MILLISECONDS.sleep(25);
@@ -1138,24 +1042,20 @@ public final class MiscMain
         LOGGER.info("Stop");
     }
 
-    static void reactorStream() throws Exception
-    {
+    static void reactorStream() throws Exception {
         Flux.just(0).doFinally(state -> System.out.println("flux finally 1")).doFinally(state -> System.out.println("flux finally 2")).subscribe();
         Stream.of(0).onClose(() -> System.out.println("stream close 1")).onClose(() -> System.out.println("stream close 2")).close();
 
-        Flux.fromStream(Stream.of(0).onClose(() -> System.out.println("stream close 3")).onClose(() -> System.out.println("stream close 4")))
-                .doFinally(state -> System.out.println("flux finally 5")).doFinally(state -> System.out.println("flux finally 6")).subscribe();
+        Flux.fromStream(Stream.of(0).onClose(() -> System.out.println("stream close 3")).onClose(() -> System.out.println("stream close 4"))).doFinally(state -> System.out.println("flux finally 5")).doFinally(state -> System.out.println("flux finally 6")).subscribe();
     }
 
-    static void regEx()
-    {
+    static void regEx() {
         System.out.printf("102.112.207.net: %s%n", "102.112.207.net".matches(".*2[0oO]7\\.net"));
         System.out.printf("102.112.2o7.net: %s%n", "102.112.2o7.net".matches(".*2(0|o|O)7\\.net"));
         System.out.printf("102.122.2O7.net: %s%n", "102.122.2O7.net".matches(".*2(0|o|O)7\\.net"));
     }
 
-    static void replace()
-    {
+    static void replace() {
         String text = "ab\"cd'ef \\ ";
 
         text = text.replaceAll("\"", "\\\""); // " -> \"
@@ -1171,8 +1071,7 @@ public final class MiscMain
         System.out.println(text);
     }
 
-    static void rrd() throws Exception
-    {
+    static void rrd() throws Exception {
         Path path = Paths.get(System.getProperty("user.dir"), "target", "mapped.dat");
 
         // try (RandomAccessFile raf = new RandomAccessFile(path.toFile(), "rw"))
@@ -1183,8 +1082,7 @@ public final class MiscMain
 
         // FileChannel fileChannel = raf.getChannel())
 
-        try (FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.CREATE, StandardOpenOption.READ, StandardOpenOption.WRITE))
-        {
+        try (FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.CREATE, StandardOpenOption.READ, StandardOpenOption.WRITE)) {
             long fileSize = 8 * 1024; // 8 kB
 
             // Bereich der Datei im Buffer mappen.
@@ -1211,8 +1109,7 @@ public final class MiscMain
         System.out.println();
 
         // Einzel int-Read mit DataInputStream.
-        try (DataInputStream dis = new DataInputStream(Files.newInputStream(path)))
-        {
+        try (DataInputStream dis = new DataInputStream(Files.newInputStream(path))) {
             System.out.println(dis.readInt());
             dis.skip(4);
             System.out.println(dis.readInt());
@@ -1221,8 +1118,7 @@ public final class MiscMain
         System.out.println();
 
         // Multi int-Read mit MappedByteBuffer.
-        try (FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.READ))
-        {
+        try (FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.READ)) {
             // Bereich der Datei im Buffer mappen, nur jeweils 12 Bytes = 3 Integers.
             MappedByteBuffer buffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, 12);
 
@@ -1234,8 +1130,7 @@ public final class MiscMain
         System.out.println();
 
         // Einzel int-Read mit ByteBuffer (allocate).
-        try (FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.READ))
-        {
+        try (FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.READ)) {
             // Nur jeweils 4 Bytes = 1 Integer.
             ByteBuffer buffer = ByteBuffer.allocate(4);
 
@@ -1257,8 +1152,7 @@ public final class MiscMain
         System.out.println();
 
         // Multi int-Read mit ByteBuffer (allocate).
-        try (FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.READ))
-        {
+        try (FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.READ)) {
             // Nur jeweils 12 Bytes = 3 Integers.
             ByteBuffer buffer = ByteBuffer.allocate(12);
 
@@ -1271,18 +1165,14 @@ public final class MiscMain
         }
     }
 
-    static void securityProviders()
-    {
-        for (Provider provider : Security.getProviders())
-        {
+    static void securityProviders() {
+        for (Provider provider : Security.getProviders()) {
             System.out.printf(" --- Provider %s, version %s --- %n", provider.getName(), provider.getVersionStr());
 
             Set<Service> services = provider.getServices();
 
-            for (Service service : services)
-            {
-                if (service.getType().equalsIgnoreCase(MessageDigest.class.getSimpleName()))
-                {
+            for (Service service : services) {
+                if (service.getType().equalsIgnoreCase(MessageDigest.class.getSimpleName())) {
                     System.out.printf("Algorithm name: \"%s\"%n", service.getAlgorithm());
                 }
             }
@@ -1291,8 +1181,7 @@ public final class MiscMain
         }
     }
 
-    static void showMemory()
-    {
+    static void showMemory() {
         Runtime runtime = Runtime.getRuntime();
         long maxMemory = runtime.maxMemory();
         long allocatedMemory = runtime.totalMemory();
@@ -1309,22 +1198,19 @@ public final class MiscMain
         System.out.printf("Total free memory: %s%n", format.format((freeMemory + (maxMemory - allocatedMemory)) / divider) + unit);
     }
 
-    static void splitList()
-    {
+    static void splitList() {
         List<Integer> intList = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
         Map<Integer, List<Integer>> groups = intList.stream().collect(Collectors.groupingBy(s -> (s - 1) / 3));
         List<List<Integer>> subSets = new ArrayList<>(groups.values());
 
-        subSets.forEach(list ->
-        {
+        subSets.forEach(list -> {
             System.out.println("\nSub-List:");
             list.forEach(System.out::println);
         });
     }
 
-    static void streamParallelCustomThreadPool() throws ExecutionException, InterruptedException
-    {
+    static void streamParallelCustomThreadPool() throws ExecutionException, InterruptedException {
         int availableCpus = Runtime.getRuntime().availableProcessors();
 
         List<Long> list = LongStream.rangeClosed(1, 10).boxed().toList();
@@ -1343,20 +1229,17 @@ public final class MiscMain
         // Analog
         // ExecutorService customThreadPool = Executors.newWorkStealingPool(2);
 
-        try
-        {
+        try {
             Runnable runnable = () -> list.stream().parallel().forEach(value -> LOGGER.info("{}", value));
             customThreadPool.submit(runnable).get();
         }
-        finally
-        {
+        finally {
             // Memory-Leak verhindern.
             customThreadPool.shutdown();
         }
     }
 
-    static void systemMXBean() throws Exception
-    {
+    static void systemMXBean() throws Exception {
         System.out.println("\nOperatingSystemMXBean");
 
         OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
@@ -1400,8 +1283,7 @@ public final class MiscMain
         System.out.println("\tcpuUsage: " + cpuUsage);
     }
 
-    static void textBlocks() throws Exception
-    {
+    static void textBlocks() throws Exception {
         // '\' Zeilenumbruch für zu lange Zeilen
         // '\n' Manueller Zeilenumbruch mit leerer Zeile
         // '\t' Tabulator
@@ -1422,8 +1304,7 @@ public final class MiscMain
         System.out.println(sql);
     }
 
-    static void utilLogging()
-    {
+    static void utilLogging() {
         // java.util.logging.Logger.GLOBAL_LOGGER_NAME
         java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MiscMain.class.getName());
         //logger.setLevel(Level.ALL);
@@ -1437,10 +1318,8 @@ public final class MiscMain
         logger.finest("Am feinsten");
     }
 
-    static void virtualThreads() throws Exception
-    {
-        Consumer<Thread> printThreadInfos = thread ->
-        {
+    static void virtualThreads() throws Exception {
+        Consumer<Thread> printThreadInfos = thread -> {
             String message = "isVirtual = %b, ID = %s".formatted(thread.isVirtual(), thread);
             LOGGER.info(message);
         };
@@ -1448,12 +1327,9 @@ public final class MiscMain
         // Executors.newVirtualThreadPerTaskExecutor(): Virtuell Threads do not have Names.
         ThreadFactory threadFactory = Thread.ofVirtual().name("virtual-", 1).factory();
 
-        try (ExecutorService executorService = Executors.newThreadPerTaskExecutor(threadFactory))
-        {
-            IntStream.range(0, 20).forEach(i ->
-            {
-                executorService.submit(() ->
-                {
+        try (ExecutorService executorService = Executors.newThreadPerTaskExecutor(threadFactory)) {
+            IntStream.range(0, 20).forEach(i -> {
+                executorService.submit(() -> {
                     printThreadInfos.accept(Thread.currentThread());
                     TimeUnit.MILLISECONDS.sleep(500L);
                     return i;
@@ -1468,8 +1344,7 @@ public final class MiscMain
         Thread.startVirtualThread(() -> printThreadInfos.accept(Thread.currentThread()));
     }
 
-    private MiscMain()
-    {
+    private MiscMain() {
         super();
     }
 }

@@ -6,7 +6,6 @@ import de.freese.binding.value.ObservableIntegerValue;
 /**
  * @author Thomas Freese
  */
-public interface IntegerBinding extends NumberBinding<Integer>, ObservableIntegerValue
-{
+public interface IntegerBinding extends NumberBinding<Integer>, ObservableIntegerValue {
 
 }

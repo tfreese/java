@@ -16,17 +16,14 @@ import org.junit.jupiter.api.TestMethodOrder;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class TestSudoku
-{
+class TestSudoku {
     private static final SudokuConfig config = new SudokuConfig();
 
     private static SudokuChromosome chromosome;
 
     @BeforeAll
-    static void beforeAll() throws Exception
-    {
-        try (InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream("sudoku_indices.txt"))
-        {
+    static void beforeAll() throws Exception {
+        try (InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream("sudoku_indices.txt")) {
             List<String[]> puzzle = config.parsePuzzle(inputStream);
             config.setPuzzle(puzzle);
 
@@ -41,24 +38,21 @@ class TestSudoku
                 .toList();
             // @formatter:on
 
-            for (int i = 0; i < genes.size(); i++)
-            {
+            for (int i = 0; i < genes.size(); i++) {
                 chromosome.setGene(i, genes.get(i));
             }
         }
     }
 
     @Test
-    void testCalcFitness()
-    {
+    void testCalcFitness() {
         double fitness = chromosome.calcFitnessValue();
 
         assertEquals(9963.0, fitness);
     }
 
     @Test
-    void testMaxFittness()
-    {
+    void testMaxFittness() {
         double maxFitness = config.getMaxFitness();
 
         assertEquals(1215, maxFitness);
@@ -68,8 +62,7 @@ class TestSudoku
      * Von links nach rechts.
      */
     @Test
-    void testSumBlocks()
-    {
+    void testSumBlocks() {
         int puzzleBlockSize = config.getPuzzleBlockSize();
 
         assertEquals(99, chromosome.calcBlockFitness(0, puzzleBlockSize));
@@ -89,8 +82,7 @@ class TestSudoku
      * Von links nach rechts.
      */
     @Test
-    void testSumColumns()
-    {
+    void testSumColumns() {
         int puzzleSize = config.getPuzzleSize();
 
         assertEquals(333, chromosome.calcColumnFitness(0, puzzleSize));
@@ -110,8 +102,7 @@ class TestSudoku
      * Von oben nach unten.
      */
     @Test
-    void testSumRows()
-    {
+    void testSumRows() {
         assertEquals(45, chromosome.calcRowFitness(0));
         assertEquals(126, chromosome.calcRowFitness(1));
         assertEquals(207, chromosome.calcRowFitness(2));

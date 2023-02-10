@@ -9,8 +9,7 @@ import java.util.concurrent.ForkJoinPool;
  *
  * @author Thomas Freese
  */
-public class MaxFinder
-{
+public class MaxFinder {
     private final int[] array;
 
     private final ForkJoinPool forkJoinPool;
@@ -19,8 +18,7 @@ public class MaxFinder
      */
     private final int intervalThreshold;
 
-    public MaxFinder(final int[] array, final int intervalThreshold, final ForkJoinPool forkJoinPool)
-    {
+    public MaxFinder(final int[] array, final int intervalThreshold, final ForkJoinPool forkJoinPool) {
         super();
 
         this.array = array;
@@ -28,8 +26,7 @@ public class MaxFinder
         this.forkJoinPool = forkJoinPool;
     }
 
-    public int find()
-    {
+    public int find() {
         MaxInIntervall task = new MaxInIntervall(this.array, 0, this.array.length, this.intervalThreshold);
         this.forkJoinPool.invoke(task);
 

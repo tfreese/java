@@ -7,17 +7,14 @@ import de.freese.binding.value.ChangeListener;
 /**
  * @author Thomas Freese
  */
-public final class BooleanConstant extends AbstractBooleanExpression
-{
-    public static BooleanConstant valueOf(final boolean value)
-    {
+public final class BooleanConstant extends AbstractBooleanExpression {
+    public static BooleanConstant valueOf(final boolean value) {
         return new BooleanConstant(value);
     }
 
     private final boolean value;
 
-    private BooleanConstant(final boolean value)
-    {
+    private BooleanConstant(final boolean value) {
         super();
 
         this.value = value;
@@ -27,8 +24,7 @@ public final class BooleanConstant extends AbstractBooleanExpression
      * @see de.freese.binding.expression.AbstractExpression#addListener(de.freese.binding.value.ChangeListener)
      */
     @Override
-    public void addListener(final ChangeListener<? super Boolean> listener)
-    {
+    public void addListener(final ChangeListener<? super Boolean> listener) {
         // Empty
     }
 
@@ -36,8 +32,7 @@ public final class BooleanConstant extends AbstractBooleanExpression
      * @see de.freese.binding.value.ObservableValue#getValue()
      */
     @Override
-    public Boolean getValue()
-    {
+    public Boolean getValue() {
         return this.value;
     }
 
@@ -45,8 +40,7 @@ public final class BooleanConstant extends AbstractBooleanExpression
      * @see de.freese.binding.expression.AbstractExpression#removeListener(de.freese.binding.value.ChangeListener)
      */
     @Override
-    public void removeListener(final ChangeListener<? super Boolean> listener)
-    {
+    public void removeListener(final ChangeListener<? super Boolean> listener) {
         // Empty
     }
 
@@ -54,8 +48,7 @@ public final class BooleanConstant extends AbstractBooleanExpression
      * @see de.freese.binding.expression.AbstractExpression#fireValueChangedEvent(java.lang.Object, java.lang.Object)
      */
     @Override
-    protected void fireValueChangedEvent(final Boolean oldValue, final Boolean newValue)
-    {
+    protected void fireValueChangedEvent(final Boolean oldValue, final Boolean newValue) {
         // Empty
     }
 }

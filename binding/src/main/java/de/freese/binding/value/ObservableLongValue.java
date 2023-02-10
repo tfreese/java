@@ -4,7 +4,6 @@ package de.freese.binding.value;
 /**
  * @author Thomas Freese
  */
-public interface ObservableLongValue extends ObservableNumberValue<Long>
-{
+public interface ObservableLongValue extends ObservableNumberValue<Long> {
     long get();
 }

@@ -9,8 +9,7 @@ import javax.swing.table.DefaultTableModel;
 /**
  * @author Thomas Freese
  */
-class TableTransferHandler extends StringTransferHandler
-{
+class TableTransferHandler extends StringTransferHandler {
     @Serial
     private static final long serialVersionUID = 8631829448750837938L;
     /**
@@ -28,30 +27,24 @@ class TableTransferHandler extends StringTransferHandler
      * @see de.freese.sonstiges.dnd.extended.StringTransferHandler#cleanup(javax.swing.JComponent, boolean)
      */
     @Override
-    protected void cleanup(final JComponent c, final boolean remove)
-    {
+    protected void cleanup(final JComponent c, final boolean remove) {
         JTable source = (JTable) c;
 
-        if (remove && (this.rows != null))
-        {
+        if (remove && (this.rows != null)) {
             DefaultTableModel model = (DefaultTableModel) source.getModel();
 
             // If we are moving items around in the same table, we
             // need to adjust the rows accordingly, since those
             // after the insertion point have moved.
-            if (this.addCount > 0)
-            {
-                for (int i = 0; i < this.rows.length; i++)
-                {
-                    if (this.rows[i] > this.addIndex)
-                    {
+            if (this.addCount > 0) {
+                for (int i = 0; i < this.rows.length; i++) {
+                    if (this.rows[i] > this.addIndex) {
                         this.rows[i] += this.addCount;
                     }
                 }
             }
 
-            for (int i = this.rows.length - 1; i >= 0; i--)
-            {
+            for (int i = this.rows.length - 1; i >= 0; i--) {
                 model.removeRow(this.rows[i]);
             }
         }
@@ -65,8 +58,7 @@ class TableTransferHandler extends StringTransferHandler
      * @see de.freese.sonstiges.dnd.extended.StringTransferHandler#exportString(javax.swing.JComponent)
      */
     @Override
-    protected String exportString(final JComponent c)
-    {
+    protected String exportString(final JComponent c) {
         JTable table = (JTable) c;
         this.rows = table.getSelectedRows();
 
@@ -74,21 +66,17 @@ class TableTransferHandler extends StringTransferHandler
 
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < this.rows.length; i++)
-        {
-            for (int j = 0; j < colCount; j++)
-            {
+        for (int i = 0; i < this.rows.length; i++) {
+            for (int j = 0; j < colCount; j++) {
                 Object val = table.getValueAt(this.rows[i], j);
                 sb.append((val == null) ? "" : val.toString());
 
-                if (j != (colCount - 1))
-                {
+                if (j != (colCount - 1)) {
                     sb.append(",");
                 }
             }
 
-            if (i != (this.rows.length - 1))
-            {
+            if (i != (this.rows.length - 1)) {
                 sb.append("\n");
             }
         }
@@ -100,8 +88,7 @@ class TableTransferHandler extends StringTransferHandler
      * @see de.freese.sonstiges.dnd.extended.StringTransferHandler#importString(javax.swing.JComponent, java.lang.String)
      */
     @Override
-    protected void importString(final JComponent c, final String str)
-    {
+    protected void importString(final JComponent c, final String str) {
         JTable target = (JTable) c;
         DefaultTableModel model = (DefaultTableModel) target.getModel();
         int index = target.getSelectedRow();
@@ -111,8 +98,7 @@ class TableTransferHandler extends StringTransferHandler
         // attempts to insert the rows after row #5, this would
         // be problematic when removing the original rows.
         // So this is not allowed.
-        if ((this.rows != null) && (index >= (this.rows[0] - 1)) && (index <= this.rows[this.rows.length - 1]))
-        {
+        if ((this.rows != null) && (index >= (this.rows[0] - 1)) && (index <= this.rows[this.rows.length - 1])) {
             this.rows = null;
 
             return;
@@ -120,16 +106,13 @@ class TableTransferHandler extends StringTransferHandler
 
         int max = model.getRowCount();
 
-        if (index < 0)
-        {
+        if (index < 0) {
             index = max;
         }
-        else
-        {
+        else {
             index++;
 
-            if (index > max)
-            {
+            if (index > max) {
                 index = max;
             }
         }
@@ -141,8 +124,7 @@ class TableTransferHandler extends StringTransferHandler
 
         int colCount = target.getColumnCount();
 
-        for (int i = 0; (i < values.length) && (i < colCount); i++)
-        {
+        for (int i = 0; (i < values.length) && (i < colCount); i++) {
             model.insertRow(index++, values[i].split(","));
         }
     }

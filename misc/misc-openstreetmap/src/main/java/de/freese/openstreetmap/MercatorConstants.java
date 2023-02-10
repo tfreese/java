@@ -4,8 +4,7 @@ package de.freese.openstreetmap;
 /**
  * @author Thomas Freese
  */
-final class MercatorConstants
-{
+final class MercatorConstants {
     /**
      * Maximaler Erdradius in m.
      */
@@ -63,23 +62,19 @@ final class MercatorConstants
      */
     public static final double RAD_HALBE = RAD / 2.0D;
 
-    static private double getMittlererRadius()
-    {
+    static private double getMittlererRadius() {
         return MITTLERER_RADIUS;
     }
 
-    static private double getPolarRadius()
-    {
+    static private double getPolarRadius() {
         return POLAR_RADIUS;
     }
 
-    static private double getRad()
-    {
+    static private double getRad() {
         return RAD;
     }
 
-    private MercatorConstants()
-    {
+    private MercatorConstants() {
         super();
     }
 }

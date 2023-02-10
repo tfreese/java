@@ -6,14 +6,12 @@ package de.freese.sonstiges.serviceloader;
  *
  * @author Thomas Freese
  */
-public class WorldService implements Service
-{
+public class WorldService implements Service {
     /**
      * @see Service#getText()
      */
     @Override
-    public String getText()
-    {
+    public String getText() {
         return "World";
     }
 }

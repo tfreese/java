@@ -20,22 +20,19 @@ import de.freese.jsensors.utils.LifeCycle;
  *
  * @author Thomas Freese
  */
-public class ScheduledSensorRegistry extends AbstractSensorRegistry implements LifeCycle
-{
+public class ScheduledSensorRegistry extends AbstractSensorRegistry implements LifeCycle {
     private final int corePoolSize;
 
     private final ThreadFactory threadFactory;
 
     private ScheduledExecutorService scheduledExecutorService;
 
-    public ScheduledSensorRegistry(final ThreadFactory threadFactory, final int corePoolSize)
-    {
+    public ScheduledSensorRegistry(final ThreadFactory threadFactory, final int corePoolSize) {
         super();
 
         this.threadFactory = Objects.requireNonNull(threadFactory, "threadFactory required");
 
-        if (corePoolSize < 1)
-        {
+        if (corePoolSize < 1) {
             throw new IllegalArgumentException("corePoolSize < 1: " + corePoolSize);
         }
 
@@ -46,10 +43,8 @@ public class ScheduledSensorRegistry extends AbstractSensorRegistry implements L
      * Schedules the determination for a {@link SensorValue} of a {@link Sensor}.<br>
      * The {@link SensorValue} can accessed by: <code>SensorRegistry.getSensor(String).getValueLast()</code>.
      */
-    public void scheduleSensor(final String name, final long initialDelay, final long delay, final TimeUnit unit)
-    {
-        scheduleSensor(name, initialDelay, delay, unit, sensorValue ->
-        {
+    public void scheduleSensor(final String name, final long initialDelay, final long delay, final TimeUnit unit) {
+        scheduleSensor(name, initialDelay, delay, unit, sensorValue -> {
         });
     }
 
@@ -58,10 +53,8 @@ public class ScheduledSensorRegistry extends AbstractSensorRegistry implements L
      * The {@link SensorValue} is passed to a {@link Backend}.<br>
      * Use {@link CompositeBackend} for multiple {@link Backend}s for one {@link Sensor}.
      */
-    public void scheduleSensor(final String name, final long initialDelay, final long delay, final TimeUnit unit, final Backend backend)
-    {
-        if (this.scheduledExecutorService == null)
-        {
+    public void scheduleSensor(final String name, final long initialDelay, final long delay, final TimeUnit unit, final Backend backend) {
+        if (this.scheduledExecutorService == null) {
             throw new IllegalStateException("scheduler is not started: call #start() first");
         }
 
@@ -76,10 +69,8 @@ public class ScheduledSensorRegistry extends AbstractSensorRegistry implements L
      * @see de.freese.jsensors.utils.LifeCycle#start()
      */
     @Override
-    public void start()
-    {
-        if (this.scheduledExecutorService != null)
-        {
+    public void start() {
+        if (this.scheduledExecutorService != null) {
             stop();
         }
 
@@ -90,10 +81,8 @@ public class ScheduledSensorRegistry extends AbstractSensorRegistry implements L
      * @see de.freese.jsensors.utils.LifeCycle#stop()
      */
     @Override
-    public void stop()
-    {
-        if (this.scheduledExecutorService != null)
-        {
+    public void stop() {
+        if (this.scheduledExecutorService != null) {
             this.scheduledExecutorService.shutdown();
             this.scheduledExecutorService = null;
         }

@@ -6,13 +6,11 @@ import java.util.Objects;
 /**
  * @author Thomas Freese
  */
-public class AssoziationType implements Type
-{
+public class AssoziationType implements Type {
     private final String simpleName;
     private boolean isCollection;
 
-    public AssoziationType(final String simpleName)
-    {
+    public AssoziationType(final String simpleName) {
         super();
 
         this.simpleName = Objects.requireNonNull(simpleName, "simpleName required");
@@ -22,8 +20,7 @@ public class AssoziationType implements Type
      * @see de.freese.metamodel.modelgen.mapping.Type#equals(java.lang.Class)
      */
     @Override
-    public boolean equals(final Class<?> clazz)
-    {
+    public boolean equals(final Class<?> clazz) {
         return false;
     }
 
@@ -31,8 +28,7 @@ public class AssoziationType implements Type
      * @see de.freese.metamodel.modelgen.mapping.Type#getSimpleName()
      */
     @Override
-    public String getSimpleName()
-    {
+    public String getSimpleName() {
         return this.simpleName;
     }
 
@@ -40,8 +36,7 @@ public class AssoziationType implements Type
      * @see de.freese.metamodel.modelgen.mapping.Type#isArray()
      */
     @Override
-    public boolean isArray()
-    {
+    public boolean isArray() {
         return false;
     }
 
@@ -49,8 +44,7 @@ public class AssoziationType implements Type
      * @see de.freese.metamodel.modelgen.mapping.Type#isAssoziation()
      */
     @Override
-    public boolean isAssoziation()
-    {
+    public boolean isAssoziation() {
         return true;
     }
 
@@ -58,8 +52,7 @@ public class AssoziationType implements Type
      * @see de.freese.metamodel.modelgen.mapping.Type#isCollection()
      */
     @Override
-    public boolean isCollection()
-    {
+    public boolean isCollection() {
         return this.isCollection;
     }
 
@@ -67,13 +60,11 @@ public class AssoziationType implements Type
      * @see de.freese.metamodel.modelgen.mapping.Type#isPrimitive()
      */
     @Override
-    public boolean isPrimitive()
-    {
+    public boolean isPrimitive() {
         return false;
     }
 
-    public void setCollection(final boolean isCollection)
-    {
+    public void setCollection(final boolean isCollection) {
         this.isCollection = isCollection;
     }
 }

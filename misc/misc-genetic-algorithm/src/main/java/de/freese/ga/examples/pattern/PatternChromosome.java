@@ -10,10 +10,8 @@ import de.freese.ga.Gene;
 /**
  * @author Thomas Freese
  */
-public class PatternChromosome extends Chromosome
-{
-    public PatternChromosome(final PatternConfig config)
-    {
+public class PatternChromosome extends Chromosome {
+    public PatternChromosome(final PatternConfig config) {
         super(config);
     }
 
@@ -21,16 +19,13 @@ public class PatternChromosome extends Chromosome
      * @see de.freese.ga.Chromosome#calcFitnessValue()
      */
     @Override
-    public double calcFitnessValue()
-    {
+    public double calcFitnessValue() {
         double fitness = 0.0D;
 
         boolean[] solution = getConfig().getSolution();
 
-        for (int i = 0; (i < size()) && (i < solution.length); i++)
-        {
-            if (getGene(i).getValue().equals(solution[i]))
-            {
+        for (int i = 0; (i < size()) && (i < solution.length); i++) {
+            if (getGene(i).getValue().equals(solution[i])) {
                 fitness++;
             }
         }
@@ -42,11 +37,9 @@ public class PatternChromosome extends Chromosome
      * @see de.freese.ga.Chromosome#populate()
      */
     @Override
-    public void populate()
-    {
+    public void populate() {
         // Zufällige Initialisierung.
-        for (int i = 0; i < size(); i++)
-        {
+        for (int i = 0; i < size(); i++) {
             setGene(i, new Gene(getConfig().getRandom().nextBoolean()));
         }
     }
@@ -55,8 +48,7 @@ public class PatternChromosome extends Chromosome
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         // @formatter:off
         return Stream.of(getGenes())
                  .map(Gene::getValue)
@@ -70,8 +62,7 @@ public class PatternChromosome extends Chromosome
      * @see de.freese.ga.Chromosome#getConfig()
      */
     @Override
-    protected PatternConfig getConfig()
-    {
+    protected PatternConfig getConfig() {
         return (PatternConfig) super.getConfig();
     }
 }

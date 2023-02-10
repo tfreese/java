@@ -24,8 +24,7 @@ import de.freese.jsensors.utils.LifeCycle;
  *
  * @author Thomas Freese
  */
-public class JdbcBackend extends AbstractBatchBackend implements LifeCycle
-{
+public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
     private final DataSource dataSource;
 
     private final boolean exclusive;
@@ -35,8 +34,7 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle
     /**
      * @param exclusive boolean; Table exclusive for only one {@link Sensor} -> no column 'NAME'
      */
-    public JdbcBackend(final DataSource dataSource, final String tableName, final boolean exclusive, final int batchSize)
-    {
+    public JdbcBackend(final DataSource dataSource, final String tableName, final boolean exclusive, final int batchSize) {
         super(batchSize);
 
         this.dataSource = Objects.requireNonNull(dataSource, "dataSource required");
@@ -48,46 +46,35 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle
      * @see de.freese.jsensors.utils.LifeCycle#start()
      */
     @Override
-    public void start()
-    {
+    public void start() {
         // Create Table if not exist.
-        try (Connection con = this.dataSource.getConnection())
-        {
+        try (Connection con = this.dataSource.getConnection()) {
             DatabaseMetaData metaData = con.getMetaData();
             boolean exist = false;
 
-            try (ResultSet tables = metaData.getTables(null, null, this.tableName, new String[]
-                    {
-                            "TABLE"
-                    }))
-            {
-                if (tables.next())
-                {
+            try (ResultSet tables = metaData.getTables(null, null, this.tableName, new String[]{"TABLE"})) {
+                if (tables.next()) {
                     // Table exist.
                     exist = true;
                 }
             }
 
-            if (!exist)
-            {
+            if (!exist) {
                 getLogger().info("Create table: {}", this.tableName);
 
-                try (Statement stmt = con.createStatement())
-                {
+                try (Statement stmt = con.createStatement()) {
                     // Create Table.
                     StringBuilder sql = new StringBuilder();
                     sql.append("CREATE TABLE ").append(this.tableName);
 
                     StringJoiner joiner = new StringJoiner(", ", " (", ")");
 
-                    if (this.exclusive)
-                    {
+                    if (this.exclusive) {
                         // Without SensorName.
                         joiner.add("VALUE VARCHAR(50) NOT NULL");
                         joiner.add("TIMESTAMP BIGINT NOT NULL");
                     }
-                    else
-                    {
+                    else {
                         // With SensorName.
                         joiner.add("NAME VARCHAR(20) NOT NULL");
                         joiner.add("VALUE VARCHAR(50) NOT NULL");
@@ -98,16 +85,14 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle
 
                     stmt.execute(sql.toString());
 
-                    if (this.exclusive)
-                    {
+                    if (this.exclusive) {
                         // Without SensorName.
                         // String index = String.format("ALTER TABLE %s ADD CONSTRAINT TIMESTAMP_PK PRIMARY KEY (TIMESTAMP);", this.tableName);
                         String index = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (TIMESTAMP);", this.tableName, this.tableName);
 
                         stmt.execute(index);
                     }
-                    else
-                    {
+                    else {
                         // With SensorName.
                         String index = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (NAME, TIMESTAMP);", this.tableName, this.tableName);
 
@@ -123,8 +108,7 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle
                 }
             }
         }
-        catch (SQLException ex)
-        {
+        catch (SQLException ex) {
             // throw new RuntimeException(ex);
             getLogger().error(ex.getMessage(), ex);
         }
@@ -134,8 +118,7 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle
      * @see de.freese.jsensors.utils.LifeCycle#stop()
      */
     @Override
-    public void stop()
-    {
+    public void stop() {
         submit();
     }
 
@@ -143,44 +126,35 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle
      * @see de.freese.jsensors.backend.AbstractBatchBackend#storeValues(java.util.List)
      */
     @Override
-    protected void storeValues(final List<SensorValue> values)
-    {
-        if ((values == null) || values.isEmpty())
-        {
+    protected void storeValues(final List<SensorValue> values) {
+        if ((values == null) || values.isEmpty()) {
             return;
         }
 
         StringBuilder sql = new StringBuilder();
         sql.append("INSERT INTO ").append(this.tableName);
 
-        if (this.exclusive)
-        {
+        if (this.exclusive) {
             // Without SensorName.
             sql.append(" (VALUE, TIMESTAMP)");
             sql.append(" VALUES (?, ?)");
         }
-        else
-        {
+        else {
             // With SensorName.
             sql.append(" (NAME, VALUE, TIMESTAMP)");
             sql.append(" VALUES (?, ?, ?)");
         }
 
-        try (Connection con = this.dataSource.getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql.toString()))
-        {
+        try (Connection con = this.dataSource.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql.toString())) {
             con.setAutoCommit(false);
 
-            for (SensorValue sensorValue : values)
-            {
-                if (this.exclusive)
-                {
+            for (SensorValue sensorValue : values) {
+                if (this.exclusive) {
                     // Without SensorName.
                     pstmt.setString(1, sensorValue.getValue());
                     pstmt.setLong(2, sensorValue.getTimestamp());
                 }
-                else
-                {
+                else {
                     // With SensorName.
                     pstmt.setString(1, sensorValue.getName());
                     pstmt.setString(2, sensorValue.getValue());
@@ -195,8 +169,7 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle
 
             con.commit();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }

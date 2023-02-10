@@ -21,27 +21,22 @@ import de.freese.simulationen.model.SimulationType;
  *
  * @author Thomas Freese
  */
-public final class SimulationLauncher
-{
-    public static void main(final String[] args) throws Exception
-    {
+public final class SimulationLauncher {
+    public static void main(final String[] args) throws Exception {
         SimulationEnvironment.getInstance().init();
 
-        if (args.length == 0)
-        {
+        if (args.length == 0) {
             throw new IllegalArgumentException("parameter required: -swing or -console");
         }
 
         List<String> parameter = new ArrayList<>(List.of(args));
 
-        if ("-swing".equals(parameter.get(0)))
-        {
+        if ("-swing".equals(parameter.get(0))) {
             launchSwing();
 
             return;
         }
-        else if ("-console".equals(parameter.get(0)))
-        {
+        else if ("-console".equals(parameter.get(0))) {
             parameter.remove(0);
 
             launchConsole(parameter);
@@ -55,37 +50,31 @@ public final class SimulationLauncher
     /**
      * -type wator -cycles 1500 -size 3840 2160 -dir /tmp/simulationen
      */
-    private static void launchConsole(final List<String> parameter)
-    {
+    private static void launchConsole(final List<String> parameter) {
         SimulationType type = null;
         int cycles = 0;
         int width = 0;
         int height = 0;
         Path path = null;
 
-        while (!parameter.isEmpty())
-        {
-            if ("-type".equals(parameter.get(0)))
-            {
+        while (!parameter.isEmpty()) {
+            if ("-type".equals(parameter.get(0))) {
                 parameter.remove(0);
 
                 type = SimulationType.findByNameShort(parameter.remove(0));
             }
-            else if ("-cycles".equals(parameter.get(0)))
-            {
+            else if ("-cycles".equals(parameter.get(0))) {
                 parameter.remove(0);
 
                 cycles = Integer.parseInt(parameter.remove(0));
             }
-            else if ("-size".equals(parameter.get(0)))
-            {
+            else if ("-size".equals(parameter.get(0))) {
                 parameter.remove(0);
 
                 width = Integer.parseInt(parameter.remove(0));
                 height = Integer.parseInt(parameter.remove(0));
             }
-            else if ("-dir".equals(parameter.get(0)))
-            {
+            else if ("-dir".equals(parameter.get(0))) {
                 parameter.remove(0);
 
                 path = Paths.get(parameter.remove(0));
@@ -98,12 +87,9 @@ public final class SimulationLauncher
         SimulationEnvironment.getInstance().shutdown();
     }
 
-    private static void launchSwing()
-    {
-        Thread.setDefaultUncaughtExceptionHandler((thread, throwable) ->
-        {
-            if (throwable != null)
-            {
+    private static void launchSwing() {
+        Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
+            if (throwable != null) {
                 throwable.printStackTrace();
             }
 
@@ -121,8 +107,7 @@ public final class SimulationLauncher
         int maxWidth = 0;
         int maxHeight = 0;
 
-        for (GraphicsDevice gd : gds)
-        {
+        for (GraphicsDevice gd : gds) {
             Rectangle r = gd.getDefaultConfiguration().getBounds();
             maxWidth = Math.max(maxWidth, (int) r.getWidth());
             maxHeight = Math.max(maxHeight, (int) r.getHeight());
@@ -136,21 +121,18 @@ public final class SimulationLauncher
         int height = maxHeight - 75;
 
         SimulationSwing demo = new SimulationSwing();
-        demo.addWindowListener(new WindowAdapter()
-        {
+        demo.addWindowListener(new WindowAdapter() {
             /**
              * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
              */
             @Override
-            public void windowClosing(final WindowEvent event)
-            {
+            public void windowClosing(final WindowEvent event) {
                 SimulationEnvironment.getInstance().shutdown();
                 System.exit(0);
             }
         });
 
-        SwingUtilities.invokeLater(() ->
-        {
+        SwingUtilities.invokeLater(() -> {
             demo.setSize(width, height);
             // demo.setPreferredSize(new Dimension(width, height));
             demo.setResizable(true);
@@ -162,8 +144,7 @@ public final class SimulationLauncher
         });
     }
 
-    private SimulationLauncher()
-    {
+    private SimulationLauncher() {
         super();
     }
 }

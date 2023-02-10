@@ -10,18 +10,15 @@ import java.util.TreeSet;
  *
  * @author Thomas Freese
  */
-public final class Values<T extends Comparable<?>>
-{
+public final class Values<T extends Comparable<?>> {
     private final TreeSet<T> treeSet = new TreeSet<>();
 
     private final LinkedList<T> valueList = new LinkedList<>();
 
     private LinkedList<T> newValues;
 
-    public synchronized void addValue(final T value)
-    {
-        if (this.newValues == null)
-        {
+    public synchronized void addValue(final T value) {
+        if (this.newValues == null) {
             this.newValues = new LinkedList<>();
         }
 
@@ -31,13 +28,11 @@ public final class Values<T extends Comparable<?>>
     /**
      * Liefert die letzten n Werte.<br>
      */
-    public synchronized List<T> getLastValues(final int count)
-    {
+    public synchronized List<T> getLastValues(final int count) {
         final List<T> lastValues = this.newValues;
         this.newValues = null;
 
-        if (lastValues != null)
-        {
+        if (lastValues != null) {
             // Neue Werte hinzufügen.
             this.valueList.addAll(lastValues);
         }
@@ -45,15 +40,13 @@ public final class Values<T extends Comparable<?>>
         // Alte Werte entfernen.
         int n = Math.min(count, this.valueList.size());
 
-        while (this.valueList.size() > n)
-        {
+        while (this.valueList.size() > n) {
             T oldValue = this.valueList.removeFirst();
 
             this.treeSet.remove(oldValue);
         }
 
-        if (lastValues != null)
-        {
+        if (lastValues != null) {
             // Neue Werte für min.-/max. hinzufügen.
             this.treeSet.addAll(lastValues);
         }
@@ -61,13 +54,11 @@ public final class Values<T extends Comparable<?>>
         return this.valueList;
     }
 
-    public T getMaxValue()
-    {
+    public T getMaxValue() {
         return this.treeSet.last();
     }
 
-    public T getMinValue()
-    {
+    public T getMinValue() {
         return this.treeSet.first();
     }
 }

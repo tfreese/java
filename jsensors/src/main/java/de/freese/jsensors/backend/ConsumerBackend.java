@@ -9,12 +9,10 @@ import de.freese.jsensors.sensor.SensorValue;
 /**
  * @author Thomas Freese
  */
-public class ConsumerBackend extends AbstractBackend
-{
+public class ConsumerBackend extends AbstractBackend {
     private final Consumer<SensorValue> consumer;
 
-    public ConsumerBackend(final Consumer<SensorValue> consumer)
-    {
+    public ConsumerBackend(final Consumer<SensorValue> consumer) {
         super();
 
         this.consumer = Objects.requireNonNull(consumer, "consumer required");
@@ -24,8 +22,7 @@ public class ConsumerBackend extends AbstractBackend
      * @see de.freese.jsensors.backend.AbstractBackend#storeValue(de.freese.jsensors.sensor.SensorValue)
      */
     @Override
-    protected void storeValue(final SensorValue sensorValue)
-    {
+    protected void storeValue(final SensorValue sensorValue) {
         this.consumer.accept(sensorValue);
     }
 }

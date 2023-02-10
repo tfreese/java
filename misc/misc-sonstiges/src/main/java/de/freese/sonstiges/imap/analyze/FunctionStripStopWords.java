@@ -23,20 +23,16 @@ import java.util.function.UnaryOperator;
  *
  * @author Thomas Freese
  */
-public class FunctionStripStopWords implements UnaryOperator<String>
-{
+public class FunctionStripStopWords implements UnaryOperator<String> {
     public static final Function<String, String> INSTANCE = new FunctionStripStopWords();
 
     private static final Map<Locale, Set<String>> CACHE = new HashMap<>();
 
-    static
-    {
-        if (CACHE.isEmpty())
-        {
+    static {
+        if (CACHE.isEmpty()) {
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
-            try
-            {
+            try {
                 URL url = classLoader.getResource("stopwords_global.txt");
                 Set<String> global = new TreeSet<>(Files.readAllLines(Paths.get(url.toURI()), StandardCharsets.UTF_8));
                 CACHE.put(Locale.ROOT, global);
@@ -51,8 +47,7 @@ public class FunctionStripStopWords implements UnaryOperator<String>
                 // en.addAll(global);
                 CACHE.put(Locale.ENGLISH, en);
             }
-            catch (IOException | URISyntaxException ex)
-            {
+            catch (IOException | URISyntaxException ex) {
                 throw new RuntimeException(ex);
             }
         }
@@ -64,31 +59,25 @@ public class FunctionStripStopWords implements UnaryOperator<String>
      *
      * @return {@link Locale}; null oder {@link Locale#GERMAN} oder {@link Locale#ENGLISH}
      */
-    public static Locale guessLocale(final Collection<String> texte)
-    {
-        if ((texte == null) || texte.isEmpty())
-        {
+    public static Locale guessLocale(final Collection<String> texte) {
+        if ((texte == null) || texte.isEmpty()) {
             return null;
         }
 
         int german = 0;
         int english = 0;
 
-        for (String text : texte)
-        {
-            if (CACHE.get(Locale.GERMAN).contains(text))
-            {
+        for (String text : texte) {
+            if (CACHE.get(Locale.GERMAN).contains(text)) {
                 german++;
             }
 
-            if (CACHE.get(Locale.ENGLISH).contains(text))
-            {
+            if (CACHE.get(Locale.ENGLISH).contains(text)) {
                 english++;
             }
         }
 
-        if (german > english)
-        {
+        if (german > english) {
             return Locale.GERMAN;
         }
 
@@ -99,8 +88,7 @@ public class FunctionStripStopWords implements UnaryOperator<String>
      * @see java.util.function.Function#apply(java.lang.Object)
      */
     @Override
-    public String apply(final String text)
-    {
+    public String apply(final String text) {
         // @formatter:off
         if (CACHE.get(Locale.ROOT).contains(text)
             || CACHE.get(Locale.GERMAN).contains(text)

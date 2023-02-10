@@ -7,50 +7,40 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 /**
  * @author Thomas Freese
  */
-@JsonPropertyOrder(
-        {
-                "name", "value", "inline"
-        })
+@JsonPropertyOrder({"name", "value", "inline"})
 @JsonRootName(value = "field")
-public class DiscordField
-{
+public class DiscordField {
     private boolean inline;
 
     private String name;
 
     private String value;
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
-    public String getValue()
-    {
+    public String getValue() {
         return this.value;
     }
 
-    public boolean isInline()
-    {
+    public boolean isInline() {
         return this.inline;
     }
 
-    public DiscordField setInline(final boolean inline)
-    {
+    public DiscordField setInline(final boolean inline) {
         this.inline = inline;
 
         return this;
     }
 
-    public DiscordField setName(final String name)
-    {
+    public DiscordField setName(final String name) {
         this.name = name;
 
         return this;
     }
 
-    public DiscordField setValue(final String value)
-    {
+    public DiscordField setValue(final String value) {
         this.value = value;
 
         return this;

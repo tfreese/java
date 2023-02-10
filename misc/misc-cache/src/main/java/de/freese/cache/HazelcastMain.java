@@ -19,12 +19,10 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public final class HazelcastMain
-{
+public final class HazelcastMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastMain.class);
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         System.setProperty("hazelcast.map.partition.count", "1");
 
         URL configUrl = ClassLoader.getSystemResource("hazelcast.xml");
@@ -37,24 +35,19 @@ public final class HazelcastMain
         // Map ist niemals null.
         IMap<String, String> map = hazelcastInstance.getMap("test");
 
-        ForkJoinPool.commonPool().execute(() ->
-        {
-            while (true)
-            {
+        ForkJoinPool.commonPool().execute(() -> {
+            while (true) {
                 String value = map.get("key");
                 LOGGER.info("{}: cache value = {}", Thread.currentThread().getName(), value);
 
-                if (value == null)
-                {
+                if (value == null) {
                     map.put("key", "value");
                 }
 
-                try
-                {
+                try {
                     TimeUnit.MILLISECONDS.sleep(1000);
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     LOGGER.error(ex.getMessage(), ex);
                 }
             }
@@ -67,8 +60,7 @@ public final class HazelcastMain
         Hazelcast.shutdownAll();
     }
 
-    private HazelcastMain()
-    {
+    private HazelcastMain() {
         super();
     }
 }

@@ -16,8 +16,7 @@ import org.tartarus.snowball.ext.German2Stemmer;
  *
  * @author Thomas Freese
  */
-public class FunctionStemmer implements UnaryOperator<String>
-{
+public class FunctionStemmer implements UnaryOperator<String> {
     /**
      * Deutscher Stemmer
      */
@@ -33,16 +32,14 @@ public class FunctionStemmer implements UnaryOperator<String>
      * @author Thomas Freese
      */
     @FunctionalInterface
-    private interface Stemmer
-    {
+    private interface Stemmer {
         String stem(String token);
     }
 
     /**
      * @author Thomas Freese
      */
-    static class LuceneEnglishMinimalStemmer implements Stemmer
-    {
+    static class LuceneEnglishMinimalStemmer implements Stemmer {
         /**
          * org.apache.lucene.analysis.en.PorterStemmer
          */
@@ -52,8 +49,7 @@ public class FunctionStemmer implements UnaryOperator<String>
          * @see Stemmer#stem(java.lang.String)
          */
         @Override
-        public String stem(final String token)
-        {
+        public String stem(final String token) {
             char[] ca = token.toCharArray();
             int length = this.impl.stem(ca, ca.length);
 
@@ -64,16 +60,14 @@ public class FunctionStemmer implements UnaryOperator<String>
     /**
      * @author Thomas Freese
      */
-    static class LuceneGermanLightStemmer implements Stemmer
-    {
+    static class LuceneGermanLightStemmer implements Stemmer {
         private final GermanLightStemmer impl = new GermanLightStemmer();
 
         /**
          * @see Stemmer#stem(java.lang.String)
          */
         @Override
-        public String stem(final String token)
-        {
+        public String stem(final String token) {
             char[] ca = token.toCharArray();
             int length = this.impl.stem(ca, ca.length);
 
@@ -84,16 +78,14 @@ public class FunctionStemmer implements UnaryOperator<String>
     /**
      * @author Thomas Freese
      */
-    static class SnowballEnglishStemmer implements Stemmer
-    {
+    static class SnowballEnglishStemmer implements Stemmer {
         private final SnowballProgram impl = new EnglishStemmer();
 
         /**
          * @see Stemmer#stem(java.lang.String)
          */
         @Override
-        public String stem(final String token)
-        {
+        public String stem(final String token) {
             this.impl.setCurrent(token);
             this.impl.stem();
 
@@ -104,16 +96,14 @@ public class FunctionStemmer implements UnaryOperator<String>
     /**
      * @author Thomas Freese
      */
-    static class SnowballGerman2Stemmer implements Stemmer
-    {
+    static class SnowballGerman2Stemmer implements Stemmer {
         private final SnowballProgram impl = new German2Stemmer();
 
         /**
          * @see Stemmer#stem(java.lang.String)
          */
         @Override
-        public String stem(final String token)
-        {
+        public String stem(final String token) {
             this.impl.setCurrent(token);
             this.impl.stem();
 
@@ -124,40 +114,32 @@ public class FunctionStemmer implements UnaryOperator<String>
     /**
      * Liefert die Stemmer-{@link Function} des entsprechenden Locales.
      */
-    public static Function<String, String> get(final Locale locale)
-    {
-        if (Locale.GERMAN.equals(locale))
-        {
+    public static Function<String, String> get(final Locale locale) {
+        if (Locale.GERMAN.equals(locale)) {
             return DE;
         }
-        else if (Locale.ENGLISH.equals(locale))
-        {
+        else if (Locale.ENGLISH.equals(locale)) {
             return EN;
         }
-        else
-        {
+        else {
             throw new IllegalArgumentException("not supported locale: " + locale);
         }
     }
 
     private final Stemmer stemmer;
 
-    public FunctionStemmer(final Locale locale)
-    {
+    public FunctionStemmer(final Locale locale) {
         super();
 
-        if (Locale.GERMAN.equals(locale))
-        {
+        if (Locale.GERMAN.equals(locale)) {
             this.stemmer = new SnowballGerman2Stemmer();
             // this.stemmer = new LuceneGermanLightStemmer();
         }
-        else if (Locale.ENGLISH.equals(locale))
-        {
+        else if (Locale.ENGLISH.equals(locale)) {
             this.stemmer = new SnowballEnglishStemmer();
             // this.stemmer = new LuceneEnglishMinimalStemmer();
         }
-        else
-        {
+        else {
             throw new IllegalArgumentException("not supported locale: " + locale);
         }
     }
@@ -166,8 +148,7 @@ public class FunctionStemmer implements UnaryOperator<String>
      * @see java.util.function.Function#apply(java.lang.Object)
      */
     @Override
-    public String apply(final String text)
-    {
+    public String apply(final String text) {
         return this.stemmer.stem(text);
     }
 }

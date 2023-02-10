@@ -9,25 +9,24 @@ import java.util.Objects;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.maven.proxy.repository.Repository;
 import de.freese.maven.proxy.repository.RepositoryResponse;
 import de.freese.maven.proxy.util.ProxyUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
  */
-class MavenProxyHandler implements HttpHandler
-{
+class MavenProxyHandler implements HttpHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(MavenProxyHandler.class);
 
     private static final String SERVER_NAME = "Maven-Proxy";
 
     private final Repository repository;
 
-    MavenProxyHandler(final Repository repository)
-    {
+    MavenProxyHandler(final Repository repository) {
         super();
 
         this.repository = Objects.requireNonNull(repository, "repository required");
@@ -37,28 +36,22 @@ class MavenProxyHandler implements HttpHandler
      * @see com.sun.net.httpserver.HttpHandler#handle(com.sun.net.httpserver.HttpExchange)
      */
     @Override
-    public void handle(final HttpExchange exchange) throws IOException
-    {
+    public void handle(final HttpExchange exchange) throws IOException {
         String method = exchange.getRequestMethod();
 
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("{}: {}", method, exchange.getRequestURI());
             exchange.getRequestHeaders().forEach((key, value) -> LOGGER.debug("{} = {}", key, value));
         }
 
-        try
-        {
-            if ("GET".equals(method))
-            {
+        try {
+            if ("GET".equals(method)) {
                 handleGet(exchange);
             }
-            else if ("HEAD".equals(method))
-            {
+            else if ("HEAD".equals(method)) {
                 handleHead(exchange);
             }
-            else
-            {
+            else {
                 LOGGER.error("unknown method: {}", method);
 
                 exchange.getResponseHeaders().add(ProxyUtils.HTTP_HEADER_SERVER, SERVER_NAME);
@@ -66,26 +59,22 @@ class MavenProxyHandler implements HttpHandler
                 exchange.getResponseBody().close();
             }
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex) {
             LOGGER.error(ex.getMessage(), ex);
             throw ex;
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
             throw new IOException(ex);
         }
     }
 
-    private void handleGet(final HttpExchange exchange) throws Exception
-    {
+    private void handleGet(final HttpExchange exchange) throws Exception {
         final URI uri = exchange.getRequestURI();
 
         RepositoryResponse repositoryResponse = this.repository.getInputStream(uri);
 
-        if (repositoryResponse == null)
-        {
+        if (repositoryResponse == null) {
             String message = "File not found: " + uri.toString();
             byte[] bytes = message.getBytes(StandardCharsets.UTF_8);
 
@@ -104,16 +93,14 @@ class MavenProxyHandler implements HttpHandler
 
         exchange.sendResponseHeaders(ProxyUtils.HTTP_OK, fileLength);
 
-        try (OutputStream outputStream = exchange.getResponseBody())
-        {
+        try (OutputStream outputStream = exchange.getResponseBody()) {
             repositoryResponse.transferTo(outputStream);
 
             outputStream.flush();
         }
     }
 
-    private void handleHead(final HttpExchange exchange) throws Exception
-    {
+    private void handleHead(final HttpExchange exchange) throws Exception {
         final URI uri = exchange.getRequestURI();
 
         boolean exist = this.repository.exist(uri);

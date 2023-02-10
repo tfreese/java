@@ -13,11 +13,9 @@ import org.junit.jupiter.api.TestMethodOrder;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class TestNaming
-{
+class TestNaming {
     @Test
-    void testClassNaming()
-    {
+    void testClassNaming() {
         NamingStrategy namingStrategy = new DefaultNamingStrategy();
 
         assertEquals("Test", namingStrategy.getClassName("Test"));
@@ -29,8 +27,7 @@ class TestNaming
     }
 
     @Test
-    void testFieldNaming()
-    {
+    void testFieldNaming() {
         NamingStrategy namingStrategy = new DefaultNamingStrategy();
 
         assertEquals("test", namingStrategy.getFieldName("Test"));

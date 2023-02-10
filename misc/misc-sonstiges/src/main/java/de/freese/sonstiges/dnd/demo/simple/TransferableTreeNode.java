@@ -11,19 +11,14 @@ import javax.swing.tree.TreePath;
 /**
  * @author Thomas Freese
  */
-class TransferableTreeNode implements Transferable
-{
+class TransferableTreeNode implements Transferable {
     public static final DataFlavor FLAVOR_TREE_PATH = new DataFlavor(TreePath.class, "Tree Path");
 
-    private static final DataFlavor[] FLAVORS =
-            {
-                    FLAVOR_TREE_PATH
-            };
+    private static final DataFlavor[] FLAVORS = {FLAVOR_TREE_PATH};
 
     private final TreePath path;
 
-    TransferableTreeNode(final TreePath tp)
-    {
+    TransferableTreeNode(final TreePath tp) {
         this.path = tp;
     }
 
@@ -31,10 +26,8 @@ class TransferableTreeNode implements Transferable
      * @see java.awt.datatransfer.Transferable#getTransferData(java.awt.datatransfer.DataFlavor)
      */
     @Override
-    public synchronized Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException, IOException
-    {
-        if (isDataFlavorSupported(flavor))
-        {
+    public synchronized Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+        if (isDataFlavorSupported(flavor)) {
             return this.path;
         }
 
@@ -45,8 +38,7 @@ class TransferableTreeNode implements Transferable
      * @see java.awt.datatransfer.Transferable#getTransferDataFlavors()
      */
     @Override
-    public synchronized DataFlavor[] getTransferDataFlavors()
-    {
+    public synchronized DataFlavor[] getTransferDataFlavors() {
         return FLAVORS;
     }
 
@@ -54,8 +46,7 @@ class TransferableTreeNode implements Transferable
      * @see java.awt.datatransfer.Transferable#isDataFlavorSupported(java.awt.datatransfer.DataFlavor)
      */
     @Override
-    public boolean isDataFlavorSupported(final DataFlavor flavor)
-    {
+    public boolean isDataFlavorSupported(final DataFlavor flavor) {
         return (flavor.getRepresentationClass() == TreePath.class);
     }
 }

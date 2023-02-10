@@ -9,19 +9,16 @@ import java.util.Objects;
  *
  * @author Thomas Freese
  */
-public class CurrencyConverter
-{
+public class CurrencyConverter {
     private final ExchangeRateService exchangeRateService;
 
-    public CurrencyConverter(final ExchangeRateService exchangeRateService)
-    {
+    public CurrencyConverter(final ExchangeRateService exchangeRateService) {
         super();
 
         this.exchangeRateService = Objects.requireNonNull(exchangeRateService, "exchangeRateService required");
     }
 
-    public MonetaryAmount convert(final MonetaryAmount amount, final Currency currency)
-    {
+    public MonetaryAmount convert(final MonetaryAmount amount, final Currency currency) {
         double exchangeRate = this.exchangeRateService.getRate(amount.getCurrency().getCurrencyCode(), currency.getCurrencyCode());
 
         return new MonetaryAmount(amount.getValue().multiply(BigDecimal.valueOf(exchangeRate)), currency);

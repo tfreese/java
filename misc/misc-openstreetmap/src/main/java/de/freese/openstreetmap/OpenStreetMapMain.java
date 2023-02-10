@@ -10,12 +10,9 @@ import de.freese.openstreetmap.model.OsmModel;
 /**
  * @author Thomas Freese
  */
-public final class OpenStreetMapMain
-{
-    public static void main(final String[] args)
-    {
-        try
-        {
+public final class OpenStreetMapMain {
+    public static void main(final String[] args) {
+        try {
             // IOSMParser parser = new JdomOSMParser();
             // IOSMParser parser = new SaxOSMParser();
             OSMParser parser = new XMLStreamOSMParser();
@@ -32,14 +29,12 @@ public final class OpenStreetMapMain
 
             SwingUtilities.invokeLater(myFrame::zoomToFit);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    private OpenStreetMapMain()
-    {
+    private OpenStreetMapMain() {
         super();
     }
 }

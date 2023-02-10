@@ -7,7 +7,6 @@ import de.freese.jsensors.sensor.SensorValue;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface Backend
-{
+public interface Backend {
     void store(SensorValue sensorValue);
 }

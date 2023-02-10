@@ -20,13 +20,11 @@ import javax.swing.text.DefaultEditorKit;
 /**
  * Example code that shows a text component that both accepts dnd color (by changing its foreground) and also exports simple text.
  */
-public final class DragColorTextFieldMain extends JPanel
-{
+public final class DragColorTextFieldMain extends JPanel {
     @Serial
     private static final long serialVersionUID = 5524244374564444890L;
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         // Schedule a job for the event-dispatching thread:
         // creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(DragColorTextFieldMain::createAndShowGUI);
@@ -35,8 +33,7 @@ public final class DragColorTextFieldMain extends JPanel
     /**
      * Create the GUI and show it. For thread safety, this method should be invoked from the event-dispatching thread.
      */
-    private static void createAndShowGUI()
-    {
+    private static void createAndShowGUI() {
         // Make sure we have nice window decorations.
         JFrame.setDefaultLookAndFeelDecorated(true);
 
@@ -59,8 +56,7 @@ public final class DragColorTextFieldMain extends JPanel
 
     private JCheckBox toggleForeground;
 
-    private DragColorTextFieldMain()
-    {
+    private DragColorTextFieldMain() {
         super(new BorderLayout());
 
         JTextField textField;
@@ -91,8 +87,7 @@ public final class DragColorTextFieldMain extends JPanel
         add(buttonPanel, BorderLayout.CENTER);
     }
 
-    public JMenuBar createMenuBar()
-    {
+    public JMenuBar createMenuBar() {
         JMenuItem menuItem;
         JMenuBar menuBar = new JMenuBar();
         JMenu mainMenu = new JMenu("Edit");

@@ -10,22 +10,17 @@ import javax.sound.midi.Synthesizer;
 /**
  * @author Thomas Freese
  */
-public final class SingleNoteChannelMain
-{
-    public static void main(final String[] args)
-    {
+public final class SingleNoteChannelMain {
+    public static void main(final String[] args) {
         new SingleNoteChannelMain().playNote(60);
     }
 
-    private SingleNoteChannelMain()
-    {
+    private SingleNoteChannelMain() {
         super();
     }
 
-    public void playNote(final int note)
-    {
-        try (Synthesizer synth = MidiSystem.getSynthesizer())
-        {
+    public void playNote(final int note) {
+        try (Synthesizer synth = MidiSystem.getSynthesizer()) {
             synth.open();
 
             MidiChannel channel = synth.getChannels()[0];
@@ -35,8 +30,7 @@ public final class SingleNoteChannelMain
 
             channel.noteOff(note, 70);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             ex.printStackTrace();
         }
 

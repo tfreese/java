@@ -8,16 +8,14 @@ import java.util.Objects;
  *
  * @author Thomas Freese
  */
-public class DefaultSensorValue implements SensorValue
-{
+public class DefaultSensorValue implements SensorValue {
     private final String name;
 
     private final long timestamp;
 
     private final String value;
 
-    public DefaultSensorValue(final String name, final String value, final long timestamp)
-    {
+    public DefaultSensorValue(final String name, final String value, final long timestamp) {
         super();
 
         this.name = Objects.requireNonNull(name, "name required");
@@ -29,8 +27,7 @@ public class DefaultSensorValue implements SensorValue
      * @see de.freese.jsensors.sensor.SensorValue#getName()
      */
     @Override
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
@@ -38,8 +35,7 @@ public class DefaultSensorValue implements SensorValue
      * @see de.freese.jsensors.sensor.SensorValue#getTimestamp()
      */
     @Override
-    public long getTimestamp()
-    {
+    public long getTimestamp() {
         return this.timestamp;
     }
 
@@ -47,8 +43,7 @@ public class DefaultSensorValue implements SensorValue
      * @see de.freese.jsensors.sensor.SensorValue#getValue()
      */
     @Override
-    public String getValue()
-    {
+    public String getValue() {
         return this.value;
     }
 
@@ -56,8 +51,7 @@ public class DefaultSensorValue implements SensorValue
      * @see de.freese.jsensors.sensor.SensorValue#getValueAsDouble()
      */
     @Override
-    public double getValueAsDouble()
-    {
+    public double getValueAsDouble() {
         return Double.parseDouble(getValue());
     }
 
@@ -65,8 +59,7 @@ public class DefaultSensorValue implements SensorValue
      * @see de.freese.jsensors.sensor.SensorValue#getValueAsLong()
      */
     @Override
-    public long getValueAsLong()
-    {
+    public long getValueAsLong() {
         return Long.parseLong(getValue());
     }
 
@@ -74,8 +67,7 @@ public class DefaultSensorValue implements SensorValue
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("SensorValue [");
         builder.append("name=").append(getName());

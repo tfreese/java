@@ -9,19 +9,16 @@ import java.util.zip.Checksum;
 /**
  * @author Thomas Freese
  */
-public class CheckedOutputStream extends FilterOutputStream
-{
+public class CheckedOutputStream extends FilterOutputStream {
     private final Checksum checksum;
 
-    public CheckedOutputStream(final OutputStream out, final Checksum checksum)
-    {
+    public CheckedOutputStream(final OutputStream out, final Checksum checksum) {
         super(out);
 
         this.checksum = Objects.requireNonNull(checksum, "checksum required");
     }
 
-    public Checksum getChecksum()
-    {
+    public Checksum getChecksum() {
         return this.checksum;
     }
 
@@ -29,8 +26,7 @@ public class CheckedOutputStream extends FilterOutputStream
      * @see java.io.FilterOutputStream#write(byte[])
      */
     @Override
-    public void write(final byte[] b) throws IOException
-    {
+    public void write(final byte[] b) throws IOException {
         this.out.write(b, 0, b.length);
         this.checksum.update(b, 0, b.length);
     }
@@ -39,8 +35,7 @@ public class CheckedOutputStream extends FilterOutputStream
      * @see java.io.FilterOutputStream#write(byte[], int, int)
      */
     @Override
-    public void write(final byte[] b, final int off, final int len) throws IOException
-    {
+    public void write(final byte[] b, final int off, final int len) throws IOException {
         this.out.write(b, off, len);
         this.checksum.update(b, off, len);
     }
@@ -49,8 +44,7 @@ public class CheckedOutputStream extends FilterOutputStream
      * @see java.io.FilterOutputStream#write(int)
      */
     @Override
-    public void write(final int b) throws IOException
-    {
+    public void write(final int b) throws IOException {
         this.out.write(b);
         this.checksum.update(b);
     }

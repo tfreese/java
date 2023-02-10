@@ -9,8 +9,7 @@ import java.sql.JDBCType;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface TypeMapping
-{
+public interface TypeMapping {
     /**
      * Liefert den konkreten Klassentyp eines {@link JDBCType}.
      */

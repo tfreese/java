@@ -20,15 +20,13 @@ import com.lmax.disruptor.util.DaemonThreadFactory;
  *
  * @author Thomas Freese
  */
-public final class LongEventMain
-{
+public final class LongEventMain {
     /**
      * -2 damit noch Platz für den CleaningEventHandler und sonstige Ressourcen bleibt.
      */
     public static final int THREAD_COUNT = Math.max(2, Runtime.getRuntime().availableProcessors() - 2);
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         // Specify the size of the ring buffer, must be power of 2.
         // int ringBufferSize = Integer.highestOneBit(31) << 1;
         int ringBufferSize = 32;
@@ -83,8 +81,7 @@ public final class LongEventMain
         // Ein WorkHandler verarbeitet nur jeweils ein Event.
         WorkHandler<LongEvent>[] worker = new LongHandler[3];
 
-        for (int i = 0; i < worker.length; i++)
-        {
+        for (int i = 0; i < worker.length; i++) {
             worker[i] = new LongHandler(i);
         }
 
@@ -101,8 +98,7 @@ public final class LongEventMain
 
         ByteBuffer bb = ByteBuffer.allocate(8);
 
-        for (long l = 0; l < 50; l++)
-        {
+        for (long l = 0; l < 50; l++) {
             bb.putLong(0, l);
             producer.onData(bb); // Wartet, wenn der RingBuffer voll ist, ggf. ringBufferSize anpassen
         }
@@ -116,8 +112,7 @@ public final class LongEventMain
         executorService.shutdown();
     }
 
-    private LongEventMain()
-    {
+    private LongEventMain() {
         super();
     }
 }

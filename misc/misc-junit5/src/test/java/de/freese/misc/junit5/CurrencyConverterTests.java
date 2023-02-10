@@ -14,15 +14,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
  * @author Thomas Freese
  */
 @ExtendWith(MockitoExtension.class)
-class CurrencyConverterTests
-{
+class CurrencyConverterTests {
     private static final Currency EUR = Currency.getInstance("EUR");
 
     private static final Currency USD = Currency.getInstance("USD");
 
     @Test
-    void testConvertsEurToUsd(@Mock final ExchangeRateService exchangeRateService)
-    {
+    void testConvertsEurToUsd(@Mock final ExchangeRateService exchangeRateService) {
         var originalAmount = new MonetaryAmount("100.00", EUR);
         Mockito.when(exchangeRateService.getRate("EUR", "USD")).thenReturn(1.139157);
 

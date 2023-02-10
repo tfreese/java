@@ -7,8 +7,7 @@ package de.freese.misc.generator.algorythm;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface SudokuAlgorithm
-{
+public interface SudokuAlgorithm {
     /**
      * Füllt das Array mit den Zahlen.
      *

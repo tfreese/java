@@ -17,23 +17,18 @@ import javax.swing.WindowConstants;
 /**
  * @author Thomas Freese
  */
-public final class DragListMain extends JPanel
-{
+public final class DragListMain extends JPanel {
     @Serial
     private static final long serialVersionUID = -796699297895768926L;
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         // Schedule a job for the event-dispatching thread:
         // creating and showing this application's GUI.
-        SwingUtilities.invokeLater(() ->
-        {
-            try
-            {
+        SwingUtilities.invokeLater(() -> {
+            try {
                 createAndShowGUI();
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
         });
@@ -42,8 +37,7 @@ public final class DragListMain extends JPanel
     /**
      * Create the GUI and show it. For thread safety, this method should be invoked from the event-dispatching thread.
      */
-    private static void createAndShowGUI() throws ClassNotFoundException
-    {
+    private static void createAndShowGUI() throws ClassNotFoundException {
         // Make sure we have nice window decorations.
         JFrame.setDefaultLookAndFeelDecorated(true);
 
@@ -62,8 +56,7 @@ public final class DragListMain extends JPanel
 
     private final ArrayListTransferHandler arrayListHandler;
 
-    private DragListMain() throws ClassNotFoundException
-    {
+    private DragListMain() throws ClassNotFoundException {
         this.arrayListHandler = new ArrayListTransferHandler();
 
         JList<String> list1;

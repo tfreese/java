@@ -13,20 +13,17 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public final class Utils
-{
+public final class Utils {
     public static final String[] EMPTY_STRING_ARRAY = {};
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Utils.class);
 
     private static final String OS = System.getProperty("os.name").toLowerCase();
 
-    public static List<String> executeCommand(final String... command)
-    {
+    public static List<String> executeCommand(final String... command) {
         List<String> list = null;
 
-        try
-        {
+        try {
             // @formatter:off
             Process process = new ProcessBuilder()
                     .command(command)
@@ -40,8 +37,7 @@ public final class Utils
             // {
             // System.out.println(isr.getEncoding());
             // }
-            try (BufferedReader readerIn = new BufferedReader(new InputStreamReader(process.getInputStream(), charset)))
-            {
+            try (BufferedReader readerIn = new BufferedReader(new InputStreamReader(process.getInputStream(), charset))) {
                 list = readerIn.lines().filter(l -> !l.isEmpty()).toList();
             }
 
@@ -50,45 +46,37 @@ public final class Utils
             process.waitFor();
             process.destroy();
         }
-        catch (InterruptedException ex)
-        {
+        catch (InterruptedException ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             // Restore interrupted state.
             Thread.currentThread().interrupt();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 
         return list;
     }
 
-    public static boolean isLinux()
-    {
+    public static boolean isLinux() {
         return OS.contains("linux");
     }
 
-    public static boolean isUnix()
-    {
+    public static boolean isUnix() {
         return OS.contains("nix") || OS.contains("nux") || OS.contains("aix");
     }
 
-    public static boolean isWindows()
-    {
+    public static boolean isWindows() {
         return OS.startsWith("win");
     }
 
-    public static String stripWhitespaces(final String value)
-    {
-        if (value == null)
-        {
+    public static String stripWhitespaces(final String value) {
+        if (value == null) {
             return null;
         }
 
-        if (value.isBlank())
-        {
+        if (value.isBlank()) {
             return "";
         }
 
@@ -99,8 +87,7 @@ public final class Utils
         return sb.toString();
     }
 
-    private Utils()
-    {
+    private Utils() {
         super();
     }
 }

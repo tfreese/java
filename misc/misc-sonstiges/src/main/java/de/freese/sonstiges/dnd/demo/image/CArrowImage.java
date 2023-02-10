@@ -15,8 +15,7 @@ import java.util.Map;
 /**
  * A BufferedImage of one of four types of arrow (up, down, left or right) drawn to the size specified on the constructor.
  */
-class CArrowImage extends BufferedImage
-{
+class CArrowImage extends BufferedImage {
     public static final int ARROW_DOWN = 1;
 
     public static final int ARROW_LEFT = 2;
@@ -25,13 +24,11 @@ class CArrowImage extends BufferedImage
 
     public static final int ARROW_UP = 0;
 
-    CArrowImage(final int nArrowDirection)
-    {
+    CArrowImage(final int nArrowDirection) {
         this(15, 9, nArrowDirection);
     }
 
-    CArrowImage(final int width, final int height, final int arrowDirection)
-    {
+    CArrowImage(final int width, final int height, final int arrowDirection) {
         super(width, height, TYPE_INT_ARGB_PRE); // Set the width, height and image type
 
         Map<Key, Object> map = new HashMap<>();
@@ -54,8 +51,7 @@ class CArrowImage extends BufferedImage
 
         GeneralPath pathArrow = new GeneralPath();
 
-        switch (arrowDirection)
-        {
+        switch (arrowDirection) {
             case ARROW_UP:
                 pathArrow.moveTo(w12, h12);
                 pathArrow.lineTo(w12, 0);

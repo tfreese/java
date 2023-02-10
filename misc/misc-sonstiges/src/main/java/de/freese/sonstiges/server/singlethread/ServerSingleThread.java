@@ -23,8 +23,7 @@ import de.freese.sonstiges.server.ServerMain;
  *
  * @author Thomas Freese
  */
-public class ServerSingleThread extends AbstractServer
-{
+public class ServerSingleThread extends AbstractServer {
     private final SelectorProvider selectorProvider;
     /**
      * ReentrantLock nicht möglich, da dort die Locks auf Thread-Ebene verwaltet werden.
@@ -37,13 +36,11 @@ public class ServerSingleThread extends AbstractServer
 
     private ServerSocketChannel serverSocketChannel;
 
-    public ServerSingleThread(final int port) throws IOException
-    {
+    public ServerSingleThread(final int port) throws IOException {
         this(port, SelectorProvider.provider());
     }
 
-    public ServerSingleThread(final int port, final SelectorProvider selectorProvider) throws IOException
-    {
+    public ServerSingleThread(final int port, final SelectorProvider selectorProvider) throws IOException {
         super(port);
 
         this.selectorProvider = Objects.requireNonNull(selectorProvider, "selectorProvider required");
@@ -53,14 +50,12 @@ public class ServerSingleThread extends AbstractServer
      * @see java.lang.Runnable#run()
      */
     @Override
-    public void run()
-    {
+    public void run() {
         getLogger().info("starting '{}' on port: {}", getName(), getPort());
 
         Objects.requireNonNull(getIoHandler(), "ioHandler required");
 
-        try
-        {
+        try {
             this.selector = this.selectorProvider.openSelector();
 
             // this.serverSocketChannel = ServerSocketChannel.open();
@@ -83,33 +78,26 @@ public class ServerSingleThread extends AbstractServer
             this.stopLock.acquireUninterruptibly();
             getStartLock().release();
 
-            while (!Thread.interrupted())
-            {
+            while (!Thread.interrupted()) {
                 int readyChannels = this.selector.select();
 
-                if (this.isShutdown || !this.selector.isOpen())
-                {
+                if (this.isShutdown || !this.selector.isOpen()) {
                     break;
                 }
 
-                if (readyChannels > 0)
-                {
+                if (readyChannels > 0) {
                     Set<SelectionKey> selected = this.selector.selectedKeys();
                     Iterator<SelectionKey> iterator = selected.iterator();
 
-                    try
-                    {
-                        while (iterator.hasNext())
-                        {
+                    try {
+                        while (iterator.hasNext()) {
                             SelectionKey selectionKey = iterator.next();
                             iterator.remove();
 
-                            if (!selectionKey.isValid())
-                            {
+                            if (!selectionKey.isValid()) {
                                 getLogger().debug("{}: SelectionKey not valid", ServerMain.getRemoteAddress(selectionKey));
                             }
-                            else if (selectionKey.isAcceptable())
-                            {
+                            else if (selectionKey.isAcceptable()) {
                                 // Verbindung mit Client herstellen.
                                 SocketChannel socketChannel = this.serverSocketChannel.accept();
                                 socketChannel.configureBlocking(false);
@@ -123,19 +111,16 @@ public class ServerSingleThread extends AbstractServer
                                 // Selector aufwecken.
                                 this.selector.wakeup();
                             }
-                            else if (selectionKey.isConnectable())
-                            {
+                            else if (selectionKey.isConnectable()) {
                                 getLogger().debug("{}: Client Connected", ServerMain.getRemoteAddress(selectionKey));
                             }
-                            else if (selectionKey.isReadable())
-                            {
+                            else if (selectionKey.isReadable()) {
                                 getLogger().debug("{}: Read Request", ServerMain.getRemoteAddress(selectionKey));
 
                                 // Request lesen.
                                 getIoHandler().read(selectionKey);
                             }
-                            else if (selectionKey.isWritable())
-                            {
+                            else if (selectionKey.isWritable()) {
                                 getLogger().debug("{}: Write Response", ServerMain.getRemoteAddress(selectionKey));
 
                                 // Response schreiben.
@@ -143,19 +128,16 @@ public class ServerSingleThread extends AbstractServer
                             }
                         }
                     }
-                    finally
-                    {
+                    finally {
                         selected.clear();
                     }
                 }
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
-        finally
-        {
+        finally {
             this.stopLock.release();
         }
 
@@ -166,8 +148,7 @@ public class ServerSingleThread extends AbstractServer
      * @see de.freese.sonstiges.server.AbstractServer#start()
      */
     @Override
-    public void start()
-    {
+    public void start() {
         Thread thread = new NamedThreadFactory(getName() + "-%d").newThread(this);
         thread.start();
 
@@ -180,8 +161,7 @@ public class ServerSingleThread extends AbstractServer
      * @see de.freese.sonstiges.server.AbstractServer#stop()
      */
     @Override
-    public void stop()
-    {
+    public void stop() {
         getLogger().info("stopping '{}' on port: {}", getName(), getPort());
 
         this.isShutdown = true;
@@ -190,28 +170,23 @@ public class ServerSingleThread extends AbstractServer
         // Warten bis Thread beendet.
         this.stopLock.acquireUninterruptibly();
 
-        try
-        {
+        try {
             SelectionKey selectionKey = this.serverSocketChannel.keyFor(this.selector);
 
-            if (selectionKey != null)
-            {
+            if (selectionKey != null) {
                 selectionKey.cancel();
             }
 
-            if (this.selector.isOpen())
-            {
+            if (this.selector.isOpen()) {
                 this.selector.close();
             }
 
             this.serverSocketChannel.close();
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex) {
             getLogger().error(ex.getMessage(), ex);
         }
-        finally
-        {
+        finally {
             this.stopLock.release();
         }
     }

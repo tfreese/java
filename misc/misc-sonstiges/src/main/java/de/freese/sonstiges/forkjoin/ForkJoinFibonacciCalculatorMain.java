@@ -3,21 +3,20 @@ package de.freese.sonstiges.forkjoin;
 
 import java.util.concurrent.ForkJoinPool;
 
-import de.freese.sonstiges.forkjoin.fibonacci.FibonacciCalculator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.freese.sonstiges.forkjoin.fibonacci.FibonacciCalculator;
 
 /**
  * Berechnet den Fibonacci-Wert.
  *
  * @author Thomas Freese
  */
-public final class ForkJoinFibonacciCalculatorMain
-{
+public final class ForkJoinFibonacciCalculatorMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ForkJoinFibonacciCalculatorMain.class);
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         int n = 50;
         long result;
 
@@ -33,8 +32,7 @@ public final class ForkJoinFibonacciCalculatorMain
         forkJoinPool.shutdown();
     }
 
-    private ForkJoinFibonacciCalculatorMain()
-    {
+    private ForkJoinFibonacciCalculatorMain() {
         super();
     }
 }

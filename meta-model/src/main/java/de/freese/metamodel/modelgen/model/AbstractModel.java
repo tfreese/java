@@ -10,8 +10,7 @@ import java.util.Objects;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractModel
-{
+public abstract class AbstractModel {
     private final List<String> annotations = new ArrayList<>();
 
     private final List<String> comments = new ArrayList<>();
@@ -20,45 +19,37 @@ public abstract class AbstractModel
 
     private Object payload;
 
-    protected AbstractModel(final String name)
-    {
+    protected AbstractModel(final String name) {
         super();
 
         this.name = Objects.requireNonNull(name, "name required");
     }
 
-    public void addAnnotation(final String annotation)
-    {
+    public void addAnnotation(final String annotation) {
         this.annotations.add(annotation);
     }
 
-    public void addComment(final String comment)
-    {
+    public void addComment(final String comment) {
         this.comments.add(comment);
     }
 
-    public List<String> getAnnotations()
-    {
+    public List<String> getAnnotations() {
         return this.annotations;
     }
 
-    public List<String> getComments()
-    {
+    public List<String> getComments() {
         return this.comments;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
-    public <T> T getPayload()
-    {
+    public <T> T getPayload() {
         return (T) this.payload;
     }
 
-    public void setPayload(final Object payload)
-    {
+    public void setPayload(final Object payload) {
         this.payload = payload;
     }
 
@@ -66,8 +57,7 @@ public abstract class AbstractModel
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
         sb.append(" [");

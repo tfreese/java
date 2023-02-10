@@ -1,20 +1,19 @@
 // Created: 03.12.2020
 package de.freese.jconky.painter;
 
-import de.freese.jconky.model.HostInfo;
 import javafx.scene.canvas.GraphicsContext;
+
+import de.freese.jconky.model.HostInfo;
 
 /**
  * @author Thomas Freese
  */
-public class HostMonitorPainter extends AbstractMonitorPainter
-{
+public class HostMonitorPainter extends AbstractMonitorPainter {
     /**
      * @see de.freese.jconky.painter.MonitorPainter#paintValue(javafx.scene.canvas.GraphicsContext, double)
      */
     @Override
-    public double paintValue(final GraphicsContext gc, final double width)
-    {
+    public double paintValue(final GraphicsContext gc, final double width) {
         HostInfo hostInfo = getContext().getHostInfo();
 
         gc.setFont(getSettings().getFont());

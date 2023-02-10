@@ -10,15 +10,12 @@ import de.freese.ga.Genotype;
 /**
  * @author Thomas Freese
  */
-public final class SudokuMain
-{
-    public static void main(final String[] args) throws Exception
-    {
+public final class SudokuMain {
+    public static void main(final String[] args) throws Exception {
         SudokuConfig config = new SudokuConfig();
         List<String[]> puzzle = null;
 
-        try (InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream("sudoku_easy_1.txt"))
-        {
+        try (InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream("sudoku_easy_1.txt")) {
             puzzle = config.parsePuzzle(inputStream);
         }
 
@@ -37,14 +34,12 @@ public final class SudokuMain
 
         Chromosome fittest = population.getFittest();
 
-        for (int i = 0; i < config.getSizeGenotype(); i++)
-        {
+        for (int i = 0; i < config.getSizeGenotype(); i++) {
             double fitness = fittest.calcFitnessValue();
 
             System.out.printf("Generation: %2d; Fittest: %3.0f of %3.0f; %s%n", i, fitness, maxFitness, fittest);
 
-            if (Double.compare(fitness, maxFitness) == 0)
-            {
+            if (Double.compare(fitness, maxFitness) == 0) {
                 break;
             }
 
@@ -70,8 +65,7 @@ public final class SudokuMain
         System.out.printf("Genes: Fittest: %3.0f of %3.0f%s%n", fitness, maxFitness, fittest);
     }
 
-    private SudokuMain()
-    {
+    private SudokuMain() {
         super();
     }
 }

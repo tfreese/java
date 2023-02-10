@@ -12,8 +12,7 @@ import de.freese.openstreetmap.model.OsmModel;
  *
  * @author Thomas Freese
  */
-public interface OSMParser
-{
+public interface OSMParser {
     /**
      * Einlesen der Kartendaten.<br>
      * Der Stream wird NICHT geschlossen !
@@ -23,16 +22,13 @@ public interface OSMParser
     /**
      * Einlesen der Kartendaten.
      */
-    default OsmModel parse(final String zipFileName, final String zipEntryName) throws Exception
-    {
+    default OsmModel parse(final String zipFileName, final String zipEntryName) throws Exception {
         OsmModel model = null;
 
-        try (ZipFile zipFile = new ZipFile(zipFileName))
-        {
+        try (ZipFile zipFile = new ZipFile(zipFileName)) {
             ZipEntry entry = zipFile.getEntry(zipEntryName);
 
-            try (InputStream is = zipFile.getInputStream(entry))
-            {
+            try (InputStream is = zipFile.getInputStream(entry)) {
                 model = parse(is);
             }
         }

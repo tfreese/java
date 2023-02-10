@@ -9,15 +9,12 @@ import java.util.TimeZone;
 /**
  * @author Thomas Freese
  */
-public interface SensorValue
-{
-    default Date getDate()
-    {
+public interface SensorValue {
+    default Date getDate() {
         return new Date(getTimestamp());
     }
 
-    default LocalDateTime getLocalDateTime()
-    {
+    default LocalDateTime getLocalDateTime() {
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(getTimestamp()), TimeZone.getDefault().toZoneId());
     }
 

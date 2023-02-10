@@ -6,24 +6,20 @@ import de.freese.binding.collections.ObservableList;
 /**
  * @author Thomas Freese
  */
-public class SimpleListProperty<T> extends AbstractListProperty<T>
-{
+public class SimpleListProperty<T> extends AbstractListProperty<T> {
     private final Object bean;
 
     private final String name;
 
-    public SimpleListProperty()
-    {
+    public SimpleListProperty() {
         this(null, null, null);
     }
 
-    public SimpleListProperty(final Object bean, final String name)
-    {
+    public SimpleListProperty(final Object bean, final String name) {
         this(bean, name, null);
     }
 
-    public SimpleListProperty(final Object bean, final String name, final ObservableList<T> initialValue)
-    {
+    public SimpleListProperty(final Object bean, final String name, final ObservableList<T> initialValue) {
         super();
 
         this.bean = bean; // Objects.requireNonNull(bean, "bean required");
@@ -36,8 +32,7 @@ public class SimpleListProperty<T> extends AbstractListProperty<T>
      * @see de.freese.binding.property.ReadOnlyProperty#getBean()
      */
     @Override
-    public Object getBean()
-    {
+    public Object getBean() {
         return this.bean;
     }
 
@@ -45,8 +40,7 @@ public class SimpleListProperty<T> extends AbstractListProperty<T>
      * @see de.freese.binding.property.ReadOnlyProperty#getName()
      */
     @Override
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 }

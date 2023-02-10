@@ -25,27 +25,23 @@ import javax.swing.WindowConstants;
 /**
  * @author Thomas Freese
  */
-public class TestAttraktor extends JComponent implements Runnable
-{
+public class TestAttraktor extends JComponent implements Runnable {
     @Serial
     private static final long serialVersionUID = 1852796219960955003L;
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(3);
 
         JFrame frame = new JFrame();
         frame.setTitle("TestFrame");
         frame.setLayout(new BorderLayout());
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.addWindowListener(new WindowAdapter()
-        {
+        frame.addWindowListener(new WindowAdapter() {
             /**
              * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
              */
             @Override
-            public void windowClosing(final WindowEvent e)
-            {
+            public void windowClosing(final WindowEvent e) {
                 scheduledExecutorService.shutdownNow();
             }
         });
@@ -72,8 +68,7 @@ public class TestAttraktor extends JComponent implements Runnable
 
     private double y = 200D;
 
-    public TestAttraktor()
-    {
+    public TestAttraktor() {
         super();
 
         int width = 800;
@@ -96,8 +91,7 @@ public class TestAttraktor extends JComponent implements Runnable
      * @see javax.swing.JComponent#paint(java.awt.Graphics)
      */
     @Override
-    public void paint(final Graphics g)
-    {
+    public void paint(final Graphics g) {
         // g.drawImage(this.image, 0, 0, null);
         g.drawImage(this.image, 0, 0, getWidth(), getHeight(), null);
     }
@@ -106,8 +100,7 @@ public class TestAttraktor extends JComponent implements Runnable
      * @see java.lang.Runnable#run()
      */
     @Override
-    public void run()
-    {
+    public void run() {
         Set<Point2D> points = new HashSet<>();
 
         double a = -14D;
@@ -117,8 +110,7 @@ public class TestAttraktor extends JComponent implements Runnable
         Point2D min = new Point2D.Double(0, 0);
         Point2D max = new Point2D.Double(0, 0);
 
-        for (int i = 0; i < 10; i++)
-        {
+        for (int i = 0; i < 10; i++) {
             double xx = this.y - (Math.signum(this.x) * Math.sqrt(Math.abs((b * this.x) - c)));
             // double xx = this.y - (FastMath.signum(this.x) * FastMath.pow(Math.abs((b * this.x) - c), 0.5D));
             double yy = a - this.x;
@@ -140,8 +132,7 @@ public class TestAttraktor extends JComponent implements Runnable
         // Arrays.fill(this.pixels, Color.WHITE.getRGB());
         Arrays.parallelSetAll(this.pixels, i -> Color.WHITE.getRGB());
 
-        for (Point2D point : points)
-        {
+        for (Point2D point : points) {
             this.x = point.getX() + 400;
             this.y = point.getY() + 400;
             this.pixels[(int) (this.x + (this.y * 800))] = Color.BLACK.getRGB();
@@ -151,8 +142,7 @@ public class TestAttraktor extends JComponent implements Runnable
         repaint();
     }
 
-    Random getRandom()
-    {
+    Random getRandom() {
         return this.random;
     }
 }

@@ -4,7 +4,6 @@ package de.freese.binding.value;
 /**
  * @author Thomas Freese
  */
-public interface ObservableDoubleValue extends ObservableNumberValue<Double>
-{
+public interface ObservableDoubleValue extends ObservableNumberValue<Double> {
     double get();
 }

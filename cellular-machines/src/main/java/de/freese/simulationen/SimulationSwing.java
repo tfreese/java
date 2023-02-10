@@ -22,18 +22,15 @@ import de.freese.simulationen.wator.WaTorView;
  *
  * @author Thomas Freese
  */
-class SimulationSwing extends JFrame
-{
+class SimulationSwing extends JFrame {
     @Serial
     private static final long serialVersionUID = -8931412063622174282L;
 
-    SimulationSwing()
-    {
+    SimulationSwing() {
         super(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
     }
 
-    public void initialize()
-    {
+    public void initialize() {
         setTitle("Simulationen");
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 

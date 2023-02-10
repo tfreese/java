@@ -15,8 +15,7 @@ import de.freese.metamodel.metagen.model.Schema;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface MetaExporter
-{
+public interface MetaExporter {
     /**
      * Liefert das Schema mit dem Meta-Modell.
      *

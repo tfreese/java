@@ -21,22 +21,19 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractSystemMonitor implements SystemMonitor
-{
+public abstract class AbstractSystemMonitor implements SystemMonitor {
     /**
      * "[ ]" = "\\s+" = Whitespace: einer oder mehrere
      */
     protected static final Pattern SPACE_PATTERN = Pattern.compile("\\s+", Pattern.UNICODE_CHARACTER_CLASS);
 
-    private static final com.sun.management.OperatingSystemMXBean OPERATING_SYSTEM_MX_BEAN =
-            (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+    private static final com.sun.management.OperatingSystemMXBean OPERATING_SYSTEM_MX_BEAN = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private long myPid;
 
-    protected AbstractSystemMonitor()
-    {
+    protected AbstractSystemMonitor() {
         super();
 
         this.myPid = ProcessHandle.current().pid();
@@ -45,8 +42,7 @@ public abstract class AbstractSystemMonitor implements SystemMonitor
     /**
      * Liefert die eigene Process-ID
      */
-    public long getMyPid()
-    {
+    public long getMyPid() {
         return this.myPid;
     }
 
@@ -54,8 +50,7 @@ public abstract class AbstractSystemMonitor implements SystemMonitor
      * @see de.freese.jconky.system.SystemMonitor#getNumberOfCores()
      */
     @Override
-    public int getNumberOfCores()
-    {
+    public int getNumberOfCores() {
         return Runtime.getRuntime().availableProcessors();
     }
 
@@ -63,43 +58,34 @@ public abstract class AbstractSystemMonitor implements SystemMonitor
      * @see de.freese.jconky.system.SystemMonitor#getTotalSystemMemory()
      */
     @Override
-    public long getTotalSystemMemory()
-    {
+    public long getTotalSystemMemory() {
         return OPERATING_SYSTEM_MX_BEAN.getTotalMemorySize();
     }
 
-    public void setMyPid(final long myPid)
-    {
+    public void setMyPid(final long myPid) {
         this.myPid = myPid;
     }
 
-    protected Logger getLogger()
-    {
+    protected Logger getLogger() {
         return this.logger;
     }
 
-    protected List<String> readContent(final ProcessBuilder processBuilder)
-    {
+    protected List<String> readContent(final ProcessBuilder processBuilder) {
         List<String> lines = null;
         List<String> errors = null;
 
-        try
-        {
+        try {
             Process process = processBuilder.start();
 
-            try (BufferedReader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8));
-                 BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8)))
-            {
+            try (BufferedReader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8)); BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8))) {
                 lines = inputReader.lines().toList();
                 errors = errorReader.lines().toList();
             }
 
-            try
-            {
+            try {
                 process.waitFor();
             }
-            catch (InterruptedException ex)
-            {
+            catch (InterruptedException ex) {
                 getLogger().error(ex.getMessage());
 
                 Thread.currentThread().interrupt();
@@ -107,15 +93,12 @@ public abstract class AbstractSystemMonitor implements SystemMonitor
 
             process.destroy();
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex) {
             throw new UncheckedIOException(ex);
         }
 
-        if ((errors != null) && !errors.isEmpty())
-        {
-            if (getLogger().isErrorEnabled())
-            {
+        if ((errors != null) && !errors.isEmpty()) {
+            if (getLogger().isErrorEnabled()) {
                 getLogger().error("'{}': {}", processBuilder.command(), String.join("\n", errors));
             }
         }
@@ -123,22 +106,18 @@ public abstract class AbstractSystemMonitor implements SystemMonitor
         return lines;
     }
 
-    protected List<String> readContent(final String fileName)
-    {
+    protected List<String> readContent(final String fileName) {
         return readContent(fileName, StandardCharsets.UTF_8);
     }
 
-    protected List<String> readContent(final String fileName, final Charset charset)
-    {
+    protected List<String> readContent(final String fileName, final Charset charset) {
         Path path = Paths.get(fileName);
 
-        if (Files.notExists(path))
-        {
+        if (Files.notExists(path)) {
             return Collections.emptyList();
         }
 
-        try
-        {
+        try {
             List<String> lines = Files.readAllLines(path, charset);
 
             // lines = Files.lines(path, charset).collect(Collectors.toList());
@@ -162,8 +141,7 @@ public abstract class AbstractSystemMonitor implements SystemMonitor
 
             return lines;
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex) {
             throw new UncheckedIOException(ex);
         }
     }

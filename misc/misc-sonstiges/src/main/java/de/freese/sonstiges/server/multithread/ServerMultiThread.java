@@ -22,8 +22,7 @@ import de.freese.sonstiges.server.multithread.dispatcher.DispatcherPool;
  *
  * @author Thomas Freese
  */
-public class ServerMultiThread extends AbstractServer
-{
+public class ServerMultiThread extends AbstractServer {
     private final DispatcherPool dispatcherPool;
 
     private final SelectorProvider selectorProvider;
@@ -32,13 +31,11 @@ public class ServerMultiThread extends AbstractServer
 
     private ServerSocketChannel serverSocketChannel;
 
-    public ServerMultiThread(final int port, final int numOfDispatcher, final int numOfWorker) throws IOException
-    {
+    public ServerMultiThread(final int port, final int numOfDispatcher, final int numOfWorker) throws IOException {
         this(port, numOfDispatcher, numOfWorker, SelectorProvider.provider());
     }
 
-    public ServerMultiThread(final int port, final int numOfDispatcher, final int numOfWorker, final SelectorProvider selectorProvider) throws IOException
-    {
+    public ServerMultiThread(final int port, final int numOfDispatcher, final int numOfWorker, final SelectorProvider selectorProvider) throws IOException {
         super(port);
 
         this.dispatcherPool = new DispatcherPool(numOfDispatcher, numOfWorker);
@@ -49,44 +46,37 @@ public class ServerMultiThread extends AbstractServer
      * @see java.lang.Runnable#run()
      */
     @Override
-    public void run()
-    {
+    public void run() {
         getLogger().info("starting '{}' on port: {}", getName(), getPort());
 
         Objects.requireNonNull(getIoHandler(), "ioHandler required");
 
-        try
-        {
+        try {
             // this.serverSocketChannel = ServerSocketChannel.open();
             this.serverSocketChannel = this.selectorProvider.openServerSocketChannel();
             this.serverSocketChannel.configureBlocking(false);
 
-            if (this.serverSocketChannel.supportedOptions().contains(StandardSocketOptions.TCP_NODELAY))
-            {
+            if (this.serverSocketChannel.supportedOptions().contains(StandardSocketOptions.TCP_NODELAY)) {
                 // this.serverSocketChannel.getOption(StandardSocketOptions.TCP_NODELAY);
                 this.serverSocketChannel.setOption(StandardSocketOptions.TCP_NODELAY, true);
             }
 
-            if (this.serverSocketChannel.supportedOptions().contains(StandardSocketOptions.SO_REUSEADDR))
-            {
+            if (this.serverSocketChannel.supportedOptions().contains(StandardSocketOptions.SO_REUSEADDR)) {
                 // this.serverSocketChannel.getOption(StandardSocketOptions.SO_REUSEADDR);
                 this.serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
             }
 
-            if (this.serverSocketChannel.supportedOptions().contains(StandardSocketOptions.SO_REUSEPORT))
-            {
+            if (this.serverSocketChannel.supportedOptions().contains(StandardSocketOptions.SO_REUSEPORT)) {
                 // this.serverSocketChannel.getOption(StandardSocketOptions.SO_REUSEPORT);
                 this.serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEPORT, true);
             }
 
-            if (this.serverSocketChannel.supportedOptions().contains(StandardSocketOptions.SO_RCVBUF))
-            {
+            if (this.serverSocketChannel.supportedOptions().contains(StandardSocketOptions.SO_RCVBUF)) {
                 // this.serverSocketChannel.getOption(StandardSocketOptions.SO_RCVBUF);
                 this.serverSocketChannel.setOption(StandardSocketOptions.SO_RCVBUF, 64 * 1024);
             }
 
-            if (this.serverSocketChannel.supportedOptions().contains(StandardSocketOptions.SO_SNDBUF))
-            {
+            if (this.serverSocketChannel.supportedOptions().contains(StandardSocketOptions.SO_SNDBUF)) {
                 // this.serverSocketChannel.getOption(StandardSocketOptions.SO_SNDBUF);
                 this.serverSocketChannel.setOption(StandardSocketOptions.SO_SNDBUF, 64 * 1024);
             }
@@ -110,8 +100,7 @@ public class ServerMultiThread extends AbstractServer
             getLogger().info("'{}' listening on port: {}", getName(), getPort());
             getStartLock().release();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }
@@ -120,8 +109,7 @@ public class ServerMultiThread extends AbstractServer
      * @see de.freese.sonstiges.server.AbstractServer#start()
      */
     @Override
-    public void start()
-    {
+    public void start() {
         run();
 
         // Wait if ready.
@@ -133,15 +121,13 @@ public class ServerMultiThread extends AbstractServer
      * @see de.freese.sonstiges.server.AbstractServer#stop()
      */
     @Override
-    public void stop()
-    {
+    public void stop() {
         getLogger().info("stopping '{}' on port: {}", getName(), getPort());
 
         this.acceptor.stop();
         this.dispatcherPool.stop();
 
-        try
-        {
+        try {
             // SelectionKey selectionKey = this.serverSocketChannel.keyFor(this.selector);
             //
             // if (selectionKey != null)
@@ -151,8 +137,7 @@ public class ServerMultiThread extends AbstractServer
 
             this.serverSocketChannel.close();
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex) {
             getLogger().error(ex.getMessage(), ex);
         }
 

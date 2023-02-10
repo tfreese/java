@@ -14,8 +14,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-class Port implements Runnable
-{
+class Port implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(Port.class);
 
     private final InetAddress host;
@@ -24,8 +23,7 @@ class Port implements Runnable
 
     private final int port;
 
-    Port(final Map<Integer, Port> openPorts, final InetAddress host, final int port)
-    {
+    Port(final Map<Integer, Port> openPorts, final InetAddress host, final int port) {
         super();
 
         this.openPorts = Objects.requireNonNull(openPorts, "openPorts required");
@@ -39,17 +37,14 @@ class Port implements Runnable
      * @see java.lang.Runnable#run()
      */
     @Override
-    public void run()
-    {
+    public void run() {
         LOGGER.info("Scan Port {}:{}", this.host, this.port);
 
-        try (Socket socket = new Socket(this.host, this.port))
-        {
+        try (Socket socket = new Socket(this.host, this.port)) {
             // Verbindungsaufbau reicht zum Testen.
             this.openPorts.put(socket.getPort(), this);
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex) {
             // NOOP
             // LOGGER.warn(ex.getMessage());
         }
@@ -59,8 +54,7 @@ class Port implements Runnable
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format("%s:%d", this.host, this.port);
     }
 }

@@ -7,36 +7,28 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 /**
  * @author Thomas Freese
  */
-@JsonPropertyOrder(
-        {
-                "text", "iconUrl"
-        })
+@JsonPropertyOrder({"text", "iconUrl"})
 @JsonRootName(value = "footer")
-public class DiscordFooter
-{
+public class DiscordFooter {
     private String iconUrl;
 
     private String text;
 
-    public String getIconUrl()
-    {
+    public String getIconUrl() {
         return this.iconUrl;
     }
 
-    public String getText()
-    {
+    public String getText() {
         return this.text;
     }
 
-    public DiscordFooter setIconUrl(final String iconUrl)
-    {
+    public DiscordFooter setIconUrl(final String iconUrl) {
         this.iconUrl = iconUrl;
 
         return this;
     }
 
-    public DiscordFooter setText(final String text)
-    {
+    public DiscordFooter setText(final String text) {
         this.text = text;
 
         return this;

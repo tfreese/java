@@ -8,8 +8,7 @@ import java.awt.Image;
  *
  * @author Thomas Freese
  */
-public interface Simulation
-{
+public interface Simulation {
     void addWorldListener(SimulationListener simulationListener);
 
     /**

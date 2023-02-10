@@ -54,8 +54,7 @@ import javax.swing.tree.TreePath;
 /**
  * Demonstrates how to display a 'drag image' when using drag and drop on those platforms whose JVMs do not support it natively (eg Win32).
  */
-public final class CTreeMain extends JTree implements DragSourceListener, DragGestureListener, Autoscroll, TreeModelListener
-{
+public final class CTreeMain extends JTree implements DragSourceListener, DragGestureListener, Autoscroll, TreeModelListener {
     private static final int AUTOSCROLL_MARGIN = 12;
 
     private static final BufferedImage IMAGE_LEFT = new CArrowImage(15, 15, CArrowImage.ARROW_LEFT);
@@ -65,14 +64,11 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
     @Serial
     private static final long serialVersionUID = 10821500746764517L;
 
-    public static void main(final String[] args)
-    {
-        try
-        {
+    public static void main(final String[] args) {
+        try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // Empty
         }
 
@@ -89,11 +85,9 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         Dimension dimFrame = frame.getSize();
         frame.setLocation((dimScreen.width - dimFrame.width) / 2, (dimScreen.height - dimFrame.height) / 2);
 
-        frame.addWindowListener(new WindowAdapter()
-        {
+        frame.addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(final WindowEvent event)
-            {
+            public void windowClosing(final WindowEvent event) {
                 System.exit(0);
             }
         });
@@ -101,8 +95,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         frame.setVisible(true);
     }
 
-    private class CDropTargetListener implements DropTargetListener
-    {
+    private class CDropTargetListener implements DropTargetListener {
         private final Color colorCueLine;
 
         private final Rectangle2D rectangleCueLine = new Rectangle2D.Float();
@@ -121,29 +114,24 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
 
         private int shift;
 
-        CDropTargetListener()
-        {
+        CDropTargetListener() {
             this.colorCueLine = new Color(SystemColor.controlShadow.getRed(), SystemColor.controlShadow.getGreen(), SystemColor.controlShadow.getBlue(), 64);
 
             // Set up a hover timer, so that a node will be automatically expanded or collapsed
             // if the user lingers on it for more than a short time
-            this.timerHover = new Timer(1000, event ->
-            {
+            this.timerHover = new Timer(1000, event -> {
                 // Reset left/right movement trend
                 CDropTargetListener.this.leftRight = 0;
 
-                if (isRootPath(CDropTargetListener.this.pathLast))
-                {
+                if (isRootPath(CDropTargetListener.this.pathLast)) {
                     // Do nothing if we are hovering over the root node
                     return;
                 }
 
-                if (isExpanded(CDropTargetListener.this.pathLast))
-                {
+                if (isExpanded(CDropTargetListener.this.pathLast)) {
                     collapsePath(CDropTargetListener.this.pathLast);
                 }
-                else
-                {
+                else {
                     expandPath(CDropTargetListener.this.pathLast);
                 }
             });
@@ -156,14 +144,11 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
          * @see java.awt.dnd.DropTargetListener#dragEnter(java.awt.dnd.DropTargetDragEvent)
          */
         @Override
-        public void dragEnter(final DropTargetDragEvent event)
-        {
-            if (!isDragAcceptable(event))
-            {
+        public void dragEnter(final DropTargetDragEvent event) {
+            if (!isDragAcceptable(event)) {
                 event.rejectDrag();
             }
-            else
-            {
+            else {
                 event.acceptDrag(event.getDropAction());
             }
         }
@@ -172,10 +157,8 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
          * @see java.awt.dnd.DropTargetListener#dragExit(java.awt.dnd.DropTargetEvent)
          */
         @Override
-        public void dragExit(final DropTargetEvent event)
-        {
-            if (!DragSource.isDragImageSupported())
-            {
+        public void dragExit(final DropTargetEvent event) {
+            if (!DragSource.isDragImageSupported()) {
                 repaint(this.rectangleGhost.getBounds());
             }
         }
@@ -184,21 +167,18 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
          * @see java.awt.dnd.DropTargetListener#dragOver(java.awt.dnd.DropTargetDragEvent)
          */
         @Override
-        public void dragOver(final DropTargetDragEvent event)
-        {
+        public void dragOver(final DropTargetDragEvent event) {
             // Even if the mouse is not moving, this method is still invoked 10 times per second
             Point pt = event.getLocation();
 
-            if (pt.equals(this.pointLast))
-            {
+            if (pt.equals(this.pointLast)) {
                 return;
             }
 
             // Try to determine whether the user is flicking the cursor right or left
             int nDeltaLeftRight = pt.x - this.pointLast.x;
 
-            if (((this.leftRight > 0) && (nDeltaLeftRight < 0)) || ((this.leftRight < 0) && (nDeltaLeftRight > 0)))
-            {
+            if (((this.leftRight > 0) && (nDeltaLeftRight < 0)) || ((this.leftRight < 0) && (nDeltaLeftRight > 0))) {
                 this.leftRight = 0;
             }
 
@@ -209,26 +189,22 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
             Graphics2D g2 = (Graphics2D) getGraphics();
 
             // If a drag image is not supported by the platform, then draw my own drag image
-            if (!DragSource.isDragImageSupported())
-            {
+            if (!DragSource.isDragImageSupported()) {
                 // Rub out the last ghost image and cue line
                 paintImmediately(this.rectangleGhost.getBounds());
 
                 // And remember where we are about to draw the new ghost image
-                this.rectangleGhost.setRect(pt.x - CTreeMain.this.pointOffset.x, pt.y - CTreeMain.this.pointOffset.y, CTreeMain.this.imageGhost.getWidth(),
-                        CTreeMain.this.imageGhost.getHeight());
+                this.rectangleGhost.setRect(pt.x - CTreeMain.this.pointOffset.x, pt.y - CTreeMain.this.pointOffset.y, CTreeMain.this.imageGhost.getWidth(), CTreeMain.this.imageGhost.getHeight());
                 g2.drawImage(CTreeMain.this.imageGhost, AffineTransform.getTranslateInstance(this.rectangleGhost.getX(), this.rectangleGhost.getY()), null);
             }
-            else
-            {
+            else {
                 // Just rub out the last cue line
                 paintImmediately(this.rectangleCueLine.getBounds());
             }
 
             TreePath path = getClosestPathForLocation(pt.x, pt.y);
 
-            if (!(path.equals(this.pathLast)))
-            {
+            if (!(path.equals(this.pathLast))) {
                 // We've moved up or down, so reset left/right movement trend
                 this.leftRight = 0;
                 this.pathLast = path;
@@ -243,18 +219,15 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
             g2.fill(this.rectangleCueLine);
 
             // Now superimpose the left/right movement indicator if necessary
-            if (this.leftRight > 20)
-            {
+            if (this.leftRight > 20) {
                 g2.drawImage(IMAGE_RIGHT, AffineTransform.getTranslateInstance(pt.x - CTreeMain.this.pointOffset.x, pt.y - CTreeMain.this.pointOffset.y), null);
                 this.shift = +1;
             }
-            else if (this.leftRight < -20)
-            {
+            else if (this.leftRight < -20) {
                 g2.drawImage(IMAGE_LEFT, AffineTransform.getTranslateInstance(pt.x - CTreeMain.this.pointOffset.x, pt.y - CTreeMain.this.pointOffset.y), null);
                 this.shift = -1;
             }
-            else
-            {
+            else {
                 this.shift = 0;
             }
 
@@ -271,13 +244,11 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
          * @see java.awt.dnd.DropTargetListener#drop(java.awt.dnd.DropTargetDropEvent)
          */
         @Override
-        public void drop(final DropTargetDropEvent event)
-        {
+        public void drop(final DropTargetDropEvent event) {
             // Prevent hover timer from doing an unwanted expandPath or collapsePath
             this.timerHover.stop();
 
-            if (!isDropAcceptable(event))
-            {
+            if (!isDropAcceptable(event)) {
                 event.rejectDrop();
 
                 return;
@@ -289,12 +260,9 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
 
             DataFlavor[] flavors = transferable.getTransferDataFlavors();
 
-            for (DataFlavor flavor : flavors)
-            {
-                if (flavor.isMimeTypeEqual(DataFlavor.javaJVMLocalObjectMimeType))
-                {
-                    try
-                    {
+            for (DataFlavor flavor : flavors) {
+                if (flavor.isMimeTypeEqual(DataFlavor.javaJVMLocalObjectMimeType)) {
+                    try {
                         Point pt = event.getLocation();
                         // TreePath pathTarget = getClosestPathForLocation(pt.x, pt.y);
                         TreePath pathSource = (TreePath) transferable.getTransferData(flavor);
@@ -342,8 +310,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
                         // No need to check remaining flavors
                         break;
                     }
-                    catch (UnsupportedFlavorException | IOException ex)
-                    {
+                    catch (UnsupportedFlavorException | IOException ex) {
                         System.out.println(ex);
                         event.dropComplete(false);
 
@@ -359,20 +326,16 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
          * @see java.awt.dnd.DropTargetListener#dropActionChanged(java.awt.dnd.DropTargetDragEvent)
          */
         @Override
-        public void dropActionChanged(final DropTargetDragEvent event)
-        {
-            if (!isDragAcceptable(event))
-            {
+        public void dropActionChanged(final DropTargetDragEvent event) {
+            if (!isDragAcceptable(event)) {
                 event.rejectDrag();
             }
-            else
-            {
+            else {
                 event.acceptDrag(event.getDropAction());
             }
         }
 
-        public boolean isDragAcceptable(final DropTargetDragEvent event)
-        {
+        public boolean isDragAcceptable(final DropTargetDragEvent event) {
             // Only accept COPY or MOVE gestures (ie LINK is not supported)
             // Only accept this particular flavor
             return ((event.getDropAction() & DnDConstants.ACTION_COPY_OR_MOVE) != 0) && event.isDataFlavorSupported(CTransferableTreePath.FLAVOR_TREE_PATH);
@@ -387,8 +350,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
              */
         }
 
-        public boolean isDropAcceptable(final DropTargetDropEvent event)
-        {
+        public boolean isDropAcceptable(final DropTargetDropEvent event) {
             // Only accept COPY or MOVE gestures (ie LINK is not supported)
             // Only accept this particular flavor
             return ((event.getDropAction() & DnDConstants.ACTION_COPY_OR_MOVE) != 0) && event.isDataFlavorSupported(CTransferableTreePath.FLAVOR_TREE_PATH);
@@ -421,8 +383,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
      * Erstellt ein neues {@link CTreeMain} Object.<br>
      * Use the default JTree constructor so that we get a sample TreeModel built for us.
      */
-    private CTreeMain()
-    {
+    private CTreeMain() {
         putClientProperty("JTree.lineStyle", "Angled");
 
         // Make this JTree a drag source
@@ -438,14 +399,12 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
      * @see java.awt.dnd.Autoscroll#autoscroll(java.awt.Point)
      */
     @Override
-    public void autoscroll(final Point pt)
-    {
+    public void autoscroll(final Point pt) {
         // Figure out which row we're on.
         int nRow = getRowForLocation(pt.x, pt.y);
 
         // If we are not on a row then ignore this autoscroll request
-        if (nRow < 0)
-        {
+        if (nRow < 0) {
             return;
         }
 
@@ -466,14 +425,11 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
      * @see java.awt.dnd.DragSourceListener#dragDropEnd(java.awt.dnd.DragSourceDropEvent)
      */
     @Override
-    public void dragDropEnd(final DragSourceDropEvent event)
-    {
-        if (event.getDropSuccess())
-        {
+    public void dragDropEnd(final DragSourceDropEvent event) {
+        if (event.getDropSuccess()) {
             int nAction = event.getDropAction();
 
-            if (nAction == DnDConstants.ACTION_MOVE)
-            { // The dragged item (_pathSource) has been inserted at the target selected by the
+            if (nAction == DnDConstants.ACTION_MOVE) { // The dragged item (_pathSource) has been inserted at the target selected by the
                 // user.
                 // Now it is time to delete it from its original location.
                 System.out.println("REMOVING: " + this.pathSource.getLastPathComponent());
@@ -494,8 +450,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
      * @see java.awt.dnd.DragSourceListener#dragEnter(java.awt.dnd.DragSourceDragEvent)
      */
     @Override
-    public void dragEnter(final DragSourceDragEvent event)
-    {
+    public void dragEnter(final DragSourceDragEvent event) {
         // Empty
     }
 
@@ -503,8 +458,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
      * @see java.awt.dnd.DragSourceListener#dragExit(java.awt.dnd.DragSourceEvent)
      */
     @Override
-    public void dragExit(final DragSourceEvent event)
-    {
+    public void dragExit(final DragSourceEvent event) {
         // Empty
     }
 
@@ -512,13 +466,11 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
      * @see java.awt.dnd.DragGestureListener#dragGestureRecognized(java.awt.dnd.DragGestureEvent)
      */
     @Override
-    public void dragGestureRecognized(final DragGestureEvent event)
-    {
+    public void dragGestureRecognized(final DragGestureEvent event) {
         Point ptDragOrigin = event.getDragOrigin();
         TreePath path = getPathForLocation(ptDragOrigin.x, ptDragOrigin.y);
 
-        if ((path == null) || isRootPath(path))
-        {
+        if ((path == null) || isRootPath(path)) {
             return; // Ignore user trying to drag the root node
         }
 
@@ -579,8 +531,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
      * @see java.awt.dnd.DragSourceListener#dragOver(java.awt.dnd.DragSourceDragEvent)
      */
     @Override
-    public void dragOver(final DragSourceDragEvent event)
-    {
+    public void dragOver(final DragSourceDragEvent event) {
         // Empty
     }
 
@@ -588,8 +539,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
      * @see java.awt.dnd.DragSourceListener#dropActionChanged(java.awt.dnd.DragSourceDragEvent)
      */
     @Override
-    public void dropActionChanged(final DragSourceDragEvent event)
-    {
+    public void dropActionChanged(final DragSourceDragEvent event) {
         // Empty
     }
 
@@ -597,22 +547,18 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
      * @see java.awt.dnd.Autoscroll#getAutoscrollInsets()
      */
     @Override
-    public Insets getAutoscrollInsets()
-    {
+    public Insets getAutoscrollInsets() {
         Rectangle raOuter = getBounds();
         Rectangle raInner = getParent().getBounds();
 
-        return new Insets((raInner.y - raOuter.y) + AUTOSCROLL_MARGIN, (raInner.x - raOuter.x) + AUTOSCROLL_MARGIN,
-                (raOuter.height - raInner.height - raInner.y) + raOuter.y + AUTOSCROLL_MARGIN,
-                (raOuter.width - raInner.width - raInner.x) + raOuter.x + AUTOSCROLL_MARGIN);
+        return new Insets((raInner.y - raOuter.y) + AUTOSCROLL_MARGIN, (raInner.x - raOuter.x) + AUTOSCROLL_MARGIN, (raOuter.height - raInner.height - raInner.y) + raOuter.y + AUTOSCROLL_MARGIN, (raOuter.width - raInner.width - raInner.x) + raOuter.x + AUTOSCROLL_MARGIN);
     }
 
     /**
      * @see javax.swing.event.TreeModelListener#treeNodesChanged(javax.swing.event.TreeModelEvent)
      */
     @Override
-    public void treeNodesChanged(final TreeModelEvent event)
-    {
+    public void treeNodesChanged(final TreeModelEvent event) {
         System.out.println("treeNodesChanged");
         sayWhat(event);
 
@@ -623,8 +569,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
      * @see javax.swing.event.TreeModelListener#treeNodesInserted(javax.swing.event.TreeModelEvent)
      */
     @Override
-    public void treeNodesInserted(final TreeModelEvent event)
-    {
+    public void treeNodesInserted(final TreeModelEvent event) {
         System.out.println("treeNodesInserted ");
         sayWhat(event);
 
@@ -638,8 +583,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
      * @see javax.swing.event.TreeModelListener#treeNodesRemoved(javax.swing.event.TreeModelEvent)
      */
     @Override
-    public void treeNodesRemoved(final TreeModelEvent event)
-    {
+    public void treeNodesRemoved(final TreeModelEvent event) {
         System.out.println("treeNodesRemoved ");
         sayWhat(event);
     }
@@ -648,32 +592,27 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
      * @see javax.swing.event.TreeModelListener#treeStructureChanged(javax.swing.event.TreeModelEvent)
      */
     @Override
-    public void treeStructureChanged(final TreeModelEvent event)
-    {
+    public void treeStructureChanged(final TreeModelEvent event) {
         System.out.println("treeStructureChanged ");
         sayWhat(event);
     }
 
-    private TreePath getChildPath(final TreePath pathParent, final int childIndex)
-    {
+    private TreePath getChildPath(final TreePath pathParent, final int childIndex) {
         TreeModel model = getModel();
 
         return pathParent.pathByAddingChild(model.getChild(pathParent.getLastPathComponent(), childIndex));
     }
 
-    private boolean isRootPath(final TreePath path)
-    {
+    private boolean isRootPath(final TreePath path) {
         return isRootVisible() && (getRowForPath(path) == 0);
     }
 
-    private void sayWhat(final TreeModelEvent event)
-    {
+    private void sayWhat(final TreeModelEvent event) {
         System.out.println(event.getTreePath().getLastPathComponent());
 
         int[] nIndex = event.getChildIndices();
 
-        for (int i = 0; i < nIndex.length; i++)
-        {
+        for (int i = 0; i < nIndex.length; i++) {
             System.out.println(i + ". " + nIndex[i]);
         }
     }

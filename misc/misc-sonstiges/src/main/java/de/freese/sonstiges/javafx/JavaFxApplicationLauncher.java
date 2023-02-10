@@ -6,15 +6,12 @@ import javafx.application.Application;
 /**
  * @author Thomas Freese
  */
-public final class JavaFxApplicationLauncher
-{
-    public static void main(final String[] args)
-    {
+public final class JavaFxApplicationLauncher {
+    public static void main(final String[] args) {
         Application.launch(JavaFxApplication.class, args);
     }
 
-    private JavaFxApplicationLauncher()
-    {
+    private JavaFxApplicationLauncher() {
         super();
     }
 }

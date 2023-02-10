@@ -15,30 +15,26 @@ import javax.swing.TransferHandler;
  * Dropping a dnd color on a component having this TransferHandler changes the<br>
  * foreground or the background of the component to the dropped dnd color, according to the value of the changesForegroundColor property.
  */
-class ColorTransferHandler extends TransferHandler
-{
+class ColorTransferHandler extends TransferHandler {
     @Serial
     private static final long serialVersionUID = -8161007208324025782L;
 
     private final String mimeType = DataFlavor.javaJVMLocalObjectMimeType + ";class=java.awt.Color";
-    
+
     private boolean changesForegroundColor = true;
     /**
      * The data type exported from JColorChooser.
      */
     private DataFlavor colorFlavor;
 
-    ColorTransferHandler()
-    {
+    ColorTransferHandler() {
         super();
 
         // Try to create a DataFlavor for dnd.color.
-        try
-        {
+        try {
             this.colorFlavor = new DataFlavor(this.mimeType);
         }
-        catch (ClassNotFoundException ex)
-        {
+        catch (ClassNotFoundException ex) {
             // Empty
         }
     }
@@ -47,8 +43,7 @@ class ColorTransferHandler extends TransferHandler
      * @see javax.swing.TransferHandler#canImport(javax.swing.JComponent, java.awt.datatransfer.DataFlavor[])
      */
     @Override
-    public boolean canImport(final JComponent c, final DataFlavor[] flavors)
-    {
+    public boolean canImport(final JComponent c, final DataFlavor[] flavors) {
         return hasColorFlavor(flavors);
     }
 
@@ -56,31 +51,24 @@ class ColorTransferHandler extends TransferHandler
      * @see javax.swing.TransferHandler#importData(javax.swing.JComponent, java.awt.datatransfer.Transferable)
      */
     @Override
-    public boolean importData(final JComponent c, final Transferable t)
-    {
-        if (hasColorFlavor(t.getTransferDataFlavors()))
-        {
-            try
-            {
+    public boolean importData(final JComponent c, final Transferable t) {
+        if (hasColorFlavor(t.getTransferDataFlavors())) {
+            try {
                 Color col = (Color) t.getTransferData(this.colorFlavor);
 
-                if (hasChangesForegroundColor())
-                {
+                if (hasChangesForegroundColor()) {
                     c.setForeground(col);
                 }
-                else
-                {
+                else {
                     c.setBackground(col);
                 }
 
                 return true;
             }
-            catch (UnsupportedFlavorException ex)
-            {
+            catch (UnsupportedFlavorException ex) {
                 System.out.println("importData: unsupported data flavor");
             }
-            catch (IOException ex)
-            {
+            catch (IOException ex) {
                 System.out.println("importData: I/O exception");
             }
         }
@@ -88,25 +76,20 @@ class ColorTransferHandler extends TransferHandler
         return false;
     }
 
-    protected boolean hasChangesForegroundColor()
-    {
+    protected boolean hasChangesForegroundColor() {
         return this.changesForegroundColor;
     }
 
     /**
      * Does the flavor list have a Color flavor?
      */
-    protected boolean hasColorFlavor(final DataFlavor[] flavors)
-    {
-        if (this.colorFlavor == null)
-        {
+    protected boolean hasColorFlavor(final DataFlavor[] flavors) {
+        if (this.colorFlavor == null) {
             return false;
         }
 
-        for (DataFlavor flavor : flavors)
-        {
-            if (this.colorFlavor.equals(flavor))
-            {
+        for (DataFlavor flavor : flavors) {
+            if (this.colorFlavor.equals(flavor)) {
                 return true;
             }
         }
@@ -114,8 +97,7 @@ class ColorTransferHandler extends TransferHandler
         return false;
     }
 
-    protected void setChangesForegroundColor(final boolean flag)
-    {
+    protected void setChangesForegroundColor(final boolean flag) {
         this.changesForegroundColor = flag;
     }
 }

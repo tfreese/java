@@ -8,32 +8,27 @@ import com.lmax.disruptor.RingBuffer;
 /**
  * @author Thomas Freese
  */
-public class LongEventProducer
-{
+public class LongEventProducer {
     private final RingBuffer<LongEvent> ringBuffer;
 
-    public LongEventProducer(final RingBuffer<LongEvent> ringBuffer)
-    {
+    public LongEventProducer(final RingBuffer<LongEvent> ringBuffer) {
         super();
 
         this.ringBuffer = ringBuffer;
     }
 
-    public void onData(final ByteBuffer bb)
-    {
+    public void onData(final ByteBuffer bb) {
         // Grab the next sequence
         long sequence = this.ringBuffer.next();
 
-        try
-        {
+        try {
             // Get the entry in the Disruptor
             LongEvent event = this.ringBuffer.get(sequence);
 
             // for the sequence
             event.setValue(bb.getLong(0));  // Fill with data
         }
-        finally
-        {
+        finally {
             this.ringBuffer.publish(sequence);
         }
     }

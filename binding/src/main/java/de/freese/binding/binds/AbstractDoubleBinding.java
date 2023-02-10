@@ -9,16 +9,14 @@ import de.freese.binding.property.Property;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractDoubleBinding extends AbstractDoubleExpression implements DoubleBinding
-{
+public abstract class AbstractDoubleBinding extends AbstractDoubleExpression implements DoubleBinding {
     private double value;
 
     /**
      * @see de.freese.binding.value.ObservableValue#getValue()
      */
     @Override
-    public Double getValue()
-    {
+    public Double getValue() {
         return this.value;
     }
 
@@ -26,13 +24,11 @@ public abstract class AbstractDoubleBinding extends AbstractDoubleExpression imp
      * @see de.freese.binding.binds.Binding#update()
      */
     @Override
-    public void update()
-    {
+    public void update() {
         double old = this.value;
         this.value = computeValue();
 
-        if (Objects.equals(old, this.value))
-        {
+        if (Objects.equals(old, this.value)) {
             fireValueChangedEvent(old, this.value);
         }
     }

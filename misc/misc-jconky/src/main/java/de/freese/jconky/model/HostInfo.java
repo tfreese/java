@@ -4,21 +4,18 @@ package de.freese.jconky.model;
 /**
  * @author Thomas Freese
  */
-public class HostInfo
-{
+public class HostInfo {
     private final String architecture;
 
     private final String name;
 
     private final String version;
 
-    public HostInfo()
-    {
+    public HostInfo() {
         this("", "", "");
     }
 
-    public HostInfo(final String name, final String version, final String architecture)
-    {
+    public HostInfo(final String name, final String version, final String architecture) {
         super();
 
         this.name = name;
@@ -26,18 +23,15 @@ public class HostInfo
         this.architecture = architecture;
     }
 
-    public String getArchitecture()
-    {
+    public String getArchitecture() {
         return this.architecture;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
-    public String getVersion()
-    {
+    public String getVersion() {
         return this.version;
     }
 
@@ -45,8 +39,7 @@ public class HostInfo
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
         builder.append("name=").append(this.name);

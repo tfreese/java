@@ -10,8 +10,7 @@ import java.util.TreeMap;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractTypeMapping implements TypeMapping
-{
+public abstract class AbstractTypeMapping implements TypeMapping {
     private final Map<JDBCType, Type> notNullMappings = new TreeMap<>();
 
     private final Map<JDBCType, Type> nullableMappings = new TreeMap<>();
@@ -20,21 +19,17 @@ public abstract class AbstractTypeMapping implements TypeMapping
      * @see de.freese.metamodel.modelgen.mapping.TypeMapping#getType(java.sql.JDBCType, boolean)
      */
     @Override
-    public Type getType(final JDBCType jdbcType, final boolean nullable)
-    {
+    public Type getType(final JDBCType jdbcType, final boolean nullable) {
         Type type = null;
 
-        if (nullable)
-        {
+        if (nullable) {
             type = this.nullableMappings.get(jdbcType);
         }
-        else
-        {
+        else {
             type = this.notNullMappings.get(jdbcType);
         }
 
-        if (type == null)
-        {
+        if (type == null) {
             throw new IllegalStateException("no mapping found for JDBCType " + jdbcType);
         }
 
@@ -44,16 +39,14 @@ public abstract class AbstractTypeMapping implements TypeMapping
     /**
      * Verknüpft einen {@link JDBCType} mit seiner Code-Repräsentation.
      */
-    protected void register(final JDBCType jdbcType, final Type nullableType)
-    {
+    protected void register(final JDBCType jdbcType, final Type nullableType) {
         register(jdbcType, nullableType, nullableType);
     }
 
     /**
      * Verknüpft einen {@link JDBCType} mit seiner Code-Repräsentation.
      */
-    protected void register(final JDBCType jdbcType, final Type nullableType, final Type notNullType)
-    {
+    protected void register(final JDBCType jdbcType, final Type nullableType, final Type notNullType) {
         this.nullableMappings.put(jdbcType, nullableType);
         this.notNullMappings.put(jdbcType, notNullType);
     }

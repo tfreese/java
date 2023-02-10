@@ -1,34 +1,31 @@
 // Created: 03.12.2020
 package de.freese.jconky;
 
-import de.freese.jconky.system.LinuxSystemMonitor;
-import de.freese.jconky.system.SystemMonitor;
 import javafx.geometry.Insets;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import de.freese.jconky.system.LinuxSystemMonitor;
+import de.freese.jconky.system.SystemMonitor;
+
 /**
  * @author Thomas Freese
  */
-public final class Settings
-{
+public final class Settings {
     /**
      * ThreadSafe Singleton-Pattern.
      *
      * @author Thomas Freese
      */
-    private static final class SettingsHolder
-    {
+    private static final class SettingsHolder {
         private static final Settings INSTANCE = new Settings();
 
-        private SettingsHolder()
-        {
+        private SettingsHolder() {
             super();
         }
     }
 
-    public static Settings getInstance()
-    {
+    public static Settings getInstance() {
         return SettingsHolder.INSTANCE;
     }
 
@@ -56,8 +53,7 @@ public final class Settings
 
     private final SystemMonitor systemMonitor;
 
-    private Settings()
-    {
+    private Settings() {
         super();
 
         this.systemMonitor = new LinuxSystemMonitor();
@@ -77,74 +73,61 @@ public final class Settings
         this.marginInner = new Insets(2.5D, 2.5D, 2.5D, 2.5D);
     }
 
-    public double getAlpha()
-    {
+    public double getAlpha() {
         return this.alpha;
     }
 
-    public Color getColorGradientStart()
-    {
+    public Color getColorGradientStart() {
         return this.colorGradientStart;
     }
 
-    public Color getColorGradientStop()
-    {
+    public Color getColorGradientStop() {
         return this.colorGradientStop;
     }
 
-    public Color getColorText()
-    {
+    public Color getColorText() {
         return this.colorText;
     }
 
-    public Color getColorTitle()
-    {
+    public Color getColorTitle() {
         return this.colorTitle;
     }
 
-    public Color getColorValue()
-    {
+    public Color getColorValue() {
         return this.colorValue;
     }
 
-    public Font getFont()
-    {
+    public Font getFont() {
         return this.font;
     }
 
-    public String getFontName()
-    {
+    public String getFontName() {
         return this.fontName;
     }
 
-    public double getFontSize()
-    {
+    public double getFontSize() {
         return this.fontSize;
     }
 
     /**
      * Innerer Rand.
      */
-    public Insets getMarginInner()
-    {
+    public Insets getMarginInner() {
         return this.marginInner;
     }
 
     /**
      * Äusserer Rand.
      */
-    public Insets getMarginOuter()
-    {
+    public Insets getMarginOuter() {
         return this.marginOuter;
     }
 
-    public SystemMonitor getSystemMonitor()
-    {
+    public SystemMonitor getSystemMonitor() {
         return this.systemMonitor;
     }
 
-    public boolean isDebug()
-    {
+    public boolean isDebug() {
         return false;
     }
 }

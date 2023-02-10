@@ -9,32 +9,27 @@ import java.util.Currency;
  *
  * @author Thomas Freese
  */
-public class MonetaryAmount
-{
+public class MonetaryAmount {
     private final Currency currency;
 
     private final BigDecimal value;
 
-    public MonetaryAmount(final BigDecimal value, final Currency currency)
-    {
+    public MonetaryAmount(final BigDecimal value, final Currency currency) {
         super();
 
         this.value = value.setScale(2, RoundingMode.HALF_UP);
         this.currency = currency;
     }
 
-    public MonetaryAmount(final String value, final Currency currency)
-    {
+    public MonetaryAmount(final String value, final Currency currency) {
         this(new BigDecimal(value), currency);
     }
 
-    public Currency getCurrency()
-    {
+    public Currency getCurrency() {
         return this.currency;
     }
 
-    public BigDecimal getValue()
-    {
+    public BigDecimal getValue() {
         return this.value;
     }
 }

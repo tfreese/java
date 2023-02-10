@@ -44,19 +44,16 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public final class ProxyBlacklistMain
-{
+public final class ProxyBlacklistMain {
     private static final CompletionService<Set<String>> COMPLETION_SERVICE = new ExecutorCompletionService<>(ForkJoinPool.commonPool());
     private static final Logger LOGGER = LoggerFactory.getLogger(ProxyBlacklistMain.class);
 
-    private static class HostComparator implements Comparator<String>
-    {
+    private static class HostComparator implements Comparator<String> {
         /**
          * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
          */
         @Override
-        public int compare(final String o1, final String o2)
-        {
+        public int compare(final String o1, final String o2) {
             String s1 = StringUtils.reverse(o1);
             String s2 = StringUtils.reverse(o2);
 
@@ -64,8 +61,7 @@ public final class ProxyBlacklistMain
         }
     }
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         ProxyBlacklistMain bl = new ProxyBlacklistMain();
 
         Path tempDirPath = Paths.get(System.getProperty("java.io.tmpdir"));
@@ -74,8 +70,7 @@ public final class ProxyBlacklistMain
         Files.createDirectories(blackListRaw.getParent());
         Set<String> blackList;
 
-        if (Files.notExists(blackListRaw))
-        {
+        if (Files.notExists(blackListRaw)) {
             blackList = new HashSet<>();
 
             // Set<String> ips = bl.loadIpBlacklist();
@@ -86,8 +81,7 @@ public final class ProxyBlacklistMain
 
             bl.writeBlacklist(blackList.stream().sorted().toList(), blackListRaw);
         }
-        else
-        {
+        else {
             blackList = bl.load(blackListRaw.toUri());
         }
 
@@ -114,16 +108,14 @@ public final class ProxyBlacklistMain
         // bl.createPrivoxyBlacklist(privoxySkriptPath, tempDirPath);
     }
 
-    private ProxyBlacklistMain()
-    {
+    private ProxyBlacklistMain() {
         super();
     }
 
     /**
      * Erstellt die BlackList von AdBlockPlus.
      */
-    void createPrivoxyBlacklist(final Path privoxySkriptPath, final Path targetDirectory) throws Exception
-    {
+    void createPrivoxyBlacklist(final Path privoxySkriptPath, final Path targetDirectory) throws Exception {
         Files.createDirectories(targetDirectory);
 
         Set<String> easyList = new TreeSet<>(new HostComparator());
@@ -143,8 +135,7 @@ public final class ProxyBlacklistMain
 
         uris.forEach(uri -> COMPLETION_SERVICE.submit(() -> load(uri)));
 
-        for (int i = 0; i < tasks; i++)
-        {
+        for (int i = 0; i < tasks; i++) {
             easyList.addAll(COMPLETION_SERVICE.take().get());
         }
 
@@ -176,23 +167,19 @@ public final class ProxyBlacklistMain
         Charset charset = StandardCharsets.UTF_8;
 
         // Privoxy Filter
-        try (PrintWriter writer = new PrintWriter(targetDirectory.resolve("privoxy-generated.filter").toFile(), charset))
-        {
+        try (PrintWriter writer = new PrintWriter(targetDirectory.resolve("privoxy-generated.filter").toFile(), charset)) {
             writer.println("FILTER: generated Tag Filter for HTML Elements");
 
-            for (String element : blackListElements)
-            {
+            for (String element : blackListElements) {
                 writer.println(element);
             }
         }
 
         // Privoxy Action
-        try (PrintWriter writer = new PrintWriter(targetDirectory.resolve("privoxy-generated.action").toFile(), charset))
-        {
+        try (PrintWriter writer = new PrintWriter(targetDirectory.resolve("privoxy-generated.action").toFile(), charset)) {
             writer.println("{ +block{generated} }");
 
-            for (String domain : blackListDomain)
-            {
+            for (String domain : blackListDomain) {
                 writer.println(domain);
             }
 
@@ -202,16 +189,14 @@ public final class ProxyBlacklistMain
             writer.println();
             writer.println("{ -block }");
 
-            for (String domain : whiteListDomain)
-            {
+            for (String domain : whiteListDomain) {
                 writer.println(domain);
             }
 
             writer.println();
             writer.println("{ -block +handle-as-image }");
 
-            for (String image : whiteListImages)
-            {
+            for (String image : whiteListImages) {
                 writer.println(image);
             }
         }
@@ -220,8 +205,7 @@ public final class ProxyBlacklistMain
     /**
      * Filtert die geladene Blacklist.
      */
-    Set<String> filter(final Set<String> blackList)
-    {
+    Set<String> filter(final Set<String> blackList) {
         LOGGER.info("Filter BlackList");
 
         // Alles raus was nicht reinsoll.
@@ -292,8 +276,7 @@ public final class ProxyBlacklistMain
     /**
      * BlackList mit Regex ausdünnen.
      */
-    Set<String> filterByRegEx(final Path privoxySkriptPath, final Set<String> blackList) throws Exception
-    {
+    Set<String> filterByRegEx(final Path privoxySkriptPath, final Set<String> blackList) throws Exception {
         Path path = privoxySkriptPath.resolve("blacklist-regex.txt");
 
         Set<String> regexList = load(path.toUri());
@@ -308,8 +291,7 @@ public final class ProxyBlacklistMain
      * Wandelt IP-Addressen in Hostnamen um.<br>
      * Falls das fehlschlägt, wird die IP entfernt.
      */
-    Set<String> ipToHostname(final Set<String> hosts)
-    {
+    Set<String> ipToHostname(final Set<String> hosts) {
         LOGGER.info("IP -> Hostname");
 
         final Map<String, String> cache = new HashMap<>();
@@ -371,37 +353,28 @@ public final class ProxyBlacklistMain
     /**
      * Laden einer Plaintext Liste.
      */
-    Set<String> load(final URI uri)
-    {
+    Set<String> load(final URI uri) {
         LOGGER.info("Load: {}", uri);
 
         Set<String> set = new HashSet<>();
 
-        try
-        {
-            if ("file".equals(uri.getScheme()))
-            {
-                try (Stream<String> lines = Files.lines(Paths.get(uri)))
-                {
+        try {
+            if ("file".equals(uri.getScheme())) {
+                try (Stream<String> lines = Files.lines(Paths.get(uri))) {
                     lines.forEach(set::add);
                 }
             }
-            else
-            {
+            else {
                 URLConnection connection = uri.toURL().openConnection();
 
-                try (InputStream is = connection.getInputStream();
-                     BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)))
-                {
-                    try (Stream<String> lines = br.lines())
-                    {
+                try (InputStream is = connection.getInputStream(); BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+                    try (Stream<String> lines = br.lines()) {
                         lines.forEach(set::add);
                     }
                 }
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
 
@@ -411,8 +384,7 @@ public final class ProxyBlacklistMain
     /**
      * Laden der allgemeinen BlackList.
      */
-    Set<String> loadHostBlacklist() throws Exception
-    {
+    Set<String> loadHostBlacklist() throws Exception {
         List<URI> uris = new ArrayList<>();
         uris.add(new URI("https://someonewhocares.org/hosts/hosts"));
         uris.add(new URI("https://winhelp2002.mvps.org/hosts.txt"));
@@ -433,8 +405,7 @@ public final class ProxyBlacklistMain
 
         Set<String> blackList = new HashSet<>();
 
-        for (int i = 0; i < tasks; i++)
-        {
+        for (int i = 0; i < tasks; i++) {
             blackList.addAll(COMPLETION_SERVICE.take().get());
         }
 
@@ -444,8 +415,7 @@ public final class ProxyBlacklistMain
     /**
      * Laden der IP-BlackList.
      */
-    Set<String> loadIpBlacklist() throws Exception
-    {
+    Set<String> loadIpBlacklist() throws Exception {
         List<URI> uris = new ArrayList<>();
         uris.add(new URI("https://myip.ms/files/blacklist/general/latest_blacklist.txt"));
 
@@ -455,8 +425,7 @@ public final class ProxyBlacklistMain
 
         Set<String> blackList = new HashSet<>();
 
-        for (int i = 0; i < tasks; i++)
-        {
+        for (int i = 0; i < tasks; i++) {
             blackList.addAll(COMPLETION_SERVICE.take().get());
         }
 
@@ -466,31 +435,22 @@ public final class ProxyBlacklistMain
     /**
      * Laden einer TGZ komprimierten Datei.
      */
-    Set<String> loadTGZ(final URI uri) throws IOException
-    {
+    Set<String> loadTGZ(final URI uri) throws IOException {
         LOGGER.info("Download: {}", uri);
 
         Set<String> set = new HashSet<>();
 
-        try (InputStream is = uri.toURL().openStream();
-             GZIPInputStream gzipIs = new GZIPInputStream(is);
-             TarArchiveInputStream tarIs = new TarArchiveInputStream(gzipIs);
-             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(tarIs, StandardCharsets.UTF_8)))
-        {
+        try (InputStream is = uri.toURL().openStream(); GZIPInputStream gzipIs = new GZIPInputStream(is); TarArchiveInputStream tarIs = new TarArchiveInputStream(gzipIs); BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(tarIs, StandardCharsets.UTF_8))) {
             TarArchiveEntry entry = null;
 
-            try
-            {
-                while ((entry = (TarArchiveEntry) tarIs.getNextEntry()) != null)
-                {
-                    if (entry.isFile() && tarIs.canReadEntryData(entry) && entry.getName().endsWith("domains"))
-                    {
+            try {
+                while ((entry = (TarArchiveEntry) tarIs.getNextEntry()) != null) {
+                    if (entry.isFile() && tarIs.canReadEntryData(entry) && entry.getName().endsWith("domains")) {
                         bufferedReader.lines().forEach(set::add);
                     }
                 }
             }
-            catch (EOFException ex)
-            {
+            catch (EOFException ex) {
                 LOGGER.error(ex.getMessage());
             }
         }
@@ -501,8 +461,7 @@ public final class ProxyBlacklistMain
     /**
      * Entfernt Hosts, welche durch die Regex-Liste schon erfasst werden.
      */
-    Set<String> validateRegex(final Set<String> blackList, final Set<String> regexList)
-    {
+    Set<String> validateRegex(final Set<String> blackList, final Set<String> regexList) {
         LOGGER.info("Validate Regex");
 
         // @formatter:off
@@ -536,14 +495,11 @@ public final class ProxyBlacklistMain
     /**
      * Speichert die BlackList.
      */
-    void writeBlacklist(final Collection<String> blackList, final Path path) throws IOException
-    {
+    void writeBlacklist(final Collection<String> blackList, final Path path) throws IOException {
         LOGGER.info("Write: {}", path);
 
-        try (PrintWriter writer = new PrintWriter(path.toFile(), StandardCharsets.UTF_8))
-        {
-            for (String host : blackList)
-            {
+        try (PrintWriter writer = new PrintWriter(path.toFile(), StandardCharsets.UTF_8)) {
+            for (String host : blackList) {
                 writer.printf("%s%n", host);
             }
         }

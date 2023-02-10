@@ -12,8 +12,7 @@ import java.util.concurrent.TimeoutException;
  *
  * @author Thomas Freese
  */
-public class SyncFuture<T> implements Future<T>
-{
+public class SyncFuture<T> implements Future<T> {
     private final CountDownLatch latch = new CountDownLatch(1);
 
     private final long startTime = System.currentTimeMillis();
@@ -24,8 +23,7 @@ public class SyncFuture<T> implements Future<T>
      * @see java.util.concurrent.Future#cancel(boolean)
      */
     @Override
-    public boolean cancel(final boolean mayInterruptIfRunning)
-    {
+    public boolean cancel(final boolean mayInterruptIfRunning) {
         return false;
     }
 
@@ -33,8 +31,7 @@ public class SyncFuture<T> implements Future<T>
      * @see java.util.concurrent.Future#get()
      */
     @Override
-    public T get() throws InterruptedException, ExecutionException
-    {
+    public T get() throws InterruptedException, ExecutionException {
         this.latch.await();
 
         return this.response;
@@ -44,18 +41,15 @@ public class SyncFuture<T> implements Future<T>
      * @see java.util.concurrent.Future#get(long, java.util.concurrent.TimeUnit)
      */
     @Override
-    public T get(final long timeout, final TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException
-    {
-        if (this.latch.await(timeout, unit))
-        {
+    public T get(final long timeout, final TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+        if (this.latch.await(timeout, unit)) {
             return this.response;
         }
 
         return null;
     }
 
-    public long getStartTime()
-    {
+    public long getStartTime() {
         return this.startTime;
     }
 
@@ -63,8 +57,7 @@ public class SyncFuture<T> implements Future<T>
      * @see java.util.concurrent.Future#isCancelled()
      */
     @Override
-    public boolean isCancelled()
-    {
+    public boolean isCancelled() {
         return false;
     }
 
@@ -72,13 +65,11 @@ public class SyncFuture<T> implements Future<T>
      * @see java.util.concurrent.Future#isDone()
      */
     @Override
-    public boolean isDone()
-    {
+    public boolean isDone() {
         return this.response != null;
     }
 
-    public void setResponse(final T response)
-    {
+    public void setResponse(final T response) {
         this.response = response;
 
         this.latch.countDown();

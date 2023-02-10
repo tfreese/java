@@ -10,8 +10,7 @@ import de.freese.metamodel.modelgen.model.ClassModel;
  *
  * @author Thomas Freese
  */
-public interface CodeWriter
-{
+public interface CodeWriter {
     /**
      * Liefert die Dateiendung.
      */

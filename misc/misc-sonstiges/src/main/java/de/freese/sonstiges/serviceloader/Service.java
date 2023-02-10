@@ -7,7 +7,6 @@ package de.freese.sonstiges.serviceloader;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface Service
-{
+public interface Service {
     String getText();
 }

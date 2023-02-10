@@ -24,13 +24,11 @@ import javax.swing.WindowConstants;
 /**
  * @author Thomas Freese
  */
-public final class CanvasMain extends JComponent implements Runnable
-{
+public final class CanvasMain extends JComponent implements Runnable {
     @Serial
     private static final long serialVersionUID = -6167704609710052731L;
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         CanvasMain canvas = new CanvasMain(100, 100);
 
         JFrame frame = new JFrame();
@@ -45,14 +43,12 @@ public final class CanvasMain extends JComponent implements Runnable
 
         final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(8);
 
-        frame.addWindowListener(new WindowAdapter()
-        {
+        frame.addWindowListener(new WindowAdapter() {
             /**
              * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
              */
             @Override
-            public void windowClosing(final WindowEvent e)
-            {
+            public void windowClosing(final WindowEvent e) {
                 ((JFrame) e.getSource()).setVisible(false);
                 ((JFrame) e.getSource()).dispose();
                 scheduledExecutorService.shutdownNow();
@@ -73,8 +69,7 @@ public final class CanvasMain extends JComponent implements Runnable
 
     private final Random random;
 
-    private CanvasMain(final int width, final int height)
-    {
+    private CanvasMain(final int width, final int height) {
         super();
 
         setPreferredSize(new Dimension(width, height));
@@ -93,8 +88,7 @@ public final class CanvasMain extends JComponent implements Runnable
      * @see javax.swing.JComponent#paint(java.awt.Graphics)
      */
     @Override
-    public void paint(final Graphics g)
-    {
+    public void paint(final Graphics g) {
         // g.drawImage(this.image, 0, 0, null);
         g.drawImage(this.image, 0, 0, getWidth(), getHeight(), null);
     }
@@ -103,12 +97,9 @@ public final class CanvasMain extends JComponent implements Runnable
      * @see java.lang.Runnable#run()
      */
     @Override
-    public void run()
-    {
-        IntUnaryOperator generator = i ->
-        {
-            if (this.random.nextBoolean())
-            {
+    public void run() {
+        IntUnaryOperator generator = i -> {
+            if (this.random.nextBoolean()) {
                 return Color.BLACK.getRGB();
             }
 
@@ -135,16 +126,14 @@ public final class CanvasMain extends JComponent implements Runnable
     /**
      * Liefert die Höhe des Bildes, und NICHT die der {@link JComponent}.
      */
-    int getImageHeight()
-    {
+    int getImageHeight() {
         return getPreferredSize().height;
     }
 
     /**
      * Liefert die Breite des Bildes, und NICHT die der {@link JComponent}.
      */
-    int getImageWidth()
-    {
+    int getImageWidth() {
         return getPreferredSize().width;
     }
 }

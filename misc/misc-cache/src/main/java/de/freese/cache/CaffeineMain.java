@@ -19,12 +19,10 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 /**
  * @author Thomas Freese
  */
-public final class CaffeineMain
-{
+public final class CaffeineMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(CaffeineMain.class);
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         // Caffeine JUL-Logger auf Slf4J umleiten.
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
@@ -32,10 +30,8 @@ public final class CaffeineMain
         ExecutorService executorService = Executors.newFixedThreadPool(3);
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(3);
 
-        try
-        {
-            CacheLoader<String, String> cacheLoader = key ->
-            {
+        try {
+            CacheLoader<String, String> cacheLoader = key -> {
                 LOGGER.info("CacheLoader: {}", key);
 
                 //                if (System.currentTimeMillis() % 2 == 0)
@@ -84,19 +80,16 @@ public final class CaffeineMain
             // Time for cleanup.
             TimeUnit.SECONDS.sleep(1);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
-        finally
-        {
+        finally {
             executorService.shutdown();
             scheduledExecutorService.shutdown();
         }
     }
 
-    private CaffeineMain()
-    {
+    private CaffeineMain() {
         super();
     }
 }

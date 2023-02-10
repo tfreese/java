@@ -22,8 +22,7 @@ import org.tartarus.snowball.ext.GermanStemmer;
  *
  * @author Thomas Freese
  */
-class TestStemmer
-{
+class TestStemmer {
     // @formatter:off
     private static final List<Arguments> STEMMER = List.of(
             Arguments.of("Tartarus German",  wrap(new GermanStemmer()))
@@ -44,58 +43,47 @@ class TestStemmer
     }
     // @formatter:on
 
-    private static Stemmer wrap(final Object stemmerImpl)
-    {
-        if (stemmerImpl instanceof SnowballProgram)
-        {
-            return value ->
-            {
+    private static Stemmer wrap(final Object stemmerImpl) {
+        if (stemmerImpl instanceof SnowballProgram) {
+            return value -> {
                 ((SnowballProgram) stemmerImpl).setCurrent(value);
                 ((SnowballProgram) stemmerImpl).stem();
 
                 return ((SnowballProgram) stemmerImpl).getCurrent();
             };
         }
-        else if (stemmerImpl instanceof GermanMinimalStemmer)
-        {
-            return value ->
-            {
+        else if (stemmerImpl instanceof GermanMinimalStemmer) {
+            return value -> {
                 char[] ca = value.toCharArray();
                 int length = ((GermanMinimalStemmer) stemmerImpl).stem(ca, ca.length);
 
                 return new String(ca, 0, length);
             };
         }
-        else if (stemmerImpl instanceof GermanLightStemmer)
-        {
-            return value ->
-            {
+        else if (stemmerImpl instanceof GermanLightStemmer) {
+            return value -> {
                 char[] ca = value.toCharArray();
                 int length = ((GermanLightStemmer) stemmerImpl).stem(ca, ca.length);
 
                 return new String(ca, 0, length);
             };
         }
-        else
-        {
+        else {
             throw new IllegalArgumentException("stemmerImpl");
         }
     }
 
-    void testBaeume(final Stemmer stemmer) throws Exception
-    {
+    void testBaeume(final Stemmer stemmer) throws Exception {
         String stem = stemmer.stem("bäume");
         assertEquals("baum", stem);
     }
 
-    void testBaum(final Stemmer stemmer) throws Exception
-    {
+    void testBaum(final Stemmer stemmer) throws Exception {
         String stem = stemmer.stem("baum");
         assertEquals("baum", stem);
     }
 
-    void testBewaldet(final Stemmer stemmer) throws Exception
-    {
+    void testBewaldet(final Stemmer stemmer) throws Exception {
         String stem = stemmer.stem("bewaldet");
         assertEquals("bewaldet", stem);
 
@@ -104,8 +92,7 @@ class TestStemmer
     }
 
     @TestFactory
-    Stream<DynamicNode> testFactory()
-    {
+    Stream<DynamicNode> testFactory() {
         // @formatter:off
         return STEMMER.stream()
                 .map(arg -> dynamicContainer((String) arg.get()[0],
@@ -127,50 +114,42 @@ class TestStemmer
         // @formatter:on
     }
 
-    void testHuehner(final Stemmer stemmer) throws Exception
-    {
+    void testHuehner(final Stemmer stemmer) throws Exception {
         String stem = stemmer.stem("hühner");
         assertEquals("huhn", stem);
     }
 
-    void testHuhn(final Stemmer stemmer) throws Exception
-    {
+    void testHuhn(final Stemmer stemmer) throws Exception {
         String stem = stemmer.stem("huhn");
         assertEquals("huhn", stem);
     }
 
-    void testTaegig(final Stemmer stemmer) throws Exception
-    {
+    void testTaegig(final Stemmer stemmer) throws Exception {
         String stem = stemmer.stem("tägig");
         assertEquals("tagig", stem);
     }
 
-    void testTage(final Stemmer stemmer) throws Exception
-    {
+    void testTage(final Stemmer stemmer) throws Exception {
         String stem = stemmer.stem("tage");
         assertEquals("tag", stem);
     }
 
-    void testTagung(final Stemmer stemmer) throws Exception
-    {
+    void testTagung(final Stemmer stemmer) throws Exception {
         String stem = stemmer.stem("tagung");
         assertEquals("tagung", stem);
     }
 
-    void testWaelder(final Stemmer stemmer) throws Exception
-    {
+    void testWaelder(final Stemmer stemmer) throws Exception {
         String stem = stemmer.stem("wälder");
         assertEquals("wald", stem);
     }
 
-    void testWald(final Stemmer stemmer) throws Exception
-    {
+    void testWald(final Stemmer stemmer) throws Exception {
         String stem = stemmer.stem("wald");
         assertEquals("wald", stem);
     }
 
-    void testWeisse(final Stemmer stemmer) throws Exception
-    {
+    void testWeisse(final Stemmer stemmer) throws Exception {
         String stem = stemmer.stem("weisse");
         assertEquals("weiss", stem);
     }

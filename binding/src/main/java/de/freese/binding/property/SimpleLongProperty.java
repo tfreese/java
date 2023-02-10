@@ -4,24 +4,20 @@ package de.freese.binding.property;
 /**
  * @author Thomas Freese
  */
-public class SimpleLongProperty extends AbstractLongProperty
-{
+public class SimpleLongProperty extends AbstractLongProperty {
     private final Object bean;
 
     private final String name;
 
-    public SimpleLongProperty()
-    {
+    public SimpleLongProperty() {
         this(null, null, 0);
     }
 
-    public SimpleLongProperty(final Object bean, final String name)
-    {
+    public SimpleLongProperty(final Object bean, final String name) {
         this(bean, name, 0);
     }
 
-    public SimpleLongProperty(final Object bean, final String name, final long initialValue)
-    {
+    public SimpleLongProperty(final Object bean, final String name, final long initialValue) {
         super();
 
         this.bean = bean; // Objects.requireNonNull(bean, "bean required");
@@ -34,8 +30,7 @@ public class SimpleLongProperty extends AbstractLongProperty
      * @see de.freese.binding.property.ReadOnlyProperty#getBean()
      */
     @Override
-    public Object getBean()
-    {
+    public Object getBean() {
         return this.bean;
     }
 
@@ -43,8 +38,7 @@ public class SimpleLongProperty extends AbstractLongProperty
      * @see de.freese.binding.property.ReadOnlyProperty#getName()
      */
     @Override
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 }

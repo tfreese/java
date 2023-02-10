@@ -6,7 +6,6 @@ import de.freese.binding.value.ObservableDoubleValue;
 /**
  * @author Thomas Freese
  */
-public interface DoubleBinding extends NumberBinding<Double>, ObservableDoubleValue
-{
+public interface DoubleBinding extends NumberBinding<Double>, ObservableDoubleValue {
 
 }

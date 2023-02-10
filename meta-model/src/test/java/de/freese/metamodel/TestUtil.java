@@ -23,16 +23,12 @@ import org.sqlite.javax.SQLiteConnectionPoolDataSource;
 /**
  * @author Thomas Freese
  */
-public final class TestUtil
-{
-    public static void closeDataSource(final DataSource dataSource) throws Exception
-    {
-        if (dataSource instanceof AutoCloseable ac)
-        {
+public final class TestUtil {
+    public static void closeDataSource(final DataSource dataSource) throws Exception {
+        if (dataSource instanceof AutoCloseable ac) {
             ac.close();
         }
-        else if (dataSource instanceof JDBCPool p)
-        {
+        else if (dataSource instanceof JDBCPool p) {
             p.close(1);
         }
         // else if (dataSource instanceof DisposableBean db)
@@ -41,8 +37,7 @@ public final class TestUtil
         // }
     }
 
-    public static DataSource createHsqlDBDataSource(final String url)
-    {
+    public static DataSource createHsqlDBDataSource(final String url) {
         // jdbc:hsqldb:mem:mails
         // jdbc:hsqldb:file:/tmp/mails/mails;create=false;readonly=true;shutdown=true
         // jdbc:hsqldb:res:hsqldb/person;create=false;readonly=true
@@ -54,8 +49,7 @@ public final class TestUtil
         return dataSource;
     }
 
-    public static DataSource createMySQLDBDataSource(final String url) throws SQLException
-    {
+    public static DataSource createMySQLDBDataSource(final String url) throws SQLException {
         // jdbc:mariadb://localhost:3306/kodi_video99
         // useInformationSchema: Für Anzeige der Kommentare
         MariaDbPoolDataSource dataSource = new MariaDbPoolDataSource(url + "?useInformationSchema=true");
@@ -65,8 +59,7 @@ public final class TestUtil
         return dataSource;
     }
 
-    public static DataSource createOracleDataSource(final String url) throws SQLException
-    {
+    public static DataSource createOracleDataSource(final String url) throws SQLException {
         // jdbc:oracle:thin:@//HOST:1560/service
         // remarksReporting: Für Anzeige der Kommentare
 
@@ -110,8 +103,7 @@ public final class TestUtil
         return dataSource;
     }
 
-    public static DataSource createSQLiteDataSource(final String url)
-    {
+    public static DataSource createSQLiteDataSource(final String url) {
         // jdbc:sqlite:/tmp/MyVideos99.db
         SQLiteConfig config = new SQLiteConfig();
         // config.setReadOnly(true);
@@ -129,16 +121,14 @@ public final class TestUtil
      * Der Stream wird nicht geschlossen.<br>
      * Wenn das ResultSet einen Typ != ResultSet.TYPE_FORWARD_ONLY besitzt, wird ResultSet.first() aufgerufen und kann weiter verwendet werden.
      */
-    public static void write(final ResultSet resultSet, final PrintStream ps) throws SQLException
-    {
+    public static void write(final ResultSet resultSet, final PrintStream ps) throws SQLException {
         List<String[]> rows = toList(resultSet);
         padding(rows, " ");
         addHeaderSeparator(rows, "-");
 
         write(rows, ps, " | ");
 
-        if (resultSet.getType() != ResultSet.TYPE_FORWARD_ONLY)
-        {
+        if (resultSet.getType() != ResultSet.TYPE_FORWARD_ONLY) {
             resultSet.first();
         }
     }
@@ -147,10 +137,8 @@ public final class TestUtil
      * Fügt am Index 1 der Liste eine Trennlinie ein.<br>
      * Die Breite pro Spalte orientiert sich am ersten Wert (Header) der Spalte.<br>
      */
-    private static <T extends CharSequence> void addHeaderSeparator(final List<T[]> rows, final String separator)
-    {
-        if ((rows == null) || rows.isEmpty())
-        {
+    private static <T extends CharSequence> void addHeaderSeparator(final List<T[]> rows, final String separator) {
+        if ((rows == null) || rows.isEmpty()) {
             return;
         }
 
@@ -164,8 +152,7 @@ public final class TestUtil
         // T[] row = rows.get(0).clone();
         String[] row = new String[columnCount];
 
-        for (int column = 0; column < columnCount; column++)
-        {
+        for (int column = 0; column < columnCount; column++) {
             // row[column] = String.join("", Collections.nCopies(rows.get(0)[column].length(), sep));
             row[column] = sep.repeat(rows.get(0)[column].length());
         }
@@ -180,10 +167,8 @@ public final class TestUtil
      *
      * @see #write(List, PrintStream, String)
      */
-    private static <T extends CharSequence> void padding(final List<T[]> rows, final String padding)
-    {
-        if ((rows == null) || rows.isEmpty())
-        {
+    private static <T extends CharSequence> void padding(final List<T[]> rows, final String padding) {
+        if ((rows == null) || rows.isEmpty()) {
             return;
         }
 
@@ -206,10 +191,8 @@ public final class TestUtil
         // Strings pro Spalte formatieren und schreiben.
         String pad = (padding == null) || padding.isBlank() ? " " : padding;
 
-        rows.stream().parallel().forEach(r ->
-        {
-            for (int column = 0; column < columnCount; column++)
-            {
+        rows.stream().parallel().forEach(r -> {
+            for (int column = 0; column < columnCount; column++) {
                 String value = rightPad(r[column].toString(), columnWidth[column], pad);
 
                 r[column] = (T) value;
@@ -217,8 +200,7 @@ public final class TestUtil
         });
     }
 
-    private static String rightPad(final String value, final int size, final String padding)
-    {
+    private static String rightPad(final String value, final int size, final String padding) {
         String newValue;
 
         newValue = String.format("%-" + size + "s", value).replace(" ", padding);
@@ -240,8 +222,7 @@ public final class TestUtil
      * Erzeugt aus dem {@link ResultSet} eine Liste mit den Column-Namen in der ersten Zeile und den Daten.<br>
      * Wenn das ResultSet einen Typ != ResultSet.TYPE_FORWARD_ONLY besitzt, wird {@link ResultSet#first()} aufgerufen und kann weiter verwendet werden.
      */
-    private static List<String[]> toList(final ResultSet resultSet) throws SQLException
-    {
+    private static List<String[]> toList(final ResultSet resultSet) throws SQLException {
         Objects.requireNonNull(resultSet, "resultSet required");
 
         List<String[]> rows = new ArrayList<>();
@@ -253,32 +234,26 @@ public final class TestUtil
         String[] header = new String[columnCount];
         rows.add(header);
 
-        for (int column = 1; column <= columnCount; column++)
-        {
+        for (int column = 1; column <= columnCount; column++) {
             header[column - 1] = metaData.getColumnLabel(column).toUpperCase();
         }
 
         // Daten
-        while (resultSet.next())
-        {
+        while (resultSet.next()) {
             String[] row = new String[columnCount];
             rows.add(row);
 
-            for (int column = 1; column <= columnCount; column++)
-            {
+            for (int column = 1; column <= columnCount; column++) {
                 Object obj = resultSet.getObject(column);
                 String value = null;
 
-                if (obj == null)
-                {
+                if (obj == null) {
                     value = "";
                 }
-                else if (obj instanceof byte[])
-                {
+                else if (obj instanceof byte[]) {
                     value = new String((byte[]) obj);
                 }
-                else
-                {
+                else {
                     value = obj.toString();
                 }
 
@@ -286,8 +261,7 @@ public final class TestUtil
             }
         }
 
-        if (resultSet.getType() != ResultSet.TYPE_FORWARD_ONLY)
-        {
+        if (resultSet.getType() != ResultSet.TYPE_FORWARD_ONLY) {
             resultSet.first();
         }
 
@@ -298,13 +272,11 @@ public final class TestUtil
      * Schreibt die Liste in den PrintStream.<br>
      * Der Stream wird nicht geschlossen.
      */
-    private static <T extends CharSequence> void write(final List<T[]> rows, final PrintStream ps, final String separator)
-    {
+    private static <T extends CharSequence> void write(final List<T[]> rows, final PrintStream ps, final String separator) {
         Objects.requireNonNull(rows, "rows required");
         Objects.requireNonNull(ps, "printStream required");
 
-        if (rows.isEmpty())
-        {
+        if (rows.isEmpty()) {
             return;
         }
 
@@ -316,8 +288,7 @@ public final class TestUtil
         ps.flush();
     }
 
-    private TestUtil()
-    {
+    private TestUtil() {
         super();
     }
 }

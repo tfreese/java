@@ -4,19 +4,15 @@ package de.freese.simulationen.model;
 /**
  * @author Thomas Freese
  */
-public enum SimulationType
-{
+public enum SimulationType {
     ANTS("ants"),
     BOUNCING_BALLS("balls"),
     GAME_OF_LIFE("gof"),
     WATER_TORUS("wator");
 
-    public static SimulationType findByNameShort(final String nameShort)
-    {
-        for (SimulationType type : values())
-        {
-            if (type.getNameShort().equals(nameShort))
-            {
+    public static SimulationType findByNameShort(final String nameShort) {
+        for (SimulationType type : values()) {
+            if (type.getNameShort().equals(nameShort)) {
                 return type;
             }
         }
@@ -26,13 +22,11 @@ public enum SimulationType
 
     private final String nameShort;
 
-    SimulationType(final String nameShort)
-    {
+    SimulationType(final String nameShort) {
         this.nameShort = nameShort;
     }
 
-    public String getNameShort()
-    {
+    public String getNameShort() {
         return this.nameShort;
     }
 }

@@ -15,28 +15,24 @@ import de.freese.jsensors.sensor.SensorValue;
  *
  * @author Thomas Freese
  */
-public class ExecutorBackend extends AbstractBackend
-{
+public class ExecutorBackend extends AbstractBackend {
     private final Backend delegate;
 
     private final Executor executor;
 
-    public ExecutorBackend(final Backend delegate, final Executor executor)
-    {
+    public ExecutorBackend(final Backend delegate, final Executor executor) {
         super();
 
         this.delegate = Objects.requireNonNull(delegate, "delegate required");
         this.executor = Objects.requireNonNull(executor, "executor required");
     }
 
-    public ExecutorBackend(final Backend delegate, final int parallelism, final ThreadFactory threadFactory)
-    {
+    public ExecutorBackend(final Backend delegate, final int parallelism, final ThreadFactory threadFactory) {
         super();
 
         this.delegate = Objects.requireNonNull(delegate, "delegate required");
 
-        if (parallelism < 1)
-        {
+        if (parallelism < 1) {
             throw new IllegalArgumentException("parallelism < 1: " + parallelism);
         }
 
@@ -49,20 +45,16 @@ public class ExecutorBackend extends AbstractBackend
      * @see de.freese.jsensors.backend.AbstractBackend#storeValue(de.freese.jsensors.sensor.SensorValue)
      */
     @Override
-    protected void storeValue(final SensorValue sensorValue)
-    {
-        this.executor.execute(() ->
-        {
+    protected void storeValue(final SensorValue sensorValue) {
+        this.executor.execute(() -> {
             // final Thread currentThread = Thread.currentThread();
             // String oldName = currentThread.getName();
             // currentThread.setName("task-" + sensorValue.getName());
 
-            try
-            {
+            try {
                 this.delegate.store(sensorValue);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
             }
             //            finally

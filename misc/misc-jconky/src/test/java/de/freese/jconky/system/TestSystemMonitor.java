@@ -8,6 +8,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Map;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
+
 import de.freese.jconky.model.CpuInfo;
 import de.freese.jconky.model.CpuInfos;
 import de.freese.jconky.model.CpuLoadAvg;
@@ -18,22 +24,15 @@ import de.freese.jconky.model.NetworkInfos;
 import de.freese.jconky.model.ProcessInfos;
 import de.freese.jconky.model.TemperatureInfo;
 import de.freese.jconky.model.UsageInfo;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.condition.EnabledOnOs;
-import org.junit.jupiter.api.condition.OS;
 
 /**
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class TestSystemMonitor
-{
+class TestSystemMonitor {
     @Test
     @EnabledOnOs(OS.LINUX)
-    void testCpuInfos()
-    {
+    void testCpuInfos() {
         SystemMonitor systemMonitor = createSystemMonitor();
 
         CpuInfos cpuInfos = systemMonitor.getCpuInfos();
@@ -65,8 +64,7 @@ class TestSystemMonitor
 
     @Test
     @EnabledOnOs(OS.LINUX)
-    void testCpuLoadAvg()
-    {
+    void testCpuLoadAvg() {
         SystemMonitor systemMonitor = createSystemMonitor();
 
         CpuLoadAvg loadAvg = systemMonitor.getCpuLoadAvg();
@@ -78,8 +76,7 @@ class TestSystemMonitor
     }
 
     @Test
-    void testExternalIp()
-    {
+    void testExternalIp() {
         SystemMonitor systemMonitor = createSystemMonitor();
 
         String externalIp = systemMonitor.getExternalIp();
@@ -90,8 +87,7 @@ class TestSystemMonitor
 
     @Test
     @EnabledOnOs(OS.LINUX)
-    void testFilesystems()
-    {
+    void testFilesystems() {
         SystemMonitor systemMonitor = createSystemMonitor();
 
         Map<String, UsageInfo> map = systemMonitor.getFilesystems();
@@ -102,8 +98,7 @@ class TestSystemMonitor
 
     @Test
     @EnabledOnOs(OS.LINUX)
-    void testHostInfo()
-    {
+    void testHostInfo() {
         SystemMonitor systemMonitor = createSystemMonitor();
 
         HostInfo hostInfo = systemMonitor.getHostInfo();
@@ -116,8 +111,7 @@ class TestSystemMonitor
 
     @Test
     @EnabledOnOs(OS.LINUX)
-    void testMusicInfo()
-    {
+    void testMusicInfo() {
         SystemMonitor systemMonitor = createSystemMonitor();
 
         MusicInfo musicInfo = systemMonitor.getMusicInfo();
@@ -127,8 +121,7 @@ class TestSystemMonitor
 
     @Test
     @EnabledOnOs(OS.LINUX)
-    void testNetworkInfos()
-    {
+    void testNetworkInfos() {
         SystemMonitor systemMonitor = createSystemMonitor();
 
         NetworkInfos networkInfos = systemMonitor.getNetworkInfos();
@@ -140,8 +133,7 @@ class TestSystemMonitor
 
     @Test
     @EnabledOnOs(OS.LINUX)
-    void testProcessInfos()
-    {
+    void testProcessInfos() {
         SystemMonitor systemMonitor = createSystemMonitor();
 
         double uptimeInSeconds = systemMonitor.getUptimeInSeconds();
@@ -165,8 +157,7 @@ class TestSystemMonitor
 
     @Test
     @EnabledOnOs(OS.LINUX)
-    void testRamAndSwap()
-    {
+    void testRamAndSwap() {
         SystemMonitor systemMonitor = createSystemMonitor();
 
         Map<String, UsageInfo> map = systemMonitor.getRamAndSwap();
@@ -177,8 +168,7 @@ class TestSystemMonitor
 
     @Test
     @EnabledOnOs(OS.LINUX)
-    void testTemperatures()
-    {
+    void testTemperatures() {
         SystemMonitor systemMonitor = createSystemMonitor();
 
         Map<String, TemperatureInfo> map = systemMonitor.getTemperatures();
@@ -187,8 +177,7 @@ class TestSystemMonitor
         assertTrue(map.size() > 3);
     }
 
-    private SystemMonitor createSystemMonitor()
-    {
+    private SystemMonitor createSystemMonitor() {
         return new LinuxSystemMonitor();
     }
 }

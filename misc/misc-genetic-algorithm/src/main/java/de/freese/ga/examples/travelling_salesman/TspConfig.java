@@ -10,12 +10,10 @@ import de.freese.ga.Config;
 /**
  * @author Thomas Freese
  */
-public class TspConfig extends Config
-{
+public class TspConfig extends Config {
     private final List<City> cities = new ArrayList<>();
 
-    public TspConfig()
-    {
+    public TspConfig() {
         super();
     }
 
@@ -23,8 +21,7 @@ public class TspConfig extends Config
      * @see de.freese.ga.Config#getMaxFitness()
      */
     @Override
-    public double getMaxFitness()
-    {
+    public double getMaxFitness() {
         // Keine Lösung bekannt.
         return Double.MAX_VALUE;
     }
@@ -32,8 +29,7 @@ public class TspConfig extends Config
     /**
      * Anzahl Städte = Anzahl Gene im Chromosom/Tour
      */
-    public void setCities(final List<City> cities)
-    {
+    public void setCities(final List<City> cities) {
         Objects.requireNonNull(cities, "cities required");
 
         this.cities.clear();
@@ -42,8 +38,7 @@ public class TspConfig extends Config
         setSizeChromosome(this.cities.size());
     }
 
-    List<City> getCities()
-    {
+    List<City> getCities() {
         return this.cities;
     }
 }

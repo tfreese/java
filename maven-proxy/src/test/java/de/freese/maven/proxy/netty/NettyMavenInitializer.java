@@ -3,7 +3,6 @@ package de.freese.maven.proxy.netty;
 
 import java.util.Objects;
 
-import de.freese.maven.proxy.repository.Repository;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -12,19 +11,19 @@ import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
+import de.freese.maven.proxy.repository.Repository;
+
 /**
  * {@link ChannelInitializer} für den Maven Proxy.<br>
  *
  * @author Thomas Freese
  */
-public class NettyMavenInitializer extends ChannelInitializer<SocketChannel>
-{
+public class NettyMavenInitializer extends ChannelInitializer<SocketChannel> {
     private final Repository repository;
 
     private final SslContext sslContext;
 
-    public NettyMavenInitializer(final Repository repository)
-    {
+    public NettyMavenInitializer(final Repository repository) {
         super();
 
         this.repository = Objects.requireNonNull(repository, "repository required");
@@ -35,12 +34,10 @@ public class NettyMavenInitializer extends ChannelInitializer<SocketChannel>
      * @see io.netty.channel.ChannelInitializer#initChannel(io.netty.channel.Channel)
      */
     @Override
-    protected void initChannel(final SocketChannel ch) throws Exception
-    {
+    protected void initChannel(final SocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
 
-        if (this.sslContext != null)
-        {
+        if (this.sslContext != null) {
             pipeline.addLast(this.sslContext.newHandler(ch.alloc()));
         }
 

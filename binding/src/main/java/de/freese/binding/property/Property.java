@@ -8,7 +8,6 @@ import de.freese.binding.value.WritableValue;
  *
  * @author Thomas Freese
  */
-public interface Property<T> extends ReadOnlyProperty<T>, WritableValue<T>
-{
+public interface Property<T> extends ReadOnlyProperty<T>, WritableValue<T> {
 
 }

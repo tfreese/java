@@ -4,8 +4,7 @@ package de.freese.sonstiges.mockito;
 /**
  * @author Thomas Freese
  */
-public interface CashBox
-{
+public interface CashBox {
     int getCurrentAmount();
 
     void withdraw(int amountRequired);

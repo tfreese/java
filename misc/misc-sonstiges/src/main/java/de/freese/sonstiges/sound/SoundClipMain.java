@@ -14,18 +14,15 @@ import javax.swing.WindowConstants;
  * To play sound using Clip, the process need to be alive.<br>
  * Hence, we use a Swing application.
  */
-public final class SoundClipMain extends JFrame
-{
+public final class SoundClipMain extends JFrame {
     @Serial
     private static final long serialVersionUID = -4981933991308257211L;
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         new SoundClipMain();
     }
 
-    private SoundClipMain()
-    {
+    private SoundClipMain() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Test Sound Clip");
         this.setSize(300, 200);
@@ -33,15 +30,12 @@ public final class SoundClipMain extends JFrame
 
         File file = new File("C:/Windows/media/tada.wav");
 
-        try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(file);
-             Clip clip = AudioSystem.getClip())
-        {
+        try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(file); Clip clip = AudioSystem.getClip()) {
             // Open audio clip and load samples from the audio input stream.
             clip.open(audioIn);
 
             // Stop the player if it is still running
-            if (clip.isRunning())
-            {
+            if (clip.isRunning()) {
                 clip.stop();
             }
 
@@ -60,8 +54,7 @@ public final class SoundClipMain extends JFrame
             // repeat forever
             // clip.loop(Clip.LOOP_CONTINUOUSLY);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             ex.printStackTrace();
         }
 

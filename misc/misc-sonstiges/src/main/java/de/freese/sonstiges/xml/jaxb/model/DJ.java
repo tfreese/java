@@ -10,33 +10,25 @@ import jakarta.xml.bind.annotation.XmlType;
  */
 @XmlRootElement(name = "dj")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder =
-        {
-                "firstName", "lastName"
-        })
-public class DJ
-{
+@XmlType(propOrder = {"firstName", "lastName"})
+public class DJ {
     private String firstName;
 
     private String lastName;
 
-    public String getFirstName()
-    {
+    public String getFirstName() {
         return this.firstName;
     }
 
-    public String getLastName()
-    {
+    public String getLastName() {
         return this.lastName;
     }
 
-    public void setFirstName(final String name)
-    {
+    public void setFirstName(final String name) {
         this.firstName = name;
     }
 
-    public void setLastName(final String lastName)
-    {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 }

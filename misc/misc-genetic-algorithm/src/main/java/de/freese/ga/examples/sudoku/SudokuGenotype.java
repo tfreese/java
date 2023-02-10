@@ -7,15 +7,12 @@ import de.freese.ga.Genotype;
 /**
  * @author Thomas Freese
  */
-public class SudokuGenotype extends Genotype
-{
-    public SudokuGenotype(final SudokuConfig config)
-    {
+public class SudokuGenotype extends Genotype {
+    public SudokuGenotype(final SudokuConfig config) {
         super(config);
     }
 
-    public SudokuGenotype(final SudokuConfig config, final int size)
-    {
+    public SudokuGenotype(final SudokuConfig config, final int size) {
         super(config, size);
     }
 
@@ -23,8 +20,7 @@ public class SudokuGenotype extends Genotype
      * @see de.freese.ga.Genotype#createEmptyChromosome()
      */
     @Override
-    public Chromosome createEmptyChromosome()
-    {
+    public Chromosome createEmptyChromosome() {
         return new SudokuChromosome(getConfig());
     }
 
@@ -32,8 +28,7 @@ public class SudokuGenotype extends Genotype
      * @see de.freese.ga.Genotype#createEmptyGenotype(int)
      */
     @Override
-    public Genotype createEmptyGenotype(final int size)
-    {
+    public Genotype createEmptyGenotype(final int size) {
         return new SudokuGenotype(getConfig(), size);
     }
 
@@ -41,8 +36,7 @@ public class SudokuGenotype extends Genotype
      * @see de.freese.ga.Genotype#getConfig()
      */
     @Override
-    protected SudokuConfig getConfig()
-    {
+    protected SudokuConfig getConfig() {
         return (SudokuConfig) super.getConfig();
     }
 }

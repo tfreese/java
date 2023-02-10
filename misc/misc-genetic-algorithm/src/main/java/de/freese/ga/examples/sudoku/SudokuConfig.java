@@ -17,8 +17,7 @@ import de.freese.ga.Config;
 /**
  * @author Thomas Freese
  */
-public class SudokuConfig extends Config
-{
+public class SudokuConfig extends Config {
     /**
      * Beim Sudoku dürfen die fest vorgegebenen Zahlen nicht verändert werden !
      */
@@ -28,8 +27,7 @@ public class SudokuConfig extends Config
 
     private int puzzleSize = 9;
 
-    public SudokuConfig()
-    {
+    public SudokuConfig() {
         super();
     }
 
@@ -37,8 +35,7 @@ public class SudokuConfig extends Config
      * @see de.freese.ga.Config#getMaxFitness()
      */
     @Override
-    public double getMaxFitness()
-    {
+    public double getMaxFitness() {
         // Summe pro Zeile, Spalte und Block.<br>
         // Gaußsche Summenformel = (n² + n) / 2
         int puzzleSum = (int) (Math.pow(this.puzzleSize, 2) + this.puzzleSize) / 2;
@@ -60,12 +57,10 @@ public class SudokuConfig extends Config
         return fitness;
     }
 
-    public List<String[]> parsePuzzle(final InputStream inputStream) throws IOException
-    {
+    public List<String[]> parsePuzzle(final InputStream inputStream) throws IOException {
         List<String[]> puzzle = new ArrayList<>();
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)))
-        {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
             // @formatter:off
             reader.lines()
                 .filter(l -> !l.startsWith("-"))
@@ -93,12 +88,10 @@ public class SudokuConfig extends Config
      * Index 0 = Rows<br>
      * Index 1 = Columns
      */
-    public void setPuzzle(final List<String[]> puzzle)
-    {
+    public void setPuzzle(final List<String[]> puzzle) {
         Objects.requireNonNull(puzzle, "puzzle required");
 
-        if ((puzzle.size() > 9) || (puzzle.get(0).length > 9))
-        {
+        if ((puzzle.size() > 9) || (puzzle.get(0).length > 9)) {
             throw new IllegalArgumentException("only puzzle with 9x9 format supported");
         }
 
@@ -107,18 +100,15 @@ public class SudokuConfig extends Config
 
         this.fixNumbers.clear();
 
-        for (int row = 0; row < this.puzzleSize; row++)
-        {
+        for (int row = 0; row < this.puzzleSize; row++) {
             String[] columns = puzzle.get(row);
 
-            for (int col = 0; col < this.puzzleSize; col++)
-            {
+            for (int col = 0; col < this.puzzleSize; col++) {
                 int index = (row * this.puzzleSize) + col;
 
                 int number = Integer.parseInt(columns[col]);
 
-                if (number > 0)
-                {
+                if (number > 0) {
                     this.fixNumbers.put(index, new SudokuGene(number, false));
                 }
             }
@@ -127,18 +117,15 @@ public class SudokuConfig extends Config
         setSizeChromosome(this.puzzleSize * this.puzzleSize);
     }
 
-    Map<Integer, SudokuGene> getFixNumbers()
-    {
+    Map<Integer, SudokuGene> getFixNumbers() {
         return this.fixNumbers;
     }
 
-    int getPuzzleBlockSize()
-    {
+    int getPuzzleBlockSize() {
         return this.puzzleBlockSize;
     }
 
-    int getPuzzleSize()
-    {
+    int getPuzzleSize() {
         return this.puzzleSize;
     }
 }

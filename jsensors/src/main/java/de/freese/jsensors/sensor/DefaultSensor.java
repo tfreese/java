@@ -12,13 +12,11 @@ import java.util.function.Function;
  *
  * @author Thomas Freese
  */
-public class DefaultSensor<T> extends AbstractSensor
-{
+public class DefaultSensor<T> extends AbstractSensor {
     private final WeakReference<T> ref;
     private final Function<T, String> valueFunction;
 
-    public DefaultSensor(final String name, final T obj, final Function<T, String> valueFunction, final int keepLastNValues, final String description)
-    {
+    public DefaultSensor(final String name, final T obj, final Function<T, String> valueFunction, final int keepLastNValues, final String description) {
         super(name, keepLastNValues, description);
 
         this.ref = new WeakReference<>(Objects.requireNonNull(obj, "obj required"));
@@ -29,12 +27,10 @@ public class DefaultSensor<T> extends AbstractSensor
      * @see de.freese.jsensors.sensor.Sensor#measure()
      */
     @Override
-    public SensorValue measure()
-    {
+    public SensorValue measure() {
         T obj = this.ref.get();
 
-        if (obj != null)
-        {
+        if (obj != null) {
             String functionValue = this.valueFunction.apply(obj);
 
             return addValue(functionValue);

@@ -8,17 +8,14 @@ import de.freese.binding.value.ChangeListener;
 /**
  * @author Thomas Freese
  */
-public final class ListConstant<T> extends AbstractListExpression<T>
-{
-    public static <T> ListConstant<T> valueOf(final ObservableList<T> value)
-    {
+public final class ListConstant<T> extends AbstractListExpression<T> {
+    public static <T> ListConstant<T> valueOf(final ObservableList<T> value) {
         return new ListConstant<>(value);
     }
 
     private final ObservableList<T> value;
 
-    private ListConstant(final ObservableList<T> value)
-    {
+    private ListConstant(final ObservableList<T> value) {
         super();
 
         this.value = value;
@@ -28,8 +25,7 @@ public final class ListConstant<T> extends AbstractListExpression<T>
      * @see de.freese.binding.expression.AbstractExpression#addListener(de.freese.binding.value.ChangeListener)
      */
     @Override
-    public void addListener(final ChangeListener<? super ObservableList<T>> listener)
-    {
+    public void addListener(final ChangeListener<? super ObservableList<T>> listener) {
         // Empty
     }
 
@@ -37,8 +33,7 @@ public final class ListConstant<T> extends AbstractListExpression<T>
      * @see de.freese.binding.value.ObservableValue#getValue()
      */
     @Override
-    public ObservableList<T> getValue()
-    {
+    public ObservableList<T> getValue() {
         return this.value;
     }
 
@@ -46,8 +41,7 @@ public final class ListConstant<T> extends AbstractListExpression<T>
      * @see de.freese.binding.expression.AbstractExpression#removeListener(de.freese.binding.value.ChangeListener)
      */
     @Override
-    public void removeListener(final ChangeListener<? super ObservableList<T>> listener)
-    {
+    public void removeListener(final ChangeListener<? super ObservableList<T>> listener) {
         // Empty
     }
 
@@ -56,8 +50,7 @@ public final class ListConstant<T> extends AbstractListExpression<T>
      * de.freese.binding.collections.ObservableList)
      */
     @Override
-    protected void fireValueChangedEvent(final ObservableList<T> oldValue, final ObservableList<T> newValue)
-    {
+    protected void fireValueChangedEvent(final ObservableList<T> oldValue, final ObservableList<T> newValue) {
         // Empty
     }
 }

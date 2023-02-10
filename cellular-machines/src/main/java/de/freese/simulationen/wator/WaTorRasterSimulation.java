@@ -14,8 +14,7 @@ import de.freese.simulationen.wator.WaTorCell.CellType;
  *
  * @author Thomas Freese
  */
-public class WaTorRasterSimulation extends AbstractRasterSimulation
-{
+public class WaTorRasterSimulation extends AbstractRasterSimulation {
     private final LongAdder fishCounter = new LongAdder();
     private final LongAdder sharkCounter = new LongAdder();
     /**
@@ -43,8 +42,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
      */
     private int sharkStarveEnergy = 0;
 
-    public WaTorRasterSimulation(final int width, final int height)
-    {
+    public WaTorRasterSimulation(final int width, final int height) {
         super(width, height);
 
         fillRaster(() -> new WaTorCell(this));
@@ -54,66 +52,54 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
     /**
      * @return int[]; 0 = Anzahl Fische, 1 = Anzahl Haie
      */
-    public int[] countFishesAndSharks()
-    {
+    public int[] countFishesAndSharks() {
         this.fishCounter.reset();
         this.sharkCounter.reset();
 
-        getCellStream().map(WaTorCell.class::cast).forEach(cell ->
-        {
-            if (cell.isFish())
-            {
+        getCellStream().map(WaTorCell.class::cast).forEach(cell -> {
+            if (cell.isFish()) {
                 this.fishCounter.increment();
             }
-            else if (cell.isShark())
-            {
+            else if (cell.isShark()) {
                 this.sharkCounter.increment();
             }
         });
 
-        return new int[]
-                {
-                        this.fishCounter.intValue(), this.sharkCounter.intValue()
-                };
+        return new int[]{this.fishCounter.intValue(), this.sharkCounter.intValue()};
     }
 
     /**
      * Brut-Energie der Fische.
      */
-    public int getFishBreedEnergy()
-    {
+    public int getFishBreedEnergy() {
         return this.fishBreedEnergy;
     }
 
     /**
      * Start-Energie der Fische.
      */
-    public int getFishStartEnergy()
-    {
+    public int getFishStartEnergy() {
         return this.fishStartEnergy;
     }
 
     /**
      * Brut-Energie der Haie.
      */
-    public int getSharkBreedEnergy()
-    {
+    public int getSharkBreedEnergy() {
         return this.sharkBreedEnergy;
     }
 
     /**
      * Start-Energie der Haie.
      */
-    public int getSharkStartEnergy()
-    {
+    public int getSharkStartEnergy() {
         return this.sharkStartEnergy;
     }
 
     /**
      * Sterbe-Energie der Haie.
      */
-    public int getSharkStarveEnergy()
-    {
+    public int getSharkStarveEnergy() {
         return this.sharkStarveEnergy;
     }
 
@@ -121,8 +107,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
      * @see de.freese.simulationen.model.Simulation#nextGeneration()
      */
     @Override
-    public void nextGeneration()
-    {
+    public void nextGeneration() {
         getCellStream().forEach(Cell::nextGeneration);
         // nextGenerationNestedFor();
         // nextGenerationStreams();
@@ -135,8 +120,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
      *
      * @param fishBreedEnergy int
      */
-    public void setFishBreedEnergy(final int fishBreedEnergy)
-    {
+    public void setFishBreedEnergy(final int fishBreedEnergy) {
         this.fishBreedEnergy = fishBreedEnergy;
     }
 
@@ -145,8 +129,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
      *
      * @param fishStartEnergy int
      */
-    public void setFishStartEnergy(final int fishStartEnergy)
-    {
+    public void setFishStartEnergy(final int fishStartEnergy) {
         this.fishStartEnergy = fishStartEnergy;
     }
 
@@ -155,8 +138,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
      *
      * @param sharkBreedEnergy int
      */
-    public void setSharkBreedEnergy(final int sharkBreedEnergy)
-    {
+    public void setSharkBreedEnergy(final int sharkBreedEnergy) {
         this.sharkBreedEnergy = sharkBreedEnergy;
     }
 
@@ -165,8 +147,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
      *
      * @param sharkStartEnergy int
      */
-    public void setSharkStartEnergy(final int sharkStartEnergy)
-    {
+    public void setSharkStartEnergy(final int sharkStartEnergy) {
         this.sharkStartEnergy = sharkStartEnergy;
     }
 
@@ -175,8 +156,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
      *
      * @param sharkStarveEnergy int
      */
-    public void setSharkStarveEnergy(final int sharkStarveEnergy)
-    {
+    public void setSharkStarveEnergy(final int sharkStarveEnergy) {
         this.sharkStarveEnergy = sharkStarveEnergy;
     }
 
@@ -184,63 +164,46 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
      * Alte Berechnung.<br>
      * Richtung der Berechnung ändern, um Wellen-Fronten zu vermeiden.<br>
      */
-    void nextGenerationNestedFor()
-    {
-        if (this.direction == 0)
-        {
-            for (int x = 0; x < getWidth(); x++)
-            {
-                for (int y = 0; y < getHeight(); y++)
-                {
+    void nextGenerationNestedFor() {
+        if (this.direction == 0) {
+            for (int x = 0; x < getWidth(); x++) {
+                for (int y = 0; y < getHeight(); y++) {
                     WaTorCell cell = getCell(x, y);
 
-                    if (cell != null)
-                    {
+                    if (cell != null) {
                         cell.nextGeneration();
                     }
                 }
             }
         }
-        else if (this.direction == 1)
-        {
-            for (int x = getWidth() - 1; x >= 0; x--)
-            {
-                for (int y = 0; y < getHeight(); y++)
-                {
+        else if (this.direction == 1) {
+            for (int x = getWidth() - 1; x >= 0; x--) {
+                for (int y = 0; y < getHeight(); y++) {
                     WaTorCell cell = getCell(x, y);
 
-                    if (cell != null)
-                    {
+                    if (cell != null) {
                         cell.nextGeneration();
                     }
                 }
             }
         }
-        else if (this.direction == 2)
-        {
-            for (int x = getWidth() - 1; x >= 0; x--)
-            {
-                for (int y = getHeight() - 1; y >= 0; y--)
-                {
+        else if (this.direction == 2) {
+            for (int x = getWidth() - 1; x >= 0; x--) {
+                for (int y = getHeight() - 1; y >= 0; y--) {
                     WaTorCell cell = getCell(x, y);
 
-                    if (cell != null)
-                    {
+                    if (cell != null) {
                         cell.nextGeneration();
                     }
                 }
             }
         }
-        else if (this.direction == 3)
-        {
-            for (int x = 0; x < getWidth(); x++)
-            {
-                for (int y = getHeight() - 1; y >= 0; y--)
-                {
+        else if (this.direction == 3) {
+            for (int x = 0; x < getWidth(); x++) {
+                for (int y = getHeight() - 1; y >= 0; y--) {
                     WaTorCell cell = getCell(x, y);
 
-                    if (cell != null)
-                    {
+                    if (cell != null) {
                         cell.nextGeneration();
                     }
                 }
@@ -249,8 +212,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
 
         this.direction++;
 
-        if (this.direction == 4)
-        {
+        if (this.direction == 4) {
             this.direction = 0;
         }
     }
@@ -259,10 +221,8 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
      * Alte Berechnung.<br>
      * Richtung der Berechnung ändern, um Wellen-Fronten zu vermeiden.<br>
      */
-    void nextGenerationStreams()
-    {
-        if (this.direction == 0)
-        {
+    void nextGenerationStreams() {
+        if (this.direction == 0) {
             // @formatter:off
             IntStream.range(0, getWidth())
                 .parallel()
@@ -280,8 +240,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
                 });
             // @formatter:on
         }
-        else if (this.direction == 1)
-        {
+        else if (this.direction == 1) {
             // @formatter:off
             IntStream.rangeClosed(getWidth() - 1, 0)
                 .parallel()
@@ -299,8 +258,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
                 });
             // @formatter:on
         }
-        else if (this.direction == 2)
-        {
+        else if (this.direction == 2) {
             // @formatter:off
             IntStream.rangeClosed(getWidth() - 1, 0)
                 .parallel()
@@ -318,8 +276,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
                 });
             // @formatter:on
         }
-        else if (this.direction == 3)
-        {
+        else if (this.direction == 3) {
             // @formatter:off
             IntStream.range(0, getWidth())
                 .parallel()
@@ -340,8 +297,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
 
         this.direction++;
 
-        if (this.direction == 4)
-        {
+        if (this.direction == 4) {
             this.direction = 0;
         }
     }
@@ -350,8 +306,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
      * @see de.freese.simulationen.model.AbstractRasterSimulation#getCell(int, int)
      */
     @Override
-    protected WaTorCell getCell(final int x, final int y)
-    {
+    protected WaTorCell getCell(final int x, final int y) {
         return (WaTorCell) super.getCell(x, y);
     }
 
@@ -359,23 +314,19 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation
      * @see de.freese.simulationen.model.AbstractRasterSimulation#reset(int, int)
      */
     @Override
-    protected void reset(final int x, final int y)
-    {
+    protected void reset(final int x, final int y) {
         // Zufällige Platzierung.
         int rand = getRandom().nextInt(10);
 
         WaTorCell cell = getCell(x, y);
 
-        switch (rand)
-        {
-            case 3 ->
-            {
+        switch (rand) {
+            case 3 -> {
                 cell.setCellType(CellType.FISH);
                 cell.setEnergy(getFishStartEnergy());
 
             }
-            case 6 ->
-            {
+            case 6 -> {
                 cell.setCellType(CellType.SHARK);
                 cell.setEnergy(getSharkStartEnergy());
             }

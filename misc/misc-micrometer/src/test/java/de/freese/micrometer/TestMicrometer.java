@@ -39,29 +39,23 @@ import org.junit.jupiter.api.TestMethodOrder;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class TestMicrometer
-{
+class TestMicrometer {
     @AfterAll
-    static void afterAll()
-    {
+    static void afterAll() {
         Metrics.globalRegistry.clear();
         Metrics.globalRegistry.close();
     }
 
     @BeforeAll
-    static void beforeAll()
-    {
+    static void beforeAll() {
         Metrics.addRegistry(new SimpleMeterRegistry());
     }
 
     @Test
     @Order(1)
-    void testCounter()
-    {
-        final class CountedObject
-        {
-            private CountedObject()
-            {
+    void testCounter() {
+        final class CountedObject {
+            private CountedObject() {
                 Metrics.counter("objects.instance").increment(1.0D);
             }
         }
@@ -74,8 +68,7 @@ class TestMicrometer
         assertNotNull(counter);
         assertEquals(2.0D, counter.count());
 
-        counter = Counter.builder("counter.instance").description("indicates instance count of the object").tags("dev", "performance")
-                .register(Metrics.globalRegistry);
+        counter = Counter.builder("counter.instance").description("indicates instance count of the object").tags("dev", "performance").register(Metrics.globalRegistry);
 
         counter.increment(2D);
 
@@ -88,8 +81,7 @@ class TestMicrometer
 
     @Test
     @Order(2)
-    void testGauge()
-    {
+    void testGauge() {
         List<String> list = new ArrayList<>(4);
 
         Gauge gauge = Gauge.builder("cache.size", list, List::size).register(Metrics.globalRegistry);
@@ -107,8 +99,7 @@ class TestMicrometer
      */
     @Test
     @Order(10)
-    void testIterateMeters() throws Exception
-    {
+    void testIterateMeters() throws Exception {
         MeterRegistry meterRegistry = new SimpleMeterRegistry();
         Metrics.addRegistry(meterRegistry);
 
@@ -120,16 +111,13 @@ class TestMicrometer
         TimeUnit.SECONDS.sleep(1);
         sample.stop();
 
-        meterRegistry.forEachMeter(meter ->
-                System.out.println(writeMeter(meter))
-        );
+        meterRegistry.forEachMeter(meter -> System.out.println(writeMeter(meter)));
 
         System.out.println();
 
         Set<String> meterExport = new TreeSet<>();
 
-        Metrics.globalRegistry.getRegistries().forEach(registry ->
-        {
+        Metrics.globalRegistry.getRegistries().forEach(registry -> {
             // Hier können Duplikate durch verschiedene Registries entstehen.
             MeterExporter.export(registry, Duration.ofSeconds(1), TimeUnit.MILLISECONDS).forEach(meterExport::add);
         });
@@ -141,14 +129,11 @@ class TestMicrometer
 
     @Test
     @Order(3)
-    void testPushMetrics() throws Exception
-    {
+    void testPushMetrics() throws Exception {
         // PushRegistryConfig
-        LoggingRegistryConfig loggingRegistryConfig = new LoggingRegistryConfig()
-        {
+        LoggingRegistryConfig loggingRegistryConfig = new LoggingRegistryConfig() {
             @Override
-            public String get(final String key)
-            {
+            public String get(final String key) {
                 return null;
             }
 
@@ -156,8 +141,7 @@ class TestMicrometer
              * @see io.micrometer.core.instrument.push.PushRegistryConfig#step()
              */
             @Override
-            public Duration step()
-            {
+            public Duration step() {
                 return Duration.ofSeconds(1);
             }
         };
@@ -184,19 +168,15 @@ class TestMicrometer
 
     @Test
     @Order(4)
-    void testTimer()
-    {
+    void testTimer() {
         // Short Task Timer
         Timer timer = Metrics.timer("app.event");
 
-        timer.record(() ->
-        {
-            try
-            {
+        timer.record(() -> {
+            try {
                 TimeUnit.MILLISECONDS.sleep(1500);
             }
-            catch (InterruptedException ex)
-            {
+            catch (InterruptedException ex) {
                 // Empty
             }
         });
@@ -212,12 +192,10 @@ class TestMicrometer
 
         Sample sample = longTaskTimer.start();
 
-        try
-        {
+        try {
             TimeUnit.SECONDS.sleep(2);
         }
-        catch (InterruptedException ex)
-        {
+        catch (InterruptedException ex) {
             // Empty
         }
 
@@ -227,17 +205,14 @@ class TestMicrometer
         assertNotNull(Metrics.globalRegistry.find("3rdPartyService").longTaskTimer());
     }
 
-    String writeMeter(final Meter meter)
-    {
-        return StreamSupport.stream(meter.measure().spliterator(), false).map(ms ->
-        {
+    String writeMeter(final Meter meter) {
+        return StreamSupport.stream(meter.measure().spliterator(), false).map(ms -> {
             String msLine = ms.getStatistic().getTagValueRepresentation() + "=";
 
-            return switch (ms.getStatistic())
-                    {
-                        case COUNT -> "value=" + ms.getValue();
-                        default -> msLine + ms.getValue();
-                    };
+            return switch (ms.getStatistic()) {
+                case COUNT -> "value=" + ms.getValue();
+                default -> msLine + ms.getValue();
+            };
         }).collect(joining(", ", meter.getId() + " ", ""));
     }
 }

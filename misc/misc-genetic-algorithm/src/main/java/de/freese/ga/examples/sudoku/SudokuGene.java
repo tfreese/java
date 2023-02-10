@@ -8,12 +8,10 @@ import de.freese.ga.Gene;
 /**
  * @author Thomas Freese
  */
-public class SudokuGene extends Gene
-{
+public class SudokuGene extends Gene {
     private final boolean mutable;
 
-    public SudokuGene(final Integer value, final boolean mutable)
-    {
+    public SudokuGene(final Integer value, final boolean mutable) {
         super();
 
         super.setValue(value);
@@ -21,20 +19,16 @@ public class SudokuGene extends Gene
     }
 
     @Override
-    public boolean equals(final Object o)
-    {
-        if (this == o)
-        {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
 
-        if (!(o instanceof SudokuGene gene))
-        {
+        if (!(o instanceof SudokuGene gene)) {
             return false;
         }
 
-        if (!super.equals(o))
-        {
+        if (!super.equals(o)) {
             return false;
         }
 
@@ -42,16 +36,14 @@ public class SudokuGene extends Gene
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(super.hashCode(), isMutable());
     }
 
     /**
      * Beim Sudoku dürfen die fest vorgegebenen Zahlen nicht verändert werden !
      */
-    public boolean isMutable()
-    {
+    public boolean isMutable() {
         return this.mutable;
     }
 
@@ -59,10 +51,8 @@ public class SudokuGene extends Gene
      * @see de.freese.ga.Gene#setValue(java.lang.Object)
      */
     @Override
-    public void setValue(final Object value)
-    {
-        if (!isMutable())
-        {
+    public void setValue(final Object value) {
+        if (!isMutable()) {
             return;
         }
 
@@ -73,8 +63,7 @@ public class SudokuGene extends Gene
      * @see de.freese.ga.Gene#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return super.toString() + "; " + isMutable();
     }
 }

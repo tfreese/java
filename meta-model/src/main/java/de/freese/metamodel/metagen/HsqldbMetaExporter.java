@@ -16,28 +16,22 @@ import de.freese.metamodel.metagen.model.Sequence;
  *
  * @author Thomas Freese
  */
-public class HsqldbMetaExporter extends AbstractMetaExporter
-{
+public class HsqldbMetaExporter extends AbstractMetaExporter {
     /**
      * @see de.freese.metamodel.metagen.AbstractMetaExporter#generateSequences(javax.sql.DataSource, de.freese.metamodel.metagen.model.Schema)
      */
     @Override
-    protected void generateSequences(final DataSource dataSource, final Schema schema) throws SQLException
-    {
+    protected void generateSequences(final DataSource dataSource, final Schema schema) throws SQLException {
         StringBuilder sql = new StringBuilder();
         sql.append("select SEQUENCE_NAME, START_WITH, INCREMENT, NEXT_VALUE");
         sql.append(" from INFORMATION_SCHEMA.SYSTEM_SEQUENCES");
         sql.append(" where SEQUENCE_SCHEMA = ?");
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql.toString()))
-        {
+        try (Connection connection = dataSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql.toString())) {
             preparedStatement.setString(1, schema.getName());
 
-            try (ResultSet resultSet = preparedStatement.executeQuery())
-            {
-                while (resultSet.next())
-                {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
                     String sequenceName = resultSet.getString("SEQUENCE_NAME");
                     long startWith = resultSet.getLong("START_WITH");
                     long increment = resultSet.getLong("INCREMENT");

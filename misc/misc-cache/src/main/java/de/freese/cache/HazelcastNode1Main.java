@@ -17,12 +17,10 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public final class HazelcastNode1Main
-{
+public final class HazelcastNode1Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastNode1Main.class);
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         URL configUrl = ClassLoader.getSystemResource("hazelcast-node1.xml");
         Config config = new XmlConfigBuilder(configUrl).build();
         // config.setProperty("hazelcast.partition.count", "271");
@@ -35,24 +33,19 @@ public final class HazelcastNode1Main
 
         AtomicInteger atomicInteger = new AtomicInteger(0);
 
-        ForkJoinPool.commonPool().execute(() ->
-        {
-            while (true)
-            {
+        ForkJoinPool.commonPool().execute(() -> {
+            while (true) {
                 String value = map.get("key");
                 LOGGER.info("HazelcastNode1Main: {}: cache value = {}", Thread.currentThread().getName(), value);
 
-                if (value == null)
-                {
+                if (value == null) {
                     map.put("key", "value" + atomicInteger.getAndIncrement());
                 }
 
-                try
-                {
+                try {
                     TimeUnit.MILLISECONDS.sleep(1000);
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     LOGGER.error(ex.getMessage(), ex);
                 }
             }
@@ -65,8 +58,7 @@ public final class HazelcastNode1Main
         Hazelcast.shutdownAll();
     }
 
-    private HazelcastNode1Main()
-    {
+    private HazelcastNode1Main() {
         super();
     }
 }

@@ -4,9 +4,6 @@ package de.freese.maven.proxy.netty;
 import java.net.URI;
 import java.util.Objects;
 
-import de.freese.maven.proxy.repository.Repository;
-import de.freese.maven.proxy.repository.RepositoryResponse;
-import de.freese.maven.proxy.util.ProxyUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -34,13 +31,16 @@ import io.netty.util.CharsetUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.freese.maven.proxy.repository.Repository;
+import de.freese.maven.proxy.repository.RepositoryResponse;
+import de.freese.maven.proxy.util.ProxyUtils;
+
 /**
  * Handler für Requests an den Maven Proxy.
  *
  * @author Thomas Freese
  */
-public class NettyMavenRequestHandler extends SimpleChannelInboundHandler<FullHttpRequest>
-{
+public class NettyMavenRequestHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
     /**
      * (0x0D, 0x0A), (13,10), (\r\n)
      */
@@ -50,8 +50,7 @@ public class NettyMavenRequestHandler extends SimpleChannelInboundHandler<FullHt
 
     private final Repository repository;
 
-    public NettyMavenRequestHandler(final Repository repository)
-    {
+    public NettyMavenRequestHandler(final Repository repository) {
         super();
 
         this.repository = Objects.requireNonNull(repository, "repository required");
@@ -61,14 +60,11 @@ public class NettyMavenRequestHandler extends SimpleChannelInboundHandler<FullHt
      * @see io.netty.channel.ChannelInboundHandlerAdapter#exceptionCaught(io.netty.channel.ChannelHandlerContext, java.lang.Throwable)
      */
     @Override
-    public void exceptionCaught(final ChannelHandlerContext ctx, final Throwable cause) throws Exception
-    {
-        if (ctx.channel().isActive())
-        {
+    public void exceptionCaught(final ChannelHandlerContext ctx, final Throwable cause) throws Exception {
+        if (ctx.channel().isActive()) {
             sendError(ctx, HttpResponseStatus.INTERNAL_SERVER_ERROR, cause.getMessage(), null);
         }
-        else
-        {
+        else {
             getLogger().error(cause.getMessage(), cause);
         }
     }
@@ -77,30 +73,24 @@ public class NettyMavenRequestHandler extends SimpleChannelInboundHandler<FullHt
      * @see io.netty.channel.SimpleChannelInboundHandler#channelRead0(io.netty.channel.ChannelHandlerContext, java.lang.Object)
      */
     @Override
-    protected void channelRead0(final ChannelHandlerContext ctx, final FullHttpRequest request) throws Exception
-    {
-        if ("/".equals(request.uri()))
-        {
+    protected void channelRead0(final ChannelHandlerContext ctx, final FullHttpRequest request) throws Exception {
+        if ("/".equals(request.uri())) {
             sendError(ctx, HttpResponseStatus.NOT_FOUND, "File not found: /", request);
 
             return;
         }
 
-        if (HttpMethod.HEAD.equals(request.method()))
-        {
+        if (HttpMethod.HEAD.equals(request.method())) {
             handleHead(ctx, request);
         }
-        else if (HttpMethod.GET.equals(request.method()))
-        {
+        else if (HttpMethod.GET.equals(request.method())) {
             handleGet(ctx, request);
         }
-        else if (HttpMethod.PUT.equals(request.method()))
-        {
+        else if (HttpMethod.PUT.equals(request.method())) {
             // deploy
             handlePut(ctx, request);
         }
-        else if (HttpMethod.CONNECT.equals(request.method()))
-        {
+        else if (HttpMethod.CONNECT.equals(request.method())) {
             // Proxy
             // String content = request.content().toString(CharsetUtil.UTF_8);
 
@@ -113,26 +103,22 @@ public class NettyMavenRequestHandler extends SimpleChannelInboundHandler<FullHt
 
             ctx.writeAndFlush(response);
         }
-        else
-        {
+        else {
             sendError(ctx, HttpResponseStatus.METHOD_NOT_ALLOWED, request.method() + "; " + request.uri(), request);
         }
     }
 
-    protected Logger getLogger()
-    {
+    protected Logger getLogger() {
         return this.logger;
     }
 
-    protected void handleGet(final ChannelHandlerContext ctx, final FullHttpRequest request) throws Exception
-    {
+    protected void handleGet(final ChannelHandlerContext ctx, final FullHttpRequest request) throws Exception {
         final boolean keepAlive = HttpUtil.isKeepAlive(request);
         final URI uri = new URI(request.uri());
 
         RepositoryResponse repositoryResponse = this.repository.getInputStream(uri);
 
-        if (repositoryResponse == null)
-        {
+        if (repositoryResponse == null) {
             sendError(ctx, HttpResponseStatus.NOT_FOUND, "File not found: " + uri, request);
 
             return;
@@ -150,12 +136,10 @@ public class NettyMavenRequestHandler extends SimpleChannelInboundHandler<FullHt
 
         // setDateAndCacheHeaders(response, file);
 
-        if (!keepAlive)
-        {
+        if (!keepAlive) {
             response.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.CLOSE);
         }
-        else if (request.protocolVersion().equals(HttpVersion.HTTP_1_0))
-        {
+        else if (request.protocolVersion().equals(HttpVersion.HTTP_1_0)) {
             response.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
         }
 
@@ -166,29 +150,25 @@ public class NettyMavenRequestHandler extends SimpleChannelInboundHandler<FullHt
         ChannelFuture sendFileFuture = null;
         ChannelFuture lastContentFuture = null;
 
-        if (ctx.pipeline().get(SslHandler.class) == null)
-        {
+        if (ctx.pipeline().get(SslHandler.class) == null) {
             sendFileFuture = ctx.write(new HttpChunkedInput(new ChunkedStream(repositoryResponse.getInputStream())), ctx.newProgressivePromise());
 
             // Write the end marker.
             lastContentFuture = ctx.writeAndFlush(LastHttpContent.EMPTY_LAST_CONTENT);
         }
-        else
-        {
+        else {
             sendFileFuture = ctx.writeAndFlush(new HttpChunkedInput(new ChunkedStream(repositoryResponse.getInputStream())), ctx.newProgressivePromise());
 
             // HttpChunkedInput will write the end marker (LastHttpContent) for us.
             lastContentFuture = sendFileFuture;
         }
 
-        sendFileFuture.addListener(new ChannelProgressiveFutureListener()
-        {
+        sendFileFuture.addListener(new ChannelProgressiveFutureListener() {
             /**
              * @see io.netty.util.concurrent.GenericFutureListener#operationComplete(io.netty.util.concurrent.Future)
              */
             @Override
-            public void operationComplete(final ChannelProgressiveFuture future)
-            {
+            public void operationComplete(final ChannelProgressiveFuture future) {
                 // getLogger().debug(future.channel() + " Transfer complete: " + request.uri());
                 getLogger().debug("Transfer complete: {}", request.uri());
             }
@@ -197,30 +177,25 @@ public class NettyMavenRequestHandler extends SimpleChannelInboundHandler<FullHt
              * @see io.netty.util.concurrent.GenericProgressiveFutureListener#operationProgressed(io.netty.util.concurrent.ProgressiveFuture, long, long)
              */
             @Override
-            public void operationProgressed(final ChannelProgressiveFuture future, final long progress, final long total)
-            {
-                if (total < 0)
-                {
+            public void operationProgressed(final ChannelProgressiveFuture future, final long progress, final long total) {
+                if (total < 0) {
                     // total unknown
                     getLogger().debug("{}: Transfer progress: {} : {}", future.channel(), progress, request.uri());
                 }
-                else
-                {
+                else {
                     getLogger().debug("{}: Transfer progress: {} / {} : {}", future.channel(), progress, total, request.uri());
                 }
             }
         });
 
         // Decide whether to close the connection or not.
-        if (!keepAlive)
-        {
+        if (!keepAlive) {
             // Close the connection when the whole content is written out.
             lastContentFuture.addListener(ChannelFutureListener.CLOSE);
         }
     }
 
-    protected void handleHead(final ChannelHandlerContext ctx, final FullHttpRequest request) throws Exception
-    {
+    protected void handleHead(final ChannelHandlerContext ctx, final FullHttpRequest request) throws Exception {
         final URI uri = new URI(request.uri());
 
         boolean exist = this.repository.exist(uri);
@@ -233,50 +208,43 @@ public class NettyMavenRequestHandler extends SimpleChannelInboundHandler<FullHt
         sendAndCleanupConnection(ctx, response, request);
     }
 
-    protected void handlePut(final ChannelHandlerContext ctx, final FullHttpRequest request) throws Exception
-    {
+    protected void handlePut(final ChannelHandlerContext ctx, final FullHttpRequest request) throws Exception {
         sendError(ctx, HttpResponseStatus.METHOD_NOT_ALLOWED, request.uri(), request);
     }
 
     /**
      * If Keep-Alive is disabled, attaches "Connection: close" header to the response and closes the connection after the response being sent.
      */
-    protected void sendAndCleanupConnection(final ChannelHandlerContext ctx, final FullHttpResponse response, final FullHttpRequest request)
-    {
+    protected void sendAndCleanupConnection(final ChannelHandlerContext ctx, final FullHttpResponse response, final FullHttpRequest request) {
         final boolean keepAlive = request == null || HttpUtil.isKeepAlive(request);
 
         response.headers().set(HttpHeaderNames.SERVER, "Maven-Proxy");
         HttpUtil.setContentLength(response, response.content().readableBytes());
 
-        if (!keepAlive)
-        {
+        if (!keepAlive) {
             // We're going to close the connection as soon as the response is sent,
             // so we should also make it clear for the client.
             response.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.CLOSE);
         }
-        else if ((request != null) && request.protocolVersion().equals(HttpVersion.HTTP_1_0))
-        {
+        else if ((request != null) && request.protocolVersion().equals(HttpVersion.HTTP_1_0)) {
             response.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
         }
 
         ChannelFuture flushPromise = ctx.writeAndFlush(response);
 
-        if (!keepAlive)
-        {
+        if (!keepAlive) {
             // Close the connection as soon as the response is sent.
             flushPromise.addListener(ChannelFutureListener.CLOSE);
         }
     }
 
-    protected void sendError(final ChannelHandlerContext ctx, final HttpResponseStatus status, final String message, final FullHttpRequest request)
-    {
+    protected void sendError(final ChannelHandlerContext ctx, final HttpResponseStatus status, final String message, final FullHttpRequest request) {
         getLogger().error("HTTP-Failure: {}; Message: {}", status, message);
 
         StringBuilder sb = new StringBuilder();
         sb.append("HTTP-Failure: ").append(status).append(CRLF);
 
-        if ((message != null) && !message.isBlank())
-        {
+        if ((message != null) && !message.isBlank()) {
             sb.append("Message: ").append(message).append(CRLF);
         }
 

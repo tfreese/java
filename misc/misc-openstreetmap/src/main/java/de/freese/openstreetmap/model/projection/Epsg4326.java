@@ -9,8 +9,7 @@ import de.freese.openstreetmap.model.coordinates.LatLon;
  *
  * @author Thomas Freese
  */
-public class Epsg4326 implements Projection
-{
+public class Epsg4326 implements Projection {
     /**
      * 360 degrees.
      */
@@ -20,8 +19,7 @@ public class Epsg4326 implements Projection
      * @see de.freese.openstreetmap.model.projection.Projection#eastNorth2LatLon(de.freese.openstreetmap.model.coordinates.EastNorth)
      */
     @Override
-    public LatLon eastNorth2LatLon(final EastNorth p)
-    {
+    public LatLon eastNorth2LatLon(final EastNorth p) {
         return new LatLon(p.north(), p.east());
     }
 
@@ -29,8 +27,7 @@ public class Epsg4326 implements Projection
      * @see de.freese.openstreetmap.model.projection.Projection#latLon2EastNorth(double, double)
      */
     @Override
-    public EastNorth latLon2EastNorth(final double lat, final double lon)
-    {
+    public EastNorth latLon2EastNorth(final double lat, final double lon) {
         return new EastNorth(lon, lat);
     }
 
@@ -38,8 +35,7 @@ public class Epsg4326 implements Projection
      * @see de.freese.openstreetmap.model.projection.Projection#latLon2EastNorth(de.freese.openstreetmap.model.coordinates.LatLon)
      */
     @Override
-    public EastNorth latLon2EastNorth(final LatLon pLatLon)
-    {
+    public EastNorth latLon2EastNorth(final LatLon pLatLon) {
         return latLon2EastNorth(pLatLon.lat(), pLatLon.lon());
     }
 
@@ -49,8 +45,7 @@ public class Epsg4326 implements Projection
      * @see de.freese.openstreetmap.model.projection.Projection#scaleFactor()
      */
     @Override
-    public double scaleFactor()
-    {
+    public double scaleFactor() {
         return 1.0 / DEGREES360;
     }
 
@@ -60,8 +55,7 @@ public class Epsg4326 implements Projection
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "EPSG:4326";
     }
 }

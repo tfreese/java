@@ -9,13 +9,11 @@ import de.freese.simulationen.model.AbstractCell;
 /**
  * @author Thomas Freese
  */
-public class GoFCell extends AbstractCell
-{
+public class GoFCell extends AbstractCell {
     private final LongAdder lebendeNachbarn = new LongAdder();
     private boolean alive = true;
 
-    public GoFCell(final GoFRasterSimulation simulation)
-    {
+    public GoFCell(final GoFRasterSimulation simulation) {
         super(simulation);
     }
 
@@ -23,8 +21,7 @@ public class GoFCell extends AbstractCell
      * @see de.freese.simulationen.model.AbstractCell#getColor()
      */
     @Override
-    public Color getColor()
-    {
+    public Color getColor() {
         return isAlive() ? Color.BLACK : Color.WHITE;
     }
 
@@ -39,27 +36,22 @@ public class GoFCell extends AbstractCell
      * @see de.freese.simulationen.model.Cell#nextGeneration()
      */
     @Override
-    public void nextGeneration()
-    {
+    public void nextGeneration() {
         final int lebendNachbarn = this.lebendeNachbarn.intValue();
 
-        if (!isAlive() && (lebendNachbarn == 3))
-        {
+        if (!isAlive() && (lebendNachbarn == 3)) {
             // 1.
             setAlive(true);
         }
-        else if (isAlive() && (lebendNachbarn < 2))
-        {
+        else if (isAlive() && (lebendNachbarn < 2)) {
             // 2.
             setAlive(false);
         }
-        else if (isAlive() && ((lebendNachbarn == 2) || (lebendNachbarn == 3)))
-        {
+        else if (isAlive() && ((lebendNachbarn == 2) || (lebendNachbarn == 3))) {
             // 3.
             setAlive(true);
         }
-        else if (isAlive() && ((lebendNachbarn) > 3))
-        {
+        else if (isAlive() && ((lebendNachbarn) > 3)) {
             // 4.
             setAlive(false);
         }
@@ -69,16 +61,13 @@ public class GoFCell extends AbstractCell
      * Ermittelt die Anzahl der lebenden Nachbarn.<br>
      * Quadrat von 3x3 Zellen prüfen, mit dieser Zelle in der Mitte.
      */
-    void ermittleLebendeNachbarn()
-    {
+    void ermittleLebendeNachbarn() {
         this.lebendeNachbarn.reset();
 
-        visitNeighboursAll((x, y) ->
-        {
+        visitNeighboursAll((x, y) -> {
             GoFCell cell = getSimulation().getCell(x, y);
 
-            if ((cell != null) && cell.isAlive())
-            {
+            if ((cell != null) && cell.isAlive()) {
                 this.lebendeNachbarn.increment();
             }
         });
@@ -114,21 +103,17 @@ public class GoFCell extends AbstractCell
         // this.lebendeNachbarn = anzahlLebendeNachbarn;
     }
 
-    boolean isAlive()
-    {
+    boolean isAlive() {
         return this.alive;
     }
 
-    void setAlive(final boolean alive)
-    {
+    void setAlive(final boolean alive) {
         this.alive = alive;
 
-        if (this.alive)
-        {
+        if (this.alive) {
             setColor(Color.BLACK);
         }
-        else
-        {
+        else {
             setColor(Color.WHITE);
         }
     }
@@ -137,8 +122,7 @@ public class GoFCell extends AbstractCell
      * @see de.freese.simulationen.model.AbstractCell#getSimulation()
      */
     @Override
-    protected GoFRasterSimulation getSimulation()
-    {
+    protected GoFRasterSimulation getSimulation() {
         return (GoFRasterSimulation) super.getSimulation();
     }
 }

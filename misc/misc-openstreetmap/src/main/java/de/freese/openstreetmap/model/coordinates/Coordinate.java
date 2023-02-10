@@ -8,8 +8,7 @@ package de.freese.openstreetmap.model.coordinates;
  * @author imi
  * @author Thomas Freese
  */
-public abstract class Coordinate
-{
+public abstract class Coordinate {
     /**
      * Return the squared distance of the northing/easting values between this and the argument.
      *
@@ -20,8 +19,7 @@ public abstract class Coordinate
      *
      * @return The square of the distance between this and the other point, regarding the x/y values.
      */
-    public static double distance(final double latA, final double lonA, final double latB, final double lonB)
-    {
+    public static double distance(final double latA, final double lonA, final double latB, final double lonB) {
         return ((latA - latB) * (latA - latB)) + ((lonA - lonB) * (lonA - lonB));
     }
 
@@ -40,8 +38,7 @@ public abstract class Coordinate
      * @param px Latitude of the point.
      * @param py Longitude of the point.
      */
-    Coordinate(final double px, final double py)
-    {
+    Coordinate(final double px, final double py) {
         super();
 
         this.myXCoord = px;
@@ -55,8 +52,7 @@ public abstract class Coordinate
      *
      * @return The square of the distance between this and the other point, regarding the x/y values.
      */
-    public double distance(final Coordinate other)
-    {
+    public double distance(final Coordinate other) {
         return ((this.myXCoord - other.myXCoord) * (this.myXCoord - other.myXCoord)) + ((this.myYCoord - other.myYCoord) * (this.myYCoord - other.myYCoord));
     }
 
@@ -64,20 +60,16 @@ public abstract class Coordinate
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(final Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
         }
 
-        if (!(obj instanceof Coordinate other))
-        {
+        if (!(obj instanceof Coordinate other)) {
             return false;
         }
 
-        if (Double.doubleToLongBits(this.myXCoord) != Double.doubleToLongBits(other.myXCoord))
-        {
+        if (Double.doubleToLongBits(this.myXCoord) != Double.doubleToLongBits(other.myXCoord)) {
             return false;
         }
 
@@ -87,16 +79,14 @@ public abstract class Coordinate
     /**
      * @return Either easting or latitude
      */
-    public double getXCoord()
-    {
+    public double getXCoord() {
         return this.myXCoord;
     }
 
     /**
      * @return Either northing or longitude
      */
-    public double getYCoord()
-    {
+    public double getYCoord() {
         return this.myYCoord;
     }
 
@@ -104,8 +94,7 @@ public abstract class Coordinate
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
 

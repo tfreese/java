@@ -17,8 +17,7 @@ import java.util.stream.Stream;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractRasterSimulation extends AbstractSimulation
-{
+public abstract class AbstractRasterSimulation extends AbstractSimulation {
     private final Image image;
 
     private final MemoryImageSource imageSource;
@@ -29,8 +28,7 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation
     private final Cell[][] raster;
     private Set<Cell> cells;
 
-    protected AbstractRasterSimulation(final int width, final int height)
-    {
+    protected AbstractRasterSimulation(final int width, final int height) {
         super(width, height);
 
         this.pixelsRGB = new int[width * height];
@@ -51,8 +49,7 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation
      * @see de.freese.simulationen.model.Simulation#getImage()
      */
     @Override
-    public Image getImage()
-    {
+    public Image getImage() {
         return this.image;
     }
 
@@ -60,8 +57,7 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation
      * @see de.freese.simulationen.model.Simulation#reset()
      */
     @Override
-    public void reset()
-    {
+    public void reset() {
         // @formatter:off
         IntStream.range(0, getHeight())
             .parallel()
@@ -81,8 +77,7 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation
     /**
      * Einmaliges befüllen des Rasters.
      */
-    protected final void fillRaster(final Supplier<Cell> cellSupplier)
-    {
+    protected final void fillRaster(final Supplier<Cell> cellSupplier) {
         Set<Cell> set = Collections.synchronizedSet(new HashSet<>());
 
         // @formatter:off
@@ -110,16 +105,14 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation
         this.cells = Set.copyOf(set);
     }
 
-    protected Cell getCell(final int x, final int y)
-    {
+    protected Cell getCell(final int x, final int y) {
         return this.raster[x][y];
     }
 
     /**
      * Liefert einen parallelen {@link Stream} für die Zellen.
      */
-    protected Stream<Cell> getCellStream()
-    {
+    protected Stream<Cell> getCellStream() {
         // Der Stream vom Raster bildet Wellen-Fronten, da immer von oben links angefangen wird zu rechnen.
         // return Stream.of(this.raster).parallel().flatMap(Stream::of).parallel();
 
@@ -129,16 +122,14 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation
     /**
      * Reset einer Zelle des Rasters.
      */
-    protected void reset(final int x, final int y)
-    {
+    protected void reset(final int x, final int y) {
         // Empty
     }
 
     /**
      * Ändert die Pixel-Farbe an den Koordinaten.
      */
-    protected void setCellColor(final int x, final int y, final Color color)
-    {
+    protected void setCellColor(final int x, final int y, final Color color) {
         this.pixelsRGB[x + (y * getWidth())] = color.getRGB();
     }
 
@@ -146,8 +137,7 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation
      * @see de.freese.simulationen.model.AbstractSimulation#updateImage()
      */
     @Override
-    protected void updateImage()
-    {
+    protected void updateImage() {
         this.imageSource.newPixels();
         // this.imageSource.newPixels(0, 0, getWidth(), getHeight());
     }

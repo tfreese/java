@@ -6,10 +6,8 @@ package de.freese.metamodel.metagen.model;
  *
  * @author Thomas Freese
  */
-public class UniqueConstraint extends AbstractIndex
-{
-    UniqueConstraint(final Table table, final String name)
-    {
+public class UniqueConstraint extends AbstractIndex {
+    UniqueConstraint(final Table table, final String name) {
         super(table, name);
     }
 }

@@ -15,14 +15,12 @@ import de.freese.openstreetmap.model.OsmModel;
  *
  * @author Thomas Freese
  */
-public class SaxOSMParser implements OSMParser
-{
+public class SaxOSMParser implements OSMParser {
     /**
      * @see de.freese.openstreetmap.io.OSMParser#parse(java.io.InputStream)
      */
     @Override
-    public OsmModel parse(final InputStream inputStream) throws Exception
-    {
+    public OsmModel parse(final InputStream inputStream) throws Exception {
         OsmModel model = new OsmModel();
         OSMContentHandler contentHandler = new OSMContentHandler(model);
         // XMLReader reader = XMLReaderFactory.createXMLReader();

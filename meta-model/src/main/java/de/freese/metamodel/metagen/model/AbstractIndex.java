@@ -12,53 +12,45 @@ import java.util.TreeMap;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractIndex
-{
+public abstract class AbstractIndex {
     private final Map<Integer, Column> columns = new TreeMap<>();
 
     private String name;
 
     private Table table;
 
-    AbstractIndex(final Table table, final String name)
-    {
+    AbstractIndex(final Table table, final String name) {
         super();
 
         this.table = Objects.requireNonNull(table, "table required");
         this.name = Objects.requireNonNull(name, "name required");
     }
 
-    public void addColumn(final int keyIndex, final Column column)
-    {
+    public void addColumn(final int keyIndex, final Column column) {
         this.columns.put(keyIndex, column);
     }
 
     /**
      * Liefert alle Spalten des Indexes sortiert nach KeyIndex.
      */
-    public List<Column> getColumnsOrdered()
-    {
+    public List<Column> getColumnsOrdered() {
         // return this.columns.values().stream().sorted(Comparator.comparing(Column::getName)).toList();
         return new ArrayList<>(this.columns.values());
     }
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
-    public Table getTable()
-    {
+    public Table getTable() {
         return this.table;
     }
 
-    public void setName(final String name)
-    {
+    public void setName(final String name) {
         this.name = name;
     }
 
-    public void setTable(final Table table)
-    {
+    public void setTable(final Table table) {
         this.table = table;
     }
 
@@ -66,8 +58,7 @@ public abstract class AbstractIndex
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append(getClass().getSimpleName()).append(" [");
         builder.append(" table=").append(this.table);
@@ -77,8 +68,7 @@ public abstract class AbstractIndex
         return builder.toString();
     }
 
-    protected Map<Integer, Column> getColumnMap()
-    {
+    protected Map<Integer, Column> getColumnMap() {
         return this.columns;
     }
 }

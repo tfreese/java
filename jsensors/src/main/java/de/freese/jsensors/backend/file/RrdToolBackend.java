@@ -21,14 +21,12 @@ import de.freese.jsensors.utils.Utils;
  *
  * @author Thomas Freese
  */
-public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle
-{
+public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     private final Path path;
 
-    public RrdToolBackend(final Path path, final int batchSize)
-    {
+    public RrdToolBackend(final Path path, final int batchSize) {
         super(batchSize);
 
         this.path = Objects.requireNonNull(path, "path required");
@@ -38,16 +36,13 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle
      * @see de.freese.jsensors.utils.LifeCycle#start()
      */
     @Override
-    public void start()
-    {
-        try
-        {
+    public void start() {
+        try {
             // Create Directories.
             Path parent = this.path.getParent();
             Files.createDirectories(parent);
 
-            if (!Files.exists(this.path))
-            {
+            if (!Files.exists(this.path)) {
                 getLogger().info("create file: {}", this.path);
 
                 // Create default RRD.
@@ -64,14 +59,12 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle
 
                 List<String> lines = Utils.executeCommand(command.toArray(Utils.EMPTY_STRING_ARRAY));
 
-                if (!lines.isEmpty())
-                {
+                if (!lines.isEmpty()) {
                     throw new IOException(String.join(LINE_SEPARATOR, lines));
                 }
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // throw new UncheckedIOException(ex);
             getLogger().error(ex.getMessage(), ex);
         }
@@ -81,8 +74,7 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle
      * @see de.freese.jsensors.utils.LifeCycle#stop()
      */
     @Override
-    public void stop()
-    {
+    public void stop() {
         submit();
     }
 
@@ -90,17 +82,13 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle
      * @see de.freese.jsensors.backend.AbstractBatchBackend#storeValues(java.util.List)
      */
     @Override
-    protected void storeValues(final List<SensorValue> values)
-    {
-        if ((values == null) || values.isEmpty())
-        {
+    protected void storeValues(final List<SensorValue> values) {
+        if ((values == null) || values.isEmpty()) {
             return;
         }
 
-        try
-        {
-            for (SensorValue sensorValue : values)
-            {
+        try {
+            for (SensorValue sensorValue : values) {
                 // Update RRD.
                 List<String> command = new ArrayList<>();
                 command.add("rrdtool");
@@ -110,14 +98,12 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle
 
                 List<String> lines = Utils.executeCommand(command.toArray(Utils.EMPTY_STRING_ARRAY));
 
-                if (!lines.isEmpty())
-                {
+                if (!lines.isEmpty()) {
                     throw new IOException(String.join(LINE_SEPARATOR, lines));
                 }
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // throw new UncheckedIOException(ex);
             getLogger().error(ex.getMessage(), ex);
         }

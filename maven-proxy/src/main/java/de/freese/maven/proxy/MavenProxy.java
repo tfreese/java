@@ -10,8 +10,7 @@ import de.freese.maven.proxy.repository.Repository;
  *
  * @author Thomas Freese
  */
-public interface MavenProxy
-{
+public interface MavenProxy {
     void setExecutor(Executor executor);
 
     void setPort(int port);

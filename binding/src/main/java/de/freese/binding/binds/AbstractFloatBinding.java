@@ -9,16 +9,14 @@ import de.freese.binding.property.Property;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractFloatBinding extends AbstractFloatExpression implements FloatBinding
-{
+public abstract class AbstractFloatBinding extends AbstractFloatExpression implements FloatBinding {
     private float value;
 
     /**
      * @see de.freese.binding.value.ObservableValue#getValue()
      */
     @Override
-    public Float getValue()
-    {
+    public Float getValue() {
         return this.value;
     }
 
@@ -26,13 +24,11 @@ public abstract class AbstractFloatBinding extends AbstractFloatExpression imple
      * @see de.freese.binding.binds.Binding#update()
      */
     @Override
-    public void update()
-    {
+    public void update() {
         float old = this.value;
         this.value = computeValue();
 
-        if (Objects.equals(old, this.value))
-        {
+        if (Objects.equals(old, this.value)) {
             fireValueChangedEvent(old, this.value);
         }
     }

@@ -9,6 +9,13 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
 import de.freese.metamodel.TestUtil;
 import de.freese.metamodel.metagen.model.Column;
 import de.freese.metamodel.metagen.model.ForeignKey;
@@ -18,32 +25,23 @@ import de.freese.metamodel.metagen.model.Schema;
 import de.freese.metamodel.metagen.model.Sequence;
 import de.freese.metamodel.metagen.model.Table;
 import de.freese.metamodel.metagen.model.UniqueConstraint;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 
 /**
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class TestHsqlPersonDb
-{
+class TestHsqlPersonDb {
     private static final String SCHEMA_NAME = "PUBLIC";
 
     private static DataSource dataSource;
 
     @AfterAll
-    static void afterAll() throws Exception
-    {
+    static void afterAll() throws Exception {
         TestUtil.closeDataSource(dataSource);
     }
 
     @BeforeAll
-    static void beforeAll()
-    {
+    static void beforeAll() {
         dataSource = TestUtil.createHsqlDBDataSource("jdbc:hsqldb:res:hsqldb/person;create=false;readonly=true");
     }
 
@@ -51,8 +49,7 @@ class TestHsqlPersonDb
 
     @Test
     @Order(40)
-    void testColumns() throws Exception
-    {
+    void testColumns() throws Exception {
         List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, "T_PERSON");
 
         assertNotNull(schemas);
@@ -79,8 +76,7 @@ class TestHsqlPersonDb
      */
     @Test
     @Order(60)
-    void testForeignKey() throws Exception
-    {
+    void testForeignKey() throws Exception {
         List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, "T_ADDRESS");
 
         assertNotNull(schemas);
@@ -110,8 +106,7 @@ class TestHsqlPersonDb
      */
     @Test
     @Order(70)
-    void testIndices() throws Exception
-    {
+    void testIndices() throws Exception {
         List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, "T_PERSON");
 
         assertNotNull(schemas);
@@ -151,8 +146,7 @@ class TestHsqlPersonDb
 
     @Test
     @Order(50)
-    void testPrimaryKey() throws Exception
-    {
+    void testPrimaryKey() throws Exception {
         List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, "T_PERSON");
 
         assertNotNull(schemas);
@@ -173,8 +167,7 @@ class TestHsqlPersonDb
 
     @Test
     @Order(10)
-    void testSchema() throws Exception
-    {
+    void testSchema() throws Exception {
         List<Schema> schemas = this.metaExporter.export(dataSource, null, null);
 
         assertNotNull(schemas);
@@ -183,8 +176,7 @@ class TestHsqlPersonDb
 
     @Test
     @Order(20)
-    void testSequences() throws Exception
-    {
+    void testSequences() throws Exception {
         List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, null);
 
         assertNotNull(schemas);
@@ -202,8 +194,7 @@ class TestHsqlPersonDb
 
     @Test
     @Order(30)
-    void testTable() throws Exception
-    {
+    void testTable() throws Exception {
         List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, null);
 
         assertNotNull(schemas);

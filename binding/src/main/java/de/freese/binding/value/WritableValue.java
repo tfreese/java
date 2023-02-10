@@ -6,8 +6,7 @@ package de.freese.binding.value;
  *
  * @author Thomas Freese
  */
-public interface WritableValue<T>
-{
+public interface WritableValue<T> {
     T getValue();
 
     void setValue(T value);

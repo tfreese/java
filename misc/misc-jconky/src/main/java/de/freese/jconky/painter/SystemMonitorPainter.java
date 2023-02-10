@@ -5,36 +5,31 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import de.freese.jconky.model.UsageInfo;
-import de.freese.jconky.util.JConkyUtils;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 
+import de.freese.jconky.model.UsageInfo;
+import de.freese.jconky.util.JConkyUtils;
+
 /**
  * @author Thomas Freese
  */
-public class SystemMonitorPainter extends AbstractMonitorPainter
-{
+public class SystemMonitorPainter extends AbstractMonitorPainter {
     private final Stop[] gradientStops;
 
-    public SystemMonitorPainter()
-    {
+    public SystemMonitorPainter() {
         super();
 
-        this.gradientStops = new Stop[]
-                {
-                        new Stop(0D, getSettings().getColorGradientStart()), new Stop(1D, getSettings().getColorGradientStop())
-                };
+        this.gradientStops = new Stop[]{new Stop(0D, getSettings().getColorGradientStart()), new Stop(1D, getSettings().getColorGradientStop())};
     }
 
     /**
      * @see de.freese.jconky.painter.MonitorPainter#paintValue(javafx.scene.canvas.GraphicsContext, double)
      */
     @Override
-    public double paintValue(final GraphicsContext gc, final double width)
-    {
+    public double paintValue(final GraphicsContext gc, final double width) {
         Map<String, UsageInfo> usages = getContext().getUsages();
 
         double fontSize = getSettings().getFontSize();
@@ -45,8 +40,7 @@ public class SystemMonitorPainter extends AbstractMonitorPainter
 
         List<String> paths = Arrays.asList("RAM", "SWAP", "/", "/tmp");
 
-        for (String path : paths)
-        {
+        for (String path : paths) {
             y += fontSize * 1.25D;
 
             gc.save();
@@ -64,10 +58,8 @@ public class SystemMonitorPainter extends AbstractMonitorPainter
         return height;
     }
 
-    private void paintUsage(final GraphicsContext gc, final double width, final UsageInfo usageInfo)
-    {
-        if (usageInfo == null)
-        {
+    private void paintUsage(final GraphicsContext gc, final double width, final UsageInfo usageInfo) {
+        if (usageInfo == null) {
             return;
         }
 

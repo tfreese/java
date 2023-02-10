@@ -6,7 +6,6 @@ package de.freese.misc.junit5;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface ExchangeRateService
-{
+public interface ExchangeRateService {
     double getRate(String sourceCurrency, String targetCurrency);
 }

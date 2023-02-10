@@ -25,8 +25,7 @@ import java.util.Set;
  *
  * @author Thomas Freese
  */
-public final class ClassUtils
-{
+public final class ClassUtils {
     /**
      * Suffix for array class names: {@code "[]"}.
      */
@@ -72,8 +71,7 @@ public final class ClassUtils
      */
     private static final Map<Class<?>, Class<?>> primitiveWrapperTypeMap = new IdentityHashMap<>(8);
 
-    static
-    {
+    static {
         primitiveWrapperTypeMap.put(Boolean.class, boolean.class);
         primitiveWrapperTypeMap.put(Byte.class, byte.class);
         primitiveWrapperTypeMap.put(Character.class, char.class);
@@ -85,33 +83,26 @@ public final class ClassUtils
         primitiveWrapperTypeMap.put(Void.class, void.class);
 
         // Map entry iteration is less expensive to initialize than forEach with lambdas
-        for (Map.Entry<Class<?>, Class<?>> entry : primitiveWrapperTypeMap.entrySet())
-        {
+        for (Map.Entry<Class<?>, Class<?>> entry : primitiveWrapperTypeMap.entrySet()) {
             primitiveTypeToWrapperMap.put(entry.getValue(), entry.getKey());
             registerCommonClasses(entry.getKey());
         }
 
         Set<Class<?>> primitiveTypes = new HashSet<>(32);
         primitiveTypes.addAll(primitiveWrapperTypeMap.values());
-        Collections.addAll(primitiveTypes, boolean[].class, byte[].class, char[].class, double[].class, float[].class, int[].class, long[].class,
-                short[].class);
+        Collections.addAll(primitiveTypes, boolean[].class, byte[].class, char[].class, double[].class, float[].class, int[].class, long[].class, short[].class);
         primitiveTypes.add(void.class);
 
-        for (Class<?> primitiveType : primitiveTypes)
-        {
+        for (Class<?> primitiveType : primitiveTypes) {
             primitiveTypeNameMap.put(primitiveType.getName(), primitiveType);
         }
 
         registerCommonClasses(Boolean[].class, Byte[].class, Character[].class, Double[].class, Float[].class, Integer[].class, Long[].class, Short[].class);
         registerCommonClasses(Number.class, Number[].class, String.class, String[].class, Class.class, Class[].class, Object.class, Object[].class);
         registerCommonClasses(Throwable.class, Exception.class, RuntimeException.class, Error.class, StackTraceElement.class, StackTraceElement[].class);
-        registerCommonClasses(Enum.class, Iterable.class, Iterator.class, Enumeration.class, Collection.class, List.class, Set.class, Map.class,
-                Map.Entry.class, Optional.class);
+        registerCommonClasses(Enum.class, Iterable.class, Iterator.class, Enumeration.class, Collection.class, List.class, Set.class, Map.class, Map.Entry.class, Optional.class);
 
-        Class<?>[] javaLanguageInterfaceArray =
-                {
-                        Serializable.class, Externalizable.class, Closeable.class, AutoCloseable.class, Cloneable.class, Comparable.class
-                };
+        Class<?>[] javaLanguageInterfaceArray = {Serializable.class, Externalizable.class, Closeable.class, AutoCloseable.class, Cloneable.class, Comparable.class};
 
         registerCommonClasses(javaLanguageInterfaceArray);
         javaLanguageInterfaces = new HashSet<>(Arrays.asList(javaLanguageInterfaceArray));
@@ -130,25 +121,21 @@ public final class ClassUtils
      * @throws LinkageError if the class file could not be loaded
      * @see Class#forName(String, boolean, ClassLoader)
      */
-    public static Class<?> forName(final String name, final ClassLoader classLoader) throws ClassNotFoundException, LinkageError
-    {
+    public static Class<?> forName(final String name, final ClassLoader classLoader) throws ClassNotFoundException, LinkageError {
         Objects.requireNonNull(name, "name required");
 
         Class<?> clazz = resolvePrimitiveClassName(name);
 
-        if (clazz == null)
-        {
+        if (clazz == null) {
             clazz = commonClassCache.get(name);
         }
 
-        if (clazz != null)
-        {
+        if (clazz != null) {
             return clazz;
         }
 
         // "java.lang.String[]" style arrays
-        if (name.endsWith(ARRAY_SUFFIX))
-        {
+        if (name.endsWith(ARRAY_SUFFIX)) {
             String elementClassName = name.substring(0, name.length() - ARRAY_SUFFIX.length());
             Class<?> elementClass = forName(elementClassName, classLoader);
 
@@ -156,8 +143,7 @@ public final class ClassUtils
         }
 
         // "[Ljava.lang.String;" style arrays
-        if (name.startsWith(NON_PRIMITIVE_ARRAY_PREFIX) && name.endsWith(";"))
-        {
+        if (name.startsWith(NON_PRIMITIVE_ARRAY_PREFIX) && name.endsWith(";")) {
             String elementName = name.substring(NON_PRIMITIVE_ARRAY_PREFIX.length(), name.length() - 1);
             Class<?> elementClass = forName(elementName, classLoader);
 
@@ -165,8 +151,7 @@ public final class ClassUtils
         }
 
         // "[[I" or "[[Ljava.lang.String;" style arrays
-        if (name.startsWith(INTERNAL_ARRAY_PREFIX))
-        {
+        if (name.startsWith(INTERNAL_ARRAY_PREFIX)) {
             String elementName = name.substring(INTERNAL_ARRAY_PREFIX.length());
             Class<?> elementClass = forName(elementName, classLoader);
 
@@ -175,29 +160,23 @@ public final class ClassUtils
 
         ClassLoader clToUse = classLoader;
 
-        if (clToUse == null)
-        {
+        if (clToUse == null) {
             clToUse = getDefaultClassLoader();
         }
 
-        try
-        {
+        try {
             return Class.forName(name, false, clToUse);
         }
-        catch (ClassNotFoundException ex)
-        {
+        catch (ClassNotFoundException ex) {
             int lastDotIndex = name.lastIndexOf(PACKAGE_SEPARATOR);
 
-            if (lastDotIndex != -1)
-            {
+            if (lastDotIndex != -1) {
                 String innerClassName = name.substring(0, lastDotIndex) + INNER_CLASS_SEPARATOR + name.substring(lastDotIndex + 1);
 
-                try
-                {
+                try {
                     return Class.forName(innerClassName, false, clToUse);
                 }
-                catch (ClassNotFoundException ex2)
-                {
+                catch (ClassNotFoundException ex2) {
                     // Swallow - let original exception get through
                 }
             }
@@ -218,33 +197,26 @@ public final class ClassUtils
      * @see Thread#getContextClassLoader()
      * @see ClassLoader#getSystemClassLoader()
      */
-    public static ClassLoader getDefaultClassLoader()
-    {
+    public static ClassLoader getDefaultClassLoader() {
         ClassLoader cl = null;
 
-        try
-        {
+        try {
             cl = Thread.currentThread().getContextClassLoader();
         }
-        catch (Throwable ex)
-        {
+        catch (Throwable ex) {
             // Cannot access thread context ClassLoader - falling back...
         }
 
-        if (cl == null)
-        {
+        if (cl == null) {
             // No thread context class loader -> use class loader of this class.
             cl = ClassUtils.class.getClassLoader();
 
-            if (cl == null)
-            {
+            if (cl == null) {
                 // getClassLoader() returning null indicates the bootstrap ClassLoader
-                try
-                {
+                try {
                     cl = ClassLoader.getSystemClassLoader();
                 }
-                catch (Throwable ex)
-                {
+                catch (Throwable ex) {
                     // Cannot access system ClassLoader - oh well, maybe the caller can live with null...
                 }
             }
@@ -258,8 +230,7 @@ public final class ClassUtils
      *
      * @return the qualified name of the class
      */
-    public static String getQualifiedName(final Class<?> clazz)
-    {
+    public static String getQualifiedName(final Class<?> clazz) {
         Objects.requireNonNull(clazz, "clazz required");
 
         return clazz.getTypeName();
@@ -272,8 +243,7 @@ public final class ClassUtils
      *
      * @return the class name of the class without the package name
      */
-    public static String getShortName(final Class<?> clazz)
-    {
+    public static String getShortName(final Class<?> clazz) {
         return getShortName(getQualifiedName(clazz));
     }
 
@@ -286,15 +256,13 @@ public final class ClassUtils
      *
      * @throws IllegalArgumentException if the className is empty
      */
-    public static String getShortName(final String className)
-    {
+    public static String getShortName(final String className) {
         Objects.requireNonNull(className, "className required");
 
         int lastDotIndex = className.lastIndexOf(PACKAGE_SEPARATOR);
         int nameEndIndex = className.indexOf(CGLIB_CLASS_SEPARATOR);
 
-        if (nameEndIndex == -1)
-        {
+        if (nameEndIndex == -1) {
             nameEndIndex = className.length();
         }
 
@@ -313,18 +281,15 @@ public final class ClassUtils
      *
      * @return if the target type is assignable from the value type
      */
-    public static boolean isAssignable(final Class<?> lhsType, final Class<?> rhsType)
-    {
+    public static boolean isAssignable(final Class<?> lhsType, final Class<?> rhsType) {
         Objects.requireNonNull(lhsType, "lhsType required");
         Objects.requireNonNull(rhsType, "rhsType required");
 
-        if (lhsType.isAssignableFrom(rhsType))
-        {
+        if (lhsType.isAssignableFrom(rhsType)) {
             return true;
         }
 
-        if (lhsType.isPrimitive())
-        {
+        if (lhsType.isPrimitive()) {
             Class<?> resolvedPrimitive = primitiveWrapperTypeMap.get(rhsType);
 
             return (lhsType == resolvedPrimitive);
@@ -342,8 +307,7 @@ public final class ClassUtils
      *
      * @see Class#isMemberClass()
      */
-    public static boolean isInnerClass(final Class<?> clazz)
-    {
+    public static boolean isInnerClass(final Class<?> clazz) {
         return (clazz.isMemberClass() && !Modifier.isStatic(clazz.getModifiers()));
     }
 
@@ -354,8 +318,7 @@ public final class ClassUtils
      *
      * @param ifc the interface to check
      */
-    public static boolean isJavaLanguageInterface(final Class<?> ifc)
-    {
+    public static boolean isJavaLanguageInterface(final Class<?> ifc) {
         return javaLanguageInterfaces.contains(ifc);
     }
 
@@ -369,14 +332,12 @@ public final class ClassUtils
      *
      * @return the primitive class, or {@code null} if the name does not denote a primitive class or primitive array class
      */
-    public static Class<?> resolvePrimitiveClassName(final String name)
-    {
+    public static Class<?> resolvePrimitiveClassName(final String name) {
         Class<?> result = null;
 
         // Most class names will be quite long, considering that they
         // SHOULD sit in a package, so a length check is worthwhile.
-        if ((name != null) && (name.length() <= 7))
-        {
+        if ((name != null) && (name.length() <= 7)) {
             // Could be a primitive - likely.
             result = primitiveTypeNameMap.get(name);
         }
@@ -387,16 +348,13 @@ public final class ClassUtils
     /**
      * Register the given common classes with the ClassUtils cache.
      */
-    private static void registerCommonClasses(final Class<?>... commonClasses)
-    {
-        for (Class<?> clazz : commonClasses)
-        {
+    private static void registerCommonClasses(final Class<?>... commonClasses) {
+        for (Class<?> clazz : commonClasses) {
             commonClassCache.put(clazz.getName(), clazz);
         }
     }
 
-    private ClassUtils()
-    {
+    private ClassUtils() {
         super();
     }
 }

@@ -12,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import com.sun.net.httpserver.HttpServer;
-import de.freese.micrometer.binder.NetworkMetrics;
 import io.micrometer.core.instrument.Clock;
 import io.micrometer.core.instrument.Meter.Id;
 import io.micrometer.core.instrument.Metrics;
@@ -31,15 +30,15 @@ import io.micrometer.prometheus.PrometheusRenameFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.freese.micrometer.binder.NetworkMetrics;
+
 /**
  * @author Thomas Freese
  */
-public final class MicrometerMain
-{
+public final class MicrometerMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(MicrometerMain.class);
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         // initSimpleRegistry();
         initPrometheusRegistry();
         initLoggingRegistry();
@@ -80,15 +79,12 @@ public final class MicrometerMain
         //        System.in.read();
     }
 
-    static void initLoggingRegistry()
-    {
+    static void initLoggingRegistry() {
         // PushRegistryConfig
-        LoggingRegistryConfig loggingRegistryConfig = new LoggingRegistryConfig()
-        {
+        LoggingRegistryConfig loggingRegistryConfig = new LoggingRegistryConfig() {
 
             @Override
-            public String get(final String key)
-            {
+            public String get(final String key) {
                 return null;
             }
 
@@ -96,8 +92,7 @@ public final class MicrometerMain
              * @see io.micrometer.core.instrument.push.PushRegistryConfig#step()
              */
             @Override
-            public Duration step()
-            {
+            public Duration step() {
                 // Default = 1 Minute
                 return Duration.ofSeconds(1);
             }
@@ -108,14 +103,11 @@ public final class MicrometerMain
         Metrics.addRegistry(loggingMeterRegistry);
     }
 
-    static void initPrometheusRegistry() throws Exception
-    {
+    static void initPrometheusRegistry() throws Exception {
         // PrometheusConfig.DEFAULT; step = 1 Minute
-        PrometheusConfig prometheusConfig = new PrometheusConfig()
-        {
+        PrometheusConfig prometheusConfig = new PrometheusConfig() {
             @Override
-            public String get(final String key)
-            {
+            public String get(final String key) {
                 return null;
             }
 
@@ -123,8 +115,7 @@ public final class MicrometerMain
              * @see io.micrometer.prometheus.PrometheusConfig#step()
              */
             @Override
-            public Duration step()
-            {
+            public Duration step() {
                 // Default = 1 Minute
                 return Duration.ofSeconds(1);
             }
@@ -137,13 +128,10 @@ public final class MicrometerMain
         startServerForPrometheus();
     }
 
-    static void initSimpleRegistry()
-    {
-        SimpleConfig simpleConfig = new SimpleConfig()
-        {
+    static void initSimpleRegistry() {
+        SimpleConfig simpleConfig = new SimpleConfig() {
             @Override
-            public String get(final String key)
-            {
+            public String get(final String key) {
                 return null;
             }
 
@@ -151,8 +139,7 @@ public final class MicrometerMain
              * @see io.micrometer.core.instrument.simple.SimpleConfig#mode()
              */
             @Override
-            public CountingMode mode()
-            {
+            public CountingMode mode() {
                 return CountingMode.STEP;
             }
 
@@ -160,8 +147,7 @@ public final class MicrometerMain
              * @see io.micrometer.core.instrument.simple.SimpleConfig#step()
              */
             @Override
-            public Duration step()
-            {
+            public Duration step() {
                 // Default = 1 Minute
                 return Duration.ofSeconds(1);
             }
@@ -171,8 +157,7 @@ public final class MicrometerMain
         Metrics.addRegistry(simpleMeterRegistry);
     }
 
-    private static void startMetrics()
-    {
+    private static void startMetrics() {
         // new ClassLoaderMetrics().bindTo(Metrics.globalRegistry);
         // new JvmMemoryMetrics().bindTo(Metrics.globalRegistry);
         // new JvmGcMetrics().bindTo(Metrics.globalRegistry);
@@ -194,8 +179,7 @@ public final class MicrometerMain
 
         // Gauge.builder("test.gauge", Math::random).register(Metrics.globalRegistry);
 
-        scheduledExecutorService.scheduleWithFixedDelay(() ->
-        {
+        scheduledExecutorService.scheduleWithFixedDelay(() -> {
             // networkMetrics.update();
             //
             // Metrics.counter("test.counter").increment();
@@ -218,8 +202,7 @@ public final class MicrometerMain
      * Siehe auch <a href="https://github.com/prometheus/client_java/tree/master/simpleclient_httpserver">simpleclient_httpserver</a><br>
      * &lt;dependency&gt;io.prometheus:simpleclient_httpserver&lt;/dependency&gt;<br>
      */
-    private static void startServerForPrometheus() throws Exception
-    {
+    private static void startServerForPrometheus() throws Exception {
         // @formatter:off
         Optional<PrometheusMeterRegistry> prometheusMeterRegistryOptional = Metrics.globalRegistry.getRegistries().stream()
                 .filter(PrometheusMeterRegistry.class::isInstance)
@@ -228,8 +211,7 @@ public final class MicrometerMain
                 ;
         // @formatter:on
 
-        if (prometheusMeterRegistryOptional.isEmpty())
-        {
+        if (prometheusMeterRegistryOptional.isEmpty()) {
             return;
         }
 
@@ -238,8 +220,7 @@ public final class MicrometerMain
         HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
         server.setExecutor(Executors.newSingleThreadExecutor(new NamedThreadFactory("jre-httpserver")));
 
-        server.createContext("/prometheus", httpExchange ->
-        {
+        server.createContext("/prometheus", httpExchange -> {
             String response = prometheusMeterRegistry.scrape();
 
             LOGGER.debug("{}{}", System.lineSeparator(), response);
@@ -248,16 +229,14 @@ public final class MicrometerMain
 
             httpExchange.sendResponseHeaders(200, bytes.length);
 
-            try (OutputStream os = httpExchange.getResponseBody())
-            {
+            try (OutputStream os = httpExchange.getResponseBody()) {
                 os.write(bytes);
 
                 os.flush();
             }
         });
 
-        server.createContext("/exporter", httpExchange ->
-        {
+        server.createContext("/exporter", httpExchange -> {
             String response = MeterExporter.export(prometheusMeterRegistry, Duration.ofSeconds(1), TimeUnit.SECONDS).stream().collect(Collectors.joining(System.lineSeparator()));
 
             LOGGER.debug("{}{}", System.lineSeparator(), response);
@@ -266,8 +245,7 @@ public final class MicrometerMain
 
             httpExchange.sendResponseHeaders(200, bytes.length);
 
-            try (OutputStream os = httpExchange.getResponseBody())
-            {
+            try (OutputStream os = httpExchange.getResponseBody()) {
                 os.write(bytes);
 
                 os.flush();
@@ -278,8 +256,7 @@ public final class MicrometerMain
         // new Thread(server::start).start();
     }
 
-    private MicrometerMain()
-    {
+    private MicrometerMain() {
         super();
     }
 }

@@ -4,8 +4,6 @@ package de.freese.maven.proxy.netty;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 
-import de.freese.maven.proxy.MavenProxy;
-import de.freese.maven.proxy.repository.Repository;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
@@ -16,11 +14,13 @@ import io.netty.handler.logging.LoggingHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.freese.maven.proxy.MavenProxy;
+import de.freese.maven.proxy.repository.Repository;
+
 /**
  * @author Thomas Freese
  */
-public class MavenProxyNetty implements MavenProxy
-{
+public class MavenProxyNetty implements MavenProxy {
     private static final Logger LOGGER = LoggerFactory.getLogger(MavenProxyNetty.class);
 
     private EventLoopGroup acceptorGroup;
@@ -37,8 +37,7 @@ public class MavenProxyNetty implements MavenProxy
      * @see de.freese.maven.proxy.MavenProxy#setExecutor(java.util.concurrent.Executor)
      */
     @Override
-    public void setExecutor(final Executor executor)
-    {
+    public void setExecutor(final Executor executor) {
         this.executor = Objects.requireNonNull(executor, "executor required");
     }
 
@@ -46,10 +45,8 @@ public class MavenProxyNetty implements MavenProxy
      * @see de.freese.maven.proxy.MavenProxy#setPort(int)
      */
     @Override
-    public void setPort(final int port)
-    {
-        if (port <= 0)
-        {
+    public void setPort(final int port) {
+        if (port <= 0) {
             throw new IllegalArgumentException("port <= 0");
         }
 
@@ -60,8 +57,7 @@ public class MavenProxyNetty implements MavenProxy
      * @see de.freese.maven.proxy.MavenProxy#setRepository(de.freese.maven.proxy.repository.Repository)
      */
     @Override
-    public void setRepository(final Repository repository)
-    {
+    public void setRepository(final Repository repository) {
         this.repository = Objects.requireNonNull(repository, "repository required");
     }
 
@@ -69,20 +65,17 @@ public class MavenProxyNetty implements MavenProxy
      * @see de.freese.maven.proxy.MavenProxy#start()
      */
     @Override
-    public void start()
-    {
+    public void start() {
         Objects.requireNonNull(this.repository, "repository required");
         Objects.requireNonNull(this.executor, "executor required");
 
-        if (this.port <= 0)
-        {
+        if (this.port <= 0) {
             throw new IllegalArgumentException("port <= 0");
         }
 
         LOGGER.info("starting MavenProxy at Port {}", this.port);
 
-        try
-        {
+        try {
             ServerBootstrap bootstrap = new ServerBootstrap();
 
             this.acceptorGroup = new NioEventLoopGroup(2, this.executor);
@@ -99,14 +92,12 @@ public class MavenProxyNetty implements MavenProxy
 
             ch.channel().closeFuture().sync();
         }
-        catch (RuntimeException ex)
-        {
+        catch (RuntimeException ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             throw ex;
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             throw new RuntimeException(ex);
@@ -121,17 +112,14 @@ public class MavenProxyNetty implements MavenProxy
      * @see de.freese.maven.proxy.MavenProxy#stop()
      */
     @Override
-    public void stop()
-    {
+    public void stop() {
         LOGGER.info("stopping MavenProxy at Port {}", this.port);
 
-        if (this.acceptorGroup != null)
-        {
+        if (this.acceptorGroup != null) {
             this.acceptorGroup.shutdownGracefully();
         }
 
-        if (this.workerGroup != null)
-        {
+        if (this.workerGroup != null) {
             this.workerGroup.shutdownGracefully();
         }
     }

@@ -13,6 +13,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.jupiter.api.Test;
+
 import de.freese.jsensors.binder.CpuMetrics;
 import de.freese.jsensors.binder.DiscMetrics;
 import de.freese.jsensors.binder.ExecutorServiceMetrics;
@@ -21,16 +23,13 @@ import de.freese.jsensors.binder.SwapMetrics;
 import de.freese.jsensors.registry.DefaultSensorRegistry;
 import de.freese.jsensors.sensor.Sensor;
 import de.freese.jsensors.sensor.SensorValue;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author Thomas Freese
  */
-class TestMetricBinder
-{
+class TestMetricBinder {
     @Test
-    void testCpuMetrics() throws Exception
-    {
+    void testCpuMetrics() throws Exception {
         DefaultSensorRegistry registry = new DefaultSensorRegistry();
 
         new CpuMetrics().bindTo(registry);
@@ -54,8 +53,7 @@ class TestMetricBinder
     }
 
     @Test
-    void testDiscMetrics() throws Exception
-    {
+    void testDiscMetrics() throws Exception {
         DefaultSensorRegistry registry = new DefaultSensorRegistry();
 
         new DiscMetrics("tmp1", Path.of(System.getProperty("java.io.tmpdir"))).bindTo(registry);
@@ -79,17 +77,14 @@ class TestMetricBinder
     }
 
     @Test
-    void testExecutorServiceMetrics() throws Exception
-    {
+    void testExecutorServiceMetrics() throws Exception {
         DefaultSensorRegistry registry = new DefaultSensorRegistry();
 
-        Exception exception = assertThrows(IllegalArgumentException.class,
-                () -> new ExecutorServiceMetrics(Executors.newSingleThreadExecutor(), "myExecutor").bindTo(registry));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> new ExecutorServiceMetrics(Executors.newSingleThreadExecutor(), "myExecutor").bindTo(registry));
         String expectedMessage = "executorService not supported: 'java.util.concurrent.Executors$FinalizableDelegatedExecutorService'";
         assertEquals(exception.getMessage(), expectedMessage);
 
-        exception = assertThrows(IllegalArgumentException.class,
-                () -> new ExecutorServiceMetrics(Executors.newSingleThreadScheduledExecutor(), "myScheduler").bindTo(registry));
+        exception = assertThrows(IllegalArgumentException.class, () -> new ExecutorServiceMetrics(Executors.newSingleThreadScheduledExecutor(), "myScheduler").bindTo(registry));
         expectedMessage = "executorService not supported: 'java.util.concurrent.Executors$DelegatedScheduledExecutorService'";
         assertEquals(exception.getMessage(), expectedMessage);
 
@@ -117,8 +112,7 @@ class TestMetricBinder
     }
 
     @Test
-    void testMemoryMetrics() throws Exception
-    {
+    void testMemoryMetrics() throws Exception {
         DefaultSensorRegistry registry = new DefaultSensorRegistry();
 
         new MemoryMetrics().bindTo(registry);
@@ -147,8 +141,7 @@ class TestMetricBinder
     }
 
     @Test
-    void testSwapMetrics() throws Exception
-    {
+    void testSwapMetrics() throws Exception {
         DefaultSensorRegistry registry = new DefaultSensorRegistry();
 
         new SwapMetrics().bindTo(registry);

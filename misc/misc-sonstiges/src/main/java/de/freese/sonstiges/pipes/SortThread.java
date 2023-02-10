@@ -7,36 +7,29 @@ import java.io.PrintWriter;
 /**
  * @author Thomas Freese
  */
-public class SortThread extends Thread
-{
+public class SortThread extends Thread {
     private static final int MAXWORDS = 50;
 
-    private static void quicksort(final String[] a, final int lo0, final int hi0)
-    {
+    private static void quicksort(final String[] a, final int lo0, final int hi0) {
         int lo = lo0;
         int hi = hi0;
 
-        if (lo >= hi)
-        {
+        if (lo >= hi) {
             return;
         }
 
         String mid = a[(lo + hi) / 2];
 
-        while (lo < hi)
-        {
-            while ((lo < hi) && (a[lo].compareTo(mid) < 0))
-            {
+        while (lo < hi) {
+            while ((lo < hi) && (a[lo].compareTo(mid) < 0)) {
                 lo++;
             }
 
-            while ((lo < hi) && (a[hi].compareTo(mid) > 0))
-            {
+            while ((lo < hi) && (a[hi].compareTo(mid) > 0)) {
                 hi--;
             }
 
-            if (lo < hi)
-            {
+            if (lo < hi) {
                 String value = a[lo];
                 a[lo] = a[hi];
                 a[hi] = value;
@@ -45,8 +38,7 @@ public class SortThread extends Thread
             }
         }
 
-        if (hi < lo)
-        {
+        if (hi < lo) {
             int t = hi;
             hi = lo;
             lo = t;
@@ -60,8 +52,7 @@ public class SortThread extends Thread
 
     private final PrintWriter out;
 
-    public SortThread(final PrintWriter out, final BufferedReader in)
-    {
+    public SortThread(final PrintWriter out, final BufferedReader in) {
         super();
 
         this.out = out;
@@ -72,36 +63,29 @@ public class SortThread extends Thread
      * @see java.lang.Thread#run()
      */
     @Override
-    public void run()
-    {
-        if ((this.out != null) && (this.in != null))
-        {
-            try
-            {
+    public void run() {
+        if ((this.out != null) && (this.in != null)) {
+            try {
                 String[] listOfWords = new String[MAXWORDS];
                 int numWords = 0;
 
-                while ((listOfWords[numWords] = this.in.readLine()) != null)
-                {
+                while ((listOfWords[numWords] = this.in.readLine()) != null) {
                     numWords++;
 
-                    if (numWords == (MAXWORDS - 1))
-                    {
+                    if (numWords == (MAXWORDS - 1)) {
                         break;
                     }
                 }
 
                 quicksort(listOfWords, 0, numWords - 1);
 
-                for (int i = 0; i < numWords; i++)
-                {
+                for (int i = 0; i < numWords; i++) {
                     this.out.println(listOfWords[i]);
                 }
 
                 this.out.close();
             }
-            catch (IOException ex)
-            {
+            catch (IOException ex) {
                 System.err.println("SortThread run: " + ex);
             }
         }

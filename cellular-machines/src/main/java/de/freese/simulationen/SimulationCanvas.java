@@ -20,13 +20,11 @@ import de.freese.simulationen.model.SimulationListener;
  *
  * @author Thomas Freese
  */
-public class SimulationCanvas extends JComponent implements SimulationListener
-{
+public class SimulationCanvas extends JComponent implements SimulationListener {
     @Serial
     private static final long serialVersionUID = 4896850562260701814L;
 
-    public static BufferedImage copyImage(final BufferedImage source)
-    {
+    public static BufferedImage copyImage(final BufferedImage source) {
         BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
         Graphics g = b.getGraphics();
         g.drawImage(source, 0, 0, null);
@@ -41,14 +39,12 @@ public class SimulationCanvas extends JComponent implements SimulationListener
 
     private transient VolatileImage volatileImage;
 
-    public SimulationCanvas(final Simulation simulation)
-    {
+    public SimulationCanvas(final Simulation simulation) {
         // Die Größe der Simulation auf die Anzeigegröße skalieren.
         this(simulation, (int) (800 * (double) simulation.getWidth()) / simulation.getHeight(), 800);
     }
 
-    public SimulationCanvas(final Simulation simulation, final int width, final int height)
-    {
+    public SimulationCanvas(final Simulation simulation, final int width, final int height) {
         super();
 
         setPreferredSize(new Dimension(width, height));
@@ -65,16 +61,13 @@ public class SimulationCanvas extends JComponent implements SimulationListener
      * @see de.freese.simulationen.model.SimulationListener#completed(de.freese.simulationen.model.Simulation)
      */
     @Override
-    public void completed(final Simulation simulation)
-    {
+    public void completed(final Simulation simulation) {
         this.image = simulation.getImage();
 
-        if (SwingUtilities.isEventDispatchThread())
-        {
+        if (SwingUtilities.isEventDispatchThread()) {
             repaint();
         }
-        else
-        {
+        else {
             SwingUtilities.invokeLater(this::repaint);
         }
     }
@@ -83,13 +76,11 @@ public class SimulationCanvas extends JComponent implements SimulationListener
      * @see javax.swing.JComponent#paint(java.awt.Graphics)
      */
     @Override
-    public void paint(final Graphics g)
-    {
+    public void paint(final Graphics g) {
         int x = 0;
         int y = 0;
 
-        if (!this.useVolatileImage)
-        {
+        if (!this.useVolatileImage) {
             g.drawImage(this.image, x, y, getWidth(), getHeight(), null);
 
             return;
@@ -98,13 +89,11 @@ public class SimulationCanvas extends JComponent implements SimulationListener
         // Main rendering loop. Volatile images may lose their contents.
         // This loop will continually render to (and produce if necessary) volatile images
         // until the rendering was completed successfully.
-        if (this.volatileImage == null)
-        {
+        if (this.volatileImage == null) {
             this.volatileImage = createVolatileImage();
         }
 
-        do
-        {
+        do {
             // Validate the volatile image for the graphics configuration of this
             // component. If the volatile image doesn't apply for this graphics configuration
             // (in other words, the hardware acceleration doesn't apply for the new device)
@@ -112,8 +101,7 @@ public class SimulationCanvas extends JComponent implements SimulationListener
             GraphicsConfiguration gc = getGraphicsConfiguration();
 
             // This means the device doesn't match up to this hardware accelerated image.
-            if (this.volatileImage.validate(gc) == VolatileImage.IMAGE_INCOMPATIBLE)
-            {
+            if (this.volatileImage.validate(gc) == VolatileImage.IMAGE_INCOMPATIBLE) {
                 this.volatileImage = null;
                 // createBackBuffer(); // recreate the hardware accelerated image.
 
@@ -137,8 +125,7 @@ public class SimulationCanvas extends JComponent implements SimulationListener
     /**
      * BackBuffer, erzeugt lazy das {@link VolatileImage} wenn nötig.
      */
-    private VolatileImage createVolatileImage()
-    {
+    private VolatileImage createVolatileImage() {
         // GraphicsConfiguration gc = getGraphicsConfiguration();
         // return gc.createCompatibleVolatileImage(getWidth(), getHeight());
 

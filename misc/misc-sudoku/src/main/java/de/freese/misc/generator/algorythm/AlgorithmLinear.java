@@ -13,8 +13,7 @@ import java.util.List;
  * @deprecated Liefert fehlerhafte Rätsel
  */
 @Deprecated
-public class AlgorithmLinear implements SudokuAlgorithm
-{
+public class AlgorithmLinear implements SudokuAlgorithm {
     private int blockSize = 0;
 
     private int[][] grid;
@@ -25,8 +24,7 @@ public class AlgorithmLinear implements SudokuAlgorithm
      * @see SudokuAlgorithm#create(int[][])
      */
     @Override
-    public boolean create(final int[][] grid)
-    {
+    public boolean create(final int[][] grid) {
         this.grid = grid;
         this.blockSize = (int) Math.sqrt(grid.length);
         this.numberList = new ArrayList<>(grid.length);
@@ -38,19 +36,15 @@ public class AlgorithmLinear implements SudokuAlgorithm
         boolean traceOn = true;
 
         // Zeilenweisen füllen des Arrays
-        while (currentRow < grid[0].length)
-        {
+        while (currentRow < grid[0].length) {
             trials[currentRow]++;
 
             // Zeile generieren
-            if (generateRow(currentRow))
-            {
-                if (traceOn)
-                {
+            if (generateRow(currentRow)) {
+                if (traceOn) {
                     System.out.print("Row " + (currentRow + 1) + " generated after " + trials[currentRow] + " trial");
 
-                    if (trials[currentRow] > 1)
-                    {
+                    if (trials[currentRow] > 1) {
                         System.out.print("s");
                     }
 
@@ -62,35 +56,29 @@ public class AlgorithmLinear implements SudokuAlgorithm
             }
 
             // Generierung fehlgeschlagen, nochmal versuchen
-            if (trials[currentRow] < (this.blockSize * this.blockSize * this.blockSize * 2))
-            {
+            if (trials[currentRow] < (this.blockSize * this.blockSize * this.blockSize * 2)) {
                 continue;
             }
 
             // Generierung weiterhin fehlgeschlagen, alle Zeilen des Blocks nochmal erzeugen
-            if (traceOn)
-            {
+            if (traceOn) {
                 System.out.print("Quitting for row: " + (currentRow + 1));
             }
 
-            while ((currentRow % this.blockSize) != 0)
-            {
+            while ((currentRow % this.blockSize) != 0) {
                 trials[currentRow--] = 0;
             }
 
             trials[currentRow] = 0;
 
-            if (traceOn)
-            {
+            if (traceOn) {
                 System.out.println(". Starting over with row: " + (currentRow + 1) + ".");
             }
         }
 
         // Zahlen sind 0-based, auf 1 normalisieren
-        for (int x = 0; x < grid.length; x++)
-        {
-            for (int y = 0; y < grid[0].length; y++)
-            {
+        for (int x = 0; x < grid.length; x++) {
+            for (int y = 0; y < grid[0].length; y++) {
                 grid[x][y]++;
             }
         }
@@ -103,20 +91,17 @@ public class AlgorithmLinear implements SudokuAlgorithm
      *
      * @return int, Anzahl verfügbarer Zahlen
      */
-    private int fillArrayList(final int row, final int col)
-    {
+    private int fillArrayList(final int row, final int col) {
         boolean[] available = new boolean[this.grid.length];
         Arrays.fill(available, true);
 
         // Entfernen der Zahlen, die in der Zeile schon existieren
-        for (int x = 0; x < row; x++)
-        {
+        for (int x = 0; x < row; x++) {
             available[this.grid[x][row]] = false;
         }
 
         // Entfernen der Zahlen, die in der Spalte schon existieren
-        for (int y = 0; y < col; y++)
-        {
+        for (int y = 0; y < col; y++) {
             available[this.grid[col][y]] = false;
         }
 
@@ -124,10 +109,8 @@ public class AlgorithmLinear implements SudokuAlgorithm
         Point rowRange = getRegionRowsOrCols(row);
         Point colRange = getRegionRowsOrCols(col);
 
-        for (int x = rowRange.x; x < row; x++)
-        {
-            for (int y = colRange.x; y <= colRange.y; y++)
-            {
+        for (int x = rowRange.x; x < row; x++) {
+            for (int y = colRange.x; y <= colRange.y; y++) {
                 available[this.grid[x][y]] = false;
             }
         }
@@ -146,10 +129,8 @@ public class AlgorithmLinear implements SudokuAlgorithm
         this.numberList.clear();
 
         // Füllen der Liste mit den restlichen verfügbaren Zahlen.
-        for (int i = 0; i < this.grid.length; i++)
-        {
-            if (available[i])
-            {
+        for (int i = 0; i < this.grid.length; i++) {
+            if (available[i]) {
                 this.numberList.add(i);
             }
         }
@@ -160,13 +141,10 @@ public class AlgorithmLinear implements SudokuAlgorithm
     /**
      * Versuchen eine Zeile aufzubauen.
      */
-    private boolean generateRow(final int row)
-    {
-        for (int col = 0; col < this.grid.length; col++)
-        {
+    private boolean generateRow(final int row) {
+        for (int col = 0; col < this.grid.length; col++) {
             // Keine verfügbaren Zahlen mehr, dann Abbruch
-            if (fillArrayList(row, col) == 0)
-            {
+            if (fillArrayList(row, col) == 0) {
                 return false;
             }
 
@@ -181,8 +159,7 @@ public class AlgorithmLinear implements SudokuAlgorithm
     /**
      * Liefert die erste und letzte Zeile/Spalte innerhalb des Blocks.
      */
-    private Point getRegionRowsOrCols(final int rowOrCol)
-    {
+    private Point getRegionRowsOrCols(final int rowOrCol) {
         int x = (rowOrCol / this.blockSize) * this.blockSize;
         int y = (x + this.blockSize) - 1;
 

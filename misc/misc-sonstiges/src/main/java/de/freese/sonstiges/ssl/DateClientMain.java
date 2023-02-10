@@ -18,20 +18,14 @@ import javax.net.ssl.TrustManagerFactory;
 /**
  * @author Thomas Freese
  */
-public final class DateClientMain
-{
-    public static SSLContext createSSLContext(final String serverKeyStoreFile, final char[] serverKeyStorePassword, final String clientTrustStoreFile,
-                                              final char[] clientTrustStorePassword, final char[] certPassword)
-            throws Exception
-    {
+public final class DateClientMain {
+    public static SSLContext createSSLContext(final String serverKeyStoreFile, final char[] serverKeyStorePassword, final String clientTrustStoreFile, final char[] clientTrustStorePassword, final char[] certPassword) throws Exception {
         KeyStore serverKeyStore = KeyStore.getInstance("JKS", "SUN");
         KeyStore clientTrustStore = KeyStore.getInstance("JKS", "SUN");
 
         SSLContext sslContext = null;
 
-        try (InputStream serverKeyStoreIS = new FileInputStream(serverKeyStoreFile);
-             InputStream clientTrustStoreIS = new FileInputStream(clientTrustStoreFile))
-        {
+        try (InputStream serverKeyStoreIS = new FileInputStream(serverKeyStoreFile); InputStream clientTrustStoreIS = new FileInputStream(clientTrustStoreFile)) {
             serverKeyStore.load(serverKeyStoreIS, serverKeyStorePassword);
             clientTrustStore.load(clientTrustStoreIS, clientTrustStorePassword);
 
@@ -48,32 +42,25 @@ public final class DateClientMain
         return sslContext;
     }
 
-    public static void main(final String[] argv)
-    {
-        try
-        {
+    public static void main(final String[] argv) {
+        try {
             boolean isSSL = true;
             SocketFactory socketFactory = null;
 
-            if (isSSL)
-            {
+            if (isSSL) {
                 // Siehe: de.freese.base.security.ssl.SSLContextFactory
                 //
                 // SSLContext sslContext = SSLContextFactory.createDefault();
-                SSLContext sslContext = createSSLContext("src/main/resources/serverKeyStore", "server-pw".toCharArray(), "src/main/resources/clientTrustStore",
-                        "client-pw".toCharArray(), "server1-cert-pw".toCharArray());
+                SSLContext sslContext = createSSLContext("src/main/resources/serverKeyStore", "server-pw".toCharArray(), "src/main/resources/clientTrustStore", "client-pw".toCharArray(), "server1-cert-pw".toCharArray());
 
                 socketFactory = sslContext.getSocketFactory();
             }
-            else
-            {
+            else {
                 socketFactory = SocketFactory.getDefault();
             }
 
-            try (Socket socket = socketFactory.createSocket("localhost", 3000))
-            {
-                if (socket instanceof SSLSocket sslSocket)
-                {
+            try (Socket socket = socketFactory.createSocket("localhost", 3000)) {
+                if (socket instanceof SSLSocket sslSocket) {
                     sslSocket.startHandshake();
 
                     SSLSession session = sslSocket.getSession();
@@ -82,8 +69,7 @@ public final class DateClientMain
                 }
 
                 // get the input and output streams from the SSL connection
-                try (ObjectInputStream ois = new ObjectInputStream(socket.getInputStream()))
-                {
+                try (ObjectInputStream ois = new ObjectInputStream(socket.getInputStream())) {
                     Date date = (Date) ois.readObject();
                     System.out.print("The date is: " + date);
                 }
@@ -93,14 +79,12 @@ public final class DateClientMain
                 // }
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
 
-    private DateClientMain()
-    {
+    private DateClientMain() {
         super();
     }
 }

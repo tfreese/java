@@ -19,10 +19,8 @@ import javax.script.ScriptException;
  *
  * @author Thomas Freese
  */
-public final class JavaScriptMain
-{
-    public static void main(final String[] args) throws Exception
-    {
+public final class JavaScriptMain {
+    public static void main(final String[] args) throws Exception {
         ScriptEngineManager manager = new ScriptEngineManager();
 
         manager.getEngineFactories().forEach(System.out::println);
@@ -30,23 +28,19 @@ public final class JavaScriptMain
         // Benötigt org.openjdk.nashorn:nashorn-core Dependency.
         ScriptEngine engine = manager.getEngineByExtension("js");
 
-        if (engine == null)
-        {
+        if (engine == null) {
             engine = manager.getEngineByName("JavaScriptMain");
         }
 
-        if (engine == null)
-        {
+        if (engine == null) {
             engine = manager.getEngineByName("nashorn");
         }
 
-        if (engine == null)
-        {
+        if (engine == null) {
             engine = manager.getEngineByMimeType("text/javascript");
         }
 
-        if (engine == null)
-        {
+        if (engine == null) {
             System.err.println("no engine found");
             return;
         }
@@ -59,13 +53,11 @@ public final class JavaScriptMain
         javaScript.withInterface(engine);
     }
 
-    private JavaScriptMain()
-    {
+    private JavaScriptMain() {
         super();
     }
 
-    private void bindings(final ScriptEngine engine) throws ScriptException
-    {
+    private void bindings(final ScriptEngine engine) throws ScriptException {
         StringBuilder script = new StringBuilder();
         script.append("a + b");
 
@@ -80,15 +72,13 @@ public final class JavaScriptMain
         System.out.println();
     }
 
-    private void scriptFile(final ScriptEngine engine) throws ScriptException, IOException
-    {
+    private void scriptFile(final ScriptEngine engine) throws ScriptException, IOException {
         Conf conf = new Conf();
 
         Bindings bindings = engine.getBindings(ScriptContext.ENGINE_SCOPE);
         bindings.put("conf", conf);
 
-        try (Reader reader = new InputStreamReader(ClassLoader.getSystemResourceAsStream("configuration.js"), StandardCharsets.UTF_8))
-        {
+        try (Reader reader = new InputStreamReader(ClassLoader.getSystemResourceAsStream("configuration.js"), StandardCharsets.UTF_8)) {
             engine.eval(reader, bindings);
         }
 
@@ -97,8 +87,7 @@ public final class JavaScriptMain
         System.out.println();
     }
 
-    private void simpleFunction(final ScriptEngine engine) throws ScriptException, NoSuchMethodException
-    {
+    private void simpleFunction(final ScriptEngine engine) throws ScriptException, NoSuchMethodException {
         StringBuilder script = new StringBuilder();
         script.append("function addiere(a,b)");
         script.append("{");
@@ -117,8 +106,7 @@ public final class JavaScriptMain
         System.out.println();
     }
 
-    private void simpleScript(final ScriptEngine engine) throws ScriptException
-    {
+    private void simpleScript(final ScriptEngine engine) throws ScriptException {
         StringBuilder script = new StringBuilder();
         script.append("var sum = 0;");
         script.append("for(var i = 0; i < 1000; i++)");
@@ -133,8 +121,7 @@ public final class JavaScriptMain
         System.out.println();
     }
 
-    private void withInterface(final ScriptEngine engine) throws ScriptException
-    {
+    private void withInterface(final ScriptEngine engine) throws ScriptException {
         engine.eval("function plus(a,b) { return a + b; }");
         engine.eval("function minus(a,b) { return a - b; }");
 

@@ -5,15 +5,15 @@ import java.nio.channels.SelectionKey;
 import java.util.Objects;
 import java.util.concurrent.Semaphore;
 
-import de.freese.sonstiges.server.handler.IoHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.freese.sonstiges.server.handler.IoHandler;
 
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractServer implements Runnable
-{
+public abstract class AbstractServer implements Runnable {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final int port;
     /**
@@ -23,12 +23,10 @@ public abstract class AbstractServer implements Runnable
     private IoHandler<SelectionKey> ioHandler;
     private String name = getClass().getSimpleName();
 
-    protected AbstractServer(final int port)
-    {
+    protected AbstractServer(final int port) {
         super();
 
-        if (port <= 0)
-        {
+        if (port <= 0) {
             throw new IllegalArgumentException("port <= 0: " + port);
         }
 
@@ -37,28 +35,23 @@ public abstract class AbstractServer implements Runnable
         this.startLock.acquireUninterruptibly();
     }
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
-    public int getPort()
-    {
+    public int getPort() {
         return this.port;
     }
 
-    public boolean isStarted()
-    {
+    public boolean isStarted() {
         return getStartLock().availablePermits() > 0;
     }
 
-    public void setIoHandler(final IoHandler<SelectionKey> ioHandler)
-    {
+    public void setIoHandler(final IoHandler<SelectionKey> ioHandler) {
         this.ioHandler = Objects.requireNonNull(ioHandler, "ioHandler required");
     }
 
-    public void setName(final String name)
-    {
+    public void setName(final String name) {
         this.name = Objects.requireNonNull(name, "name required");
     }
 
@@ -72,18 +65,15 @@ public abstract class AbstractServer implements Runnable
      */
     public abstract void stop();
 
-    protected IoHandler<SelectionKey> getIoHandler()
-    {
+    protected IoHandler<SelectionKey> getIoHandler() {
         return this.ioHandler;
     }
 
-    protected Logger getLogger()
-    {
+    protected Logger getLogger() {
         return this.logger;
     }
 
-    protected Semaphore getStartLock()
-    {
+    protected Semaphore getStartLock() {
         return this.startLock;
     }
 }

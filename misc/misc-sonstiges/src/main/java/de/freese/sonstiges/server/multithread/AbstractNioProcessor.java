@@ -8,15 +8,15 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
 
-import de.freese.sonstiges.server.ServerMain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.freese.sonstiges.server.ServerMain;
 
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractNioProcessor implements Runnable
-{
+public abstract class AbstractNioProcessor implements Runnable {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final Selector selector;
@@ -25,8 +25,7 @@ public abstract class AbstractNioProcessor implements Runnable
 
     private boolean isShutdown;
 
-    protected AbstractNioProcessor(final Selector selector)
-    {
+    protected AbstractNioProcessor(final Selector selector) {
         super();
 
         this.selector = Objects.requireNonNull(selector, "selector required");
@@ -36,71 +35,58 @@ public abstract class AbstractNioProcessor implements Runnable
      * @see java.lang.Runnable#run()
      */
     @Override
-    public void run()
-    {
+    public void run() {
         getStopLock().acquireUninterruptibly();
 
-        try
-        {
+        try {
             beforeSelectorWhile();
 
-            while (!Thread.interrupted())
-            {
+            while (!Thread.interrupted()) {
                 int readyChannels = getSelector().select();
 
                 getLogger().debug("readyChannels = {}", readyChannels);
 
-                if (isExitCondition(readyChannels))
-                {
+                if (isExitCondition(readyChannels)) {
                     break;
                 }
 
-                if (readyChannels > 0)
-                {
+                if (readyChannels > 0) {
                     Set<SelectionKey> selected = getSelector().selectedKeys();
                     Iterator<SelectionKey> iterator = selected.iterator();
 
-                    try
-                    {
-                        while (iterator.hasNext())
-                        {
+                    try {
+                        while (iterator.hasNext()) {
                             SelectionKey selectionKey = iterator.next();
                             iterator.remove();
 
-                            if (!selectionKey.isValid())
-                            {
+                            if (!selectionKey.isValid()) {
                                 getLogger().debug("{}: selectionKey not valid", ServerMain.getRemoteAddress(selectionKey));
 
                                 onInValid(selectionKey);
                             }
-                            else if (selectionKey.isAcceptable())
-                            {
+                            else if (selectionKey.isAcceptable()) {
                                 getLogger().debug("new client accepted");
 
                                 onAcceptable(selectionKey);
                             }
-                            else if (selectionKey.isReadable())
-                            {
+                            else if (selectionKey.isReadable()) {
                                 getLogger().debug("{}: read request", ServerMain.getRemoteAddress(selectionKey));
 
                                 onReadable(selectionKey);
                             }
-                            else if (selectionKey.isWritable())
-                            {
+                            else if (selectionKey.isWritable()) {
                                 getLogger().debug("{}: write response", ServerMain.getRemoteAddress(selectionKey));
 
                                 onWritable(selectionKey);
                             }
-                            else if (selectionKey.isConnectable())
-                            {
+                            else if (selectionKey.isConnectable()) {
                                 getLogger().debug("{}: client connected", ServerMain.getRemoteAddress(selectionKey));
 
                                 onConnectable(selectionKey);
                             }
                         }
                     }
-                    finally
-                    {
+                    finally {
                         selected.clear();
                     }
                 }
@@ -110,17 +96,14 @@ public abstract class AbstractNioProcessor implements Runnable
 
             afterSelectorWhile();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
-        finally
-        {
+        finally {
             getStopLock().release();
         }
 
-        if (getLogger().isDebugEnabled())
-        {
+        if (getLogger().isDebugEnabled()) {
             getLogger().debug("{} stopped", getClass().getSimpleName().toLowerCase());
         }
     }
@@ -128,10 +111,8 @@ public abstract class AbstractNioProcessor implements Runnable
     /**
      * Stop the Processor.
      */
-    public void stop()
-    {
-        if (getLogger().isDebugEnabled())
-        {
+    public void stop() {
+        if (getLogger().isDebugEnabled()) {
             getLogger().debug("stopping {}", getClass().getSimpleName().toLowerCase());
         }
 
@@ -145,16 +126,14 @@ public abstract class AbstractNioProcessor implements Runnable
     /**
      * Method after {@link Selector#select()}.
      */
-    protected void afterSelectorLoop()
-    {
+    protected void afterSelectorLoop() {
         // Empty
     }
 
     /**
      * Methode after the while-Loop.
      */
-    protected void afterSelectorWhile()
-    {
+    protected void afterSelectorWhile() {
         cancelKeys();
         closeSelector();
     }
@@ -162,104 +141,83 @@ public abstract class AbstractNioProcessor implements Runnable
     /**
      * Methode before the while-Loop.
      */
-    protected void beforeSelectorWhile() throws Exception
-    {
+    protected void beforeSelectorWhile() throws Exception {
         // Empty
     }
 
-    protected void cancelKeys()
-    {
+    protected void cancelKeys() {
         Set<SelectionKey> selected = getSelector().selectedKeys();
         Iterator<SelectionKey> iterator = selected.iterator();
 
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             SelectionKey selectionKey = iterator.next();
             iterator.remove();
 
-            if (selectionKey == null)
-            {
+            if (selectionKey == null) {
                 continue;
             }
 
-            try
-            {
+            try {
                 selectionKey.cancel();
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
             }
         }
     }
 
-    protected void closeSelector()
-    {
-        if (getSelector().isOpen())
-        {
-            try
-            {
+    protected void closeSelector() {
+        if (getSelector().isOpen()) {
+            try {
                 getSelector().close();
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
             }
         }
     }
 
-    protected Logger getLogger()
-    {
+    protected Logger getLogger() {
         return this.logger;
     }
 
-    protected Selector getSelector()
-    {
+    protected Selector getSelector() {
         return this.selector;
     }
 
-    protected Semaphore getStopLock()
-    {
+    protected Semaphore getStopLock() {
         return this.stopLock;
     }
 
-    protected boolean isExitCondition(final int readyChannels)
-    {
+    protected boolean isExitCondition(final int readyChannels) {
         return isShutdown() || !getSelector().isOpen();
     }
 
-    protected boolean isShutdown()
-    {
+    protected boolean isShutdown() {
         return this.isShutdown;
     }
 
-    protected void onAcceptable(final SelectionKey selectionKey)
-    {
+    protected void onAcceptable(final SelectionKey selectionKey) {
         // Empty
     }
 
-    protected void onConnectable(final SelectionKey selectionKey)
-    {
+    protected void onConnectable(final SelectionKey selectionKey) {
         // Empty
     }
 
-    protected void onInValid(final SelectionKey selectionKey)
-    {
+    protected void onInValid(final SelectionKey selectionKey) {
         // Empty
     }
 
-    protected void onReadable(final SelectionKey selectionKey)
-    {
+    protected void onReadable(final SelectionKey selectionKey) {
         // Empty
     }
 
-    protected void onWritable(final SelectionKey selectionKey)
-    {
+    protected void onWritable(final SelectionKey selectionKey) {
         // Empty
     }
 
-    protected void setShutdown()
-    {
+    protected void setShutdown() {
         this.isShutdown = true;
     }
 }

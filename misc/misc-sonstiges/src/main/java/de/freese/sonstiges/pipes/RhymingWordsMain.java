@@ -13,30 +13,24 @@ import java.nio.charset.StandardCharsets;
 /**
  * @author Thomas Freese
  */
-public final class RhymingWordsMain
-{
-    public static void main(final String[] args) throws IOException
-    {
+public final class RhymingWordsMain {
+    public static void main(final String[] args) throws IOException {
         File file = new File("src/main/resources/stopwords_de.txt");
         System.out.println(file.getAbsolutePath());
 
         // do the reversing and sorting
 
         // write new list to standard out
-        try (FileReader words = new FileReader(file, StandardCharsets.UTF_8);
-             BufferedReader in = new BufferedReader(reverse(sort(reverse(words)))))
-        {
+        try (FileReader words = new FileReader(file, StandardCharsets.UTF_8); BufferedReader in = new BufferedReader(reverse(sort(reverse(words))))) {
             String input;
 
-            while ((input = in.readLine()) != null)
-            {
+            while ((input = in.readLine()) != null) {
                 System.out.println(input);
             }
         }
     }
 
-    public static Reader reverse(final Reader source) throws IOException
-    {
+    public static Reader reverse(final Reader source) throws IOException {
         BufferedReader in = new BufferedReader(source);
 
         PipedWriter pipeOut = new PipedWriter();
@@ -48,8 +42,7 @@ public final class RhymingWordsMain
         return pipeIn;
     }
 
-    public static Reader sort(final Reader source) throws IOException
-    {
+    public static Reader sort(final Reader source) throws IOException {
         BufferedReader in = new BufferedReader(source);
 
         PipedWriter pipeOut = new PipedWriter();
@@ -61,8 +54,7 @@ public final class RhymingWordsMain
         return pipeIn;
     }
 
-    private RhymingWordsMain()
-    {
+    private RhymingWordsMain() {
         super();
     }
 }

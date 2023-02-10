@@ -4,14 +4,12 @@ package de.freese.binding.expression;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractLongExpression extends AbstractNumberExpression<Long> implements LongExpression
-{
+public abstract class AbstractLongExpression extends AbstractNumberExpression<Long> implements LongExpression {
     /**
      * @see de.freese.binding.value.ObservableIntegerValue#get()
      */
     @Override
-    public long get()
-    {
+    public long get() {
         return longValue();
     }
 }

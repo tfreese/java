@@ -4,8 +4,7 @@ package de.freese.jconky.model;
 /**
  * @author Thomas Freese
  */
-public class NetworkProtocolInfo
-{
+public class NetworkProtocolInfo {
     private long icmpIn;
 
     private long icmpOut;
@@ -24,14 +23,11 @@ public class NetworkProtocolInfo
 
     private long udpOut;
 
-    public NetworkProtocolInfo()
-    {
+    public NetworkProtocolInfo() {
         super();
     }
 
-    public NetworkProtocolInfo(final long icmpIn, final long icmpOut, final long ipIn, final long ipOut, final int tcpConnections, final long tcpIn,
-                               final long tcpOut, final long udpIn, final long udpOut)
-    {
+    public NetworkProtocolInfo(final long icmpIn, final long icmpOut, final long ipIn, final long ipOut, final int tcpConnections, final long tcpIn, final long tcpOut, final long udpIn, final long udpOut) {
         super();
         this.icmpIn = icmpIn;
         this.icmpOut = icmpOut;
@@ -44,48 +40,39 @@ public class NetworkProtocolInfo
         this.udpOut = udpOut;
     }
 
-    public long getIcmpIn()
-    {
+    public long getIcmpIn() {
         return this.icmpIn;
     }
 
-    public long getIcmpOut()
-    {
+    public long getIcmpOut() {
         return this.icmpOut;
     }
 
-    public long getIpIn()
-    {
+    public long getIpIn() {
         return this.ipIn;
     }
 
-    public long getIpOut()
-    {
+    public long getIpOut() {
         return this.ipOut;
     }
 
-    public int getTcpConnections()
-    {
+    public int getTcpConnections() {
         return this.tcpConnections;
     }
 
-    public long getTcpIn()
-    {
+    public long getTcpIn() {
         return this.tcpIn;
     }
 
-    public long getTcpOut()
-    {
+    public long getTcpOut() {
         return this.tcpOut;
     }
 
-    public long getUdpIn()
-    {
+    public long getUdpIn() {
         return this.udpIn;
     }
 
-    public long getUdpOut()
-    {
+    public long getUdpOut() {
         return this.udpOut;
     }
 }

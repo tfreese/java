@@ -6,41 +6,34 @@ package de.freese.metamodel.metagen.model;
  *
  * @author Thomas Freese
  */
-public class ForeignKey
-{
+public class ForeignKey {
     private Column column;
 
     private String name;
 
     private Column refColumn;
 
-    public Column getColumn()
-    {
+    public Column getColumn() {
         return this.column;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
-    public Column getRefColumn()
-    {
+    public Column getRefColumn() {
         return this.refColumn;
     }
 
-    public void setColumn(final Column column)
-    {
+    public void setColumn(final Column column) {
         this.column = column;
     }
 
-    public void setName(final String name)
-    {
+    public void setName(final String name) {
         this.name = name;
     }
 
-    public void setRefColumn(final Column refColumn)
-    {
+    public void setRefColumn(final Column refColumn) {
         this.refColumn = refColumn;
     }
 
@@ -48,8 +41,7 @@ public class ForeignKey
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("ForeignKey [");
         builder.append("name=").append(this.name);

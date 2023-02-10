@@ -14,10 +14,8 @@ import javax.sound.midi.Synthesizer;
 /**
  * @author Thomas Freese
  */
-public final class SingleNoteSynthesizerMain
-{
-    public static void main(final String[] args)
-    {
+public final class SingleNoteSynthesizerMain {
+    public static void main(final String[] args) {
         new SingleNoteSynthesizerMain().playNote(60);
     }
 
@@ -27,43 +25,35 @@ public final class SingleNoteSynthesizerMain
 
     private Synthesizer synth;
 
-    private SingleNoteSynthesizerMain()
-    {
+    private SingleNoteSynthesizerMain() {
         super();
 
-        try
-        {
+        try {
             this.synth = MidiSystem.getSynthesizer();
             this.synth.open();
             this.receiver = this.synth.getReceiver();
         }
-        catch (MidiUnavailableException ex)
-        {
+        catch (MidiUnavailableException ex) {
             ex.printStackTrace();
         }
     }
 
-    public void listAvailableInstruments()
-    {
+    public void listAvailableInstruments() {
         Instrument[] instrument = this.synth.getAvailableInstruments();
 
-        for (int i = 0; i < instrument.length; i++)
-        {
+        for (int i = 0; i < instrument.length; i++) {
             System.out.println(i + "   " + instrument[i].getName());
         }
     }
 
-    public void playNote(final int note)
-    {
+    public void playNote(final int note) {
         setShortMessage(note, ShortMessage.NOTE_ON);
         this.receiver.send(this.message, -1);
 
-        try
-        {
+        try {
             TimeUnit.MILLISECONDS.sleep(1000);
         }
-        catch (InterruptedException ex)
-        {
+        catch (InterruptedException ex) {
             ex.printStackTrace();
 
             Thread.currentThread().interrupt();
@@ -73,14 +63,11 @@ public final class SingleNoteSynthesizerMain
         this.receiver.send(this.message, -1);
     }
 
-    private void setShortMessage(final int note, final int onOrOff)
-    {
-        try
-        {
+    private void setShortMessage(final int note, final int onOrOff) {
+        try {
             this.message.setMessage(onOrOff, 0, note, 70);
         }
-        catch (InvalidMidiDataException ex)
-        {
+        catch (InvalidMidiDataException ex) {
             ex.printStackTrace();
         }
     }

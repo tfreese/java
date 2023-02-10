@@ -4,7 +4,6 @@ package de.freese.binding.value;
 /**
  * @author Thomas Freese
  */
-public interface ObservableBooleanValue extends ObservableValue<Boolean>
-{
+public interface ObservableBooleanValue extends ObservableValue<Boolean> {
     boolean get();
 }

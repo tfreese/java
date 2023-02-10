@@ -5,10 +5,6 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.QueryHint;
 
-import de.freese.metamodel.metagen.model.Column;
-import de.freese.metamodel.metagen.model.Table;
-import de.freese.metamodel.modelgen.model.ClassModel;
-import de.freese.metamodel.modelgen.model.FieldModel;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicInsert;
@@ -16,18 +12,21 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import de.freese.metamodel.metagen.model.Column;
+import de.freese.metamodel.metagen.model.Table;
+import de.freese.metamodel.modelgen.model.ClassModel;
+import de.freese.metamodel.modelgen.model.FieldModel;
+
 /**
  * @author Thomas Freese
  */
-public class HibernateModelGenerator extends JpaModelGenerator
-{
+public class HibernateModelGenerator extends JpaModelGenerator {
     /**
      * @see de.freese.metamodel.modelgen.JpaModelGenerator#transformClassAnnotations(de.freese.metamodel.metagen.model.Table,
      * de.freese.metamodel.modelgen.model.ClassModel)
      */
     @Override
-    protected void transformClassAnnotations(final Table table, final ClassModel classModel)
-    {
+    protected void transformClassAnnotations(final Table table, final ClassModel classModel) {
         super.transformClassAnnotations(table, classModel);
 
         String className = classModel.getName();
@@ -63,12 +62,10 @@ public class HibernateModelGenerator extends JpaModelGenerator
      * de.freese.metamodel.modelgen.model.ClassModel)
      */
     @Override
-    protected void transformClassJavaDoc(final Table table, final ClassModel classModel)
-    {
+    protected void transformClassJavaDoc(final Table table, final ClassModel classModel) {
         String comment = table.getComment();
 
-        if ((comment != null) && !comment.isBlank())
-        {
+        if ((comment != null) && !comment.isBlank()) {
             classModel.addComment(comment);
         }
 
@@ -80,26 +77,22 @@ public class HibernateModelGenerator extends JpaModelGenerator
      * de.freese.metamodel.modelgen.model.FieldModel)
      */
     @Override
-    protected void transformFieldAnnotations(final Column column, final FieldModel fieldModel)
-    {
+    protected void transformFieldAnnotations(final Column column, final FieldModel fieldModel) {
         super.transformFieldAnnotations(column, fieldModel);
 
-        if (fieldModel.isAssoziation())
-        {
+        if (fieldModel.isAssoziation()) {
             // Assoziation = Collections und Objekt-Referenzen.
             fieldModel.getClassModel().addImport(CacheConcurrencyStrategy.class);
             fieldModel.getClassModel().addImport(Cache.class);
 
-            if (fieldModel.isCollection())
-            {
+            if (fieldModel.isCollection()) {
                 fieldModel.getClassModel().addImport(Fetch.class);
                 fieldModel.getClassModel().addImport(FetchMode.class);
 
                 fieldModel.addAnnotation("@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = \"collections\")");
                 fieldModel.addAnnotation("@Fetch(FetchMode.SELECT)");
             }
-            else
-            {
+            else {
                 fieldModel.addAnnotation("@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = \"" + fieldModel.getName() + "\")");
             }
         }

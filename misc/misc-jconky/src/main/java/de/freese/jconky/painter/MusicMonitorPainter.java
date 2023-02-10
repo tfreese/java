@@ -5,24 +5,23 @@ import java.net.URI;
 import java.net.URL;
 import java.util.Objects;
 
-import de.freese.jconky.model.MusicInfo;
-import de.freese.jconky.util.JConkyUtils;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+
+import de.freese.jconky.model.MusicInfo;
+import de.freese.jconky.util.JConkyUtils;
 
 /**
  * @author Thomas Freese
  */
-public class MusicMonitorPainter extends AbstractMonitorPainter
-{
+public class MusicMonitorPainter extends AbstractMonitorPainter {
     private Image image;
 
     /**
      * @see de.freese.jconky.painter.MonitorPainter#paintValue(javafx.scene.canvas.GraphicsContext, double)
      */
     @Override
-    public double paintValue(final GraphicsContext gc, final double width)
-    {
+    public double paintValue(final GraphicsContext gc, final double width) {
         MusicInfo musicInfo = getContext().getMusicInfo();
 
         double fontSize = getSettings().getFontSize();
@@ -71,29 +70,24 @@ public class MusicMonitorPainter extends AbstractMonitorPainter
     /**
      * Bild nur laden, wenn nicht vorhanden oder URL sich verändert hat.
      */
-    void updateImage(final URI uri)
-    {
-        if (uri == null)
-        {
+    void updateImage(final URI uri) {
+        if (uri == null) {
             this.image = null;
             return;
         }
 
-        try
-        {
+        try {
             URL url = uri.toURL();
             String urlString = url.toString();
             getLogger().debug("URL: {}", url);
 
-            if ((this.image == null) || !this.image.getUrl().equals(urlString))
-            {
+            if ((this.image == null) || !this.image.getUrl().equals(urlString)) {
                 this.image = new Image(urlString);
 
                 getLogger().debug("Image-URL: {}", this.image.getUrl());
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }

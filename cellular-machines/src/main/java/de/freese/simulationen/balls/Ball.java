@@ -9,8 +9,7 @@ import java.util.function.IntSupplier;
  *
  * @author Thomas Freese
  */
-public class Ball
-{
+public class Ball {
     /**
      * Gravitationskonstante [m/s²]
      */
@@ -64,8 +63,7 @@ public class Ball
      * @param durchmesser [m]
      * @param daempfung [%]
      */
-    Ball(final int maxX, final int maxY, final double x, final double y, final double vx, final double vy, final double durchmesser, final double daempfung)
-    {
+    Ball(final int maxX, final int maxY, final double x, final double y, final double vx, final double vy, final double durchmesser, final double daempfung) {
         this(() -> maxX, () -> maxY, x, y, vx, vy, durchmesser, daempfung);
     }
 
@@ -79,9 +77,7 @@ public class Ball
      * @param durchmesser [m]
      * @param daempfung [%]
      */
-    Ball(final IntSupplier maxX, final IntSupplier maxY, final double x, final double y, final double vx, final double vy, final double durchmesser,
-         final double daempfung)
-    {
+    Ball(final IntSupplier maxX, final IntSupplier maxY, final double x, final double y, final double vx, final double vy, final double durchmesser, final double daempfung) {
         super();
 
         this.maxX = maxX;
@@ -98,56 +94,49 @@ public class Ball
     /**
      * [m]
      */
-    public double getDurchmesser()
-    {
+    public double getDurchmesser() {
         return this.durchmesser;
     }
 
     /**
      * Breite des Koordinatensystems [m].
      */
-    public int getMaxX()
-    {
+    public int getMaxX() {
         return this.maxX.getAsInt();
     }
 
     /**
      * Höhe des Koordinatensystems [m].
      */
-    public int getMaxY()
-    {
+    public int getMaxY() {
         return this.maxY.getAsInt();
     }
 
     /**
      * [m]
      */
-    public double getRadius()
-    {
+    public double getRadius() {
         return this.radius;
     }
 
     /**
      * Aktuelle X-Koordinate [m].
      */
-    public double getX()
-    {
+    public double getX() {
         return this.x;
     }
 
     /**
      * Aktuelle Y-Koordinate [m].
      */
-    public double getY()
-    {
+    public double getY() {
         return this.y;
     }
 
     /**
      * Liefert true, wenn der Ball zum stillstand gekommen ist.
      */
-    public boolean isFinished()
-    {
+    public boolean isFinished() {
         return this.finished;
     }
 
@@ -156,10 +145,8 @@ public class Ball
      *
      * @param dt Zeit [ms]
      */
-    public void move(final double dt)
-    {
-        if (this.finished)
-        {
+    public void move(final double dt) {
+        if (this.finished) {
             return;
         }
 
@@ -170,47 +157,39 @@ public class Ball
         boolean touchY = false;
 
         // Kollisionsabfrage mit dem Rand.
-        if (this.vx > 0.0D)
-        {
+        if (this.vx > 0.0D) {
             // Ball fliegt nach rechts.
             timeToX = flytimeRechts();
             //
-            if (timeToX < deltaTime)
-            {
+            if (timeToX < deltaTime) {
                 // Ball würde vor dt rechten Rand berühren.
                 touchX = true;
             }
         }
-        else if (this.vx < 0.0D)
-        {
+        else if (this.vx < 0.0D) {
             // Ball fliegt nach links.
             timeToX = flytimeLinks();
             //
-            if (timeToX < deltaTime)
-            {
+            if (timeToX < deltaTime) {
                 // Ball würde vor dt linken Rand berühren.
                 touchX = true;
             }
         }
 
-        if (this.vy < 0.0D)
-        {
+        if (this.vy < 0.0D) {
             // Ball fliegt nach unten.
             timeToY = flytimeUnten();
 
-            if (timeToY < deltaTime)
-            {
+            if (timeToY < deltaTime) {
                 // Ball würde vor dt unteren Rand berühren.
                 touchY = true;
             }
         }
-        else if (this.vy > 0.0D)
-        {
+        else if (this.vy > 0.0D) {
             // Ball fliegt nach oben.
             timeToY = flytimeOben();
             //
-            if (timeToY < deltaTime)
-            {
+            if (timeToY < deltaTime) {
                 // Ball würde vor dt oberen Rand berühren.
                 touchY = true;
             }
@@ -231,28 +210,24 @@ public class Ball
         this.y += dy;
 
         // Keine negativen Y-Koordinaten.
-        if (this.y < this.radius)
-        {
+        if (this.y < this.radius) {
             this.y = this.radius;
         }
 
         // Bei Rand-Berührung Geschwindigkeit durch Dämpfung verringern.
-        if (touchX)
-        {
+        if (touchX) {
             this.vx *= (-1.0D + this.daempfung); // Umkehren
             this.vy *= (1.0D - (this.daempfung / 2.0D));
         }
 
-        if (touchY)
-        {
+        if (touchY) {
             this.vy *= (-1.0D + this.daempfung); // Umkehren
             this.vx *= (1.0D - (this.daempfung / 2.0D));
         }
 
         // Abbruch, wenn sich die kinetischen Energien kaum noch ändern.
         // Nutzung des Durchmessers durch Erfahrungswerte.
-        if ((getEKin() <= (getDurchmesser() / 15.0D)) && (getEPot() <= (getDurchmesser() * 5.0D)))
-        {
+        if ((getEKin() <= (getDurchmesser() / 15.0D)) && (getEPot() <= (getDurchmesser() * 5.0D))) {
             this.finished = true;
         }
     }
@@ -262,8 +237,7 @@ public class Ball
      *
      * @param timeUnit {@link TimeUnit}
      */
-    public void move(final long dt, final TimeUnit timeUnit)
-    {
+    public void move(final long dt, final TimeUnit timeUnit) {
         move(timeUnit.toMillis(dt));
     }
 
@@ -272,8 +246,7 @@ public class Ball
      * Gleichmäßige Bewegung:<br>
      * s = v * t
      */
-    private double flytimeLinks()
-    {
+    private double flytimeLinks() {
         return Math.abs((this.x - this.radius) / this.vx);
     }
 
@@ -295,8 +268,7 @@ public class Ball
      * t² + (2Vₒ/g)*t + (2(sₒ - s)/g) = 0<br>
      * t = -(vₒ/g) ± sqrt((vₒ/g)² - (2(sₒ - s) / g))<br>
      */
-    private double flytimeOben()
-    {
+    private double flytimeOben() {
         // double a = -GRAVITATION;
         // double b = 2.0D * this.vy;
         // double c = 2.0D * ((this.y + this.radius) - this.maxY);
@@ -321,8 +293,7 @@ public class Ball
      * Gleichmäßige Bewegung:<br>
      * s = v * t
      */
-    private double flytimeRechts()
-    {
+    private double flytimeRechts() {
         return Math.abs((this.maxX.getAsInt() - this.x - this.radius) / this.vx);
     }
 
@@ -344,8 +315,7 @@ public class Ball
      * t² + (2Vₒ/g)*t + (2(sₒ - s)/g) = 0<br>
      * t = -(vₒ/g) ± sqrt((vₒ/g)² - (2(sₒ - s) / g))<br>
      */
-    private double flytimeUnten()
-    {
+    private double flytimeUnten() {
         // double a = GRAVITATION;
         // double b = 2.0D * -this.vy;
         // double c = 2.0D * (this.y - this.radius);
@@ -369,8 +339,7 @@ public class Ball
      * Wird für die Berechnung des horizontalen Stillstandes verwendet.<br>
      * E = ½ * m * v²<br>
      */
-    private double getEKin()
-    {
+    private double getEKin() {
         return 0.5D * Math.pow(this.vx, 2.0D);
     }
 
@@ -379,8 +348,7 @@ public class Ball
      * Wird für die Berechnung des vertikalen Stillstandes verwendet.<br>
      * E = m * g * h<br>
      */
-    private double getEPot()
-    {
+    private double getEPot() {
         return GRAVITATION * getY();
     }
 }

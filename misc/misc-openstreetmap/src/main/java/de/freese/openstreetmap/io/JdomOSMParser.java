@@ -7,14 +7,15 @@ import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import de.freese.openstreetmap.model.OsmModel;
-import de.freese.openstreetmap.model.OsmNode;
-import de.freese.openstreetmap.model.OsmRelation;
-import de.freese.openstreetmap.model.OsmWay;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import de.freese.openstreetmap.model.OsmModel;
+import de.freese.openstreetmap.model.OsmNode;
+import de.freese.openstreetmap.model.OsmRelation;
+import de.freese.openstreetmap.model.OsmWay;
 
 /**
  * Parser zum Auslesen der XML Kartendaten von <a href="http://www.openstreetmap.org">openstreetmap</a>.<br>
@@ -22,14 +23,12 @@ import org.w3c.dom.NodeList;
  *
  * @author Thomas Freese
  */
-public class JdomOSMParser implements OSMParser
-{
+public class JdomOSMParser implements OSMParser {
     /**
      * @see de.freese.openstreetmap.io.OSMParser#parse(java.io.InputStream)
      */
     @Override
-    public OsmModel parse(final InputStream inputStream) throws Exception
-    {
+    public OsmModel parse(final InputStream inputStream) throws Exception {
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
         // to be compliant, completely disable DOCTYPE declaration:
         docBuilderFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
@@ -56,15 +55,13 @@ public class JdomOSMParser implements OSMParser
         return model;
     }
 
-    private void parseNodes(final Document document, final OsmModel model)
-    {
+    private void parseNodes(final Document document, final OsmModel model) {
         NodeList nodeList = document.getElementsByTagName("node");
 
         // Teure Operation.
         int nodeListLength = nodeList.getLength();
 
-        for (int i = 0; i < nodeListLength; i++)
-        {
+        for (int i = 0; i < nodeListLength; i++) {
             Node node = nodeList.item(i);
             NamedNodeMap nodeAttributes = node.getAttributes();
 
@@ -88,14 +85,12 @@ public class JdomOSMParser implements OSMParser
             // Teure Operation.
             int nodeChildListLength = nodeChildList.getLength();
 
-            for (int j = 0; j < nodeChildListLength; j++)
-            {
+            for (int j = 0; j < nodeChildListLength; j++) {
                 Node childNode = nodeChildList.item(j);
                 nodeAttributes = childNode.getAttributes();
                 String nodeName = childNode.getNodeName();
 
-                if ("tag".equals(nodeName))
-                {
+                if ("tag".equals(nodeName)) {
                     String key = nodeAttributes.getNamedItem("k").getNodeValue();
                     String value = nodeAttributes.getNamedItem("v").getNodeValue();
 
@@ -105,15 +100,13 @@ public class JdomOSMParser implements OSMParser
         }
     }
 
-    private void parseRelations(final Document document, final OsmModel model)
-    {
+    private void parseRelations(final Document document, final OsmModel model) {
         NodeList nodeList = document.getElementsByTagName("relation");
 
         // Teure Operation.
         int nodeListLength = nodeList.getLength();
 
-        for (int i = 0; i < nodeListLength; i++)
-        {
+        for (int i = 0; i < nodeListLength; i++) {
             Node node = nodeList.item(i);
             NamedNodeMap nodeAttributes = node.getAttributes();
 
@@ -129,39 +122,32 @@ public class JdomOSMParser implements OSMParser
             // Teure Operation.
             int nodeChildListLength = nodeChildList.getLength();
 
-            for (int j = 0; j < nodeChildListLength; j++)
-            {
+            for (int j = 0; j < nodeChildListLength; j++) {
                 Node childNode = nodeChildList.item(j);
                 nodeAttributes = childNode.getAttributes();
                 String nodeName = childNode.getNodeName();
 
-                if ("tag".equals(nodeName))
-                {
+                if ("tag".equals(nodeName)) {
                     String key = nodeAttributes.getNamedItem("k").getNodeValue();
                     String value = nodeAttributes.getNamedItem("v").getNodeValue();
 
                     osmRelation.getTags().put(key, value);
                 }
-                else if ("member".equals(nodeName))
-                {
+                else if ("member".equals(nodeName)) {
                     String type = nodeAttributes.getNamedItem("type").getNodeValue();
                     long refID = Long.parseLong(nodeAttributes.getNamedItem("ref").getNodeValue());
 
-                    if ("node".equals(type))
-                    {
+                    if ("node".equals(type)) {
                         OsmNode refNode = model.getNodeMap().get(refID);
 
-                        if (refNode != null)
-                        {
+                        if (refNode != null) {
                             osmRelation.getNodes().add(refNode);
                         }
                     }
-                    else if ("way".equals(type))
-                    {
+                    else if ("way".equals(type)) {
                         OsmWay refWay = model.getWayMap().get(refID);
 
-                        if (refWay != null)
-                        {
+                        if (refWay != null) {
                             osmRelation.getWays().add(refWay);
                         }
                     }
@@ -170,15 +156,13 @@ public class JdomOSMParser implements OSMParser
         }
     }
 
-    private void parseWays(final Document document, final OsmModel model)
-    {
+    private void parseWays(final Document document, final OsmModel model) {
         NodeList nodeList = document.getElementsByTagName("way");
 
         // Teure Operation.
         int nodeListLength = nodeList.getLength();
 
-        for (int i = 0; i < nodeListLength; i++)
-        {
+        for (int i = 0; i < nodeListLength; i++) {
             Node node = nodeList.item(i);
             NamedNodeMap nodeAttributes = node.getAttributes();
 
@@ -194,26 +178,22 @@ public class JdomOSMParser implements OSMParser
             // Teure Operation.
             int nodeChildListLength = nodeChildList.getLength();
 
-            for (int j = 0; j < nodeChildListLength; j++)
-            {
+            for (int j = 0; j < nodeChildListLength; j++) {
                 Node childNode = nodeChildList.item(j);
                 nodeAttributes = childNode.getAttributes();
                 String nodeName = childNode.getNodeName();
 
-                if ("tag".equals(nodeName))
-                {
+                if ("tag".equals(nodeName)) {
                     String key = nodeAttributes.getNamedItem("k").getNodeValue();
                     String value = nodeAttributes.getNamedItem("v").getNodeValue();
 
                     osmWay.getTags().put(key, value);
                 }
-                else if ("nd".equals(nodeName))
-                {
+                else if ("nd".equals(nodeName)) {
                     long refID = Long.parseLong(nodeAttributes.getNamedItem("ref").getNodeValue());
                     OsmNode refNode = model.getNodeMap().get(refID);
 
-                    if (refNode != null)
-                    {
+                    if (refNode != null) {
                         osmWay.getNodes().add(refNode);
                     }
                 }

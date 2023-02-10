@@ -7,30 +7,26 @@ package de.freese.openstreetmap.model.coordinates;
  * @author Imi
  * @author Thomas Freese
  */
-public class EastNorth extends Coordinate
-{
+public class EastNorth extends Coordinate {
     /**
      * @param east Easting of the projected coordinates.
      * @param north Northern of the projected coordinates.
      */
-    public EastNorth(final double east, final double north)
-    {
+    public EastNorth(final double east, final double north) {
         super(east, north);
     }
 
     /**
      * @return Easting of the projected coordinates.
      */
-    public double east()
-    {
+    public double east() {
         return super.getXCoord();
     }
 
     /**
      * @return Northern of the projected coordinates.
      */
-    public double north()
-    {
+    public double north() {
         return super.getYCoord();
     }
 
@@ -38,8 +34,7 @@ public class EastNorth extends Coordinate
      * @return A string-representation of our coordinates.
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "EastNorth[e=" + east() + ", n=" + north() + "]";
     }
 }

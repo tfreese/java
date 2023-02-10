@@ -17,15 +17,13 @@ import de.freese.openstreetmap.model.OsmModel;
 /**
  * @author Thomas Freese
  */
-public class MyFrame extends JFrame implements ActionListener
-{
+public class MyFrame extends JFrame implements ActionListener {
     @Serial
     private static final long serialVersionUID = 9060490859375473760L;
 
     private final MyPanel myPanel;
 
-    public MyFrame(final OsmModel model)
-    {
+    public MyFrame(final OsmModel model) {
         super("");
 
         this.myPanel = new MyPanel(model);
@@ -35,56 +33,47 @@ public class MyFrame extends JFrame implements ActionListener
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     @Override
-    public void actionPerformed(final ActionEvent e)
-    {
+    public void actionPerformed(final ActionEvent e) {
         String doWhat = e.getActionCommand();
 
-        if ("ZTF".equals(doWhat))
-        {
+        if ("ZTF".equals(doWhat)) {
             this.myPanel.zoomToFit();
             // this.myPanel.repaint();
             repaint();
         }
-        else if ("+".equals(doWhat))
-        {
+        else if ("+".equals(doWhat)) {
             this.myPanel.zoom(1.5);
             // this.myPanel.repaint();
             repaint();
         }
-        else if ("-".equals(doWhat))
-        {
+        else if ("-".equals(doWhat)) {
             this.myPanel.zoom(1 / 1.5);
             // this.myPanel.repaint();
             repaint();
         }
-        else if ("N".equals(doWhat))
-        {
+        else if ("N".equals(doWhat)) {
             this.myPanel.scrollVertical(-50);
             // this.myPanel.repaint();
             repaint();
         }
-        else if ("W".equals(doWhat))
-        {
+        else if ("W".equals(doWhat)) {
             this.myPanel.scrollHorizontal(-50);
             // this.myPanel.repaint();
             repaint();
         }
-        else if ("E".equals(doWhat))
-        {
+        else if ("E".equals(doWhat)) {
             this.myPanel.scrollHorizontal(50);
             // this.myPanel.repaint();
             repaint();
         }
-        else if ("S".equals(doWhat))
-        {
+        else if ("S".equals(doWhat)) {
             this.myPanel.scrollVertical(50);
             // this.myPanel.repaint();
             repaint();
         }
     }
 
-    public void initGui()
-    {
+    public void initGui() {
         BorderLayout myLayout = new BorderLayout();
 
         // work on panel
@@ -136,8 +125,7 @@ public class MyFrame extends JFrame implements ActionListener
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
-    public void zoomToFit()
-    {
+    public void zoomToFit() {
         this.myPanel.zoomToFit();
     }
 }

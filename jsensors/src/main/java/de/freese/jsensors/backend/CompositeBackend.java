@@ -11,12 +11,10 @@ import de.freese.jsensors.sensor.SensorValue;
  *
  * @author Thomas Freese
  */
-public class CompositeBackend extends AbstractBackend
-{
+public class CompositeBackend extends AbstractBackend {
     private final List<Backend> backends = new ArrayList<>();
 
-    public CompositeBackend add(final Backend backend)
-    {
+    public CompositeBackend add(final Backend backend) {
         this.backends.add(backend);
 
         return this;
@@ -26,8 +24,7 @@ public class CompositeBackend extends AbstractBackend
      * @see de.freese.jsensors.backend.AbstractBackend#storeValue(de.freese.jsensors.sensor.SensorValue)
      */
     @Override
-    protected void storeValue(final SensorValue sensorValue)
-    {
+    protected void storeValue(final SensorValue sensorValue) {
         this.backends.forEach(backend -> backend.store(sensorValue));
     }
 }

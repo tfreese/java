@@ -9,8 +9,7 @@ import java.util.concurrent.RecursiveTask;
  *
  * @author Thomas Freese
  */
-public class FibonacciTask extends RecursiveTask<Long>
-{
+public class FibonacciTask extends RecursiveTask<Long> {
     /**
      * Schwellenwert, bei dem die Berechnung sequenziell durchgeführt wird.
      */
@@ -21,8 +20,7 @@ public class FibonacciTask extends RecursiveTask<Long>
 
     private final int n;
 
-    public FibonacciTask(final int n)
-    {
+    public FibonacciTask(final int n) {
         super();
 
         this.n = n;
@@ -32,16 +30,13 @@ public class FibonacciTask extends RecursiveTask<Long>
      * @see java.util.concurrent.RecursiveTask#compute()
      */
     @Override
-    protected Long compute()
-    {
+    protected Long compute() {
         long result = 0;
 
-        if (this.n < THRESHOLD)
-        {
+        if (this.n < THRESHOLD) {
             result = FibonacciCalculator.fibonacci(this.n);
         }
-        else
-        {
+        else {
             FibonacciTask task1 = new FibonacciTask(this.n - 1);
             FibonacciTask task2 = new FibonacciTask(this.n - 2);
             task2.fork();

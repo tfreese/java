@@ -6,41 +6,33 @@ package de.freese.misc.generator.algorythm;
  *
  * @author Thomas Freese
  */
-public class AlgorithmRecursiveBacktracking implements SudokuAlgorithm
-{
+public class AlgorithmRecursiveBacktracking implements SudokuAlgorithm {
     /**
      * @see SudokuAlgorithm#create(int[][])
      */
     @Override
-    public boolean create(final int[][] grid)
-    {
+    public boolean create(final int[][] grid) {
         boolean emptyField = false;
 
         // Mögliche Zahlen zufällig generieren
         int[] shuffledNumbers = shuffleNumbers(grid.length);
 
         // Durch die Spalten gehen
-        for (int x = 0; x < grid.length; x++)
-        {
+        for (int x = 0; x < grid.length; x++) {
             // Durch die Zeilen gehen
-            for (int y = 0; y < grid[0].length; y++)
-            {
-                if (grid[x][y] == 0)
-                {
+            for (int y = 0; y < grid[0].length; y++) {
+                if (grid[x][y] == 0) {
                     emptyField = true;
 
                     // Für alle möglichen Zahlen
-                    for (int k = 0; k < grid.length; k++)
-                    {
+                    for (int k = 0; k < grid.length; k++) {
                         int value = shuffledNumbers[k] + 1;
 
-                        if (isLegal(grid, x, y, value))
-                        {
+                        if (isLegal(grid, x, y, value)) {
                             grid[x][y] = value;
 
                             // Versuchen den Rest aufzufüllen
-                            if (create(grid))
-                            {
+                            if (create(grid)) {
                                 return true;
                             }
 
@@ -62,20 +54,16 @@ public class AlgorithmRecursiveBacktracking implements SudokuAlgorithm
     /**
      * Prüft, ob der Wert bereits in der Box existiert.
      */
-    private boolean checkBox(final int[][] grid, final int x, final int y, final int value)
-    {
+    private boolean checkBox(final int[][] grid, final int x, final int y, final int value) {
         // Oberes, linke Ecke der Box herausfinden
         int blockSize = (int) Math.sqrt(grid.length);
 
         int xStart = (x / blockSize) * blockSize;
         int yStart = (y / blockSize) * blockSize;
 
-        for (int a = xStart; a < (xStart + blockSize); a++)
-        {
-            for (int b = yStart; b < (yStart + blockSize); b++)
-            {
-                if (grid[a][b] == value)
-                {
+        for (int a = xStart; a < (xStart + blockSize); a++) {
+            for (int b = yStart; b < (yStart + blockSize); b++) {
+                if (grid[a][b] == value) {
                     return true;
                 }
             }
@@ -87,12 +75,9 @@ public class AlgorithmRecursiveBacktracking implements SudokuAlgorithm
     /**
      * Prüft, ob der Wert bereits in der Spalte existiert.
      */
-    private boolean checkColumn(final int[][] grid, final int column, final int value)
-    {
-        for (int y = 0; y < grid[column].length; y++)
-        {
-            if (grid[column][y] == value)
-            {
+    private boolean checkColumn(final int[][] grid, final int column, final int value) {
+        for (int y = 0; y < grid[column].length; y++) {
+            if (grid[column][y] == value) {
                 return true;
             }
         }
@@ -103,12 +88,9 @@ public class AlgorithmRecursiveBacktracking implements SudokuAlgorithm
     /**
      * Prüft, ob der Wert bereits in der Zeile existiert.
      */
-    private boolean checkRow(final int[][] grid, final int row, final int value)
-    {
-        for (int[] element : grid)
-        {
-            if (element[row] == value)
-            {
+    private boolean checkRow(final int[][] grid, final int row, final int value) {
+        for (int[] element : grid) {
+            if (element[row] == value) {
                 return true;
             }
         }
@@ -119,25 +101,21 @@ public class AlgorithmRecursiveBacktracking implements SudokuAlgorithm
     /**
      * Liefert true, wenn Value noch nicht in der Zeile, Spalte oder der Box vorhanden ist.
      */
-    private boolean isLegal(final int[][] grid, final int x, final int y, final int value)
-    {
+    private boolean isLegal(final int[][] grid, final int x, final int y, final int value) {
         return !checkBox(grid, x, y, value) && !checkColumn(grid, x, value) && !checkRow(grid, y, value);
     }
 
     /**
      * Liefert ein Array der verwendeten Zahlen in zufälliger Reihenfolge.
      */
-    private int[] shuffleNumbers(final int size)
-    {
+    private int[] shuffleNumbers(final int size) {
         int[] list = new int[size];
 
-        for (int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
             list[i] = i;
         }
 
-        for (int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
             int r = (int) (Math.random() * size);
             int swap = list[r];
             list[r] = list[i];

@@ -9,6 +9,8 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
+import org.junit.jupiter.api.Test;
+
 import de.freese.jsensors.registry.DefaultSensorRegistry;
 import de.freese.jsensors.registry.ScheduledSensorRegistry;
 import de.freese.jsensors.registry.SensorRegistry;
@@ -16,16 +18,13 @@ import de.freese.jsensors.sensor.Sensor;
 import de.freese.jsensors.sensor.SensorValue;
 import de.freese.jsensors.utils.JSensorThreadFactory;
 import de.freese.jsensors.utils.SyncFuture;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author Thomas Freese
  */
-class TestRegistries
-{
+class TestRegistries {
     @Test
-    void testDuplicateSensorName()
-    {
+    void testDuplicateSensorName() {
         SensorRegistry registry = new DefaultSensorRegistry();
         Sensor.builder("test.1", "obj", Function.identity()).register(registry);
 
@@ -35,8 +34,7 @@ class TestRegistries
     }
 
     @Test
-    void testKeepLastNValues() throws Exception
-    {
+    void testKeepLastNValues() throws Exception {
         Sensor sensor = Sensor.builder("test", "obj", Function.identity()).keepLastNValues(3).register(new DefaultSensorRegistry());
 
         sensor.measure();
@@ -53,8 +51,7 @@ class TestRegistries
     }
 
     @Test
-    void testScheduledSensorRegistry() throws Exception
-    {
+    void testScheduledSensorRegistry() throws Exception {
         ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("test"), 2);
 
         Sensor.builder("test", "obj", Function.identity()).register(registry);

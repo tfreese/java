@@ -16,19 +16,16 @@ import java.util.stream.Stream;
  *
  * @author Thomas Freese
  */
-public abstract class Genotype
-{
+public abstract class Genotype {
     private final Chromosome[] chromosomes;
 
     private final Config config;
 
-    protected Genotype(final Config config)
-    {
+    protected Genotype(final Config config) {
         this(config, config.getSizeGenotype());
     }
 
-    protected Genotype(final Config config, final int size)
-    {
+    protected Genotype(final Config config, final int size) {
         super();
 
         this.config = Objects.requireNonNull(config, "config required");
@@ -43,8 +40,7 @@ public abstract class Genotype
     /**
      * Erzeugt einen neuen leeren Genotype / Population.
      */
-    public Genotype createEmptyGenotype()
-    {
+    public Genotype createEmptyGenotype() {
         return createEmptyGenotype(getConfig().getSizeGenotype());
     }
 
@@ -59,20 +55,16 @@ public abstract class Genotype
      * Zufällige Rekombination ausgewählter Individuen (Chromosomen).<br>
      * Beim Crossover werden aus der Population/Genotype paarweise Chromosomen ausgewählt, die dann mit einer Wahrscheinlichkeit W zu kreuzen sind.
      */
-    public Chromosome crossover(final Chromosome parent1, final Chromosome parent2)
-    {
+    public Chromosome crossover(final Chromosome parent1, final Chromosome parent2) {
         Chromosome population = createEmptyChromosome();
 
-        for (int i = 0; i < parent1.size(); i++)
-        {
+        for (int i = 0; i < parent1.size(); i++) {
             Gene gene = null;
 
-            if (getConfig().getRandom().nextDouble() <= getConfig().getCrossoverRate())
-            {
+            if (getConfig().getRandom().nextDouble() <= getConfig().getCrossoverRate()) {
                 gene = parent1.getGene(i);
             }
-            else
-            {
+            else {
                 gene = parent2.getGene(i);
             }
 
@@ -87,14 +79,12 @@ public abstract class Genotype
      * 2. Zufällige Rekombination ausgewählter Individuen (Chromosomen), {@link #crossover(Chromosome, Chromosome)}<br>
      * 3. Zufällige Veränderung der Gene, {@link Chromosome#mutate()}<br>
      */
-    public Genotype evolve()
-    {
+    public Genotype evolve() {
         Genotype newPopulation = createEmptyGenotype();
 
         int elitismOffset = 0;
 
-        if (getConfig().isElitism())
-        {
+        if (getConfig().isElitism()) {
             newPopulation.setChromosome(0, getFittest());
             elitismOffset = 1;
         }
@@ -156,16 +146,14 @@ public abstract class Genotype
         return newPopulation;
     }
 
-    public Chromosome getChromosome(final int index)
-    {
+    public Chromosome getChromosome(final int index) {
         return getChromosomes()[index];
     }
 
     /**
      * Liefert das Chromosom mit dem höchsten Fitnesswert.
      */
-    public Chromosome getFittest()
-    {
+    public Chromosome getFittest() {
         // Chromosome fittest = getChromosome(0);
         // double fittestFitness = fittest.calcFitnessValue();
         //
@@ -202,26 +190,22 @@ public abstract class Genotype
      *
      * @see Chromosome#populate()
      */
-    public void populate()
-    {
-        for (int i = 0; i < size(); i++)
-        {
+    public void populate() {
+        for (int i = 0; i < size(); i++) {
             Chromosome chromosome = createEmptyChromosome();
             chromosome.populate();
             setChromosome(i, chromosome);
         }
     }
 
-    public void setChromosome(final int index, final Chromosome chromosome)
-    {
+    public void setChromosome(final int index, final Chromosome chromosome) {
         getChromosomes()[index] = chromosome;
     }
 
     /**
      * Liefert die Größe des Genotypes, Anzahl von Chromosomen.
      */
-    public int size()
-    {
+    public int size() {
         return getChromosomes().length;
     }
 
@@ -229,12 +213,10 @@ public abstract class Genotype
      * Zufällige Auswahl eines Individuums (Chromosom) für die Rekombination.<br>
      * (survival of the fittest)
      */
-    public Chromosome tournamentSelection()
-    {
+    public Chromosome tournamentSelection() {
         Genotype tournament = createEmptyGenotype(getConfig().getTournamentSize());
 
-        for (int i = 0; i < getConfig().getTournamentSize(); i++)
-        {
+        for (int i = 0; i < getConfig().getTournamentSize(); i++) {
             int randomID = getConfig().getRandom().nextInt(size());
 
             tournament.setChromosome(i, getChromosome(randomID));
@@ -243,13 +225,11 @@ public abstract class Genotype
         return tournament.getFittest();
     }
 
-    protected Chromosome[] getChromosomes()
-    {
+    protected Chromosome[] getChromosomes() {
         return this.chromosomes;
     }
 
-    protected Config getConfig()
-    {
+    protected Config getConfig() {
         return this.config;
     }
 }

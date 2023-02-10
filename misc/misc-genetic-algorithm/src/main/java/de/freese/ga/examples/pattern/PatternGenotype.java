@@ -7,15 +7,12 @@ import de.freese.ga.Genotype;
 /**
  * @author Thomas Freese
  */
-public class PatternGenotype extends Genotype
-{
-    public PatternGenotype(final PatternConfig config)
-    {
+public class PatternGenotype extends Genotype {
+    public PatternGenotype(final PatternConfig config) {
         super(config);
     }
 
-    private PatternGenotype(final PatternConfig config, final int size)
-    {
+    private PatternGenotype(final PatternConfig config, final int size) {
         super(config, size);
     }
 
@@ -23,8 +20,7 @@ public class PatternGenotype extends Genotype
      * @see de.freese.ga.Genotype#createEmptyChromosome()
      */
     @Override
-    public Chromosome createEmptyChromosome()
-    {
+    public Chromosome createEmptyChromosome() {
         return new PatternChromosome(getConfig());
     }
 
@@ -32,8 +28,7 @@ public class PatternGenotype extends Genotype
      * @see de.freese.ga.Genotype#createEmptyGenotype(int)
      */
     @Override
-    public Genotype createEmptyGenotype(final int size)
-    {
+    public Genotype createEmptyGenotype(final int size) {
         return new PatternGenotype(getConfig(), size);
     }
 
@@ -41,8 +36,7 @@ public class PatternGenotype extends Genotype
      * @see de.freese.ga.Genotype#getConfig()
      */
     @Override
-    protected PatternConfig getConfig()
-    {
+    protected PatternConfig getConfig() {
         return (PatternConfig) super.getConfig();
     }
 }

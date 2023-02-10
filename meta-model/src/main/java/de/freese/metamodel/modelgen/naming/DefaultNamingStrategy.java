@@ -8,14 +8,12 @@ import de.freese.metamodel.Utils;
  *
  * @author Thomas Freese
  */
-public class DefaultNamingStrategy extends AbstractNamingStrategy
-{
+public class DefaultNamingStrategy extends AbstractNamingStrategy {
     /**
      * @see de.freese.metamodel.modelgen.naming.NamingStrategy#getClassName(java.lang.String)
      */
     @Override
-    public String getClassName(final String tableName)
-    {
+    public String getClassName(final String tableName) {
         String tName = normalize(tableName);
 
         tName = toCamelCase(tName);
@@ -27,8 +25,7 @@ public class DefaultNamingStrategy extends AbstractNamingStrategy
      * @see de.freese.metamodel.modelgen.naming.NamingStrategy#getFieldName(java.lang.String)
      */
     @Override
-    public String getFieldName(final String columnName)
-    {
+    public String getFieldName(final String columnName) {
         String cName = normalize(columnName);
 
         cName = toCamelCase(cName);
@@ -42,12 +39,10 @@ public class DefaultNamingStrategy extends AbstractNamingStrategy
      * @see de.freese.metamodel.modelgen.naming.AbstractNamingStrategy#normalize(java.lang.String)
      */
     @Override
-    protected String normalize(final String value)
-    {
+    protected String normalize(final String value) {
         String s = super.normalize(value);
 
-        if (s.startsWith("t_") || s.startsWith("tbl_"))
-        {
+        if (s.startsWith("t_") || s.startsWith("tbl_")) {
             s = s.replaceFirst("t_", "").replaceFirst("tbl_", "");
         }
 

@@ -10,16 +10,16 @@ import java.nio.file.Path;
 import java.util.Objects;
 import java.util.function.ToLongFunction;
 
-import de.freese.jsensors.registry.SensorRegistry;
-import de.freese.jsensors.sensor.Sensor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.freese.jsensors.registry.SensorRegistry;
+import de.freese.jsensors.sensor.Sensor;
 
 /**
  * @author Thomas Freese
  */
-public class DiscMetrics implements SensorBinder
-{
+public class DiscMetrics implements SensorBinder {
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscMetrics.class);
 
     private final File file;
@@ -28,8 +28,7 @@ public class DiscMetrics implements SensorBinder
 
     private final String sensorPostfix;
 
-    public DiscMetrics(final String sensorPostfix, final File file)
-    {
+    public DiscMetrics(final String sensorPostfix, final File file) {
         super();
 
         this.sensorPostfix = Objects.requireNonNull(sensorPostfix, "sensorPostfix required");
@@ -37,8 +36,7 @@ public class DiscMetrics implements SensorBinder
         this.path = null;
     }
 
-    public DiscMetrics(final String sensorPostfix, final Path path)
-    {
+    public DiscMetrics(final String sensorPostfix, final Path path) {
         super();
 
         this.sensorPostfix = Objects.requireNonNull(sensorPostfix, "sensorPostfix required");
@@ -50,74 +48,58 @@ public class DiscMetrics implements SensorBinder
      * @see de.freese.jsensors.binder.SensorBinder#bindTo(de.freese.jsensors.registry.SensorRegistry)
      */
     @Override
-    public void bindTo(final SensorRegistry registry)
-    {
-        if (this.file != null)
-        {
+    public void bindTo(final SensorRegistry registry) {
+        if (this.file != null) {
             bindTo(registry, this.file, File::getFreeSpace, File::getTotalSpace);
         }
-        else
-        {
-            try
-            {
+        else {
+            try {
                 FileStore fileStore = Files.getFileStore(this.path);
 
-                bindTo(registry, fileStore, fs ->
-                {
-                    try
-                    {
+                bindTo(registry, fileStore, fs -> {
+                    try {
                         return fs.getUsableSpace();
                     }
-                    catch (Exception ex)
-                    {
+                    catch (Exception ex) {
                         getLogger().error(ex.getMessage(), ex);
                     }
 
                     return 0L;
-                }, fs ->
-                {
-                    try
-                    {
+                }, fs -> {
+                    try {
                         return fs.getTotalSpace();
                     }
-                    catch (Exception ex)
-                    {
+                    catch (Exception ex) {
                         getLogger().error(ex.getMessage(), ex);
                     }
 
                     return 0L;
                 });
             }
-            catch (IOException ex)
-            {
+            catch (IOException ex) {
                 throw new UncheckedIOException(ex);
             }
         }
     }
 
-    protected Logger getLogger()
-    {
+    protected Logger getLogger() {
         return LOGGER;
     }
 
-    private <T> void bindTo(final SensorRegistry registry, final T object, final ToLongFunction<T> functionFree, final ToLongFunction<T> functionTotal)
-    {
+    private <T> void bindTo(final SensorRegistry registry, final T object, final ToLongFunction<T> functionFree, final ToLongFunction<T> functionTotal) {
         String postfix = sanitizePostfix(this.sensorPostfix);
 
-        Sensor.builder("disk.free." + postfix, object, obj ->
-        {
+        Sensor.builder("disk.free." + postfix, object, obj -> {
             long free = functionFree.applyAsLong(obj);
 
             return Long.toString(free);
         }).description("Free Disk-Space in Bytes").register(registry);
 
-        Sensor.builder("disk.usage." + postfix, object, obj ->
-        {
+        Sensor.builder("disk.usage." + postfix, object, obj -> {
             double free = functionFree.applyAsLong(obj);
             long total = functionTotal.applyAsLong(obj);
 
-            if (total == 0L)
-            {
+            if (total == 0L) {
                 return "0";
             }
 
@@ -127,8 +109,7 @@ public class DiscMetrics implements SensorBinder
         }).description("Used Disk-Space in %").register(registry);
     }
 
-    private String sanitizePostfix(final String postfix)
-    {
+    private String sanitizePostfix(final String postfix) {
         String fix = postfix.replace("-", ".");
         fix = fix.replace(" ", ".");
         fix = fix.replace("/", ".");

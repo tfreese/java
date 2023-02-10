@@ -26,13 +26,11 @@ import javax.swing.table.DefaultTableModel;
 /**
  * @author Thomas Freese
  */
-public final class ExtendedDnDMain extends JPanel
-{
+public final class ExtendedDnDMain extends JPanel {
     @Serial
     private static final long serialVersionUID = -15685939268689988L;
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         // Schedule a job for the event-dispatching thread:
         // creating and showing this application's GUI.
         SwingUtilities.invokeLater(ExtendedDnDMain::createAndShowGUI);
@@ -41,8 +39,7 @@ public final class ExtendedDnDMain extends JPanel
     /**
      * Create the GUI and show it. For thread safety, this method should be invoked from the event-dispatching thread.
      */
-    private static void createAndShowGUI()
-    {
+    private static void createAndShowGUI() {
         // Make sure we have nice window decorations.
         JFrame.setDefaultLookAndFeelDecorated(true);
 
@@ -60,8 +57,7 @@ public final class ExtendedDnDMain extends JPanel
         frame.setVisible(true);
     }
 
-    private ExtendedDnDMain()
-    {
+    private ExtendedDnDMain() {
         super(new GridLayout(3, 1));
 
         add(createArea());
@@ -69,8 +65,7 @@ public final class ExtendedDnDMain extends JPanel
         add(createTable());
     }
 
-    private JPanel createArea()
-    {
+    private JPanel createArea() {
         String text = "This is the text that I want to show.";
 
         JTextArea area = new JTextArea();
@@ -87,8 +82,7 @@ public final class ExtendedDnDMain extends JPanel
         return panel;
     }
 
-    private JPanel createList()
-    {
+    private JPanel createList() {
         DefaultListModel<String> listModel = new DefaultListModel<>();
         listModel.addElement("List 0");
         listModel.addElement("List 1");
@@ -116,8 +110,7 @@ public final class ExtendedDnDMain extends JPanel
         return panel;
     }
 
-    private JPanel createTable()
-    {
+    private JPanel createTable() {
         DefaultTableModel model = new DefaultTableModel();
 
         model.addColumn("Column 0");
@@ -125,22 +118,10 @@ public final class ExtendedDnDMain extends JPanel
         model.addColumn("Column 2");
         model.addColumn("Column 3");
 
-        model.addRow(new String[]
-                {
-                        "Table 00", "Table 01", "Table 02", "Table 03"
-                });
-        model.addRow(new String[]
-                {
-                        "Table 10", "Table 11", "Table 12", "Table 13"
-                });
-        model.addRow(new String[]
-                {
-                        "Table 20", "Table 21", "Table 22", "Table 23"
-                });
-        model.addRow(new String[]
-                {
-                        "Table 30", "Table 31", "Table 32", "Table 33"
-                });
+        model.addRow(new String[]{"Table 00", "Table 01", "Table 02", "Table 03"});
+        model.addRow(new String[]{"Table 10", "Table 11", "Table 12", "Table 13"});
+        model.addRow(new String[]{"Table 20", "Table 21", "Table 22", "Table 23"});
+        model.addRow(new String[]{"Table 30", "Table 31", "Table 32", "Table 33"});
 
         JTable table = new JTable(model);
         table.getTableHeader().setReorderingAllowed(false);

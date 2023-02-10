@@ -12,13 +12,11 @@ import javax.swing.JTree;
 /**
  * @author Thomas Freese
  */
-public final class TreeDragMain extends JFrame
-{
+public final class TreeDragMain extends JFrame {
     @Serial
     private static final long serialVersionUID = -1040887315433480625L;
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         new TreeDragMain();
     }
 
@@ -28,8 +26,7 @@ public final class TreeDragMain extends JFrame
 
     private final JTree tree;
 
-    private TreeDragMain()
-    {
+    private TreeDragMain() {
         super("Rearrange able Tree");
 
         setSize(300, 200);

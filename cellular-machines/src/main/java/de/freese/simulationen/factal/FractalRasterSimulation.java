@@ -11,10 +11,8 @@ import de.freese.simulationen.model.AbstractRasterSimulation;
  *
  * @author Thomas Freese
  */
-public class FractalRasterSimulation extends AbstractRasterSimulation
-{
-    public FractalRasterSimulation(final int width, final int height)
-    {
+public class FractalRasterSimulation extends AbstractRasterSimulation {
+    public FractalRasterSimulation(final int width, final int height) {
         super(width, height);
 
         fillRaster(() -> new FractalCell(this));
@@ -24,8 +22,7 @@ public class FractalRasterSimulation extends AbstractRasterSimulation
      * @see de.freese.simulationen.model.Simulation#nextGeneration()
      */
     @Override
-    public void nextGeneration()
-    {
+    public void nextGeneration() {
         // getCellStream().forEach(Cell::nextGeneration);
         //
         // fireCompleted();
@@ -36,23 +33,19 @@ public class FractalRasterSimulation extends AbstractRasterSimulation
 
         double imC = -1.35D; // oberer Rand
 
-        for (int y = 0; y < getHeight(); y++)
-        {
+        for (int y = 0; y < getHeight(); y++) {
             reC = -2; // linker Rand
 
-            for (int x = 0; x < getWidth(); x++)
-            {
+            for (int x = 0; x < getWidth(); x++) {
                 FractalCell cell = getCell(x, y);
 
                 int iterationenC = cell.checkFast(imC, reC);
                 // int iterationenC = cell.checkConvergence(imC, reC);
 
-                if (iterationenC == FractalCell.ITERATIONEN)
-                {
+                if (iterationenC == FractalCell.ITERATIONEN) {
                     cell.setColor(colAppleman);
                 }
-                else
-                {
+                else {
                     int red = Math.abs(255 - ((iterationenC % 2) * 125));
                     int green = Math.abs(255 - ((iterationenC % 7) * 55));
                     int blue = Math.abs(255 - ((iterationenC % 3) * 85));
@@ -101,8 +94,7 @@ public class FractalRasterSimulation extends AbstractRasterSimulation
      * @see de.freese.simulationen.model.AbstractRasterSimulation#getCell(int, int)
      */
     @Override
-    protected FractalCell getCell(final int x, final int y)
-    {
+    protected FractalCell getCell(final int x, final int y) {
         return (FractalCell) super.getCell(x, y);
     }
 }

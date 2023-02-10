@@ -4,8 +4,7 @@ package de.freese.jconky.model;
 /**
  * @author Thomas Freese
  */
-public class ProcessInfo
-{
+public class ProcessInfo {
     private final double cpuUsage;
 
     private final double memoryUsage;
@@ -18,8 +17,7 @@ public class ProcessInfo
 
     private final String state;
 
-    public ProcessInfo(final int pid, final String state, final String name, final String owner, final double cpuUsage, final double memoryUsage)
-    {
+    public ProcessInfo(final int pid, final String state, final String name, final String owner, final double cpuUsage, final double memoryUsage) {
         super();
 
         this.pid = pid;
@@ -30,28 +28,23 @@ public class ProcessInfo
         this.memoryUsage = memoryUsage;
     }
 
-    public double getCpuUsage()
-    {
+    public double getCpuUsage() {
         return this.cpuUsage;
     }
 
-    public double getMemoryUsage()
-    {
+    public double getMemoryUsage() {
         return this.memoryUsage;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
-    public String getOwner()
-    {
+    public String getOwner() {
         return this.owner;
     }
 
-    public int getPid()
-    {
+    public int getPid() {
         return this.pid;
     }
 
@@ -64,8 +57,7 @@ public class ProcessInfo
      * <br>
      * See: <a href="https://man7.org/linux/man-pages/man5/proc.5.html">man-pages</a><br>
      */
-    public String getState()
-    {
+    public String getState() {
         return this.state;
     }
 
@@ -73,8 +65,7 @@ public class ProcessInfo
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
         builder.append(" pid=").append(this.pid);

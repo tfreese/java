@@ -16,12 +16,10 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public final class HazelcastNode2Main
-{
+public final class HazelcastNode2Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastNode2Main.class);
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         URL configUrl = ClassLoader.getSystemResource("hazelcast-node2.xml");
         Config config = new XmlConfigBuilder(configUrl).build();
         // config.setProperty("hazelcast.partition.count", "271");
@@ -32,19 +30,15 @@ public final class HazelcastNode2Main
         IMap<String, String> map = hazelcastInstance.getMap("test");
         // ReplicatedMap<String, String> map = hazelcastInstance.getReplicatedMap("test1");
 
-        ForkJoinPool.commonPool().execute(() ->
-        {
-            while (true)
-            {
+        ForkJoinPool.commonPool().execute(() -> {
+            while (true) {
                 String value = map.get("key");
                 LOGGER.info("HazelcastNode2Main:{}: cache value = {}", Thread.currentThread().getName(), value);
 
-                try
-                {
+                try {
                     TimeUnit.MILLISECONDS.sleep(1000);
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     LOGGER.error(ex.getMessage(), ex);
                 }
             }
@@ -57,8 +51,7 @@ public final class HazelcastNode2Main
         Hazelcast.shutdownAll();
     }
 
-    private HazelcastNode2Main()
-    {
+    private HazelcastNode2Main() {
         super();
     }
 }

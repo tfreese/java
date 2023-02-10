@@ -13,8 +13,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public final class MetaResolver
-{
+public final class MetaResolver {
     private static final Logger LOGGER = LoggerFactory.getLogger(MetaResolver.class);
 
     /**
@@ -22,10 +21,8 @@ public final class MetaResolver
      *
      * @throws IllegalStateException, wenn keine Quelle ermittelt werden konnte.
      */
-    public static MetaExporter determineMetaData(final DataSource dataSource) throws SQLException
-    {
-        try (Connection connection = dataSource.getConnection())
-        {
+    public static MetaExporter determineMetaData(final DataSource dataSource) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
             DatabaseMetaData metaData = connection.getMetaData();
 
             String product = metaData.getDatabaseProductName().toLowerCase();
@@ -33,24 +30,21 @@ public final class MetaResolver
             // int majorVersion = metaData.getDatabaseMajorVersion();
             // int minorVersion = metaData.getDatabaseMinorVersion();
 
-            return switch (product)
-                    {
-                        case "oracle" -> new OracleMetaExporter();
-                        case "hsql" -> new HsqldbMetaExporter();
-                        case "mysql" -> new MariaDbMetaExporter();
-                        case "sqlite" -> new SQLiteMetaExporter();
-                        default ->
-                        {
-                            String msg = String.format("No MetaModelGenerator found for: %s%n", metaData.getDatabaseProductName());
-                            LOGGER.error(msg);
-                            throw new IllegalStateException(msg);
-                        }
-                    };
+            return switch (product) {
+                case "oracle" -> new OracleMetaExporter();
+                case "hsql" -> new HsqldbMetaExporter();
+                case "mysql" -> new MariaDbMetaExporter();
+                case "sqlite" -> new SQLiteMetaExporter();
+                default -> {
+                    String msg = String.format("No MetaModelGenerator found for: %s%n", metaData.getDatabaseProductName());
+                    LOGGER.error(msg);
+                    throw new IllegalStateException(msg);
+                }
+            };
         }
     }
 
-    private MetaResolver()
-    {
+    private MetaResolver() {
         super();
     }
 }

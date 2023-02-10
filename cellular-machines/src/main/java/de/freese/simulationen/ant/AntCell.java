@@ -12,13 +12,11 @@ import de.freese.simulationen.model.AbstractCell;
  *
  * @author Thomas Freese
  */
-public class AntCell extends AbstractCell
-{
+public class AntCell extends AbstractCell {
     /**
      * @author Thomas Freese
      */
-    public enum CellType
-    {
+    public enum CellType {
         ANT,
         BLACK,
         EMPTY,
@@ -28,8 +26,7 @@ public class AntCell extends AbstractCell
     /**
      * @author Thomas Freese
      */
-    private enum Direction
-    {
+    private enum Direction {
         EAST(+1, 0),
         NORTH(0, +1),
         SOUTH(0, -1),
@@ -37,8 +34,7 @@ public class AntCell extends AbstractCell
 
         private static final List<Direction> DIRECTIONS;
 
-        static
-        {
+        static {
             DIRECTIONS = new ArrayList<>();
             DIRECTIONS.add(NORTH);
             DIRECTIONS.add(EAST);
@@ -50,8 +46,7 @@ public class AntCell extends AbstractCell
 
         private final int frontOffsetY;
 
-        Direction(final int frontOffsetX, final int frontOffsetY)
-        {
+        Direction(final int frontOffsetX, final int frontOffsetY) {
             this.frontOffsetX = frontOffsetX;
             this.frontOffsetY = frontOffsetY;
         }
@@ -59,27 +54,20 @@ public class AntCell extends AbstractCell
         /**
          * Relative Koordinaten für die Zelle vor der Ameise.
          */
-        public int[] getFrontOffsets()
-        {
-            return new int[]
-                    {
-                            this.frontOffsetX, this.frontOffsetY
-                    };
+        public int[] getFrontOffsets() {
+            return new int[]{this.frontOffsetX, this.frontOffsetY};
         }
 
         /**
          * Dreht die Richtung nach links.
          */
-        public Direction turnLeft()
-        {
+        public Direction turnLeft() {
             int index = DIRECTIONS.indexOf(this);
 
-            if (index == 0)
-            {
+            if (index == 0) {
                 index = DIRECTIONS.size() - 1;
             }
-            else
-            {
+            else {
                 index--;
             }
 
@@ -89,16 +77,13 @@ public class AntCell extends AbstractCell
         /**
          * Dreht die Richtung nach rechts.
          */
-        public Direction turnRight()
-        {
+        public Direction turnRight() {
             int index = DIRECTIONS.indexOf(this);
 
-            if (index == (DIRECTIONS.size() - 1))
-            {
+            if (index == (DIRECTIONS.size() - 1)) {
                 index = 0;
             }
-            else
-            {
+            else {
                 index++;
             }
 
@@ -110,18 +95,15 @@ public class AntCell extends AbstractCell
 
     private Direction direction = Direction.NORTH;
 
-    public AntCell(final AntRasterSimulation simulation)
-    {
+    public AntCell(final AntRasterSimulation simulation) {
         super(simulation);
     }
 
-    public boolean isAnt()
-    {
+    public boolean isAnt() {
         return CellType.ANT.equals(this.cellType);
     }
 
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return CellType.EMPTY.equals(this.cellType);
     }
 
@@ -134,10 +116,8 @@ public class AntCell extends AbstractCell
      * @see de.freese.simulationen.model.Cell#nextGeneration()
      */
     @Override
-    public void nextGeneration()
-    {
-        if (!isAnt())
-        {
+    public void nextGeneration() {
+        if (!isAnt()) {
             return;
         }
 
@@ -147,8 +127,7 @@ public class AntCell extends AbstractCell
 
         final AntCell frontCell = getSimulation().getCell(newX, newY);
 
-        if (frontCell.isAnt())
-        {
+        if (frontCell.isAnt()) {
             // Nicht auf eine andere Ameise treten.
             setDirection(getSimulation().getRandomDirection());
 
@@ -158,8 +137,7 @@ public class AntCell extends AbstractCell
             return;
         }
 
-        if (Color.WHITE.equals(frontCell.getColor()) || frontCell.isEmpty())
-        {
+        if (Color.WHITE.equals(frontCell.getColor()) || frontCell.isEmpty()) {
             frontCell.setCellType(CellType.ANT);
             setCellType(CellType.BLACK);
             frontCell.direction = this.direction.turnRight();
@@ -167,8 +145,7 @@ public class AntCell extends AbstractCell
             // Performance-Optimierung: Nur die Ameisen verarbeiten lassen.
             getSimulation().addNextGeneration(frontCell);
         }
-        else if (Color.BLACK.equals(frontCell.getColor()) || frontCell.isEmpty())
-        {
+        else if (Color.BLACK.equals(frontCell.getColor()) || frontCell.isEmpty()) {
             frontCell.setCellType(CellType.ANT);
             setCellType(CellType.WHITE);
             frontCell.direction = this.direction.turnLeft();
@@ -176,8 +153,7 @@ public class AntCell extends AbstractCell
             // Performance-Optimierung: Nur die Ameisen verarbeiten lassen.
             getSimulation().addNextGeneration(frontCell);
         }
-        else
-        {
+        else {
             // Verhindert 'fest steckende' Ameisen.
             setDirection(getSimulation().getRandomDirection());
 
@@ -186,12 +162,10 @@ public class AntCell extends AbstractCell
         }
     }
 
-    public void setCellType(final CellType cellType)
-    {
+    public void setCellType(final CellType cellType) {
         this.cellType = cellType;
 
-        switch (cellType)
-        {
+        switch (cellType) {
             case ANT -> setColor(Color.RED);
             case BLACK -> setColor(Color.BLACK);
             case WHITE -> setColor(Color.WHITE);
@@ -205,16 +179,13 @@ public class AntCell extends AbstractCell
      *
      * @param orientation int; 0 - 3
      */
-    public void setDirection(final int orientation)
-    {
-        switch (orientation)
-        {
+    public void setDirection(final int orientation) {
+        switch (orientation) {
             case 0 -> this.direction = Direction.NORTH;
             case 1 -> this.direction = Direction.EAST;
             case 2 -> this.direction = Direction.SOUTH;
             case 3 -> this.direction = Direction.WEST;
-            default ->
-            {
+            default -> {
             }
         }
     }
@@ -223,8 +194,7 @@ public class AntCell extends AbstractCell
      * @see de.freese.simulationen.model.AbstractCell#getSimulation()
      */
     @Override
-    protected AntRasterSimulation getSimulation()
-    {
+    protected AntRasterSimulation getSimulation() {
         return (AntRasterSimulation) super.getSimulation();
     }
 }

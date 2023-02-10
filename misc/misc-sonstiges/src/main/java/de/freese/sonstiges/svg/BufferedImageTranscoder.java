@@ -16,21 +16,18 @@ import org.apache.batik.transcoder.image.TIFFTranscoder;
  * @see PNGTranscoder
  * @see TIFFTranscoder
  */
-public class BufferedImageTranscoder extends ImageTranscoder
-{
+public class BufferedImageTranscoder extends ImageTranscoder {
     private BufferedImage image;
 
     /**
      * @see org.apache.batik.transcoder.image.ImageTranscoder#createImage(int, int)
      */
     @Override
-    public BufferedImage createImage(final int width, final int height)
-    {
+    public BufferedImage createImage(final int width, final int height) {
         return new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
     }
 
-    public BufferedImage getBufferedImage()
-    {
+    public BufferedImage getBufferedImage() {
         return this.image;
     }
 
@@ -38,8 +35,7 @@ public class BufferedImageTranscoder extends ImageTranscoder
      * @see org.apache.batik.transcoder.image.ImageTranscoder#writeImage(java.awt.image.BufferedImage, org.apache.batik.transcoder.TranscoderOutput)
      */
     @Override
-    public void writeImage(final BufferedImage img, final TranscoderOutput output) throws TranscoderException
-    {
+    public void writeImage(final BufferedImage img, final TranscoderOutput output) throws TranscoderException {
         this.image = img;
     }
 }

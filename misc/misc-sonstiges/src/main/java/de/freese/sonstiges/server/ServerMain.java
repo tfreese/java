@@ -19,27 +19,22 @@ import de.freese.sonstiges.server.singlethread.ServerSingleThread;
 /**
  * @author Thomas Freese
  */
-public final class ServerMain
-{
-    public static String getRemoteAddress(final SelectionKey selectionKey) throws IOException
-    {
+public final class ServerMain {
+    public static String getRemoteAddress(final SelectionKey selectionKey) throws IOException {
         SelectableChannel selectableChannel = selectionKey.channel();
 
-        if (selectableChannel instanceof SocketChannel sc)
-        {
+        if (selectableChannel instanceof SocketChannel sc) {
             return getRemoteAddress(sc);
         }
 
         return null;
     }
 
-    public static String getRemoteAddress(final SocketChannel socketChannel) throws IOException
-    {
+    public static String getRemoteAddress(final SocketChannel socketChannel) throws IOException {
         return socketChannel.getRemoteAddress().toString();
     }
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         // final SelectorProvider selectorProvider = SelectorProvider.provider();
 
         // AbstractServer server = new ServerSingleThread(8001);
@@ -63,8 +58,7 @@ public final class ServerMain
         // PipedInputStream pis = new PipedInputStream(pos);
         // System.setIn(pis);
 
-        while (!server.isStarted())
-        {
+        while (!server.isStarted()) {
             System.out.println("check started");
             TimeUnit.MILLISECONDS.sleep(100);
         }
@@ -73,12 +67,10 @@ public final class ServerMain
         Charset charset = IoHandler.DEFAULT_CHARSET;
 
         // try (SocketChannel client = selectorProvider.openSocketChannel())
-        try (SocketChannel client = SocketChannel.open(serverAddress))
-        {
+        try (SocketChannel client = SocketChannel.open(serverAddress)) {
             // client.connect(serverAddress);
 
-            while (!client.finishConnect())
-            {
+            while (!client.finishConnect()) {
                 TimeUnit.MILLISECONDS.sleep(10);
             }
 
@@ -94,12 +86,10 @@ public final class ServerMain
         // Console simulieren.
         // pos.write(0);
 
-        try
-        {
+        try {
             System.in.read();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             ex.printStackTrace();
         }
 
@@ -107,8 +97,7 @@ public final class ServerMain
         System.exit(0);
     }
 
-    private static void requestResponse(final SocketChannel client, final Charset charset) throws Exception
-    {
+    private static void requestResponse(final SocketChannel client, final Charset charset) throws Exception {
         // Request
         CharBuffer charBufferHeader = CharBuffer.allocate(256);
         charBufferHeader.put("GET / HTTP/1.1").put("\r\n");
@@ -123,16 +112,14 @@ public final class ServerMain
 
         ByteBuffer buffer = charset.encode(charBufferHeader);
 
-        while (buffer.hasRemaining())
-        {
+        while (buffer.hasRemaining()) {
             client.write(buffer);
         }
 
         // Response
         buffer = ByteBuffer.allocate(1024);
 
-        while (client.read(buffer) > 0)
-        {
+        while (client.read(buffer) > 0) {
             buffer.flip();
 
             CharBuffer charBuffer = charset.decode(buffer);
@@ -144,8 +131,7 @@ public final class ServerMain
         }
     }
 
-    private ServerMain()
-    {
+    private ServerMain() {
         super();
     }
 }

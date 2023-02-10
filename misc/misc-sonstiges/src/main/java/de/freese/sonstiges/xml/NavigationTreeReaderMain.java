@@ -20,12 +20,9 @@ import org.xml.sax.SAXParseException;
 /**
  * @author Thomas Freese
  */
-public final class NavigationTreeReaderMain
-{
-    public static void main(final String[] args) throws Exception
-    {
-        try
-        {
+public final class NavigationTreeReaderMain {
+    public static void main(final String[] args) throws Exception {
+        try {
             URL url = ClassLoader.getSystemResource("navigationTree.xsd");
             Source schemaFile = new StreamSource(new File(url.toURI()));
 
@@ -54,18 +51,15 @@ public final class NavigationTreeReaderMain
 
             reader.close();
         }
-        catch (SAXParseException ex)
-        {
+        catch (SAXParseException ex) {
             System.err.println("SAXParseException at Line: " + ex.getLineNumber());
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    private static void parseDocument(final XMLStreamReader reader) throws XMLStreamException
-    {
+    private static void parseDocument(final XMLStreamReader reader) throws XMLStreamException {
         System.out.println("Version: " + reader.getVersion());
         System.out.println("Is Standalone: " + reader.isStandalone());
         System.out.println("Standalone Set: " + reader.standaloneSet());
@@ -76,25 +70,19 @@ public final class NavigationTreeReaderMain
         parseRestOfDocument(reader);
     }
 
-    private static void parseRestOfDocument(final XMLStreamReader reader) throws XMLStreamException
-    {
-        while (reader.hasNext())
-        {
+    private static void parseRestOfDocument(final XMLStreamReader reader) throws XMLStreamException {
+        while (reader.hasNext()) {
             int type = reader.next();
 
-            switch (type)
-            {
-                case XMLStreamConstants.START_ELEMENT ->
-                {
+            switch (type) {
+                case XMLStreamConstants.START_ELEMENT -> {
                     System.out.println("NamespaceURI: " + reader.getNamespaceURI());
                     System.out.println("START_ELEMENT: " + reader.getLocalName());
                     System.out.println("Prefix: " + reader.getPrefix());
                     System.out.println("AttributeCount: " + reader.getAttributeCount());
 
-                    for (int i = 0; i < reader.getAttributeCount(); i++)
-                    {
-                        System.out.printf("%d: AttributeLocalName=%s, AttributeValue=%s, AttributePrefix=%s%n", i,
-                                reader.getAttributeLocalName(i), reader.getAttributeValue(i), reader.getAttributePrefix(i));
+                    for (int i = 0; i < reader.getAttributeCount(); i++) {
+                        System.out.printf("%d: AttributeLocalName=%s, AttributeValue=%s, AttributePrefix=%s%n", i, reader.getAttributeLocalName(i), reader.getAttributeValue(i), reader.getAttributePrefix(i));
                     }
                 }
 
@@ -108,8 +96,7 @@ public final class NavigationTreeReaderMain
         }
     }
 
-    private NavigationTreeReaderMain()
-    {
+    private NavigationTreeReaderMain() {
         super();
     }
 }

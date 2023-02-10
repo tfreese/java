@@ -13,9 +13,10 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import de.freese.simulationen.model.Simulation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.freese.simulationen.model.Simulation;
 
 /**
  * BasisView für die Simulationen.
@@ -24,8 +25,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public class SimulationView<S extends Simulation>
-{
+public class SimulationView<S extends Simulation> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private JPanel buttonPanel;
@@ -44,13 +44,11 @@ public class SimulationView<S extends Simulation>
 
     private S simulation;
 
-    public S getSimulation()
-    {
+    public S getSimulation() {
         return this.simulation;
     }
 
-    public void initialize(final S simulation, final int delay)
-    {
+    public void initialize(final S simulation, final int delay) {
         this.simulation = simulation;
         this.delay = delay;
 
@@ -65,10 +63,8 @@ public class SimulationView<S extends Simulation>
         getMainPanel().add(canvas, BorderLayout.CENTER);
     }
 
-    protected JPanel getControlPanel()
-    {
-        if (this.controlPanel == null)
-        {
+    protected JPanel getControlPanel() {
+        if (this.controlPanel == null) {
             this.controlPanel = new JPanel();
         }
 
@@ -80,20 +76,16 @@ public class SimulationView<S extends Simulation>
      *
      * @return int [ms]
      */
-    protected int getDelay()
-    {
+    protected int getDelay() {
         return this.delay;
     }
 
-    protected Logger getLogger()
-    {
+    protected Logger getLogger() {
         return this.logger;
     }
 
-    protected JPanel getMainPanel()
-    {
-        if (this.mainPanel == null)
-        {
+    protected JPanel getMainPanel() {
+        if (this.mainPanel == null) {
             this.mainPanel = new JPanel();
             this.mainPanel.setDoubleBuffered(true);
         }
@@ -101,20 +93,17 @@ public class SimulationView<S extends Simulation>
         return this.mainPanel;
     }
 
-    protected ScheduledExecutorService getScheduledExecutorService()
-    {
+    protected ScheduledExecutorService getScheduledExecutorService() {
         return SimulationEnvironment.getInstance().getScheduledExecutorService();
     }
 
-    protected void reset()
-    {
+    protected void reset() {
         stop();
         getSimulation().reset();
         start();
     }
 
-    protected void start()
-    {
+    protected void start() {
         Runnable runnable = this::step;
 
         this.scheduledFuture = getScheduledExecutorService().scheduleWithFixedDelay(runnable, 0, getDelay(), TimeUnit.MILLISECONDS);
@@ -122,24 +111,20 @@ public class SimulationView<S extends Simulation>
         this.buttonStart.setEnabled(false);
     }
 
-    protected void step()
-    {
-        try
-        {
+    protected void step() {
+        try {
             // long start = System.currentTimeMillis();
             getSimulation().nextGeneration();
             // System.out.printf("%d ms%n", System.currentTimeMillis() - start);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             stop();
 
             getLogger().error(ex.getMessage(), ex);
 
             StringWriter sw = new StringWriter();
 
-            try (PrintWriter pw = new PrintWriter(sw))
-            {
+            try (PrintWriter pw = new PrintWriter(sw)) {
                 ex.printStackTrace(pw);
             }
 
@@ -147,10 +132,8 @@ public class SimulationView<S extends Simulation>
         }
     }
 
-    protected void stop()
-    {
-        if ((this.scheduledFuture != null))
-        {
+    protected void stop() {
+        if ((this.scheduledFuture != null)) {
             this.scheduledFuture.cancel(false);
             this.scheduledFuture = null;
         }
@@ -158,10 +141,8 @@ public class SimulationView<S extends Simulation>
         this.buttonStart.setEnabled(true);
     }
 
-    private JPanel getButtonPanel()
-    {
-        if (this.buttonPanel == null)
-        {
+    private JPanel getButtonPanel() {
+        if (this.buttonPanel == null) {
             this.buttonPanel = new JPanel();
             this.buttonPanel.setLayout(new BorderLayout());
 

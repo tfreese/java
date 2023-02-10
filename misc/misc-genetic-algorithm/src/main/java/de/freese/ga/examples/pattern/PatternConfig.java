@@ -6,12 +6,10 @@ import de.freese.ga.Config;
 /**
  * @author Thomas Freese
  */
-public class PatternConfig extends Config
-{
+public class PatternConfig extends Config {
     private boolean[] solution;
 
-    public PatternConfig()
-    {
+    public PatternConfig() {
         super();
     }
 
@@ -19,28 +17,24 @@ public class PatternConfig extends Config
      * @see de.freese.ga.Config#getMaxFitness()
      */
     @Override
-    public double getMaxFitness()
-    {
+    public double getMaxFitness() {
         // Max. Wert, wenn alle Gene richtig sind.
         return getSizeChromosome();
     }
 
-    public void setPattern(final String pattern)
-    {
+    public void setPattern(final String pattern) {
         setSizeChromosome(pattern.length());
 
         this.solution = new boolean[pattern.length()];
 
-        for (int i = 0; i < pattern.length(); i++)
-        {
+        for (int i = 0; i < pattern.length(); i++) {
             char character = pattern.charAt(i);
 
             this.solution[i] = character == '1';
         }
     }
 
-    boolean[] getSolution()
-    {
+    boolean[] getSolution() {
         return this.solution;
     }
 }

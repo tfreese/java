@@ -4,8 +4,7 @@ package de.freese.jconky.model;
 /**
  * @author Thomas Freese
  */
-public class NetworkInfo
-{
+public class NetworkInfo {
     private final long bytesReceived;
 
     private final long bytesTransmitted;
@@ -15,13 +14,11 @@ public class NetworkInfo
     private double downloadPerSecond;
     private double uploadPerSecond;
 
-    public NetworkInfo()
-    {
+    public NetworkInfo() {
         this("", "", 0L, 0L);
     }
 
-    public NetworkInfo(final String interfaceName, final String ip, final long bytesReceived, final long bytesTransmitted)
-    {
+    public NetworkInfo(final String interfaceName, final String ip, final long bytesReceived, final long bytesTransmitted) {
         super();
 
         this.interfaceName = interfaceName;
@@ -31,46 +28,38 @@ public class NetworkInfo
         this.timestamp = System.currentTimeMillis();
     }
 
-    public void calculateUpAndDownload(final NetworkInfo previous)
-    {
+    public void calculateUpAndDownload(final NetworkInfo previous) {
         double time = (getTimestamp() - previous.getTimestamp()) / 1000D;
 
         this.downloadPerSecond = (getBytesReceived() - previous.getBytesReceived()) / time;
         this.uploadPerSecond = (getBytesTransmitted() - previous.getBytesTransmitted()) / time;
     }
 
-    public long getBytesReceived()
-    {
+    public long getBytesReceived() {
         return this.bytesReceived;
     }
 
-    public long getBytesTransmitted()
-    {
+    public long getBytesTransmitted() {
         return this.bytesTransmitted;
     }
 
-    public double getDownloadPerSecond()
-    {
+    public double getDownloadPerSecond() {
         return this.downloadPerSecond;
     }
 
-    public String getInterfaceName()
-    {
+    public String getInterfaceName() {
         return this.interfaceName;
     }
 
-    public String getIp()
-    {
+    public String getIp() {
         return this.ip;
     }
 
-    public long getTimestamp()
-    {
+    public long getTimestamp() {
         return this.timestamp;
     }
 
-    public double getUploadPerSecond()
-    {
+    public double getUploadPerSecond() {
         return this.uploadPerSecond;
     }
 
@@ -78,8 +67,7 @@ public class NetworkInfo
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
         builder.append("interfaceName=").append(this.interfaceName);

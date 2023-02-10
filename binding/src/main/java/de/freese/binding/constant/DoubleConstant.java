@@ -7,17 +7,14 @@ import de.freese.binding.value.ChangeListener;
 /**
  * @author Thomas Freese
  */
-public final class DoubleConstant extends AbstractDoubleExpression
-{
-    public static DoubleConstant valueOf(final double value)
-    {
+public final class DoubleConstant extends AbstractDoubleExpression {
+    public static DoubleConstant valueOf(final double value) {
         return new DoubleConstant(value);
     }
 
     private final double value;
 
-    private DoubleConstant(final double value)
-    {
+    private DoubleConstant(final double value) {
         super();
 
         this.value = value;
@@ -27,8 +24,7 @@ public final class DoubleConstant extends AbstractDoubleExpression
      * @see de.freese.binding.expression.AbstractExpression#addListener(de.freese.binding.value.ChangeListener)
      */
     @Override
-    public void addListener(final ChangeListener<? super Double> listener)
-    {
+    public void addListener(final ChangeListener<? super Double> listener) {
         // Empty
     }
 
@@ -36,8 +32,7 @@ public final class DoubleConstant extends AbstractDoubleExpression
      * @see de.freese.binding.value.ObservableValue#getValue()
      */
     @Override
-    public Double getValue()
-    {
+    public Double getValue() {
         return this.value;
     }
 
@@ -45,8 +40,7 @@ public final class DoubleConstant extends AbstractDoubleExpression
      * @see de.freese.binding.expression.AbstractExpression#removeListener(de.freese.binding.value.ChangeListener)
      */
     @Override
-    public void removeListener(final ChangeListener<? super Double> listener)
-    {
+    public void removeListener(final ChangeListener<? super Double> listener) {
         // Empty
     }
 
@@ -54,8 +48,7 @@ public final class DoubleConstant extends AbstractDoubleExpression
      * @see de.freese.binding.expression.AbstractExpression#fireValueChangedEvent(java.lang.Object, java.lang.Object)
      */
     @Override
-    protected void fireValueChangedEvent(final Double oldValue, final Double newValue)
-    {
+    protected void fireValueChangedEvent(final Double oldValue, final Double newValue) {
         // Empty
     }
 }

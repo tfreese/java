@@ -28,31 +28,25 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public final class HazelcastJavaConfigNode2Main
-{
+public final class HazelcastJavaConfigNode2Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastJavaConfigNode2Main.class);
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         HazelcastInstance hazelcastInstance = getHazelcastInstance();
 
         // Map ist niemals null.
         IMap<String, String> map = hazelcastInstance.getMap("test");
         // ReplicatedMap<String, String> map = hazelcastInstance.getReplicatedMap("test1");
 
-        ForkJoinPool.commonPool().execute(() ->
-        {
-            while (true)
-            {
+        ForkJoinPool.commonPool().execute(() -> {
+            while (true) {
                 String value = map.get("key");
                 LOGGER.info("HazelcastJavaConfigNode2Main: {}: cache value = {}", Thread.currentThread().getName(), value);
 
-                try
-                {
+                try {
                     TimeUnit.MILLISECONDS.sleep(1000);
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     LOGGER.error(ex.getMessage(), ex);
                 }
             }
@@ -65,8 +59,7 @@ public final class HazelcastJavaConfigNode2Main
         Hazelcast.shutdownAll();
     }
 
-    private static HazelcastInstance getHazelcastInstance()
-    {
+    private static HazelcastInstance getHazelcastInstance() {
         MapConfig mapConfig = new MapConfig("test");
         mapConfig.setTimeToLiveSeconds(3);
         mapConfig.setMaxIdleSeconds(3);
@@ -190,8 +183,7 @@ public final class HazelcastJavaConfigNode2Main
         return Hazelcast.newHazelcastInstance(config);
     }
 
-    private HazelcastJavaConfigNode2Main()
-    {
+    private HazelcastJavaConfigNode2Main() {
         super();
     }
 }

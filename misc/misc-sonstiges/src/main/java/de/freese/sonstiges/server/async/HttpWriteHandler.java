@@ -12,30 +12,25 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-class HttpWriteHandler implements CompletionHandler<Integer, MyAttachment>
-{
+class HttpWriteHandler implements CompletionHandler<Integer, MyAttachment> {
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpWriteHandler.class);
 
     /**
      * @see java.nio.channels.CompletionHandler#completed(java.lang.Object, java.lang.Object)
      */
     @Override
-    public void completed(final Integer result, final MyAttachment attachment)
-    {
+    public void completed(final Integer result, final MyAttachment attachment) {
         AsynchronousSocketChannel channel = attachment.channel();
         ByteBuffer byteBuffer = attachment.byteBuffer();
 
-        try
-        {
+        try {
             LOGGER.debug("{}: Write Response", channel.getRemoteAddress());
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex) {
             failed(ex, null);
         }
 
-        while (byteBuffer.hasRemaining())
-        {
+        while (byteBuffer.hasRemaining()) {
             channel.write(byteBuffer, null, this);
         }
 
@@ -46,8 +41,7 @@ class HttpWriteHandler implements CompletionHandler<Integer, MyAttachment>
      * @see java.nio.channels.CompletionHandler#failed(java.lang.Throwable, java.lang.Object)
      */
     @Override
-    public void failed(final Throwable exc, final MyAttachment attachment)
-    {
+    public void failed(final Throwable exc, final MyAttachment attachment) {
         AsynchronousSocketChannel channel = attachment.channel();
 
         ServerAsync.close(channel, LOGGER);

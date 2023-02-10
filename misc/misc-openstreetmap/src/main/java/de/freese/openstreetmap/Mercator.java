@@ -8,13 +8,11 @@ package de.freese.openstreetmap;
  *
  * @author Thomas Freese
  */
-public final class Mercator
-{
+public final class Mercator {
     /**
      * Breitengrad.<br>
      */
-    public static double mercX(final double longitude)
-    {
+    public static double mercX(final double longitude) {
         double x;
 
         // Formel nach OpenStreetMap.
@@ -29,16 +27,13 @@ public final class Mercator
     /**
      * Längengrad.<br>
      */
-    public static double mercY(final double latitude)
-    {
+    public static double mercY(final double latitude) {
         double lat = latitude;
 
-        if (lat > 89.5D)
-        {
+        if (lat > 89.5D) {
             lat = 89.5D;
         }
-        if (lat < -89.5D)
-        {
+        if (lat < -89.5D) {
             lat = -89.5D;
         }
 
@@ -58,8 +53,7 @@ public final class Mercator
         return y;
     }
 
-    private Mercator()
-    {
+    private Mercator() {
         super();
     }
 }

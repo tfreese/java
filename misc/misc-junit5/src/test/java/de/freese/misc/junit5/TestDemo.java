@@ -36,20 +36,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 @DisplayName("Test Junit5")
-class TestDemo
-{
-    static final MyObject[] MY_OBJECTS =
-            {
-                    new MyObject(0, 0), new MyObject(0, 1), new MyObject(1, 0), new MyObject(1, 1)
-            };
+class TestDemo {
+    static final MyObject[] MY_OBJECTS = {new MyObject(0, 0), new MyObject(0, 1), new MyObject(1, 0), new MyObject(1, 1)};
 
-    static class MyObject extends Point
-    {
+    static class MyObject extends Point {
         @Serial
         private static final long serialVersionUID = -2330553112363031008L;
 
-        MyObject(final int x, final int y)
-        {
+        MyObject(final int x, final int y) {
             super(x, y);
 
             System.out.println(this);
@@ -59,14 +53,12 @@ class TestDemo
          * @see java.awt.Point#toString()
          */
         @Override
-        public String toString()
-        {
+        public String toString() {
             return "MyObject{" + "x=" + this.x + ", y=" + this.y + '}';
         }
     }
 
-    static class MyParameterResolver implements ParameterResolver
-    {
+    static class MyParameterResolver implements ParameterResolver {
         static final Random RANDOM = new Random();
 
         /**
@@ -74,10 +66,8 @@ class TestDemo
          * org.junit.jupiter.api.extension.ExtensionContext)
          */
         @Override
-        public Object resolveParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext) throws ParameterResolutionException
-        {
-            if (supportsParameter(parameterContext, extensionContext))
-            {
+        public Object resolveParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext) throws ParameterResolutionException {
+            if (supportsParameter(parameterContext, extensionContext)) {
                 return MY_OBJECTS[RANDOM.nextInt(MY_OBJECTS.length)];
             }
 
@@ -89,19 +79,16 @@ class TestDemo
          * org.junit.jupiter.api.extension.ExtensionContext)
          */
         @Override
-        public boolean supportsParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext) throws ParameterResolutionException
-        {
+        public boolean supportsParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext) throws ParameterResolutionException {
             return parameterContext.getParameter().getType() == MyObject.class;
         }
     }
 
-    static Stream<MyObject> createObjects()
-    {
+    static Stream<MyObject> createObjects() {
         return Stream.of(MY_OBJECTS);
     }
 
-    static Stream<Arguments> createObjectsArgumented()
-    {
+    static Stream<Arguments> createObjectsArgumented() {
         // @formatter:off
         return Stream.of(
                 Arguments.of("Obj. 1", MY_OBJECTS[0]),
@@ -113,8 +100,7 @@ class TestDemo
     }
 
     @TestFactory
-    Stream<DynamicTest> testDynamic()
-    {
+    Stream<DynamicTest> testDynamic() {
         // @formatter:off
         return Stream.of(MY_OBJECTS)
                 .map(obj -> dynamicTest("Test for: " + obj, () -> assertNotNull(obj))
@@ -124,8 +110,7 @@ class TestDemo
     }
 
     @TestFactory
-    Stream<DynamicTest> testDynamic2()
-    {
+    Stream<DynamicTest> testDynamic2() {
         // @formatter:off
         return Stream.of(MY_OBJECTS)
                 .flatMap(obj -> Stream.of(
@@ -139,8 +124,7 @@ class TestDemo
     }
 
     @TestFactory
-    Stream<DynamicNode> testDynamic3()
-    {
+    Stream<DynamicNode> testDynamic3() {
         // @formatter:off
         return Stream.of(MY_OBJECTS)
                 .map(obj -> dynamicContainer(obj.toString(),
@@ -161,16 +145,12 @@ class TestDemo
     @MethodSource("createObjects")
     @DisplayName("Test @MethodSource")
     @Tag("myTest")
-    @EnabledOnOs(
-            {
-                    OS.WINDOWS, OS.LINUX
-            })
+    @EnabledOnOs({OS.WINDOWS, OS.LINUX})
         // @EnabledOnJre(JRE.JAVA_11)
         // @DisabledOnJre(JRE.JAVA_8)
         // @EnabledIfSystemProperty(named = "os.arch", matches = ".*64.*")
         // @EnabledIfEnvironmentVariable(named = "ENV", matches = "staging-server")
-    void testMethodSource(final MyObject obj)
-    {
+    void testMethodSource(final MyObject obj) {
         assertNotNull(obj);
         assertTrue(obj.getX() < 2);
         assertTrue(obj.getY() < 2);
@@ -179,8 +159,7 @@ class TestDemo
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createObjectsArgumented")
     @DisplayName("Test @MethodSource Argumented")
-    void testMethodSourceArgumented(final String name, final MyObject obj)
-    {
+    void testMethodSourceArgumented(final String name, final MyObject obj) {
         assertNotNull(obj);
         assertTrue(obj.getX() < 2);
         assertTrue(obj.getY() < 2);
@@ -189,8 +168,7 @@ class TestDemo
     @RepeatedTest(value = 4, name = "{displayName}: {currentRepetition}/{totalRepetitions}")
     @ExtendWith(TestDemo.MyParameterResolver.class)
     @DisplayName("Test @ExtendWith")
-    void testParameterResolver(final MyObject obj)
-    {
+    void testParameterResolver(final MyObject obj) {
         assertNotNull(obj);
         assertTrue(obj.getX() < 2);
         assertTrue(obj.getY() < 2);

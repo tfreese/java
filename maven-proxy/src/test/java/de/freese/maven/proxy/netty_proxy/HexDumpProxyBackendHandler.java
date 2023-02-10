@@ -9,12 +9,10 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 /**
  * @author Thomas Freese
  */
-public class HexDumpProxyBackendHandler extends ChannelInboundHandlerAdapter
-{
+public class HexDumpProxyBackendHandler extends ChannelInboundHandlerAdapter {
     private final Channel inboundChannel;
 
-    public HexDumpProxyBackendHandler(final Channel inboundChannel)
-    {
+    public HexDumpProxyBackendHandler(final Channel inboundChannel) {
         super();
 
         this.inboundChannel = inboundChannel;
@@ -24,8 +22,7 @@ public class HexDumpProxyBackendHandler extends ChannelInboundHandlerAdapter
      * @see io.netty.channel.ChannelInboundHandlerAdapter#channelActive(io.netty.channel.ChannelHandlerContext)
      */
     @Override
-    public void channelActive(final ChannelHandlerContext ctx)
-    {
+    public void channelActive(final ChannelHandlerContext ctx) {
         ctx.read();
     }
 
@@ -33,8 +30,7 @@ public class HexDumpProxyBackendHandler extends ChannelInboundHandlerAdapter
      * @see io.netty.channel.ChannelInboundHandlerAdapter#channelInactive(io.netty.channel.ChannelHandlerContext)
      */
     @Override
-    public void channelInactive(final ChannelHandlerContext ctx)
-    {
+    public void channelInactive(final ChannelHandlerContext ctx) {
         HexDumpProxyFrontendHandler.closeOnFlush(this.inboundChannel);
     }
 
@@ -42,17 +38,13 @@ public class HexDumpProxyBackendHandler extends ChannelInboundHandlerAdapter
      * @see io.netty.channel.ChannelInboundHandlerAdapter#channelRead(io.netty.channel.ChannelHandlerContext, java.lang.Object)
      */
     @Override
-    public void channelRead(final ChannelHandlerContext ctx, final Object msg)
-    {
+    public void channelRead(final ChannelHandlerContext ctx, final Object msg) {
         // ChannelFutureListener
-        this.inboundChannel.writeAndFlush(msg).addListener(future ->
-        {
-            if (future.isSuccess())
-            {
+        this.inboundChannel.writeAndFlush(msg).addListener(future -> {
+            if (future.isSuccess()) {
                 ctx.channel().read();
             }
-            else
-            {
+            else {
                 ((ChannelFuture) future).channel().close();
             }
         });
@@ -62,8 +54,7 @@ public class HexDumpProxyBackendHandler extends ChannelInboundHandlerAdapter
      * @see io.netty.channel.ChannelInboundHandlerAdapter#exceptionCaught(io.netty.channel.ChannelHandlerContext, java.lang.Throwable)
      */
     @Override
-    public void exceptionCaught(final ChannelHandlerContext ctx, final Throwable cause)
-    {
+    public void exceptionCaught(final ChannelHandlerContext ctx, final Throwable cause) {
         cause.printStackTrace();
         HexDumpProxyFrontendHandler.closeOnFlush(ctx.channel());
     }

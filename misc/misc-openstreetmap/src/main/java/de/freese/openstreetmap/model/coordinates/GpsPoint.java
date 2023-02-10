@@ -18,8 +18,7 @@ import de.freese.openstreetmap.model.projection.Projection;
  * @author <a href="mailto:Marcus@Wolschon.biz">Marcus Wolschon</a>
  * @author Thomas Freese
  */
-public class GpsPoint
-{
+public class GpsPoint {
     private static final SimpleDateFormat SDF_TO_DATE = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
     /**
      * The actual coordinates.
@@ -36,8 +35,7 @@ public class GpsPoint
      *
      * @throws ParseException if the timestamp has a wrong format.
      */
-    public GpsPoint(final LatLon ll, final Date timestamp) throws ParseException
-    {
+    public GpsPoint(final LatLon ll, final Date timestamp) throws ParseException {
         super();
 
         this.latLon = ll;
@@ -50,8 +48,7 @@ public class GpsPoint
      *
      * @throws ParseException if the timestamp has a wrong format.
      */
-    public GpsPoint(final LatLon ll, final String timestamp) throws ParseException
-    {
+    public GpsPoint(final LatLon ll, final String timestamp) throws ParseException {
         super();
 
         this.latLon = ll;
@@ -61,18 +58,15 @@ public class GpsPoint
     /**
      * The coordinates destined by the current projection.
      */
-    public final EastNorth getEastNorth(final Projection projection)
-    {
+    public final EastNorth getEastNorth(final Projection projection) {
         return projection.latLon2EastNorth(getLatLon().lat(), getLatLon().lon());
     }
 
-    public LatLon getLatLon()
-    {
+    public LatLon getLatLon() {
         return this.latLon;
     }
 
-    public Date getTime()
-    {
+    public Date getTime() {
         return this.time;
     }
 }

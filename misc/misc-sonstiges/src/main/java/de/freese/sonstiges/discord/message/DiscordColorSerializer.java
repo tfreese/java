@@ -12,18 +12,15 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 /**
  * @author Thomas Freese
  */
-public class DiscordColorSerializer extends StdSerializer<Color>
-{
+public class DiscordColorSerializer extends StdSerializer<Color> {
     @Serial
     private static final long serialVersionUID = 8153995700042146023L;
 
-    public DiscordColorSerializer()
-    {
+    public DiscordColorSerializer() {
         this(null);
     }
 
-    public DiscordColorSerializer(final Class<Color> clazz)
-    {
+    public DiscordColorSerializer(final Class<Color> clazz) {
         super(clazz);
     }
 
@@ -32,8 +29,7 @@ public class DiscordColorSerializer extends StdSerializer<Color>
      * com.fasterxml.jackson.databind.SerializerProvider)
      */
     @Override
-    public void serialize(final Color value, final JsonGenerator gen, final SerializerProvider provider) throws IOException
-    {
+    public void serialize(final Color value, final JsonGenerator gen, final SerializerProvider provider) throws IOException {
         int rgb = value.getRed();
         rgb = (rgb << 8) + value.getGreen();
         rgb = (rgb << 8) + value.getBlue();

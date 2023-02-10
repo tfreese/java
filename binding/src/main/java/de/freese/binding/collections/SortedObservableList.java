@@ -12,31 +12,26 @@ import javax.swing.event.ListDataListener;
 /**
  * @author Thomas Freese
  */
-public class SortedObservableList<T> extends DefaultObservableList<T>
-{
+public class SortedObservableList<T> extends DefaultObservableList<T> {
     private final List<T> sortedList = new ArrayList<>();
     private Comparator<T> comparator;
 
-    public SortedObservableList(final ObservableList<T> source)
-    {
+    public SortedObservableList(final ObservableList<T> source) {
         this(source, null);
     }
 
-    public SortedObservableList(final ObservableList<T> source, final Comparator<T> comparator)
-    {
+    public SortedObservableList(final ObservableList<T> source, final Comparator<T> comparator) {
         super(source);
 
         setComparator(comparator);
         this.sortedList.addAll(source);
 
-        source.addListener(new ListDataListener()
-        {
+        source.addListener(new ListDataListener() {
             /**
              * @see javax.swing.event.ListDataListener#contentsChanged(javax.swing.event.ListDataEvent)
              */
             @Override
-            public void contentsChanged(final ListDataEvent e)
-            {
+            public void contentsChanged(final ListDataEvent e) {
                 doSort();
             }
 
@@ -44,8 +39,7 @@ public class SortedObservableList<T> extends DefaultObservableList<T>
              * @see javax.swing.event.ListDataListener#intervalAdded(javax.swing.event.ListDataEvent)
              */
             @Override
-            public void intervalAdded(final ListDataEvent e)
-            {
+            public void intervalAdded(final ListDataEvent e) {
                 doSort();
             }
 
@@ -53,8 +47,7 @@ public class SortedObservableList<T> extends DefaultObservableList<T>
              * @see javax.swing.event.ListDataListener#intervalRemoved(javax.swing.event.ListDataEvent)
              */
             @Override
-            public void intervalRemoved(final ListDataEvent e)
-            {
+            public void intervalRemoved(final ListDataEvent e) {
                 // Empty
             }
         });
@@ -64,13 +57,11 @@ public class SortedObservableList<T> extends DefaultObservableList<T>
      * @see de.freese.binding.collections.DefaultObservableList#get(int)
      */
     @Override
-    public T get(final int index)
-    {
+    public T get(final int index) {
         return this.sortedList.get(index);
     }
 
-    public void setComparator(final Comparator<T> comparator)
-    {
+    public void setComparator(final Comparator<T> comparator) {
         this.comparator = Objects.requireNonNull(comparator, "comparator required");
     }
 
@@ -78,8 +69,7 @@ public class SortedObservableList<T> extends DefaultObservableList<T>
      * @see de.freese.binding.collections.DefaultObservableList#doAdd(int, java.lang.Object)
      */
     @Override
-    protected void doAdd(final int index, final T element)
-    {
+    protected void doAdd(final int index, final T element) {
         getLogger().debug("Index: {}; Element: {}", index, element);
 
         this.sortedList.add(index, element);
@@ -91,8 +81,7 @@ public class SortedObservableList<T> extends DefaultObservableList<T>
      * @see de.freese.binding.collections.DefaultObservableList#doRemove(int)
      */
     @Override
-    protected T doRemove(final int index)
-    {
+    protected T doRemove(final int index) {
         getLogger().debug("Index: {}", index);
 
         this.sortedList.remove(index);
@@ -104,8 +93,7 @@ public class SortedObservableList<T> extends DefaultObservableList<T>
      * @see de.freese.binding.collections.DefaultObservableList#doSet(int, java.lang.Object)
      */
     @Override
-    protected T doSet(final int index, final T element)
-    {
+    protected T doSet(final int index, final T element) {
         getLogger().debug("Index: {}; Element: {}", index, element);
 
         this.sortedList.set(index, element);
@@ -113,8 +101,7 @@ public class SortedObservableList<T> extends DefaultObservableList<T>
         return super.doSet(index, element);
     }
 
-    protected void doSort()
-    {
+    protected void doSort() {
         getLogger().debug("doSort");
 
         this.sortedList.sort(this.comparator);

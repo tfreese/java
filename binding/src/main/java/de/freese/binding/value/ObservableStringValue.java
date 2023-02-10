@@ -4,7 +4,6 @@ package de.freese.binding.value;
 /**
  * @author Thomas Freese
  */
-public interface ObservableStringValue extends ObservableValue<String>
-{
+public interface ObservableStringValue extends ObservableValue<String> {
 
 }

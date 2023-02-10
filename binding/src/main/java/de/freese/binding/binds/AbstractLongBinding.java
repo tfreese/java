@@ -9,16 +9,14 @@ import de.freese.binding.property.Property;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractLongBinding extends AbstractLongExpression implements LongBinding
-{
+public abstract class AbstractLongBinding extends AbstractLongExpression implements LongBinding {
     private long value;
 
     /**
      * @see de.freese.binding.value.ObservableValue#getValue()
      */
     @Override
-    public Long getValue()
-    {
+    public Long getValue() {
         return this.value;
     }
 
@@ -26,13 +24,11 @@ public abstract class AbstractLongBinding extends AbstractLongExpression impleme
      * @see de.freese.binding.binds.Binding#update()
      */
     @Override
-    public void update()
-    {
+    public void update() {
         long old = this.value;
         this.value = computeValue();
 
-        if (Objects.equals(old, this.value))
-        {
+        if (Objects.equals(old, this.value)) {
             fireValueChangedEvent(old, this.value);
         }
     }

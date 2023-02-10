@@ -10,12 +10,9 @@ import javafx.application.Application;
 /**
  * @author Thomas Freese
  */
-public final class JConkyLauncher
-{
-    public static void main(final String[] args)
-    {
-        if (System.getProperty("LOG_DIR") == null)
-        {
+public final class JConkyLauncher {
+    public static void main(final String[] args) {
+        if (System.getProperty("LOG_DIR") == null) {
             // Docker kompatibel machen.
             System.setProperty("LOG_DIR", System.getProperty("user.home") + "/.java-apps/jconky");
         }
@@ -37,8 +34,7 @@ public final class JConkyLauncher
         Application.launch(JConky.class, args);
     }
 
-    private static void dumpSystemInfo(final String[] args)
-    {
+    private static void dumpSystemInfo(final String[] args) {
         final Runtime runtime = Runtime.getRuntime();
 
         final NumberFormat format = NumberFormat.getInstance();
@@ -72,8 +68,7 @@ public final class JConkyLauncher
         // }
     }
 
-    private JConkyLauncher()
-    {
+    private JConkyLauncher() {
         super();
     }
 }

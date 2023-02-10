@@ -6,7 +6,6 @@ import de.freese.binding.value.ObservableFloatValue;
 /**
  * @author Thomas Freese
  */
-public interface FloatBinding extends NumberBinding<Float>, ObservableFloatValue
-{
+public interface FloatBinding extends NumberBinding<Float>, ObservableFloatValue {
 
 }

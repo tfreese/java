@@ -9,14 +9,12 @@ import java.util.Objects;
  *
  * @author Thomas Freese
  */
-public abstract class Chromosome
-{
+public abstract class Chromosome {
     private final Config config;
 
     private final Gene[] genes;
 
-    protected Chromosome(final Config config)
-    {
+    protected Chromosome(final Config config) {
         super();
 
         this.config = Objects.requireNonNull(config, "config required");
@@ -25,19 +23,15 @@ public abstract class Chromosome
 
     public abstract double calcFitnessValue();
 
-    public boolean contains(final Gene gene)
-    {
+    public boolean contains(final Gene gene) {
         boolean contains = false;
 
-        for (Gene g : getGenes())
-        {
-            if (g == null)
-            {
+        for (Gene g : getGenes()) {
+            if (g == null) {
                 continue;
             }
 
-            if (g.equals(gene))
-            {
+            if (g.equals(gene)) {
                 contains = true;
                 break;
             }
@@ -46,13 +40,11 @@ public abstract class Chromosome
         return contains;
     }
 
-    public Gene getGene(final int index)
-    {
+    public Gene getGene(final int index) {
         return getGenes()[index];
     }
 
-    public Gene[] getGenes()
-    {
+    public Gene[] getGenes() {
         return this.genes;
     }
 
@@ -60,12 +52,9 @@ public abstract class Chromosome
      * Zufällige Veränderung der Gene.<br>
      * Die Mutation verändert zufällig ein oder mehrere Gene eines Chromosoms.
      */
-    public void mutate()
-    {
-        for (int i = 0; i < size(); i++)
-        {
-            if (getConfig().getRandom().nextDouble() < getConfig().getMutationRate())
-            {
+    public void mutate() {
+        for (int i = 0; i < size(); i++) {
+            if (getConfig().getRandom().nextDouble() < getConfig().getMutationRate()) {
                 int j = getConfig().getRandom().nextInt(size());
 
                 Gene gene1 = getGene(i);
@@ -101,21 +90,18 @@ public abstract class Chromosome
      */
     public abstract void populate();
 
-    public void setGene(final int index, final Gene gene)
-    {
+    public void setGene(final int index, final Gene gene) {
         getGenes()[index] = gene;
     }
 
     /**
      * Liefert die Größe des Chromosoms, Anzahl an Genen.
      */
-    public int size()
-    {
+    public int size() {
         return getGenes().length;
     }
 
-    protected Config getConfig()
-    {
+    protected Config getConfig() {
         return this.config;
     }
 }

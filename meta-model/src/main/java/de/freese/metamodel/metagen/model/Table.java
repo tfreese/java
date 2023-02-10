@@ -18,8 +18,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public class Table
-{
+public class Table {
     private static final Logger LOGGER = LoggerFactory.getLogger(Table.class);
 
     private final Map<String, Column> columns = new TreeMap<>();
@@ -30,18 +29,15 @@ public class Table
     private PrimaryKey primaryKey;
     private Schema schema;
 
-    Table(final Schema schema, final String name)
-    {
+    Table(final Schema schema, final String name) {
         super();
 
         this.schema = Objects.requireNonNull(schema, "schema required");
         this.name = Objects.requireNonNull(name, "name required");
     }
 
-    public void addPrimaryKeycolumn(final String keyName, final int keyColumnIndex, final String columnName)
-    {
-        if (this.primaryKey == null)
-        {
+    public void addPrimaryKeycolumn(final String keyName, final int keyColumnIndex, final String columnName) {
+        if (this.primaryKey == null) {
             this.primaryKey = new PrimaryKey(this, keyName);
         }
 
@@ -50,79 +46,64 @@ public class Table
         this.primaryKey.addColumn(keyColumnIndex, column);
     }
 
-    public Column getColumn(final String name)
-    {
+    public Column getColumn(final String name) {
         return this.columns.computeIfAbsent(name, key -> new Column(this, key));
     }
 
-    public List<Column> getColumnsOrdered()
-    {
+    public List<Column> getColumnsOrdered() {
         return this.columns.values().stream().sorted(Comparator.comparing(Column::getTableIndex)).toList();
         // return new ArrayList<>(this.columns.values());
     }
 
-    public String getComment()
-    {
+    public String getComment() {
         return this.comment;
     }
 
-    public String getFullName()
-    {
-        if (getSchema().getName() != null)
-        {
+    public String getFullName() {
+        if (getSchema().getName() != null) {
             return getSchema().getName() + "." + getName();
         }
 
         return getName();
     }
 
-    public Index getIndex(final String name)
-    {
+    public Index getIndex(final String name) {
         return this.indices.computeIfAbsent(name, key -> new Index(this, key));
     }
 
-    public List<Index> getIndices()
-    {
+    public List<Index> getIndices() {
         return new ArrayList<>(this.indices.values());
     }
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
-    public PrimaryKey getPrimaryKey()
-    {
+    public PrimaryKey getPrimaryKey() {
         return this.primaryKey;
     }
 
-    public Schema getSchema()
-    {
+    public Schema getSchema() {
         return this.schema;
     }
 
-    public UniqueConstraint getUniqueConstraint(final String name)
-    {
+    public UniqueConstraint getUniqueConstraint(final String name) {
         return this.uniqueConstraints.computeIfAbsent(name, key -> new UniqueConstraint(this, key));
     }
 
-    public List<UniqueConstraint> getUniqueConstraints()
-    {
+    public List<UniqueConstraint> getUniqueConstraints() {
         return new ArrayList<>(this.uniqueConstraints.values());
     }
 
-    public void setComment(final String comment)
-    {
+    public void setComment(final String comment) {
         this.comment = comment;
     }
 
-    public void setName(final String name)
-    {
+    public void setName(final String name) {
         this.name = name;
     }
 
-    public void setSchema(final Schema schema)
-    {
+    public void setSchema(final Schema schema) {
         this.schema = schema;
     }
 
@@ -130,8 +111,7 @@ public class Table
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("Table [");
         builder.append("schema=").append(getSchema().getName());
@@ -141,37 +121,29 @@ public class Table
         return builder.toString();
     }
 
-    public void validate()
-    {
-        if (getPrimaryKey() != null)
-        {
+    public void validate() {
+        if (getPrimaryKey() != null) {
             // Entferne den UniqueConstraint, welcher nur eine Spalte enthält und diese der PrimaryKey ist.
             Set<String> pkColumns = getPrimaryKey().getColumnMap().values().stream().map(Column::getName).collect(Collectors.toSet());
 
-            for (UniqueConstraint uc : getUniqueConstraints())
-            {
-                if (uc.getColumnMap().size() > 1)
-                {
+            for (UniqueConstraint uc : getUniqueConstraints()) {
+                if (uc.getColumnMap().size() > 1) {
                     continue;
                 }
 
-                if (pkColumns.contains(uc.getColumnsOrdered().get(0).getName()))
-                {
+                if (pkColumns.contains(uc.getColumnsOrdered().get(0).getName())) {
                     getLogger().info("remove redundant UniqueConstraint {}; Cause: matches PrimaryKey", uc.getName());
                     this.uniqueConstraints.remove(uc.getName());
                 }
             }
 
             // Entferne den Index, welcher nur eine Spalte enthält und diese der PrimaryKey ist.
-            for (Index idx : getIndices())
-            {
-                if (idx.getColumnMap().size() > 1)
-                {
+            for (Index idx : getIndices()) {
+                if (idx.getColumnMap().size() > 1) {
                     continue;
                 }
 
-                if (pkColumns.contains(idx.getColumnsOrdered().get(0).getName()))
-                {
+                if (pkColumns.contains(idx.getColumnsOrdered().get(0).getName())) {
                     getLogger().info("remove redundant Index {}; Cause: matches PrimaryKey", idx.getName());
                     this.indices.remove(idx.getName());
                 }
@@ -179,8 +151,7 @@ public class Table
         }
     }
 
-    protected Logger getLogger()
-    {
+    protected Logger getLogger() {
         return LOGGER;
     }
 }

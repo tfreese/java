@@ -12,8 +12,7 @@ import de.freese.simulationen.model.Cell;
 /**
  * @author Thomas Freese
  */
-public class AntRasterSimulation extends AbstractRasterSimulation
-{
+public class AntRasterSimulation extends AbstractRasterSimulation {
     /**
      * Performance-Optimierung: Nur die Ameisen verarbeiten lassen.
      */
@@ -29,13 +28,11 @@ public class AntRasterSimulation extends AbstractRasterSimulation
      * Erstellt ein neues {@link AntRasterSimulation} Object.<br>
      * Anzahl Ameisen bei 640x480 = Math.sqrt(width * height) / 3 ≈ 185
      */
-    public AntRasterSimulation(final int width, final int height)
-    {
+    public AntRasterSimulation(final int width, final int height) {
         this(width, height, (int) Math.sqrt((double) width * height) / 3);
     }
 
-    public AntRasterSimulation(final int width, final int height, final int numberOfAnts)
-    {
+    public AntRasterSimulation(final int width, final int height, final int numberOfAnts) {
         super(width, height);
 
         this.numberOfAnts = numberOfAnts;
@@ -48,8 +45,7 @@ public class AntRasterSimulation extends AbstractRasterSimulation
      * @see de.freese.simulationen.model.Simulation#nextGeneration()
      */
     @Override
-    public void nextGeneration()
-    {
+    public void nextGeneration() {
         // Hier würden sämtliche Zellen verarbeitet werden, ist bei den Ameisen jedoch unnötig.
         // getCellStream().forEach(RasterCell::nextGeneration);
 
@@ -67,12 +63,10 @@ public class AntRasterSimulation extends AbstractRasterSimulation
      * @see de.freese.simulationen.model.AbstractRasterSimulation#reset()
      */
     @Override
-    public void reset()
-    {
+    public void reset() {
         getCellStream().map(AntCell.class::cast).forEach(c -> c.setCellType(CellType.EMPTY));
 
-        for (int i = 0; i < this.numberOfAnts; i++)
-        {
+        for (int i = 0; i < this.numberOfAnts; i++) {
             // int x = getRandom().nextInt(50) + minX;
             // int y = getRandom().nextInt(50) + minY;
             int x = getRandom().nextInt(getWidth());
@@ -88,8 +82,7 @@ public class AntRasterSimulation extends AbstractRasterSimulation
         fireCompleted();
     }
 
-    void addNextGeneration(final AntCell cell)
-    {
+    void addNextGeneration(final AntCell cell) {
         this.antsNextGeneration.add(cell);
     }
 
@@ -98,8 +91,7 @@ public class AntRasterSimulation extends AbstractRasterSimulation
      *
      * @return int; 0 - 3
      */
-    int getRandomDirection()
-    {
+    int getRandomDirection() {
         return getRandom().nextInt(4);
     }
 
@@ -107,8 +99,7 @@ public class AntRasterSimulation extends AbstractRasterSimulation
      * @see de.freese.simulationen.model.AbstractRasterSimulation#getCell(int, int)
      */
     @Override
-    protected AntCell getCell(final int x, final int y)
-    {
+    protected AntCell getCell(final int x, final int y) {
         return (AntCell) super.getCell(x, y);
     }
 }

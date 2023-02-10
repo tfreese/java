@@ -10,15 +10,11 @@ import de.freese.openstreetmap.model.coordinates.LatLon;
  * @author imi
  * @author Thomas Freese
  */
-public interface Projection
-{
+public interface Projection {
     /**
      * List of all available Projections.
      */
-    Projection[] ALL_PRJECTIONS =
-            {
-                    new Epsg4326(), new Mercator()
-            };
+    Projection[] ALL_PRJECTIONS = {new Epsg4326(), new Mercator()};
 
     /**
      * circumference of the earth in meter.

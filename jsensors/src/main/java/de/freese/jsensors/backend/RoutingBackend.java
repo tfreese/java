@@ -12,12 +12,10 @@ import de.freese.jsensors.sensor.SensorValue;
  *
  * @author Thomas Freese
  */
-public class RoutingBackend extends AbstractBackend
-{
+public class RoutingBackend extends AbstractBackend {
     private final Map<String, CompositeBackend> routes = new HashMap<>();
 
-    public RoutingBackend route(final String sensorName, final Backend backend)
-    {
+    public RoutingBackend route(final String sensorName, final Backend backend) {
         this.routes.computeIfAbsent(sensorName, key -> new CompositeBackend()).add(backend);
 
         return this;
@@ -27,12 +25,10 @@ public class RoutingBackend extends AbstractBackend
      * @see de.freese.jsensors.backend.AbstractBackend#storeValue(de.freese.jsensors.sensor.SensorValue)
      */
     @Override
-    protected void storeValue(final SensorValue sensorValue)
-    {
+    protected void storeValue(final SensorValue sensorValue) {
         CompositeBackend compositeBackend = this.routes.get(sensorValue.getName());
 
-        if (compositeBackend == null)
-        {
+        if (compositeBackend == null) {
             throw new IllegalStateException(String.format("no backends for sensor: '%s'", sensorValue.getName()));
         }
 

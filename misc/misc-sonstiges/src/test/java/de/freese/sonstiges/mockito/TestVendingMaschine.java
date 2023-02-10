@@ -8,11 +8,9 @@ import org.mockito.Mockito;
 /**
  * @author Thomas Freese
  */
-class TestVendingMaschine
-{
+class TestVendingMaschine {
     @Test
-    void testWithMockito() throws Exception
-    {
+    void testWithMockito() throws Exception {
         CashBox cashBox = Mockito.mock(CashBox.class);
         Mockito.when(cashBox.getCurrentAmount()).thenReturn(42);
 
@@ -22,10 +20,7 @@ class TestVendingMaschine
         Mockito.when(box.isEmpty()).thenReturn(Boolean.FALSE);
         Mockito.when(box.getPrice()).thenReturn(42);
 
-        Box[] boxes =
-                {
-                        box
-                };
+        Box[] boxes = {box};
         VendingMaschine maschine = new VendingMaschine(cashBox, boxes);
         maschine.selectItem(0);
 

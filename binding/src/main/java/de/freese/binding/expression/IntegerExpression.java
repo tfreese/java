@@ -7,14 +7,12 @@ import de.freese.binding.value.ObservableIntegerValue;
 /**
  * @author Thomas Freese
  */
-public interface IntegerExpression extends NumberExpression<Integer>, ObservableIntegerValue
-{
+public interface IntegerExpression extends NumberExpression<Integer>, ObservableIntegerValue {
     /**
      * @see de.freese.binding.expression.NumberExpression#add(int)
      */
     @Override
-    default IntegerBinding add(final int value)
-    {
+    default IntegerBinding add(final int value) {
         return (IntegerBinding) NumberExpression.super.add(value);
     }
 
@@ -22,8 +20,7 @@ public interface IntegerExpression extends NumberExpression<Integer>, Observable
      * @see de.freese.binding.expression.NumberExpression#divide(int)
      */
     @Override
-    default IntegerBinding divide(final int value)
-    {
+    default IntegerBinding divide(final int value) {
         return (IntegerBinding) NumberExpression.super.divide(value);
     }
 
@@ -31,8 +28,7 @@ public interface IntegerExpression extends NumberExpression<Integer>, Observable
      * @see de.freese.binding.expression.NumberExpression#multiply(int)
      */
     @Override
-    default IntegerBinding multiply(final int value)
-    {
+    default IntegerBinding multiply(final int value) {
         return (IntegerBinding) NumberExpression.super.multiply(value);
     }
 
@@ -40,8 +36,7 @@ public interface IntegerExpression extends NumberExpression<Integer>, Observable
      * @see de.freese.binding.expression.NumberExpression#subtract(int)
      */
     @Override
-    default IntegerBinding subtract(final int value)
-    {
+    default IntegerBinding subtract(final int value) {
         return (IntegerBinding) NumberExpression.super.subtract(value);
     }
 }

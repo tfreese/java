@@ -8,14 +8,12 @@ import de.freese.binding.value.ObservableNumberValue;
 /**
  * @author Thomas Freese
  */
-public interface DoubleExpression extends NumberExpression<Double>, ObservableDoubleValue
-{
+public interface DoubleExpression extends NumberExpression<Double>, ObservableDoubleValue {
     /**
      * @see de.freese.binding.expression.NumberExpression#add(double)
      */
     @Override
-    default DoubleBinding add(final double value)
-    {
+    default DoubleBinding add(final double value) {
         return (DoubleBinding) NumberExpression.super.add(value);
     }
 
@@ -23,8 +21,7 @@ public interface DoubleExpression extends NumberExpression<Double>, ObservableDo
      * @see de.freese.binding.expression.NumberExpression#add(de.freese.binding.value.ObservableNumberValue)
      */
     @Override
-    default DoubleBinding add(final ObservableNumberValue<? extends Number> other)
-    {
+    default DoubleBinding add(final ObservableNumberValue<? extends Number> other) {
         return (DoubleBinding) NumberExpression.super.add(other);
     }
 
@@ -32,8 +29,7 @@ public interface DoubleExpression extends NumberExpression<Double>, ObservableDo
      * @see de.freese.binding.expression.NumberExpression#divide(double)
      */
     @Override
-    default DoubleBinding divide(final double value)
-    {
+    default DoubleBinding divide(final double value) {
         return (DoubleBinding) NumberExpression.super.divide(value);
     }
 
@@ -41,8 +37,7 @@ public interface DoubleExpression extends NumberExpression<Double>, ObservableDo
      * @see de.freese.binding.expression.NumberExpression#divide(de.freese.binding.value.ObservableNumberValue)
      */
     @Override
-    default DoubleBinding divide(final ObservableNumberValue<? extends Number> other)
-    {
+    default DoubleBinding divide(final ObservableNumberValue<? extends Number> other) {
         return (DoubleBinding) NumberExpression.super.divide(other);
     }
 
@@ -50,8 +45,7 @@ public interface DoubleExpression extends NumberExpression<Double>, ObservableDo
      * @see de.freese.binding.expression.NumberExpression#multiply(double)
      */
     @Override
-    default DoubleBinding multiply(final double value)
-    {
+    default DoubleBinding multiply(final double value) {
         return (DoubleBinding) NumberExpression.super.multiply(value);
     }
 
@@ -59,8 +53,7 @@ public interface DoubleExpression extends NumberExpression<Double>, ObservableDo
      * @see de.freese.binding.expression.NumberExpression#multiply(de.freese.binding.value.ObservableNumberValue)
      */
     @Override
-    default DoubleBinding multiply(final ObservableNumberValue<? extends Number> other)
-    {
+    default DoubleBinding multiply(final ObservableNumberValue<? extends Number> other) {
         return (DoubleBinding) NumberExpression.super.multiply(other);
     }
 
@@ -68,8 +61,7 @@ public interface DoubleExpression extends NumberExpression<Double>, ObservableDo
      * @see de.freese.binding.expression.NumberExpression#subtract(double)
      */
     @Override
-    default DoubleBinding subtract(final double value)
-    {
+    default DoubleBinding subtract(final double value) {
         return (DoubleBinding) NumberExpression.super.subtract(value);
     }
 
@@ -77,8 +69,7 @@ public interface DoubleExpression extends NumberExpression<Double>, ObservableDo
      * @see de.freese.binding.expression.NumberExpression#subtract(de.freese.binding.value.ObservableNumberValue)
      */
     @Override
-    default DoubleBinding subtract(final ObservableNumberValue<? extends Number> other)
-    {
+    default DoubleBinding subtract(final ObservableNumberValue<? extends Number> other) {
         return (DoubleBinding) NumberExpression.super.subtract(other);
     }
 }

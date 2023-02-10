@@ -16,15 +16,13 @@ import javax.swing.TransferHandler;
 /**
  * @author Thomas Freese
  */
-class DTPicture extends Picture implements MouseMotionListener
-{
+class DTPicture extends Picture implements MouseMotionListener {
     @Serial
     private static final long serialVersionUID = 7035716073636112614L;
 
     private static boolean installInputMapBindings = true;
 
-    public static boolean hasInstallInputMapBindings()
-    { // for completeness
+    public static boolean hasInstallInputMapBindings() { // for completeness
 
         return installInputMapBindings;
     }
@@ -37,15 +35,13 @@ class DTPicture extends Picture implements MouseMotionListener
     // Your program would use one approach or the other, but not
     // both. The default for installInputMapBindings is true.
 
-    public static void setInstallInputMapBindings(final boolean flag)
-    {
+    public static void setInstallInputMapBindings(final boolean flag) {
         installInputMapBindings = flag;
     }
 
     private MouseEvent firstMouseEvent;
 
-    DTPicture(final Image image)
-    {
+    DTPicture(final Image image) {
         super(image);
 
         addMouseMotionListener(this);
@@ -59,8 +55,7 @@ class DTPicture extends Picture implements MouseMotionListener
         // menu accelerators and so calls setInstallInputMapBindings
         // with a value of false. Your program would do one or the
         // other, but not both.
-        if (installInputMapBindings)
-        {
+        if (installInputMapBindings) {
             InputMap imap = this.getInputMap();
             imap.put(KeyStroke.getKeyStroke("ctrl X"), TransferHandler.getCutAction().getValue(Action.NAME));
             imap.put(KeyStroke.getKeyStroke("ctrl C"), TransferHandler.getCopyAction().getValue(Action.NAME));
@@ -80,16 +75,13 @@ class DTPicture extends Picture implements MouseMotionListener
      * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
      */
     @Override
-    public void mouseDragged(final MouseEvent e)
-    {
+    public void mouseDragged(final MouseEvent e) {
         // Don't bother to drag if the component displays no image.
-        if (getImage() == null)
-        {
+        if (getImage() == null) {
             return;
         }
 
-        if (this.firstMouseEvent != null)
-        {
+        if (this.firstMouseEvent != null) {
             e.consume();
 
             // If they are holding down the control key, COPY rather than MOVE
@@ -101,8 +93,7 @@ class DTPicture extends Picture implements MouseMotionListener
 
             // Arbitrarily define a 5-pixel shift as the
             // official beginning of a drag.
-            if ((dx > 5) || (dy > 5))
-            {
+            if ((dx > 5) || (dy > 5)) {
                 // This is a drag, not a click.
                 JComponent c = (JComponent) e.getSource();
                 TransferHandler handler = c.getTransferHandler();
@@ -118,8 +109,7 @@ class DTPicture extends Picture implements MouseMotionListener
      * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
      */
     @Override
-    public void mouseMoved(final MouseEvent e)
-    {
+    public void mouseMoved(final MouseEvent e) {
         // Empty
     }
 
@@ -127,11 +117,9 @@ class DTPicture extends Picture implements MouseMotionListener
      * @see de.freese.sonstiges.dnd.picture.Picture#mousePressed(java.awt.event.MouseEvent)
      */
     @Override
-    public void mousePressed(final MouseEvent e)
-    {
+    public void mousePressed(final MouseEvent e) {
         // Don't bother to drag if there is no image.
-        if (getImage() == null)
-        {
+        if (getImage() == null) {
             return;
         }
 
@@ -143,14 +131,12 @@ class DTPicture extends Picture implements MouseMotionListener
      * @see de.freese.sonstiges.dnd.picture.Picture#mouseReleased(java.awt.event.MouseEvent)
      */
     @Override
-    public void mouseReleased(final MouseEvent e)
-    {
+    public void mouseReleased(final MouseEvent e) {
         this.firstMouseEvent = null;
     }
 
     @Override
-    public void setImage(final Image image)
-    {
+    public void setImage(final Image image) {
         super.setImage(image);
 
         this.repaint();

@@ -9,19 +9,16 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Thomas Freese
  */
-public final class ProducerConsumerBlockingQueue
-{
+public final class ProducerConsumerBlockingQueue {
     /**
      * @author Thomas Freese
      */
-    private static class Consumer implements Runnable
-    {
+    private static class Consumer implements Runnable {
         private final int number;
 
         private final BlockingQueue<Integer> queue;
 
-        Consumer(final BlockingQueue<Integer> queue, final int number)
-        {
+        Consumer(final BlockingQueue<Integer> queue, final int number) {
             super();
 
             this.queue = queue;
@@ -32,18 +29,14 @@ public final class ProducerConsumerBlockingQueue
          * @see java.lang.Runnable#run()
          */
         @Override
-        public synchronized void run()
-        {
-            while (!Thread.interrupted())
-            {
-                try
-                {
+        public synchronized void run() {
+            while (!Thread.interrupted()) {
+                try {
                     Integer value;
                     // value = this.queue.take();
                     value = this.queue.poll(5000, TimeUnit.MILLISECONDS);
 
-                    if (value == null)
-                    {
+                    if (value == null) {
                         break;
                     }
 
@@ -51,8 +44,7 @@ public final class ProducerConsumerBlockingQueue
 
                     TimeUnit.MILLISECONDS.sleep(3000);
                 }
-                catch (InterruptedException ex)
-                {
+                catch (InterruptedException ex) {
                     ex.printStackTrace();
 
                     // Restore interrupted state.
@@ -65,13 +57,11 @@ public final class ProducerConsumerBlockingQueue
     /**
      * @author Thomas Freese
      */
-    private static class Producer implements Runnable
-    {
+    private static class Producer implements Runnable {
         private final int number;
         private final BlockingQueue<Integer> queue;
 
-        Producer(final BlockingQueue<Integer> queue, final int number)
-        {
+        Producer(final BlockingQueue<Integer> queue, final int number) {
             super();
 
             this.queue = queue;
@@ -82,12 +72,9 @@ public final class ProducerConsumerBlockingQueue
          * @see java.lang.Runnable#run()
          */
         @Override
-        public synchronized void run()
-        {
-            for (int i = 0; i < 10; i++)
-            {
-                try
-                {
+        public synchronized void run() {
+            for (int i = 0; i < 10; i++) {
+                try {
                     this.queue.put(i);
                     // this.queue.offer(Integer.valueOf(i)); // Funktioniert bei SynchronousQueue nicht.
 
@@ -95,8 +82,7 @@ public final class ProducerConsumerBlockingQueue
 
                     TimeUnit.MILLISECONDS.sleep(300);
                 }
-                catch (InterruptedException ex)
-                {
+                catch (InterruptedException ex) {
                     ex.printStackTrace();
 
                     // Restore interrupted state.
@@ -106,8 +92,7 @@ public final class ProducerConsumerBlockingQueue
         }
     }
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         // BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(5);
         BlockingQueue<Integer> queue = new LinkedBlockingQueue<>(5);
         // BlockingQueue<Integer> queue = new SynchronousQueue<>();
@@ -115,22 +100,19 @@ public final class ProducerConsumerBlockingQueue
         Executor executor = Executors.newCachedThreadPool();
 
         // Producer starten
-        for (int i = 0; i < 1; i++)
-        {
+        for (int i = 0; i < 1; i++) {
             executor.execute(new Producer(queue, i + 1));
         }
 
         TimeUnit.MILLISECONDS.sleep(500);
 
         // Consumer starten
-        for (int i = 0; i < 2; i++)
-        {
+        for (int i = 0; i < 2; i++) {
             executor.execute(new Consumer(queue, i + 1));
         }
     }
 
-    private ProducerConsumerBlockingQueue()
-    {
+    private ProducerConsumerBlockingQueue() {
         super();
     }
 }

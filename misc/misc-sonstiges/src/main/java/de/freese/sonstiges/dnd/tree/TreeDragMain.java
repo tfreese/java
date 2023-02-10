@@ -15,18 +15,15 @@ import javax.swing.JTree;
  *
  * @author Thomas Freese
  */
-public final class TreeDragMain extends JFrame
-{
+public final class TreeDragMain extends JFrame {
     @Serial
     private static final long serialVersionUID = 1197758766045157541L;
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         new TreeDragMain();
     }
 
-    private TreeDragMain()
-    {
+    private TreeDragMain() {
         super("TreeDragMain");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -37,12 +34,10 @@ public final class TreeDragMain extends JFrame
         treeLeft.setDragEnabled(true);
         treeLeft.setTransferHandler(transferHandler);
 
-        try
-        {
+        try {
             treeLeft.getDropTarget().addDropTargetListener(new TreeDropTargetListener());
         }
-        catch (TooManyListenersException ex)
-        {
+        catch (TooManyListenersException ex) {
             ex.printStackTrace();
         }
 

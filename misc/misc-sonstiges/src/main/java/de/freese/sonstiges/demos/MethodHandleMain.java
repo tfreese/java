@@ -9,52 +9,43 @@ import java.lang.reflect.Field;
 /**
  * @author Thomas Freese
  */
-public final class MethodHandleMain
-{
+public final class MethodHandleMain {
     /**
      * @author Thomas Freese
      */
-    static class MyPoint
-    {
+    static class MyPoint {
         private int x;
 
         private int y;
 
         private int z;
 
-        public int getX()
-        {
+        public int getX() {
             return x;
         }
 
-        public int getY()
-        {
+        public int getY() {
             return y;
         }
 
-        public int getZ()
-        {
+        public int getZ() {
             return z;
         }
 
-        public void setX(final int x)
-        {
+        public void setX(final int x) {
             this.x = x;
         }
 
-        public void setY(final int y)
-        {
+        public void setY(final int y) {
             this.y = y;
         }
 
-        public void setZ(final int z)
-        {
+        public void setZ(final int z) {
             this.z = z;
         }
     }
 
-    public static void main(final String[] args) throws Throwable
-    {
+    public static void main(final String[] args) throws Throwable {
         accessFields();
         accessPrivateFields();
         insertArguments();
@@ -63,8 +54,7 @@ public final class MethodHandleMain
         // mh.invoke(new SQLException("test"));
     }
 
-    private static void accessFields() throws Throwable
-    {
+    private static void accessFields() throws Throwable {
         MethodHandles.Lookup lookup = MethodHandles.lookup();
         MyPoint point = new MyPoint();
 
@@ -85,8 +75,7 @@ public final class MethodHandleMain
         System.out.printf("y = %d%n", y);
     }
 
-    private static void accessPrivateFields() throws Throwable
-    {
+    private static void accessPrivateFields() throws Throwable {
         Field field = MyPoint.class.getDeclaredField("z");
         field.setAccessible(true);
 
@@ -105,8 +94,7 @@ public final class MethodHandleMain
         System.out.printf("z = %d%n", z);
     }
 
-    private static void insertArguments() throws Throwable
-    {
+    private static void insertArguments() throws Throwable {
         MethodHandles.Lookup lookup = MethodHandles.lookup();
 
         MethodHandle mh = lookup.findStatic(Math.class, "pow", MethodType.methodType(double.class, double.class, double.class));
@@ -117,8 +105,7 @@ public final class MethodHandleMain
         System.out.printf("2^10 = %f%n", mh.invoke(2.0D));
     }
 
-    private MethodHandleMain()
-    {
+    private MethodHandleMain() {
         super();
     }
 }

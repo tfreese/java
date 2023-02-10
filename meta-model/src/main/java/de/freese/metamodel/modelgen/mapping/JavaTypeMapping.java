@@ -9,10 +9,8 @@ import java.util.Date;
  *
  * @author Thomas Freese
  */
-public class JavaTypeMapping extends AbstractTypeMapping
-{
-    public JavaTypeMapping()
-    {
+public class JavaTypeMapping extends AbstractTypeMapping {
+    public JavaTypeMapping() {
         super();
 
         register(JDBCType.BIGINT, new ClassType(Long.class), new ClassType(long.class));

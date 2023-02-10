@@ -14,36 +14,29 @@ import javax.net.ssl.SSLServerSocket;
 /**
  * @author Thomas Freese
  */
-public final class DateServerMain extends Thread
-{
+public final class DateServerMain extends Thread {
     /**
      * @author Thomas Freese
      */
-    private static final class Connect implements Runnable
-    {
+    private static final class Connect implements Runnable {
         private final Socket clientSocket;
 
         // private ObjectInputStream ois;
 
         private ObjectOutputStream oos;
 
-        private Connect(final Socket clientSocket)
-        {
+        private Connect(final Socket clientSocket) {
             this.clientSocket = clientSocket;
 
-            try
-            {
+            try {
                 // this.ois = new ObjectInputStream(this.clientSocket.getInputStream());
                 this.oos = new ObjectOutputStream(this.clientSocket.getOutputStream());
             }
-            catch (Exception ex)
-            {
-                try
-                {
+            catch (Exception ex) {
+                try {
                     this.clientSocket.close();
                 }
-                catch (Exception ex1)
-                {
+                catch (Exception ex1) {
                     System.out.println(ex1.getMessage());
                 }
             }
@@ -53,15 +46,12 @@ public final class DateServerMain extends Thread
          * @see java.lang.Thread#run()
          */
         @Override
-        public void run()
-        {
-            if (this.clientSocket.isClosed() || (this.oos == null))
-            {
+        public void run() {
+            if (this.clientSocket.isClosed() || (this.oos == null)) {
                 return;
             }
 
-            try
-            {
+            try {
                 System.out.println("DateServerMain.Connect.run()");
                 this.oos.writeObject(new Date());
                 this.oos.flush();
@@ -71,45 +61,38 @@ public final class DateServerMain extends Thread
                 this.oos.close();
                 this.clientSocket.close();
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 // Ignore
             }
         }
     }
 
-    public static void main(final String[] argv) throws Exception
-    {
+    public static void main(final String[] argv) throws Exception {
         DateServerMain server = new DateServerMain();
         server.start();
     }
 
     private final ServerSocket serverSocket;
 
-    private DateServerMain() throws Exception
-    {
+    private DateServerMain() throws Exception {
         super();
 
         boolean isSSL = true;
         ServerSocketFactory serverSocketFactory = null;
 
-        if (isSSL)
-        {
+        if (isSSL) {
             // SSLContext sslContext = SSLContextFactory.createDefault();
-            SSLContext sslContext = DateClientMain.createSSLContext("src/main/resources/serverKeyStore", "server-pw".toCharArray(),
-                    "src/main/resources/clientTrustStore", "client-pw".toCharArray(), "server1-cert-pw".toCharArray());
+            SSLContext sslContext = DateClientMain.createSSLContext("src/main/resources/serverKeyStore", "server-pw".toCharArray(), "src/main/resources/clientTrustStore", "client-pw".toCharArray(), "server1-cert-pw".toCharArray());
 
             serverSocketFactory = sslContext.getServerSocketFactory();
         }
-        else
-        {
+        else {
             serverSocketFactory = ServerSocketFactory.getDefault();
         }
 
         this.serverSocket = serverSocketFactory.createServerSocket(3000);
 
-        if (this.serverSocket instanceof SSLServerSocket s)
-        {
+        if (this.serverSocket instanceof SSLServerSocket s) {
             s.setNeedClientAuth(true);
         }
 
@@ -120,22 +103,18 @@ public final class DateServerMain extends Thread
      * @see java.lang.Thread#run()
      */
     @Override
-    public void run()
-    {
-        while (true)
-        {
+    public void run() {
+        while (true) {
             System.out.println("Waiting for connections.");
 
-            try
-            {
+            try {
                 Socket clientSocket = this.serverSocket.accept();
                 System.out.println("Accepted a connection from: " + clientSocket.getInetAddress());
 
                 Runnable connect = new Connect(clientSocket);
                 ForkJoinPool.commonPool().execute(connect);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 ex.printStackTrace();
             }
         }

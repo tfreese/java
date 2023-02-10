@@ -6,15 +6,12 @@ import javafx.application.Application;
 /**
  * @author Thomas Freese
  */
-public final class JavaFxGraphApplicationLauncher
-{
-    public static void main(final String[] args)
-    {
+public final class JavaFxGraphApplicationLauncher {
+    public static void main(final String[] args) {
         Application.launch(JavaFxGraphApplication.class, args);
     }
 
-    private JavaFxGraphApplicationLauncher()
-    {
+    private JavaFxGraphApplicationLauncher() {
         super();
     }
 }

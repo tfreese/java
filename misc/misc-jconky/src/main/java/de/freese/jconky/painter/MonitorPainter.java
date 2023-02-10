@@ -7,7 +7,6 @@ import javafx.scene.canvas.GraphicsContext;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface MonitorPainter
-{
+public interface MonitorPainter {
     double paintValue(GraphicsContext gc, double width);
 }

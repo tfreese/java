@@ -20,18 +20,15 @@ import de.freese.binding.swing.table.AbstractObservableListTableModel;
 /**
  * @author Thomas Freese
  */
-public final class TableModelMain
-{
+public final class TableModelMain {
     /**
      * @author Thomas Freese
      */
-    private static class MyTableModel extends AbstractObservableListTableModel<Map<Integer, String>>
-    {
+    private static class MyTableModel extends AbstractObservableListTableModel<Map<Integer, String>> {
         @Serial
         private static final long serialVersionUID = -4124180013372465407L;
 
-        MyTableModel(final int columnCount, final ObservableList<Map<Integer, String>> list)
-        {
+        MyTableModel(final int columnCount, final ObservableList<Map<Integer, String>> list) {
             super(columnCount, list);
         }
 
@@ -39,25 +36,21 @@ public final class TableModelMain
          * @see javax.swing.table.TableModel#getValueAt(int, int)
          */
         @Override
-        public Object getValueAt(final int rowIndex, final int columnIndex)
-        {
+        public Object getValueAt(final int rowIndex, final int columnIndex) {
             Map<Integer, String> map = getObjectAt(rowIndex);
 
             return map.get(columnIndex);
         }
     }
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         JFrame frame = new JFrame("Test-TableModel");
-        frame.addWindowListener(new WindowAdapter()
-        {
+        frame.addWindowListener(new WindowAdapter() {
             /**
              * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
              */
             @Override
-            public void windowClosing(final WindowEvent e)
-            {
+            public void windowClosing(final WindowEvent e) {
                 System.exit(0);
             }
         });
@@ -74,8 +67,7 @@ public final class TableModelMain
         frame.setVisible(true);
 
         // Add Rows
-        for (int i = 0; i < 7; i++)
-        {
+        for (int i = 0; i < 7; i++) {
             TimeUnit.MILLISECONDS.sleep(2000);
 
             Map<Integer, String> row = new HashMap<>();
@@ -97,8 +89,7 @@ public final class TableModelMain
         list.clear();
     }
 
-    private TableModelMain()
-    {
+    private TableModelMain() {
         super();
     }
 }

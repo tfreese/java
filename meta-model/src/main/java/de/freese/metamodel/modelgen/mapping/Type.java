@@ -4,8 +4,7 @@ package de.freese.metamodel.modelgen.mapping;
 /**
  * @author Thomas Freese
  */
-public interface Type
-{
+public interface Type {
     boolean equals(Class<?> clazz);
 
     String getSimpleName();

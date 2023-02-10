@@ -9,38 +9,34 @@ import java.nio.channels.CompletionHandler;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 
-import de.freese.sonstiges.server.handler.IoHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.freese.sonstiges.server.handler.IoHandler;
 
 /**
  * @author Thomas Freese
  */
-class HttpReadHandler implements CompletionHandler<Integer, MyAttachment>
-{
+class HttpReadHandler implements CompletionHandler<Integer, MyAttachment> {
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpReadHandler.class);
 
     /**
      * @see java.nio.channels.CompletionHandler#completed(java.lang.Object, java.lang.Object)
      */
     @Override
-    public void completed(final Integer bytesRead, final MyAttachment attachment)
-    {
+    public void completed(final Integer bytesRead, final MyAttachment attachment) {
         AsynchronousSocketChannel channel = attachment.channel();
         ByteBuffer byteBuffer = attachment.byteBuffer();
         StringBuilder httpHeader = attachment.httpHeader();
 
-        try
-        {
+        try {
             LOGGER.debug("{}: Read Request", channel.getRemoteAddress());
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex) {
             failed(ex, null);
         }
 
-        if (bytesRead <= 0)
-        {
+        if (bytesRead <= 0) {
             // Nichts mehr zum Lesen, Request vollständig.
             // Write Vorgang an anderen Thread übergeben.
             write(channel);
@@ -64,13 +60,11 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment>
         char[] endOfHeader = new char[4];
         httpHeader.getChars(length - 4, length, endOfHeader, 0);
 
-        if ((endOfHeader[0] == '\r') && (endOfHeader[1] == '\n') && (endOfHeader[2] == '\r') && (endOfHeader[3] == '\n'))
-        {
+        if ((endOfHeader[0] == '\r') && (endOfHeader[1] == '\n') && (endOfHeader[2] == '\r') && (endOfHeader[3] == '\n')) {
             // Leerzeile = Ende des HttpHeaders.
             write(channel);
         }
-        else
-        {
+        else {
             // Nächster Lese Vorgang in diesem Thread,
             channel.read(byteBuffer, attachment, this);
 
@@ -83,16 +77,14 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment>
      * @see java.nio.channels.CompletionHandler#failed(java.lang.Throwable, java.lang.Object)
      */
     @Override
-    public void failed(final Throwable exc, final MyAttachment attachment)
-    {
+    public void failed(final Throwable exc, final MyAttachment attachment) {
         AsynchronousSocketChannel channel = attachment.channel();
 
         ServerAsync.close(channel, LOGGER);
         LOGGER.error(exc.getMessage(), exc);
     }
 
-    private void write(final AsynchronousSocketChannel channel)
-    {
+    private void write(final AsynchronousSocketChannel channel) {
         Charset charset = IoHandler.DEFAULT_CHARSET;
 
         CharBuffer charBufferBody = CharBuffer.allocate(256);

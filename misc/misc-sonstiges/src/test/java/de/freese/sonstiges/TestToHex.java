@@ -16,8 +16,7 @@ import org.junit.jupiter.api.TestMethodOrder;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class TestToHex
-{
+class TestToHex {
     private static final byte[] BYTES = new byte[1000000];
 
     private static final char[] HEX_CODE = "0123456789ABCDEF".toCharArray();
@@ -25,21 +24,18 @@ class TestToHex
     private static final String RESULT = "";
 
     @BeforeAll
-    static void beforeAll()
-    {
+    static void beforeAll() {
         Random random = new Random(System.currentTimeMillis());
 
         random.nextBytes(BYTES);
     }
 
     @Test
-    void testBitShift()
-    {
+    void testBitShift() {
         long start = System.currentTimeMillis();
         StringBuilder sb = new StringBuilder(BYTES.length * 2);
 
-        for (byte element : BYTES)
-        {
+        for (byte element : BYTES) {
             int byteValue = element & 0xFF;
 
             sb.append(HEX_CODE[(byteValue >> 4) & 0xF]);
@@ -53,8 +49,7 @@ class TestToHex
     }
 
     @Test
-    void testDatatypeConverter()
-    {
+    void testDatatypeConverter() {
         long start = System.currentTimeMillis();
         StringBuilder sb = new StringBuilder(BYTES.length * 2);
         sb.append(DatatypeConverter.printHexBinary(BYTES));
@@ -66,17 +61,14 @@ class TestToHex
     }
 
     @Test
-    void testIntegerToHexString()
-    {
+    void testIntegerToHexString() {
         long start = System.currentTimeMillis();
         StringBuilder sb = new StringBuilder(BYTES.length * 2);
 
-        for (byte element : BYTES)
-        {
+        for (byte element : BYTES) {
             String hex = Integer.toHexString(element).toUpperCase();
 
-            if (hex.length() == 1)
-            {
+            if (hex.length() == 1) {
                 sb.append("0");
             }
 
@@ -90,13 +82,11 @@ class TestToHex
     }
 
     @Test
-    void testIntegerToString()
-    {
+    void testIntegerToString() {
         long start = System.currentTimeMillis();
         StringBuilder sb = new StringBuilder(BYTES.length * 2);
 
-        for (byte element : BYTES)
-        {
+        for (byte element : BYTES) {
             sb.append(Integer.toString((element & 0xFF) + 0x100, 16).substring(1).toUpperCase());
         }
 
@@ -107,13 +97,11 @@ class TestToHex
     }
 
     @Test
-    void testStringFormat()
-    {
+    void testStringFormat() {
         long start = System.currentTimeMillis();
         StringBuilder sb = new StringBuilder(BYTES.length * 2);
 
-        for (byte element : BYTES)
-        {
+        for (byte element : BYTES) {
             sb.append(String.format("%02X", element));
         }
 

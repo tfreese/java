@@ -18,13 +18,11 @@ import javax.swing.WindowConstants;
 /**
  * @author Thomas Freese
  */
-public final class DragFileMain extends JPanel implements ActionListener
-{
+public final class DragFileMain extends JPanel implements ActionListener {
     @Serial
     private static final long serialVersionUID = 605490039316371414L;
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         // Schedule a job for the event-dispatching thread:
         // creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(DragFileMain::createAndShowGUI);
@@ -33,8 +31,7 @@ public final class DragFileMain extends JPanel implements ActionListener
     /**
      * Create the GUI and show it. For thread safety, this method should be invoked from the event-dispatching thread.
      */
-    private static void createAndShowGUI()
-    {
+    private static void createAndShowGUI() {
         // Make sure we have nice window decorations.
         JFrame.setDefaultLookAndFeelDecorated(true);
 
@@ -57,8 +54,7 @@ public final class DragFileMain extends JPanel implements ActionListener
 
     private transient final TabbedPaneController tpc;
 
-    private DragFileMain()
-    {
+    private DragFileMain() {
         super(new BorderLayout());
 
         JFileChooser fc = new JFileChooser();
@@ -102,16 +98,13 @@ public final class DragFileMain extends JPanel implements ActionListener
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     @Override
-    public void actionPerformed(final ActionEvent e)
-    {
-        if (e.getSource() == this.clear)
-        {
+    public void actionPerformed(final ActionEvent e) {
+        if (e.getSource() == this.clear) {
             this.tpc.clearAll();
         }
     }
 
-    public void setDefaultButton()
-    {
+    public void setDefaultButton() {
         getRootPane().setDefaultButton(this.clear);
     }
 }

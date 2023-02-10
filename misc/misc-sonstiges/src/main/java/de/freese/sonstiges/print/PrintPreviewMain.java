@@ -30,8 +30,7 @@ import javax.swing.JSeparator;
  *
  * @author Thomas Freese
  */
-public final class PrintPreviewMain extends JPanel implements Printable, ActionListener
-{
+public final class PrintPreviewMain extends JPanel implements Printable, ActionListener {
     private static final int BORDER_SIZE = 50;
 
     private static final Color COLOR_BACKGROUND = Color.darkGray;
@@ -59,19 +58,16 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
     @Serial
     private static final long serialVersionUID = -2189370102458478566L;
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         JFrame frame = new JFrame("Einfaches Druckbeispiel");
         PrintPreviewMain printPreview = new PrintPreviewMain();
 
-        WindowListener l = new WindowAdapter()
-        {
+        WindowListener l = new WindowAdapter() {
             /**
              * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
              */
             @Override
-            public void windowClosing(final WindowEvent e)
-            {
+            public void windowClosing(final WindowEvent e) {
                 System.exit(0);
             }
         };
@@ -125,6 +121,7 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
         frame.pack();
         frame.setVisible(true);
     }
+
     private final transient Image imgCup;
     private final transient Image imgDuke;
     private final transient PrinterJob printerJob;
@@ -134,8 +131,7 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
 
     private String text = "Drucken mit Java 2";
 
-    private PrintPreviewMain()
-    {
+    private PrintPreviewMain() {
         super();
 
         // Druckereinstellungen und Seitenlayout initialisieren
@@ -146,8 +142,7 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
         setBackground(COLOR_BACKGROUND);
 
         // "Wunschgrösse" für das Panel berechnen
-        setPreferredSize(new Dimension((int) ((this.pageFormat.getWidth() + (2 * BORDER_SIZE)) * this.mdPreviewScale),
-                (int) ((this.pageFormat.getHeight() + (2 * BORDER_SIZE)) * this.mdPreviewScale)));
+        setPreferredSize(new Dimension((int) ((this.pageFormat.getWidth() + (2 * BORDER_SIZE)) * this.mdPreviewScale), (int) ((this.pageFormat.getHeight() + (2 * BORDER_SIZE)) * this.mdPreviewScale)));
 
         // Grafiken laden
         this.imgDuke = getToolkit().getImage("resources/WavingDuke.gif");
@@ -158,55 +153,43 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     @Override
-    public void actionPerformed(final ActionEvent event)
-    {
-        if (event.getSource() instanceof JMenuItem)
-        {
-            if (LABEL_MENU_PRINT.equals(event.getActionCommand()))
-            {
+    public void actionPerformed(final ActionEvent event) {
+        if (event.getSource() instanceof JMenuItem) {
+            if (LABEL_MENU_PRINT.equals(event.getActionCommand())) {
                 // Ausdruck starten
                 print();
             }
-            else if (LABEL_MENU_PAGE_LAYOUT.equals(event.getActionCommand()))
-            {
+            else if (LABEL_MENU_PAGE_LAYOUT.equals(event.getActionCommand())) {
                 // Seitenlayout-Dialog anzeigen
                 this.pageFormat = this.printerJob.pageDialog(this.pageFormat);
                 repaint();
             }
-            else if (LABEL_MENU_PRINTER.equals(event.getActionCommand()))
-            {
+            else if (LABEL_MENU_PRINTER.equals(event.getActionCommand())) {
                 // Druckerauswahldialog anzeigen
-                if (this.printerJob.printDialog())
-                {
+                if (this.printerJob.printDialog()) {
                     this.pageFormat = this.printerJob.validatePage(this.pageFormat);
                     repaint();
                 }
             }
-            else if (LABEL_MENU_ZOOM_IN.equals(event.getActionCommand()))
-            {
+            else if (LABEL_MENU_ZOOM_IN.equals(event.getActionCommand())) {
                 // neuen Zoomfaktor berechnen
-                if (this.mdPreviewScale < 2)
-                {
+                if (this.mdPreviewScale < 2) {
                     this.mdPreviewScale *= 2;
                     repaint();
                 }
             }
-            else if (LABEL_MENU_ZOOM_OUT.equals(event.getActionCommand()))
-            {
+            else if (LABEL_MENU_ZOOM_OUT.equals(event.getActionCommand())) {
                 // neuen Zoomfaktor berechnen
-                if (this.mdPreviewScale > 0.25)
-                {
+                if (this.mdPreviewScale > 0.25) {
                     this.mdPreviewScale /= 2;
                     repaint();
                 }
             }
-            else if (LABEL_MENU_ENTER_TEXT.equals(event.getActionCommand()))
-            {
+            else if (LABEL_MENU_ENTER_TEXT.equals(event.getActionCommand())) {
                 // Texteingabe machen
                 enterText();
             }
-            else if (LABEL_MENU_EXIT.equals(event.getActionCommand()))
-            {
+            else if (LABEL_MENU_EXIT.equals(event.getActionCommand())) {
                 // Programm beenden
                 System.exit(0);
             }
@@ -217,8 +200,7 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
      * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
      */
     @Override
-    public void paintComponent(final Graphics g)
-    {
+    public void paintComponent(final Graphics g) {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
@@ -237,11 +219,9 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
         g2.setPaint(COLOR_FRAME);
 
         g2.drawLine(0, (int) this.pageFormat.getImageableY() - 1, (int) this.pageFormat.getWidth() - 1, (int) this.pageFormat.getImageableY() - 1);
-        g2.drawLine(0, (int) (this.pageFormat.getImageableY() + this.pageFormat.getImageableHeight()), (int) this.pageFormat.getWidth() - 1,
-                (int) (this.pageFormat.getImageableY() + this.pageFormat.getImageableHeight()));
+        g2.drawLine(0, (int) (this.pageFormat.getImageableY() + this.pageFormat.getImageableHeight()), (int) this.pageFormat.getWidth() - 1, (int) (this.pageFormat.getImageableY() + this.pageFormat.getImageableHeight()));
         g2.drawLine((int) this.pageFormat.getImageableX() - 1, 0, (int) this.pageFormat.getImageableX() - 1, (int) this.pageFormat.getHeight() - 1);
-        g2.drawLine((int) (this.pageFormat.getImageableX() + this.pageFormat.getImageableWidth()), 0,
-                (int) (this.pageFormat.getImageableX() + this.pageFormat.getImageableWidth()), (int) this.pageFormat.getHeight() - 1);
+        g2.drawLine((int) (this.pageFormat.getImageableX() + this.pageFormat.getImageableWidth()), 0, (int) (this.pageFormat.getImageableX() + this.pageFormat.getImageableWidth()), (int) this.pageFormat.getHeight() - 1);
 
         // Ursprung zum 2.mal verschieben. Achtung: translate() arbeitet inkrementell!
         g2.translate(this.pageFormat.getImageableX(), this.pageFormat.getImageableY());
@@ -256,8 +236,7 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
     /**
      * Druckausgabe starten
      */
-    public void print()
-    {
+    public void print() {
         // Standardseitenformat holen und auf Querformat stellen
         PageFormat pfLandscape = this.printerJob.defaultPage();
         pfLandscape.setOrientation(PageFormat.LANDSCAPE);
@@ -275,12 +254,10 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
         // das Buch dem Druckauftrag übergeben
         this.printerJob.setPageable(book);
 
-        try
-        {
+        try {
             this.printerJob.print();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -291,13 +268,11 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
      * @see java.awt.print.Printable#print(java.awt.Graphics, java.awt.print.PageFormat, int)
      */
     @Override
-    public int print(final Graphics g, final PageFormat pageFormat, final int pageIndex) throws PrinterException
-    {
+    public int print(final Graphics g, final PageFormat pageFormat, final int pageIndex) throws PrinterException {
         int printState = Printable.NO_SUCH_PAGE;
 
         // Achtung! iPageIndex == 0 ist die CoverPage!
-        if (pageIndex == 1)
-        {
+        if (pageIndex == 1) {
             Graphics2D g2 = (Graphics2D) g;
 
             // Ursprung verschieben und Ausgabebereich eingrenzen
@@ -313,8 +288,7 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
         return printState;
     }
 
-    private void drawMyGraphics(final Graphics2D g2)
-    {
+    private void drawMyGraphics(final Graphics2D g2) {
         // Schriftfarbe einstellen
         g2.setPaint(COLOR_FOREGROUND);
 
@@ -327,14 +301,12 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
         g2.drawImage(this.imgCup, 100, 200, this);
     }
 
-    private void enterText()
-    {
+    private void enterText() {
         // Eingabedialog erzeugen und starten
         Object userInput = JOptionPane.showInputDialog(null, "Bitte einen Text eingeben", "Drucktext", JOptionPane.PLAIN_MESSAGE, null, null, this.text);
 
         // wenn Eingabe OK, Text übernehmen
-        if (userInput instanceof String t)
-        {
+        if (userInput instanceof String t) {
             this.text = t;
             repaint(); // neu zeichnen
         }

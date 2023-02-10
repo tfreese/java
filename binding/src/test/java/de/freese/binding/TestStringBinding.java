@@ -6,25 +6,24 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
 import de.freese.binding.binds.BooleanBinding;
 import de.freese.binding.binds.IntegerBinding;
 import de.freese.binding.binds.StringBinding;
 import de.freese.binding.property.Property;
 import de.freese.binding.property.SimpleStringProperty;
 import de.freese.binding.value.ChangeListener;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 
 /**
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class TestStringBinding
-{
+class TestStringBinding {
     @Test
-    void testBindingConcat()
-    {
+    void testBindingConcat() {
         SimpleStringProperty p1 = new SimpleStringProperty();
         SimpleStringProperty p2 = new SimpleStringProperty();
 
@@ -40,8 +39,7 @@ class TestStringBinding
     }
 
     @Test
-    void testBindingIsEmpty()
-    {
+    void testBindingIsEmpty() {
         SimpleStringProperty p1 = new SimpleStringProperty();
 
         BooleanBinding bindingEmpty = p1.isEmpty();
@@ -56,8 +54,7 @@ class TestStringBinding
     }
 
     @Test
-    void testBindingLength()
-    {
+    void testBindingLength() {
         SimpleStringProperty p1 = new SimpleStringProperty();
 
         IntegerBinding binding = p1.length();
@@ -71,8 +68,7 @@ class TestStringBinding
     }
 
     @Test
-    void testProperty()
-    {
+    void testProperty() {
         Property<String> p = new SimpleStringProperty();
 
         ChangeListener<String> listener = (observable, oldValue, newValue) -> assertEquals("TeSt", newValue);
@@ -80,8 +76,7 @@ class TestStringBinding
         p.setValue("TeSt");
         p.removeListener(listener);
 
-        listener = (observable, oldValue, newValue) ->
-        {
+        listener = (observable, oldValue, newValue) -> {
             assertEquals("TeSt", oldValue);
             assertNull(newValue);
         };

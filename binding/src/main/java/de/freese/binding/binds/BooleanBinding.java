@@ -6,7 +6,6 @@ import de.freese.binding.expression.BooleanExpression;
 /**
  * @author Thomas Freese
  */
-public interface BooleanBinding extends Binding<Boolean>, BooleanExpression
-{
+public interface BooleanBinding extends Binding<Boolean>, BooleanExpression {
 
 }

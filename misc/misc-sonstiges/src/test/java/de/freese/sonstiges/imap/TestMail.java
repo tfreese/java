@@ -17,9 +17,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import de.freese.sonstiges.imap.analyze.FunctionStemmer;
-import de.freese.sonstiges.imap.analyze.FunctionStripNotLetter;
-import de.freese.sonstiges.imap.analyze.FunctionStripStopWords;
 import org.jsoup.Jsoup;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,23 +25,24 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import de.freese.sonstiges.imap.analyze.FunctionStemmer;
+import de.freese.sonstiges.imap.analyze.FunctionStripNotLetter;
+import de.freese.sonstiges.imap.analyze.FunctionStripStopWords;
+
 /**
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class TestMail
-{
+class TestMail {
     /**
      * @author Thomas Freese
      */
-    private static class NullOutputStream extends OutputStream
-    {
+    private static class NullOutputStream extends OutputStream {
         /**
          * @see java.io.OutputStream#write(byte[])
          */
         @Override
-        public void write(final byte[] b) throws IOException
-        {
+        public void write(final byte[] b) throws IOException {
             // to /dev/null
         }
 
@@ -52,8 +50,7 @@ class TestMail
          * @see java.io.OutputStream#write(byte[], int, int)
          */
         @Override
-        public void write(final byte[] b, final int off, final int len)
-        {
+        public void write(final byte[] b, final int off, final int len) {
             // to /dev/null
         }
 
@@ -61,8 +58,7 @@ class TestMail
          * @see java.io.OutputStream#write(int)
          */
         @Override
-        public void write(final int b)
-        {
+        public void write(final int b) {
             // to /dev/null
         }
     }
@@ -76,46 +72,38 @@ class TestMail
     private static String textPlain;
 
     @BeforeAll
-    public static void beforeAll() throws Exception
-    {
-        if (!Boolean.parseBoolean(System.getProperty("run_in_ide", "false")))
-        {
+    public static void beforeAll() throws Exception {
+        if (!Boolean.parseBoolean(System.getProperty("run_in_ide", "false"))) {
             printStream = new PrintStream(new NullOutputStream(), false);
         }
 
         Charset charset = StandardCharsets.UTF_8;
 
-        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream("mail1.txt"), charset)))
-        {
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream("mail1.txt"), charset))) {
             textPlain = bufferedReader.lines().collect(Collectors.joining(" "));
         }
 
-        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream("mail1.html"), charset)))
-        {
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream("mail1.html"), charset))) {
             textHtml1 = bufferedReader.lines().collect(Collectors.joining(" "));
         }
 
-        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream("mail2.html"), charset)))
-        {
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream("mail2.html"), charset))) {
             textHtml2 = bufferedReader.lines().collect(Collectors.joining(" "));
         }
     }
 
     @AfterEach
-    public void afterEach()
-    {
+    public void afterEach() {
         // Empty
     }
 
     @BeforeEach
-    public void beforeEach()
-    {
+    public void beforeEach() {
         // Empty
     }
 
     @Test
-    void testFunctionStemmer() throws Exception
-    {
+    void testFunctionStemmer() throws Exception {
         String ref = "wald";
         assertEquals(ref, FunctionStemmer.DE.apply(ref));
         assertEquals(ref, FunctionStemmer.DE.apply("wälder"));
@@ -126,8 +114,7 @@ class TestMail
     }
 
     @Test
-    void testFunctionStripNotLetter() throws Exception
-    {
+    void testFunctionStripNotLetter() throws Exception {
         String text = "abcdefghijklmnopqrstuvwxyz";
         assertEquals(text, FunctionStripNotLetter.INSTANCE.apply(text));
 
@@ -145,8 +132,7 @@ class TestMail
     }
 
     @Test
-    void testHtml1ToText() throws Exception
-    {
+    void testHtml1ToText() throws Exception {
         String text = Jsoup.parse(textHtml1).text();
         printStream.println(text);
 
@@ -156,8 +142,7 @@ class TestMail
     }
 
     @Test
-    void testHtml2ToText() throws Exception
-    {
+    void testHtml2ToText() throws Exception {
         String text = Jsoup.parse(textHtml2).text();
         printStream.println(text);
 
@@ -167,8 +152,7 @@ class TestMail
     }
 
     @Test
-    void testTextPlain() throws Exception
-    {
+    void testTextPlain() throws Exception {
         // String text = new Html2Text().parse(TEXT_PLAIN).getText();
         String text = textPlain;
         printStream.println(text);
@@ -181,8 +165,7 @@ class TestMail
     /**
      * Verarbeitet den Text für die Verwendung als Spamfilter.
      */
-    private void prepare(final String text)
-    {
+    private void prepare(final String text) {
         printStream.println();
         printStream.println("========================================================================================================");
 

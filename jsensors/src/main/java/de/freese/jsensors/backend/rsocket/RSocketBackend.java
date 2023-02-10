@@ -6,9 +6,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Objects;
 
-import de.freese.jsensors.backend.AbstractBackend;
-import de.freese.jsensors.sensor.SensorValue;
-import de.freese.jsensors.utils.LifeCycle;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.rsocket.RSocket;
@@ -22,25 +19,26 @@ import reactor.netty.resources.LoopResources;
 import reactor.netty.tcp.TcpClient;
 import reactor.util.retry.Retry;
 
+import de.freese.jsensors.backend.AbstractBackend;
+import de.freese.jsensors.sensor.SensorValue;
+import de.freese.jsensors.utils.LifeCycle;
+
 /**
  * @author Thomas Freese
  */
-public class RSocketBackend extends AbstractBackend implements LifeCycle
-{
+public class RSocketBackend extends AbstractBackend implements LifeCycle {
     private final int parallelism;
 
     private final URI uri;
 
     private RSocketClient client;
 
-    public RSocketBackend(final URI uri, final int parallelism)
-    {
+    public RSocketBackend(final URI uri, final int parallelism) {
         super();
 
         this.uri = Objects.requireNonNull(uri, "uri required");
 
-        if (parallelism < 1)
-        {
+        if (parallelism < 1) {
             throw new IllegalArgumentException("parallelism < 1: " + parallelism);
         }
 
@@ -51,8 +49,7 @@ public class RSocketBackend extends AbstractBackend implements LifeCycle
      * @see de.freese.jsensors.utils.LifeCycle#start()
      */
     @Override
-    public void start()
-    {
+    public void start() {
         // @formatter:off
         TcpClient tcpClient = TcpClient.create()
                 .host(this.uri.getHost())
@@ -77,13 +74,11 @@ public class RSocketBackend extends AbstractBackend implements LifeCycle
      * @see de.freese.jsensors.utils.LifeCycle#stop()
      */
     @Override
-    public void stop()
-    {
+    public void stop() {
         this.client.dispose();
     }
 
-    protected ByteBuf encode(final SensorValue sensorValue)
-    {
+    protected ByteBuf encode(final SensorValue sensorValue) {
         ByteBuf byteBuf = ByteBufAllocator.DEFAULT.buffer();
 
         // byteBuf.writeCharSequence(sensorValue.getName(), StandardCharsets.UTF_8);
@@ -105,8 +100,7 @@ public class RSocketBackend extends AbstractBackend implements LifeCycle
      * @see de.freese.jsensors.backend.AbstractBackend#storeValue(de.freese.jsensors.sensor.SensorValue)
      */
     @Override
-    protected void storeValue(final SensorValue sensorValue)
-    {
+    protected void storeValue(final SensorValue sensorValue) {
         ByteBuf byteBuf = encode(sensorValue);
 
         // @formatter:off

@@ -8,8 +8,7 @@ import java.awt.Color;
  *
  * @author Thomas Freese
  */
-public interface Cell
-{
+public interface Cell {
     Color getColor();
 
     int getX();

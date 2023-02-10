@@ -9,8 +9,7 @@ import de.freese.jsensors.sensor.Sensor;
 /**
  * @author Thomas Freese
  */
-public interface SensorRegistry
-{
+public interface SensorRegistry {
     /**
      * Throws an IllegalStateException if no {@link Sensor} exist for this Name.
      */

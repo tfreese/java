@@ -8,8 +8,7 @@ import java.io.Serializable;
  *
  * @author Thomas Freese
  */
-public class Day implements Serializable
-{
+public class Day implements Serializable {
     @Serial
     private static final long serialVersionUID = 4560714541840783730L;
 
@@ -21,8 +20,7 @@ public class Day implements Serializable
 
     private transient String asString;
 
-    public Day(final int year, final int month, final int day)
-    {
+    public Day(final int year, final int month, final int day) {
         super();
 
         this.year = year;
@@ -34,43 +32,35 @@ public class Day implements Serializable
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(final Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
         }
 
-        if (!(obj instanceof Day other))
-        {
+        if (!(obj instanceof Day other)) {
             return false;
         }
 
-        if (this.dayOfMonth != other.dayOfMonth)
-        {
+        if (this.dayOfMonth != other.dayOfMonth) {
             return false;
         }
 
-        if (this.month != other.month)
-        {
+        if (this.month != other.month) {
             return false;
         }
 
         return this.year == other.year;
     }
 
-    public int getDayOfMonth()
-    {
+    public int getDayOfMonth() {
         return this.dayOfMonth;
     }
 
-    public int getMonth()
-    {
+    public int getMonth() {
         return this.month;
     }
 
-    public int getYear()
-    {
+    public int getYear() {
         return this.year;
     }
 
@@ -78,8 +68,7 @@ public class Day implements Serializable
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         // final int prime = 31;
         // int result = 1;
         // result = prime * result + this.day;
@@ -95,10 +84,8 @@ public class Day implements Serializable
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
-        if (this.asString == null)
-        {
+    public String toString() {
+        if (this.asString == null) {
             this.asString = String.format("%d-%02d-%02d", this.year, this.month, this.dayOfMonth);
         }
 

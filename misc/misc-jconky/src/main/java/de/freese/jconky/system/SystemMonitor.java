@@ -15,8 +15,7 @@ import de.freese.jconky.model.UsageInfo;
 /**
  * @author Thomas Freese
  */
-public interface SystemMonitor
-{
+public interface SystemMonitor {
     CpuInfos getCpuInfos();
 
     CpuLoadAvg getCpuLoadAvg();

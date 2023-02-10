@@ -29,23 +29,19 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public class ScheduledFutureAwareRunnable implements Runnable
-{
+public class ScheduledFutureAwareRunnable implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScheduledFutureAwareRunnable.class);
 
     private final BooleanSupplier exitCondition;
-
     private final String name;
     private final Runnable task;
     private ScheduledFuture<?> scheduledFuture;
 
-    public ScheduledFutureAwareRunnable(final BooleanSupplier exitCondition, final Runnable task)
-    {
+    public ScheduledFutureAwareRunnable(final BooleanSupplier exitCondition, final Runnable task) {
         this(exitCondition, task, null);
     }
 
-    public ScheduledFutureAwareRunnable(final BooleanSupplier exitCondition, final Runnable task, final String name)
-    {
+    public ScheduledFutureAwareRunnable(final BooleanSupplier exitCondition, final Runnable task, final String name) {
         super();
 
         this.exitCondition = Objects.requireNonNull(exitCondition, "exitCondition required");
@@ -57,33 +53,26 @@ public class ScheduledFutureAwareRunnable implements Runnable
      * @see java.lang.Runnable#run()
      */
     @Override
-    public void run()
-    {
-        if (this.exitCondition.getAsBoolean())
-        {
-            if (LOGGER.isInfoEnabled())
-            {
+    public void run() {
+        if (this.exitCondition.getAsBoolean()) {
+            if (LOGGER.isInfoEnabled()) {
                 LOGGER.info("{}: exit", Objects.toString(this.name, toString()));
             }
 
             this.task.run();
 
-            if (this.scheduledFuture != null)
-            {
+            if (this.scheduledFuture != null) {
                 this.scheduledFuture.cancel(false);
             }
-            else
-            {
-                if (LOGGER.isWarnEnabled())
-                {
+            else {
+                if (LOGGER.isWarnEnabled()) {
                     LOGGER.warn("{}: no ScheduledFuture reference", Objects.toString(this.name, toString()));
                 }
             }
         }
     }
 
-    public void setScheduledFuture(final ScheduledFuture<?> scheduledFuture)
-    {
+    public void setScheduledFuture(final ScheduledFuture<?> scheduledFuture) {
         this.scheduledFuture = scheduledFuture;
     }
 }

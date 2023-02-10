@@ -6,16 +6,14 @@ import de.freese.binding.expression.AbstractLongExpression;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractLongProperty extends AbstractLongExpression implements Property<Long>
-{
+public abstract class AbstractLongProperty extends AbstractLongExpression implements Property<Long> {
     private long value;
 
     /**
      * @see de.freese.binding.value.ObservableValue#getValue()
      */
     @Override
-    public Long getValue()
-    {
+    public Long getValue() {
         return this.value;
     }
 
@@ -23,13 +21,11 @@ public abstract class AbstractLongProperty extends AbstractLongExpression implem
      * @see de.freese.binding.value.WritableValue#setValue(java.lang.Object)
      */
     @Override
-    public void setValue(final Long value)
-    {
+    public void setValue(final Long value) {
         long old = this.value;
         this.value = value;
 
-        if (old != value)
-        {
+        if (old != value) {
             fireValueChangedEvent(old, value);
         }
     }

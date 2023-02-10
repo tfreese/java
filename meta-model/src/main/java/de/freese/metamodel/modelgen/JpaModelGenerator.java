@@ -33,15 +33,13 @@ import de.freese.metamodel.modelgen.model.FieldModel;
 /**
  * @author Thomas Freese
  */
-public class JpaModelGenerator extends PojoModelGenerator
-{
+public class JpaModelGenerator extends PojoModelGenerator {
     /**
      * @see de.freese.metamodel.modelgen.AbstractModelGenerator#transformClassAnnotations(de.freese.metamodel.metagen.model.Table,
      * de.freese.metamodel.modelgen.model.ClassModel)
      */
     @Override
-    protected void transformClassAnnotations(final Table table, final ClassModel classModel)
-    {
+    protected void transformClassAnnotations(final Table table, final ClassModel classModel) {
         // Entity
         classModel.addImport(Entity.class);
         classModel.addAnnotation("@Entity");
@@ -53,26 +51,21 @@ public class JpaModelGenerator extends PojoModelGenerator
         sb.append("@Table(");
         sb.append("name = \"").append(table.getName()).append("\"");
 
-        if (!table.getSchema().getName().isBlank())
-        {
+        if (!table.getSchema().getName().isBlank()) {
             sb.append(", schema = \"").append(table.getSchema().getName()).append("\"");
         }
 
-        if (!table.getUniqueConstraints().isEmpty())
-        {
+        if (!table.getUniqueConstraints().isEmpty()) {
             classModel.addImport(jakarta.persistence.UniqueConstraint.class);
             sb.append(", uniqueConstraints = {");
 
-            for (UniqueConstraint uc : table.getUniqueConstraints())
-            {
+            for (UniqueConstraint uc : table.getUniqueConstraints()) {
                 sb.append("@UniqueConstraint(name = \"").append(uc.getName()).append("\", columnNames = {");
 
-                for (Iterator<Column> iterator = uc.getColumnsOrdered().iterator(); iterator.hasNext(); )
-                {
+                for (Iterator<Column> iterator = uc.getColumnsOrdered().iterator(); iterator.hasNext(); ) {
                     sb.append("\"").append(iterator.next().getName()).append("\"");
 
-                    if (iterator.hasNext())
-                    {
+                    if (iterator.hasNext()) {
                         sb.append(", ");
                     }
                 }
@@ -107,12 +100,10 @@ public class JpaModelGenerator extends PojoModelGenerator
      * de.freese.metamodel.modelgen.model.ClassModel)
      */
     @Override
-    protected void transformClassJavaDoc(final Table table, final ClassModel classModel)
-    {
+    protected void transformClassJavaDoc(final Table table, final ClassModel classModel) {
         String comment = table.getComment();
 
-        if ((comment != null) && !comment.isBlank())
-        {
+        if ((comment != null) && !comment.isBlank()) {
             classModel.addComment(comment);
         }
 
@@ -124,13 +115,11 @@ public class JpaModelGenerator extends PojoModelGenerator
      * de.freese.metamodel.modelgen.model.ClassModel)
      */
     @Override
-    protected void transformField(final Column column, final ClassModel classModel)
-    {
+    protected void transformField(final Column column, final ClassModel classModel) {
         ForeignKey fk = column.getForeignKey();
         List<Column> reverseFKs = column.getReverseForeignKeys();
 
-        if (column.isPrimaryKey() || (reverseFKs.isEmpty() && (fk == null)))
-        {
+        if (column.isPrimaryKey() || (reverseFKs.isEmpty() && (fk == null))) {
             String fieldName = getNamingStrategy().getFieldName(column.getName());
             ClassType type = (ClassType) getTypeMapping().getType(column.getJdbcType(), column.isNullable());
 
@@ -142,8 +131,7 @@ public class JpaModelGenerator extends PojoModelGenerator
             transformFieldAnnotations(column, fieldModel);
         }
 
-        if (fk != null)
-        {
+        if (fk != null) {
             // Anderes Objekt.
             String refClassName = getNamingStrategy().getClassName(fk.getRefColumn().getTable().getName());
 
@@ -168,11 +156,9 @@ public class JpaModelGenerator extends PojoModelGenerator
             transformFieldAnnotations(column, fieldModel);
         }
 
-        if (!reverseFKs.isEmpty())
-        {
+        if (!reverseFKs.isEmpty()) {
             // 1:n Children
-            for (Column reverseFK : reverseFKs)
-            {
+            for (Column reverseFK : reverseFKs) {
                 String refClassName = getNamingStrategy().getClassName(reverseFK.getTable().getName());
 
                 FieldModel fieldModel = classModel.addField(refClassName.toLowerCase() + "es", getPackageName() + "." + refClassName);
@@ -205,18 +191,15 @@ public class JpaModelGenerator extends PojoModelGenerator
      * de.freese.metamodel.modelgen.model.FieldModel)
      */
     @Override
-    protected void transformFieldAnnotations(final Column column, final FieldModel fieldModel)
-    {
+    protected void transformFieldAnnotations(final Column column, final FieldModel fieldModel) {
         Type type = getTypeMapping().getType(column.getJdbcType(), column.isNullable());
 
-        if (type.isAssoziation())
-        {
+        if (type.isAssoziation()) {
             return;
         }
 
         // ID
-        if (column.isPrimaryKey())
-        {
+        if (column.isPrimaryKey()) {
             fieldModel.addImport(Id.class);
             fieldModel.addAnnotation("@Id");
         }
@@ -231,13 +214,11 @@ public class JpaModelGenerator extends PojoModelGenerator
         sb.append("name = \"").append(column.getName()).append("\"");
         sb.append(", nullable = ").append(column.isNullable());
 
-        if (column.isPrimaryKey())
-        {
+        if (column.isPrimaryKey()) {
             sb.append(", unique = true");
         }
 
-        if (column.hasSize())
-        {
+        if (column.hasSize()) {
             sb.append(", length = ").append(column.getSize());
         }
 
@@ -245,8 +226,7 @@ public class JpaModelGenerator extends PojoModelGenerator
         fieldModel.addAnnotation(sb.toString());
 
         // Versuchen Sequence für Entity zu finden.
-        if (column.isPrimaryKey())
-        {
+        if (column.isPrimaryKey()) {
             // @formatter:off
            List<Sequence> sequences = column.getTable().getSchema().getSequences().stream()
                    .filter(seq -> seq.getName().toLowerCase().contains(fieldModel.getClassModel().getName().toLowerCase()))
@@ -257,14 +237,12 @@ public class JpaModelGenerator extends PojoModelGenerator
 
             Sequence sequence = null;
 
-            if (!sequences.isEmpty())
-            {
+            if (!sequences.isEmpty()) {
                 // Wir nehmen die Sequence mit dem kürzesten Namen.
                 sequence = sequences.get(0);
             }
 
-            if (sequence != null)
-            {
+            if (sequence != null) {
                 fieldModel.addImport(SequenceGenerator.class);
                 fieldModel.addImport(GeneratedValue.class);
                 fieldModel.addImport(GenerationType.class);

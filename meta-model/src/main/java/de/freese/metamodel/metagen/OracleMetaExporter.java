@@ -12,14 +12,12 @@ import de.freese.metamodel.metagen.model.Schema;
  *
  * @author Thomas Freese
  */
-public class OracleMetaExporter extends AbstractMetaExporter
-{
+public class OracleMetaExporter extends AbstractMetaExporter {
     /**
      * @see de.freese.metamodel.metagen.AbstractMetaExporter#generateSequences(javax.sql.DataSource, de.freese.metamodel.metagen.model.Schema)
      */
     @Override
-    protected void generateSequences(final DataSource dataSource, final Schema schema) throws SQLException
-    {
+    protected void generateSequences(final DataSource dataSource, final Schema schema) throws SQLException {
         throw new UnsupportedOperationException("not implemented");
     }
 

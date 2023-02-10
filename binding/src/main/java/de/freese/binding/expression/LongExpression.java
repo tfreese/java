@@ -7,14 +7,12 @@ import de.freese.binding.value.ObservableLongValue;
 /**
  * @author Thomas Freese
  */
-public interface LongExpression extends NumberExpression<Long>, ObservableLongValue
-{
+public interface LongExpression extends NumberExpression<Long>, ObservableLongValue {
     /**
      * @see de.freese.binding.expression.NumberExpression#add(long)
      */
     @Override
-    default LongBinding add(final long value)
-    {
+    default LongBinding add(final long value) {
         return (LongBinding) NumberExpression.super.add(value);
     }
 
@@ -22,8 +20,7 @@ public interface LongExpression extends NumberExpression<Long>, ObservableLongVa
      * @see de.freese.binding.expression.NumberExpression#divide(long)
      */
     @Override
-    default LongBinding divide(final long value)
-    {
+    default LongBinding divide(final long value) {
         return (LongBinding) NumberExpression.super.divide(value);
     }
 
@@ -31,8 +28,7 @@ public interface LongExpression extends NumberExpression<Long>, ObservableLongVa
      * @see de.freese.binding.expression.NumberExpression#multiply(long)
      */
     @Override
-    default LongBinding multiply(final long value)
-    {
+    default LongBinding multiply(final long value) {
         return (LongBinding) NumberExpression.super.multiply(value);
     }
 
@@ -40,8 +36,7 @@ public interface LongExpression extends NumberExpression<Long>, ObservableLongVa
      * @see de.freese.binding.expression.NumberExpression#subtract(long)
      */
     @Override
-    default LongBinding subtract(final long value)
-    {
+    default LongBinding subtract(final long value) {
         return (LongBinding) NumberExpression.super.subtract(value);
     }
 }

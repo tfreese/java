@@ -27,13 +27,11 @@ import javafx.util.Duration;
  *
  * @author Thomas Freese
  */
-public final class JavaFxApplication extends Application
-{
+public final class JavaFxApplication extends Application {
     /**
      * JavaFx braucht einen public Konstruktor.
      */
-    public JavaFxApplication()
-    {
+    public JavaFxApplication() {
         super();
     }
 
@@ -41,8 +39,7 @@ public final class JavaFxApplication extends Application
      * @see javafx.application.Application#start(javafx.stage.Stage)
      */
     @Override
-    public void start(final Stage stage)
-    {
+    public void start(final Stage stage) {
         Group root = new Group();
         Scene scene = new Scene(root, 500, 500, Color.BLACK);
         Rectangle r = new Rectangle(0, 0, 250, 250);

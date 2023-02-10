@@ -15,8 +15,7 @@ import javax.swing.JTextArea;
  *
  * @author Thomas Freese
  */
-class TabbedPaneController
-{
+class TabbedPaneController {
     private final JTabbedPane tabbedPane;
 
     private final JPanel tabbedPanel;
@@ -26,8 +25,7 @@ class TabbedPaneController
     private String fileSeparator;
     private boolean noFiles = true;
 
-    TabbedPaneController(final JTabbedPane tb, final JPanel tp)
-    {
+    TabbedPaneController(final JTabbedPane tb, final JPanel tp) {
         this.tabbedPane = tb;
         this.tabbedPanel = tp;
         this.transferHandler = new FileAndTextTransferHandler(this);
@@ -39,18 +37,15 @@ class TabbedPaneController
         // character and must be escaped. Some look and feels,
         // such as Microsoft Windows, use the forward slash to
         // delimit the path.
-        if ("\\".equals(this.fileSeparator))
-        {
+        if ("\\".equals(this.fileSeparator)) {
             this.fileSeparator = "\\\\";
         }
 
         init();
     }
 
-    public JTextArea addTab(final String filename)
-    {
-        if (this.noFiles)
-        {
+    public JTextArea addTab(final String filename) {
+        if (this.noFiles) {
             this.tabbedPanel.remove(this.emptyFilePanel);
             this.tabbedPanel.add(this.tabbedPane, BorderLayout.CENTER);
             this.noFiles = false;
@@ -61,10 +56,8 @@ class TabbedPaneController
         return makeTextPanel(str[str.length - 1], filename);
     }
 
-    public void clearAll()
-    {
-        if (!this.noFiles)
-        {
+    public void clearAll() {
+        if (!this.noFiles) {
             this.tabbedPane.removeAll();
             this.tabbedPanel.remove(this.tabbedPane);
         }
@@ -72,8 +65,7 @@ class TabbedPaneController
         init();
     }
 
-    protected JTextArea makeTextPanel(final String name, final String toolTip)
-    {
+    protected JTextArea makeTextPanel(final String name, final String toolTip) {
         JTextArea fileArea = new JTextArea(20, 15);
         fileArea.setDragEnabled(true);
         fileArea.setTransferHandler(this.transferHandler);
@@ -86,13 +78,11 @@ class TabbedPaneController
         return fileArea;
     }
 
-    private void init()
-    {
+    private void init() {
         String defaultText = "Select one or more files from the file chooser and drop here...";
         this.noFiles = true;
 
-        if (this.emptyFilePanel == null)
-        {
+        if (this.emptyFilePanel == null) {
             this.emptyFileArea = new JTextArea(20, 15);
             this.emptyFileArea.setEditable(false);
             this.emptyFileArea.setDragEnabled(true);

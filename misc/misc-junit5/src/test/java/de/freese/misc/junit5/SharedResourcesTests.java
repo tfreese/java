@@ -15,43 +15,37 @@ import org.junit.jupiter.api.parallel.ResourceLock;
  * @author Thomas Freese
  */
 @Execution(ExecutionMode.CONCURRENT)
-class SharedResourcesTests
-{
+class SharedResourcesTests {
     private Properties backup;
 
     @BeforeEach
-    void backup()
-    {
+    void backup() {
         this.backup = new Properties();
         this.backup.putAll(System.getProperties());
     }
 
     @AfterEach
-    void restore()
-    {
+    void restore() {
         System.setProperties(this.backup);
     }
 
     @Test
     @ResourceLock(value = "system.properties", mode = ResourceAccessMode.READ_WRITE)
-    void testCanSetCustomPropertyToBar()
-    {
+    void testCanSetCustomPropertyToBar() {
         System.setProperty("my.prop", "bar");
         Assertions.assertEquals("bar", System.getProperty("my.prop"));
     }
 
     @Test
     @ResourceLock(value = "system.properties", mode = ResourceAccessMode.READ_WRITE)
-    void testCanSetCustomPropertyToFoo()
-    {
+    void testCanSetCustomPropertyToFoo() {
         System.setProperty("my.prop", "foo");
         Assertions.assertEquals("foo", System.getProperty("my.prop"));
     }
 
     @Test
     @ResourceLock(value = "system.properties", mode = ResourceAccessMode.READ)
-    void testCustomPropertyIsNotSetByDefault()
-    {
+    void testCustomPropertyIsNotSetByDefault() {
         Assertions.assertNull(System.getProperty("my.prop"));
     }
 }

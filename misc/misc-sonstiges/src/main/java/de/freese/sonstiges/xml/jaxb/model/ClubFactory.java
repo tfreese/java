@@ -3,10 +3,8 @@ package de.freese.sonstiges.xml.jaxb.model;
 /**
  * @author Thomas Freese
  */
-public final class ClubFactory
-{
-    public static Club createClub()
-    {
+public final class ClubFactory {
+    public static Club createClub() {
         // 1
         Club club = new Club();
         club.setEmployees(100);
@@ -26,21 +24,18 @@ public final class ClubFactory
         return club;
     }
 
-    public static void toString(final Club club)
-    {
+    public static void toString(final Club club) {
         System.out.println("Club-Employees:" + club.getEmployees());
         System.out.println("Club-Opening:" + club.getOpening());
         System.out.println("Club-Guests:" + club.getGuests());
 
-        for (DJ dj : club.getDJs())
-        {
+        for (DJ dj : club.getDJs()) {
             System.out.println("\tDJ-Firstname:" + dj.getFirstName());
             System.out.println("\tDJ-Lastname:" + dj.getLastName());
         }
     }
 
-    private ClubFactory()
-    {
+    private ClubFactory() {
         super();
     }
 }

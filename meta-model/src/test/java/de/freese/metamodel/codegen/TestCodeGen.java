@@ -9,23 +9,22 @@ import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
 import de.freese.metamodel.codewriter.CodeWriter;
 import de.freese.metamodel.codewriter.JavaCodeWriter;
 import de.freese.metamodel.modelgen.model.ClassModel;
 import de.freese.metamodel.modelgen.model.FieldModel;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 
 /**
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class TestCodeGen
-{
+class TestCodeGen {
     @Test
-    void testJavaCodeGen() throws Exception
-    {
+    void testJavaCodeGen() throws Exception {
         ClassModel classModel = new ClassModel("MyTest");
         classModel.setAddFullConstructor(false);
         classModel.setSerializeable(false);

@@ -14,16 +14,14 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public class HttpEventHandler implements EventHandler<HttpEvent>
-{
+public class HttpEventHandler implements EventHandler<HttpEvent> {
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpEventHandler.class);
 
     private final Map<String, Boolean> mapResponseReady;
 
     private final int ordinal;
 
-    public HttpEventHandler(final int ordinal, final Map<String, Boolean> mapResponseReady)
-    {
+    public HttpEventHandler(final int ordinal, final Map<String, Boolean> mapResponseReady) {
         super();
 
         this.ordinal = ordinal;
@@ -34,12 +32,10 @@ public class HttpEventHandler implements EventHandler<HttpEvent>
      * @see EventHandler#onEvent(Object, long, boolean)
      */
     @Override
-    public void onEvent(final HttpEvent event, final long sequence, final boolean endOfBatch) throws Exception
-    {
+    public void onEvent(final HttpEvent event, final long sequence, final boolean endOfBatch) throws Exception {
         // Load-Balancing auf die Handler über die Sequence.
         // Sonst würden alle Handler gleichzeitig eine Sequence bearbeiten.
-        if ((this.ordinal == -1) || (this.ordinal == (sequence % HttpEventMain.THREAD_COUNT)))
-        {
+        if ((this.ordinal == -1) || (this.ordinal == (sequence % HttpEventMain.THREAD_COUNT))) {
             LOGGER.info("{}: HttpEventHandler.onEvent: RequestId={}, Sequence={}", Thread.currentThread().getName(), event.getRequestId(), sequence);
 
             String requestId = event.getRequestId();
@@ -48,8 +44,7 @@ public class HttpEventHandler implements EventHandler<HttpEvent>
 
             ByteBuffer responseBuffer = handleRequest(buffer, numRead, sequence);
 
-            if (responseBuffer == null)
-            {
+            if (responseBuffer == null) {
                 return;
             }
 
@@ -57,8 +52,7 @@ public class HttpEventHandler implements EventHandler<HttpEvent>
         }
     }
 
-    private ByteBuffer handleRequest(final ByteBuffer buffer, final int numRead, final long sequence)
-    {
+    private ByteBuffer handleRequest(final ByteBuffer buffer, final int numRead, final long sequence) {
         buffer.flip();
 
         byte[] data = new byte[numRead];
@@ -68,8 +62,7 @@ public class HttpEventHandler implements EventHandler<HttpEvent>
         // request = request.split("\n")[0].trim();
 
         // HTTP-Request handling.
-        if (!request.startsWith("GET"))
-        {
+        if (!request.startsWith("GET")) {
             return null;
         }
 
@@ -81,8 +74,7 @@ public class HttpEventHandler implements EventHandler<HttpEvent>
         return buffer;
     }
 
-    private String serverResponse(final long sequence)
-    {
+    private String serverResponse(final long sequence) {
         StringBuilder body = new StringBuilder();
         body.append("<html lang=\"de\">").append("\r\n");
         body.append(" <head>").append("\r\n");

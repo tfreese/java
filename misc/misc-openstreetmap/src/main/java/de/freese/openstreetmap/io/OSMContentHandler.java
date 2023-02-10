@@ -1,22 +1,22 @@
 // Created: 12.03.2015
 package de.freese.openstreetmap.io;
 
-import de.freese.openstreetmap.model.OsmModel;
-import de.freese.openstreetmap.model.OsmNode;
-import de.freese.openstreetmap.model.OsmRelation;
-import de.freese.openstreetmap.model.OsmWay;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import de.freese.openstreetmap.model.OsmModel;
+import de.freese.openstreetmap.model.OsmNode;
+import de.freese.openstreetmap.model.OsmRelation;
+import de.freese.openstreetmap.model.OsmWay;
 
 /**
  * XML-{@link ContentHandler} for OSM-Dateien.
  *
  * @author Thomas Freese
  */
-public class OSMContentHandler extends DefaultHandler
-{
+public class OSMContentHandler extends DefaultHandler {
     private static final String ATTR_NAME_ID = "id";
 
     private static final String ATTR_NAME_KEY = "k";
@@ -51,8 +51,7 @@ public class OSMContentHandler extends DefaultHandler
 
     private OsmWay way;
 
-    public OSMContentHandler(final OsmModel osmModel)
-    {
+    public OSMContentHandler(final OsmModel osmModel) {
         super();
 
         this.osmModel = osmModel;
@@ -62,18 +61,14 @@ public class OSMContentHandler extends DefaultHandler
      * @see org.xml.sax.ContentHandler#endElement(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public void endElement(final String uri, final String localName, final String qName) throws SAXException
-    {
-        if (NODE_NAME_NODE.equals(localName))
-        {
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException {
+        if (NODE_NAME_NODE.equals(localName)) {
             this.node = null;
         }
-        else if (NODE_NAME_WAY.equals(localName))
-        {
+        else if (NODE_NAME_WAY.equals(localName)) {
             this.way = null;
         }
-        else if (NODE_NAME_RELATION.equals(localName))
-        {
+        else if (NODE_NAME_RELATION.equals(localName)) {
             this.relation = null;
         }
     }
@@ -82,28 +77,22 @@ public class OSMContentHandler extends DefaultHandler
      * @see org.xml.sax.ContentHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)
      */
     @Override
-    public void startElement(final String uri, final String localName, final String qName, final Attributes attributes) throws SAXException
-    {
-        if (NODE_NAME_TAG.equals(localName))
-        {
+    public void startElement(final String uri, final String localName, final String qName, final Attributes attributes) throws SAXException {
+        if (NODE_NAME_TAG.equals(localName)) {
             String key = attributes.getValue(ATTR_NAME_KEY);
             String value = attributes.getValue(ATTR_NAME_VALUE);
 
-            if (this.node != null)
-            {
+            if (this.node != null) {
                 this.node.getTags().put(key, value);
             }
-            else if (this.way != null)
-            {
+            else if (this.way != null) {
                 this.way.getTags().put(key, value);
             }
-            else if (this.relation != null)
-            {
+            else if (this.relation != null) {
                 this.relation.getTags().put(key, value);
             }
         }
-        else if (NODE_NAME_NODE.equals(localName))
-        {
+        else if (NODE_NAME_NODE.equals(localName)) {
             long id = Long.parseLong(attributes.getValue(ATTR_NAME_ID));
             float lat = Float.parseFloat(attributes.getValue(ATTR_NAME_LAT));
             float lon = Float.parseFloat(attributes.getValue(ATTR_NAME_LON));
@@ -114,53 +103,44 @@ public class OSMContentHandler extends DefaultHandler
             this.node.setLongitude(lon);
             this.osmModel.getNodeMap().put(id, this.node);
         }
-        else if (NODE_NAME_WAY.equals(localName))
-        {
+        else if (NODE_NAME_WAY.equals(localName)) {
             long id = Long.parseLong(attributes.getValue(ATTR_NAME_ID));
 
             this.way = new OsmWay();
             this.way.setID(id);
             this.osmModel.getWayMap().put(id, this.way);
         }
-        else if (NODE_NAME_WAYNODE.equals(localName))
-        {
+        else if (NODE_NAME_WAYNODE.equals(localName)) {
             long refID = Long.parseLong(attributes.getValue(ATTR_NAME_REF));
 
             OsmNode n = this.osmModel.getNodeMap().get(refID);
 
-            if (n != null)
-            {
+            if (n != null) {
                 this.way.getNodes().add(n);
             }
         }
-        else if (NODE_NAME_RELATION.equals(localName))
-        {
+        else if (NODE_NAME_RELATION.equals(localName)) {
             long id = Long.parseLong(attributes.getValue(ATTR_NAME_ID));
 
             this.relation = new OsmRelation();
             this.relation.setID(id);
             this.osmModel.getRelationMap().put(id, this.relation);
         }
-        else if (NODE_NAME_RELATIONMEMBER.equals(localName))
-        {
+        else if (NODE_NAME_RELATIONMEMBER.equals(localName)) {
             String type = attributes.getValue(ATTR_NAME_TYPE);
             long refID = Long.parseLong(attributes.getValue(ATTR_NAME_REF));
 
-            if (NODE_NAME_NODE.equals(type))
-            {
+            if (NODE_NAME_NODE.equals(type)) {
                 OsmNode refNode = this.osmModel.getNodeMap().get(refID);
 
-                if (refNode != null)
-                {
+                if (refNode != null) {
                     this.relation.getNodes().add(refNode);
                 }
             }
-            else if (NODE_NAME_WAY.equals(type))
-            {
+            else if (NODE_NAME_WAY.equals(type)) {
                 OsmWay refWay = this.osmModel.getWayMap().get(refID);
 
-                if (refWay != null)
-                {
+                if (refWay != null) {
                     this.relation.getWays().add(refWay);
                 }
             }

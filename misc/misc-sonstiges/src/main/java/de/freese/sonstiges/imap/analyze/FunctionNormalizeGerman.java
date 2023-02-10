@@ -15,8 +15,7 @@ import java.util.function.UnaryOperator;
  *
  * @author Thomas Freese
  */
-public class FunctionNormalizeGerman implements UnaryOperator<String>
-{
+public class FunctionNormalizeGerman implements UnaryOperator<String> {
     public static final UnaryOperator<String> INSTANCE = new FunctionNormalizeGerman();
 
     /**
@@ -24,24 +23,20 @@ public class FunctionNormalizeGerman implements UnaryOperator<String>
      */
     @Override
     @SuppressWarnings("checkstyle:EmptyBlock")
-    public String apply(final String text)
-    {
+    public String apply(final String text) {
         String t = text.replace("ß", "ss");
         t = t.replace("ae", "ä");
         t = t.replace("oe", "ö");
 
         int index = t.indexOf("ue");
 
-        if ((index > 0) && ((index + 2) < t.length()))
-        {
+        if ((index > 0) && ((index + 2) < t.length())) {
             char c = t.charAt(index + 2);
 
-            if ((c == 'a') || (c == 'e') || (c == 'i') || (c == 'o') || (c == 'u') || (c == 'q'))
-            {
+            if ((c == 'a') || (c == 'e') || (c == 'i') || (c == 'o') || (c == 'u') || (c == 'q')) {
                 // Empty
             }
-            else
-            {
+            else {
                 t = t.replace("ue", "ü");
             }
         }

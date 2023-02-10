@@ -4,11 +4,10 @@ package de.freese.binding.binds;
 import de.freese.binding.expression.NumberExpression;
 
 /**
- * @author Thomas Freese
- *
  * @param <T> Konkreter Typ
+ *
+ * @author Thomas Freese
  */
-public interface NumberBinding<T extends Number> extends Binding<T>, NumberExpression<T>
-{
+public interface NumberBinding<T extends Number> extends Binding<T>, NumberExpression<T> {
 
 }

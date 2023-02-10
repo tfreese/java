@@ -4,9 +4,10 @@ package de.freese.sonstiges.forkjoin;
 import java.util.Random;
 import java.util.concurrent.ForkJoinPool;
 
-import de.freese.sonstiges.forkjoin.finder.MaxFinder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.freese.sonstiges.forkjoin.finder.MaxFinder;
 
 /**
  * Beispiel aus JavaMagazin 05/2012.<br>
@@ -14,19 +15,16 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public final class ForkJoinMaxFinderMain
-{
+public final class ForkJoinMaxFinderMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ForkJoinMaxFinderMain.class);
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         Random random = new Random();
 
         // Zufallsarray erstellen.
         int[] array = new int[100_000_000];
 
-        for (int i = 0; i < array.length; i++)
-        {
+        for (int i = 0; i < array.length; i++) {
             array[i] = random.nextInt();
         }
 
@@ -38,8 +36,7 @@ public final class ForkJoinMaxFinderMain
         forkJoinPool.shutdown();
     }
 
-    private ForkJoinMaxFinderMain()
-    {
+    private ForkJoinMaxFinderMain() {
         super();
     }
 }

@@ -13,27 +13,24 @@ import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+
 import de.freese.sonstiges.NamedThreadFactory;
 import de.freese.sonstiges.server.AbstractServer;
-import org.slf4j.Logger;
 
 /**
  * Der Server kümmert sich um alle Verbindungen in separaten Threads.
  *
  * @author Thomas Freese
  */
-public class ServerAsync extends AbstractServer
-{
-    public static void close(final AsynchronousSocketChannel channel, final Logger logger)
-    {
-        try
-        {
+public class ServerAsync extends AbstractServer {
+    public static void close(final AsynchronousSocketChannel channel, final Logger logger) {
+        try {
             channel.shutdownInput();
             channel.shutdownOutput();
             channel.close();
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex) {
             logger.error(ex.getMessage(), ex);
         }
     }
@@ -42,20 +39,17 @@ public class ServerAsync extends AbstractServer
 
     private AsynchronousServerSocketChannel serverSocketChannel;
 
-    public ServerAsync(final int port) throws IOException
-    {
+    public ServerAsync(final int port) throws IOException {
         this(port, 3);
     }
 
-    public ServerAsync(final int port, final AsynchronousChannelGroup channelGroup) throws IOException
-    {
+    public ServerAsync(final int port, final AsynchronousChannelGroup channelGroup) throws IOException {
         super(port);
 
         this.channelGroup = Objects.requireNonNull(channelGroup, "channelGroup required");
     }
 
-    public ServerAsync(final int port, final int poolSize) throws IOException
-    {
+    public ServerAsync(final int port, final int poolSize) throws IOException {
         this(port, AsynchronousChannelGroup.withThreadPool(Executors.newFixedThreadPool(poolSize, new NamedThreadFactory("worker-%d"))));
     }
 
@@ -63,12 +57,10 @@ public class ServerAsync extends AbstractServer
      * @see java.lang.Runnable#run()
      */
     @Override
-    public void run()
-    {
+    public void run() {
         getLogger().info("starting '{}' on port: {}", getName(), getPort());
 
-        try
-        {
+        try {
             // this.serverSocketChannel = ServerSocketChannel.open();
             this.serverSocketChannel = AsynchronousServerSocketChannel.open(this.channelGroup);
             this.serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
@@ -80,8 +72,7 @@ public class ServerAsync extends AbstractServer
 
             accept();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }
@@ -90,8 +81,7 @@ public class ServerAsync extends AbstractServer
      * @see de.freese.sonstiges.server.AbstractServer#start()
      */
     @Override
-    public void start()
-    {
+    public void start() {
         run();
 
         // Warten bis fertig.
@@ -103,8 +93,7 @@ public class ServerAsync extends AbstractServer
      * @see de.freese.sonstiges.server.AbstractServer#stop()
      */
     @Override
-    public void stop()
-    {
+    public void stop() {
         getLogger().info("stopping '{}' on port: {}", getName(), getPort());
 
         shutdown(this.channelGroup, getLogger());
@@ -115,22 +104,17 @@ public class ServerAsync extends AbstractServer
     /**
      * Wartet auf neue Connections.
      */
-    private void accept()
-    {
-        this.serverSocketChannel.accept(null, new CompletionHandler<AsynchronousSocketChannel, Void>()
-        {
+    private void accept() {
+        this.serverSocketChannel.accept(null, new CompletionHandler<AsynchronousSocketChannel, Void>() {
             /**
              * @see java.nio.channels.CompletionHandler#completed(java.lang.Object, java.lang.Object)
              */
             @Override
-            public void completed(final AsynchronousSocketChannel channel, final Void attachment)
-            {
-                try
-                {
+            public void completed(final AsynchronousSocketChannel channel, final Void attachment) {
+                try {
                     getLogger().debug("{}: Connection Accepted", channel.getRemoteAddress());
                 }
-                catch (IOException ex)
-                {
+                catch (IOException ex) {
                     failed(ex, null);
                 }
 
@@ -145,51 +129,42 @@ public class ServerAsync extends AbstractServer
              * @see java.nio.channels.CompletionHandler#failed(java.lang.Throwable, java.lang.Object)
              */
             @Override
-            public void failed(final Throwable ex, final Void attachment)
-            {
+            public void failed(final Throwable ex, final Void attachment) {
                 getLogger().error(ex.getMessage(), ex);
             }
         });
     }
 
-    private void read(final AsynchronousSocketChannel channel, final ByteBuffer byteBuffer)
-    {
+    private void read(final AsynchronousSocketChannel channel, final ByteBuffer byteBuffer) {
         MyAttachment attachment = new MyAttachment(byteBuffer, channel);
 
         channel.read(byteBuffer, attachment, new HttpReadHandler());
     }
 
-    private void shutdown(final AsynchronousChannelGroup channelGroup, final Logger logger)
-    {
+    private void shutdown(final AsynchronousChannelGroup channelGroup, final Logger logger) {
         logger.debug("shutdown AsynchronousChannelGroup");
         channelGroup.shutdown();
 
-        try
-        {
+        try {
             // Wait a while for existing tasks to terminate.
-            if (!channelGroup.awaitTermination(10, TimeUnit.SECONDS))
-            {
+            if (!channelGroup.awaitTermination(10, TimeUnit.SECONDS)) {
                 logger.warn("Timed out while waiting for AsynchronousChannelGroup");
 
                 // Cancel currently executing tasks
                 channelGroup.shutdownNow();
 
                 // Wait a while for tasks to respond to being cancelled.
-                if (!channelGroup.awaitTermination(5, TimeUnit.SECONDS))
-                {
+                if (!channelGroup.awaitTermination(5, TimeUnit.SECONDS)) {
                     logger.error("AsynchronousChannelGroup did not terminate");
                 }
             }
         }
-        catch (InterruptedException | IOException ex)
-        {
+        catch (InterruptedException | IOException ex) {
             // (Re-)Cancel if current thread also interrupted.
-            try
-            {
+            try {
                 channelGroup.shutdownNow();
             }
-            catch (IOException ex2)
-            {
+            catch (IOException ex2) {
                 logger.error("AsynchronousChannelGroup did not terminate");
             }
 

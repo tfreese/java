@@ -22,19 +22,18 @@ import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
-import de.freese.sonstiges.imap.model.MessageWrapper;
-import de.freese.sonstiges.imap.model.Token;
 import org.h2.jdbcx.JdbcConnectionPool;
 import org.hsqldb.jdbc.JDBCPool;
 import org.springframework.beans.factory.DisposableBean;
 
+import de.freese.sonstiges.imap.model.MessageWrapper;
+import de.freese.sonstiges.imap.model.Token;
+
 /**
  * @author Thomas Freese
  */
-public class MailRepository implements AutoCloseable
-{
-    private static DataSource toDataSource(final Path dbPath)
-    {
+public class MailRepository implements AutoCloseable {
+    private static DataSource toDataSource(final Path dbPath) {
         // H2
         JdbcConnectionPool pool = JdbcConnectionPool.create("jdbc:h2:file:" + dbPath.resolve("h2"), "sa", "sa");
         pool.setMaxConnections(3);
@@ -67,67 +66,52 @@ public class MailRepository implements AutoCloseable
 
     private DataSource dataSource;
 
-    public MailRepository(final DataSource dataSource)
-    {
+    public MailRepository(final DataSource dataSource) {
         super();
 
         this.dataSource = Objects.requireNonNull(dataSource, "dataSource required");
     }
 
-    public MailRepository(final Path dbPath)
-    {
+    public MailRepository(final Path dbPath) {
         this(toDataSource(dbPath));
     }
 
     @Override
-    public void close() throws Exception
-    {
-        try (Connection connection = this.dataSource.getConnection();
-             Statement statement = connection.createStatement())
-        {
+    public void close() throws Exception {
+        try (Connection connection = this.dataSource.getConnection(); Statement statement = connection.createStatement()) {
             String dbName = connection.getMetaData().getDatabaseProductName().toLowerCase();
 
-            if (dbName.contains("hsql") || dbName.contains("h2"))
-            {
+            if (dbName.contains("hsql") || dbName.contains("h2")) {
                 statement.execute("SHUTDOWN COMPACT");
             }
         }
-        catch (SQLException ex)
-        {
+        catch (SQLException ex) {
             // Ignore
         }
 
-        if (this.dataSource instanceof JDBCPool p)
-        {
+        if (this.dataSource instanceof JDBCPool p) {
             p.close(1);
         }
-        else if (this.dataSource instanceof AutoCloseable ac)
-        {
+        else if (this.dataSource instanceof AutoCloseable ac) {
             ac.close();
         }
-        else if (this.dataSource instanceof Closeable c)
-        {
+        else if (this.dataSource instanceof Closeable c) {
             c.close();
         }
-        else if (this.dataSource instanceof DisposableBean db)
-        {
+        else if (this.dataSource instanceof DisposableBean db) {
             db.destroy();
         }
 
         this.dataSource = null;
     }
 
-    public boolean containsMessageId(final long messageId) throws SQLException
-    {
+    public boolean containsMessageId(final long messageId) throws SQLException {
         String sql = "select count(*) from MESSAGE where MESSAGE_ID = ?";
 
-        try (Connection connection = this.dataSource.getConnection();
-             PreparedStatement prepareStatement = connection.prepareStatement(sql))
-        {
+        try (Connection connection = this.dataSource.getConnection(); PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
             prepareStatement.setLong(1, messageId);
 
-            try (ResultSet resultSet = prepareStatement.executeQuery())
-            {
+            try (ResultSet resultSet = prepareStatement.executeQuery()) {
                 resultSet.next();
 
                 int result = resultSet.getInt(1);
@@ -137,17 +121,13 @@ public class MailRepository implements AutoCloseable
         }
     }
 
-    public int countMessagesForFolder(final String folderName) throws SQLException
-    {
+    public int countMessagesForFolder(final String folderName) throws SQLException {
         String sql = "select count(*) from MESSAGE where FOLDER_NAME = ?";
 
-        try (Connection connection = this.dataSource.getConnection();
-             PreparedStatement prepareStatement = connection.prepareStatement(sql))
-        {
+        try (Connection connection = this.dataSource.getConnection(); PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
             prepareStatement.setString(1, folderName);
 
-            try (ResultSet resultSet = prepareStatement.executeQuery())
-            {
+            try (ResultSet resultSet = prepareStatement.executeQuery()) {
                 resultSet.next();
 
                 return resultSet.getInt(1);
@@ -155,24 +135,19 @@ public class MailRepository implements AutoCloseable
         }
     }
 
-    public void createDatabaseIfNotExist() throws Exception
-    {
+    public void createDatabaseIfNotExist() throws Exception {
         String dbName = "";
         boolean databaseExists = false;
 
-        try (Connection connection = this.dataSource.getConnection();
-             ResultSet resultSet = connection.getMetaData().getTables(null, null, "MESSAGE", new String[]{"TABLE"}))
-        {
+        try (Connection connection = this.dataSource.getConnection(); ResultSet resultSet = connection.getMetaData().getTables(null, null, "MESSAGE", new String[]{"TABLE"})) {
             dbName = connection.getMetaData().getDatabaseProductName();
 
-            if (resultSet.next())
-            {
+            if (resultSet.next()) {
                 databaseExists = true;
             }
         }
 
-        if (databaseExists)
-        {
+        if (databaseExists) {
             return;
         }
 
@@ -180,19 +155,14 @@ public class MailRepository implements AutoCloseable
 
         String schemaSql = "mail_schema.sql";
 
-        if (dbName.contains("mysql") || dbName.contains("mariadb"))
-        {
+        if (dbName.contains("mysql") || dbName.contains("mariadb")) {
             schemaSql = "mail_schema_mysql.sql";
         }
-        else if (dbName.contains("oracle"))
-        {
+        else if (dbName.contains("oracle")) {
             schemaSql = "mail_schema_oracle.sql";
         }
 
-        try (Connection connection = this.dataSource.getConnection();
-             Statement statement = connection.createStatement();
-             BufferedReader reader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream(schemaSql), StandardCharsets.UTF_8)))
-        {
+        try (Connection connection = this.dataSource.getConnection(); Statement statement = connection.createStatement(); BufferedReader reader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream(schemaSql), StandardCharsets.UTF_8))) {
             // @formatter:off
             String sql = reader.lines()
                     .filter(Objects::nonNull)
@@ -207,12 +177,10 @@ public class MailRepository implements AutoCloseable
 
             // statement.execute(sql);
 
-            try (Scanner scanner = new Scanner(sql))
-            {
+            try (Scanner scanner = new Scanner(sql)) {
                 scanner.useDelimiter("; ");
 
-                while (scanner.hasNext())
-                {
+                while (scanner.hasNext()) {
                     String s = scanner.next();
                     statement.execute(s);
                 }
@@ -220,8 +188,7 @@ public class MailRepository implements AutoCloseable
         }
     }
 
-    public Set<Token> getToken(final Collection<String> values) throws SQLException
-    {
+    public Set<Token> getToken(final Collection<String> values) throws SQLException {
         // @formatter:off
         String inClause = values.stream()
                 .filter(Objects::nonNull)
@@ -233,8 +200,7 @@ public class MailRepository implements AutoCloseable
                 ;
         // @formatter:on
 
-        if (inClause.length() <= 2)
-        {
+        if (inClause.length() <= 2) {
             // in ()
             return Collections.emptySet();
         }
@@ -246,12 +212,8 @@ public class MailRepository implements AutoCloseable
 
         Set<Token> result = new HashSet<>();
 
-        try (Connection connection = this.dataSource.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql))
-        {
-            while (resultSet.next())
-            {
+        try (Connection connection = this.dataSource.getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
+            while (resultSet.next()) {
                 String value = resultSet.getString("VALUE");
                 int hamCount = resultSet.getInt("HAM_COUNT");
                 int spamCount = resultSet.getInt("SPAM_COUNT");
@@ -264,10 +226,8 @@ public class MailRepository implements AutoCloseable
         return result;
     }
 
-    public void insertMessage(final MessageWrapper messageWrapper) throws Exception
-    {
-        try (Connection connection = this.dataSource.getConnection())
-        {
+    public void insertMessage(final MessageWrapper messageWrapper) throws Exception {
+        try (Connection connection = this.dataSource.getConnection()) {
             connection.setAutoCommit(false);
 
             String sql = """
@@ -275,8 +235,7 @@ public class MailRepository implements AutoCloseable
                         values (?, ?, ?, ?, ?, ?)
                     """;
 
-            try (PreparedStatement preparedStatementMessage = connection.prepareStatement(sql))
-            {
+            try (PreparedStatement preparedStatementMessage = connection.prepareStatement(sql)) {
                 preparedStatementMessage.setLong(1, messageWrapper.getMessageId());
                 preparedStatementMessage.setString(2, messageWrapper.getFolderName());
                 preparedStatementMessage.setString(3, messageWrapper.getSubject());
@@ -288,16 +247,14 @@ public class MailRepository implements AutoCloseable
 
                 connection.commit();
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 connection.rollback();
                 throw ex;
             }
         }
     }
 
-    public void insertMessageTokens(final MessageWrapper messageWrapper, final Map<String, Integer> wordCount) throws SQLException
-    {
+    public void insertMessageTokens(final MessageWrapper messageWrapper, final Map<String, Integer> wordCount) throws SQLException {
         // Mysql/Mariadb kennen keinen MERGE.
         // insert into TOKEN (VALUE, HAM_COUNT, SPAM_COUNT) values
         // (?, 0, 1) on duplicate key update SPAM_COUNT = SPAM_COUNT + 1
@@ -321,46 +278,36 @@ public class MailRepository implements AutoCloseable
         String sqlTokenInsert = "insert into TOKEN (VALUE, HAM_COUNT, SPAM_COUNT) values (?, ?, ?)";
         String sqlTokenUpdate = "update TOKEN set HAM_COUNT = ?, SPAM_COUNT = ? where VALUE = ?";
 
-        try (Connection connection = this.dataSource.getConnection())
-        {
+        try (Connection connection = this.dataSource.getConnection()) {
             connection.setAutoCommit(false);
 
-            try (PreparedStatement pstTokenInsert = connection.prepareStatement(sqlTokenInsert);
-                 PreparedStatement pstTokenUpdate = connection.prepareStatement(sqlTokenUpdate))
-            {
-                for (Map.Entry<String, Integer> entry : wordCount.entrySet())
-                {
+            try (PreparedStatement pstTokenInsert = connection.prepareStatement(sqlTokenInsert); PreparedStatement pstTokenUpdate = connection.prepareStatement(sqlTokenUpdate)) {
+                for (Map.Entry<String, Integer> entry : wordCount.entrySet()) {
                     String value = entry.getKey();
                     Token token = existingToken.get(value);
 
-                    if (token == null)
-                    {
+                    if (token == null) {
                         // Insert
                         pstTokenInsert.setString(1, value);
 
-                        if (messageWrapper.isSpam())
-                        {
+                        if (messageWrapper.isSpam()) {
                             pstTokenInsert.setInt(2, 0);
                             pstTokenInsert.setInt(3, 1);
                         }
-                        else
-                        {
+                        else {
                             pstTokenInsert.setInt(2, 1);
                             pstTokenInsert.setInt(3, 0);
                         }
 
                         pstTokenInsert.executeUpdate();
                     }
-                    else
-                    {
+                    else {
                         // Update
-                        if (messageWrapper.isSpam())
-                        {
+                        if (messageWrapper.isSpam()) {
                             pstTokenUpdate.setInt(1, token.getHamCount());
                             pstTokenUpdate.setInt(2, token.getSpamCount() + 1);
                         }
-                        else
-                        {
+                        else {
                             pstTokenUpdate.setInt(1, token.getHamCount() + 1);
                             pstTokenUpdate.setInt(2, token.getSpamCount());
                         }
@@ -372,8 +319,7 @@ public class MailRepository implements AutoCloseable
 
                 connection.commit();
             }
-            catch (SQLException ex)
-            {
+            catch (SQLException ex) {
                 connection.rollback();
                 throw ex;
             }
@@ -381,14 +327,11 @@ public class MailRepository implements AutoCloseable
 
         String sqlMessageToken = "insert into MESSAGE_TOKEN (MESSAGE_ID, VALUE, COUNT) values (?, ?, ?)";
 
-        try (Connection connection = this.dataSource.getConnection())
-        {
+        try (Connection connection = this.dataSource.getConnection()) {
             connection.setAutoCommit(false);
 
-            try (PreparedStatement preparedStatementMessageToken = connection.prepareStatement(sqlMessageToken))
-            {
-                for (Map.Entry<String, Integer> entry : wordCount.entrySet())
-                {
+            try (PreparedStatement preparedStatementMessageToken = connection.prepareStatement(sqlMessageToken)) {
+                for (Map.Entry<String, Integer> entry : wordCount.entrySet()) {
                     String token = entry.getKey();
                     int count = entry.getValue();
 
@@ -405,8 +348,7 @@ public class MailRepository implements AutoCloseable
 
                 connection.commit();
             }
-            catch (SQLException ex)
-            {
+            catch (SQLException ex) {
                 connection.rollback();
                 throw ex;
             }

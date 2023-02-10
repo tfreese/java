@@ -6,9 +6,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
-import de.freese.jconky.javafx.painter.AbstractFxGraphPainter;
-import de.freese.jconky.javafx.painter.BarFxGraphPainter;
-import de.freese.jconky.javafx.painter.LineFxGraphPainter;
 import javafx.application.Application;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
@@ -24,6 +21,10 @@ import javafx.stage.StageStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.freese.jconky.javafx.painter.AbstractFxGraphPainter;
+import de.freese.jconky.javafx.painter.BarFxGraphPainter;
+import de.freese.jconky.javafx.painter.LineFxGraphPainter;
+
 /**
  * Geht momentan nicht aus der IDE, sondern nur per Console: mvn compile exec:java<br>
  * <br>
@@ -36,21 +37,18 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public final class JavaFxGraphApplication extends Application
-{
+public final class JavaFxGraphApplication extends Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaFxGraphApplication.class);
 
     /**
      * @author Thomas Freese
      */
-    private static class CompositeGraphPainter extends AbstractFxGraphPainter
-    {
+    private static class CompositeGraphPainter extends AbstractFxGraphPainter {
         private final BarFxGraphPainter barPainter = new BarFxGraphPainter();
 
         private final LineFxGraphPainter linePainter = new LineFxGraphPainter();
 
-        public synchronized void addValue(final float value)
-        {
+        public synchronized void addValue(final float value) {
             this.linePainter.getValues().addValue(value);
             this.barPainter.getValues().addValue(value);
         }
@@ -59,8 +57,7 @@ public final class JavaFxGraphApplication extends Application
          * @see de.freese.jconky.javafx.painter.AbstractFxGraphPainter#paintGraph(javafx.scene.canvas.GraphicsContext, double, double)
          */
         @Override
-        public void paintGraph(final GraphicsContext gc, final double width, final double height)
-        {
+        public void paintGraph(final GraphicsContext gc, final double width, final double height) {
             double halfHeight = height / 2D;
 
             this.linePainter.paintGraph(gc, width, halfHeight);
@@ -93,8 +90,7 @@ public final class JavaFxGraphApplication extends Application
     /**
      * JavaFx braucht einen public Konstruktor.
      */
-    public JavaFxGraphApplication()
-    {
+    public JavaFxGraphApplication() {
         super();
     }
 
@@ -102,8 +98,7 @@ public final class JavaFxGraphApplication extends Application
      * @see javafx.application.Application#init()
      */
     @Override
-    public void init() throws Exception
-    {
+    public void init() throws Exception {
         getLogger().info("init");
     }
 
@@ -111,8 +106,7 @@ public final class JavaFxGraphApplication extends Application
      * @see javafx.application.Application#start(javafx.stage.Stage)
      */
     @Override
-    public void start(final Stage primaryStage) throws Exception
-    {
+    public void start(final Stage primaryStage) throws Exception {
         // gc.beginPath();
         // gc.moveTo(xOffset, yLast);
         // gc.lineTo(x, y);
@@ -145,8 +139,7 @@ public final class JavaFxGraphApplication extends Application
         boolean isTransparentSupported = Platform.isSupported(ConditionalFeature.TRANSPARENT_WINDOW);
         // isTransparentSupported = false;
 
-        if (isTransparentSupported)
-        {
+        if (isTransparentSupported) {
             // Fenster wird hierbei undecorated, aber der Graph wird normal gezeichnet.
 
             // For Stage
@@ -164,28 +157,22 @@ public final class JavaFxGraphApplication extends Application
             // Das gesamte Fenster wird transparent, inklusive Titelleiste und Graph.
             // primaryStage.setOpacity(0.3D);
         }
-        else
-        {
+        else {
             scene.setFill(Color.BLACK);
         }
 
         CompositeGraphPainter graphPainter = new CompositeGraphPainter();
 
         this.scheduledExecutorService = Executors.newScheduledThreadPool(2);
-        this.scheduledExecutorService.scheduleWithFixedDelay(() ->
-        {
+        this.scheduledExecutorService.scheduleWithFixedDelay(() -> {
             float value = this.valueSupplier.get();
             graphPainter.addValue(value);
 
-            if (Platform.isFxApplicationThread())
-            {
+            if (Platform.isFxApplicationThread()) {
                 graphPainter.paint(this.gc, canvas.getWidth(), canvas.getHeight());
             }
-            else
-            {
-                Platform.runLater(() ->
-                        graphPainter.paint(this.gc, canvas.getWidth(), canvas.getHeight())
-                );
+            else {
+                Platform.runLater(() -> graphPainter.paint(this.gc, canvas.getWidth(), canvas.getHeight()));
             }
         }, 500, 40, TimeUnit.MILLISECONDS);
 
@@ -205,8 +192,7 @@ public final class JavaFxGraphApplication extends Application
      * @see javafx.application.Application#stop()
      */
     @Override
-    public void stop() throws Exception
-    {
+    public void stop() throws Exception {
         getLogger().info("stop");
 
         this.scheduledExecutorService.shutdown();
@@ -214,8 +200,7 @@ public final class JavaFxGraphApplication extends Application
         System.exit(0);
     }
 
-    private Logger getLogger()
-    {
+    private Logger getLogger() {
         return LOGGER;
     }
 }

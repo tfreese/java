@@ -6,8 +6,7 @@ package de.freese.binding.value;
  *
  * @author Thomas Freese
  */
-public interface ObservableValue<T>
-{
+public interface ObservableValue<T> {
     void addListener(ChangeListener<? super T> listener);
 
     T getValue();

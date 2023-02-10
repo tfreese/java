@@ -15,33 +15,27 @@ import java.awt.geom.Rectangle2D;
  *
  * @author <a href="mailto:Marcus@Wolschon.biz">Marcus Wolschon</a>
  */
-public class PolygonBounds extends Bounds
-{
+public class PolygonBounds extends Bounds {
     /**
      * We use this path for inclusion-tests.
      */
     private final GeneralPath myPolygonPath = new GeneralPath(Path2D.WIND_EVEN_ODD);
 
-    public void addPoint(final double lat, final double lon)
-    {
-        if (this.myPolygonPath.getCurrentPoint() == null)
-        {
+    public void addPoint(final double lat, final double lon) {
+        if (this.myPolygonPath.getCurrentPoint() == null) {
             this.myPolygonPath.moveTo(lat, lon);
         }
-        else
-        {
+        else {
             this.myPolygonPath.lineTo(lat, lon);
         }
     }
 
-    public void addPoint(final LatLon point)
-    {
+    public void addPoint(final LatLon point) {
         addPoint(point.lat(), point.lon());
     }
 
     @Override
-    public LatLon center()
-    {
+    public LatLon center() {
         return getCenter();
     }
 
@@ -49,8 +43,7 @@ public class PolygonBounds extends Bounds
      * @see de.freese.openstreetmap.model.coordinates.Bounds#contains(double, double)
      */
     @Override
-    public boolean contains(final double aLatitude, final double longitude)
-    {
+    public boolean contains(final double aLatitude, final double longitude) {
         this.myPolygonPath.closePath();
 
         return this.myPolygonPath.contains(aLatitude, longitude);
@@ -60,8 +53,7 @@ public class PolygonBounds extends Bounds
      * @see de.freese.openstreetmap.model.coordinates.Bounds#getCenter()
      */
     @Override
-    public LatLon getCenter()
-    {
+    public LatLon getCenter() {
         this.myPolygonPath.closePath();
         Rectangle2D bounds2D = this.myPolygonPath.getBounds2D();
 
@@ -72,8 +64,7 @@ public class PolygonBounds extends Bounds
      * @see de.freese.openstreetmap.model.coordinates.Bounds#getMax()
      */
     @Override
-    public LatLon getMax()
-    {
+    public LatLon getMax() {
         this.myPolygonPath.closePath();
         Rectangle2D bounds2D = this.myPolygonPath.getBounds2D();
 
@@ -84,8 +75,7 @@ public class PolygonBounds extends Bounds
      * @see de.freese.openstreetmap.model.coordinates.Bounds#getMin()
      */
     @Override
-    public LatLon getMin()
-    {
+    public LatLon getMin() {
         this.myPolygonPath.closePath();
         Rectangle2D bounds2D = this.myPolygonPath.getBounds2D();
 
@@ -96,8 +86,7 @@ public class PolygonBounds extends Bounds
      * @see de.freese.openstreetmap.model.coordinates.Bounds#getSize()
      */
     @Override
-    public double getSize()
-    {
+    public double getSize() {
         this.myPolygonPath.closePath();
         Rectangle2D bounds2D = this.myPolygonPath.getBounds2D();
 
@@ -108,8 +97,7 @@ public class PolygonBounds extends Bounds
      * @see de.freese.openstreetmap.model.coordinates.Bounds#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "PolygonBounds@" + hashCode();
     }
 }

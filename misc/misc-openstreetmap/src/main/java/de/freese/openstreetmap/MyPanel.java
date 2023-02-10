@@ -14,8 +14,7 @@ import de.freese.openstreetmap.model.OsmWay;
 /**
  * @author Thomas Freese
  */
-public class MyPanel extends JPanel
-{
+public class MyPanel extends JPanel {
     @Serial
     private static final long serialVersionUID = -1375597059859723042L;
 
@@ -25,21 +24,16 @@ public class MyPanel extends JPanel
 
     private transient Matrix myZTFMatrix;
 
-    public MyPanel(final OsmModel model)
-    {
+    public MyPanel(final OsmModel model) {
         super();
 
         this.model = model;
     }
 
-    public Rectangle getMapBounds()
-    {
-        if (this.mapBounds == null)
-        {
-            for (OsmWay osmWay : this.model.getWayMap().values())
-            {
-                if (this.mapBounds == null)
-                {
+    public Rectangle getMapBounds() {
+        if (this.mapBounds == null) {
+            for (OsmWay osmWay : this.model.getWayMap().values()) {
+                if (this.mapBounds == null) {
                     this.mapBounds = new Rectangle(osmWay.getBounds());
                     continue;
                 }
@@ -65,15 +59,12 @@ public class MyPanel extends JPanel
      * @see javax.swing.JComponent#paint(java.awt.Graphics)
      */
     @Override
-    public void paint(final Graphics g)
-    {
-        if (this.model.getWayMap().isEmpty() || (this.myZTFMatrix == null))
-        {
+    public void paint(final Graphics g) {
+        if (this.model.getWayMap().isEmpty() || (this.myZTFMatrix == null)) {
             return;
         }
 
-        for (OsmWay osmWay : this.model.getWayMap().values())
-        {
+        for (OsmWay osmWay : this.model.getWayMap().values()) {
             Polygon polyToDraw = osmWay.getDrawablePolygon(this.myZTFMatrix);
             g.drawPolygon(polyToDraw);
         }
@@ -89,8 +80,7 @@ public class MyPanel extends JPanel
      *
      * @param delta Die Strecke, um die verschoben werden soll
      */
-    public void scrollHorizontal(final int delta)
-    {
+    public void scrollHorizontal(final int delta) {
         Matrix transMat = Matrix.translate(delta, 0);
         this.myZTFMatrix = transMat.multiply(this.myZTFMatrix);
     }
@@ -100,8 +90,7 @@ public class MyPanel extends JPanel
      *
      * @param delta Die Strecke, um die verschoben werden soll
      */
-    public void scrollVertical(final int delta)
-    {
+    public void scrollVertical(final int delta) {
         Matrix transMat = Matrix.translate(0, delta);
         this.myZTFMatrix = transMat.multiply(this.myZTFMatrix);
     }
@@ -111,8 +100,7 @@ public class MyPanel extends JPanel
      *
      * @param factor Der Faktor um den herein- bzw. herausgezoomt wird
      */
-    public void zoom(final double factor)
-    {
+    public void zoom(final double factor) {
         Point center = new Point(getWidth() / 2, getHeight() / 2);
         this.myZTFMatrix = Matrix.zoomPoint(this.myZTFMatrix, center, factor);
 
@@ -124,8 +112,7 @@ public class MyPanel extends JPanel
      * Stellt intern eine Transformationsmatrix zur Verfügung, die so skaliert, verschiebt und spiegelt, dass die zu zeichnenden Polygone komplett in den
      * Anzeigebereich passen
      */
-    public void zoomToFit()
-    {
+    public void zoomToFit() {
         Rectangle bounds = getMapBounds();
         this.myZTFMatrix = Matrix.zoomToFit(bounds, new Rectangle(getWidth() - 2, getHeight() - 2));
     }

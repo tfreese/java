@@ -24,13 +24,11 @@ import javax.swing.WindowConstants;
 /**
  * Example code that shows any JComponent can be customized to allow dropping of a dnd.color.
  */
-public final class DragColorMain extends JPanel implements ActionListener
-{
+public final class DragColorMain extends JPanel implements ActionListener {
     @Serial
     private static final long serialVersionUID = 7463976633344385765L;
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         // Schedule a job for the event-dispatching thread:
         // creating and showing this application's GUI.
         SwingUtilities.invokeLater(DragColorMain::createAndShowGUI);
@@ -39,8 +37,7 @@ public final class DragColorMain extends JPanel implements ActionListener
     /**
      * Create the GUI and show it. For thread safety, this method should be invoked from the event-dispatching thread.
      */
-    private static void createAndShowGUI()
-    {
+    private static void createAndShowGUI() {
         // Make sure we have nice window decorations.
         JFrame.setDefaultLookAndFeelDecorated(true);
 
@@ -62,8 +59,7 @@ public final class DragColorMain extends JPanel implements ActionListener
 
     private final JCheckBox toggleForeground;
 
-    private DragColorMain()
-    {
+    private DragColorMain() {
         super(new BorderLayout());
 
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -78,8 +74,7 @@ public final class DragColorMain extends JPanel implements ActionListener
         // Create a matrix of 9 buttons.
         JPanel buttonPanel = new JPanel(new GridLayout(3, 3));
 
-        for (int i = 0; i < 9; i++)
-        {
+        for (int i = 0; i < 9; i++) {
             JButton tmp = new JButton("Button " + i);
             tmp.setTransferHandler(this.colorHandler);
             buttonPanel.add(tmp);
@@ -108,8 +103,7 @@ public final class DragColorMain extends JPanel implements ActionListener
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     @Override
-    public void actionPerformed(final ActionEvent e)
-    {
+    public void actionPerformed(final ActionEvent e) {
         this.colorHandler.setChangesForegroundColor(this.toggleForeground.isSelected());
     }
 }

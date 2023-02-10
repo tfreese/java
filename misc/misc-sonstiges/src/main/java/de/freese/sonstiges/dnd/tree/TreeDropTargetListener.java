@@ -13,25 +13,19 @@ import javax.swing.tree.TreePath;
 /**
  * @author Thomas Freese
  */
-class TreeDropTargetListener implements DropTargetListener
-{
+class TreeDropTargetListener implements DropTargetListener {
     private final Timer expandTimer;
 
     private TreePath lastPath;
 
     private JTree tree;
 
-    TreeDropTargetListener()
-    {
+    TreeDropTargetListener() {
         super();
 
-        this.expandTimer = new Timer(1000, event ->
-        {
+        this.expandTimer = new Timer(1000, event -> {
             // Nicht den RootKnoten
-            if ((TreeDropTargetListener.this.tree == null) || (TreeDropTargetListener.this.lastPath == null)
-                    || (TreeDropTargetListener.this.tree.isRootVisible()
-                    && (TreeDropTargetListener.this.tree.getRowForPath(TreeDropTargetListener.this.lastPath) == 0)))
-            {
+            if ((TreeDropTargetListener.this.tree == null) || (TreeDropTargetListener.this.lastPath == null) || (TreeDropTargetListener.this.tree.isRootVisible() && (TreeDropTargetListener.this.tree.getRowForPath(TreeDropTargetListener.this.lastPath) == 0))) {
                 return;
             }
 
@@ -53,8 +47,7 @@ class TreeDropTargetListener implements DropTargetListener
      * @see java.awt.dnd.DropTargetListener#dragEnter(java.awt.dnd.DropTargetDragEvent)
      */
     @Override
-    public void dragEnter(final DropTargetDragEvent event)
-    {
+    public void dragEnter(final DropTargetDragEvent event) {
         // Empty
     }
 
@@ -62,8 +55,7 @@ class TreeDropTargetListener implements DropTargetListener
      * @see java.awt.dnd.DropTargetListener#dragExit(java.awt.dnd.DropTargetEvent)
      */
     @Override
-    public void dragExit(final DropTargetEvent dte)
-    {
+    public void dragExit(final DropTargetEvent dte) {
         this.expandTimer.stop();
     }
 
@@ -71,11 +63,9 @@ class TreeDropTargetListener implements DropTargetListener
      * @see java.awt.dnd.DropTargetListener#dragOver(java.awt.dnd.DropTargetDragEvent)
      */
     @Override
-    public void dragOver(final DropTargetDragEvent event)
-    {
+    public void dragOver(final DropTargetDragEvent event) {
         // Ist Target ein JTree ?
-        if (!(event.getDropTargetContext().getComponent() instanceof JTree))
-        {
+        if (!(event.getDropTargetContext().getComponent() instanceof JTree)) {
             return;
         }
 
@@ -83,8 +73,7 @@ class TreeDropTargetListener implements DropTargetListener
 
         TreePath path = this.tree.getClosestPathForLocation(event.getLocation().x, event.getLocation().y);
 
-        if (path != this.lastPath)
-        {
+        if (path != this.lastPath) {
             this.lastPath = path;
             this.expandTimer.restart();
         }
@@ -94,8 +83,7 @@ class TreeDropTargetListener implements DropTargetListener
      * @see java.awt.dnd.DropTargetListener#drop(java.awt.dnd.DropTargetDropEvent)
      */
     @Override
-    public void drop(final DropTargetDropEvent event)
-    {
+    public void drop(final DropTargetDropEvent event) {
         this.tree = null;
         this.expandTimer.stop();
     }
@@ -104,8 +92,7 @@ class TreeDropTargetListener implements DropTargetListener
      * @see java.awt.dnd.DropTargetListener#dropActionChanged(java.awt.dnd.DropTargetDragEvent)
      */
     @Override
-    public void dropActionChanged(final DropTargetDragEvent event)
-    {
+    public void dropActionChanged(final DropTargetDragEvent event) {
         // Empty
     }
 }

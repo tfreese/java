@@ -7,14 +7,12 @@ import java.io.PrintWriter;
 /**
  * @author Thomas Freese
  */
-public class ReverseThread extends Thread
-{
+public class ReverseThread extends Thread {
     private final BufferedReader in;
 
     private final PrintWriter out;
 
-    public ReverseThread(final PrintWriter out, final BufferedReader in)
-    {
+    public ReverseThread(final PrintWriter out, final BufferedReader in) {
         super();
 
         this.out = out;
@@ -25,37 +23,30 @@ public class ReverseThread extends Thread
      * @see java.lang.Thread#run()
      */
     @Override
-    public void run()
-    {
-        if ((this.out != null) && (this.in != null))
-        {
-            try
-            {
+    public void run() {
+        if ((this.out != null) && (this.in != null)) {
+            try {
                 String input = null;
 
-                while ((input = this.in.readLine()) != null)
-                {
+                while ((input = this.in.readLine()) != null) {
                     this.out.println(reverseIt(input));
                     this.out.flush();
                 }
 
                 this.out.close();
             }
-            catch (IOException ex)
-            {
+            catch (IOException ex) {
                 System.err.println("ReverseThread run: " + ex);
             }
         }
     }
 
-    private String reverseIt(final String source)
-    {
+    private String reverseIt(final String source) {
         int i = 0;
         int len = source.length();
         StringBuilder sb = new StringBuilder(len);
 
-        for (i = (len - 1); i >= 0; i--)
-        {
+        for (i = (len - 1); i >= 0; i--) {
             sb.append(source.charAt(i));
         }
 
