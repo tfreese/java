@@ -10,7 +10,6 @@
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>de.freese</groupId>
     <artifactId>java</artifactId>
     <packaging>pom</packaging>
 

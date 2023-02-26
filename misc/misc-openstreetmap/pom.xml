@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
     <name>${project.groupId} - ${project.artifactId}</name>
-    <description>Projekt fuer das Rendern von GEO Daten von http://www.openstreetmap.org</description>
+    <description>Projekt für das Rendern von GEO Daten von http://www.openstreetmap.org</description>
     <url>http://www.openstreetmap.org</url>
 
     <build>

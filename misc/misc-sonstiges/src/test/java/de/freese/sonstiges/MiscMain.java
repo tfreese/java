@@ -1339,6 +1339,18 @@ public final class MiscMain {
 
         System.out.println();
 
+        threadFactory = Thread.ofVirtual().name("virtual-", 1).factory();
+
+        try (ExecutorService executorService = Executors.newFixedThreadPool(3, threadFactory)) {
+            IntStream.range(0, 20).forEach(i -> {
+                executorService.submit(() -> {
+                    printThreadInfos.accept(Thread.currentThread());
+                    TimeUnit.MILLISECONDS.sleep(500L);
+                    return i;
+                });
+            });
+        }
+
         Thread.ofVirtual().name("virtual").start(() -> printThreadInfos.accept(Thread.currentThread()));
 
         Thread.startVirtualThread(() -> printThreadInfos.accept(Thread.currentThread()));

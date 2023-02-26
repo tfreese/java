@@ -39,7 +39,7 @@
 					<arguments>
 					<argument>-classpath</argument>
 					<classpath />
-					<argument>de.freese.sonstiges.javafx.JavaFxApplicationication</argument>
+					<argument>de.freese.sonstiges.javafx.JavaFxApplicationLauncher</argument>
 					</arguments>
 					</configuration -->
             </plugin>
