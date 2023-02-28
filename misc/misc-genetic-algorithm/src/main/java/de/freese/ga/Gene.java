@@ -9,21 +9,15 @@ import java.util.Objects;
  * @author Thomas Freese
  */
 public class Gene implements Comparable<Gene> {
+    public static Gene of(final Object value) {
+        Gene gene = new Gene();
+        gene.setValue(value);
+
+        return gene;
+    }
+
     private Object value;
 
-    public Gene() {
-        super();
-    }
-
-    public Gene(final Object value) {
-        super();
-
-        setValue(value);
-    }
-
-    /**
-     * Selber Typ und selber Wert.
-     */
     @Override
     public int compareTo(final Gene o) {
         if ((o == null) || (o == this) || (getClass() != o.getClass())) {
@@ -33,7 +27,7 @@ public class Gene implements Comparable<Gene> {
         int comp = 0;
 
         if (getValue() instanceof Comparable) {
-            comp = ((Comparable<?>) getValue()).compareTo(o.getValue());
+            comp = ((Comparable<Object>) getValue()).compareTo(o.getValue());
         }
         else {
             throw new IllegalStateException("GeneValue must implement Comparable");
@@ -56,19 +50,23 @@ public class Gene implements Comparable<Gene> {
     }
 
     public Boolean getBoolean() {
-        return getValue();
+        return (Boolean) getValue();
     }
 
     public Double getDouble() {
-        return getValue();
+        return (Double) getValue();
     }
 
     public Integer getInteger() {
-        return getValue();
+        return (Integer) getValue();
     }
 
-    public <T> T getValue() {
-        return (T) this.value;
+    public Object getValue() {
+        return this.value;
+    }
+
+    public <T> T getValue(Class<T> type) {
+        return type.cast(this.value);
     }
 
     @Override

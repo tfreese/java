@@ -52,7 +52,7 @@ public class CoinChromosome extends Chromosome {
         List<Gene> genes = new ArrayList<>();
 
         for (int i = 0; i < size(); i++) {
-            genes.add(new Gene(existingCoins.get(i)));
+            genes.add(Gene.of(existingCoins.get(i)));
         }
 
         // Zufällig neu zusammenstellen.

@@ -64,7 +64,7 @@ public class CoinGenotype extends Genotype {
                 population.setGene(i, coin);
             }
             else {
-                population.setGene(i, new Gene(0));
+                population.setGene(i, Gene.of(0));
             }
         }
 

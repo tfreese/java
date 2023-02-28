@@ -35,7 +35,7 @@ public class TspChromosome extends Chromosome {
         // Loop through our tour's cities.
         for (int i = 0; i < size(); i++) {
             // Get city we're travelling from
-            City fromCity = getGene(i).getValue();
+            City fromCity = getGene(i).getValue(City.class);
 
             // City we're travelling to.
             City destinationCity = null;
@@ -43,10 +43,10 @@ public class TspChromosome extends Chromosome {
             // Check we're not on our tour's last city, if we are set our
             // tour's final destination city to our starting city
             if ((i + 1) < size()) {
-                destinationCity = getGene(i + 1).getValue();
+                destinationCity = getGene(i + 1).getValue(City.class);
             }
             else {
-                destinationCity = getGene(0).getValue();
+                destinationCity = getGene(0).getValue(City.class);
             }
 
             // Get the distance between the two cities
@@ -67,7 +67,7 @@ public class TspChromosome extends Chromosome {
 
         // Loop through all our destination cities and add them to our tour
         for (int i = 0; i < size(); i++) {
-            genes.add(new Gene(cities.get(i)));
+            genes.add(Gene.of(cities.get(i)));
         }
 
         // Zufällig neu zusammenstellen.

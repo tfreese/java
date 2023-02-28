@@ -62,11 +62,11 @@ public class SudokuChromosome extends Chromosome {
 
                 // Nur veränderbare.
                 if (geneI.isMutable()) {
-                    setGene(i, new SudokuGene(geneJ.getValue(), true));
+                    setGene(i, new SudokuGene(geneJ.getInteger(), true));
                 }
 
                 if (geneJ.isMutable()) {
-                    setGene(j, new SudokuGene(geneI.getValue(), true));
+                    setGene(j, new SudokuGene(geneI.getInteger(), true));
                 }
             }
         }
@@ -207,19 +207,19 @@ public class SudokuChromosome extends Chromosome {
         Set<Integer> set = new HashSet<>();
 
         for (int i = start; i < (start + puzzleBlockSize); i++) {
-            set.add(getGene(i).getValue());
+            set.add(getGene(i).getInteger());
         }
 
         start += 9;
 
         for (int i = start; i < (start + puzzleBlockSize); i++) {
-            set.add(getGene(i).getValue());
+            set.add(getGene(i).getInteger());
         }
 
         start += 9;
 
         for (int i = start; i < (start + puzzleBlockSize); i++) {
-            set.add(getGene(i).getValue());
+            set.add(getGene(i).getInteger());
         }
 
         // double fitness = set.size();
@@ -237,7 +237,7 @@ public class SudokuChromosome extends Chromosome {
         Set<Integer> set = new HashSet<>();
 
         for (int i = start; i < (puzzleSize * puzzleSize); i += puzzleSize) {
-            set.add(getGene(i).getValue());
+            set.add(getGene(i).getInteger());
         }
 
         // double fitness = set.size();
@@ -256,7 +256,7 @@ public class SudokuChromosome extends Chromosome {
         Set<Integer> set = new HashSet<>();
 
         for (int i = start; i < end; i++) {
-            set.add(getGene(i).getValue());
+            set.add(getGene(i).getInteger());
         }
 
         // double fitness = set.size();

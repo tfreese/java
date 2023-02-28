@@ -54,7 +54,7 @@ public abstract class AbstractModelGenerator {
                     .filter(field -> {
                         field.setUseForToString(false);
 
-                        Column column = field.getPayload();
+                        Column column = field.getPayload(Column.class);
                         return toStringColumns.contains(column);
                     })
                     .forEach(field -> field.setUseForToString(true))

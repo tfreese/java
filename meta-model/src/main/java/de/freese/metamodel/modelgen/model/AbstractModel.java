@@ -45,8 +45,8 @@ public abstract class AbstractModel {
         return this.name;
     }
 
-    public <T> T getPayload() {
-        return (T) this.payload;
+    public <T> T getPayload(Class<T> type) {
+        return type.cast(this.payload);
     }
 
     public void setPayload(final Object payload) {
