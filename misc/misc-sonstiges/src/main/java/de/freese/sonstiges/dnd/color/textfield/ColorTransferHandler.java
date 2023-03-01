@@ -22,6 +22,7 @@ class ColorTransferHandler extends TransferHandler {
     private final String mimeType = DataFlavor.javaJVMLocalObjectMimeType + ";class=java.awt.Color";
 
     private boolean changesForegroundColor = true;
+    
     /**
      * The data type exported from JColorChooser.
      */

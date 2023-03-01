@@ -69,17 +69,13 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
 
                     StringJoiner joiner = new StringJoiner(", ", " (", ")");
 
-                    if (this.exclusive) {
-                        // Without SensorName.
-                        joiner.add("VALUE VARCHAR(50) NOT NULL");
-                        joiner.add("TIMESTAMP BIGINT NOT NULL");
-                    }
-                    else {
+                    if (!this.exclusive) {
                         // With SensorName.
                         joiner.add("NAME VARCHAR(20) NOT NULL");
-                        joiner.add("VALUE VARCHAR(50) NOT NULL");
-                        joiner.add("TIMESTAMP BIGINT NOT NULL");
                     }
+
+                    joiner.add("VALUE VARCHAR(50) NOT NULL");
+                    joiner.add("TIMESTAMP BIGINT NOT NULL");
 
                     sql.append(joiner);
 

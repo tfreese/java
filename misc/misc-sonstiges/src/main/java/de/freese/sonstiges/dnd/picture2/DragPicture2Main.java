@@ -3,7 +3,7 @@ package de.freese.sonstiges.dnd.picture2;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.Serial;
 import java.net.URL;
@@ -161,21 +161,21 @@ public final class DragPicture2Main extends JPanel {
         JMenuItem menuItem = new JMenuItem("Cut");
         menuItem.setActionCommand((String) TransferHandler.getCutAction().getValue(Action.NAME));
         menuItem.addActionListener(actionListener);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK));
         menuItem.setMnemonic(KeyEvent.VK_T);
         mainMenu.add(menuItem);
 
         menuItem = new JMenuItem("Copy");
         menuItem.setActionCommand((String) TransferHandler.getCopyAction().getValue(Action.NAME));
         menuItem.addActionListener(actionListener);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK));
         menuItem.setMnemonic(KeyEvent.VK_C);
         mainMenu.add(menuItem);
 
         menuItem = new JMenuItem("Paste");
         menuItem.setActionCommand((String) TransferHandler.getPasteAction().getValue(Action.NAME));
         menuItem.addActionListener(actionListener);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK));
         menuItem.setMnemonic(KeyEvent.VK_P);
         mainMenu.add(menuItem);
 

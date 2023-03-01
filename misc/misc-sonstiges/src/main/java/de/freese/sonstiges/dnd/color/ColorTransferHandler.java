@@ -20,7 +20,9 @@ class ColorTransferHandler extends TransferHandler {
     private static final long serialVersionUID = -77275171383046920L;
 
     private final String mimeType = DataFlavor.javaJVMLocalObjectMimeType + ";class=java.awt.Color";
+
     private boolean changesForegroundColor = true;
+    
     /**
      * The data type exported from JColorChooser.
      */

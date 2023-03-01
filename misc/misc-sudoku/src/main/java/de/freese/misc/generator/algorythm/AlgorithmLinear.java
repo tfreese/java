@@ -31,7 +31,7 @@ public class AlgorithmLinear implements SudokuAlgorithm {
 
         int currentRow = 0;
 
-        // Versuche zum auflösen einer Zeile
+        // Versuche zum Auflösen einer Zeile
         int[] trials = new int[grid.length];
         boolean traceOn = true;
 

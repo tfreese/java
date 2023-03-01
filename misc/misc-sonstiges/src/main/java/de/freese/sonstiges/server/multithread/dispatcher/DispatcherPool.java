@@ -32,7 +32,9 @@ public class DispatcherPool implements Dispatcher {
     private final int numOfDispatcher;
 
     private final int numOfWorker;
+
     private ExecutorService executorServiceWorker;
+    
     private volatile int nextIndex;
 
     public DispatcherPool(final int numOfDispatcher, final int numOfWorker) {

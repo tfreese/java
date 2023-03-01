@@ -101,6 +101,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         private final Rectangle2D rectangleCueLine = new Rectangle2D.Float();
 
         private final Timer timerHover;
+
         /**
          * Cumulative left/right mouse movement
          */
@@ -221,11 +222,11 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
             // Now superimpose the left/right movement indicator if necessary
             if (this.leftRight > 20) {
                 g2.drawImage(IMAGE_RIGHT, AffineTransform.getTranslateInstance(pt.x - CTreeMain.this.pointOffset.x, pt.y - CTreeMain.this.pointOffset.y), null);
-                this.shift = +1;
+                this.shift += 1;
             }
             else if (this.leftRight < -20) {
                 g2.drawImage(IMAGE_LEFT, AffineTransform.getTranslateInstance(pt.x - CTreeMain.this.pointOffset.x, pt.y - CTreeMain.this.pointOffset.y), null);
-                this.shift = -1;
+                this.shift -= 1;
             }
             else {
                 this.shift = 0;

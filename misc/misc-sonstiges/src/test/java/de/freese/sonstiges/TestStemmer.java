@@ -44,33 +44,27 @@ class TestStemmer {
     // @formatter:on
 
     private static Stemmer wrap(final Object stemmerImpl) {
-        if (stemmerImpl instanceof SnowballProgram) {
-            return value -> {
+        return switch (stemmerImpl) {
+            case SnowballProgram snowballProgram -> value -> {
                 ((SnowballProgram) stemmerImpl).setCurrent(value);
                 ((SnowballProgram) stemmerImpl).stem();
 
                 return ((SnowballProgram) stemmerImpl).getCurrent();
             };
-        }
-        else if (stemmerImpl instanceof GermanMinimalStemmer) {
-            return value -> {
+            case GermanMinimalStemmer germanMinimalStemmer -> value -> {
                 char[] ca = value.toCharArray();
                 int length = ((GermanMinimalStemmer) stemmerImpl).stem(ca, ca.length);
 
                 return new String(ca, 0, length);
             };
-        }
-        else if (stemmerImpl instanceof GermanLightStemmer) {
-            return value -> {
+            case GermanLightStemmer germanLightStemmer -> value -> {
                 char[] ca = value.toCharArray();
                 int length = ((GermanLightStemmer) stemmerImpl).stem(ca, ca.length);
 
                 return new String(ca, 0, length);
             };
-        }
-        else {
-            throw new IllegalArgumentException("stemmerImpl");
-        }
+            case null, default -> throw new IllegalArgumentException("stemmerImpl");
+        };
     }
 
     void testBaeume(final Stemmer stemmer) throws Exception {

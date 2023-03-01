@@ -3,7 +3,7 @@ package de.freese.openstreetmap.model.coordinates;
 
 /**
  * Base class of points of both coordinate system. The variables are default package protected to allow routines in the data package to access them directly. As
- * the class itself is package protected too, it is not visible outside of the data package. Routines there should only use LatLon or EastNorth
+ * the class itself is package protected too, it is not visible outside the data package. Routines there should only use LatLon or EastNorth
  *
  * @author imi
  * @author Thomas Freese
