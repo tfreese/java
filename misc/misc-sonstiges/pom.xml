@@ -18,6 +18,10 @@
     <build>
         <resources>
             <resource>
+                <!-- Additional Folders overwrite the Defaults. -->
+                <directory>${project.basedir}/src/main/resources</directory>
+            </resource>
+            <resource>
                 <directory>${project.basedir}/schemas</directory>
                 <targetPath>META-INF</targetPath>
             </resource>

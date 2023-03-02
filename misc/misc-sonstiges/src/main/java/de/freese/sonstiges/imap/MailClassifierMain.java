@@ -100,7 +100,7 @@ public final class MailClassifierMain {
         // @formatter:off
         return token.stream()
                 .map(t -> Locale.GERMAN.equals(locale) ? FunctionNormalizeGerman.INSTANCE.apply(t) : t)
-                .map(FunctionStripStopWords.INSTANCE)
+                .map(FunctionStripStopWords.getInstance())
                 .map(functionStemmer).filter(t -> t.length() > 2)
                 .sorted()
                 // .peek(System.out::println)
@@ -326,7 +326,7 @@ public final class MailClassifierMain {
                 return;
             }
 
-            Locale locale = FunctionStripStopWords.guessLocale(token);
+            Locale locale = FunctionStripStopWords.getInstance().guessLocale(token);
 
             token = PRE_FILTER.apply(token);
             Map<String, Integer> wordCount = STEMMER_FILTER.apply(token, locale);

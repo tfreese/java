@@ -178,7 +178,7 @@ class TestMail {
                 ;
         // @formatter:on
 
-        Locale locale = FunctionStripStopWords.guessLocale(token);
+        Locale locale = FunctionStripStopWords.getInstance().guessLocale(token);
 
         token = MailClassifierMain.PRE_FILTER.apply(token);
         token.forEach(printStream::println);
