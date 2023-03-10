@@ -21,8 +21,6 @@ dependencies {
     implementation("org.apache.commons:commons-compress")
     implementation("org.apache.logging.log4j:log4j-to-slf4j")
     implementation("org.apache.lucene:lucene-analyzers-common")
-    implementation("org.apache.maven:maven-model-builder")
-    implementation("org.apache.maven:maven-settings-builder")
     implementation("org.apache.xmlgraphics:batik-codec")
     implementation("org.apache.xmlgraphics:batik-swing")
     implementation("org.apache.xmlgraphics:batik-transcoder")

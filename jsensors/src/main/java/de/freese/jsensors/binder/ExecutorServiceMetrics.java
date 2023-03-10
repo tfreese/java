@@ -96,13 +96,19 @@ public class ExecutorServiceMetrics implements SensorBinder {
 
     private ThreadPoolExecutor unwrapThreadPoolExecutor(final ExecutorService executor, final Class<?> wrapper) {
         try {
-            Field f = wrapper.getDeclaredField("e");
-            f.setAccessible(true);
+            //            MethodHandles.Lookup lookup = MethodHandles.lookup();
+            //            MethodHandles.Lookup privateLookup = MethodHandles.privateLookupIn(wrapper, lookup);
+            //            VarHandle varHandle = privateLookup.unreflectVarHandle(wrapper.getDeclaredField("e"));
+            //            //            VarHandle varHandle = privateLookup.findVarHandle(ExecutorService.class, "e", ExecutorService.class);
+            //            Object value = varHandle.get(executor);
 
-            return (ThreadPoolExecutor) f.get(executor);
+            Field field = wrapper.getDeclaredField("e");
+            field.setAccessible(true);
+            
+            return (ThreadPoolExecutor) field.get(executor);
         }
         catch (NoSuchFieldException | IllegalAccessException | RuntimeException ex) {
-            // Cannot use InaccessibleObjectException since it was introduced in Java 9, so catch all RuntimeExceptions instead
+            // Cannot use InaccessibleObjectException since it was introduced in Java 9, so catch all RuntimeExceptions instead.
             // Do nothing. We simply can't get to the underlying ThreadPoolExecutor.
             getLogger().warn("Cannot unwrap ThreadPoolExecutor for monitoring from {} due to {}: {}", wrapper.getName(), ex.getClass().getName(), ex.getMessage());
         }

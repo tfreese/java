@@ -54,8 +54,8 @@ public final class ProxyBlacklistMain {
          */
         @Override
         public int compare(final String o1, final String o2) {
-            String s1 = StringUtils.reverse(o1);
-            String s2 = StringUtils.reverse(o2);
+            String s1 = new StringBuilder(o1).reverse().toString();
+            String s2 = new StringBuilder(o2).reverse().toString();
 
             return s1.compareTo(s2);
         }

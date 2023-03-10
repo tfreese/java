@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -103,7 +104,7 @@ class TestBackends {
     @Test
     void testDisruptorBackend() throws Exception {
         List<SensorValue> sensorValues = createSensorValues();
-        List<SensorValue> consumedValues = new ArrayList<>();
+        List<SensorValue> consumedValues = Collections.synchronizedList(new ArrayList<>());
         CountDownLatch countDownLatch = new CountDownLatch(sensorValues.size());
 
         DisruptorBackend backend = new DisruptorBackend(sensorValue -> {
@@ -124,7 +125,7 @@ class TestBackends {
     @Test
     void testExecutorBackend() throws Exception {
         List<SensorValue> sensorValues = createSensorValues();
-        List<SensorValue> consumedValues = new ArrayList<>();
+        List<SensorValue> consumedValues = Collections.synchronizedList(new ArrayList<>());
         CountDownLatch countDownLatch = new CountDownLatch(sensorValues.size());
 
         ExecutorBackend backend = new ExecutorBackend(sensorValue -> {
@@ -192,7 +193,7 @@ class TestBackends {
     @Test
     void testRSocketBackend() throws Exception {
         List<SensorValue> sensorValues = createSensorValues();
-        List<SensorValue> consumedValues = new ArrayList<>();
+        List<SensorValue> consumedValues = Collections.synchronizedList(new ArrayList<>());
         CountDownLatch countDownLatch = new CountDownLatch(sensorValues.size());
 
         // RSocket-Server starten.
@@ -235,7 +236,7 @@ class TestBackends {
     @Test
     void testWorkerBackend() throws Exception {
         List<SensorValue> sensorValues = createSensorValues();
-        List<SensorValue> consumedValues = new ArrayList<>();
+        List<SensorValue> consumedValues = Collections.synchronizedList(new ArrayList<>());
         CountDownLatch countDownLatch = new CountDownLatch(sensorValues.size());
 
         WorkerBackend backend = new WorkerBackend(sensorValue -> {
