@@ -42,20 +42,17 @@ public class FileRepository extends AbstractRepository {
     public boolean exist(final URI resource) throws Exception {
         final Path path = toPath(resource);
 
-        // Erst auf der Platte suchen.
-        boolean exist = Files.exists(path);
-
-        if (!exist) {
-            // Dann erst im Repository suchen.
-            try {
-                exist = this.delegate.exist(resource);
-            }
-            catch (Exception ex) {
-                getLogger().warn("{}: {}", ex.getClass().getSimpleName(), ex.getMessage());
-            }
+        if (getLogger().isDebugEnabled()) {
+            getLogger().debug("lookup: {}", path);
         }
 
-        return exist;
+        // Erst auf der Platte suchen.
+        if (Files.exists(path)) {
+            return true;
+        }
+
+        // Dann erst im Repository suchen.
+        return this.delegate.exist(resource);
     }
 
     /**
@@ -70,10 +67,19 @@ public class FileRepository extends AbstractRepository {
             return this.delegate.getInputStream(resource);
         }
 
-        // Erst auf der Platte suchen.
-        boolean exist = Files.exists(path);
+        if (getLogger().isDebugEnabled()) {
+            getLogger().debug("lookup: {}", path);
+        }
 
-        if (!exist) {
+        // Erst auf der Platte suchen.
+        if (Files.exists(path)) {
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("use cached: {}", path);
+            }
+
+            return new RepositoryResponse(resource, Files.size(path), Files.newInputStream(path));
+        }
+        else {
             Files.createDirectories(path.getParent());
 
             // Dann erst im Repository suchen.
@@ -85,12 +91,8 @@ public class FileRepository extends AbstractRepository {
                 }
 
                 // Den InputStream gleichzeitig in den File- und Response-OutputStream schreiben.
-                return new FileRepositoryResponse(resource, response.getContentLength(), response.getInputStream(), path);
+                return new FileRepositoryResponse(response, path);
             }
-        }
-
-        if (exist) {
-            return new RepositoryResponse(resource, Files.size(path), Files.newInputStream(path));
         }
 
         return null;

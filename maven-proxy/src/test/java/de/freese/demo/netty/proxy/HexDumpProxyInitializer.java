@@ -1,5 +1,5 @@
 // Created: 25.09.2019
-package de.freese.maven.proxy.netty_proxy;
+package de.freese.demo.netty.proxy;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;

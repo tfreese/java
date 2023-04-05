@@ -41,7 +41,10 @@ class MavenProxyHandler implements HttpHandler {
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("{}: {}", method, exchange.getRequestURI());
-            exchange.getRequestHeaders().forEach((key, value) -> LOGGER.debug("{} = {}", key, value));
+
+            if (LOGGER.isTraceEnabled()) {
+                exchange.getRequestHeaders().forEach((key, value) -> LOGGER.trace("{} = {}", key, value));
+            }
         }
 
         try {
@@ -70,6 +73,8 @@ class MavenProxyHandler implements HttpHandler {
     }
 
     private void handleGet(final HttpExchange exchange) throws Exception {
+        exchange.getResponseHeaders().add(ProxyUtils.HTTP_HEADER_SERVER, SERVER_NAME);
+
         final URI uri = exchange.getRequestURI();
 
         RepositoryResponse repositoryResponse = this.repository.getInputStream(uri);
@@ -78,19 +83,20 @@ class MavenProxyHandler implements HttpHandler {
             String message = "File not found: " + uri.toString();
             byte[] bytes = message.getBytes(StandardCharsets.UTF_8);
 
-            exchange.getResponseHeaders().add(ProxyUtils.HTTP_HEADER_SERVER, SERVER_NAME);
             exchange.sendResponseHeaders(ProxyUtils.HTTP_NOT_FOUND, bytes.length);
 
-            exchange.getResponseBody().write(bytes);
+            try (OutputStream outputStream = exchange.getResponseBody()) {
+                exchange.getResponseBody().write(bytes);
+
+                outputStream.flush();
+            }
 
             return;
         }
 
         long fileLength = repositoryResponse.getContentLength();
 
-        exchange.getResponseHeaders().add(ProxyUtils.HTTP_HEADER_SERVER, SERVER_NAME);
         exchange.getResponseHeaders().add(ProxyUtils.HTTP_HEADER_CONTENT_TYPE, ProxyUtils.getContentType(repositoryResponse.getFileName()));
-
         exchange.sendResponseHeaders(ProxyUtils.HTTP_OK, fileLength);
 
         try (OutputStream outputStream = exchange.getResponseBody()) {

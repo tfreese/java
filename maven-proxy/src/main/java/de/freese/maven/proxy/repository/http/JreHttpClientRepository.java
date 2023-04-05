@@ -48,6 +48,10 @@ public class JreHttpClientRepository extends AbstractHttpRepository {
                 ;
         // @formatter:on
 
+        if (getLogger().isDebugEnabled()) {
+            getLogger().debug(request.toString());
+        }
+
         HttpResponse<Void> response = this.httpClient.send(request, BodyHandlers.discarding());
 
         return response.statusCode() == ProxyUtils.HTTP_OK;
@@ -68,6 +72,10 @@ public class JreHttpClientRepository extends AbstractHttpRepository {
                 .build()
                 ;
         // @formatter:on
+
+        if (getLogger().isDebugEnabled()) {
+            getLogger().debug(request.toString());
+        }
 
         HttpResponse<InputStream> response = this.httpClient.send(request, BodyHandlers.ofInputStream());
 

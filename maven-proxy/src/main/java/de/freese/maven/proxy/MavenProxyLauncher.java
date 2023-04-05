@@ -106,7 +106,7 @@ public final class MavenProxyLauncher {
         compositeRepository.addRepository(new JreHttpClientRepository(httpClient, "https://repo.spring.io/release"));
         compositeRepository.addRepository(new JreHttpClientRepository(httpClient, "https://repository.primefaces.org"));
         compositeRepository.addRepository(new JreHttpClientRepository(httpClient, "https://plugins.gradle.org/m2"));
-        compositeRepository.addRepository(new JreHttpClientRepository(httpClient, "https://repo.spring.io/milestone"));
+        compositeRepository.addRepository(new JreHttpClientRepository(httpClient, "https://repo.gradle.org/gradle/libs-releases"));
 
         Repository repository = compositeRepository;
 

@@ -16,7 +16,6 @@ public interface Repository {
 
     /**
      * Laden der betreffenden Resource.<br>
-     * Der Stream ist null, wenn die Resource nicht existiert.
      */
     RepositoryResponse getInputStream(URI resource) throws Exception;
 }

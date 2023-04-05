@@ -5,7 +5,6 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
@@ -20,8 +19,8 @@ public class FileRepositoryResponse extends RepositoryResponse {
 
     private final Path path;
 
-    public FileRepositoryResponse(final URI uri, final long contentLength, final InputStream inputStream, Path path) {
-        super(uri, contentLength, inputStream);
+    public FileRepositoryResponse(final RepositoryResponse repositoryResponse, Path path) {
+        super(repositoryResponse.getUri(), repositoryResponse.getContentLength(), repositoryResponse.getInputStream());
 
         this.path = Objects.requireNonNull(path, "path required");
     }
