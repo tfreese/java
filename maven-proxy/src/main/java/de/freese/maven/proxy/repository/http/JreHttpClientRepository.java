@@ -11,7 +11,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.util.Objects;
 
 import de.freese.maven.proxy.repository.RepositoryResponse;
-import de.freese.maven.proxy.util.ProxyUtils;
+import de.freese.maven.proxy.utils.ProxyUtils;
 
 /**
  * HTTP-Implementierung eines Repositories mit dem {@link HttpClient}.<br>

@@ -119,7 +119,7 @@ public final class SvgToImageMain extends JFrame {
 
         SwingUtilities.invokeLater(() -> {
             try {
-                URL url = ClassLoader.getSystemResource("image.svg");
+                URL url = ClassLoader.getSystemResource("images/image.svg");
                 imageIcon.setImage(loadImage(url, 600, 600));
                 pack();
                 setLocationRelativeTo(null);

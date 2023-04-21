@@ -1,5 +1,11 @@
 package de.freese.sonstiges;
 
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
+import java.awt.event.ActionListener;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -89,6 +95,7 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import javax.imageio.ImageIO;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.swing.filechooser.FileSystemView;
@@ -141,11 +148,12 @@ public final class MiscMain {
         //        securityProviders();
         //        streamParallelCustomThreadPool();
         //        showMemory();
+        showWindowsNotification();
         //        splitList();
         //        systemMXBean();
         //        textBlocks();
         //        utilLogging();
-        virtualThreads();
+        //        virtualThreads();
 
         Schedulers.shutdownNow();
         executorService.shutdown();
@@ -292,7 +300,8 @@ public final class MiscMain {
             return;
         }
 
-        try (PipedInputStream pipeIn = new PipedInputStream(chunk); PipedOutputStream pipeOut = new PipedOutputStream(pipeIn)) {
+        try (PipedInputStream pipeIn = new PipedInputStream(chunk);
+             PipedOutputStream pipeOut = new PipedOutputStream(pipeIn)) {
             AtomicReference<Throwable> referenceThrowable = new AtomicReference<>(null);
 
             Runnable writeTask = () -> {
@@ -361,7 +370,8 @@ public final class MiscMain {
         // 1 MB
         int chunk = 1024 * 1024;
 
-        try (PipedOutputStream pipeOut = new PipedOutputStream(); PipedInputStream pipeIn = new PipedInputStream(pipeOut, chunk)) {
+        try (PipedOutputStream pipeOut = new PipedOutputStream();
+             PipedInputStream pipeIn = new PipedInputStream(pipeOut, chunk)) {
             Runnable readTask = () -> {
                 LOGGER.info("start readTask: {}", Thread.currentThread().getName());
 
@@ -908,7 +918,8 @@ public final class MiscMain {
             for (int i = 0; i < 10; i++) {
                 Process process = processBuilder.start();
 
-                try (BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8)); BufferedReader stdError = new BufferedReader(new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8))) {
+                try (BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8));
+                     BufferedReader stdError = new BufferedReader(new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8))) {
                     // read the output from the command
                     System.out.println("Here is the standard output of the command:");
                     stdInput.lines().forEach(System.out::println);
@@ -1196,6 +1207,56 @@ public final class MiscMain {
         System.out.printf("Allocated memory: %s%n", format.format(allocatedMemory / divider) + unit);
         System.out.printf("Max memory: %s%n", format.format(maxMemory / divider) + unit);
         System.out.printf("Total free memory: %s%n", format.format((freeMemory + (maxMemory - allocatedMemory)) / divider) + unit);
+    }
+
+    static void showWindowsNotification() throws Exception {
+        // javafx
+        //        Notifications notificationTest=Notifications.create();
+        //        notificationTest.position(Pos.BASELINE_RIGHT);
+        //        notificationTest.title(title);
+        //        notificationTest.text(text);
+        //        notificationTest.show();//for error noti notificationTest.showError();
+
+        if (SystemTray.isSupported()) {
+            SystemTray systemTray = SystemTray.getSystemTray();
+
+            Image image = null;
+            //            image = Toolkit.getDefaultToolkit().createImage("images/duke.png");
+            //            image = Toolkit.getDefaultToolkit().getImage("images/duke.png");
+
+            //            URL url = URI.create("https://cr.openjdk.java.net/~jeff/Duke/png/Hips.png").toURL();
+            //            image = ImageIO.read(url);
+
+            try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("images/duke.png")) {
+                image = ImageIO.read(inputStream);
+            }
+
+            PopupMenu popupMenu = new PopupMenu();
+            TrayIcon trayIcon = new TrayIcon(image, "Tray Demo", popupMenu);
+
+            // create a action listener to listen for default action executed on the tray icon
+            ActionListener listener = event -> {
+                System.out.println(event);
+
+                // Exit the JVM.
+                systemTray.remove(trayIcon);
+            };
+
+            MenuItem defaultItem = new MenuItem("Test-Menu");
+            defaultItem.addActionListener(listener);
+            popupMenu.add(defaultItem);
+
+            trayIcon.addActionListener(listener);
+            trayIcon.setImageAutoSize(true);
+            trayIcon.setToolTip("TrayIcon-Tooltip");
+
+            systemTray.add(trayIcon);
+
+            trayIcon.displayMessage("Hello, World", "notification demo", TrayIcon.MessageType.INFO);
+        }
+        else {
+            System.err.println("SystemTray is not supported !");
+        }
     }
 
     static void splitList() {

@@ -96,8 +96,8 @@ public final class SvgMain extends JFrame {
 
         JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        JButton buttonLoad = new JButton("Load...");
-        JButton buttonSave = new JButton("Save...");
+        JButton buttonLoad = new JButton("Load SVG");
+        JButton buttonSave = new JButton("Save as PNG");
         JLabel label = new JLabel();
 
         p.add(buttonLoad);
@@ -127,7 +127,7 @@ public final class SvgMain extends JFrame {
 
         buttonSave.addActionListener(event -> {
             Path path = Paths.get(System.getProperty("java.io.tmpdir"), "svg-demo.png");
-            // URL url = ClassLoader.getSystemResource("image.svg");
+            // URL url = ClassLoader.getSystemResource("images/image.svg");
             // InputStream inputStream = new FileInputStream(url.getPath());
 
             try {
@@ -150,7 +150,7 @@ public final class SvgMain extends JFrame {
 
         SwingUtilities.invokeLater(() -> {
             try {
-                URL url = ClassLoader.getSystemResource("image.svg");
+                URL url = ClassLoader.getSystemResource("images/image.svg");
                 svgCanvas.setURI(url.toURI().toString());
             }
             catch (Exception ex) {

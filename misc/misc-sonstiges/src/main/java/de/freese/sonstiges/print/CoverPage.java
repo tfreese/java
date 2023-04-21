@@ -16,8 +16,6 @@ class CoverPage implements Printable {
     /**
      * Ausgabe auf dem Drucker machen.<br>
      * Die PageIndex-Abfrage entfällt, da im "book" fest eine Seite eingestellt ist.
-     *
-     * @see java.awt.print.Printable#print(java.awt.Graphics, java.awt.print.PageFormat, int)
      */
     @Override
     public int print(final Graphics g, final PageFormat pageFormat, final int iPageIndex) throws PrinterException {

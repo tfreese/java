@@ -9,6 +9,7 @@ import java.util.function.Function;
 import jakarta.mail.Authenticator;
 import jakarta.mail.Folder;
 import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
 import jakarta.mail.PasswordAuthentication;
 import jakarta.mail.Session;
 import jakarta.mail.Store;
@@ -27,7 +28,7 @@ public class MailReader implements AutoCloseable {
     private Store store;
 
     @Override
-    public void close() throws Exception {
+    public void close() throws MessagingException {
         if (store != null) {
             store.close();
         }

@@ -1,5 +1,5 @@
 // Created: 18.09.2019
-package de.freese.maven.proxy.util;
+package de.freese.maven.proxy.utils;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -9,7 +9,7 @@ import java.net.InetAddress;
 import java.net.PasswordAuthentication;
 import java.net.Proxy;
 import java.net.ProxySelector;
-import java.net.URL;
+import java.net.URI;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
@@ -114,21 +114,22 @@ public final class ProxyUtils {
         // Test
         if (Boolean.getBoolean("java.net.useSystemProxies")) {
             try {
-                URL url = new URL("https://www.google.de");
-                // URL url = new URL("https://search.maven.org");
+                URI uri = URI.create("https://www.google.de");
+                // URI uri = URI.create("https://search.maven.org");
 
                 // Ausgabe verfügbarer Proxies für eine URL.
-                List<Proxy> proxies = ProxySelector.getDefault().select(url.toURI());
+                List<Proxy> proxies = ProxySelector.getDefault().select(uri);
                 proxies.forEach(System.out::println);
 
                 // SocketAddress proxyAddress = new InetSocketAddress("194.114.63.23", 8080);
                 // Proxy proxy = new Proxy(Proxy.Type.HTTP, proxyAddress);
                 Proxy proxy = proxies.get(0);
 
-                URLConnection connection = url.openConnection(proxy);
+                URLConnection connection = uri.toURL().openConnection(proxy);
                 // URLConnection connection = url.openConnection();
 
-                try (InputStream response = connection.getInputStream(); BufferedReader in = new BufferedReader(new InputStreamReader(response, StandardCharsets.UTF_8))) {
+                try (InputStream response = connection.getInputStream();
+                     BufferedReader in = new BufferedReader(new InputStreamReader(response, StandardCharsets.UTF_8))) {
                     String line = null;
 
                     while ((line = in.readLine()) != null) {

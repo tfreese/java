@@ -15,8 +15,11 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serial;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -58,11 +61,11 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
     @Serial
     private static final long serialVersionUID = -2189370102458478566L;
 
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws Exception {
         JFrame frame = new JFrame("Einfaches Druckbeispiel");
         PrintPreviewMain printPreview = new PrintPreviewMain();
 
-        WindowListener l = new WindowAdapter() {
+        WindowListener listener = new WindowAdapter() {
             /**
              * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
              */
@@ -72,7 +75,7 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
             }
         };
 
-        frame.addWindowListener(l);
+        frame.addWindowListener(listener);
 
         frame.getContentPane().add(printPreview);
 
@@ -119,19 +122,21 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
         frame.setJMenuBar(menuBar);
 
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
     private final transient Image imgCup;
     private final transient Image imgDuke;
     private final transient PrinterJob printerJob;
+
     private double mdPreviewScale = 0.5D;
 
     private transient PageFormat pageFormat;
 
     private String text = "Drucken mit Java 2";
 
-    private PrintPreviewMain() {
+    private PrintPreviewMain() throws IOException {
         super();
 
         // Druckereinstellungen und Seitenlayout initialisieren
@@ -145,8 +150,13 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
         setPreferredSize(new Dimension((int) ((this.pageFormat.getWidth() + (2 * BORDER_SIZE)) * this.mdPreviewScale), (int) ((this.pageFormat.getHeight() + (2 * BORDER_SIZE)) * this.mdPreviewScale)));
 
         // Grafiken laden
-        this.imgDuke = getToolkit().getImage("resources/WavingDuke.gif");
-        this.imgCup = getToolkit().getImage("resources/JavaCup.gif");
+        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("images/duke.png")) {
+            this.imgDuke = ImageIO.read(inputStream);
+        }
+
+        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("images/java_cup.gif")) {
+            this.imgCup = ImageIO.read(inputStream);
+        }
     }
 
     /**
@@ -262,16 +272,11 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
         }
     }
 
-    /**
-     * Ausgabe auf dem Drucker machen
-     *
-     * @see java.awt.print.Printable#print(java.awt.Graphics, java.awt.print.PageFormat, int)
-     */
     @Override
     public int print(final Graphics g, final PageFormat pageFormat, final int pageIndex) throws PrinterException {
         int printState = Printable.NO_SUCH_PAGE;
 
-        // Achtung! iPageIndex == 0 ist die CoverPage!
+        // PageIndex == 0 ist die CoverPage!
         if (pageIndex == 1) {
             Graphics2D g2 = (Graphics2D) g;
 
@@ -297,8 +302,8 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
         g2.drawString(this.text, 20, 40);
 
         // Bilder zeichnen
-        g2.drawImage(this.imgDuke, 10, 100, this);
-        g2.drawImage(this.imgCup, 100, 200, this);
+        g2.drawImage(this.imgDuke, 10, 100, 200, 200, this);
+        g2.drawImage(this.imgCup, 10, 350, 200, 200, this);
     }
 
     private void enterText() {
@@ -308,6 +313,7 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
         // wenn Eingabe OK, Text übernehmen
         if (userInput instanceof String t) {
             this.text = t;
+            
             repaint(); // neu zeichnen
         }
     }

@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import de.freese.maven.proxy.repository.Repository;
 import de.freese.maven.proxy.repository.RepositoryResponse;
-import de.freese.maven.proxy.util.ProxyUtils;
+import de.freese.maven.proxy.utils.ProxyUtils;
 
 /**
  * @author Thomas Freese

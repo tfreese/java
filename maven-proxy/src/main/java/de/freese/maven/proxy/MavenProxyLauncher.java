@@ -22,8 +22,8 @@ import de.freese.maven.proxy.repository.CompositeRepository;
 import de.freese.maven.proxy.repository.Repository;
 import de.freese.maven.proxy.repository.file.FileRepository;
 import de.freese.maven.proxy.repository.http.JreHttpClientRepository;
-import de.freese.maven.proxy.util.MavenProxyThreadFactory;
-import de.freese.maven.proxy.util.ProxyUtils;
+import de.freese.maven.proxy.utils.MavenProxyThreadFactory;
+import de.freese.maven.proxy.utils.ProxyUtils;
 
 /**
  * Startet den Maven Proxy.<br>
