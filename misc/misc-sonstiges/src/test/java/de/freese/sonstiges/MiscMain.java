@@ -28,7 +28,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.Proxy;
 import java.net.ProxySelector;
-import java.net.URL;
+import java.net.URI;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.MappedByteBuffer;
@@ -134,7 +134,7 @@ public final class MiscMain {
         //        dateTime();
         //        fileSystems();
         //        hostName();
-        //        httpRedirect();
+        httpRedirect();
         //        introspector();
         //        javaVersion();
         //        jndi();
@@ -148,7 +148,7 @@ public final class MiscMain {
         //        securityProviders();
         //        streamParallelCustomThreadPool();
         //        showMemory();
-        showWindowsNotification();
+        //        showWindowsNotification();
         //        splitList();
         //        systemMXBean();
         //        textBlocks();
@@ -674,23 +674,23 @@ public final class MiscMain {
     }
 
     static void httpRedirect() throws Exception {
-        URL url = new URL("http://gmail.com");
+        URI uri = URI.create("http://gmail.com");
 
         // Ausgabe verfügbarer Proxies für eine URL.
-        List<Proxy> proxies = ProxySelector.getDefault().select(url.toURI());
+        List<Proxy> proxies = ProxySelector.getDefault().select(uri);
         proxies.forEach(System.out::println);
 
         // SocketAddress proxyAddress = new InetSocketAddress("194.114.63.23", 8080);
         // Proxy proxy = new Proxy(Proxy.Type.HTTP, proxyAddress);
         Proxy proxy = proxies.get(0);
 
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection(proxy);
+        HttpURLConnection conn = (HttpURLConnection) uri.toURL().openConnection(proxy);
         conn.setReadTimeout(5000);
         conn.addRequestProperty("Accept-Language", "de-DE,de;q=0.8");
         conn.addRequestProperty("User-Agent", "Mozilla");
         conn.addRequestProperty("Referer", "google.com");
 
-        System.out.println("Request URL ... " + url);
+        System.out.println("Request URI ... " + uri);
 
         boolean redirect = false;
 
@@ -700,7 +700,7 @@ public final class MiscMain {
             redirect = true;
         }
 
-        System.out.println("Response Code ... " + status);
+        System.out.println("Response Code: " + status);
 
         if (redirect) {
             // get redirect url from "location" header field
@@ -710,7 +710,7 @@ public final class MiscMain {
             String cookies = conn.getHeaderField("Set-Cookie");
 
             // open the new connection again
-            conn = (HttpURLConnection) new URL(newUrl).openConnection(proxy);
+            conn = (HttpURLConnection) URI.create(newUrl).toURL().openConnection(proxy);
             conn.setRequestProperty("Cookie", cookies);
             conn.addRequestProperty("Accept-Language", "de-DE,de;q=0.8");
             conn.addRequestProperty("User-Agent", "Mozilla");
