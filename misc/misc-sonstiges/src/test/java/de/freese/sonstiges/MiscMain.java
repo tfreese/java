@@ -20,8 +20,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.VarHandle;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -134,7 +137,7 @@ public final class MiscMain {
         //        dateTime();
         //        fileSystems();
         //        hostName();
-        httpRedirect();
+        //        httpRedirect();
         //        introspector();
         //        javaVersion();
         //        jndi();
@@ -145,6 +148,7 @@ public final class MiscMain {
         //        reactorParallel();
         //        reactorStream();
         //        reactorSinks();
+        reflection();
         //        securityProviders();
         //        streamParallelCustomThreadPool();
         //        showMemory();
@@ -1058,6 +1062,32 @@ public final class MiscMain {
         Stream.of(0).onClose(() -> System.out.println("stream close 1")).onClose(() -> System.out.println("stream close 2")).close();
 
         Flux.fromStream(Stream.of(0).onClose(() -> System.out.println("stream close 3")).onClose(() -> System.out.println("stream close 4"))).doFinally(state -> System.out.println("flux finally 5")).doFinally(state -> System.out.println("flux finally 6")).subscribe();
+    }
+
+    /**
+     * Runs only with JVM-Options: --add-opens java.base/java.lang=ALL-UNNAMED
+     */
+    static void reflection() throws Exception {
+        String string = "test";
+
+        try {
+            Field field = String.class.getDeclaredField("value");
+            field.setAccessible(true);
+            System.out.printf("Old Relection-Api: %s%n", Arrays.toString((byte[]) field.get(string)));
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            MethodHandles.Lookup methodLookup = MethodHandles.privateLookupIn(String.class, MethodHandles.lookup());
+            //            MethodHandles.Lookup methodLookup = MethodHandles.lookup();
+            VarHandle handle = methodLookup.findVarHandle(String.class, "value", byte[].class);
+            System.out.printf("New MethodHandles: %s%n", Arrays.toString((byte[]) handle.get(string)));
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     static void regEx() {
