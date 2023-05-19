@@ -158,14 +158,6 @@
             <artifactId>batik-swing</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-cipher</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-container-default</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org</groupId>
             <artifactId>jaudiotagger</artifactId>
         </dependency>
