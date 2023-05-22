@@ -84,7 +84,7 @@ public final class JConky extends Application {
         // pane.add(canvas, 0, 0);
 
         // Scene
-        Scene scene = new Scene(pane, 335, 1070, true, SceneAntialiasing.BALANCED);
+        Scene scene = new Scene(pane, 335D, 1070D, true, SceneAntialiasing.BALANCED);
 
         // Bind canvas size to scene size.
         canvas.widthProperty().bind(scene.widthProperty());
@@ -120,20 +120,20 @@ public final class JConky extends Application {
 
         // Short-Scheduled
         TimeUnit timeUnit = TimeUnit.MILLISECONDS;
-        long delay = 3000;
-        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateUptimeInSeconds(), 0, delay, timeUnit);
-        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateCpuInfos(), 0, delay, timeUnit);
-        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateNetworkInfos(), 0, delay, timeUnit);
-        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateUsages(), 0, delay, timeUnit);
-        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateProcessInfos(), 0, delay, timeUnit);
-        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateTemperatures(), 0, delay, timeUnit);
-        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateMusicInfo(), 0, delay, timeUnit);
+        long delay = 3000L;
+        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateUptimeInSeconds(), 0L, delay, timeUnit);
+        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateCpuInfos(), 0L, delay, timeUnit);
+        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateNetworkInfos(), 0L, delay, timeUnit);
+        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateUsages(), 0L, delay, timeUnit);
+        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateProcessInfos(), 0L, delay, timeUnit);
+        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateTemperatures(), 0L, delay, timeUnit);
+        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateMusicInfo(), 0L, delay, timeUnit);
 
         // Long-Scheduled
         timeUnit = TimeUnit.MINUTES;
-        delay = 15;
-        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateHostInfo(), 0, delay, timeUnit);
-        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateUpdates(), 0, delay, timeUnit);
+        delay = 15L;
+        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateHostInfo(), 0L, delay, timeUnit);
+        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateUpdates(), 0L, delay, timeUnit);
     }
 
     /**
@@ -184,7 +184,7 @@ public final class JConky extends Application {
         List<Screen> screens = Screen.getScreens();
         // Screen screen = screens.get(0); // Linker Monitor
         Screen screen = screens.get(screens.size() - 1); // Rechter Monitor
-        primaryStage.setX(screen.getVisualBounds().getMinX() + 1240);
+        primaryStage.setX(screen.getVisualBounds().getMinX() + 1240D);
         primaryStage.setY(5D);
 
         startRepaintSchedule();
@@ -201,7 +201,7 @@ public final class JConky extends Application {
             catch (Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
             }
-        }, 400, 3000, TimeUnit.MILLISECONDS);
+        }, 400L, 3000L, TimeUnit.MILLISECONDS);
     }
 
     /**

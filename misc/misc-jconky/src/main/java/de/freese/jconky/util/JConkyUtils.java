@@ -82,7 +82,7 @@ public final class JConkyUtils {
         int unitIndex = 0;
 
         if (size > 0) {
-            unitIndex = (int) (Math.log10(size) / 3);
+            unitIndex = (int) (Math.log10(size) / 3D);
         }
 
         double unitValue = 1 << (unitIndex * 10);

@@ -48,7 +48,7 @@ public final class CpuMain {
         // CPU_Percentage = (totald - idled)/totald
 
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
-        scheduledExecutorService.scheduleWithFixedDelay(CpuMain::showCpuLoad, 1, 1, TimeUnit.SECONDS);
+        scheduledExecutorService.scheduleWithFixedDelay(CpuMain::showCpuLoad, 1L, 1L, TimeUnit.SECONDS);
     }
 
     private static CpuTimes getCpuTimes() {

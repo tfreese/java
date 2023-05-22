@@ -7,16 +7,13 @@ import java.util.function.Supplier;
  * @author Thomas Freese
  */
 public class SinusValueSupplier implements Supplier<Float> {
-    private static final double GRAD_TO_RADIAN_FACTOR = Math.PI / 180D;
 
     private int grad;
 
-    /**
-     * @see java.util.function.Supplier#get()
-     */
     @Override
     public Float get() {
-        double radian = this.grad * GRAD_TO_RADIAN_FACTOR;
+        //        double radian = this.grad * (Math.PI / 180D);
+        double radian = Math.toRadians(this.grad);
         double sinus = Math.sin(radian);
 
         this.grad += 1;

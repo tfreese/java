@@ -41,7 +41,7 @@ public class LineFxGraphPainter extends AbstractFxGraphPainter {
             double x = i + xOffset;
             double y = middle - (value * middle);
 
-            gc.strokeLine(x - 1, yLast, x, y);
+            gc.strokeLine(x - 1D, yLast, x, y);
 
             yLast = y;
         }

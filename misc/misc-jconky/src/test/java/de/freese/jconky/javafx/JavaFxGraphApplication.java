@@ -62,9 +62,9 @@ public final class JavaFxGraphApplication extends Application {
 
             this.linePainter.paintGraph(gc, width, halfHeight);
 
-            gc.translate(0, halfHeight);
+            gc.translate(0D, halfHeight);
             this.barPainter.paintGraph(gc, width, halfHeight);
-            gc.translate(0, -halfHeight);
+            gc.translate(0D, -halfHeight);
 
             double fontSize = 11D;
             Font font = new Font("Arial", fontSize);
@@ -127,7 +127,7 @@ public final class JavaFxGraphApplication extends Application {
         // pane.add(canvas, 0, 0);
 
         // Scene
-        Scene scene = new Scene(pane, 335, 1060, true, SceneAntialiasing.BALANCED);
+        Scene scene = new Scene(pane, 335D, 1060D, true, SceneAntialiasing.BALANCED);
 
         // Bind canvas size to scene size.
         canvas.widthProperty().bind(scene.widthProperty());
@@ -174,7 +174,7 @@ public final class JavaFxGraphApplication extends Application {
             else {
                 Platform.runLater(() -> graphPainter.paint(this.gc, canvas.getWidth(), canvas.getHeight()));
             }
-        }, 500, 40, TimeUnit.MILLISECONDS);
+        }, 500L, 40L, TimeUnit.MILLISECONDS);
 
         primaryStage.setTitle("Graph Monitor");
         primaryStage.setScene(scene);
@@ -184,6 +184,15 @@ public final class JavaFxGraphApplication extends Application {
         // Screen screen = screens.get(screens.size() - 1);
         // primaryStage.setX(screen.getVisualBounds().getMinX() + 1200);
         // primaryStage.setY(10D);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                stop();
+            }
+            catch (Exception ex) {
+                // Ignore
+            }
+        }, "ShutdownHook"));
 
         primaryStage.show();
     }
@@ -195,9 +204,11 @@ public final class JavaFxGraphApplication extends Application {
     public void stop() throws Exception {
         getLogger().info("stop");
 
-        this.scheduledExecutorService.shutdown();
+        this.scheduledExecutorService.close();
 
-        System.exit(0);
+        this.scheduledExecutorService.awaitTermination(3L, TimeUnit.SECONDS);
+
+        //                System.exit(0); // Blockiert, wegen ShutdownHook.
     }
 
     private Logger getLogger() {
