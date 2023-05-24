@@ -1,5 +1,5 @@
 description = "Genetic Algorythms"
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.junit.jupiter:junit-jupiter")
 }

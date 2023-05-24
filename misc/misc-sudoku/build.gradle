@@ -1,5 +1,5 @@
 description = "Sodoku Generator"
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.junit.jupiter:junit-jupiter")
 }

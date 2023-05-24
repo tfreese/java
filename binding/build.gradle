@@ -7,8 +7,6 @@ description = "An alternative for Swing like the Binding in JavaFX."
 dependencies {
     api("org.slf4j:slf4j-api")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-engine")
-    testImplementation("org.junit.platform:junit-platform-runner")
-    testImplementation("org.junit.platform:junit-platform-suite-api")
+    testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.slf4j:slf4j-simple")
 }

@@ -10,7 +10,7 @@ dependencies {
     runtimeOnly("org.slf4j:slf4j-simple")
 
     testImplementation("io.netty:netty-all")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"

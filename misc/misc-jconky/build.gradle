@@ -10,7 +10,7 @@ dependencies {
 
     runtimeOnly("ch.qos.logback:logback-classic")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.junit.jupiter:junit-jupiter")
 
     javafx {
         version = "$version_javafxBase"

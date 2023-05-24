@@ -6,9 +6,8 @@ dependencies {
     implementation("io.rsocket:rsocket-transport-netty")
     implementation("org.slf4j:slf4j-api")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.slf4j:slf4j-simple")
     testImplementation("org.hsqldb:hsqldb")
     testImplementation("org.jfree:jfreechart")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine")
 }

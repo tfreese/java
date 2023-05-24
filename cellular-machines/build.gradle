@@ -10,9 +10,8 @@ dependencies {
 
     runtimeOnly("org.slf4j:slf4j-simple")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.junit.jupiter:junit-jupiter")
 }
-
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 // The archive name. If the name has not been explicitly set, the pattern for the name is:
