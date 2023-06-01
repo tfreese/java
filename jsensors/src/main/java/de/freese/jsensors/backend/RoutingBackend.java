@@ -21,9 +21,6 @@ public class RoutingBackend extends AbstractBackend {
         return this;
     }
 
-    /**
-     * @see de.freese.jsensors.backend.AbstractBackend#storeValue(de.freese.jsensors.sensor.SensorValue)
-     */
     @Override
     protected void storeValue(final SensorValue sensorValue) {
         CompositeBackend compositeBackend = this.routes.get(sensorValue.getName());

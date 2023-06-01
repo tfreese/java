@@ -8,10 +8,7 @@ import de.freese.jsensors.sensor.SensorValue;
  *
  * @author Thomas Freese
  */
-public class ConsoleBackend extends AbstractBackend {
-    /**
-     * @see de.freese.jsensors.backend.AbstractBackend#storeValue(de.freese.jsensors.sensor.SensorValue)
-     */
+public final class ConsoleBackend extends AbstractBackend {
     @Override
     protected void storeValue(final SensorValue sensorValue) {
         System.out.printf("[%s] - %s%n", Thread.currentThread().getName(), sensorValue);

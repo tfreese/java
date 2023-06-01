@@ -5,15 +5,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
 
+import de.freese.jsensors.backend.ListBackend;
+import de.freese.jsensors.backend.NoOpBackend;
 import de.freese.jsensors.registry.DefaultSensorRegistry;
 import de.freese.jsensors.registry.ScheduledSensorRegistry;
-import de.freese.jsensors.registry.SensorRegistry;
 import de.freese.jsensors.sensor.Sensor;
 import de.freese.jsensors.sensor.SensorValue;
 import de.freese.jsensors.utils.JSensorThreadFactory;
@@ -24,55 +24,52 @@ import de.freese.jsensors.utils.SyncFuture;
  */
 class TestRegistries {
     @Test
-    void testDuplicateSensorName() {
-        SensorRegistry registry = new DefaultSensorRegistry();
-        Sensor.builder("test.1", "obj", Function.identity()).register(registry);
+    void testDefaultSensorRegistry() throws Exception {
+        DefaultSensorRegistry registry = new DefaultSensorRegistry();
 
-        Exception exception = assertThrows(IllegalStateException.class, () -> Sensor.builder("test.1", "", Function.identity()).register(registry));
+        ListBackend backend = new ListBackend(5);
+        Sensor.builder("test", "obj", Function.identity()).register(registry, backend);
 
-        assertEquals("sensor already exist: 'test.1'", exception.getMessage());
-    }
+        Exception exception = assertThrows(IllegalStateException.class, () -> registry.registerSensor("test", "", Function.identity(), "", NoOpBackend.getInstance()));
+        assertEquals("sensor already exist: 'test'", exception.getMessage());
 
-    @Test
-    void testKeepLastNValues() throws Exception {
-        Sensor sensor = Sensor.builder("test", "obj", Function.identity()).keepLastNValues(3).register(new DefaultSensorRegistry());
+        Sensor sensor = registry.getSensor("test");
+        assertNotNull(sensor);
 
-        sensor.measure();
-        assertEquals(1, sensor.getValues().size());
+        registry.measureAll();
 
-        sensor.measure();
-        assertEquals(2, sensor.getValues().size());
+        assertEquals(1, backend.size());
 
-        sensor.measure();
-        assertEquals(3, sensor.getValues().size());
+        SensorValue sensorValue = backend.getValueLast();
 
-        sensor.measure();
-        assertEquals(3, sensor.getValues().size());
+        assertNotNull(sensorValue);
+        assertEquals("obj", sensorValue.getValue());
     }
 
     @Test
     void testScheduledSensorRegistry() throws Exception {
         ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("test"), 2);
 
-        Sensor.builder("test", "obj", Function.identity()).register(registry);
+        SyncFuture<SensorValue> syncFuture = new SyncFuture<>();
+        Sensor.builder("test", "obj", Function.identity()).register(registry, syncFuture::setResponse);
 
-        Exception exception = assertThrows(IllegalStateException.class, () -> registry.scheduleSensor("test", 0, 1, TimeUnit.SECONDS, Objects::isNull));
+        Exception exception = assertThrows(IllegalStateException.class, () -> registry.registerSensor("test", "", Function.identity(), "", NoOpBackend.getInstance()));
+        assertEquals("sensor already exist: 'test'", exception.getMessage());
+
+        exception = assertThrows(IllegalStateException.class, () -> registry.scheduleSensor("test", 0, 1, TimeUnit.SECONDS));
         assertEquals("scheduler is not started: call #start() first", exception.getMessage());
 
         registry.start();
 
         Sensor sensor = registry.getSensor("test");
         assertNotNull(sensor);
-        assertEquals(0, sensor.getValues().size());
 
-        SyncFuture<SensorValue> syncFuture = new SyncFuture<>();
-
-        registry.scheduleSensor("test", 0, 1, TimeUnit.SECONDS, syncFuture::setResponse);
+        registry.scheduleSensor("test", 0, 1, TimeUnit.SECONDS);
 
         SensorValue sensorValue = syncFuture.get();
         registry.stop();
 
         assertNotNull(sensorValue);
-        assertEquals(1, sensor.getValues().size());
+        assertEquals("obj", sensorValue.getValue());
     }
 }

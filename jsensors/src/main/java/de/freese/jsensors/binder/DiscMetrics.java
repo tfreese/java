@@ -8,11 +8,13 @@ import java.nio.file.FileStore;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.function.ToLongFunction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.registry.SensorRegistry;
 import de.freese.jsensors.sensor.Sensor;
 
@@ -44,13 +46,10 @@ public class DiscMetrics implements SensorBinder {
         this.file = null;
     }
 
-    /**
-     * @see de.freese.jsensors.binder.SensorBinder#bindTo(de.freese.jsensors.registry.SensorRegistry)
-     */
     @Override
-    public void bindTo(final SensorRegistry registry) {
+    public void bindTo(final SensorRegistry registry, Function<String, Backend> backendProvider) {
         if (this.file != null) {
-            bindTo(registry, this.file, File::getFreeSpace, File::getTotalSpace);
+            bindTo(registry, this.file, File::getFreeSpace, File::getTotalSpace, backendProvider);
         }
         else {
             try {
@@ -74,7 +73,7 @@ public class DiscMetrics implements SensorBinder {
                     }
 
                     return 0L;
-                });
+                }, backendProvider);
             }
             catch (IOException ex) {
                 throw new UncheckedIOException(ex);
@@ -86,14 +85,14 @@ public class DiscMetrics implements SensorBinder {
         return LOGGER;
     }
 
-    private <T> void bindTo(final SensorRegistry registry, final T object, final ToLongFunction<T> functionFree, final ToLongFunction<T> functionTotal) {
+    private <T> void bindTo(final SensorRegistry registry, final T object, final ToLongFunction<T> functionFree, final ToLongFunction<T> functionTotal, Function<String, Backend> backendProvider) {
         String postfix = sanitizePostfix(this.sensorPostfix);
 
         Sensor.builder("disk.free." + postfix, object, obj -> {
             long free = functionFree.applyAsLong(obj);
 
             return Long.toString(free);
-        }).description("Free Disk-Space in Bytes").register(registry);
+        }).description("Free Disk-Space in Bytes").register(registry, backendProvider);
 
         Sensor.builder("disk.usage." + postfix, object, obj -> {
             double free = functionFree.applyAsLong(obj);
@@ -106,7 +105,7 @@ public class DiscMetrics implements SensorBinder {
             double usage = (1D - (free / total)) * 100D;
 
             return Double.toString(usage);
-        }).description("Used Disk-Space in %").register(registry);
+        }).description("Used Disk-Space in %").register(registry, backendProvider);
     }
 
     private String sanitizePostfix(final String postfix) {

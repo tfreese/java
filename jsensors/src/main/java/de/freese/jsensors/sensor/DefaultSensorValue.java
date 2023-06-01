@@ -23,49 +23,21 @@ public class DefaultSensorValue implements SensorValue {
         this.timestamp = timestamp;
     }
 
-    /**
-     * @see de.freese.jsensors.sensor.SensorValue#getName()
-     */
     @Override
     public String getName() {
         return this.name;
     }
 
-    /**
-     * @see de.freese.jsensors.sensor.SensorValue#getTimestamp()
-     */
     @Override
     public long getTimestamp() {
         return this.timestamp;
     }
 
-    /**
-     * @see de.freese.jsensors.sensor.SensorValue#getValue()
-     */
     @Override
     public String getValue() {
         return this.value;
     }
 
-    /**
-     * @see de.freese.jsensors.sensor.SensorValue#getValueAsDouble()
-     */
-    @Override
-    public double getValueAsDouble() {
-        return Double.parseDouble(getValue());
-    }
-
-    /**
-     * @see de.freese.jsensors.sensor.SensorValue#getValueAsLong()
-     */
-    @Override
-    public long getValueAsLong() {
-        return Long.parseLong(getValue());
-    }
-
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

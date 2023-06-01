@@ -32,9 +32,6 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
         this.path = Objects.requireNonNull(path, "path required");
     }
 
-    /**
-     * @see de.freese.jsensors.utils.LifeCycle#start()
-     */
     @Override
     public void start() {
         try {
@@ -70,17 +67,11 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
         }
     }
 
-    /**
-     * @see de.freese.jsensors.utils.LifeCycle#stop()
-     */
     @Override
     public void stop() {
         submit();
     }
 
-    /**
-     * @see de.freese.jsensors.backend.AbstractBatchBackend#storeValues(java.util.List)
-     */
     @Override
     protected void storeValues(final List<SensorValue> values) {
         if ((values == null) || values.isEmpty()) {

@@ -6,6 +6,7 @@ import java.util.function.Function;
 import com.jezhumble.javasysmon.CpuTimes;
 import com.jezhumble.javasysmon.JavaSysMon;
 
+import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.registry.SensorRegistry;
 import de.freese.jsensors.sensor.Sensor;
 
@@ -15,15 +16,12 @@ import de.freese.jsensors.sensor.Sensor;
 public class CpuMetrics implements SensorBinder {
     private final JavaSysMon sysMon = new JavaSysMon();
 
-    /**
-     * @see de.freese.jsensors.binder.SensorBinder#bindTo(de.freese.jsensors.registry.SensorRegistry)
-     */
     @Override
-    public void bindTo(final SensorRegistry registry) {
-        bindCpuUsage(registry);
+    public void bindTo(final SensorRegistry registry, Function<String, Backend> backendProvider) {
+        bindCpuUsage(registry, backendProvider);
     }
 
-    private void bindCpuUsage(final SensorRegistry registry) {
+    private void bindCpuUsage(final SensorRegistry registry, Function<String, Backend> backendProvider) {
         Function<JavaSysMon, String> valueFunction = new Function<>() {
             private CpuTimes cpuTimesPrevious;
 
@@ -36,7 +34,7 @@ public class CpuMetrics implements SensorBinder {
 
                 if (this.cpuTimesPrevious == null) {
                     this.cpuTimesPrevious = cpuTimes;
-                    return "";
+                    return "0";
                 }
 
                 double usage = cpuTimes.getCpuUsage(this.cpuTimesPrevious) * 100D;
@@ -45,6 +43,6 @@ public class CpuMetrics implements SensorBinder {
             }
         };
 
-        Sensor.builder("cpu.usage", this.sysMon, valueFunction).description("CPU-Usage in %").register(registry);
+        Sensor.builder("cpu.usage", this.sysMon, valueFunction).description("CPU-Usage in %").register(registry, backendProvider);
     }
 }

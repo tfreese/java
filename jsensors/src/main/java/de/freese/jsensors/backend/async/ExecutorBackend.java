@@ -41,9 +41,6 @@ public class ExecutorBackend extends AbstractBackend {
         this.executor = Executors.newFixedThreadPool(parallelism, threadFactory);
     }
 
-    /**
-     * @see de.freese.jsensors.backend.AbstractBackend#storeValue(de.freese.jsensors.sensor.SensorValue)
-     */
     @Override
     protected void storeValue(final SensorValue sensorValue) {
         this.executor.execute(() -> {

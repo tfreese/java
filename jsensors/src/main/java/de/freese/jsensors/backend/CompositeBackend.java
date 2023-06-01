@@ -11,7 +11,7 @@ import de.freese.jsensors.sensor.SensorValue;
  *
  * @author Thomas Freese
  */
-public class CompositeBackend extends AbstractBackend {
+public final class CompositeBackend extends AbstractBackend {
     private final List<Backend> backends = new ArrayList<>();
 
     public CompositeBackend add(final Backend backend) {
@@ -20,11 +20,15 @@ public class CompositeBackend extends AbstractBackend {
         return this;
     }
 
-    /**
-     * @see de.freese.jsensors.backend.AbstractBackend#storeValue(de.freese.jsensors.sensor.SensorValue)
-     */
     @Override
     protected void storeValue(final SensorValue sensorValue) {
-        this.backends.forEach(backend -> backend.store(sensorValue));
+        for (Backend backend : backends) {
+            try {
+                backend.store(sensorValue);
+            }
+            catch (Exception ex) {
+                getLogger().error(ex.getMessage(), ex);
+            }
+        }
     }
 }

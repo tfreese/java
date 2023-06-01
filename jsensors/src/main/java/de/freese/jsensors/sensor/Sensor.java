@@ -1,10 +1,10 @@
 // Created: 02.09.2021
 package de.freese.jsensors.sensor;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
+import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.registry.SensorRegistry;
 
 /**
@@ -22,8 +22,6 @@ public interface Sensor {
         private final Function<T, String> valueFunction;
         private String description;
 
-        private int keepLastNValues = 1;
-
         private Builder(final String name, final T obj, final Function<T, String> valueFunction) {
             super();
 
@@ -38,18 +36,12 @@ public interface Sensor {
             return this;
         }
 
-        public Builder<T> keepLastNValues(final int keepLastNValues) {
-            this.keepLastNValues = keepLastNValues;
-
-            return this;
+        public Sensor register(final SensorRegistry registry, Function<String, Backend> backendProvider) {
+            return register(registry, backendProvider.apply(this.name));
         }
 
-        public Sensor register(final SensorRegistry registry) {
-            if (this.keepLastNValues < 1) {
-                throw new IllegalArgumentException("keepLastNValues < 1: " + this.keepLastNValues);
-            }
-
-            return registry.newSensor(this.name, this.obj, this.valueFunction, this.keepLastNValues, this.description);
+        public Sensor register(final SensorRegistry registry, Backend backend) {
+            return registry.registerSensor(this.name, this.obj, this.valueFunction, this.description, backend);
         }
     }
 
@@ -60,10 +52,6 @@ public interface Sensor {
     String getDescription();
 
     String getName();
-
-    SensorValue getValueLast();
-
-    List<SensorValue> getValues();
 
     /**
      * Determine the next Sensor Value.

@@ -41,9 +41,6 @@ public abstract class AbstractBatchBackend extends AbstractBackend {
         return this.batchSize;
     }
 
-    /**
-     * @see de.freese.jsensors.backend.AbstractBackend#storeValue(de.freese.jsensors.sensor.SensorValue)
-     */
     @Override
     protected void storeValue(final SensorValue sensorValue) {
         if (this.buffer == null) {

@@ -71,9 +71,6 @@ public class DisruptorBackend extends AbstractBackend implements LifeCycle {
         this.ringBufferSize = ringBufferSize;
     }
 
-    /**
-     * @see de.freese.jsensors.utils.LifeCycle#start()
-     */
     @Override
     public void start() {
         this.disruptor = new Disruptor<>(SensorEvent::new, this.ringBufferSize, new JSensorThreadFactory("jSensor-disruptor"));
@@ -100,9 +97,6 @@ public class DisruptorBackend extends AbstractBackend implements LifeCycle {
         this.disruptor.start();
     }
 
-    /**
-     * @see de.freese.jsensors.utils.LifeCycle#stop()
-     */
     @Override
     public void stop() {
         // Nur notwendig, wenn die Event-Publizierung noch nicht abgeschlossen ist.
@@ -116,9 +110,6 @@ public class DisruptorBackend extends AbstractBackend implements LifeCycle {
         }
     }
 
-    /**
-     * @see de.freese.jsensors.backend.AbstractBackend#storeValue(de.freese.jsensors.sensor.SensorValue)
-     */
     @Override
     protected void storeValue(final SensorValue sensorValue) {
         RingBuffer<SensorEvent> ringBuffer = this.disruptor.getRingBuffer();

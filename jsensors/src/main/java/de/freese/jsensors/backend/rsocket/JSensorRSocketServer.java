@@ -62,9 +62,6 @@ public class JSensorRSocketServer implements LifeCycle {
         this.parallelism = parallelism;
     }
 
-    /**
-     * @see de.freese.jsensors.utils.LifeCycle#start()
-     */
     @Override
     public void start() {
         getLogger().info("starting jSensor-rSocket server on port: {}", this.port);
@@ -106,9 +103,6 @@ public class JSensorRSocketServer implements LifeCycle {
         // @formatter:on
     }
 
-    /**
-     * @see de.freese.jsensors.utils.LifeCycle#stop()
-     */
     @Override
     public void stop() {
         getLogger().info("stopping jSensor-rSocket server");

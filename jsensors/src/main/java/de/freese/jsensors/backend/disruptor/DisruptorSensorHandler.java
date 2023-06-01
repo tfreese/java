@@ -35,9 +35,6 @@ class DisruptorSensorHandler implements EventHandler<SensorEvent>, WorkHandler<S
         this.ordinal = ordinal;
     }
 
-    /**
-     * @see com.lmax.disruptor.EventHandler#onEvent(java.lang.Object, long, boolean)
-     */
     @Override
     public void onEvent(final SensorEvent event, final long sequence, final boolean endOfBatch) throws Exception {
         // Load-Balancing auf die Handler über die Sequence.
@@ -47,9 +44,6 @@ class DisruptorSensorHandler implements EventHandler<SensorEvent>, WorkHandler<S
         }
     }
 
-    /**
-     * @see com.lmax.disruptor.WorkHandler#onEvent(java.lang.Object)
-     */
     @Override
     public void onEvent(final SensorEvent event) throws Exception {
         SensorValue sensorValue = event.getSensorValue();

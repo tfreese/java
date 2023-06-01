@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.function.Function;
 
 /**
  * @author Thomas Freese
@@ -24,7 +25,15 @@ public interface SensorValue {
 
     String getValue();
 
-    double getValueAsDouble();
+    default <T> T getValueAs(Function<String, T> function) {
+        return function.apply(getValue());
+    }
 
-    long getValueAsLong();
+    default double getValueAsDouble() {
+        return getValueAs(Double::parseDouble);
+    }
+
+    default long getValueAsLong() {
+        return getValueAs(Long::parseLong);
+    }
 }

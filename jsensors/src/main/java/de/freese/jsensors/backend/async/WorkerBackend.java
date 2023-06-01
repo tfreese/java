@@ -72,9 +72,6 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
         this.worker = new QueueWorker();
     }
 
-    /**
-     * @see de.freese.jsensors.utils.LifeCycle#start()
-     */
     @Override
     public void start() {
         this.worker.setName(getName());
@@ -83,9 +80,6 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
         worker.start();
     }
 
-    /**
-     * @see de.freese.jsensors.utils.LifeCycle#stop()
-     */
     @Override
     public void stop() {
         final boolean stopped = stoppedRef.compareAndSet(false, true);
@@ -135,9 +129,6 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
         }
     }
 
-    /**
-     * @see de.freese.jsensors.backend.AbstractBackend#storeValue(de.freese.jsensors.sensor.SensorValue)
-     */
     @Override
     protected void storeValue(final SensorValue sensorValue) {
         this.queue.add(sensorValue);

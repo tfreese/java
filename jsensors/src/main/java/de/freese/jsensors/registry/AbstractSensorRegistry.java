@@ -1,15 +1,17 @@
 // Created: 02.09.2021
 package de.freese.jsensors.registry;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.TreeMap;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.freese.jsensors.backend.Backend;
+import de.freese.jsensors.backend.NoOpBackend;
 import de.freese.jsensors.sensor.DefaultSensor;
 import de.freese.jsensors.sensor.Sensor;
 
@@ -19,13 +21,12 @@ import de.freese.jsensors.sensor.Sensor;
  * @author Thomas Freese
  */
 public abstract class AbstractSensorRegistry implements SensorRegistry {
+    private final Map<String, Backend> backends = new TreeMap<>();
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final Map<String, Sensor> sensors = new HashMap<>();
+    private final Map<String, Sensor> sensors = new TreeMap<>();
 
-    /**
-     * @see de.freese.jsensors.registry.SensorRegistry#getSensor(java.lang.String)
-     */
     @Override
     public Sensor getSensor(final String name) {
         Sensor sensor = this.sensors.get(name);
@@ -37,34 +38,43 @@ public abstract class AbstractSensorRegistry implements SensorRegistry {
         return sensor;
     }
 
-    /**
-     * @see de.freese.jsensors.registry.SensorRegistry#getSensors()
-     */
     @Override
     public Stream<Sensor> getSensors() {
         return this.sensors.values().stream();
     }
 
-    /**
-     * @see de.freese.jsensors.registry.SensorRegistry#newSensor(java.lang.String, java.lang.Object, java.util.function.Function, int, java.lang.String)
-     */
     @Override
-    public <T> Sensor newSensor(final String name, final T obj, final Function<T, String> function, final int keepLastNValues, final String description) {
-        return register(name, () -> new DefaultSensor<>(name, obj, function, keepLastNValues, description));
+    public <T> Sensor registerSensor(final String name, final T obj, final Function<T, String> valueFunction, final String description, final Backend backend) {
+        if (this.sensors.containsKey(name)) {
+            throw new IllegalStateException(String.format("sensor already exist: '%s'", name));
+        }
+
+        Objects.requireNonNull(backend, "backend required");
+
+        registerBackend(name, backend);
+
+        return this.sensors.computeIfAbsent(name, key -> new DefaultSensor<>(name, obj, valueFunction, description));
+    }
+
+    protected Backend getBackend(String name) {
+        Backend backend = this.backends.computeIfAbsent(name, key -> NoOpBackend.getInstance());
+
+        if (backend instanceof NoOpBackend) {
+            getLogger().warn("NoOpBackend is used for sensor: {}", name);
+        }
+
+        return backend;
     }
 
     protected Logger getLogger() {
         return this.logger;
     }
 
-    /**
-     * Throws an IllegalStateException if SensorName already exist.
-     */
-    protected Sensor register(final String name, final Supplier<Sensor> supplier) {
-        if (this.sensors.containsKey(name)) {
-            throw new IllegalStateException(String.format("sensor already exist: '%s'", name));
+    protected void registerBackend(final String name, final Backend backend) {
+        if (backend instanceof NoOpBackend) {
+            getLogger().warn("NoOpBackend is used for sensor: {}", name);
         }
 
-        return this.sensors.computeIfAbsent(name, key -> supplier.get());
+        this.backends.put(name, backend);
     }
 }

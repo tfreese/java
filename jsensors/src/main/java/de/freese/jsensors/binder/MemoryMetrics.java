@@ -1,6 +1,9 @@
 // Created: 02.09.2021
 package de.freese.jsensors.binder;
 
+import java.util.function.Function;
+
+import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.registry.SensorRegistry;
 import de.freese.jsensors.sensor.Sensor;
 
@@ -8,22 +11,19 @@ import de.freese.jsensors.sensor.Sensor;
  * @author Thomas Freese
  */
 public class MemoryMetrics implements SensorBinder {
-    /**
-     * @see de.freese.jsensors.binder.SensorBinder#bindTo(de.freese.jsensors.registry.SensorRegistry)
-     */
     @Override
-    public void bindTo(final SensorRegistry registry) {
+    public void bindTo(final SensorRegistry registry, Function<String, Backend> backendProvider) {
         final Runtime runtime = Runtime.getRuntime();
 
-        Sensor.builder("memory.free", runtime, r -> Long.toString(r.freeMemory())).description("Free memory in Bytes").register(registry);
-        Sensor.builder("memory.max", runtime, r -> Long.toString(r.maxMemory())).description("Max. memory in Bytes").register(registry);
-        Sensor.builder("memory.total", runtime, r -> Long.toString(r.totalMemory())).description("Total memory in Bytes").register(registry);
+        Sensor.builder("memory.free", runtime, r -> Long.toString(r.freeMemory())).description("Free memory in Bytes").register(registry, backendProvider);
+        Sensor.builder("memory.max", runtime, r -> Long.toString(r.maxMemory())).description("Max. memory in Bytes").register(registry, backendProvider);
+        Sensor.builder("memory.total", runtime, r -> Long.toString(r.totalMemory())).description("Total memory in Bytes").register(registry, backendProvider);
         Sensor.builder("memory.usage", runtime, r -> {
             double free = r.freeMemory();
             double total = r.totalMemory();
             double usage = (1D - (free / total)) * 100D;
 
             return Double.toString(usage);
-        }).description("Used Memory in %").register(registry);
+        }).description("Used Memory in %").register(registry, backendProvider);
     }
 }

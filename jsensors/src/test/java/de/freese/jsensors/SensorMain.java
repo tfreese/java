@@ -30,31 +30,28 @@ public final class SensorMain {
         registry.start();
 
         ConsoleBackend consoleBackend = new ConsoleBackend();
-
-        // CPU
-        new CpuMetrics().bindTo(registry);
-
         CsvBackend csvBackendCpuUsage = new CsvBackend(logPath.resolve("cpuUsage.csv"), true, 5);
         csvBackendCpuUsage.start();
 
-        registry.scheduleSensor("cpu.usage", 1, 1, TimeUnit.SECONDS, new CompositeBackend().add(consoleBackend).add(csvBackendCpuUsage));
+        // CPU
+        new CpuMetrics().bindTo(registry, name -> new CompositeBackend().add(consoleBackend).add(csvBackendCpuUsage));
+        registry.scheduleSensor("cpu.usage", 1, 1, TimeUnit.SECONDS);
 
         // Swap
-        new SwapMetrics().bindTo(registry);
-
-        registry.scheduleSensor("swap.free", 1, 1, TimeUnit.SECONDS, consoleBackend);
-        registry.scheduleSensor("swap.usage", 1, 1, TimeUnit.SECONDS, consoleBackend);
+        new SwapMetrics().bindTo(registry, name -> consoleBackend);
+        registry.scheduleSensor("swap.free", 1, 1, TimeUnit.SECONDS);
+        registry.scheduleSensor("swap.usage", 1, 1, TimeUnit.SECONDS);
 
         // Memory
-        new MemoryMetrics().bindTo(registry);
-
         CsvBackend csvBackendMemory = new CsvBackend(logPath.resolve("memoryMetrics.csv"), false, 6);
         csvBackendMemory.start();
 
-        registry.scheduleSensor("memory.free", 1, 1, TimeUnit.SECONDS, new CompositeBackend().add(consoleBackend).add(csvBackendMemory));
-        registry.scheduleSensor("memory.max", 1, 1, TimeUnit.SECONDS, new CompositeBackend().add(consoleBackend).add(csvBackendMemory));
-        registry.scheduleSensor("memory.total", 1, 1, TimeUnit.SECONDS, new CompositeBackend().add(consoleBackend).add(csvBackendMemory));
-        registry.scheduleSensor("memory.usage", 1, 1, TimeUnit.SECONDS, new CompositeBackend().add(consoleBackend).add(csvBackendMemory));
+        new MemoryMetrics().bindTo(registry, name -> new CompositeBackend().add(consoleBackend).add(csvBackendMemory));
+
+        registry.scheduleSensor("memory.free", 1, 1, TimeUnit.SECONDS);
+        registry.scheduleSensor("memory.max", 1, 1, TimeUnit.SECONDS);
+        registry.scheduleSensor("memory.total", 1, 1, TimeUnit.SECONDS);
+        registry.scheduleSensor("memory.usage", 1, 1, TimeUnit.SECONDS);
 
         TimeUnit.SECONDS.sleep(10);
 

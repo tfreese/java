@@ -36,10 +36,8 @@ public final class JFreeChartMain {
         ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("scheduler"), 2);
         registry.start();
 
-        new CpuMetrics().bindTo(registry);
         TimeSeries timeSeriesCpuUsage = new TimeSeries("cpu.usage");
-
-        registry.scheduleSensor("cpu.usage", 1, 1, TimeUnit.SECONDS, sensorValue -> {
+        new CpuMetrics().bindTo(registry, name -> sensorValue -> {
             if ((sensorValue.getValue() == null) || sensorValue.getValue().isBlank()) {
                 return;
             }
@@ -47,11 +45,10 @@ public final class JFreeChartMain {
             RegularTimePeriod timePeriod = new FixedMillisecond(sensorValue.getTimestamp());
             timeSeriesCpuUsage.add(timePeriod, sensorValue.getValueAsDouble());
         });
+        registry.scheduleSensor("cpu.usage", 1, 1, TimeUnit.SECONDS);
 
-        new MemoryMetrics().bindTo(registry);
         TimeSeries timeSeriesMemoryUsage = new TimeSeries("memory.usage");
-
-        registry.scheduleSensor("memory.usage", 1, 1, TimeUnit.SECONDS, sensorValue -> {
+        new MemoryMetrics().bindTo(registry, name -> sensorValue -> {
             if ((sensorValue.getValue() == null) || sensorValue.getValue().isBlank()) {
                 return;
             }
@@ -59,6 +56,7 @@ public final class JFreeChartMain {
             RegularTimePeriod timePeriod = new FixedMillisecond(sensorValue.getTimestamp());
             timeSeriesMemoryUsage.add(timePeriod, sensorValue.getValueAsDouble());
         });
+        registry.scheduleSensor("memory.usage", 1, 1, TimeUnit.SECONDS);
 
         // Nur die letzten N Daten vorhalten.
         // timeSeriesCpuUsage.setMaximumItemCount(1500);

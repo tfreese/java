@@ -36,9 +36,6 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
         this.exclusive = exclusive;
     }
 
-    /**
-     * @see de.freese.jsensors.utils.LifeCycle#start()
-     */
     @Override
     public void start() {
         try {
@@ -74,9 +71,6 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
         }
     }
 
-    /**
-     * @see de.freese.jsensors.utils.LifeCycle#stop()
-     */
     @Override
     public void stop() {
         submit();
@@ -97,9 +91,6 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
         return formatted.getBytes(StandardCharsets.UTF_8);
     }
 
-    /**
-     * @see de.freese.jsensors.backend.AbstractBatchBackend#storeValues(java.util.List)
-     */
     @Override
     protected void storeValues(final List<SensorValue> values) {
         if ((values == null) || values.isEmpty()) {

@@ -41,33 +41,18 @@ public class ScheduledSensorRegistry extends AbstractSensorRegistry implements L
 
     /**
      * Schedules the determination for a {@link SensorValue} of a {@link Sensor}.<br>
-     * The {@link SensorValue} can accessed by: <code>SensorRegistry.getSensor(String).getValueLast()</code>.
+     * The {@link SensorValue} is passed to a {@link Backend}.<br>
      */
     public void scheduleSensor(final String name, final long initialDelay, final long delay, final TimeUnit unit) {
-        scheduleSensor(name, initialDelay, delay, unit, sensorValue -> {
-        });
-    }
-
-    /**
-     * Schedules the determination for a {@link SensorValue} of a {@link Sensor}.<br>
-     * The {@link SensorValue} is passed to a {@link Backend}.<br>
-     * Use {@link CompositeBackend} for multiple {@link Backend}s for one {@link Sensor}.
-     */
-    public void scheduleSensor(final String name, final long initialDelay, final long delay, final TimeUnit unit, final Backend backend) {
         if (this.scheduledExecutorService == null) {
             throw new IllegalStateException("scheduler is not started: call #start() first");
         }
 
-        Objects.requireNonNull(backend, "backend required");
-
         Sensor sensor = getSensor(name);
 
-        this.scheduledExecutorService.scheduleWithFixedDelay(() -> backend.store(sensor.measure()), initialDelay, delay, unit);
+        this.scheduledExecutorService.scheduleWithFixedDelay(() -> getBackend(sensor.getName()).store(sensor.measure()), initialDelay, delay, unit);
     }
 
-    /**
-     * @see de.freese.jsensors.utils.LifeCycle#start()
-     */
     @Override
     public void start() {
         if (this.scheduledExecutorService != null) {
@@ -77,9 +62,6 @@ public class ScheduledSensorRegistry extends AbstractSensorRegistry implements L
         this.scheduledExecutorService = Executors.newScheduledThreadPool(this.corePoolSize, this.threadFactory);
     }
 
-    /**
-     * @see de.freese.jsensors.utils.LifeCycle#stop()
-     */
     @Override
     public void stop() {
         if (this.scheduledExecutorService != null) {

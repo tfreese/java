@@ -15,6 +15,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
 
+import de.freese.jsensors.backend.ListBackend;
+import de.freese.jsensors.backend.MapBackend;
 import de.freese.jsensors.binder.CpuMetrics;
 import de.freese.jsensors.binder.DiscMetrics;
 import de.freese.jsensors.binder.ExecutorServiceMetrics;
@@ -31,42 +33,44 @@ class TestMetricBinder {
     @Test
     void testCpuMetrics() throws Exception {
         DefaultSensorRegistry registry = new DefaultSensorRegistry();
+        ListBackend listBackend = new ListBackend(5);
 
-        new CpuMetrics().bindTo(registry);
+        new CpuMetrics().bindTo(registry, name -> listBackend);
 
         registry.measureAll();
-        SensorValue sensorValue1 = registry.getSensor("cpu.usage").getValueLast();
+        SensorValue sensorValue1 = listBackend.getValueLast();
+        assertNotNull(sensorValue1);
+        assertEquals("0", sensorValue1.getValue());
 
         TimeUnit.MILLISECONDS.sleep(300);
 
         registry.measureAll();
-        SensorValue sensorValue2 = registry.getSensor("cpu.usage").getValueLast();
-
-        assertNotNull(sensorValue1);
+        SensorValue sensorValue2 = listBackend.getValueLast();
         assertNotNull(sensorValue2);
-        assertNotEquals(sensorValue1.getTimestamp(), sensorValue2.getTimestamp());
-        assertEquals("", sensorValue1.getValue());
-        assertTrue(sensorValue2.getValueAsDouble() > 0D);
 
-        // System.out.println(sensorValue1);
-        // System.out.println(sensorValue2);
+        assertNotEquals(sensorValue1.getTimestamp(), sensorValue2.getTimestamp());
+
+        assertTrue(sensorValue2.getValueAsDouble() > 0D);
     }
 
     @Test
     void testDiscMetrics() throws Exception {
         DefaultSensorRegistry registry = new DefaultSensorRegistry();
+        MapBackend mapBackend = new MapBackend();
 
-        new DiscMetrics("tmp1", Path.of(System.getProperty("java.io.tmpdir"))).bindTo(registry);
+        new DiscMetrics("tmp1", Path.of(System.getProperty("java.io.tmpdir"))).bindTo(registry, name -> mapBackend);
+
         registry.measureAll();
-        SensorValue sensorValuePathFree = registry.getSensor("disk.free.tmp1").getValueLast();
-        SensorValue sensorValuePathUsage = registry.getSensor("disk.usage.tmp1").getValueLast();
+        SensorValue sensorValuePathFree = mapBackend.getValue("disk.free.tmp1");
+        SensorValue sensorValuePathUsage = mapBackend.getValue("disk.usage.tmp1");
         assertNotNull(sensorValuePathFree);
         assertNotNull(sensorValuePathUsage);
 
-        new DiscMetrics("tmp2", new File(System.getProperty("java.io.tmpdir"))).bindTo(registry);
+        new DiscMetrics("tmp2", new File(System.getProperty("java.io.tmpdir"))).bindTo(registry, name -> mapBackend);
+
         registry.measureAll();
-        SensorValue sensorValueFileFree = registry.getSensor("disk.free.tmp2").getValueLast();
-        SensorValue sensorValueFileUsage = registry.getSensor("disk.usage.tmp2").getValueLast();
+        SensorValue sensorValueFileFree = mapBackend.getValue("disk.free.tmp2");
+        SensorValue sensorValueFileUsage = mapBackend.getValue("disk.usage.tmp2");
         assertNotNull(sensorValueFileFree);
         assertNotNull(sensorValueFileUsage);
 
@@ -79,18 +83,19 @@ class TestMetricBinder {
     @Test
     void testExecutorServiceMetrics() throws Exception {
         DefaultSensorRegistry registry = new DefaultSensorRegistry();
+        MapBackend mapBackend = new MapBackend();
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> new ExecutorServiceMetrics(Executors.newSingleThreadExecutor(), "myExecutor").bindTo(registry));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> new ExecutorServiceMetrics(Executors.newSingleThreadExecutor(), "myExecutor").bindTo(registry, name -> mapBackend));
         String expectedMessage = "executorService not supported: 'java.util.concurrent.Executors$FinalizableDelegatedExecutorService'";
         assertEquals(exception.getMessage(), expectedMessage);
 
-        exception = assertThrows(IllegalArgumentException.class, () -> new ExecutorServiceMetrics(Executors.newSingleThreadScheduledExecutor(), "myScheduler").bindTo(registry));
+        exception = assertThrows(IllegalArgumentException.class, () -> new ExecutorServiceMetrics(Executors.newSingleThreadScheduledExecutor(), "myScheduler").bindTo(registry, name -> mapBackend));
         expectedMessage = "executorService not supported: 'java.util.concurrent.Executors$DelegatedScheduledExecutorService'";
         assertEquals(exception.getMessage(), expectedMessage);
 
-        new ExecutorServiceMetrics(ForkJoinPool.commonPool(), "myForkJoin").bindTo(registry);
-        new ExecutorServiceMetrics(Executors.newFixedThreadPool(1), "myExecutor").bindTo(registry);
-        new ExecutorServiceMetrics(Executors.newScheduledThreadPool(1), "myScheduler").bindTo(registry);
+        new ExecutorServiceMetrics(ForkJoinPool.commonPool(), "myForkJoin").bindTo(registry, name -> mapBackend);
+        new ExecutorServiceMetrics(Executors.newFixedThreadPool(1), "myExecutor").bindTo(registry, name -> mapBackend);
+        new ExecutorServiceMetrics(Executors.newScheduledThreadPool(1), "myScheduler").bindTo(registry, name -> mapBackend);
 
         registry.measureAll();
 
@@ -102,9 +107,9 @@ class TestMetricBinder {
         assertNotNull(sensorExecutor);
         assertNotNull(sensorScheduler);
 
-        SensorValue sensorValueForkJoin = sensorForkJoin.getValueLast();
-        SensorValue sensorValueExecutor = sensorExecutor.getValueLast();
-        SensorValue sensorValueScheduler = sensorScheduler.getValueLast();
+        SensorValue sensorValueForkJoin = mapBackend.getValue("executor.active.myForkJoin");
+        SensorValue sensorValueExecutor = mapBackend.getValue("executor.active.myExecutor");
+        SensorValue sensorValueScheduler = mapBackend.getValue("executor.active.myScheduler");
 
         assertNotNull(sensorValueForkJoin);
         assertNotNull(sensorValueExecutor);
@@ -114,15 +119,16 @@ class TestMetricBinder {
     @Test
     void testMemoryMetrics() throws Exception {
         DefaultSensorRegistry registry = new DefaultSensorRegistry();
+        MapBackend mapBackend = new MapBackend();
 
-        new MemoryMetrics().bindTo(registry);
+        new MemoryMetrics().bindTo(registry, name -> mapBackend);
 
         registry.measureAll();
 
-        SensorValue sensorValueFree = registry.getSensor("memory.free").getValueLast();
-        SensorValue sensorValueMax = registry.getSensor("memory.max").getValueLast();
-        SensorValue sensorValueTotal = registry.getSensor("memory.total").getValueLast();
-        SensorValue sensorValueUsage = registry.getSensor("memory.usage").getValueLast();
+        SensorValue sensorValueFree = mapBackend.getValue("memory.free");
+        SensorValue sensorValueMax = mapBackend.getValue("memory.max");
+        SensorValue sensorValueTotal = mapBackend.getValue("memory.total");
+        SensorValue sensorValueUsage = mapBackend.getValue("memory.usage");
 
         assertNotNull(sensorValueFree);
         assertNotNull(sensorValueMax);
@@ -143,13 +149,14 @@ class TestMetricBinder {
     @Test
     void testSwapMetrics() throws Exception {
         DefaultSensorRegistry registry = new DefaultSensorRegistry();
+        MapBackend mapBackend = new MapBackend();
 
-        new SwapMetrics().bindTo(registry);
+        new SwapMetrics().bindTo(registry, name -> mapBackend);
 
         registry.measureAll();
 
-        SensorValue sensorValueFree = registry.getSensor("swap.free").getValueLast();
-        SensorValue sensorValueUsage = registry.getSensor("swap.usage").getValueLast();
+        SensorValue sensorValueFree = mapBackend.getValue("swap.free");
+        SensorValue sensorValueUsage = mapBackend.getValue("swap.usage");
 
         assertNotNull(sensorValueFree);
         assertNotNull(sensorValueUsage);

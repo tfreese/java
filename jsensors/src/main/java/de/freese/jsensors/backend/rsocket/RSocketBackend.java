@@ -45,9 +45,6 @@ public class RSocketBackend extends AbstractBackend implements LifeCycle {
         this.parallelism = parallelism;
     }
 
-    /**
-     * @see de.freese.jsensors.utils.LifeCycle#start()
-     */
     @Override
     public void start() {
         // @formatter:off
@@ -70,9 +67,6 @@ public class RSocketBackend extends AbstractBackend implements LifeCycle {
         this.client = RSocketClient.from(rSocket);
     }
 
-    /**
-     * @see de.freese.jsensors.utils.LifeCycle#stop()
-     */
     @Override
     public void stop() {
         this.client.dispose();
@@ -96,9 +90,6 @@ public class RSocketBackend extends AbstractBackend implements LifeCycle {
         return byteBuf;
     }
 
-    /**
-     * @see de.freese.jsensors.backend.AbstractBackend#storeValue(de.freese.jsensors.sensor.SensorValue)
-     */
     @Override
     protected void storeValue(final SensorValue sensorValue) {
         ByteBuf byteBuf = encode(sensorValue);

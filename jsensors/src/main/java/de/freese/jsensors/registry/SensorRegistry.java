@@ -4,6 +4,7 @@ package de.freese.jsensors.registry;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.sensor.Sensor;
 
 /**
@@ -17,5 +18,8 @@ public interface SensorRegistry {
 
     Stream<Sensor> getSensors();
 
-    <T> Sensor newSensor(String name, T obj, Function<T, String> valueFunction, int keepLastNValues, String description);
+    /**
+     * Register a Sensor with a Backend.
+     */
+    <T> Sensor registerSensor(String name, T obj, Function<T, String> valueFunction, String description, Backend backend);
 }

@@ -14,9 +14,6 @@ import de.freese.jsensors.sensor.SensorValue;
 public abstract class AbstractBackend implements Backend {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    /**
-     * @see de.freese.jsensors.backend.Backend#store(de.freese.jsensors.sensor.SensorValue)
-     */
     @Override
     public final void store(final SensorValue sensorValue) {
         if (sensorValue == null) {
