@@ -34,7 +34,7 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
     /**
      * @param exclusive boolean; Table exclusive for only one {@link Sensor} -> no column 'NAME'
      */
-    public JdbcBackend(final DataSource dataSource, final String tableName, final boolean exclusive, final int batchSize) {
+    public JdbcBackend(final int batchSize, final DataSource dataSource, final String tableName, final boolean exclusive) {
         super(batchSize);
 
         this.dataSource = Objects.requireNonNull(dataSource, "dataSource required");
@@ -91,7 +91,7 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
 
                         stmt.execute(index);
 
-                        // Diese Indices, existieren durch de UNIQUE INDEX.
+                        // These Indices existing by UNIQUE INDEX.
                         // index = String.format("CREATE INDEX NAME_IDX ON %s (NAME);", tableName);
                         // stmt.execute(index);
                         //
@@ -102,7 +102,6 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
             }
         }
         catch (SQLException ex) {
-            // throw new RuntimeException(ex);
             getLogger().error(ex.getMessage(), ex);
         }
     }

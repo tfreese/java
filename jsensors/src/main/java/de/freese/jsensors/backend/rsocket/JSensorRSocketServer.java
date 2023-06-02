@@ -66,7 +66,7 @@ public class JSensorRSocketServer implements LifeCycle {
     public void start() {
         getLogger().info("starting jSensor-rSocket server on port: {}", this.port);
 
-        // Fehlermeldung, wenn Client die Verbindung schliesst.
+        // Error message, if the Client closes the Connection.
         // Hooks.onErrorDropped(th -> LOGGER.error(th.getMessage()));
         Hooks.onErrorDropped(th -> {
             // Empty

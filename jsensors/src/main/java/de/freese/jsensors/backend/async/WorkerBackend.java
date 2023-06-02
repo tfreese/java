@@ -20,15 +20,12 @@ import de.freese.jsensors.utils.LifeCycle;
  * @author Thomas Freese
  */
 public class WorkerBackend extends AbstractBackend implements LifeCycle {
-    private static final SensorValue STOP_VALUE = new DefaultSensorValue("STOP_VALUE", "STOP_VALUE", 0);
+    private static final SensorValue STOP_VALUE = new DefaultSensorValue("STOP_VALUE", "STOP_VALUE", 1);
 
     /**
      * @author Thomas Freese
      */
     private class QueueWorker extends Thread {
-        /**
-         * @see java.lang.Runnable#run()
-         */
         @Override
         public void run() {
             while (!stoppedRef.get()) {
@@ -50,11 +47,11 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
                 dispatch(sensorValue);
             }
 
-            getLogger().debug("{} terminated", WorkerBackend.this.getName());
+            getLogger().debug("terminated: {}", WorkerBackend.this.getName());
         }
     }
 
-    private final Backend delegate;
+    private final Backend delegateBackend;
 
     private final BlockingQueue<SensorValue> queue = new LinkedBlockingQueue<>();
 
@@ -62,10 +59,10 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
 
     private final QueueWorker worker;
 
-    public WorkerBackend(final Backend delegate) {
+    public WorkerBackend(final Backend delegateBackend) {
         super();
 
-        this.delegate = Objects.requireNonNull(delegate, "delegate required");
+        this.delegateBackend = Objects.requireNonNull(delegateBackend, "delegateBackend required");
 
         this.stoppedRef = new AtomicBoolean();
 
@@ -85,7 +82,7 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
         final boolean stopped = stoppedRef.compareAndSet(false, true);
 
         if (stopped) {
-            getLogger().debug("{} is signaled to stop.", getName());
+            getLogger().debug("signaled to stop: {}", getName());
         }
 
         // There is a slight chance that the thread is not started yet, wait for it to run.
@@ -137,10 +134,10 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
     private void dispatch(final SensorValue sensorValue) {
         getLogger().debug("Processing: {}", sensorValue);
 
-        this.delegate.store(sensorValue);
+        this.delegateBackend.store(sensorValue);
     }
 
     private String getName() {
-        return this.delegate.getClass().getSimpleName().replace("Backend", "Worker");
+        return this.delegateBackend.getClass().getSimpleName().replace("Backend", "Worker");
     }
 }

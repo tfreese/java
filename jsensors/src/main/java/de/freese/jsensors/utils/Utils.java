@@ -20,7 +20,7 @@ public final class Utils {
 
     private static final String OS = System.getProperty("os.name").toLowerCase();
 
-    public static List<String> executeCommand(final String... command) {
+    public static List<String> executeCommand(final List<String> command) {
         List<String> list = null;
 
         try {

@@ -50,7 +50,9 @@ public class ScheduledSensorRegistry extends AbstractSensorRegistry implements L
 
         Sensor sensor = getSensor(name);
 
-        this.scheduledExecutorService.scheduleWithFixedDelay(() -> getBackend(sensor.getName()).store(sensor.measure()), initialDelay, delay, unit);
+        Runnable task = () -> getBackend(sensor.getName()).store(sensor.measure());
+
+        this.scheduledExecutorService.scheduleWithFixedDelay(task, initialDelay, delay, unit);
     }
 
     @Override

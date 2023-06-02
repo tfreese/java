@@ -1,7 +1,6 @@
 // Created: 31.05.2017
 package de.freese.jsensors.backend.file;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
 
     private final Path path;
 
-    public RrdToolBackend(final Path path, final int batchSize) {
+    public RrdToolBackend(final int batchSize, final Path path) {
         super(batchSize);
 
         this.path = Objects.requireNonNull(path, "path required");
@@ -54,15 +53,14 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
                 command.add("RRA:MAX:0.5:60:168");
                 command.add("RRA:AVERAGE:0.5:1:10080");
 
-                List<String> lines = Utils.executeCommand(command.toArray(Utils.EMPTY_STRING_ARRAY));
+                List<String> lines = Utils.executeCommand(command);
 
                 if (!lines.isEmpty()) {
-                    throw new IOException(String.join(LINE_SEPARATOR, lines));
+                    throw new RuntimeException(String.join(LINE_SEPARATOR, lines));
                 }
             }
         }
         catch (Exception ex) {
-            // throw new UncheckedIOException(ex);
             getLogger().error(ex.getMessage(), ex);
         }
     }
@@ -87,15 +85,14 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
                 command.add(this.path.toString());
                 command.add(String.format("%s:%s", sensorValue.getTimestamp(), sensorValue.getValue()));
 
-                List<String> lines = Utils.executeCommand(command.toArray(Utils.EMPTY_STRING_ARRAY));
+                List<String> lines = Utils.executeCommand(command);
 
                 if (!lines.isEmpty()) {
-                    throw new IOException(String.join(LINE_SEPARATOR, lines));
+                    throw new RuntimeException(String.join(LINE_SEPARATOR, lines));
                 }
             }
         }
         catch (Exception ex) {
-            // throw new UncheckedIOException(ex);
             getLogger().error(ex.getMessage(), ex);
         }
     }

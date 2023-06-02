@@ -29,7 +29,7 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
     /**
      * @param exclusive boolean; File exclusive for only one {@link Sensor} -> no column 'NAME'
      */
-    public CsvBackend(final Path path, final boolean exclusive, final int batchSize) {
+    public CsvBackend(final int batchSize, final Path path, final boolean exclusive) {
         super(batchSize);
 
         this.path = Objects.requireNonNull(path, "path required");
@@ -66,7 +66,6 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
             }
         }
         catch (Exception ex) {
-            // throw new UncheckedIOException(ex);
             getLogger().error(ex.getMessage(), ex);
         }
     }
@@ -80,11 +79,11 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
         String formatted = null;
 
         if (this.exclusive) {
-            // Ohne SensorName.
+            // Without Sensor Name.
             formatted = String.format("\"%s\",\"%d\",\"%s\"%n", sensorValue.getValue(), sensorValue.getTimestamp(), sensorValue.getLocalDateTime());
         }
         else {
-            // Mit SensorName.
+            // With Sensor Name.
             formatted = String.format("\"%s\",\"%s\",\"%d\",\"%s\"%n", sensorValue.getName(), sensorValue.getValue(), sensorValue.getTimestamp(), sensorValue.getLocalDateTime());
         }
 
@@ -107,7 +106,6 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
             os.flush();
         }
         catch (Exception ex) {
-            // throw new UncheckedIOException(ex);
             getLogger().error(ex.getMessage(), ex);
         }
     }

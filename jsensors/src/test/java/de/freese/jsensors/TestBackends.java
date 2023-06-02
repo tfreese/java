@@ -4,13 +4,13 @@ package de.freese.jsensors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +18,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
+import java.util.stream.Stream;
 
 import org.hsqldb.jdbc.JDBCPool;
 import org.junit.jupiter.api.AfterAll;
@@ -44,13 +45,26 @@ import de.freese.jsensors.sensor.SensorValue;
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestBackends {
-    private static final Path LOG_PATH = Paths.get(System.getProperty("user.home"), ".java-apps", "jSensors");
+    private static final Path LOG_PATH = Paths.get(System.getProperty("java.io.tmpdir"), "jSensors");
 
     private static JDBCPool dataSource;
 
     @AfterAll
-    static void afterAll() throws SQLException {
+    static void afterAll() throws Exception {
         dataSource.close(1);
+
+        try (Stream<Path> stream = Files.list(LOG_PATH)) {
+            stream.forEach(path -> {
+                try {
+                    Files.delete(path);
+                }
+                catch (IOException ex) {
+                    // Ignore
+                }
+            });
+        }
+
+        Files.delete(LOG_PATH);
     }
 
     @BeforeAll
@@ -67,7 +81,7 @@ class TestBackends {
         Path path = LOG_PATH.resolve("csvBackend.csv");
         Files.deleteIfExists(path);
 
-        CsvBackend backend = new CsvBackend(path, false, 5);
+        CsvBackend backend = new CsvBackend(5, path, false);
         backend.start();
 
         createSensorValues().forEach(backend::store);
@@ -87,7 +101,7 @@ class TestBackends {
             Path path = LOG_PATH.resolve(sensorValue.getName() + ".csv");
             Files.deleteIfExists(path);
 
-            CsvBackend backend = new CsvBackend(path, true, 5);
+            CsvBackend backend = new CsvBackend(5, path, true);
 
             backend.start();
             backend.store(sensorValue);
@@ -144,7 +158,7 @@ class TestBackends {
     void testJdbcBackend() throws Exception {
         List<SensorValue> sensorValues = createSensorValues();
 
-        JdbcBackend backend = new JdbcBackend(dataSource, "SENSORS", false, 5);
+        JdbcBackend backend = new JdbcBackend(5, dataSource, "SENSORS", false);
 
         backend.start();
 
@@ -154,7 +168,9 @@ class TestBackends {
 
         List<SensorValue> dbValues = new ArrayList<>();
 
-        try (Connection con = dataSource.getConnection(); Statement stmt = con.createStatement(); ResultSet rs = stmt.executeQuery("select * from sensors order by name asc")) {
+        try (Connection con = dataSource.getConnection();
+             Statement stmt = con.createStatement();
+             ResultSet rs = stmt.executeQuery("select * from sensors order by name asc")) {
             while (rs.next()) {
                 dbValues.add(new DefaultSensorValue(rs.getString("NAME"), rs.getString("VALUE"), rs.getLong("TIMESTAMP")));
             }
@@ -172,13 +188,15 @@ class TestBackends {
     @Test
     void testJdbcBackendExclusive() throws Exception {
         for (SensorValue sensorValue : createSensorValues()) {
-            JdbcBackend backend = new JdbcBackend(dataSource, "SENSOR_" + sensorValue.getName(), false, 5);
+            JdbcBackend backend = new JdbcBackend(5, dataSource, "SENSOR_" + sensorValue.getName(), false);
 
             backend.start();
             backend.store(sensorValue);
             backend.stop(); // Trigger submit/commit
 
-            try (Connection con = dataSource.getConnection(); Statement stmt = con.createStatement(); ResultSet rs = stmt.executeQuery("select * from SENSOR_" + sensorValue.getName())) {
+            try (Connection con = dataSource.getConnection();
+                 Statement stmt = con.createStatement();
+                 ResultSet rs = stmt.executeQuery("select * from SENSOR_" + sensorValue.getName())) {
                 rs.next();
 
                 SensorValue storedValue = new DefaultSensorValue(rs.getString("NAME"), rs.getString("VALUE"), rs.getLong("TIMESTAMP"));
@@ -220,10 +238,10 @@ class TestBackends {
     @EnabledOnOs(OS.LINUX)
     void testRrdToolBackend() throws Exception {
         for (SensorValue sensorValue : createSensorValues()) {
-            Path path = Path.of("logs", sensorValue.getName() + ".rrd");
+            Path path = LOG_PATH.resolve(sensorValue.getName() + ".rrd");
             Files.deleteIfExists(path);
 
-            RrdToolBackend backend = new RrdToolBackend(path, 5);
+            RrdToolBackend backend = new RrdToolBackend(5, path);
 
             backend.start();
             backend.store(sensorValue);

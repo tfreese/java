@@ -5,8 +5,6 @@ import java.util.Objects;
 
 import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.WorkHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.sensor.SensorValue;
@@ -15,8 +13,6 @@ import de.freese.jsensors.sensor.SensorValue;
  * @author Thomas Freese
  */
 class DisruptorSensorHandler implements EventHandler<SensorEvent>, WorkHandler<SensorEvent> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DisruptorSensorHandler.class);
-
     private final Backend backend;
 
     private final int ordinal;
@@ -37,8 +33,7 @@ class DisruptorSensorHandler implements EventHandler<SensorEvent>, WorkHandler<S
 
     @Override
     public void onEvent(final SensorEvent event, final long sequence, final boolean endOfBatch) throws Exception {
-        // Load-Balancing auf die Handler über die Sequence.
-        // Sonst würden alle Handler gleichzeitig eine Sequence bearbeiten.
+        // Load-Balancing for the Handler by Sequence, otherwise all Handler would handle the same Sequence.
         if ((this.ordinal == -1) || (this.ordinal == (sequence % this.parallelism))) {
             onEvent(event);
         }
@@ -50,10 +45,6 @@ class DisruptorSensorHandler implements EventHandler<SensorEvent>, WorkHandler<S
         event.setSensorValue(null);
 
         store(sensorValue);
-    }
-
-    private Logger getLogger() {
-        return LOGGER;
     }
 
     private void store(final SensorValue sensorValue) {

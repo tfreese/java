@@ -1,6 +1,7 @@
 // Created: 02.09.2021
 package de.freese.jsensors.binder;
 
+import java.util.List;
 import java.util.function.Function;
 
 import com.jezhumble.javasysmon.CpuTimes;
@@ -17,17 +18,14 @@ public class CpuMetrics implements SensorBinder {
     private final JavaSysMon sysMon = new JavaSysMon();
 
     @Override
-    public void bindTo(final SensorRegistry registry, Function<String, Backend> backendProvider) {
-        bindCpuUsage(registry, backendProvider);
+    public List<String> bindTo(final SensorRegistry registry, Function<String, Backend> backendProvider) {
+        return bindCpuUsage(registry, backendProvider);
     }
 
-    private void bindCpuUsage(final SensorRegistry registry, Function<String, Backend> backendProvider) {
+    private List<String> bindCpuUsage(final SensorRegistry registry, Function<String, Backend> backendProvider) {
         Function<JavaSysMon, String> valueFunction = new Function<>() {
             private CpuTimes cpuTimesPrevious;
 
-            /**
-             * @see java.util.function.Function#apply(java.lang.Object)
-             */
             @Override
             public String apply(final JavaSysMon t) {
                 CpuTimes cpuTimes = CpuMetrics.this.sysMon.cpuTimes();
@@ -44,5 +42,7 @@ public class CpuMetrics implements SensorBinder {
         };
 
         Sensor.builder("cpu.usage", this.sysMon, valueFunction).description("CPU-Usage in %").register(registry, backendProvider);
+
+        return List.of("cpu.usage");
     }
 }

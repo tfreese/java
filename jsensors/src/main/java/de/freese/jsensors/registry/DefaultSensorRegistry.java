@@ -11,7 +11,7 @@ import de.freese.jsensors.sensor.SensorValue;
  */
 public class DefaultSensorRegistry extends AbstractSensorRegistry {
     /**
-     * Determine the next values for all sensors.
+     * Determine the next value for all sensors.
      */
     public void measureAll() {
         getSensors().forEach(sensor -> {

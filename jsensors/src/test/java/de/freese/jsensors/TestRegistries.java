@@ -10,7 +10,7 @@ import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
 
-import de.freese.jsensors.backend.ListBackend;
+import de.freese.jsensors.backend.MapBackend;
 import de.freese.jsensors.backend.NoOpBackend;
 import de.freese.jsensors.registry.DefaultSensorRegistry;
 import de.freese.jsensors.registry.ScheduledSensorRegistry;
@@ -27,8 +27,8 @@ class TestRegistries {
     void testDefaultSensorRegistry() throws Exception {
         DefaultSensorRegistry registry = new DefaultSensorRegistry();
 
-        ListBackend backend = new ListBackend(5);
-        Sensor.builder("test", "obj", Function.identity()).register(registry, backend);
+        MapBackend mapBackend = new MapBackend(3);
+        Sensor.builder("test", "obj", Function.identity()).register(registry, mapBackend);
 
         Exception exception = assertThrows(IllegalStateException.class, () -> registry.registerSensor("test", "", Function.identity(), "", NoOpBackend.getInstance()));
         assertEquals("sensor already exist: 'test'", exception.getMessage());
@@ -38,9 +38,9 @@ class TestRegistries {
 
         registry.measureAll();
 
-        assertEquals(1, backend.size());
+        assertEquals(1, mapBackend.size("test"));
 
-        SensorValue sensorValue = backend.getValueLast();
+        SensorValue sensorValue = mapBackend.getLastValue("test");
 
         assertNotNull(sensorValue);
         assertEquals("obj", sensorValue.getValue());

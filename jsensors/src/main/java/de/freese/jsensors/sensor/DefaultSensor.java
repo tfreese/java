@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Freese
  */
 public class DefaultSensor<T> implements Sensor {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultSensor.class);
 
     private final String description;
@@ -31,9 +30,9 @@ public class DefaultSensor<T> implements Sensor {
         super();
 
         this.name = Objects.requireNonNull(name, "name required");
-        this.description = description;
         this.ref = new WeakReference<>(Objects.requireNonNull(obj, "obj required"));
         this.valueFunction = Objects.requireNonNull(valueFunction, "valueFunction required");
+        this.description = description;
     }
 
     @Override

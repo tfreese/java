@@ -30,7 +30,7 @@ public final class SensorMain {
         registry.start();
 
         ConsoleBackend consoleBackend = new ConsoleBackend();
-        CsvBackend csvBackendCpuUsage = new CsvBackend(logPath.resolve("cpuUsage.csv"), true, 5);
+        CsvBackend csvBackendCpuUsage = new CsvBackend(5, logPath.resolve("cpuUsage.csv"), true);
         csvBackendCpuUsage.start();
 
         // CPU
@@ -43,7 +43,7 @@ public final class SensorMain {
         registry.scheduleSensor("swap.usage", 1, 1, TimeUnit.SECONDS);
 
         // Memory
-        CsvBackend csvBackendMemory = new CsvBackend(logPath.resolve("memoryMetrics.csv"), false, 6);
+        CsvBackend csvBackendMemory = new CsvBackend(5, logPath.resolve("memoryMetrics.csv"), false);
         csvBackendMemory.start();
 
         new MemoryMetrics().bindTo(registry, name -> new CompositeBackend().add(consoleBackend).add(csvBackendMemory));
@@ -53,7 +53,7 @@ public final class SensorMain {
         registry.scheduleSensor("memory.total", 1, 1, TimeUnit.SECONDS);
         registry.scheduleSensor("memory.usage", 1, 1, TimeUnit.SECONDS);
 
-        TimeUnit.SECONDS.sleep(10);
+        TimeUnit.SECONDS.sleep(10L);
 
         csvBackendMemory.stop(); // Trigger submit/commit
         csvBackendCpuUsage.stop(); // Trigger submit/commit

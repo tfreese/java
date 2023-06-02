@@ -7,7 +7,6 @@ import de.freese.jsensors.sensor.SensorValue;
  * @author Thomas Freese
  */
 public final class NoOpBackend implements Backend {
-
     private static final class NoOpBackendHolder {
         private static final NoOpBackend INSTANCE = new NoOpBackend();
 

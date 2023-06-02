@@ -109,9 +109,6 @@ public final class JFreeChartMain {
         chartFrame.setSize(1280, 800);
         chartFrame.setLocationRelativeTo(null);
         chartFrame.addWindowListener(new WindowAdapter() {
-            /**
-             * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
-             */
             @Override
             public void windowClosing(final WindowEvent event) {
                 registry.stop();

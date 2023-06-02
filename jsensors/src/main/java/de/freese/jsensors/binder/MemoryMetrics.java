@@ -1,6 +1,7 @@
 // Created: 02.09.2021
 package de.freese.jsensors.binder;
 
+import java.util.List;
 import java.util.function.Function;
 
 import de.freese.jsensors.backend.Backend;
@@ -12,7 +13,7 @@ import de.freese.jsensors.sensor.Sensor;
  */
 public class MemoryMetrics implements SensorBinder {
     @Override
-    public void bindTo(final SensorRegistry registry, Function<String, Backend> backendProvider) {
+    public List<String> bindTo(final SensorRegistry registry, Function<String, Backend> backendProvider) {
         final Runtime runtime = Runtime.getRuntime();
 
         Sensor.builder("memory.free", runtime, r -> Long.toString(r.freeMemory())).description("Free memory in Bytes").register(registry, backendProvider);
@@ -25,5 +26,7 @@ public class MemoryMetrics implements SensorBinder {
 
             return Double.toString(usage);
         }).description("Used Memory in %").register(registry, backendProvider);
+
+        return List.of("memory.free", "memory.max", "memory.total", "memory.usage");
     }
 }

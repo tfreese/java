@@ -2,6 +2,7 @@
 package de.freese.jsensors.binder;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
@@ -25,22 +26,22 @@ public class ExecutorServiceMetrics implements SensorBinder {
 
     private final ExecutorService executorService;
 
-    private final String executorServiceName;
+    private final String serviceName;
 
-    public ExecutorServiceMetrics(final ExecutorService executorService, final String executorServiceName) {
+    public ExecutorServiceMetrics(final ExecutorService executorService, final String serviceName) {
         super();
 
         this.executorService = Objects.requireNonNull(executorService, "executorService required");
-        this.executorServiceName = Objects.requireNonNull(executorServiceName, "executorServiceName required");
+        this.serviceName = Objects.requireNonNull(serviceName, "serviceName required");
     }
 
     @Override
-    public void bindTo(final SensorRegistry registry, Function<String, Backend> backendProvider) {
+    public List<String> bindTo(final SensorRegistry registry, Function<String, Backend> backendProvider) {
         if (this.executorService instanceof ForkJoinPool fjp) {
-            bindTo(registry, fjp, backendProvider);
+            return bindTo(registry, fjp, backendProvider);
         }
         else if (this.executorService instanceof ThreadPoolExecutor tpe) {
-            bindTo(registry, tpe, backendProvider);
+            return bindTo(registry, tpe, backendProvider);
         }
         else {
             String className = this.executorService.getClass().getName();
@@ -54,7 +55,7 @@ public class ExecutorServiceMetrics implements SensorBinder {
             }
 
             if (pool != null) {
-                bindTo(registry, pool, backendProvider);
+                return bindTo(registry, pool, backendProvider);
             }
             else {
                 // getLogger().warn("executorService not supported: {}", className);
@@ -67,30 +68,34 @@ public class ExecutorServiceMetrics implements SensorBinder {
         return LOGGER;
     }
 
-    private void bindTo(final SensorRegistry registry, final ForkJoinPool forkJoinPool, Function<String, Backend> backendProvider) {
-        Sensor.builder("executor.steals." + this.executorServiceName, forkJoinPool, pool -> Long.toString(pool.getStealCount())).description("Estimate of the total number of tasks stolen from one thread's work queue by another. The reported value " + "underestimates the actual total number of steals when the pool is not quiescent").register(registry, backendProvider);
+    private List<String> bindTo(final SensorRegistry registry, final ForkJoinPool forkJoinPool, Function<String, Backend> backendProvider) {
+        Sensor.builder("executor.steals." + this.serviceName, forkJoinPool, pool -> Long.toString(pool.getStealCount())).description("Estimate of the total number of tasks stolen from one thread's work queue by another. The reported value " + "underestimates the actual total number of steals when the pool is not quiescent").register(registry, backendProvider);
 
-        Sensor.builder("executor.queued." + this.executorServiceName, forkJoinPool, pool -> Long.toString(pool.getQueuedTaskCount())).description("An estimate of the total number of tasks currently held in queues by worker threads").register(registry, backendProvider);
+        Sensor.builder("executor.queued." + this.serviceName, forkJoinPool, pool -> Long.toString(pool.getQueuedTaskCount())).description("An estimate of the total number of tasks currently held in queues by worker threads").register(registry, backendProvider);
 
-        Sensor.builder("executor.active." + this.executorServiceName, forkJoinPool, pool -> Integer.toString(pool.getActiveThreadCount())).description("An estimate of the number of threads that are currently stealing or executing tasks").register(registry, backendProvider);
+        Sensor.builder("executor.active." + this.serviceName, forkJoinPool, pool -> Integer.toString(pool.getActiveThreadCount())).description("An estimate of the number of threads that are currently stealing or executing tasks").register(registry, backendProvider);
 
-        Sensor.builder("executor.running." + this.executorServiceName, forkJoinPool, pool -> Integer.toString(pool.getRunningThreadCount())).description("An estimate of the number of worker threads that are not blocked waiting to join tasks or for other managed synchronization threads").register(registry, backendProvider);
+        Sensor.builder("executor.running." + this.serviceName, forkJoinPool, pool -> Integer.toString(pool.getRunningThreadCount())).description("An estimate of the number of worker threads that are not blocked waiting to join tasks or for other managed synchronization threads").register(registry, backendProvider);
+
+        return List.of("executor.steals." + this.serviceName, "executor.queued." + this.serviceName, "executor.active." + this.serviceName, "executor.running." + this.serviceName);
     }
 
-    private void bindTo(final SensorRegistry registry, final ThreadPoolExecutor threadPoolExecutor, Function<String, Backend> backendProvider) {
-        Sensor.builder("executor.completed." + this.executorServiceName, threadPoolExecutor, pool -> Long.toString(pool.getCompletedTaskCount())).description("The approximate total number of tasks that have completed execution").register(registry, backendProvider);
+    private List<String> bindTo(final SensorRegistry registry, final ThreadPoolExecutor threadPoolExecutor, Function<String, Backend> backendProvider) {
+        Sensor.builder("executor.completed." + this.serviceName, threadPoolExecutor, pool -> Long.toString(pool.getCompletedTaskCount())).description("The approximate total number of tasks that have completed execution").register(registry, backendProvider);
 
-        Sensor.builder("executor.active." + this.executorServiceName, threadPoolExecutor, pool -> Integer.toString(pool.getActiveCount())).description("The approximate number of threads that are actively executing tasks").register(registry, backendProvider);
+        Sensor.builder("executor.active." + this.serviceName, threadPoolExecutor, pool -> Integer.toString(pool.getActiveCount())).description("The approximate number of threads that are actively executing tasks").register(registry, backendProvider);
 
-        Sensor.builder("executor.queued." + this.executorServiceName, threadPoolExecutor, pool -> Integer.toString(pool.getQueue().size())).description("The approximate number of tasks that are queued for execution").register(registry, backendProvider);
+        Sensor.builder("executor.queued." + this.serviceName, threadPoolExecutor, pool -> Integer.toString(pool.getQueue().size())).description("The approximate number of tasks that are queued for execution").register(registry, backendProvider);
 
-        Sensor.builder("executor.queue.remaining." + this.executorServiceName, threadPoolExecutor, pool -> Integer.toString(pool.getQueue().remainingCapacity())).description("The number of additional elements that this queue can ideally accept without blocking").register(registry, backendProvider);
+        Sensor.builder("executor.queue.remaining." + this.serviceName, threadPoolExecutor, pool -> Integer.toString(pool.getQueue().remainingCapacity())).description("The number of additional elements that this queue can ideally accept without blocking").register(registry, backendProvider);
 
-        Sensor.builder("executor.pool.size." + this.executorServiceName, threadPoolExecutor, pool -> Integer.toString(pool.getPoolSize())).description("The current number of threads in the pool").register(registry, backendProvider);
+        Sensor.builder("executor.pool.size." + this.serviceName, threadPoolExecutor, pool -> Integer.toString(pool.getPoolSize())).description("The current number of threads in the pool").register(registry, backendProvider);
 
-        Sensor.builder("executor.pool.core." + this.executorServiceName, threadPoolExecutor, pool -> Integer.toString(pool.getCorePoolSize())).description("The core number of threads for the pool").register(registry, backendProvider);
+        Sensor.builder("executor.pool.core." + this.serviceName, threadPoolExecutor, pool -> Integer.toString(pool.getCorePoolSize())).description("The core number of threads for the pool").register(registry, backendProvider);
 
-        Sensor.builder("executor.pool.max." + this.executorServiceName, threadPoolExecutor, pool -> Integer.toString(pool.getMaximumPoolSize())).description("The maximum allowed number of threads in the pool").register(registry, backendProvider);
+        Sensor.builder("executor.pool.max." + this.serviceName, threadPoolExecutor, pool -> Integer.toString(pool.getMaximumPoolSize())).description("The maximum allowed number of threads in the pool").register(registry, backendProvider);
+
+        return List.of("executor.completed." + this.serviceName, "executor.active." + this.serviceName, "executor.queued." + this.serviceName, "executor.queue.remaining." + this.serviceName, "executor.pool.size." + this.serviceName, "executor.pool.core." + this.serviceName, "executor.pool.max." + this.serviceName);
     }
 
     private ThreadPoolExecutor unwrapThreadPoolExecutor(final ExecutorService executor, final Class<?> wrapper) {

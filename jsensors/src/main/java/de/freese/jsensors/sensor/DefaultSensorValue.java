@@ -20,6 +20,11 @@ public class DefaultSensorValue implements SensorValue {
 
         this.name = Objects.requireNonNull(name, "name required");
         this.value = Objects.requireNonNull(value, "value required");
+
+        if (timestamp < 1) {
+            throw new IllegalArgumentException("timestamp < 1: " + timestamp);
+        }
+
         this.timestamp = timestamp;
     }
 

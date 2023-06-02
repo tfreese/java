@@ -20,7 +20,7 @@ public abstract class AbstractBatchBackend extends AbstractBackend {
         super();
 
         if (batchSize < 1) {
-            throw new IllegalArgumentException("batchSize < 1");
+            throw new IllegalArgumentException("batchSize < 1: " + batchSize);
         }
 
         this.batchSize = batchSize;

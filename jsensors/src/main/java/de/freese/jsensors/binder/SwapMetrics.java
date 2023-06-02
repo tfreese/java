@@ -1,6 +1,7 @@
 // Created: 02.09.2021
 package de.freese.jsensors.binder;
 
+import java.util.List;
 import java.util.function.Function;
 
 import com.jezhumble.javasysmon.JavaSysMon;
@@ -17,7 +18,7 @@ public class SwapMetrics implements SensorBinder {
     private final JavaSysMon sysMon = new JavaSysMon();
 
     @Override
-    public void bindTo(final SensorRegistry registry, Function<String, Backend> backendProvider) {
+    public List<String> bindTo(final SensorRegistry registry, Function<String, Backend> backendProvider) {
         Sensor.builder("swap.free", this.sysMon, mon -> {
             MemoryStats stats = mon.swap();
 
@@ -32,5 +33,7 @@ public class SwapMetrics implements SensorBinder {
 
             return Double.toString(usage);
         }).description("Used swap in %").register(registry, backendProvider);
+
+        return List.of("swap.free", "swap.usage");
     }
 }

@@ -16,21 +16,21 @@ import de.freese.jsensors.sensor.SensorValue;
  * @author Thomas Freese
  */
 public class ExecutorBackend extends AbstractBackend {
-    private final Backend delegate;
+    private final Backend delegateBackend;
 
     private final Executor executor;
 
-    public ExecutorBackend(final Backend delegate, final Executor executor) {
+    public ExecutorBackend(final Backend delegateBackend, final Executor executor) {
         super();
 
-        this.delegate = Objects.requireNonNull(delegate, "delegate required");
+        this.delegateBackend = Objects.requireNonNull(delegateBackend, "delegateBackend required");
         this.executor = Objects.requireNonNull(executor, "executor required");
     }
 
-    public ExecutorBackend(final Backend delegate, final int parallelism, final ThreadFactory threadFactory) {
+    public ExecutorBackend(final Backend delegateBackend, final int parallelism, final ThreadFactory threadFactory) {
         super();
 
-        this.delegate = Objects.requireNonNull(delegate, "delegate required");
+        this.delegateBackend = Objects.requireNonNull(delegateBackend, "delegateBackend required");
 
         if (parallelism < 1) {
             throw new IllegalArgumentException("parallelism < 1: " + parallelism);
@@ -49,7 +49,7 @@ public class ExecutorBackend extends AbstractBackend {
             // currentThread.setName("task-" + sensorValue.getName());
 
             try {
-                this.delegate.store(sensorValue);
+                this.delegateBackend.store(sensorValue);
             }
             catch (Exception ex) {
                 getLogger().error(ex.getMessage(), ex);

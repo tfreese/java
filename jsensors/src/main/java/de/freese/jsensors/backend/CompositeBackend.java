@@ -15,7 +15,9 @@ public final class CompositeBackend extends AbstractBackend {
     private final List<Backend> backends = new ArrayList<>();
 
     public CompositeBackend add(final Backend backend) {
-        this.backends.add(backend);
+        if (!this.backends.contains(backend)) {
+            this.backends.add(backend);
+        }
 
         return this;
     }

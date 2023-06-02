@@ -1,6 +1,7 @@
 // Created: 02.09.2021
 package de.freese.jsensors.binder;
 
+import java.util.List;
 import java.util.function.Function;
 
 import de.freese.jsensors.backend.Backend;
@@ -14,5 +15,8 @@ import de.freese.jsensors.sensor.Sensor;
  */
 @FunctionalInterface
 public interface SensorBinder {
-    void bindTo(SensorRegistry registry, Function<String, Backend> backendProvider);
+    /**
+     * @return List of bound Sensors.
+     */
+    List<String> bindTo(SensorRegistry registry, Function<String, Backend> backendProvider);
 }
