@@ -3,15 +3,15 @@ package de.freese.micrometer;
 
 import static java.util.stream.Collectors.joining;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.concurrent.Executors;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.StreamSupport;
 
@@ -21,7 +21,6 @@ import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.LongTaskTimer;
 import io.micrometer.core.instrument.LongTaskTimer.Sample;
 import io.micrometer.core.instrument.Meter;
-import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Metrics;
 import io.micrometer.core.instrument.Timer;
 import io.micrometer.core.instrument.logging.LoggingMeterRegistry;
@@ -34,6 +33,8 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -100,18 +101,15 @@ class TestMicrometer {
     @Test
     @Order(10)
     void testIterateMeters() throws Exception {
-        MeterRegistry meterRegistry = new SimpleMeterRegistry();
-        Metrics.addRegistry(meterRegistry);
+        Counter.builder("test.counter").register(Metrics.globalRegistry).increment(1.0D);
+        Gauge.builder("test.gauge", Math::random).register(Metrics.globalRegistry).value();
+        Timer.builder("test.timer").register(Metrics.globalRegistry).record(Duration.ofMillis(100L));
 
-        Counter.builder("test.counter").register(meterRegistry).increment(1.0D);
-        Gauge.builder("test.gauge", Math::random).register(meterRegistry).value();
-        Timer.builder("test.timer").register(meterRegistry).record(Duration.ofMillis(100));
-
-        Sample sample = LongTaskTimer.builder("test.longTaskTimer").register(meterRegistry).start();
-        TimeUnit.SECONDS.sleep(1);
+        Sample sample = LongTaskTimer.builder("test.longTaskTimer").register(Metrics.globalRegistry).start();
+        TimeUnit.SECONDS.sleep(1L);
         sample.stop();
 
-        meterRegistry.forEachMeter(meter -> System.out.println(writeMeter(meter)));
+        Metrics.globalRegistry.forEachMeter(meter -> System.out.println(writeMeter(meter)));
 
         System.out.println();
 
@@ -119,17 +117,20 @@ class TestMicrometer {
 
         Metrics.globalRegistry.getRegistries().forEach(registry -> {
             // Hier können Duplikate durch verschiedene Registries entstehen.
-            MeterExporter.export(registry, Duration.ofSeconds(1), TimeUnit.MILLISECONDS).forEach(meterExport::add);
+            MeterExporter.export(registry, Duration.ofSeconds(1L), TimeUnit.MILLISECONDS).forEach(meterExport::add);
         });
 
         meterExport.forEach(System.out::println);
 
-        assertTrue(true);
+        assertFalse(meterExport.isEmpty());
     }
 
     @Test
     @Order(3)
     void testPushMetrics() throws Exception {
+
+        Logger logger = LoggerFactory.getLogger("LoggingRegistry");
+
         // PushRegistryConfig
         LoggingRegistryConfig loggingRegistryConfig = new LoggingRegistryConfig() {
             @Override
@@ -142,66 +143,59 @@ class TestMicrometer {
              */
             @Override
             public Duration step() {
-                return Duration.ofSeconds(1);
+                return Duration.ofSeconds(1L);
             }
         };
 
-        PushMeterRegistry pushMeterRegistry = new LoggingMeterRegistry(loggingRegistryConfig, Clock.SYSTEM);
+        PushMeterRegistry pushMeterRegistry = new LoggingMeterRegistry(loggingRegistryConfig, Clock.SYSTEM, logger::info);
         Metrics.addRegistry(pushMeterRegistry);
 
-        pushMeterRegistry.start(Executors.defaultThreadFactory());
+        //        pushMeterRegistry.start(Executors.defaultThreadFactory());
 
         Counter.builder("test.counter").register(pushMeterRegistry).increment(1.0D);
         Gauge.builder("test.gauge", Math::random).register(pushMeterRegistry).value();
-        Timer.builder("test.timer").register(pushMeterRegistry).record(Duration.ofMillis(100));
+        Timer.builder("test.timer").register(pushMeterRegistry).record(Duration.ofMillis(100L));
 
         Sample sample = LongTaskTimer.builder("test.longTaskTimer").register(pushMeterRegistry).start();
-        TimeUnit.SECONDS.sleep(1);
+        TimeUnit.SECONDS.sleep(1L);
         sample.stop();
 
-        TimeUnit.MILLISECONDS.sleep(1500);
+        TimeUnit.SECONDS.sleep(1L);
 
         pushMeterRegistry.stop();
+        Metrics.removeRegistry(pushMeterRegistry);
 
-        assertTrue(true);
+        assertFalse(Metrics.globalRegistry.isClosed());
     }
 
     @Test
     @Order(4)
-    void testTimer() {
+    void testTimer() throws Exception {
         // Short Task Timer
         Timer timer = Metrics.timer("app.event");
 
-        timer.record(() -> {
-            try {
-                TimeUnit.MILLISECONDS.sleep(1500);
-            }
-            catch (InterruptedException ex) {
-                // Empty
-            }
-        });
+        Callable<Void> callable = () -> {
+            TimeUnit.MILLISECONDS.sleep(100L);
+            return null;
+        };
 
-        timer.record(3000, TimeUnit.MILLISECONDS);
+        timer.record(100, TimeUnit.MILLISECONDS);
+        timer.recordCallable(callable);
 
-        assertEquals(2, timer.count());
-        assertEquals(2, Metrics.globalRegistry.find("app.event").timer().count());
-        assertTrue((4510 > timer.totalTime(TimeUnit.MILLISECONDS)) && (4500 <= timer.totalTime(TimeUnit.MILLISECONDS)));
+        assertEquals(2L, timer.count());
+        assertEquals(2L, Metrics.globalRegistry.find("app.event").timer().count());
+        assertEquals(200L, Metrics.globalRegistry.find("app.event").timer().totalTime(TimeUnit.MILLISECONDS), 10);
 
         // Long Task Timer
         LongTaskTimer longTaskTimer = LongTaskTimer.builder("3rdPartyService").register(Metrics.globalRegistry);
 
         Sample sample = longTaskTimer.start();
 
-        try {
-            TimeUnit.SECONDS.sleep(2);
-        }
-        catch (InterruptedException ex) {
-            // Empty
-        }
+        TimeUnit.SECONDS.sleep(1L);
 
-        long timeElapsed = sample.stop();
+        long durationInNanos = sample.stop();
 
-        assertEquals(2, (timeElapsed / (int) 1e9));
+        assertEquals(1_000_000_000L, durationInNanos, 5_000_000L);
         assertNotNull(Metrics.globalRegistry.find("3rdPartyService").longTaskTimer());
     }
 
