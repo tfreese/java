@@ -6,9 +6,19 @@
         <serializer type="java.lang.Object">org.ehcache.impl.serialization.PlainJavaSerializer</serializer>
     </default-serializers>
 
+    <default-copiers>
+        <copier type="java.lang.Object">org.ehcache.impl.copy.IdentityCopier</copier>
+    </default-copiers>
+
+    <!--    <persistence directory="${java.io.tmpdir}/ehcache/" />-->
+
     <cache-template name="defaultCacheTemplate">
+        <!--        <key-type copier="org.ehcache.impl.copy.SerializingCopier" serializer="org.ehcache.impl.serialization.StringSerializer">java.lang.String</key-type>-->
+        <!--        <key-type serializer="org.ehcache.impl.serialization.PlainJavaSerializer">java.lang.Object</key-type>-->
+        <!--        <value-type serializer="org.ehcache.impl.serialization.PlainJavaSerializer">java.lang.Object</value-type>-->
         <key-type>java.io.Serializable</key-type>
         <value-type>java.io.Serializable</value-type>
+
         <expiry>
             <!--ttl unit="seconds">3</ttl-->
             <!--tti unit="seconds">3</tti-->
@@ -16,9 +26,15 @@
         </expiry>
 
         <resources>
-            <heap unit="MB">20</heap>
-            <offheap unit="MB">50</offheap>
+            <heap unit="entries">20</heap>
+            <offheap unit="MB">10</offheap>
+            <!--            <disk persistent="true" unit="MB">20</disk>-->
         </resources>
+
+        <!--        <heap-store-settings>-->
+        <!--            <max-object-graph-size>2000</max-object-graph-size>-->
+        <!--            <max-object-size unit="MB">10</max-object-size>-->
+        <!--        </heap-store-settings>-->
     </cache-template>
 
     <cache alias="defaultCache" uses-template="defaultCacheTemplate">
