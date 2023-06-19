@@ -3,8 +3,8 @@ package de.freese.jsensors.sensor;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
-import java.util.TimeZone;
 import java.util.function.Function;
 
 /**
@@ -16,7 +16,7 @@ public interface SensorValue {
     }
 
     default LocalDateTime getLocalDateTime() {
-        return LocalDateTime.ofInstant(Instant.ofEpochMilli(getTimestamp()), TimeZone.getDefault().toZoneId());
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(getTimestamp()), ZoneId.systemDefault());
     }
 
     String getName();
