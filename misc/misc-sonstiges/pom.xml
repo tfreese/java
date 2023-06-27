@@ -76,7 +76,6 @@
                     <failOnNoSchemas>false</failOnNoSchemas>
                     <noPackageLevelAnnotations>true</noPackageLevelAnnotations>
                     <readOnly>true</readOnly>
-                    <generateEpisode>false</generateEpisode>
                     <clearOutputDir>false</clearOutputDir>
                     <verbose>false</verbose>
                     <quiet>false</quiet>

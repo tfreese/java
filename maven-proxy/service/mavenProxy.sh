@@ -22,7 +22,7 @@ start()
     if [ "$IS_RUNNING" == "0" ]; then
         echo -n "Starting MavenProxy";
 
-        java -classpath "$BASEDIR/misc-maven-proxy-spring.jar:$BASEDIR/libs/*" de.freese.maven.proxy.MavenProxyLauncher >> mavenProxy.log 2>&1 &
+        java -classpath "$BASEDIR/maven-proxy.jar:$BASEDIR/libs/*" de.freese.maven.proxy.MavenProxyLauncher >> mavenProxy.log 2>&1 &
 
         echo $! > $PID_FILE && chmod 600 $PID_FILE;
         echo " with PID: $(cat $PID_FILE)";

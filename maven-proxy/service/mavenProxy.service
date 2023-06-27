@@ -47,7 +47,7 @@ ExecStart=/usr/bin/java \
  -Xmx64m \
  -XX:TieredStopAtLevel=1 \
  -Djava.security.egd=file:/dev/./urandom \
- -jar misc-maven-proxy-spring.jar
+ -jar maven-proxy.jar
 
 # ExecStop=/bin/kill -15 $MAINPID
 # ExecReload = /usr/local/bin/Service_Name.sh reload
