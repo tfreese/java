@@ -43,9 +43,6 @@
         <tag>HEAD</tag>
     </scm>
 
-    <properties>
-    </properties>
-
     <modules>
         <module>binding</module>
         <module>cellular-machines</module>

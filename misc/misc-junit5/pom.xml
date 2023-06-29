@@ -15,9 +15,6 @@
     <name>${project.groupId} - ${project.artifactId}</name>
     <description>Demos für JUnit5</description>
 
-    <properties>
-    </properties>
-
     <dependencies>
         <!-- compile scope -->
         <!-- runtime scope -->
