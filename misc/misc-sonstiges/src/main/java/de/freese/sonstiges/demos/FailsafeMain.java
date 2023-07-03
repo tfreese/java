@@ -56,10 +56,9 @@ public final class FailsafeMain {
                 .withMaxRetries(2)
                 .withDelay(Duration.ofSeconds(1L))
                 .onRetry(event -> {
-                    if(event.getExecutionCount() == 0)
-                    {
-                        return;
-                    }
+//                    if(event.getExecutionCount() == 0) {
+//                        return;
+//                    }
 
                     LOGGER.info("RetryPolicy onRetry {}", event.getExecutionCount());
                 })
