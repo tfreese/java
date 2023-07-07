@@ -64,11 +64,9 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <skip>false</skip>
                     <mainClass>de.freese.jconky.JConkyLauncher</mainClass>
                     <outputDirectory>app</outputDirectory>
                     <classifier>spring</classifier>
-                    <includeSystemScope>true</includeSystemScope>
                     <jvmArguments>
                         -Xms32m
                         -Xmx512m
