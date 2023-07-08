@@ -24,6 +24,7 @@
         <module>misc-junit5</module>
         <module>misc-micrometer</module>
         <module>misc-openstreetmap</module>
+        <module>misc-protobuf</module>
         <module>misc-sonstiges</module>
         <module>misc-sudoku</module>
     </modules>

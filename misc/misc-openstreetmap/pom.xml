@@ -16,11 +16,6 @@
     <description>Projekt für das Rendern von GEO Daten von http://www.openstreetmap.org</description>
     <url>http://www.openstreetmap.org</url>
 
-    <build>
-        <plugins>
-        </plugins>
-    </build>
-
     <dependencies>
         <!-- compile scope -->
         <!-- runtime scope -->

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.freese.misc</groupId>
+        <artifactId>misc</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>misc-protobuf</artifactId>
+    <packaging>jar</packaging>
+
+    <name>${project.groupId} - ${project.artifactId}</name>
+    <description>Google Protobuf Demo</description>
+
+    <build>
+        <!--        <extensions>-->
+        <!--            <extension>-->
+        <!--                <groupId>kr.motd.maven</groupId>-->
+        <!--                <artifactId>os-maven-plugin</artifactId>-->
+        <!--            </extension>-->
+        <!--        </extensions>-->
+        <plugins>
+            <plugin>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>test</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-sources/protobuf</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.xolstice.maven.plugins</groupId>
+                <artifactId>protobuf-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <id>generate protobuf</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!--                    <protocExecutable>/usr/bin/protoc</protocExecutable>-->
+                    <protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
+
+                    <!-- Compiler in toolchains.xml -->
+                    <!--                    <toolchain>-->
+                    <!--                        <type>protobuf</type>-->
+                    <!--                        <provides>-->
+                    <!--                            <version>3.23.4</version>-->
+                    <!--                        </provides>-->
+                    <!--                        <configuration>-->
+                    <!--                            <protocExecutable>/usr/bin/protoc</protocExecutable>-->
+                    <!--                        </configuration>-->
+                    <!--                    </toolchain>                    -->
+
+                    <protoSourceRoot>${basedir}/src/main/proto</protoSourceRoot>
+                    <checkStaleness>true</checkStaleness>
+                    <outputDirectory>${project.build.directory}/generated-sources/protobuf</outputDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <!-- compile scope -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+        </dependency>
+
+        <!-- runtime scope -->
+        <!-- provided scope -->
+        <!-- test scope -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

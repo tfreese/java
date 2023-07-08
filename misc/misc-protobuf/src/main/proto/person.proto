@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package myproject.namespace;
+
+option java_multiple_files = true;
+option java_package = "de.freese.protobuf.model";
+option java_outer_classname = "AddressBookProtos";
+
+option optimize_for = SPEED;
+
+enum PhoneType {
+  PHONE_TYPE_UNSPECIFIED = 0;
+  PHONE_TYPE_MOBILE = 1;
+  PHONE_TYPE_HOME = 2;
+  PHONE_TYPE_WORK = 3;
+}
+
+message PhoneNumber {
+  string number = 1;
+  PhoneType type = 2;// [default = PHONE_TYPE_HOME];
+}
+
+message Person {
+  int64 id = 1;
+  string name = 2;
+  optional string email = 3;
+
+  repeated PhoneNumber phones = 4;
+}
+
+message AddressBook {
+  repeated Person persons = 1;
+}
