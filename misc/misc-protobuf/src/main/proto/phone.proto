@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package myproject.namespace;
+
+option java_package = "de.freese.protobuf.model.phone";
+option java_outer_classname = "PhoneNumberProto";
+option java_multiple_files = true;
+option optimize_for = SPEED;
+
+enum PhoneType {
+  PHONE_TYPE_UNSPECIFIED = 0;
+  PHONE_TYPE_MOBILE = 1;
+  PHONE_TYPE_HOME = 2;
+  PHONE_TYPE_WORK = 3;
+}
+
+message PhoneNumber {
+  string number = 1;
+  PhoneType type = 2;// [default = PHONE_TYPE_HOME];
+}

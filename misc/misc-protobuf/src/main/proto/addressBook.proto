@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package myproject.namespace;
+
+option java_package = "de.freese.protobuf.model.addressbook";
+option java_outer_classname = "AddressBookProto";
+option java_multiple_files = true;
+option optimize_for = SPEED;
+
+import "person.proto";
+
+message AddressBook {
+  repeated Person persons = 1;
+}

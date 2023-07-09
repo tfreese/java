@@ -16,17 +16,17 @@
     <description>Google Protobuf Demo</description>
 
     <build>
-        <!--        <extensions>-->
-        <!--            <extension>-->
-        <!--                <groupId>kr.motd.maven</groupId>-->
-        <!--                <artifactId>os-maven-plugin</artifactId>-->
-        <!--            </extension>-->
-        <!--        </extensions>-->
-        <plugins>
-            <plugin>
+        <extensions>
+            <extension>
                 <groupId>kr.motd.maven</groupId>
                 <artifactId>os-maven-plugin</artifactId>
-            </plugin>
+            </extension>
+        </extensions>
+        <plugins>
+            <!--            <plugin>-->
+            <!--                <groupId>kr.motd.maven</groupId>-->
+            <!--                <artifactId>os-maven-plugin</artifactId>-->
+            <!--            </plugin>-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
@@ -84,6 +84,11 @@
 
     <dependencies>
         <!-- compile scope -->
+        <!--        <dependency>-->
+        <!--            <groupId>com.google.protobuf</groupId>-->
+        <!--            <artifactId>protobuf</artifactId>-->
+        <!--            <version>${protobuf.version}</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
