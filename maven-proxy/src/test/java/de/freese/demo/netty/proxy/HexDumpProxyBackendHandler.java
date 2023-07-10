@@ -18,25 +18,16 @@ public class HexDumpProxyBackendHandler extends ChannelInboundHandlerAdapter {
         this.inboundChannel = inboundChannel;
     }
 
-    /**
-     * @see io.netty.channel.ChannelInboundHandlerAdapter#channelActive(io.netty.channel.ChannelHandlerContext)
-     */
     @Override
     public void channelActive(final ChannelHandlerContext ctx) {
         ctx.read();
     }
 
-    /**
-     * @see io.netty.channel.ChannelInboundHandlerAdapter#channelInactive(io.netty.channel.ChannelHandlerContext)
-     */
     @Override
     public void channelInactive(final ChannelHandlerContext ctx) {
         HexDumpProxyFrontendHandler.closeOnFlush(this.inboundChannel);
     }
 
-    /**
-     * @see io.netty.channel.ChannelInboundHandlerAdapter#channelRead(io.netty.channel.ChannelHandlerContext, java.lang.Object)
-     */
     @Override
     public void channelRead(final ChannelHandlerContext ctx, final Object msg) {
         // ChannelFutureListener
@@ -50,9 +41,6 @@ public class HexDumpProxyBackendHandler extends ChannelInboundHandlerAdapter {
         });
     }
 
-    /**
-     * @see io.netty.channel.ChannelInboundHandlerAdapter#exceptionCaught(io.netty.channel.ChannelHandlerContext, java.lang.Throwable)
-     */
     @Override
     public void exceptionCaught(final ChannelHandlerContext ctx, final Throwable cause) {
         cause.printStackTrace();

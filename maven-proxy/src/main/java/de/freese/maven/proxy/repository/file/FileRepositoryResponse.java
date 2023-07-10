@@ -25,18 +25,14 @@ public class FileRepositoryResponse extends RepositoryResponse {
         this.path = Objects.requireNonNull(path, "path required");
     }
 
-    /**
-     * Den InputStream gleichzeitig in den File- und Response-OutputStream schreiben.
-     *
-     * @see de.freese.maven.proxy.repository.RepositoryResponse#transferTo(java.io.OutputStream)
-     */
     @Override
     public long transferTo(final OutputStream outputStream) throws IOException {
         byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
         int read;
         long transferred = 0L;
 
-        try (InputStream inputStream = getInputStream(); OutputStream fileOutputStream = new BufferedOutputStream(Files.newOutputStream(path), DEFAULT_BUFFER_SIZE)) {
+        try (InputStream inputStream = getInputStream();
+             OutputStream fileOutputStream = new BufferedOutputStream(Files.newOutputStream(path), DEFAULT_BUFFER_SIZE)) {
             while ((read = inputStream.read(buffer, 0, DEFAULT_BUFFER_SIZE)) >= 0) {
                 fileOutputStream.write(buffer, 0, read);
                 outputStream.write(buffer, 0, read);

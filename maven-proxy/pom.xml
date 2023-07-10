@@ -68,13 +68,8 @@
                 </configuration>
             </plugin>
             <plugin>
-                <!-- MUSS nach dem spring-Plugin definiert werden, da Maven die Plugins nach ihrer -->
-                <!-- Reihenfolge der Konfiguration abarbeitet.-->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
-                <configuration>
-                    <skip>false</skip>
-                </configuration>
                 <executions>
                     <execution>
                         <id>deploy-artifacts</id>
@@ -83,11 +78,13 @@
                             <goal>run</goal>
                         </goals>
                         <configuration>
+                            <skip>false</skip>
                             <target>
-                                <copy overwrite="true"
+                                <copy file="app/${project.artifactId}-${project.version}-spring.jar"
+                                      tofile="/opt/jvmapps/maven-proxy/maven-proxy.jar"
+                                      overwrite="true"
                                       verbose="true"
-                                      file="app/${project.artifactId}-${project.version}-spring.jar"
-                                      tofile="/opt/jvmapps/maven-proxy/maven-proxy.jar" />
+                                />
                             </target>
                         </configuration>
                     </execution>

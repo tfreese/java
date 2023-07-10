@@ -16,12 +16,15 @@ import de.freese.maven.proxy.utils.ProxyUtils;
  * @author Thomas Freese
  */
 public class FileRepository extends AbstractRepository {
+
     private final Repository delegate;
 
     private final Path fileCachePath;
 
-    public FileRepository(final Path fileCachePath, final Repository delegate) throws IOException {
+    public FileRepository(final Repository delegate, final Path fileCachePath) throws IOException {
         super();
+
+        this.delegate = Objects.requireNonNull(delegate, "delegate required");
 
         if (!Files.exists(fileCachePath)) {
             throw new IOException("path not exist: " + fileCachePath);
@@ -32,12 +35,8 @@ public class FileRepository extends AbstractRepository {
         }
 
         this.fileCachePath = Objects.requireNonNull(fileCachePath, "fileCachePath required");
-        this.delegate = Objects.requireNonNull(delegate, "delegate required");
     }
 
-    /**
-     * @see de.freese.maven.proxy.repository.Repository#exist(java.net.URI)
-     */
     @Override
     public boolean exist(final URI resource) throws Exception {
         final Path path = toPath(resource);
@@ -46,32 +45,27 @@ public class FileRepository extends AbstractRepository {
             getLogger().debug("lookup: {}", path);
         }
 
-        // Erst auf der Platte suchen.
         if (Files.exists(path)) {
             return true;
         }
 
-        // Dann erst im Repository suchen.
         return this.delegate.exist(resource);
     }
 
-    /**
-     * @see de.freese.maven.proxy.repository.Repository#getInputStream(java.net.URI)
-     */
     @Override
     public RepositoryResponse getInputStream(final URI resource) throws Exception {
-        final Path path = toPath(resource);
 
-        if (path.endsWith("maven-metadata.xml")) {
-            // Diese Daten nie speichern !
+        if (resource.getPath().endsWith("maven-metadata.xml")) {
+            // Never save these files, versions:display-dependency-updates won't work !
             return this.delegate.getInputStream(resource);
         }
+
+        final Path path = toPath(resource);
 
         if (getLogger().isDebugEnabled()) {
             getLogger().debug("lookup: {}", path);
         }
 
-        // Erst auf der Platte suchen.
         if (Files.exists(path)) {
             if (getLogger().isDebugEnabled()) {
                 getLogger().debug("use cached: {}", path);
@@ -82,7 +76,6 @@ public class FileRepository extends AbstractRepository {
         else {
             Files.createDirectories(path.getParent());
 
-            // Dann erst im Repository suchen.
             RepositoryResponse response = this.delegate.getInputStream(resource);
 
             if (response != null) {
@@ -90,7 +83,6 @@ public class FileRepository extends AbstractRepository {
                     getLogger().debug("Download {}, {} Bytes = {}", response.getUri(), response.getContentLength(), ProxyUtils.toHumanReadable(response.getContentLength()));
                 }
 
-                // Den InputStream gleichzeitig in den File- und Response-OutputStream schreiben.
                 return new FileRepositoryResponse(response, path);
             }
         }

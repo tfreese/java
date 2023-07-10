@@ -5,8 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Basisimplementierung eines {@link Repository}.
- *
  * @author Thomas Freese
  */
 public abstract class AbstractRepository implements Repository {

@@ -32,9 +32,6 @@ class MavenProxyHandler implements HttpHandler {
         this.repository = Objects.requireNonNull(repository, "repository required");
     }
 
-    /**
-     * @see com.sun.net.httpserver.HttpHandler#handle(com.sun.net.httpserver.HttpExchange)
-     */
     @Override
     public void handle(final HttpExchange exchange) throws IOException {
         String method = exchange.getRequestMethod();

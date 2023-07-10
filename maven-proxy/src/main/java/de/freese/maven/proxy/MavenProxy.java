@@ -6,8 +6,6 @@ import java.util.concurrent.Executor;
 import de.freese.maven.proxy.repository.Repository;
 
 /**
- * Interface für einen MavenProxy.
- *
  * @author Thomas Freese
  */
 public interface MavenProxy {

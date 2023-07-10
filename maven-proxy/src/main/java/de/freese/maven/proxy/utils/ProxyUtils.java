@@ -65,7 +65,6 @@ public final class ProxyUtils {
     }
 
     public static void setupProxy() throws UnknownHostException {
-        // Proxy wird nur auf der Arbeit benötigt.
         String domain = System.getenv("userdomain");
 
         if ((domain != null) && !domain.equals(System.getProperty("DOMAIN"))) {
@@ -94,8 +93,9 @@ public final class ProxyUtils {
         System.setProperty("https.proxyPort", proxyPort);
         System.setProperty("https.nonProxyHosts", nonProxyHosts);
 
-        // Bei Fehler: java.net.ProtocolException: Server redirected too many times (20)
+        // For Exception: java.net.ProtocolException: Server redirected too many times (20)
         // System.setProperty("http.maxRedirects", "99");
+        //
         // Default cookie manager.
         // CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
         // String encoded = new String(Base64.encodeBase64((getHTTPUsername() + ":" + getHTTPPassword()).getBytes()));
@@ -117,7 +117,7 @@ public final class ProxyUtils {
                 URI uri = URI.create("https://www.google.de");
                 // URI uri = URI.create("https://search.maven.org");
 
-                // Ausgabe verfügbarer Proxies für eine URL.
+                // Available Proxies for a URI.
                 List<Proxy> proxies = ProxySelector.getDefault().select(uri);
                 proxies.forEach(System.out::println);
 

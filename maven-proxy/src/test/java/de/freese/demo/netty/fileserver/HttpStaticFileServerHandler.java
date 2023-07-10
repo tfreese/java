@@ -102,8 +102,11 @@ public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<Ful
     public static final String HTTP_DATE_GMT_TIMEZONE = "GMT";
 
     private static final Pattern ALLOWED_FILE_NAME = Pattern.compile("[^-\\._]?[^<>&\\\"]*");
+
     //        private static final MimetypesFileTypeMap FILE_TYPE_MAP = new MimetypesFileTypeMap();
+
     private static final FileNameMap FILE_NAME_MAP = URLConnection.getFileNameMap();
+
     private static final Pattern INSECURE_URI = Pattern.compile(".*[<>&\"].*");
 
     private static String sanitizeUri(String uri) {
@@ -161,9 +164,6 @@ public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<Ful
         super();
     }
 
-    /**
-     * @see io.netty.channel.SimpleChannelInboundHandler#channelRead0(io.netty.channel.ChannelHandlerContext, java.lang.Object)
-     */
     @Override
     public void channelRead0(final ChannelHandlerContext ctx, final FullHttpRequest request) throws Exception {
         this.request = request;
@@ -279,17 +279,11 @@ public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<Ful
         }
 
         sendFileFuture.addListener(new ChannelProgressiveFutureListener() {
-            /**
-             * @see io.netty.util.concurrent.GenericFutureListener#operationComplete(io.netty.util.concurrent.Future)
-             */
             @Override
             public void operationComplete(final ChannelProgressiveFuture future) {
                 System.err.println(future.channel() + " Transfer complete.");
             }
 
-            /**
-             * @see io.netty.util.concurrent.GenericProgressiveFutureListener#operationProgressed(io.netty.util.concurrent.ProgressiveFuture, long, long)
-             */
             @Override
             public void operationProgressed(final ChannelProgressiveFuture future, final long progress, final long total) {
                 if (total < 0) {
@@ -309,9 +303,6 @@ public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<Ful
         }
     }
 
-    /**
-     * @see io.netty.channel.ChannelInboundHandlerAdapter#exceptionCaught(io.netty.channel.ChannelHandlerContext, java.lang.Throwable)
-     */
     @Override
     public void exceptionCaught(final ChannelHandlerContext ctx, final Throwable cause) {
         cause.printStackTrace();

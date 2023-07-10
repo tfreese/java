@@ -26,9 +26,6 @@ public class HttpStaticFileServerInitializer extends ChannelInitializer<SocketCh
         this.sslCtx = sslCtx;
     }
 
-    /**
-     * @see io.netty.channel.ChannelInitializer#initChannel(io.netty.channel.Channel)
-     */
     @Override
     public void initChannel(final SocketChannel ch) {
         ChannelPipeline pipeline = ch.pipeline();

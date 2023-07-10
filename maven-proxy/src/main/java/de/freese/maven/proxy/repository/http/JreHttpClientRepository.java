@@ -14,9 +14,6 @@ import de.freese.maven.proxy.repository.RepositoryResponse;
 import de.freese.maven.proxy.utils.ProxyUtils;
 
 /**
- * HTTP-Implementierung eines Repositories mit dem {@link HttpClient}.<br>
- * <a href="https://www.baeldung.com/httpclient-guide">httpclient-guide</a>.
- *
  * @author Thomas Freese
  */
 public class JreHttpClientRepository extends AbstractHttpRepository {
@@ -32,9 +29,6 @@ public class JreHttpClientRepository extends AbstractHttpRepository {
         this.httpClient = Objects.requireNonNull(httpClient, "httpClient required");
     }
 
-    /**
-     * @see de.freese.maven.proxy.repository.Repository#exist(java.net.URI)
-     */
     @Override
     public boolean exist(final URI resource) throws Exception {
         URI uri = createResourceUri(getBaseUri(), resource);
@@ -57,9 +51,6 @@ public class JreHttpClientRepository extends AbstractHttpRepository {
         return response.statusCode() == ProxyUtils.HTTP_OK;
     }
 
-    /**
-     * @see de.freese.maven.proxy.repository.Repository#getInputStream(java.net.URI)
-     */
     @Override
     public RepositoryResponse getInputStream(final URI resource) throws Exception {
         URI uri = createResourceUri(getBaseUri(), resource);

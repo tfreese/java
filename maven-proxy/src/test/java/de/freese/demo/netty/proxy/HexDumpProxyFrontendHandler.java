@@ -24,6 +24,7 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter {
     }
 
     private final String remoteHost;
+
     private final int remotePort;
     /**
      * As we use inboundChannel.eventLoop() when building the Bootstrap this does not need to be volatile as the outboundChannel will use the same EventLoop
@@ -38,9 +39,6 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter {
         this.remotePort = remotePort;
     }
 
-    /**
-     * @see io.netty.channel.ChannelInboundHandlerAdapter#channelActive(io.netty.channel.ChannelHandlerContext)
-     */
     @Override
     public void channelActive(final ChannelHandlerContext ctx) {
         final Channel inboundChannel = ctx.channel();
@@ -70,9 +68,6 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter {
         });
     }
 
-    /**
-     * @see io.netty.channel.ChannelInboundHandlerAdapter#channelInactive(io.netty.channel.ChannelHandlerContext)
-     */
     @Override
     public void channelInactive(final ChannelHandlerContext ctx) {
         if (this.outboundChannel != null) {
@@ -80,9 +75,6 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter {
         }
     }
 
-    /**
-     * @see io.netty.channel.ChannelInboundHandlerAdapter#channelRead(io.netty.channel.ChannelHandlerContext, java.lang.Object)
-     */
     @Override
     public void channelRead(final ChannelHandlerContext ctx, final Object msg) {
         if (this.outboundChannel.isActive()) {
@@ -99,9 +91,6 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter {
         }
     }
 
-    /**
-     * @see io.netty.channel.ChannelInboundHandlerAdapter#exceptionCaught(io.netty.channel.ChannelHandlerContext, java.lang.Throwable)
-     */
     @Override
     public void exceptionCaught(final ChannelHandlerContext ctx, final Throwable cause) {
         cause.printStackTrace();

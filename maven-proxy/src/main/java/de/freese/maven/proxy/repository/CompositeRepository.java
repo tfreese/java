@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Wrapper für mehrere {@link Repository}.
- *
  * @author Thomas Freese
  */
 public class CompositeRepository extends AbstractRepository {
@@ -18,9 +16,6 @@ public class CompositeRepository extends AbstractRepository {
         this.repositories.add(Objects.requireNonNull(repository, "repository required"));
     }
 
-    /**
-     * @see de.freese.maven.proxy.repository.Repository#exist(java.net.URI)
-     */
     @Override
     public boolean exist(final URI resource) throws Exception {
         boolean exist = false;
@@ -41,9 +36,6 @@ public class CompositeRepository extends AbstractRepository {
         return exist;
     }
 
-    /**
-     * @see de.freese.maven.proxy.repository.Repository#getInputStream(java.net.URI)
-     */
     @Override
     public RepositoryResponse getInputStream(final URI resource) throws Exception {
         RepositoryResponse response = null;
@@ -64,9 +56,6 @@ public class CompositeRepository extends AbstractRepository {
         return response;
     }
 
-    /**
-     * @see de.freese.maven.proxy.repository.AbstractRepository#toString()
-     */
     @Override
     public String toString() {
         return getClass().getSimpleName();

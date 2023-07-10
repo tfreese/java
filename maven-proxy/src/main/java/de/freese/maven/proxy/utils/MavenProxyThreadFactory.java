@@ -19,8 +19,6 @@ public class MavenProxyThreadFactory implements ThreadFactory {
     private final AtomicInteger threadNumber = new AtomicInteger(1);
 
     /**
-     * Erstellt ein neues {@link MavenProxyThreadFactory} Object.
-     *
      * <pre>
      * Defaults:
      * - daemon = true
@@ -33,8 +31,6 @@ public class MavenProxyThreadFactory implements ThreadFactory {
     }
 
     /**
-     * Erstellt ein neues {@link MavenProxyThreadFactory} Object.
-     *
      * @param namePattern String; Example: "thread-%d"
      */
     public MavenProxyThreadFactory(final String namePattern, final boolean daemon) {
@@ -44,9 +40,6 @@ public class MavenProxyThreadFactory implements ThreadFactory {
         this.daemon = daemon;
     }
 
-    /**
-     * @see java.util.concurrent.ThreadFactory#newThread(java.lang.Runnable)
-     */
     @Override
     public Thread newThread(final Runnable r) {
         Thread thread = this.defaultThreadFactory.newThread(r);

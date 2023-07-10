@@ -19,15 +19,14 @@
         <buildTimestamp>${maven.build.timestamp}</buildTimestamp>
         <createChecksum>true</createChecksum>
 
-        <maven.compiler.target>18</maven.compiler.target>
-        <maven.compiler.source>18</maven.compiler.source>
+        <maven.compiler.target>20</maven.compiler.target>
+        <maven.compiler.source>20</maven.compiler.source>
 
-        <version_jakarta.activation>2.0.1</version_jakarta.activation>
-        <version_slf4j-api>1.7.36</version_slf4j-api>
-        <version_netty-all>4.1.77.Final</version_netty-all>
-        <version_junit-jupiter-engine>5.8.2</version_junit-jupiter-engine>
+        <version_slf4j-api>2.0.7</version_slf4j-api>
+        <version_netty-all>4.1.94.Final</version_netty-all>
+        <version_junit-jupiter>5.9.3</version_junit-jupiter>
 
-        <version_maven-toolchains-plugin>3.0.0</version_maven-toolchains-plugin>
+        <version_maven-toolchains-plugin>3.1.0</version_maven-toolchains-plugin>
     </properties>
 
     <build>
@@ -58,11 +57,6 @@
     <dependencies>
         <!-- compile scope -->
         <dependency>
-            <groupId>com.sun.activation</groupId>
-            <artifactId>jakarta.activation</artifactId>
-            <version>${version_jakarta.activation}</version>
-        </dependency>
-        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${version_slf4j-api}</version>
@@ -86,8 +80,8 @@
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${version_junit-jupiter-engine}</version>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${version_junit-jupiter}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

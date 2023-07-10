@@ -26,17 +26,11 @@ public class MavenProxyJreServer implements MavenProxy {
 
     private Repository repository;
 
-    /**
-     * @see de.freese.maven.proxy.MavenProxy#setExecutor(java.util.concurrent.Executor)
-     */
     @Override
     public void setExecutor(final Executor executor) {
         this.executor = Objects.requireNonNull(executor, "executor required");
     }
 
-    /**
-     * @see de.freese.maven.proxy.MavenProxy#setPort(int)
-     */
     @Override
     public void setPort(final int port) {
         if (port <= 0) {
@@ -46,17 +40,11 @@ public class MavenProxyJreServer implements MavenProxy {
         this.port = port;
     }
 
-    /**
-     * @see de.freese.maven.proxy.MavenProxy#setRepository(de.freese.maven.proxy.repository.Repository)
-     */
     @Override
     public void setRepository(final Repository repository) {
         this.repository = Objects.requireNonNull(repository, "repository required");
     }
 
-    /**
-     * @see de.freese.maven.proxy.MavenProxy#start()
-     */
     @Override
     public void start() {
         Objects.requireNonNull(this.repository, "repository required");
@@ -86,9 +74,6 @@ public class MavenProxyJreServer implements MavenProxy {
         }
     }
 
-    /**
-     * @see de.freese.maven.proxy.MavenProxy#stop()
-     */
     @Override
     public void stop() {
         LOGGER.info("Stopping MavenProxy at Port {}", this.port);

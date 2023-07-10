@@ -21,9 +21,6 @@ public class HexDumpProxyInitializer extends ChannelInitializer<SocketChannel> {
         this.remotePort = remotePort;
     }
 
-    /**
-     * @see io.netty.channel.ChannelInitializer#initChannel(io.netty.channel.Channel)
-     */
     @Override
     public void initChannel(final SocketChannel ch) {
         // @formatter:off

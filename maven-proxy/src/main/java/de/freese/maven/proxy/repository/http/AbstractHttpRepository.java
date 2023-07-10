@@ -7,8 +7,6 @@ import java.util.Objects;
 import de.freese.maven.proxy.repository.AbstractRepository;
 
 /**
- * Basisimplementierung eines HTTP-Repositories.
- *
  * @author Thomas Freese
  */
 public abstract class AbstractHttpRepository extends AbstractRepository {
@@ -29,9 +27,6 @@ public abstract class AbstractHttpRepository extends AbstractRepository {
         }
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         return getBaseUri().toString();

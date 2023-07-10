@@ -26,8 +26,7 @@ import de.freese.maven.proxy.utils.MavenProxyThreadFactory;
 import de.freese.maven.proxy.utils.ProxyUtils;
 
 /**
- * Startet den Maven Proxy.<br>
- * Maven Konfiguration:
+ * Maven Configuration:
  *
  * <pre>
  * &lt;mirror&gt;
@@ -38,7 +37,7 @@ import de.freese.maven.proxy.utils.ProxyUtils;
  * &lt;/mirror&gt;
  * </pre>
  *
- * <a href="https://github.com/netty/netty/tree/4.1/example">netty</a><br>
+ * <a href="https://github.com/netty/netty/tree/4.1/example">netty example</a><br>
  * <br>
  * curl -v localhost:8085/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.pom<br>
  * curl -v -X GET localhost:8085/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.pom<br>
@@ -111,7 +110,7 @@ public final class MavenProxyLauncher {
         Repository repository = compositeRepository;
 
         if (fileCachePath != null) {
-            repository = new FileRepository(fileCachePath, compositeRepository);
+            repository = new FileRepository(compositeRepository, fileCachePath);
         }
 
         // MavenProxy proxy = new MavenProxyNetty();
