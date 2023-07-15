@@ -40,7 +40,7 @@ public class MailRepository implements AutoCloseable {
 
         // Hsqldb
         // JDBCPool pool = new JDBCPool(3);
-        // pool.setUrl("jdbc:hsqldb:file:" + dbPath.resolve("hsqldb"));
+        // pool.setUrl("jdbc:hsqldb:file:" + dbPath.resolve("hsqldb") + ";shutdown=true");
         // pool.setUser("sa");
         // pool.setPassword("sa");
 
@@ -78,11 +78,14 @@ public class MailRepository implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
-        try (Connection connection = this.dataSource.getConnection(); Statement statement = connection.createStatement()) {
+        try (Connection connection = this.dataSource.getConnection()) {
             String dbName = connection.getMetaData().getDatabaseProductName().toLowerCase();
 
-            if (dbName.contains("hsql") || dbName.contains("h2")) {
-                statement.execute("SHUTDOWN COMPACT");
+            // Wird bei hsql bereits durch 'shutdown=true' erledigt.
+            if (dbName.contains("h2")) {
+                try (Statement statement = connection.createStatement()) {
+                    statement.execute("SHUTDOWN COMPACT");
+                }
             }
         }
         catch (SQLException ex) {
@@ -91,6 +94,9 @@ public class MailRepository implements AutoCloseable {
 
         if (this.dataSource instanceof JDBCPool p) {
             p.close(1);
+        }
+        else if (this.dataSource instanceof JdbcConnectionPool p) {
+            p.dispose();
         }
         else if (this.dataSource instanceof AutoCloseable ac) {
             ac.close();
@@ -108,7 +114,8 @@ public class MailRepository implements AutoCloseable {
     public boolean containsMessageId(final long messageId) throws SQLException {
         String sql = "select count(*) from MESSAGE where MESSAGE_ID = ?";
 
-        try (Connection connection = this.dataSource.getConnection(); PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = this.dataSource.getConnection();
+             PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
             prepareStatement.setLong(1, messageId);
 
             try (ResultSet resultSet = prepareStatement.executeQuery()) {
@@ -124,7 +131,8 @@ public class MailRepository implements AutoCloseable {
     public int countMessagesForFolder(final String folderName) throws SQLException {
         String sql = "select count(*) from MESSAGE where FOLDER_NAME = ?";
 
-        try (Connection connection = this.dataSource.getConnection(); PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = this.dataSource.getConnection();
+             PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
             prepareStatement.setString(1, folderName);
 
             try (ResultSet resultSet = prepareStatement.executeQuery()) {
@@ -139,7 +147,8 @@ public class MailRepository implements AutoCloseable {
         String dbName = "";
         boolean databaseExists = false;
 
-        try (Connection connection = this.dataSource.getConnection(); ResultSet resultSet = connection.getMetaData().getTables(null, null, "MESSAGE", new String[]{"TABLE"})) {
+        try (Connection connection = this.dataSource.getConnection();
+             ResultSet resultSet = connection.getMetaData().getTables(null, null, "MESSAGE", new String[]{"TABLE"})) {
             dbName = connection.getMetaData().getDatabaseProductName();
 
             if (resultSet.next()) {
@@ -162,7 +171,9 @@ public class MailRepository implements AutoCloseable {
             schemaSql = "mail_schema_oracle.sql";
         }
 
-        try (Connection connection = this.dataSource.getConnection(); Statement statement = connection.createStatement(); BufferedReader reader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream(schemaSql), StandardCharsets.UTF_8))) {
+        try (Connection connection = this.dataSource.getConnection();
+             Statement statement = connection.createStatement();
+             BufferedReader reader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream(schemaSql), StandardCharsets.UTF_8))) {
             // @formatter:off
             String sql = reader.lines()
                     .filter(Objects::nonNull)
@@ -212,7 +223,9 @@ public class MailRepository implements AutoCloseable {
 
         Set<Token> result = new HashSet<>();
 
-        try (Connection connection = this.dataSource.getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
+        try (Connection connection = this.dataSource.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
                 String value = resultSet.getString("VALUE");
                 int hamCount = resultSet.getInt("HAM_COUNT");
@@ -281,7 +294,8 @@ public class MailRepository implements AutoCloseable {
         try (Connection connection = this.dataSource.getConnection()) {
             connection.setAutoCommit(false);
 
-            try (PreparedStatement pstTokenInsert = connection.prepareStatement(sqlTokenInsert); PreparedStatement pstTokenUpdate = connection.prepareStatement(sqlTokenUpdate)) {
+            try (PreparedStatement pstTokenInsert = connection.prepareStatement(sqlTokenInsert);
+                 PreparedStatement pstTokenUpdate = connection.prepareStatement(sqlTokenUpdate)) {
                 for (Map.Entry<String, Integer> entry : wordCount.entrySet()) {
                     String value = entry.getKey();
                     Token token = existingToken.get(value);
