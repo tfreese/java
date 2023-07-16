@@ -6,6 +6,7 @@
  jaxb:version="3.0">
 
     <jaxb:globalBindings underscoreBinding="asCharInWord" >
+        <xjc:simple />
         <xjc:serializable uid="4711"/>
 
         <jaxb:javaType name="java.util.Calendar" xmlType="xsd:date"

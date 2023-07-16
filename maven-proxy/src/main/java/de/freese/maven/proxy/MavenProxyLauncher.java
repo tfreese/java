@@ -1,7 +1,9 @@
 // Created: 28.12.2011
 package de.freese.maven.proxy;
 
+import java.io.File;
 import java.net.ProxySelector;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpClient.Redirect;
 import java.net.http.HttpClient.Version;
@@ -14,9 +16,19 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import javax.xml.XMLConstants;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.Unmarshaller;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.freese.maven.proxy.config.ProxyConfig;
 import de.freese.maven.proxy.jreserver.MavenProxyJreServer;
 import de.freese.maven.proxy.repository.CompositeRepository;
 import de.freese.maven.proxy.repository.Repository;
@@ -53,6 +65,26 @@ public final class MavenProxyLauncher {
 
     public static void main(final String[] args) throws Exception {
         LOGGER.info("Process User: {}", System.getProperty("user.name"));
+
+        URL url = ClassLoader.getSystemResource("proxy-config.xsd");
+        Source schemaFile = new StreamSource(new File(url.toURI()));
+
+        url = ClassLoader.getSystemResource("proxy-config.xml");
+        Source xmlFile = new StreamSource(new File(url.toURI()));
+
+        // Validate Schema.
+        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        schemaFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+        schemaFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+
+        Schema schema = schemaFactory.newSchema(schemaFile);
+        //        Validator validator = schema.newValidator();
+        //        validator.validate(xmlFile);
+
+        JAXBContext jaxbContext = JAXBContext.newInstance("de.freese.xjc");
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+        unmarshaller.setSchema(schema);
+        ProxyConfig proxyConfig = (ProxyConfig) unmarshaller.unmarshal(xmlFile);
 
         String fileCacheDirectory = System.getProperty("mavenproxy.fileCache");
 

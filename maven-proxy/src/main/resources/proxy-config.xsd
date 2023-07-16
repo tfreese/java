@@ -1,38 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
- targetNamespace="http://github.com/tfreese/proxy-config"
- -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://github.com/tfreese/proxy-config">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:prox="http://github.com/tfreese/proxy-config"
+           targetNamespace="http://github.com/tfreese/proxy-config"
+           attributeFormDefault="unqualified"
+           elementFormDefault="qualified"
+>
 
-    <xs:element name="proxy-config" type="proxyConfigType">
+    <xs:element name="proxy-config">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="port" type="xs:positiveInteger" />
+                <xs:element name="repositories" type="prox:repositories" />
+                <xs:element name="file-cache" type="prox:fileCache" minOccurs="0" />
+                <xs:element name="db-monitoring" type="prox:dbMonitoring" minOccurs="0" />
+            </xs:sequence>
+        </xs:complexType>
     </xs:element>
 
-    <xs:complexType name="proxyConfigType">
+    <xs:simpleType name="httpUri">
+        <xs:restriction base="xs:anyURI">
+            <xs:pattern value="http:.*" />
+            <xs:pattern value="https:.*" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="repositories">
         <xs:sequence>
-            <xs:element name="port" type="xs:nonNegativeInteger" minOccurs="1" maxOccurs="1" />
-            <xs:element name="repositories" type="repositoriesType" minOccurs="1" maxOccurs="1" />
-            <xs:element name="file-cache" type="fileCacheType" minOccurs="0" />
-            <xs:element name="db-monitoring" type="dbMonitoringType" minOccurs="0" />
+            <xs:element name="url" type="prox:httpUri" maxOccurs="unbounded" />
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="repositoriesType">
-        <xs:sequence minOccurs="1">
-            <xs:element name="repository" maxOccurs="unbounded" type="xs:string" />
+    <xs:complexType name="fileCache">
+        <xs:sequence>
+            <xs:element name="enabled" type="xs:boolean" default="false" />
+            <xs:element name="path" type="xs:string" />
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="fileCacheType">
+    <xs:complexType name="dbMonitoring">
         <xs:sequence>
-            <!--            <xs:element name="enabled" minOccurs="1" maxOccurs="1" type="xs:boolean" default="false" />-->
-            <xs:element name="path" minOccurs="1" maxOccurs="1" type="xs:string" />
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="dbMonitoringType">
-        <xs:sequence>
-            <!--            <xs:element name="enabled" minOccurs="1" maxOccurs="1" type="xs:boolean" default="false" />-->
-            <xs:element name="jdbc-url" minOccurs="1" maxOccurs="1" type="xs:string" />
+            <xs:element name="enabled" type="xs:boolean" default="true" />
+            <xs:element name="jdbc-url" type="xs:string" />
         </xs:sequence>
     </xs:complexType>
 

@@ -2,11 +2,11 @@
 <proxy-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://github.com/tfreese/proxy-config"
               xsi:schemaLocation="http://github.com/tfreese/proxy-config https://raw.githubusercontent.com/tfreese/java/master/maven-proxy/src/main/resources/proxy-config.xsd">
 
-    <port>200</port>
+    <port>1</port>
 
     <repositories>
         <!--1 or more repetitions:-->
-        <repository>string</repository>
+        <url>https:string</url>
     </repositories>
 
     <!--  <file-cache>-->

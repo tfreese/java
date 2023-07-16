@@ -32,9 +32,9 @@ public class DatabaseMonitorRepository extends AbstractRepository {
     public boolean exist(final URI resource) throws Exception {
         boolean exist = this.delegate.exist(resource);
 
-        if (exist) {
-            // TODO Monitor last access.
-        }
+        //        if (exist) {
+        //            // TODO Monitor last access.
+        //        }
 
         return exist;
     }
