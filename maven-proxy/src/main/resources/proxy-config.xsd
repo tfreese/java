@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns:tns="maven-proxy-config" xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="maven-proxy-config">
+
+    <element name="proxy-config">
+        <complexType>
+            <sequence>
+                <element name="port" type="nonNegativeInteger" minOccurs="1" maxOccurs="1" />
+                <element name="repositories" type="tns:repositories" minOccurs="1" maxOccurs="1" />
+                <element name="file-cache" type="tns:file-cache" minOccurs="0" />
+                <element name="db-monitoring" type="tns:db-monitoring" minOccurs="0" />
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="repositories">
+        <sequence minOccurs="1">
+            <element name="repository" maxOccurs="unbounded" type="string" />
+        </sequence>
+    </complexType>
+    <complexType name="file-cache">
+        <sequence>
+            <!--            <element name="enabled" minOccurs="1" maxOccurs="1" type="boolean" />-->
+            <element name="path" minOccurs="1" maxOccurs="1" type="string" />
+        </sequence>
+    </complexType>
+    <complexType name="db-monitoring">
+        <sequence>
+            <!--            <element name="enabled" minOccurs="1" maxOccurs="1" type="boolean" />-->
+            <element name="jdbc-url" minOccurs="1" maxOccurs="1" type="string" />
+        </sequence>
+    </complexType>
+
+</schema>

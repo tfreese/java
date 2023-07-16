@@ -77,7 +77,10 @@ public final class MavenProxyLauncher {
 
         // ProxyUtils.setupProxy();
 
-        int poolSize = Math.max(2, Runtime.getRuntime().availableProcessors() / 2);
+        //        Logger root = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+        //        root.setLevel(Level.INFO);
+
+        int poolSize = Math.max(2, Runtime.getRuntime().availableProcessors() / 4);
 
         // ExecutorService executorService = Executors.newFixedThreadPool(poolSize, new MavenProxyThreadFactory("maven-proxy-"));
         // ExecutorService executorService = Executors.newCachedThreadPool(new MavenProxyThreadFactory("maven-proxy-"));

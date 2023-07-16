@@ -41,6 +41,7 @@ public class DatabaseMonitorRepository extends AbstractRepository {
 
     @Override
     public RepositoryResponse getInputStream(final URI resource) throws Exception {
+        // TODO Monitor last access.
         return this.delegate.getInputStream(resource);
     }
 }

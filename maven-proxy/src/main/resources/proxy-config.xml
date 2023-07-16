@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<proxy-config>
+    <port></port>
+    <repositories>
+        <repository></repository>
+    </repositories>
+    <file-cache>
+        <enabled></enabled>
+        <path></path>
+    </file-cache>
+    <db-monitoring>
+        <jdbc-url></jdbc-url>
+    </db-monitoring>
+</proxy-config>

@@ -1,0 +1,13 @@
+<mav:proxy-config xmlns:mav="maven-proxy-config">
+    <port>200</port>
+    <repositories>
+        <!--1 or more repetitions:-->
+        <repository>string</repository>
+    </repositories>
+    <!--  <file-cache>-->
+    <!--    <path>string</path>-->
+    <!--  </file-cache>-->
+    <!--  <db-monitoring>-->
+    <!--    <jdbc-url>string</jdbc-url>-->
+    <!--  </db-monitoring>-->
+</mav:proxy-config>
