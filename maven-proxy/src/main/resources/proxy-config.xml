@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<proxy-config>
-    <port></port>
+<proxy-config xmlns:xsi="http://www.w3.org/2001/XMLSchema" xmlns="http://github.com/tfreese/proxy-config"
+              xsi:schemaLocation="http://github.com/tfreese/proxy-config https://raw.githubusercontent.com/tfreese/java/master/maven-proxy/src/main/resources/proxy-config.xsd">
+
+    <port>200</port>
+
     <repositories>
-        <repository></repository>
+        <!--1 or more repetitions:-->
+        <repository>string</repository>
     </repositories>
-    <file-cache>
-        <enabled></enabled>
-        <path></path>
-    </file-cache>
-    <db-monitoring>
-        <jdbc-url></jdbc-url>
-    </db-monitoring>
+
+    <!--  <file-cache>-->
+    <!--    <path>string</path>-->
+    <!--  </file-cache>-->
+
+    <!--  <db-monitoring>-->
+    <!--    <jdbc-url>string</jdbc-url>-->
+    <!--  </db-monitoring>-->
+
 </proxy-config>
