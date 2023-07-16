@@ -2,7 +2,7 @@
 <!--
  targetNamespace="http://github.com/tfreese/proxy-config"
  -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://github.com/tfreese/proxy-config">
 
     <xs:element name="proxy-config" type="proxyConfigType">
     </xs:element>
