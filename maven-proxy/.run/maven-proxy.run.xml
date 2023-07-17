@@ -2,7 +2,7 @@
   <configuration default="false" name="maven-proxy" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="de.freese.maven.proxy.MavenProxyLauncher" />
     <module name="maven-proxy" />
-    <option name="VM_PARAMETERS" value="-Dmavenproxy.port=7999" />
+    <option name="VM_PARAMETERS" value="-Dmaven-proxy.config=$PROJECT_DIR$/maven-proxy/proxy-config.xml" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/maven-proxy" />
     <method v="2">
       <option name="Make" enabled="true" />

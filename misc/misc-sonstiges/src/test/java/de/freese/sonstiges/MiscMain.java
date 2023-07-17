@@ -791,15 +791,6 @@ public final class MiscMain {
 
         new InitialContext().bind("java:comp/env/jdbc/datasource", "myDataSource");
         LOGGER.info(new InitialContext().lookup("java:comp/env/jdbc/datasource").toString());
-
-        // Statischer Context mit Map als Backend.
-        MapInitialContext.init();
-
-        new InitialContext().bind("java:comp/env/test", "dummy1");
-        LOGGER.info(new InitialContext().lookup("java:comp/env/test").toString());
-
-        new InitialContext().bind("java:comp/env/jdbc/datasource", "myDataSource1");
-        LOGGER.info(new InitialContext().lookup("java:comp/env/jdbc/datasource").toString());
     }
 
     static void listDirectories() throws Exception {

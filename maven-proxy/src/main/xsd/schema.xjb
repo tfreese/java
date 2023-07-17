@@ -2,6 +2,7 @@
 <jaxb:bindings xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
                xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+               xmlns:proxy="http://github.com/tfreese/maven-proxy/config"
                jaxb:extensionBindingPrefixes="xjc"
                jaxb:version="3.0">
 
@@ -9,7 +10,7 @@
         <xjc:simple />
         <xjc:serializable uid="4711" />
 
-        <jaxb:javaType name="int" xmlType="xs:positiveInteger"
+        <jaxb:javaType name="int" xmlType="proxy:ProxyPort"
                        parseMethod="jakarta.xml.bind.DatatypeConverter.parseInt"
                        printMethod="jakarta.xml.bind.DatatypeConverter.printInt" />
 

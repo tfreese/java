@@ -14,12 +14,12 @@ import de.freese.maven.proxy.repository.RepositoryResponse;
 /**
  * @author Thomas Freese
  */
-public class FileRepositoryResponse extends RepositoryResponse {
+public class FileCacheRepositoryResponse extends RepositoryResponse {
     private static final int DEFAULT_BUFFER_SIZE = 8192;
 
     private final Path path;
 
-    public FileRepositoryResponse(final RepositoryResponse repositoryResponse, Path path) {
+    public FileCacheRepositoryResponse(final RepositoryResponse repositoryResponse, Path path) {
         super(repositoryResponse.getUri(), repositoryResponse.getContentLength(), repositoryResponse.getInputStream());
 
         this.path = Objects.requireNonNull(path, "path required");

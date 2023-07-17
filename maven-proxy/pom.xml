@@ -100,6 +100,24 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <resources>
+                        <resource>
+                            <!-- Additional Folders overwrite the Defaults. -->
+                            <directory>${project.basedir}/src/main/resources</directory>
+                            <excludes>
+                                <exclude>proxy-config.xml</exclude>
+                            </excludes>
+                        </resource>
+                        <resource>
+                            <directory>${project.basedir}//src/main/xsd</directory>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+            <plugin>
                 <!-- jaxb2:xjc -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxb2-maven-plugin</artifactId>
@@ -114,7 +132,7 @@
                 </executions>
                 <configuration>
                     <sources>
-                        <source>${project.basedir}/src/main/resources/proxy-config.xsd</source>
+                        <source>${project.basedir}/src/main/xsd/proxy-config.xsd</source>
                     </sources>
                     <xjbSources>
                         <xjbSource>${project.basedir}/src/main/xsd/schema.xjb</xjbSource>

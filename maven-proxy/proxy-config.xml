@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- https://www.w3schools.com/xml/schema_intro.asp -->
+
+<proxy-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://github.com/tfreese/maven-proxy/config"
+              xsi:schemaLocation="http://github.com/tfreese/maven-proxy/config https://raw.githubusercontent.com/tfreese/java/master/maven-proxy/src/main/xsd/proxy-config.xsd">
+
+    <port>7999</port>
+
+    <repositories>
+        <url>https://repo1.maven.org/maven2</url>
+        <url>https://repo.spring.io/release</url>
+        <url>https://repository.primefaces.org</url>
+        <url>https://plugins.gradle.org/m2</url>
+        <url>https://repo.gradle.org/gradle/libs-releases</url>
+        <url>file:///home/tommy/.m2</url><!-- Just for testing -->
+    </repositories>
+
+    <file-cache enabled="true">
+        <local-url>file:///tmp/maven-proxy/cache</local-url>
+        <create>true</create>
+    </file-cache>
+
+    <db-monitoring enabled="false">
+        <jdbc-url>string</jdbc-url>
+    </db-monitoring>
+
+</proxy-config>
