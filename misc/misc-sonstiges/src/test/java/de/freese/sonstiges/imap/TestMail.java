@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -34,34 +33,6 @@ import de.freese.sonstiges.imap.analyze.FunctionStripStopWords;
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestMail {
-    /**
-     * @author Thomas Freese
-     */
-    private static class NullOutputStream extends OutputStream {
-        /**
-         * @see java.io.OutputStream#write(byte[])
-         */
-        @Override
-        public void write(final byte[] b) throws IOException {
-            // to /dev/null
-        }
-
-        /**
-         * @see java.io.OutputStream#write(byte[], int, int)
-         */
-        @Override
-        public void write(final byte[] b, final int off, final int len) {
-            // to /dev/null
-        }
-
-        /**
-         * @see java.io.OutputStream#write(int)
-         */
-        @Override
-        public void write(final int b) {
-            // to /dev/null
-        }
-    }
 
     private static PrintStream printStream = System.out;
 
@@ -74,7 +45,7 @@ class TestMail {
     @BeforeAll
     public static void beforeAll() throws Exception {
         if (!Boolean.parseBoolean(System.getProperty("run_in_ide", "false"))) {
-            printStream = new PrintStream(new NullOutputStream(), false);
+            printStream = new PrintStream(OutputStream.nullOutputStream(), false);
         }
 
         Charset charset = StandardCharsets.UTF_8;

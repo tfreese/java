@@ -13,16 +13,16 @@
         <url>https://repository.primefaces.org</url>
         <url>https://plugins.gradle.org/m2</url>
         <url>https://repo.gradle.org/gradle/libs-releases</url>
-        <url>file:///home/tommy/.m2</url><!-- Just for testing -->
+        <!--        <url>file:///home/tommy/.m2/repository</url>&lt;!&ndash; Just for testing &ndash;&gt;-->
     </repositories>
 
     <file-cache enabled="true">
         <local-url>file:///tmp/maven-proxy/cache</local-url>
-        <create>true</create>
+        <create-directory>true</create-directory>
     </file-cache>
 
     <db-monitoring enabled="false">
-        <jdbc-url>string</jdbc-url>
+        <jdbc-url>jdbc:string</jdbc-url>
     </db-monitoring>
 
 </proxy-config>

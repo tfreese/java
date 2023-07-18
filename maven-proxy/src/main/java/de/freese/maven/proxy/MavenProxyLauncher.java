@@ -184,34 +184,11 @@ public final class MavenProxyLauncher {
     }
 
     private static void validateConfig(final ProxyConfig config) throws Exception {
-
-        if (config.getPort() == null || config.getPort() < 1024) {
-            LOGGER.error("port must be in range 1025-65534: {}", config.getPort());
-            throw new IllegalStateException("port must be in range 1025-65534: " + config.getPort());
-        }
-
-        if (config.getRepositories().getUrls().isEmpty()) {
-            LOGGER.error("no repositories configured");
-            throw new IllegalStateException("no repositories configured");
-        }
-
         if (config.getFileCache() != null && config.getFileCache().isEnabled()) {
             FileCache fileCache = config.getFileCache();
 
-            String localUrl = fileCache.getLocalUrl();
-
-            if (localUrl == null || localUrl.isBlank()) {
-                LOGGER.error("local-url for file-cache not configured");
-                throw new IllegalStateException("local-url for file-cache not configured");
-            }
-
-            if (!localUrl.startsWith("file:")) {
-                LOGGER.error("local-url for file-cache must bei a file URL: {}", localUrl);
-                throw new IllegalStateException("local-url for file-cache must bei a file URL: " + localUrl);
-            }
-
-            if (fileCache.isCreate()) {
-                URI fileCacheUri = URI.create(localUrl);
+            if (fileCache.isCreateDirectory()) {
+                URI fileCacheUri = URI.create(fileCache.getLocalUrl());
                 Path fileCachePath = Paths.get(fileCacheUri);
 
                 if (!Files.exists(fileCachePath)) {

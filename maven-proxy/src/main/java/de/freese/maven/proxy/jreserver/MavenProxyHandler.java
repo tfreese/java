@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Objects;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -51,8 +55,11 @@ class MavenProxyHandler implements HttpHandler {
             else if ("HEAD".equals(method)) {
                 handleHead(exchange);
             }
+            //            else if ("PUT".equals(method)) {
+            //                handlePut(exchange);
+            //            }
             else {
-                LOGGER.error("unknown method: {}", method);
+                LOGGER.error("unknown method: {} from {}", method, exchange.getRemoteAddress());
 
                 exchange.getResponseHeaders().add(ProxyUtils.HTTP_HEADER_SERVER, SERVER_NAME);
                 exchange.sendResponseHeaders(ProxyUtils.HTTP_SERVICE_UNAVAILABLE, 0);
@@ -70,8 +77,6 @@ class MavenProxyHandler implements HttpHandler {
     }
 
     private void handleGet(final HttpExchange exchange) throws Exception {
-        exchange.getResponseHeaders().add(ProxyUtils.HTTP_HEADER_SERVER, SERVER_NAME);
-
         final URI uri = exchange.getRequestURI();
 
         RepositoryResponse repositoryResponse = this.repository.getInputStream(uri);
@@ -93,6 +98,7 @@ class MavenProxyHandler implements HttpHandler {
 
         long fileLength = repositoryResponse.getContentLength();
 
+        exchange.getResponseHeaders().add(ProxyUtils.HTTP_HEADER_SERVER, SERVER_NAME);
         exchange.getResponseHeaders().add(ProxyUtils.HTTP_HEADER_CONTENT_TYPE, ProxyUtils.getContentType(repositoryResponse.getFileName()));
         exchange.sendResponseHeaders(ProxyUtils.HTTP_OK, fileLength);
 
@@ -112,5 +118,24 @@ class MavenProxyHandler implements HttpHandler {
 
         exchange.getResponseHeaders().add(ProxyUtils.HTTP_HEADER_SERVER, SERVER_NAME);
         exchange.sendResponseHeaders(response, -1);
+    }
+
+    /**
+     * Deploy
+     **/
+    private void handlePut(final HttpExchange exchange) throws Exception {
+        final URI uri = exchange.getRequestURI();
+
+        String pathString = uri.getPath().substring(1);
+        Path path = Paths.get("/tmp", pathString);
+
+        Files.createDirectories(path.getParent());
+
+        try (OutputStream outputStream = Files.newOutputStream(path, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
+            exchange.getRequestBody().transferTo(outputStream);
+        }
+
+        exchange.getResponseHeaders().add(ProxyUtils.HTTP_HEADER_SERVER, SERVER_NAME);
+        exchange.sendResponseHeaders(ProxyUtils.HTTP_OK, -1);
     }
 }
