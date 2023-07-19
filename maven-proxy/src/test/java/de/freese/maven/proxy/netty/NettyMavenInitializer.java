@@ -30,9 +30,6 @@ public class NettyMavenInitializer extends ChannelInitializer<SocketChannel> {
         this.sslContext = null;
     }
 
-    /**
-     * @see io.netty.channel.ChannelInitializer#initChannel(io.netty.channel.Channel)
-     */
     @Override
     protected void initChannel(final SocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();

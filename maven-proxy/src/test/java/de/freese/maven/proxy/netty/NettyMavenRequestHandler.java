@@ -36,8 +36,6 @@ import de.freese.maven.proxy.repository.RepositoryResponse;
 import de.freese.maven.proxy.utils.ProxyUtils;
 
 /**
- * Handler für Requests an den Maven Proxy.
- *
  * @author Thomas Freese
  */
 public class NettyMavenRequestHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
@@ -56,9 +54,11 @@ public class NettyMavenRequestHandler extends SimpleChannelInboundHandler<FullHt
         this.repository = Objects.requireNonNull(repository, "repository required");
     }
 
-    /**
-     * @see io.netty.channel.ChannelInboundHandlerAdapter#exceptionCaught(io.netty.channel.ChannelHandlerContext, java.lang.Throwable)
-     */
+    @Override
+    public void channelReadComplete(final ChannelHandlerContext ctx) throws Exception {
+        ctx.flush();
+    }
+
     @Override
     public void exceptionCaught(final ChannelHandlerContext ctx, final Throwable cause) throws Exception {
         if (ctx.channel().isActive()) {
@@ -67,11 +67,10 @@ public class NettyMavenRequestHandler extends SimpleChannelInboundHandler<FullHt
         else {
             getLogger().error(cause.getMessage(), cause);
         }
+
+        ctx.close();
     }
 
-    /**
-     * @see io.netty.channel.SimpleChannelInboundHandler#channelRead0(io.netty.channel.ChannelHandlerContext, java.lang.Object)
-     */
     @Override
     protected void channelRead0(final ChannelHandlerContext ctx, final FullHttpRequest request) throws Exception {
         if ("/".equals(request.uri())) {
@@ -164,18 +163,12 @@ public class NettyMavenRequestHandler extends SimpleChannelInboundHandler<FullHt
         }
 
         sendFileFuture.addListener(new ChannelProgressiveFutureListener() {
-            /**
-             * @see io.netty.util.concurrent.GenericFutureListener#operationComplete(io.netty.util.concurrent.Future)
-             */
             @Override
             public void operationComplete(final ChannelProgressiveFuture future) {
                 // getLogger().debug(future.channel() + " Transfer complete: " + request.uri());
                 getLogger().debug("Transfer complete: {}", request.uri());
             }
 
-            /**
-             * @see io.netty.util.concurrent.GenericProgressiveFutureListener#operationProgressed(io.netty.util.concurrent.ProgressiveFuture, long, long)
-             */
             @Override
             public void operationProgressed(final ChannelProgressiveFuture future, final long progress, final long total) {
                 if (total < 0) {
