@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- https://www.w3schools.com/xml/schema_intro.asp -->
+<!-- xmlns:noNamespaceSchemaLocation="proxy-config.xsd" -->
 
 <proxy-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://github.com/tfreese/maven-proxy/config"
               xsi:schemaLocation="http://github.com/tfreese/maven-proxy/config https://raw.githubusercontent.com/tfreese/java/master/maven-proxy/src/main/xsd/proxy-config.xsd">

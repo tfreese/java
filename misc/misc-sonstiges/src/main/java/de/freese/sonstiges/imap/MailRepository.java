@@ -2,7 +2,9 @@ package de.freese.sonstiges.imap;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.sql.Connection;
@@ -171,11 +173,14 @@ public class MailRepository implements AutoCloseable {
             schemaSql = "mail_schema_oracle.sql";
         }
 
-        try (Connection connection = this.dataSource.getConnection();
-             Statement statement = connection.createStatement();
-             BufferedReader reader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream(schemaSql), StandardCharsets.UTF_8))) {
+        try (InputStream inputStream = ClassLoader.getSystemResourceAsStream(schemaSql);
+             Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+             BufferedReader bufferedReader = new BufferedReader(reader);
+             Connection connection = this.dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+
             // @formatter:off
-            String sql = reader.lines()
+            String sql = bufferedReader.lines()
                     .filter(Objects::nonNull)
                     .map(String::strip)
                     .filter(line -> !line.isEmpty())

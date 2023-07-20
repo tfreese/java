@@ -9,6 +9,8 @@
            elementFormDefault="qualified"
 >
 
+    <!--    <import schemaLocation="baseTypes.xsd" namespace="http://baseTypes" />-->
+
     <xs:element name="proxy-config">
         <xs:annotation>
             <xs:documentation source="description">Configuration for the Maven-Proxy.</xs:documentation>
