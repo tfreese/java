@@ -29,8 +29,8 @@ import jakarta.xml.bind.Unmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.maven.proxy.config.FileCache;
 import de.freese.maven.proxy.config.ProxyConfig;
+import de.freese.maven.proxy.config.RemoteRepository;
 import de.freese.maven.proxy.jreserver.MavenProxyJreServer;
 import de.freese.maven.proxy.repository.CompositeRepository;
 import de.freese.maven.proxy.repository.Repository;
@@ -95,8 +95,6 @@ public final class MavenProxyLauncher {
         unmarshaller.setSchema(schema);
         ProxyConfig proxyConfig = (ProxyConfig) unmarshaller.unmarshal(xmlFile);
 
-        validateConfig(proxyConfig);
-
         // ProxyUtils.setupProxy();
 
         //        Logger root = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
@@ -124,7 +122,7 @@ public final class MavenProxyLauncher {
 
         CompositeRepository compositeRepository = new CompositeRepository();
 
-        proxyConfig.getRepositories().getUrls().stream().map(URI::create).forEach(uri -> {
+        proxyConfig.getRepositories().getRemotes().stream().map(RemoteRepository::getUrl).map(URI::create).forEach(uri -> {
             if ("http".equals(uri.getScheme()) || "https".equals(uri.getScheme())) {
                 compositeRepository.addRepository(new JreHttpClientRepository(httpClient, uri));
             }
@@ -181,21 +179,6 @@ public final class MavenProxyLauncher {
         LOGGER.error("or as environment variable: set/export maven-proxy.config=<ABSOLUTE_PATH>/proxy-config.xml");
 
         throw new IllegalStateException("no maven-proxy config file found");
-    }
-
-    private static void validateConfig(final ProxyConfig config) throws Exception {
-        if (config.getFileCache() != null && config.getFileCache().isEnabled()) {
-            FileCache fileCache = config.getFileCache();
-
-            if (fileCache.isCreateDirectory()) {
-                URI fileCacheUri = URI.create(fileCache.getLocalUrl());
-                Path fileCachePath = Paths.get(fileCacheUri);
-
-                if (!Files.exists(fileCachePath)) {
-                    Files.createDirectories(fileCachePath);
-                }
-            }
-        }
     }
 
     private MavenProxyLauncher() {
