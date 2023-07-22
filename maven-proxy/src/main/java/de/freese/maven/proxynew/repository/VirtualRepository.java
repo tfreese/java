@@ -1,5 +1,5 @@
 // Created: 19.07.23
-package de.freese.maven.proxy.repository.ng;
+package de.freese.maven.proxynew.repository;
 
 import java.util.List;
 
@@ -8,9 +8,9 @@ import java.util.List;
  */
 public interface VirtualRepository extends Repository {
 
-    void add(RemoteRepository repository);
+    VirtualRepository add(RemoteRepository repository);
 
-    void add(LocalRepository repository);
+    VirtualRepository add(LocalRepository repository);
 
     List<Repository> getRepositories();
 }

@@ -60,7 +60,7 @@
     </repositories>
 
     <file-cache enabled="true">
-        <local-url>file:///opt/maven-proxy/cache</local-url>
+        <local-url>file:///tmp/maven-proxy/cache</local-url>
     </file-cache>
 
     <db-monitoring enabled="false">

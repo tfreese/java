@@ -58,7 +58,7 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:complexType name="LocalRepository">
+    <xs:complexType name="LocalRepo">
         <xs:annotation>
             <xs:documentation source="description">
                 Local file Repository for deployments [file://*].
@@ -71,7 +71,7 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="RemoteRepository">
+    <xs:complexType name="RemoteRepo">
         <xs:annotation>
             <xs:documentation source="description">Remote Repository for Dependencies [http://*,https://*].</xs:documentation>
         </xs:annotation>
@@ -81,7 +81,7 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="VirtualRepository">
+    <xs:complexType name="VirtualRepo">
         <xs:annotation>
             <xs:documentation source="description">
                 Virtual Repository as mirror for maven [http://HOST:PORT/NAME]
@@ -99,9 +99,9 @@
             <xs:documentation source="description">Repository Declaration.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="remote" type="RemoteRepository" maxOccurs="unbounded" />
-            <xs:element name="local" type="LocalRepository" minOccurs="0" maxOccurs="unbounded" />
-            <xs:element name="virtual" type="VirtualRepository" maxOccurs="unbounded" />
+            <xs:element name="remote" type="RemoteRepo" maxOccurs="unbounded" />
+            <xs:element name="local" type="LocalRepo" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="virtual" type="VirtualRepo" maxOccurs="unbounded" />
         </xs:sequence>
     </xs:complexType>
 

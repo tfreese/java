@@ -21,10 +21,6 @@ public class FileRepository extends AbstractRepository {
 
         this.repositoryPath = Objects.requireNonNull(repositoryPath, "repositoryPath required");
 
-        if (!Files.exists(repositoryPath)) {
-            throw new IllegalStateException("path not exist: " + repositoryPath);
-        }
-
         if (!Files.isReadable(repositoryPath)) {
             throw new IllegalStateException("path not readable: " + repositoryPath);
         }

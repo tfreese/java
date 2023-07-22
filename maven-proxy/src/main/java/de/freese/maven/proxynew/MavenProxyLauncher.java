@@ -1,13 +1,11 @@
-// Created: 28.12.2011
-package de.freese.maven.proxy;
+// Created: 22.07.23
+package de.freese.maven.proxynew;
 
 import java.io.File;
 import java.net.ProxySelector;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;
-import java.net.http.HttpClient.Redirect;
-import java.net.http.HttpClient.Version;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -30,43 +28,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.freese.maven.proxy.config.ProxyConfig;
-import de.freese.maven.proxy.config.RemoteRepo;
-import de.freese.maven.proxy.jreserver.MavenProxyJreServer;
-import de.freese.maven.proxy.repository.CompositeRepository;
-import de.freese.maven.proxy.repository.Repository;
-import de.freese.maven.proxy.repository.file.FileCacheRepository;
-import de.freese.maven.proxy.repository.file.FileRepository;
-import de.freese.maven.proxy.repository.http.JreHttpClientRepository;
 import de.freese.maven.proxy.utils.MavenProxyThreadFactory;
 import de.freese.maven.proxy.utils.ProxyUtils;
+import de.freese.maven.proxynew.lifecycle.LifecycleManager;
+import de.freese.maven.proxynew.repository.LocalRepository;
+import de.freese.maven.proxynew.repository.RemoteRepository;
+import de.freese.maven.proxynew.repository.Repository;
+import de.freese.maven.proxynew.repository.RepositoryManager;
+import de.freese.maven.proxynew.repository.VirtualRepository;
+import de.freese.maven.proxynew.repository.local.FileRepository;
+import de.freese.maven.proxynew.repository.remote.HttpRemoteRepository;
+import de.freese.maven.proxynew.repository.virtual.DefaultVirtualRepository;
+import de.freese.maven.proxynew.server.ProxyServer;
+import de.freese.maven.proxynew.server.jre.JreHttpServer;
 
 /**
- * Maven Configuration:
- *
- * <pre>
- * &lt;mirror&gt;
- *   &lt;id&gt;local-proxy&lt;/id>&gt;
- *   &lt;name&gt;local-proxy&lt;/name&gt;
- *   &lt;url&gt;http://localhost:7999&lt;/url&gt;
- *   &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;
- * &lt;/mirror&gt;
- * </pre>
- *
- * <a href="https://github.com/netty/netty/tree/4.1/example">netty example</a><br>
- * <br>
- * curl -v localhost:8085/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.pom<br>
- * curl -v -X GET localhost:8085/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.pom<br>
- * curl -v -X PUT localhost:8085 -d "..."<br>
- * <br>
- * mvn -f pom_proxy.xml -s settings_proxy.xml install<br>
- * mvn -f pom_proxy.xml -s settings_proxy.xml dependency:resolve<br>
- *
  * @author Thomas Freese
  */
 public final class MavenProxyLauncher {
     private static final Logger LOGGER = LoggerFactory.getLogger(MavenProxyLauncher.class);
 
-    public static void main(final String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
+
+        System.out.println(System.getProperty("user.dir"));
+
         Path configPath = findConfigFile(args);
 
         if (!Files.exists(configPath)) {
@@ -106,8 +91,8 @@ public final class MavenProxyLauncher {
 
         // @formatter:off
         HttpClient.Builder builder = HttpClient.newBuilder()
-                .version(Version.HTTP_2)
-                .followRedirects(Redirect.NEVER)
+                .version(HttpClient.Version.HTTP_2)
+                .followRedirects(HttpClient.Redirect.NEVER)
                 .proxy(ProxySelector.getDefault())
                 .connectTimeout(Duration.ofSeconds(3))
                 .executor(executorServiceHttpClient)
@@ -120,42 +105,97 @@ public final class MavenProxyLauncher {
 
         HttpClient httpClient = builder.build();
 
-        CompositeRepository compositeRepository = new CompositeRepository();
+        LifecycleManager lifecycleManager = new LifecycleManager();
 
-        proxyConfig.getRepositories().getRemotes().stream().map(RemoteRepo::getUrl).map(URI::create).forEach(uri -> {
-            if ("http".equals(uri.getScheme()) || "https".equals(uri.getScheme())) {
-                compositeRepository.addRepository(new JreHttpClientRepository(httpClient, uri));
-            }
-            else if ("file".equals(uri.getScheme())) {
-                compositeRepository.addRepository(new FileRepository(Paths.get(uri)));
+        ProxyServer proxyServer = new JreHttpServer().setPort(proxyConfig.getPort()).setExecutor(executorServiceHttpServer);
+
+        RepositoryManager repositoryManager = new RepositoryManager();
+
+        // LocalRepository
+        proxyConfig.getRepositories().getLocals().stream().forEach(localRepo -> {
+            URI uri = URI.create(localRepo.getPath());
+
+            if (uri.getScheme().equalsIgnoreCase("file")) {
+                LocalRepository localRepository = new FileRepository(localRepo.getName(), Paths.get(uri));
+                lifecycleManager.add(localRepository);
+                repositoryManager.add(localRepository);
+                proxyServer.addContextRoot(localRepo.getName(), localRepository);
             }
             else {
-                throw new IllegalArgumentException("only http, https, file are supported: " + uri.getScheme());
+                LOGGER.error("Ignoring LocalRepository '{}', file URI scheme expected: {}", localRepo.getName(), uri);
             }
         });
 
-        Repository repository = compositeRepository;
+        // RemoteRepository
+        proxyConfig.getRepositories().getRemotes().stream().forEach(remoteRepo -> {
+            URI uri = URI.create(remoteRepo.getUrl());
 
-        if (proxyConfig.getFileCache() != null || proxyConfig.getFileCache().isEnabled()) {
-            URI fileCacheUri = URI.create(proxyConfig.getFileCache().getLocalUrl());
-            repository = new FileCacheRepository(repository, Paths.get(fileCacheUri));
-        }
+            if (uri.getScheme().equalsIgnoreCase("http") || uri.getScheme().equalsIgnoreCase("https")) {
+                RemoteRepository remoteRepository = new HttpRemoteRepository(remoteRepo.getName(), uri, httpClient);
+                lifecycleManager.add(remoteRepository);
+                repositoryManager.add(remoteRepository);
+                proxyServer.addContextRoot(remoteRepository.getName(), remoteRepository);
+            }
+            else {
+                LOGGER.error("Ignoring RemoteRepository '{}', http/https URI scheme expected: {}", remoteRepo.getName(), uri);
+            }
+        });
 
-        // MavenProxy proxy = new MavenProxyNetty();
-        MavenProxy proxy = new MavenProxyJreServer();
+        // VirtualRepository
+        proxyConfig.getRepositories().getVirtuals().stream().forEach(virtualRepo -> {
+            if (!virtualRepo.getRepositoryNames().isEmpty()) {
+                VirtualRepository virtualRepository = new DefaultVirtualRepository(virtualRepo.getName());
 
-        proxy.setPort(proxyConfig.getPort());
-        proxy.setExecutor(executorServiceHttpServer);
-        proxy.setRepository(repository);
+                for (String repositoryName : virtualRepo.getRepositoryNames()) {
+                    Repository repository = repositoryManager.getRepository(repositoryName);
 
-        new Thread(proxy::start, "Maven-Proxy").start();
+                    if (repository == null) {
+                        LOGGER.error("Repository not found or configured: ", repositoryName);
+                        continue;
+                    }
+
+                    if (repository instanceof LocalRepository lr) {
+                        virtualRepository.add(lr);
+                    }
+                    else if (repository instanceof RemoteRepository rr) {
+                        virtualRepository.add(rr);
+                    }
+                    else {
+                        LOGGER.error("VirtualRepository can only contain LocalRepository or RemoteRepository: ", repository.getClass().getSimpleName());
+                    }
+                }
+
+                lifecycleManager.add(virtualRepository);
+                proxyServer.addContextRoot(virtualRepository.getName(), virtualRepository);
+            }
+            else {
+                LOGGER.error("Ignoring VirtualRepository '{}', no repositories configured", virtualRepo.getName());
+            }
+        });
+
+        // Server at last
+        lifecycleManager.add(proxyServer);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            proxy.stop();
+            try {
+                lifecycleManager.stop();
+            }
+            catch (Exception ex) {
+                LOGGER.error(ex.getMessage(), ex);
+            }
 
             ProxyUtils.shutdown(executorServiceHttpServer, LOGGER);
             ProxyUtils.shutdown(executorServiceHttpClient, LOGGER);
         }, "Shutdown"));
+
+        try {
+            lifecycleManager.start();
+        }
+        catch (Exception ex) {
+            LOGGER.error(ex.getMessage(), ex);
+
+            System.exit(-1);
+        }
     }
 
     private static Path findConfigFile(final String[] args) {

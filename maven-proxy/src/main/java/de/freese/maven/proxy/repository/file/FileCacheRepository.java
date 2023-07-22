@@ -25,12 +25,12 @@ public class FileCacheRepository extends AbstractRepository {
 
         this.delegate = Objects.requireNonNull(delegate, "delegate required");
 
-        if (!Files.isWritable(fileCachePath)) {
-            throw new IllegalStateException("path not writeable: " + fileCachePath);
-        }
-
         if (!Files.exists(fileCachePath)) {
             Files.createDirectories(fileCachePath);
+        }
+
+        if (!Files.isWritable(fileCachePath)) {
+            throw new IllegalStateException("path not writeable: " + fileCachePath);
         }
 
         this.fileCachePath = Objects.requireNonNull(fileCachePath, "fileCachePath required");
