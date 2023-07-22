@@ -47,7 +47,6 @@
         <module>binding</module>
         <module>cellular-machines</module>
         <module>jsensors</module>
-        <module>maven-proxy</module>
         <module>meta-model</module>
         <module>misc</module>
     </modules>
