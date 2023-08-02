@@ -8,6 +8,7 @@ import java.util.Collection;
  * @author Thomas Freese
  */
 public class NaiveBayesClassifier {
+
     private static final double DEFAULT_FACTOR = 1.0D;
 
     public double classify(Collection<Merkmal> vector) {

@@ -17,10 +17,12 @@ import org.tartarus.snowball.ext.German2Stemmer;
  * @author Thomas Freese
  */
 public class FunctionStemmer implements UnaryOperator<String> {
+
     /**
      * Deutscher Stemmer
      */
     public static final Function<String, String> DE = new FunctionStemmer(Locale.GERMAN);
+
     /**
      * Englischer Stemmer
      */
@@ -40,14 +42,12 @@ public class FunctionStemmer implements UnaryOperator<String> {
      * @author Thomas Freese
      */
     static class LuceneEnglishMinimalStemmer implements Stemmer {
+
         /**
          * org.apache.lucene.analysis.en.PorterStemmer
          */
         private final EnglishMinimalStemmer impl = new EnglishMinimalStemmer();
 
-        /**
-         * @see Stemmer#stem(java.lang.String)
-         */
         @Override
         public String stem(final String token) {
             char[] ca = token.toCharArray();
@@ -61,11 +61,9 @@ public class FunctionStemmer implements UnaryOperator<String> {
      * @author Thomas Freese
      */
     static class LuceneGermanLightStemmer implements Stemmer {
+
         private final GermanLightStemmer impl = new GermanLightStemmer();
 
-        /**
-         * @see Stemmer#stem(java.lang.String)
-         */
         @Override
         public String stem(final String token) {
             char[] ca = token.toCharArray();
@@ -79,11 +77,9 @@ public class FunctionStemmer implements UnaryOperator<String> {
      * @author Thomas Freese
      */
     static class SnowballEnglishStemmer implements Stemmer {
+
         private final SnowballProgram impl = new EnglishStemmer();
 
-        /**
-         * @see Stemmer#stem(java.lang.String)
-         */
         @Override
         public String stem(final String token) {
             this.impl.setCurrent(token);
@@ -97,11 +93,9 @@ public class FunctionStemmer implements UnaryOperator<String> {
      * @author Thomas Freese
      */
     static class SnowballGerman2Stemmer implements Stemmer {
+
         private final SnowballProgram impl = new German2Stemmer();
 
-        /**
-         * @see Stemmer#stem(java.lang.String)
-         */
         @Override
         public String stem(final String token) {
             this.impl.setCurrent(token);
@@ -144,9 +138,6 @@ public class FunctionStemmer implements UnaryOperator<String> {
         }
     }
 
-    /**
-     * @see java.util.function.Function#apply(java.lang.Object)
-     */
     @Override
     public String apply(final String text) {
         return this.stemmer.stem(text);

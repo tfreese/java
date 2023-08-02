@@ -35,6 +35,7 @@ import de.freese.sonstiges.imap.model.Token;
  * @author Thomas Freese
  */
 public class MailRepository implements AutoCloseable {
+    
     private static DataSource toDataSource(final Path dbPath) {
         // H2
         JdbcConnectionPool pool = JdbcConnectionPool.create("jdbc:h2:file:" + dbPath.resolve("h2"), "sa", "sa");
@@ -84,7 +85,7 @@ public class MailRepository implements AutoCloseable {
             String dbName = connection.getMetaData().getDatabaseProductName().toLowerCase();
 
             // Wird bei hsql bereits durch 'shutdown=true' erledigt.
-            if (dbName.contains("h2")) {
+            if (dbName.contains("h2") || dbName.contains("hsql")) {
                 try (Statement statement = connection.createStatement()) {
                     statement.execute("SHUTDOWN COMPACT");
                 }

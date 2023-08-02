@@ -58,6 +58,7 @@ import de.freese.sonstiges.imap.textpart.PlainTextPart;
  * @author Thomas Freese
  */
 public final class MailClassifierMain {
+    
     public static final UnaryOperator<List<String>> PRE_FILTER = token -> {
         // String linkRegEx = "^((http[s]?|ftp|file):\\/)?\\/?([^:\\/\\s]+)(:([^\\/]*))?((\\/\\w+)*\\/)([\\w\\-\\.]+[^#?\\s]+)(\\?([^#]*))?(#(.*))?$";
         String linkRegEx = "^((http[s]?|ftp|file):.*)|(^(www.).*)";
@@ -205,7 +206,8 @@ public final class MailClassifierMain {
     public void processMails(String host, String user, String password, boolean isTraining) {
         Path dbPath = Paths.get(System.getProperty("user.home"), "db", "mails");
 
-        try (MailReader mailReader = new MailReader(); MailRepository mailRepository = new MailRepository(dbPath)) {
+        try (MailReader mailReader = new MailReader();
+             MailRepository mailRepository = new MailRepository(dbPath)) {
             mailRepository.createDatabaseIfNotExist();
 
             mailReader.login(host, user, password);
@@ -231,7 +233,7 @@ public final class MailClassifierMain {
         NaiveBayesClassifier classifier = new NaiveBayesClassifier();
         double spamProbability = classifier.classify(merkmalVector);
 
-        return BigDecimal.valueOf(spamProbability * 100).setScale(3, RoundingMode.HALF_UP).doubleValue();
+        return BigDecimal.valueOf(spamProbability * 100D).setScale(3, RoundingMode.HALF_UP).doubleValue();
     }
 
     private long getMessageId(Message message) throws Exception {

@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Freese
  */
 public class MailReader implements AutoCloseable {
+    
     private static final Logger LOGGER = LoggerFactory.getLogger(MailReader.class);
 
     private Session session;

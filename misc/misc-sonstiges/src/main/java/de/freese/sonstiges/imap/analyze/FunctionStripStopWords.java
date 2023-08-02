@@ -24,6 +24,7 @@ import java.util.function.UnaryOperator;
  * @author Thomas Freese
  */
 public class FunctionStripStopWords implements UnaryOperator<String> {
+
     private static final Map<Locale, Set<String>> CACHE = new HashMap<>();
 
     private static FunctionStripStopWords instance;
@@ -37,8 +38,7 @@ public class FunctionStripStopWords implements UnaryOperator<String> {
         return instance;
     }
 
-    private static void parseStopWords()
-    {
+    private static void parseStopWords() {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
         try {
@@ -61,9 +61,6 @@ public class FunctionStripStopWords implements UnaryOperator<String> {
         }
     }
 
-    /**
-     * @see java.util.function.Function#apply(java.lang.Object)
-     */
     @Override
     public String apply(final String text) {
         // @formatter:off

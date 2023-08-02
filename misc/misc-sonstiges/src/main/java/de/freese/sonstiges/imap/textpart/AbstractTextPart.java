@@ -16,9 +16,6 @@ public abstract class AbstractTextPart {
         return this.text;
     }
 
-    /**
-     * @see Object#toString()
-     */
     @Override
     public String toString() {
         return getText();

@@ -10,6 +10,7 @@ import java.util.Objects;
  * @author Thomas Freese
  */
 public class Merkmal implements Serializable {
+
     public static final Double DEFAULT_HAM_PROBABILITY = 0.001D;
 
     public static final Double DEFAULT_SPAM_PROBABILITY = 0.001D;
@@ -30,6 +31,8 @@ public class Merkmal implements Serializable {
     }
 
     public Merkmal(String token, int hamCount, int spamCount, int weight) {
+        super();
+        
         this.token = Objects.requireNonNull(token, "token required");
         this.hamCount = hamCount;
         this.spamCount = spamCount;

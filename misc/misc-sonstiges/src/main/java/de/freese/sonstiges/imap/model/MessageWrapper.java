@@ -55,6 +55,8 @@ public class MessageWrapper {
     private long messageId;
 
     public MessageWrapper(final Message message) {
+        super();
+        
         this.message = Objects.requireNonNull(message, "message required");
     }
 

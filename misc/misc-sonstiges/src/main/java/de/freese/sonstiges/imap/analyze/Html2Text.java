@@ -13,15 +13,13 @@ import javax.swing.text.html.parser.ParserDelegator;
  * @author Thomas Freese
  */
 public class Html2Text extends HTMLEditorKit.ParserCallback {
+
     private StringBuilder sb;
 
     public String getText() {
         return this.sb.toString();
     }
 
-    /**
-     * @see javax.swing.text.html.HTMLEditorKit.ParserCallback#handleText(char[], int)
-     */
     @Override
     public void handleText(final char[] data, final int pos) {
         this.sb.append(data).append(" ");

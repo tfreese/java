@@ -16,11 +16,9 @@ import java.util.function.UnaryOperator;
  * @author Thomas Freese
  */
 public class FunctionNormalizeGerman implements UnaryOperator<String> {
+    
     public static final UnaryOperator<String> INSTANCE = new FunctionNormalizeGerman();
 
-    /**
-     * @see java.util.function.Function#apply(java.lang.Object)
-     */
     @Override
     @SuppressWarnings("checkstyle:EmptyBlock")
     public String apply(final String text) {

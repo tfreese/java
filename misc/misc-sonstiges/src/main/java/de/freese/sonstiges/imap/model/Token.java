@@ -6,6 +6,7 @@ import java.util.Objects;
  * @author Thomas Freese
  */
 public class Token {
+
     private final int hamCount;
 
     private final int spamCount;
@@ -13,6 +14,8 @@ public class Token {
     private final String value;
 
     public Token(final String value, final int hamCount, final int spamCount) {
+        super();
+        
         this.value = value;
         this.hamCount = hamCount;
         this.spamCount = spamCount;
