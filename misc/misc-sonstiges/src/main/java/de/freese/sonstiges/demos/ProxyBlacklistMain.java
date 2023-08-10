@@ -48,10 +48,7 @@ public final class ProxyBlacklistMain {
     private static final CompletionService<Set<String>> COMPLETION_SERVICE = new ExecutorCompletionService<>(ForkJoinPool.commonPool());
     private static final Logger LOGGER = LoggerFactory.getLogger(ProxyBlacklistMain.class);
 
-    private static class HostComparator implements Comparator<String> {
-        /**
-         * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-         */
+    private static final class HostComparator implements Comparator<String> {
         @Override
         public int compare(final String o1, final String o2) {
             String s1 = new StringBuilder(o1).reverse().toString();
@@ -367,7 +364,8 @@ public final class ProxyBlacklistMain {
             else {
                 URLConnection connection = uri.toURL().openConnection();
 
-                try (InputStream is = connection.getInputStream(); BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+                try (InputStream is = connection.getInputStream();
+                     BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
                     try (Stream<String> lines = br.lines()) {
                         lines.forEach(set::add);
                     }
@@ -440,7 +438,10 @@ public final class ProxyBlacklistMain {
 
         Set<String> set = new HashSet<>();
 
-        try (InputStream is = uri.toURL().openStream(); GZIPInputStream gzipIs = new GZIPInputStream(is); TarArchiveInputStream tarIs = new TarArchiveInputStream(gzipIs); BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(tarIs, StandardCharsets.UTF_8))) {
+        try (InputStream is = uri.toURL().openStream();
+             GZIPInputStream gzipIs = new GZIPInputStream(is);
+             TarArchiveInputStream tarIs = new TarArchiveInputStream(gzipIs);
+             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(tarIs, StandardCharsets.UTF_8))) {
             TarArchiveEntry entry = null;
 
             try {

@@ -22,10 +22,7 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
      *
      * @author Thomas Freese
      */
-    private class EventListListener implements ListDataListener {
-        /**
-         * @see javax.swing.event.ListDataListener#contentsChanged(javax.swing.event.ListDataEvent)
-         */
+    private final class EventListListener implements ListDataListener {
         @Override
         public void contentsChanged(final ListDataEvent e) {
             // int firstRow = e.getIndex0();
@@ -37,9 +34,6 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
             fireTableDataChanged();
         }
 
-        /**
-         * @see javax.swing.event.ListDataListener#intervalAdded(javax.swing.event.ListDataEvent)
-         */
         @Override
         public void intervalAdded(final ListDataEvent e) {
             int firstRow = e.getIndex0();
@@ -48,9 +42,6 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
             fireTableRowsInserted(firstRow, lastRow);
         }
 
-        /**
-         * @see javax.swing.event.ListDataListener#intervalRemoved(javax.swing.event.ListDataEvent)
-         */
         @Override
         public void intervalRemoved(final ListDataEvent e) {
             int firstRow = e.getIndex0();
@@ -72,9 +63,6 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
         list.addListener(new EventListListener());
     }
 
-    /**
-     * @see de.freese.binding.swing.table.AbstractListTableModel#getList()
-     */
     @Override
     protected ObservableList<T> getList() {
         return (ObservableList<T>) super.getList();

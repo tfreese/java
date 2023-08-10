@@ -20,11 +20,9 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
     /**
      * @author Thomas Freese
      */
-    private class ComboBoxEventListListener extends EventListListener {
+    private final class ComboBoxEventListListener extends EventListListener {
         /**
          * Überschrieben, um sicherzustellen, das das selektierte Objekt in der ComboBox angepasst wird, wenn sich die Daten der {ObservableList} anpassen.
-         *
-         * @see de.freese.binding.swing.list.AbstractObservableListListModel.EventListListener#contentsChanged(javax.swing.event.ListDataEvent)
          */
         @Override
         public void contentsChanged(final ListDataEvent e) {
@@ -40,17 +38,11 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
         super(list);
     }
 
-    /**
-     * @see javax.swing.ComboBoxModel#getSelectedItem()
-     */
     @Override
     public Object getSelectedItem() {
         return this.selectedObject;
     }
 
-    /**
-     * @see javax.swing.ComboBoxModel#setSelectedItem(java.lang.Object)
-     */
     @Override
     public void setSelectedItem(final Object anItem) {
         int index = getList().indexOf(anItem);
@@ -65,9 +57,6 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
         fireContentsChanged(this, index, index);
     }
 
-    /**
-     * @see de.freese.binding.swing.list.AbstractObservableListListModel#createEventListener()
-     */
     @Override
     protected EventListListener createEventListener() {
         return new ComboBoxEventListListener();
@@ -75,8 +64,6 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
 
     /**
      * Überschrieben, da beim Entfernen von Objekten auch das selektierte Objekt der ComboBox angepasst werden muss.
-     *
-     * @see de.freese.binding.swing.list.AbstractObservableListListModel#fireIntervalRemoved(java.lang.Object, int, int)
      */
     @Override
     protected void fireIntervalRemoved(final Object source, final int index0, final int index1) {

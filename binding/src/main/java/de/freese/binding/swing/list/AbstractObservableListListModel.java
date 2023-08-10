@@ -27,25 +27,17 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @author Thomas Freese
      */
     protected class EventListListener implements ListDataListener {
-        /**
-         * @see javax.swing.event.ListDataListener#contentsChanged(javax.swing.event.ListDataEvent)
-         */
+
         @Override
         public void contentsChanged(final ListDataEvent e) {
             fireContentsChanged(e.getSource(), e.getIndex0(), e.getIndex1());
         }
 
-        /**
-         * @see javax.swing.event.ListDataListener#intervalAdded(javax.swing.event.ListDataEvent)
-         */
         @Override
         public void intervalAdded(final ListDataEvent e) {
             fireIntervalAdded(e.getSource(), e.getIndex0(), e.getIndex1());
         }
 
-        /**
-         * @see javax.swing.event.ListDataListener#intervalRemoved(javax.swing.event.ListDataEvent)
-         */
         @Override
         public void intervalRemoved(final ListDataEvent e) {
             fireIntervalRemoved(e.getSource(), e.getIndex0(), e.getIndex1());
@@ -63,17 +55,11 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
         this.list.addListener(createEventListener());
     }
 
-    /**
-     * @see javax.swing.ListModel#addListDataListener(javax.swing.event.ListDataListener)
-     */
     @Override
     public synchronized void addListDataListener(final ListDataListener listener) {
         this.eventListenerList.add(ListDataListener.class, listener);
     }
 
-    /**
-     * @see javax.swing.ListModel#getElementAt(int)
-     */
     @Override
     public T getElementAt(final int index) {
         return getList().get(index);
@@ -83,17 +69,11 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
         return this.list;
     }
 
-    /**
-     * @see javax.swing.ListModel#getSize()
-     */
     @Override
     public int getSize() {
         return getList().size();
     }
 
-    /**
-     * @see javax.swing.ListModel#removeListDataListener(javax.swing.event.ListDataListener)
-     */
     @Override
     public synchronized void removeListDataListener(final ListDataListener listener) {
         this.eventListenerList.add(ListDataListener.class, listener);

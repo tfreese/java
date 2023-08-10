@@ -11,7 +11,7 @@ public final class ProducerConsumerWaitNotify {
     /**
      * @author Thomas Freese
      */
-    private static class Consumer implements Runnable {
+    private static final class Consumer implements Runnable {
         private final CubbyHole cubbyhole;
 
         private final int number;
@@ -23,9 +23,6 @@ public final class ProducerConsumerWaitNotify {
             this.number = number;
         }
 
-        /**
-         * @see java.lang.Runnable#run()
-         */
         @Override
         public void run() {
             while (!Thread.interrupted()) {
@@ -46,7 +43,7 @@ public final class ProducerConsumerWaitNotify {
     /**
      * @author Thomas Freese
      */
-    private static class CubbyHole {
+    private static final class CubbyHole {
         private boolean available;
 
         private int content;
@@ -87,7 +84,7 @@ public final class ProducerConsumerWaitNotify {
     /**
      * @author Thomas Freese
      */
-    private static class Producer implements Runnable {
+    private static final class Producer implements Runnable {
         private final CubbyHole cubbyhole;
 
         private final int number;
@@ -99,9 +96,6 @@ public final class ProducerConsumerWaitNotify {
             this.number = number;
         }
 
-        /**
-         * @see java.lang.Thread#run()
-         */
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {

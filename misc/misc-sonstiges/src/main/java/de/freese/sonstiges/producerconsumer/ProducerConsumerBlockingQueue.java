@@ -13,7 +13,7 @@ public final class ProducerConsumerBlockingQueue {
     /**
      * @author Thomas Freese
      */
-    private static class Consumer implements Runnable {
+    private static final class Consumer implements Runnable {
         private final int number;
 
         private final BlockingQueue<Integer> queue;
@@ -25,9 +25,6 @@ public final class ProducerConsumerBlockingQueue {
             this.number = number;
         }
 
-        /**
-         * @see java.lang.Runnable#run()
-         */
         @Override
         public synchronized void run() {
             while (!Thread.interrupted()) {
@@ -57,7 +54,7 @@ public final class ProducerConsumerBlockingQueue {
     /**
      * @author Thomas Freese
      */
-    private static class Producer implements Runnable {
+    private static final class Producer implements Runnable {
         private final int number;
         private final BlockingQueue<Integer> queue;
 
@@ -68,9 +65,6 @@ public final class ProducerConsumerBlockingQueue {
             this.number = number;
         }
 
-        /**
-         * @see java.lang.Runnable#run()
-         */
         @Override
         public synchronized void run() {
             for (int i = 0; i < 10; i++) {

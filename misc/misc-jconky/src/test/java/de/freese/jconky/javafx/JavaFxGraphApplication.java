@@ -43,7 +43,7 @@ public final class JavaFxGraphApplication extends Application {
     /**
      * @author Thomas Freese
      */
-    private static class CompositeGraphPainter extends AbstractFxGraphPainter {
+    private static final class CompositeGraphPainter extends AbstractFxGraphPainter {
         private final BarFxGraphPainter barPainter = new BarFxGraphPainter();
 
         private final LineFxGraphPainter linePainter = new LineFxGraphPainter();
@@ -53,9 +53,6 @@ public final class JavaFxGraphApplication extends Application {
             this.barPainter.getValues().addValue(value);
         }
 
-        /**
-         * @see de.freese.jconky.javafx.painter.AbstractFxGraphPainter#paintGraph(javafx.scene.canvas.GraphicsContext, double, double)
-         */
         @Override
         public void paintGraph(final GraphicsContext gc, final double width, final double height) {
             double halfHeight = height / 2D;
@@ -94,17 +91,11 @@ public final class JavaFxGraphApplication extends Application {
         super();
     }
 
-    /**
-     * @see javafx.application.Application#init()
-     */
     @Override
     public void init() throws Exception {
         getLogger().info("init");
     }
 
-    /**
-     * @see javafx.application.Application#start(javafx.stage.Stage)
-     */
     @Override
     public void start(final Stage primaryStage) throws Exception {
         // gc.beginPath();
@@ -197,9 +188,6 @@ public final class JavaFxGraphApplication extends Application {
         primaryStage.show();
     }
 
-    /**
-     * @see javafx.application.Application#stop()
-     */
     @Override
     public void stop() throws Exception {
         getLogger().info("stop");

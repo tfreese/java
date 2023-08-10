@@ -46,17 +46,11 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
         return this.myPid;
     }
 
-    /**
-     * @see de.freese.jconky.system.SystemMonitor#getNumberOfCores()
-     */
     @Override
     public int getNumberOfCores() {
         return Runtime.getRuntime().availableProcessors();
     }
 
-    /**
-     * @see de.freese.jconky.system.SystemMonitor#getTotalSystemMemory()
-     */
     @Override
     public long getTotalSystemMemory() {
         return OPERATING_SYSTEM_MX_BEAN.getTotalMemorySize();
@@ -77,7 +71,8 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
         try {
             Process process = processBuilder.start();
 
-            try (BufferedReader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8)); BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8))) {
+            try (BufferedReader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8));
+                 BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8))) {
                 lines = inputReader.lines().toList();
                 errors = errorReader.lines().toList();
             }

@@ -126,16 +126,13 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         this.processBuilderDf = new ProcessBuilder().command("/bin/sh", "-c", "df --block-size=1K");
         this.processBuilderFree = new ProcessBuilder().command("/bin/sh", "-c", "free --bytes");
         this.processBuilderCheckUpdates = new ProcessBuilder().command("/bin/sh", "-c", "checkupdates");
-        this.processBuilderPlayerctlMetaData = new ProcessBuilder().command("/bin/sh", "-c", "playerctl -p clementine -s metadata");
-        this.processBuilderPlayerctlPosition = new ProcessBuilder().command("/bin/sh", "-c", "playerctl -p clementine -s position");
+        this.processBuilderPlayerctlMetaData = new ProcessBuilder().command("/bin/sh", "-c", "playerctl -p strawberry -s metadata");
+        this.processBuilderPlayerctlPosition = new ProcessBuilder().command("/bin/sh", "-c", "playerctl -p strawberry -s position");
         this.processBuilderHddtemp = new ProcessBuilder().command("/bin/sh", "-c", "sudo hddtemp /dev/sda /dev/sdb");
         this.processBuilderSmartctl = new ProcessBuilder().command("/bin/sh", "-c", "sudo smartctl -A /dev/nvme0n1");
         this.processBuilderNvidiaSmi = new ProcessBuilder().command("/bin/sh", "-c", "nvidia-smi --format=csv,noheader,nounits --query-gpu=temperature.gpu,power.draw,fan.speed,utilization.gpu");
     }
 
-    /**
-     * @see de.freese.jconky.system.SystemMonitor#getCpuInfos()
-     */
     @Override
     public CpuInfos getCpuInfos() {
         // String output = readContent("/proc/cpuinfo").stream().collect(Collectors.joining("\n"));
@@ -198,9 +195,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         return cpuInfos;
     }
 
-    /**
-     * @see de.freese.jconky.system.SystemMonitor#getCpuLoadAvg()
-     */
     @Override
     public CpuLoadAvg getCpuLoadAvg() {
         List<String> lines = readContent("/proc/loadavg");
@@ -221,9 +215,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         return loadAvg;
     }
 
-    /**
-     * @see de.freese.jconky.system.SystemMonitor#getExternalIp()
-     */
     @Override
     public String getExternalIp() {
         String externalIp = "";
@@ -246,9 +237,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         return externalIp;
     }
 
-    /**
-     * @see de.freese.jconky.system.SystemMonitor#getFilesystems()
-     */
     @Override
     public Map<String, UsageInfo> getFilesystems() {
         Map<String, UsageInfo> map = new HashMap<>();
@@ -273,9 +261,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         return map;
     }
 
-    /**
-     * @see de.freese.jconky.system.SystemMonitor#getHostInfo()
-     */
     @Override
     public HostInfo getHostInfo() {
         List<String> lines = readContent(this.processBuilderUname);
@@ -296,9 +281,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         return hostInfo;
     }
 
-    /**
-     * @see de.freese.jconky.system.SystemMonitor#getMusicInfo()
-     */
     @Override
     public MusicInfo getMusicInfo() {
         List<String> lines = readContent(this.processBuilderPlayerctlMetaData);
@@ -351,9 +333,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         return musicInfo;
     }
 
-    /**
-     * @see de.freese.jconky.system.SystemMonitor#getNetworkInfos()
-     */
     @Override
     public NetworkInfos getNetworkInfos() {
         // ifconfig
@@ -492,9 +471,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         return networkInfos;
     }
 
-    /**
-     * @see de.freese.jconky.system.SystemMonitor#getProcessInfos(double, long)
-     */
     @Override
     public ProcessInfos getProcessInfos(final double uptimeInSeconds, final long totalSystemMemory) {
         ProcessInfos processInfos = getProcessInfosByTop();
@@ -507,9 +483,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         return processInfos;
     }
 
-    /**
-     * @see de.freese.jconky.system.SystemMonitor#getRamAndSwap()
-     */
     @Override
     public Map<String, UsageInfo> getRamAndSwap() {
         // /proc/meminfo
@@ -547,9 +520,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         return map;
     }
 
-    /**
-     * @see de.freese.jconky.system.SystemMonitor#getTemperatures()
-     */
     @Override
     public Map<String, TemperatureInfo> getTemperatures() {
         Map<String, TemperatureInfo> map = new HashMap<>();
@@ -595,9 +565,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         return map;
     }
 
-    /**
-     * @see de.freese.jconky.system.SystemMonitor#getUpdates()
-     */
     @Override
     public int getUpdates() {
         long updates = readContent(this.processBuilderCheckUpdates).size();
@@ -607,9 +574,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         return (int) updates;
     }
 
-    /**
-     * @see de.freese.jconky.system.SystemMonitor#getUptimeInSeconds()
-     */
     @Override
     public double getUptimeInSeconds() {
         List<String> lines = readContent("/proc/uptime");

@@ -29,10 +29,7 @@ public final class LabelDnD2 extends JPanel {
     /**
      * @author Thomas Freese
      */
-    private static class DragMouseAdapter extends MouseAdapter {
-        /**
-         * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
-         */
+    private static final class DragMouseAdapter extends MouseAdapter {
         @Override
         public void mousePressed(final MouseEvent e) {
             JComponent c = (JComponent) e.getSource();

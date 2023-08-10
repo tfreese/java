@@ -52,9 +52,6 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel {
         this.list = Objects.requireNonNull(list, "list required");
     }
 
-    /**
-     * @see javax.swing.table.AbstractTableModel#getColumnClass(int)
-     */
     @Override
     public Class<?> getColumnClass(final int columnIndex) {
         if (getRowCount() != 0) {
@@ -70,17 +67,11 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel {
         return super.getColumnClass(columnIndex);
     }
 
-    /**
-     * @see javax.swing.table.TableModel#getColumnCount()
-     */
     @Override
     public int getColumnCount() {
         return this.columnCount;
     }
 
-    /**
-     * @see javax.swing.table.AbstractTableModel#getColumnName(int)
-     */
     @Override
     public String getColumnName(final int column) {
         if ((getColumnNames() == null) || getColumnNames().isEmpty()) {
@@ -101,9 +92,6 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel {
         return getList().get(rowIndex);
     }
 
-    /**
-     * @see javax.swing.table.TableModel#getRowCount()
-     */
     @Override
     public final int getRowCount() {
         return getList().size();

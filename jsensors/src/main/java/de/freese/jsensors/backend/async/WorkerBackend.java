@@ -25,7 +25,7 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
     /**
      * @author Thomas Freese
      */
-    private class QueueWorker extends Thread {
+    private final class QueueWorker extends Thread {
         @Override
         public void run() {
             while (!stoppedRef.get()) {
