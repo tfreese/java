@@ -1406,7 +1406,7 @@ public final class MiscMain {
             LOGGER.info(message);
         };
 
-        // Executors.newVirtualThreadPerTaskExecutor(): Virtuell Threads do not have Names.
+        // Executors.newVirtualThreadPerTaskExecutor(): Virtual Threads do not have Names.
         ThreadFactory threadFactory = Thread.ofVirtual().name("virtual-", 1).factory();
 
         try (ExecutorService executorService = Executors.newThreadPerTaskExecutor(threadFactory)) {
