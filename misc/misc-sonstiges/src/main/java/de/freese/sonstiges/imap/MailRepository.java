@@ -35,17 +35,17 @@ import de.freese.sonstiges.imap.model.Token;
  * @author Thomas Freese
  */
 public class MailRepository implements AutoCloseable {
-    
+
     private static DataSource toDataSource(final Path dbPath) {
         // H2
-        JdbcConnectionPool pool = JdbcConnectionPool.create("jdbc:h2:file:" + dbPath.resolve("h2"), "sa", "sa");
-        pool.setMaxConnections(3);
+        //        JdbcConnectionPool pool = JdbcConnectionPool.create("jdbc:h2:file:" + dbPath.resolve("h2"), "sa", "sa");
+        //        pool.setMaxConnections(3);
 
         // Hsqldb
-        // JDBCPool pool = new JDBCPool(3);
-        // pool.setUrl("jdbc:hsqldb:file:" + dbPath.resolve("hsqldb") + ";shutdown=true");
-        // pool.setUser("sa");
-        // pool.setPassword("sa");
+        JDBCPool pool = new JDBCPool(3);
+        pool.setUrl("jdbc:hsqldb:file:" + dbPath.resolve("hsqldb") + ";shutdown=true");
+        pool.setUser("sa");
+        pool.setPassword("sa");
 
         // MariaDbPoolDataSource pool = new MariaDbPoolDataSource("jdbc:mariadb://localhost:3306/testdb?user=root&password=rootpw&maxPoolSize=3");
 
@@ -181,25 +181,24 @@ public class MailRepository implements AutoCloseable {
              Statement statement = connection.createStatement()) {
 
             // @formatter:off
-            String sql = bufferedReader.lines()
+            String script = bufferedReader.lines()
                     .filter(Objects::nonNull)
-                    .map(String::strip)
                     .filter(line -> !line.isEmpty())
                     .filter(line -> !line.startsWith("#"))
                     .filter(line -> !line.startsWith("--"))
-                    .map(line -> line.replace("\n", " ").replace("\r", " "))
+                    .map(String::strip)
+                    .filter(l -> !l.isEmpty())
                     .collect(Collectors.joining(" "))
                     ;
             // @formatter:on
 
-            // statement.execute(sql);
-
-            try (Scanner scanner = new Scanner(sql)) {
-                scanner.useDelimiter("; ");
+            // SQLs ending with ';'.
+            try (Scanner scanner = new Scanner(script)) {
+                scanner.useDelimiter(";");
 
                 while (scanner.hasNext()) {
-                    String s = scanner.next();
-                    statement.execute(s);
+                    String sql = scanner.next().strip();
+                    statement.execute(sql);
                 }
             }
         }
