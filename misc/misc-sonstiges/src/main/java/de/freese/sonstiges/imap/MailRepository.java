@@ -114,12 +114,12 @@ public class MailRepository implements AutoCloseable {
         this.dataSource = null;
     }
 
-    public boolean containsMessageId(final long messageId) throws SQLException {
+    public boolean containsMessageId(final String messageId) throws SQLException {
         String sql = "select count(*) from MESSAGE where MESSAGE_ID = ?";
 
         try (Connection connection = this.dataSource.getConnection();
              PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
-            prepareStatement.setLong(1, messageId);
+            prepareStatement.setString(1, messageId);
 
             try (ResultSet resultSet = prepareStatement.executeQuery()) {
                 resultSet.next();
@@ -254,11 +254,11 @@ public class MailRepository implements AutoCloseable {
                     """;
 
             try (PreparedStatement preparedStatementMessage = connection.prepareStatement(sql)) {
-                preparedStatementMessage.setLong(1, messageWrapper.getMessageId());
+                preparedStatementMessage.setString(1, messageWrapper.getMessageId());
                 preparedStatementMessage.setString(2, messageWrapper.getFolderName());
                 preparedStatementMessage.setString(3, messageWrapper.getSubject());
                 preparedStatementMessage.setBoolean(4, messageWrapper.isSpam());
-                preparedStatementMessage.setTimestamp(5, new java.sql.Timestamp(messageWrapper.getReceivedDate().getTime()));
+                preparedStatementMessage.setTimestamp(5, new java.sql.Timestamp(messageWrapper.getDate().getTime()));
                 preparedStatementMessage.setString(6, messageWrapper.getFrom());
 
                 preparedStatementMessage.executeUpdate();
@@ -355,7 +355,7 @@ public class MailRepository implements AutoCloseable {
                     int count = entry.getValue();
 
                     // Message_Token
-                    preparedStatementMessageToken.setLong(1, messageWrapper.getMessageId());
+                    preparedStatementMessageToken.setString(1, messageWrapper.getMessageId());
                     preparedStatementMessageToken.setString(2, token);
                     preparedStatementMessageToken.setInt(3, count);
 

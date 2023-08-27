@@ -135,6 +135,7 @@ public final class MiscMain {
         //        copyPipedStreamsInToOut();
         //        copyPipedStreamsOutToIn();
         //        dateTime();
+        fileWalker();
         //        fileSystems();
         //        hostName();
         //        httpRedirect();
@@ -148,7 +149,7 @@ public final class MiscMain {
         //        reactorParallel();
         //        reactorStream();
         //        reactorSinks();
-        reflection();
+        //        reflection();
         //        securityProviders();
         //        streamParallelCustomThreadPool();
         //        showMemory();
@@ -509,7 +510,7 @@ public final class MiscMain {
     }
 
     static void fileWalker() throws Exception {
-        final Path path = Paths.get(System.getProperty("user.home"), "mediathek", "musik", "ATC");
+        final Path path = Paths.get("/mnt", "mediathek", "musik", "ATC");
 
         LOGGER.info("Files.walk");
 
@@ -547,9 +548,6 @@ public final class MiscMain {
         Files.walkFileTree(path, new SimpleFileVisitor<>() {
             private String indent = "";
 
-            /**
-             * @see SimpleFileVisitor#postVisitDirectory(Object, IOException)
-             */
             @Override
             public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException {
                 if (StringUtils.isNotBlank(this.indent)) {
@@ -559,9 +557,6 @@ public final class MiscMain {
                 return FileVisitResult.CONTINUE;
             }
 
-            /**
-             * @see SimpleFileVisitor#preVisitDirectory(Object, BasicFileAttributes)
-             */
             @Override
             public FileVisitResult preVisitDirectory(final Path dir, final BasicFileAttributes attrs) throws IOException {
                 this.indent = this.indent + "   ";
@@ -575,9 +570,6 @@ public final class MiscMain {
                 return FileVisitResult.CONTINUE;
             }
 
-            /**
-             * @see SimpleFileVisitor#visitFile(Object, BasicFileAttributes)
-             */
             @Override
             public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
                 LOGGER.info("{}{}", this.indent, file);

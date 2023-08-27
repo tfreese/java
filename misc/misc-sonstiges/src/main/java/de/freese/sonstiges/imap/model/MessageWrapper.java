@@ -48,20 +48,31 @@ public class MessageWrapper {
         return new String(chars, 0, pos);
     }
 
+    private final String folderName;
+
     private final Message message;
 
     private boolean isSpam;
 
-    private long messageId;
+    private String messageId;
 
     public MessageWrapper(final Message message) {
+        this(message, message.getFolder().getName());
+    }
+
+    public MessageWrapper(final Message message, String folderName) {
         super();
-        
+
         this.message = Objects.requireNonNull(message, "message required");
+        this.folderName = Objects.requireNonNull(folderName, "folderName required");
+    }
+
+    public Date getDate() throws MessagingException {
+        return message.getReceivedDate() != null ? message.getReceivedDate() : message.getSentDate();
     }
 
     public String getFolderName() {
-        return message.getFolder().getName();
+        return folderName;
     }
 
     public String getFrom() throws MessagingException {
@@ -72,12 +83,8 @@ public class MessageWrapper {
         return this.message;
     }
 
-    public long getMessageId() {
+    public String getMessageId() {
         return this.messageId;
-    }
-
-    public Date getReceivedDate() throws MessagingException {
-        return message.getReceivedDate();
     }
 
     public String getSubject() throws MessagingException {
@@ -88,11 +95,11 @@ public class MessageWrapper {
         return this.isSpam;
     }
 
-    public void setMessageId(final long messageId) {
+    public void setMessageId(final String messageId) {
         this.messageId = messageId;
     }
 
-    public void setSpam(final boolean spam) {
-        isSpam = spam;
+    public void setSpam(final boolean isSpam) {
+        this.isSpam = isSpam;
     }
 }

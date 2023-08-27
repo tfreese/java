@@ -9,7 +9,7 @@ drop table if exists MESSAGE_TOKEN;
 
 ---------------------------------------------------------------------------------------------------
 create table MESSAGE (
-    MESSAGE_ID BIGINT NOT NULL,
+    MESSAGE_ID VARCHAR(200) NOT NULL,
     FOLDER_NAME VARCHAR(100) NOT NULL,
     SUBJECT VARCHAR(255) NOT NULL,
     IS_SPAM BOOLEAN NOT NULL,
@@ -21,7 +21,6 @@ comment on table MESSAGE is 'Einzelne Mails';
 comment on column MESSAGE.IS_SPAM is 'SPAM oder HAM';
 
 alter table MESSAGE add constraint MESSAGE_PK primary key (MESSAGE_ID);
-alter table MESSAGE add constraint MESSAGE_CHK check (MESSAGE_ID > 0);
 alter table MESSAGE add constraint MESSAGE_UQ unique (MESSAGE_ID, FOLDER_NAME);
 
 ---------------------------------------------------------------------------------------------------
@@ -42,7 +41,7 @@ alter table TOKEN add constraint TOKEN_SPAM_CHK check (SPAM_COUNT >= 0);
 
 ---------------------------------------------------------------------------------------------------
 create table MESSAGE_TOKEN (
-    MESSAGE_ID BIGINT NOT NULL,
+    MESSAGE_ID VARCHAR(200) NOT NULL,
     VALUE VARCHAR(50) NOT NULL,
     COUNT INTEGER NOT NULL
 );
@@ -53,6 +52,5 @@ comment on column MESSAGE_TOKEN.COUNT is 'Häufigkeit des Values in der Mail';
 alter table MESSAGE_TOKEN add constraint MT_MESSAGE_ID_FK foreign key (MESSAGE_ID) references MESSAGE (MESSAGE_ID);
 alter table MESSAGE_TOKEN add constraint MT_TOKEN_FK foreign key (VALUE) references TOKEN (VALUE);
 alter table MESSAGE_TOKEN add constraint MT_MESSAGETOKEN_UQ unique (MESSAGE_ID, VALUE);
-alter table MESSAGE_TOKEN add constraint MT_MESSAGE_ID_CHK check (MESSAGE_ID > 0);
 alter table MESSAGE_TOKEN add constraint MT_TOKEN_CHK check (length(trim(VALUE)) > 0);
 create index MT_MESSAGE_KEY on MESSAGE_TOKEN (MESSAGE_ID);

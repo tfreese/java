@@ -26,7 +26,6 @@ alter table MESSAGE comment 'Einzelne Mails';
 --comment on column MESSAGE.IS_SPAM is 'SPAM oder HAM'; -- Column Comments werden von mariadb/mysql nicht unterstützt.
 
 alter table MESSAGE add constraint MESSAGE_PK primary key (MESSAGE_ID);
-alter table MESSAGE add constraint MESSAGE_CHK check (MESSAGE_ID > 0);
 alter table MESSAGE add constraint MESSAGE_UQ unique (MESSAGE_ID, FOLDER_NAME);
 
 ---------------------------------------------------------------------------------------------------
@@ -58,6 +57,5 @@ alter table MESSAGE_TOKEN comment 'Zu einer Mail gehörenden Values';
 alter table MESSAGE_TOKEN add constraint MT_MESSAGE_ID_FK foreign key (MESSAGE_ID) references MESSAGE (MESSAGE_ID);
 alter table MESSAGE_TOKEN add constraint MT_TOKEN_FK foreign key (VALUE) references TOKEN (VALUE);
 alter table MESSAGE_TOKEN add constraint MT_MESSAGETOKEN_UQ unique (MESSAGE_ID, VALUE);
-alter table MESSAGE_TOKEN add constraint MT_MESSAGE_ID_CHK check (MESSAGE_ID > 0);
 alter table MESSAGE_TOKEN add constraint MT_TOKEN_CHK check (length(trim(VALUE)) > 0);
 create index MT_MESSAGE_KEY on MESSAGE_TOKEN (MESSAGE_ID);
