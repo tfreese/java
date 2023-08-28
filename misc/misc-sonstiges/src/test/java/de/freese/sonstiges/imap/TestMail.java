@@ -151,12 +151,12 @@ class TestMail {
 
         Locale locale = FunctionStripStopWords.getInstance().guessLocale(token);
 
-        token = MailClassifierMain.PRE_FILTER.apply(token);
+        token = TokenFunction.PRE_FILTER.apply(token);
         token.forEach(printStream::println);
 
         printStream.println();
         printStream.println("Stemmer --------------------");
-        Map<String, Integer> wordCount = MailClassifierMain.STEMMER_FILTER.apply(token, locale);
+        Map<String, Integer> wordCount = TokenFunction.STEMMER_FILTER.apply(token, locale);
         wordCount.forEach((word, count) -> printStream.printf("%s - %d%n", word, count));
     }
 }

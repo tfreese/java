@@ -4,22 +4,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.ForkJoinPool;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import javax.swing.JLabel;
@@ -35,18 +27,10 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.PasswordAuthentication;
 import jakarta.mail.Session;
 import jakarta.mail.Store;
-import jakarta.mail.UIDFolder;
-import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
-import com.sun.mail.imap.IMAPFolder;
-import com.sun.mail.imap.SortTerm;
-import org.apache.commons.lang3.function.FailableConsumer;
-import org.apache.commons.lang3.function.FailableFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.freese.sonstiges.imap.model.MessageWrapper;
 
 /**
  * @author Thomas Freese
@@ -54,52 +38,6 @@ import de.freese.sonstiges.imap.model.MessageWrapper;
 public class MailClient implements AutoCloseable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MailClient.class);
-
-    public static String getMessageId(Message message) throws Exception {
-        String messageId = null;
-
-        if (message instanceof MimeMessage mm) {
-            messageId = mm.getMessageID();
-        }
-
-        if (messageId == null) {
-            String[] messageIdHeader = message.getHeader("Message-ID");
-
-            if (messageIdHeader != null && messageIdHeader.length > 0) {
-                messageId = messageIdHeader[0];
-            }
-        }
-
-        if (messageId == null) {
-            Date date = message.getReceivedDate() != null ? message.getReceivedDate() : message.getSentDate();
-
-            LOGGER.warn("no messageId, generating one: {} - {} - {}", date, message.getSubject(), message.getFrom());
-
-            messageId = Optional.ofNullable(message.getFrom()).map(addresses -> addresses[0]).map(InternetAddress.class::cast).map(InternetAddress::getAddress).orElse("");
-
-            if (date != null) {
-                Instant instant = date.toInstant();
-                LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-                messageId += "-" + DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(localDateTime);
-            }
-
-            messageId += "-" + message.getSubject().replace("  ", "").replace(" ", "_");
-            messageId += "-" + message.getSize();
-            messageId += "-generated";
-        }
-
-        return messageId;
-    }
-
-    public static long getMessageUid(Message message) throws Exception {
-        Folder folder = message.getFolder();
-
-        if (folder instanceof UIDFolder uidFolder) {
-            return uidFolder.getUID(message);
-        }
-
-        return Objects.hash(folder.getName(), message.getReceivedDate(), message.getSubject(), Arrays.hashCode(message.getFrom()));
-    }
 
     private Session session;
 
@@ -243,7 +181,7 @@ public class MailClient implements AutoCloseable {
         login(host, user, password);
     }
 
-    public void parseMails(Path folderPath, FailableConsumer<MessageWrapper, Exception> messageConsumer) throws Exception {
+    public void readLocal(Path folderPath, Consumer<Message> messageConsumer) throws Exception {
         String folderName = folderPath.getFileName().toString();
 
         List<Path> mailFiles;
@@ -257,34 +195,13 @@ public class MailClient implements AutoCloseable {
         for (Path mail : mailFiles) {
             try (InputStream inputStream = new BufferedInputStream(Files.newInputStream(mail))) {
                 Message message = new MimeMessage(session, inputStream);
-                MessageWrapper messageWrapper = new MessageWrapper(message, folderName);
 
-                String messageId = MailClient.getMessageId(message);
-                messageWrapper.setMessageId(messageId);
-
-                messageConsumer.accept(messageWrapper);
+                messageConsumer.accept(message);
             }
         }
     }
 
-    public void read(String folderName, FailableConsumer<MessageWrapper, Exception> messageConsumer) throws Exception {
-        read(folderName, folder -> {
-            try {
-                if (folder instanceof IMAPFolder iFolder) {
-                    // All Mails, oldest first.
-                    return List.of(iFolder.getSortedMessages(new SortTerm[]{SortTerm.ARRIVAL}));
-                }
-
-                // All Mails, oldest first.
-                return List.of(folder.getMessages());
-            }
-            catch (MessagingException ex) {
-                throw new RuntimeException(ex);
-            }
-        }, messageConsumer);
-    }
-
-    public void read(String folderName, FailableFunction<Folder, List<Message>, Exception> messageSelector, FailableConsumer<MessageWrapper, Exception> messageConsumer) throws Exception {
+    public void readRemote(String folderName, Function<Folder, List<Message>> messageSelector, Consumer<Message> messageConsumer) throws Exception {
         LOGGER.info("reading mails: {}", folderName);
 
         Folder folder = null;
@@ -329,12 +246,7 @@ public class MailClient implements AutoCloseable {
             }
 
             for (Message message : messages) {
-                MessageWrapper messageWrapper = new MessageWrapper(message, folderName);
-
-                String messageId = MailClient.getMessageId(message);
-                messageWrapper.setMessageId(messageId);
-
-                messageConsumer.accept(messageWrapper);
+                messageConsumer.accept(message);
             }
         }
         finally {
@@ -347,24 +259,5 @@ public class MailClient implements AutoCloseable {
                 LOGGER.error(ex.getMessage(), ex);
             }
         }
-    }
-
-    public void saveAllMails(String folderName, Path basePath) throws Exception {
-        FailableConsumer<MessageWrapper, Exception> messageHandlerFile = messageWrapper -> {
-            Message message = messageWrapper.getMessage();
-            Path path = basePath.resolve(folderName).resolve(getMessageUid(message) + ".mail");
-
-            if (!Files.exists(path.getParent())) {
-                Files.createDirectories(path.getParent());
-            }
-
-            LOGGER.info("save: {}", path);
-
-            try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(path))) {
-                message.writeTo(outputStream);
-            }
-        };
-
-        read(folderName, messageHandlerFile);
     }
 }
