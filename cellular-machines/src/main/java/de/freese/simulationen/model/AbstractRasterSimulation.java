@@ -13,19 +13,23 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
- * BasisModel für Simulationen mit Zellen als Pixeln.
+ * BaseModel for Simulations with Cells as Pixels.
  *
  * @author Thomas Freese
  */
 public abstract class AbstractRasterSimulation extends AbstractSimulation {
+
     private final Image image;
 
     private final MemoryImageSource imageSource;
+
     /**
-     * Pixel-Backend für {@link MemoryImageSource} und {@link Image}.
+     * Pixel-Backend for {@link MemoryImageSource} and {@link Image}.
      */
     private final int[] pixelsRGB;
+
     private final Cell[][] raster;
+
     private Set<Cell> cells;
 
     protected AbstractRasterSimulation(final int width, final int height) {
@@ -45,17 +49,11 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation {
         // java.awt.Component.createImage(this.imageSource);
     }
 
-    /**
-     * @see de.freese.simulationen.model.Simulation#getImage()
-     */
     @Override
     public Image getImage() {
         return this.image;
     }
 
-    /**
-     * @see de.freese.simulationen.model.Simulation#reset()
-     */
     @Override
     public void reset() {
         // @formatter:off
@@ -74,9 +72,6 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation {
         fireCompleted();
     }
 
-    /**
-     * Einmaliges befüllen des Rasters.
-     */
     protected final void fillRaster(final Supplier<Cell> cellSupplier) {
         Set<Cell> set = Collections.synchronizedSet(new HashSet<>());
 
@@ -109,33 +104,21 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation {
         return this.raster[x][y];
     }
 
-    /**
-     * Liefert einen parallelen {@link Stream} für die Zellen.
-     */
     protected Stream<Cell> getCellStream() {
-        // Der Stream vom Raster bildet Wellen-Fronten, da immer von oben links angefangen wird zu rechnen.
+        // The Raster-Stream creates wave fronts, because the calculating starts in the upper left corner.
         // return Stream.of(this.raster).parallel().flatMap(Stream::of).parallel();
 
         return this.cells.stream().parallel();
     }
 
-    /**
-     * Reset einer Zelle des Rasters.
-     */
     protected void reset(final int x, final int y) {
         // Empty
     }
 
-    /**
-     * Ändert die Pixel-Farbe an den Koordinaten.
-     */
     protected void setCellColor(final int x, final int y, final Color color) {
         this.pixelsRGB[x + (y * getWidth())] = color.getRGB();
     }
 
-    /**
-     * @see de.freese.simulationen.model.AbstractSimulation#updateImage()
-     */
     @Override
     protected void updateImage() {
         this.imageSource.newPixels();

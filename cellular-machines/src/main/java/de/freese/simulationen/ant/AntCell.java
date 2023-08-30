@@ -190,9 +190,6 @@ public class AntCell extends AbstractCell {
         }
     }
 
-    /**
-     * @see de.freese.simulationen.model.AbstractCell#getSimulation()
-     */
     @Override
     protected AntRasterSimulation getSimulation() {
         return (AntRasterSimulation) super.getSimulation();

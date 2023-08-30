@@ -16,27 +16,34 @@ import de.freese.simulationen.wator.WaTorCell.CellType;
  */
 public class WaTorRasterSimulation extends AbstractRasterSimulation {
     private final LongAdder fishCounter = new LongAdder();
+
     private final LongAdder sharkCounter = new LongAdder();
+
     /**
      * Richtung der Berechnung.
      */
     private int direction;
+
     /**
      * Brut-Energie der Fische.
      */
     private int fishBreedEnergy = 5;
+
     /**
      * Start-Energie der Fische.
      */
     private int fishStartEnergy = 1;
+
     /**
      * Brut-Energie der Haie.
      */
     private int sharkBreedEnergy = 15;
+
     /**
      * Start-Energie der Haie.
      */
     private int sharkStartEnergy = 10;
+
     /**
      * Start-Energie der Haie.
      */
@@ -103,9 +110,6 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
         return this.sharkStarveEnergy;
     }
 
-    /**
-     * @see de.freese.simulationen.model.Simulation#nextGeneration()
-     */
     @Override
     public void nextGeneration() {
         getCellStream().forEach(Cell::nextGeneration);
@@ -302,17 +306,11 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
         }
     }
 
-    /**
-     * @see de.freese.simulationen.model.AbstractRasterSimulation#getCell(int, int)
-     */
     @Override
     protected WaTorCell getCell(final int x, final int y) {
         return (WaTorCell) super.getCell(x, y);
     }
 
-    /**
-     * @see de.freese.simulationen.model.AbstractRasterSimulation#reset(int, int)
-     */
     @Override
     protected void reset(final int x, final int y) {
         // Zufällige Platzierung.

@@ -47,6 +47,8 @@ public final class CaffeineMain {
                     .expireAfterWrite(3, TimeUnit.SECONDS)
                     .refreshAfterWrite(1, TimeUnit.SECONDS)
                     .maximumSize(100)
+                    .weakKeys()
+                    .weakValues()
                     .recordStats()
                     .executor(executorService)
                     .scheduler(Scheduler.forScheduledExecutorService(scheduledExecutorService))

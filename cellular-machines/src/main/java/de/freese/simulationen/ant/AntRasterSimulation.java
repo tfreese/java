@@ -41,9 +41,6 @@ public class AntRasterSimulation extends AbstractRasterSimulation {
         reset();
     }
 
-    /**
-     * @see de.freese.simulationen.model.Simulation#nextGeneration()
-     */
     @Override
     public void nextGeneration() {
         // Hier würden sämtliche Zellen verarbeitet werden, ist bei den Ameisen jedoch unnötig.
@@ -59,9 +56,6 @@ public class AntRasterSimulation extends AbstractRasterSimulation {
         fireCompleted();
     }
 
-    /**
-     * @see de.freese.simulationen.model.AbstractRasterSimulation#reset()
-     */
     @Override
     public void reset() {
         getCellStream().map(AntCell.class::cast).forEach(c -> c.setCellType(CellType.EMPTY));
@@ -95,9 +89,6 @@ public class AntRasterSimulation extends AbstractRasterSimulation {
         return getRandom().nextInt(4);
     }
 
-    /**
-     * @see de.freese.simulationen.model.AbstractRasterSimulation#getCell(int, int)
-     */
     @Override
     protected AntCell getCell(final int x, final int y) {
         return (AntCell) super.getCell(x, y);
