@@ -16,25 +16,16 @@ public class PatternGenotype extends Genotype {
         super(config, size);
     }
 
-    /**
-     * @see de.freese.ga.Genotype#createEmptyChromosome()
-     */
     @Override
     public Chromosome createEmptyChromosome() {
         return new PatternChromosome(getConfig());
     }
 
-    /**
-     * @see de.freese.ga.Genotype#createEmptyGenotype(int)
-     */
     @Override
     public Genotype createEmptyGenotype(final int size) {
         return new PatternGenotype(getConfig(), size);
     }
 
-    /**
-     * @see de.freese.ga.Genotype#getConfig()
-     */
     @Override
     protected PatternConfig getConfig() {
         return (PatternConfig) super.getConfig();

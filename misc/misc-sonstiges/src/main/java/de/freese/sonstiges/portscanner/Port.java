@@ -33,8 +33,6 @@ class Port implements Runnable {
 
     /**
      * Scannt den Port.
-     *
-     * @see java.lang.Runnable#run()
      */
     @Override
     public void run() {
@@ -50,9 +48,6 @@ class Port implements Runnable {
         }
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         return String.format("%s:%d", this.host, this.port);

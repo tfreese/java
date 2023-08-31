@@ -34,9 +34,6 @@ class ArrayListTransferHandler extends TransferHandler {
             this.data = data;
         }
 
-        /**
-         * @see java.awt.datatransfer.Transferable#getTransferData(java.awt.datatransfer.DataFlavor)
-         */
         @Override
         public Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException {
             if (!isDataFlavorSupported(flavor)) {
@@ -46,17 +43,11 @@ class ArrayListTransferHandler extends TransferHandler {
             return this.data;
         }
 
-        /**
-         * @see java.awt.datatransfer.Transferable#getTransferDataFlavors()
-         */
         @Override
         public DataFlavor[] getTransferDataFlavors() {
             return new DataFlavor[]{ArrayListTransferHandler.this.localArrayListFlavor, ArrayListTransferHandler.this.serialArrayListFlavor};
         }
 
-        /**
-         * @see java.awt.datatransfer.Transferable#isDataFlavorSupported(java.awt.datatransfer.DataFlavor)
-         */
         @Override
         public boolean isDataFlavorSupported(final DataFlavor flavor) {
             return ArrayListTransferHandler.this.localArrayListFlavor.equals(flavor) || ArrayListTransferHandler.this.serialArrayListFlavor.equals(flavor);
@@ -86,25 +77,16 @@ class ArrayListTransferHandler extends TransferHandler {
         this.serialArrayListFlavor = new DataFlavor(ArrayList.class, "ArrayList");
     }
 
-    /**
-     * @see javax.swing.TransferHandler#canImport(javax.swing.JComponent, java.awt.datatransfer.DataFlavor[])
-     */
     @Override
     public boolean canImport(final JComponent c, final DataFlavor[] flavors) {
         return hasLocalArrayListFlavor(flavors) || hasSerialArrayListFlavor(flavors);
     }
 
-    /**
-     * @see javax.swing.TransferHandler#getSourceActions(javax.swing.JComponent)
-     */
     @Override
     public int getSourceActions(final JComponent c) {
         return COPY_OR_MOVE;
     }
 
-    /**
-     * @see javax.swing.TransferHandler#importData(javax.swing.JComponent, java.awt.datatransfer.Transferable)
-     */
     @Override
     public boolean importData(final JComponent c, final Transferable t) {
         if (!canImport(c, t.getTransferDataFlavors())) {
@@ -182,9 +164,6 @@ class ArrayListTransferHandler extends TransferHandler {
         return true;
     }
 
-    /**
-     * @see javax.swing.TransferHandler#createTransferable(javax.swing.JComponent)
-     */
     @Override
     protected Transferable createTransferable(final JComponent c) {
         if (c instanceof JList) {
@@ -215,9 +194,6 @@ class ArrayListTransferHandler extends TransferHandler {
         return null;
     }
 
-    /**
-     * @see javax.swing.TransferHandler#exportDone(javax.swing.JComponent, java.awt.datatransfer.Transferable, int)
-     */
     @Override
     protected void exportDone(final JComponent c, final Transferable data, final int action) {
         if ((action == MOVE) && (this.indices != null)) {

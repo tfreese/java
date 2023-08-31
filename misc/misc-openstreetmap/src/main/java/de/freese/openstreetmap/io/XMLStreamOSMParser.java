@@ -53,9 +53,6 @@ public class XMLStreamOSMParser implements OSMParser {
 
     private OsmWay way;
 
-    /**
-     * @see de.freese.openstreetmap.io.OSMParser#parse(java.io.InputStream)
-     */
     @Override
     public OsmModel parse(final InputStream inputStream) throws Exception {
         // Validate gegen Schema.

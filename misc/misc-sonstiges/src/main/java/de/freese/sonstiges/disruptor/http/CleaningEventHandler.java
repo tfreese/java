@@ -11,9 +11,6 @@ import org.slf4j.LoggerFactory;
 public class CleaningEventHandler implements EventHandler<HttpEvent> {
     private static final Logger LOGGER = LoggerFactory.getLogger(CleaningEventHandler.class);
 
-    /**
-     * @see com.lmax.disruptor.EventHandler#onEvent(Object, long, boolean)
-     */
     @Override
     public void onEvent(final HttpEvent event, final long sequence, final boolean endOfBatch) {
         LOGGER.info("{}: CleaningEventHandler.onEvent: Sequence {}", Thread.currentThread().getName(), sequence);

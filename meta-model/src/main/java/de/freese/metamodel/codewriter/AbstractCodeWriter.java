@@ -25,9 +25,6 @@ import de.freese.metamodel.modelgen.model.FieldModel;
 public abstract class AbstractCodeWriter implements CodeWriter {
     protected static final String TAB = "    ";
 
-    /**
-     * @see de.freese.metamodel.codewriter.CodeWriter#write(de.freese.metamodel.modelgen.model.ClassModel, java.io.PrintStream)
-     */
     @Override
     public void write(final ClassModel classModel, final PrintStream output) throws Exception {
         if (classModel.isSerializeable()) {

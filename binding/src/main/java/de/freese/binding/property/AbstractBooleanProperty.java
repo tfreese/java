@@ -11,19 +11,14 @@ import de.freese.binding.expression.AbstractBooleanExpression;
  * @author Thomas Freese
  */
 public abstract class AbstractBooleanProperty extends AbstractBooleanExpression implements Property<Boolean> {
+
     private Boolean value;
 
-    /**
-     * @see de.freese.binding.value.ObservableValue#getValue()
-     */
     @Override
     public Boolean getValue() {
         return this.value;
     }
 
-    /**
-     * @see de.freese.binding.value.WritableValue#setValue(java.lang.Object)
-     */
     @Override
     public void setValue(final Boolean value) {
         Boolean old = this.value;

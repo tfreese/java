@@ -22,6 +22,7 @@ import de.freese.binding.value.ChangeListener;
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestStringBinding {
+    
     @Test
     void testBindingConcat() {
         SimpleStringProperty p1 = new SimpleStringProperty();

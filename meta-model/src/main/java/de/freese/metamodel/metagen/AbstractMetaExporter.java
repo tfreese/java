@@ -29,9 +29,6 @@ import de.freese.metamodel.metagen.model.UniqueConstraint;
 public abstract class AbstractMetaExporter implements MetaExporter {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    /**
-     * @see de.freese.metamodel.metagen.MetaExporter#export(javax.sql.DataSource, java.lang.String, java.lang.String)
-     */
     @Override
     public List<Schema> export(final DataSource dataSource, final String schemaNamePattern, final String tableNamePattern) throws Exception {
         Objects.requireNonNull(dataSource, "dataSource required");

@@ -95,9 +95,6 @@ public final class JConky extends Application {
         return scene;
     }
 
-    /**
-     * @see javafx.application.Application#init()
-     */
     @Override
     public void init() throws Exception {
         // "JavaFX-Launcher" umbenennen.
@@ -136,9 +133,6 @@ public final class JConky extends Application {
         getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateUpdates(), 0L, delay, timeUnit);
     }
 
-    /**
-     * @see javafx.application.Application#start(javafx.stage.Stage)
-     */
     @Override
     public void start(final Stage primaryStage) throws Exception {
         // "JavaFX Application Thread" umbenennen.
@@ -204,9 +198,6 @@ public final class JConky extends Application {
         }, 400L, 3000L, TimeUnit.MILLISECONDS);
     }
 
-    /**
-     * @see javafx.application.Application#stop()
-     */
     @Override
     public void stop() throws Exception {
         getLogger().info("stop");

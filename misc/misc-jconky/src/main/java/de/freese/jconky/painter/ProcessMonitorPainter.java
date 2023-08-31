@@ -11,9 +11,6 @@ import de.freese.jconky.util.JConkyUtils;
  * @author Thomas Freese
  */
 public class ProcessMonitorPainter extends AbstractMonitorPainter {
-    /**
-     * @see de.freese.jconky.painter.MonitorPainter#paintValue(javafx.scene.canvas.GraphicsContext, double)
-     */
     @Override
     public double paintValue(final GraphicsContext gc, final double width) {
         ProcessInfos infos = getContext().getProcessInfos();

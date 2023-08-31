@@ -17,9 +17,6 @@ public class GoFCell extends AbstractCell {
         super(simulation);
     }
 
-    /**
-     * @see de.freese.simulationen.model.AbstractCell#getColor()
-     */
     @Override
     public Color getColor() {
         return isAlive() ? Color.BLACK : Color.WHITE;
@@ -32,8 +29,6 @@ public class GoFCell extends AbstractCell {
      * <li>3. Eine lebende Zelle mit zwei oder drei lebenden Nachbarn bleibt in der nächsten Generation lebend.
      * <li>4. Lebende Zellen mit mehr als drei lebenden Nachbarn sterben in der nächsten Generation an Überbevölkerung.
      * </ol>
-     *
-     * @see de.freese.simulationen.model.Cell#nextGeneration()
      */
     @Override
     public void nextGeneration() {
@@ -118,9 +113,6 @@ public class GoFCell extends AbstractCell {
         }
     }
 
-    /**
-     * @see de.freese.simulationen.model.AbstractCell#getSimulation()
-     */
     @Override
     protected GoFRasterSimulation getSimulation() {
         return (GoFRasterSimulation) super.getSimulation();

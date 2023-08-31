@@ -19,12 +19,10 @@ import de.freese.binding.swing.combobox.DefaultObservableListComboBoxModel;
  * @author Thomas Freese
  */
 public final class ComboBoxModelMain {
+
     public static void main(final String[] args) throws Exception {
         JFrame frame = new JFrame("Test-ComboBoxModel");
         frame.addWindowListener(new WindowAdapter() {
-            /**
-             * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
-             */
             @Override
             public void windowClosing(final WindowEvent e) {
                 System.exit(0);

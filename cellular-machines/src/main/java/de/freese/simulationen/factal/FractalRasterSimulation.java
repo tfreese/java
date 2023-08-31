@@ -18,9 +18,6 @@ public class FractalRasterSimulation extends AbstractRasterSimulation {
         fillRaster(() -> new FractalCell(this));
     }
 
-    /**
-     * @see de.freese.simulationen.model.Simulation#nextGeneration()
-     */
     @Override
     public void nextGeneration() {
         // getCellStream().forEach(Cell::nextGeneration);
@@ -90,9 +87,6 @@ public class FractalRasterSimulation extends AbstractRasterSimulation {
         fireCompleted();
     }
 
-    /**
-     * @see de.freese.simulationen.model.AbstractRasterSimulation#getCell(int, int)
-     */
     @Override
     protected FractalCell getCell(final int x, final int y) {
         return (FractalCell) super.getCell(x, y);

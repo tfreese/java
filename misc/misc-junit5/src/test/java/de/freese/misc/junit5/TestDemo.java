@@ -49,9 +49,6 @@ class TestDemo {
             System.out.println(this);
         }
 
-        /**
-         * @see java.awt.Point#toString()
-         */
         @Override
         public String toString() {
             return "MyObject{" + "x=" + this.x + ", y=" + this.y + '}';
@@ -61,10 +58,6 @@ class TestDemo {
     static class MyParameterResolver implements ParameterResolver {
         static final Random RANDOM = new Random();
 
-        /**
-         * @see org.junit.jupiter.api.extension.ParameterResolver#resolveParameter(org.junit.jupiter.api.extension.ParameterContext,
-         * org.junit.jupiter.api.extension.ExtensionContext)
-         */
         @Override
         public Object resolveParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext) throws ParameterResolutionException {
             if (supportsParameter(parameterContext, extensionContext)) {
@@ -74,10 +67,6 @@ class TestDemo {
             return null;
         }
 
-        /**
-         * @see org.junit.jupiter.api.extension.ParameterResolver#supportsParameter(org.junit.jupiter.api.extension.ParameterContext,
-         * org.junit.jupiter.api.extension.ExtensionContext)
-         */
         @Override
         public boolean supportsParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext) throws ParameterResolutionException {
             return parameterContext.getParameter().getType() == MyObject.class;

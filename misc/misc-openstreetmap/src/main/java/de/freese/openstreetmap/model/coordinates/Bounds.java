@@ -104,9 +104,6 @@ public class Bounds {
         this.myMin = aMin;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         return "Bounds[" + this.myMin.lat() + "," + this.myMin.lon() + "," + this.myMax.lat() + "," + this.myMax.lon() + "]";

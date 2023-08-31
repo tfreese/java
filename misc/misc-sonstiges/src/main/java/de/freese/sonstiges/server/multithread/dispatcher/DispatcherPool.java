@@ -34,7 +34,7 @@ public class DispatcherPool implements Dispatcher {
     private final int numOfWorker;
 
     private ExecutorService executorServiceWorker;
-    
+
     private volatile int nextIndex;
 
     public DispatcherPool(final int numOfDispatcher, final int numOfWorker) {
@@ -59,9 +59,6 @@ public class DispatcherPool implements Dispatcher {
         this.dispatchers = new ArrayList<>(numOfDispatcher);
     }
 
-    /**
-     * @see de.freese.sonstiges.server.multithread.dispatcher.Dispatcher#register(java.nio.channels.SocketChannel)
-     */
     @Override
     public synchronized void register(final SocketChannel socketChannel) {
         nextDispatcher().register(socketChannel);

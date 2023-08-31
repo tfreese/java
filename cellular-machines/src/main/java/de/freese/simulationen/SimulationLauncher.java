@@ -122,9 +122,6 @@ public final class SimulationLauncher {
 
         SimulationSwing demo = new SimulationSwing();
         demo.addWindowListener(new WindowAdapter() {
-            /**
-             * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
-             */
             @Override
             public void windowClosing(final WindowEvent event) {
                 SimulationEnvironment.getInstance().shutdown();

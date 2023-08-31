@@ -36,9 +36,6 @@ public class CpuLoadAvg {
         return this.oneMinute;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder(getClass().getSimpleName());

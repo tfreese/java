@@ -9,6 +9,7 @@ import java.util.Objects;
  * @author Thomas Freese
  */
 public class DefaultObservableList<T> extends AbstractObservableList<T> {
+
     private final List<T> source;
 
     public DefaultObservableList() {
@@ -21,9 +22,6 @@ public class DefaultObservableList<T> extends AbstractObservableList<T> {
         this.source = Objects.requireNonNull(source, "source required");
     }
 
-    /**
-     * @see de.freese.binding.collections.AbstractObservableList#get(int)
-     */
     @Override
     public T get(final int index) {
         return getSource().get(index);
@@ -33,17 +31,11 @@ public class DefaultObservableList<T> extends AbstractObservableList<T> {
         return this.source;
     }
 
-    /**
-     * @see de.freese.binding.collections.AbstractObservableList#size()
-     */
     @Override
     public int size() {
         return getSource().size();
     }
 
-    /**
-     * @see de.freese.binding.collections.AbstractObservableList#doAdd(int, java.lang.Object)
-     */
     @Override
     protected void doAdd(final int index, final T element) {
         getLogger().debug("Index: {}; Element: {}", index, element);
@@ -51,9 +43,6 @@ public class DefaultObservableList<T> extends AbstractObservableList<T> {
         getSource().add(index, element);
     }
 
-    /**
-     * @see de.freese.binding.collections.AbstractObservableList#doRemove(int)
-     */
     @Override
     protected T doRemove(final int index) {
         getLogger().debug("Index: {}", index);
@@ -61,9 +50,6 @@ public class DefaultObservableList<T> extends AbstractObservableList<T> {
         return getSource().remove(index);
     }
 
-    /**
-     * @see de.freese.binding.collections.AbstractObservableList#doSet(int, java.lang.Object)
-     */
     @Override
     protected T doSet(final int index, final T element) {
         getLogger().debug("Index: {}; Element: {}", index, element);

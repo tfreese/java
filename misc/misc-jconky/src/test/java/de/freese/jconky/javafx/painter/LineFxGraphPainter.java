@@ -13,9 +13,6 @@ import javafx.scene.paint.Stop;
  * @author Thomas Freese
  */
 public class LineFxGraphPainter extends AbstractFxGraphPainter {
-    /**
-     * @see de.freese.jconky.javafx.painter.AbstractFxGraphPainter#paintGraph(javafx.scene.canvas.GraphicsContext, double, double)
-     */
     @Override
     public void paintGraph(final GraphicsContext gc, final double width, final double height) {
         List<Float> values = getValues().getLastValues((int) width);

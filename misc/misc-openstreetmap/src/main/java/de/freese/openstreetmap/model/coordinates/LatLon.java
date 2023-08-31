@@ -186,9 +186,6 @@ public class LatLon extends Coordinate {
         return super.getYCoord();
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         return "LatLon[lat=" + lat() + ",lon=" + lon() + "]";

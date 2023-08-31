@@ -9,6 +9,7 @@ import de.freese.binding.value.ObservableValue;
  * @author Thomas Freese
  */
 public interface ReadOnlyProperty<T> extends ObservableValue<T> {
+
     /**
      * Liefert das Object, welchem dieses Property gehört oder null.
      */

@@ -12,6 +12,7 @@ import de.freese.binding.value.ObservableStringValue;
  * @author Thomas Freese
  */
 public interface StringExpression extends ObservableStringValue {
+
     default StringBinding concat(final ObservableStringValue other) {
         return Bindings.concat(this, other);
     }

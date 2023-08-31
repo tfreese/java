@@ -20,9 +20,6 @@ public class AlgorithmLinear implements SudokuAlgorithm {
 
     private List<Integer> numberList;
 
-    /**
-     * @see SudokuAlgorithm#create(int[][])
-     */
     @Override
     public boolean create(final int[][] grid) {
         this.grid = grid;

@@ -21,10 +21,6 @@ import de.freese.metamodel.modelgen.model.FieldModel;
  * @author Thomas Freese
  */
 public class HibernateModelGenerator extends JpaModelGenerator {
-    /**
-     * @see de.freese.metamodel.modelgen.JpaModelGenerator#transformClassAnnotations(de.freese.metamodel.metagen.model.Table,
-     * de.freese.metamodel.modelgen.model.ClassModel)
-     */
     @Override
     protected void transformClassAnnotations(final Table table, final ClassModel classModel) {
         super.transformClassAnnotations(table, classModel);
@@ -57,10 +53,6 @@ public class HibernateModelGenerator extends JpaModelGenerator {
         classModel.addAnnotation(sb.toString());
     }
 
-    /**
-     * @see de.freese.metamodel.modelgen.JpaModelGenerator#transformClassJavaDoc(de.freese.metamodel.metagen.model.Table,
-     * de.freese.metamodel.modelgen.model.ClassModel)
-     */
     @Override
     protected void transformClassJavaDoc(final Table table, final ClassModel classModel) {
         String comment = table.getComment();
@@ -72,10 +64,6 @@ public class HibernateModelGenerator extends JpaModelGenerator {
         classModel.addComment("Hibernate-Entity für Tabelle " + table.getFullName() + ".");
     }
 
-    /**
-     * @see de.freese.metamodel.modelgen.JpaModelGenerator#transformFieldAnnotations(de.freese.metamodel.metagen.model.Column,
-     * de.freese.metamodel.modelgen.model.FieldModel)
-     */
     @Override
     protected void transformFieldAnnotations(final Column column, final FieldModel fieldModel) {
         super.transformFieldAnnotations(column, fieldModel);

@@ -39,9 +39,6 @@ public class PolygonBounds extends Bounds {
         return getCenter();
     }
 
-    /**
-     * @see de.freese.openstreetmap.model.coordinates.Bounds#contains(double, double)
-     */
     @Override
     public boolean contains(final double aLatitude, final double longitude) {
         this.myPolygonPath.closePath();
@@ -49,9 +46,6 @@ public class PolygonBounds extends Bounds {
         return this.myPolygonPath.contains(aLatitude, longitude);
     }
 
-    /**
-     * @see de.freese.openstreetmap.model.coordinates.Bounds#getCenter()
-     */
     @Override
     public LatLon getCenter() {
         this.myPolygonPath.closePath();
@@ -60,9 +54,6 @@ public class PolygonBounds extends Bounds {
         return new LatLon(bounds2D.getCenterX(), bounds2D.getCenterY());
     }
 
-    /**
-     * @see de.freese.openstreetmap.model.coordinates.Bounds#getMax()
-     */
     @Override
     public LatLon getMax() {
         this.myPolygonPath.closePath();
@@ -71,9 +62,6 @@ public class PolygonBounds extends Bounds {
         return new LatLon(bounds2D.getMaxX(), bounds2D.getMaxY());
     }
 
-    /**
-     * @see de.freese.openstreetmap.model.coordinates.Bounds#getMin()
-     */
     @Override
     public LatLon getMin() {
         this.myPolygonPath.closePath();
@@ -82,9 +70,6 @@ public class PolygonBounds extends Bounds {
         return new LatLon(bounds2D.getMinX(), bounds2D.getMinY());
     }
 
-    /**
-     * @see de.freese.openstreetmap.model.coordinates.Bounds#getSize()
-     */
     @Override
     public double getSize() {
         this.myPolygonPath.closePath();
@@ -93,9 +78,6 @@ public class PolygonBounds extends Bounds {
         return Math.max(bounds2D.getWidth(), bounds2D.getHeight());
     }
 
-    /**
-     * @see de.freese.openstreetmap.model.coordinates.Bounds#toString()
-     */
     @Override
     public String toString() {
         return "PolygonBounds@" + hashCode();

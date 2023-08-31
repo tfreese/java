@@ -26,9 +26,6 @@ public class FibonacciTask extends RecursiveTask<Long> {
         this.n = n;
     }
 
-    /**
-     * @see java.util.concurrent.RecursiveTask#compute()
-     */
     @Override
     protected Long compute() {
         long result = 0;

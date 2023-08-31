@@ -55,9 +55,6 @@ public class MyPanel extends JPanel {
         return this.mapBounds;
     }
 
-    /**
-     * @see javax.swing.JComponent#paint(java.awt.Graphics)
-     */
     @Override
     public void paint(final Graphics g) {
         if (this.model.getWayMap().isEmpty() || (this.myZTFMatrix == null)) {

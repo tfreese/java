@@ -8,10 +8,6 @@ import de.freese.metamodel.modelgen.model.ClassModel;
  * @author Thomas Freese
  */
 public class PojoModelGenerator extends AbstractModelGenerator {
-    /**
-     * @see de.freese.metamodel.modelgen.AbstractModelGenerator#transformClassJavaDoc(de.freese.metamodel.metagen.model.Table,
-     * de.freese.metamodel.modelgen.model.ClassModel)
-     */
     @Override
     protected void transformClassJavaDoc(final Table table, final ClassModel classModel) {
         String comment = table.getComment();

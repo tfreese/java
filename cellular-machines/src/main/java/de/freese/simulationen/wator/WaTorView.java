@@ -19,9 +19,6 @@ import de.freese.simulationen.SimulationView;
  * @author Thomas Freese
  */
 public class WaTorView extends SimulationView<WaTorRasterSimulation> {
-    /**
-     * @see de.freese.simulationen.SimulationView#initialize(de.freese.simulationen.model.Simulation, int)
-     */
     @Override
     public void initialize(final WaTorRasterSimulation simulation, final int delay) {
         super.initialize(simulation, delay);

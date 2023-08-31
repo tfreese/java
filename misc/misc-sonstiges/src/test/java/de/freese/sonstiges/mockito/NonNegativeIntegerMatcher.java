@@ -8,9 +8,6 @@ import org.mockito.ArgumentMatcher;
  */
 public class NonNegativeIntegerMatcher implements ArgumentMatcher<Integer> // CustomMatcher<Integer>
 {
-    /**
-     * @see org.mockito.ArgumentMatcher#matches(java.lang.Object)
-     */
     @Override
     public boolean matches(final Integer argument) {
         return argument < 0;

@@ -14,9 +14,6 @@ import de.freese.simulationen.SimulationView;
  * @author Thomas Freese
  */
 public class BallView extends SimulationView<BallSimulation> {
-    /**
-     * @see de.freese.simulationen.SimulationView#start()
-     */
     @Override
     protected void start() {
         super.start();

@@ -29,9 +29,6 @@ public class MyFrame extends JFrame implements ActionListener {
         this.myPanel = new MyPanel(model);
     }
 
-    /**
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
     @Override
     public void actionPerformed(final ActionEvent e) {
         String doWhat = e.getActionCommand();

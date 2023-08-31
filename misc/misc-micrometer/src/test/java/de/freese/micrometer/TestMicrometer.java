@@ -138,9 +138,6 @@ class TestMicrometer {
                 return null;
             }
 
-            /**
-             * @see io.micrometer.core.instrument.push.PushRegistryConfig#step()
-             */
             @Override
             public Duration step() {
                 return Duration.ofSeconds(1L);

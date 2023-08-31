@@ -9,6 +9,7 @@ import de.freese.binding.value.ObservableObjectValue;
  * @author Thomas Freese
  */
 public interface ObjectExpression<T> extends ObservableObjectValue<T> {
+
     default BooleanBinding isNotNull() {
         return Bindings.isNotNull(this);
     }

@@ -21,10 +21,12 @@ import de.freese.binding.swing.table.AbstractObservableListTableModel;
  * @author Thomas Freese
  */
 public final class TableModelMain {
+
     /**
      * @author Thomas Freese
      */
     private static class MyTableModel extends AbstractObservableListTableModel<Map<Integer, String>> {
+
         @Serial
         private static final long serialVersionUID = -4124180013372465407L;
 
@@ -32,9 +34,6 @@ public final class TableModelMain {
             super(columnCount, list);
         }
 
-        /**
-         * @see javax.swing.table.TableModel#getValueAt(int, int)
-         */
         @Override
         public Object getValueAt(final int rowIndex, final int columnIndex) {
             Map<Integer, String> map = getObjectAt(rowIndex);
@@ -46,9 +45,6 @@ public final class TableModelMain {
     public static void main(final String[] args) throws Exception {
         JFrame frame = new JFrame("Test-TableModel");
         frame.addWindowListener(new WindowAdapter() {
-            /**
-             * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
-             */
             @Override
             public void windowClosing(final WindowEvent e) {
                 System.exit(0);

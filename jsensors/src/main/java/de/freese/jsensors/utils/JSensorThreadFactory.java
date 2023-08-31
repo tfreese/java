@@ -29,9 +29,6 @@ public class JSensorThreadFactory implements ThreadFactory {
         this.daemon = daemon;
     }
 
-    /**
-     * @see java.util.concurrent.ThreadFactory#newThread(java.lang.Runnable)
-     */
     @Override
     public Thread newThread(final Runnable r) {
         Thread thread = this.defaultThreadFactory.newThread(r);

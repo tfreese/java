@@ -9,11 +9,10 @@ import javax.swing.event.ListDataListener;
 import de.freese.binding.collections.ObservableList;
 
 /**
- * TableModel das intern eine {@link ObservableList} verwendet.
- *
  * @author Thomas Freese
  */
 public abstract class AbstractObservableListTableModel<T> extends AbstractListTableModel<T> {
+    
     @Serial
     private static final long serialVersionUID = -863675813360039937L;
 

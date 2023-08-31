@@ -4,10 +4,6 @@ package de.freese.ga.examples.travelling_salesman;
 /**
  * Genom Value
  *
- * @param name
- * @param x
- * @param y
- *
  * @author Thomas Freese
  */
 public record City(String name, int x, int y) {
@@ -18,9 +14,6 @@ public record City(String name, int x, int y) {
         return Math.sqrt((xDistance * xDistance) + (yDistance * yDistance));
     }
 
-    /**
-     * @see Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

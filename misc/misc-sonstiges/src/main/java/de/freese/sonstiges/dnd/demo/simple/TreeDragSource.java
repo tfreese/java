@@ -36,9 +36,6 @@ class TreeDragSource implements DragSourceListener, DragGestureListener {
         this.recognizer = this.source.createDefaultDragGestureRecognizer(this.sourceTree, actions, this);
     }
 
-    /**
-     * @see java.awt.dnd.DragSourceListener#dragDropEnd(java.awt.dnd.DragSourceDropEvent)
-     */
     @Override
     public void dragDropEnd(final DragSourceDropEvent event) {
         //to support move or copy, we have to check which occurred:
@@ -51,25 +48,16 @@ class TreeDragSource implements DragSourceListener, DragGestureListener {
         // to support move only... if (event.getDropSuccess()) { ((DefaultTreeModel)sourceTree.getModel()).removeNodeFromParent(oldNode); }
     }
 
-    /**
-     * @see java.awt.dnd.DragSourceListener#dragEnter(java.awt.dnd.DragSourceDragEvent)
-     */
     @Override
     public void dragEnter(final DragSourceDragEvent event) {
         // Empty
     }
 
-    /**
-     * @see java.awt.dnd.DragSourceListener#dragExit(java.awt.dnd.DragSourceEvent)
-     */
     @Override
     public void dragExit(final DragSourceEvent event) {
         // Empty
     }
 
-    /**
-     * @see java.awt.dnd.DragGestureListener#dragGestureRecognized(java.awt.dnd.DragGestureEvent)
-     */
     @Override
     public void dragGestureRecognized(final DragGestureEvent event) {
         TreePath path = this.sourceTree.getSelectionPath();
@@ -88,17 +76,11 @@ class TreeDragSource implements DragSourceListener, DragGestureListener {
         // source.startDrag(event, DragSource.DefaultMoveDrop, transferable, this);
     }
 
-    /**
-     * @see java.awt.dnd.DragSourceListener#dragOver(java.awt.dnd.DragSourceDragEvent)
-     */
     @Override
     public void dragOver(final DragSourceDragEvent event) {
         // Empty
     }
 
-    /**
-     * @see java.awt.dnd.DragSourceListener#dropActionChanged(java.awt.dnd.DragSourceDragEvent)
-     */
     @Override
     public void dropActionChanged(final DragSourceDragEvent event) {
         System.out.println("Action: " + event.getDropAction());

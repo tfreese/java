@@ -46,9 +46,6 @@ public class ServerSingleThread extends AbstractServer {
         this.selectorProvider = Objects.requireNonNull(selectorProvider, "selectorProvider required");
     }
 
-    /**
-     * @see java.lang.Runnable#run()
-     */
     @Override
     public void run() {
         getLogger().info("starting '{}' on port: {}", getName(), getPort());
@@ -144,9 +141,6 @@ public class ServerSingleThread extends AbstractServer {
         getLogger().info("'{}' stopped on port: {}", getName(), getPort());
     }
 
-    /**
-     * @see de.freese.sonstiges.server.AbstractServer#start()
-     */
     @Override
     public void start() {
         Thread thread = new NamedThreadFactory(getName() + "-%d").newThread(this);
@@ -157,9 +151,6 @@ public class ServerSingleThread extends AbstractServer {
         // this.startLock.release();
     }
 
-    /**
-     * @see de.freese.sonstiges.server.AbstractServer#stop()
-     */
     @Override
     public void stop() {
         getLogger().info("stopping '{}' on port: {}", getName(), getPort());

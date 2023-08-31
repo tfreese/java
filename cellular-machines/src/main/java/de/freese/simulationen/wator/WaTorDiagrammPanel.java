@@ -96,9 +96,6 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
         add(new ChartPanel(chart), BorderLayout.CENTER);
     }
 
-    /**
-     * @see de.freese.simulationen.model.SimulationListener#completed(de.freese.simulationen.model.Simulation)
-     */
     @Override
     public void completed(final Simulation simulation) {
         Runnable runnable = () -> {

@@ -22,7 +22,7 @@ class ColorTransferHandler extends TransferHandler {
     private final String mimeType = DataFlavor.javaJVMLocalObjectMimeType + ";class=java.awt.Color";
 
     private boolean changesForegroundColor = true;
-    
+
     /**
      * The data type exported from JColorChooser.
      */
@@ -40,17 +40,11 @@ class ColorTransferHandler extends TransferHandler {
         }
     }
 
-    /**
-     * @see javax.swing.TransferHandler#canImport(javax.swing.JComponent, java.awt.datatransfer.DataFlavor[])
-     */
     @Override
     public boolean canImport(final JComponent c, final DataFlavor[] flavors) {
         return hasColorFlavor(flavors);
     }
 
-    /**
-     * @see javax.swing.TransferHandler#importData(javax.swing.JComponent, java.awt.datatransfer.Transferable)
-     */
     @Override
     public boolean importData(final JComponent c, final Transferable t) {
         if (hasColorFlavor(t.getTransferDataFlavors())) {

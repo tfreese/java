@@ -35,9 +35,6 @@ public final class JavaFxApplication extends Application {
         super();
     }
 
-    /**
-     * @see javafx.application.Application#start(javafx.stage.Stage)
-     */
     @Override
     public void start(final Stage stage) {
         Group root = new Group();

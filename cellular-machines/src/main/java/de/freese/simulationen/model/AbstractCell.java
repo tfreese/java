@@ -31,25 +31,16 @@ public abstract class AbstractCell implements Cell {
         this.color = color;
     }
 
-    /**
-     * @see de.freese.simulationen.model.Cell#getColor()
-     */
     @Override
     public Color getColor() {
         return this.color;
     }
 
-    /**
-     * @see de.freese.simulationen.model.Cell#getX()
-     */
     @Override
     public int getX() {
         return this.x;
     }
 
-    /**
-     * @see de.freese.simulationen.model.Cell#getY()
-     */
     @Override
     public int getY() {
         return this.y;
@@ -61,9 +52,6 @@ public abstract class AbstractCell implements Cell {
         getSimulation().setCellColor(getX(), getY(), color);
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

@@ -13,7 +13,9 @@ import javax.swing.event.ListDataListener;
  * @author Thomas Freese
  */
 public class SortedObservableList<T> extends DefaultObservableList<T> {
+
     private final List<T> sortedList = new ArrayList<>();
+
     private Comparator<T> comparator;
 
     public SortedObservableList(final ObservableList<T> source) {
@@ -27,25 +29,16 @@ public class SortedObservableList<T> extends DefaultObservableList<T> {
         this.sortedList.addAll(source);
 
         source.addListener(new ListDataListener() {
-            /**
-             * @see javax.swing.event.ListDataListener#contentsChanged(javax.swing.event.ListDataEvent)
-             */
             @Override
             public void contentsChanged(final ListDataEvent e) {
                 doSort();
             }
 
-            /**
-             * @see javax.swing.event.ListDataListener#intervalAdded(javax.swing.event.ListDataEvent)
-             */
             @Override
             public void intervalAdded(final ListDataEvent e) {
                 doSort();
             }
 
-            /**
-             * @see javax.swing.event.ListDataListener#intervalRemoved(javax.swing.event.ListDataEvent)
-             */
             @Override
             public void intervalRemoved(final ListDataEvent e) {
                 // Empty
@@ -53,9 +46,6 @@ public class SortedObservableList<T> extends DefaultObservableList<T> {
         });
     }
 
-    /**
-     * @see de.freese.binding.collections.DefaultObservableList#get(int)
-     */
     @Override
     public T get(final int index) {
         return this.sortedList.get(index);
@@ -65,9 +55,6 @@ public class SortedObservableList<T> extends DefaultObservableList<T> {
         this.comparator = Objects.requireNonNull(comparator, "comparator required");
     }
 
-    /**
-     * @see de.freese.binding.collections.DefaultObservableList#doAdd(int, java.lang.Object)
-     */
     @Override
     protected void doAdd(final int index, final T element) {
         getLogger().debug("Index: {}; Element: {}", index, element);
@@ -77,9 +64,6 @@ public class SortedObservableList<T> extends DefaultObservableList<T> {
         super.doAdd(index, element);
     }
 
-    /**
-     * @see de.freese.binding.collections.DefaultObservableList#doRemove(int)
-     */
     @Override
     protected T doRemove(final int index) {
         getLogger().debug("Index: {}", index);
@@ -89,9 +73,6 @@ public class SortedObservableList<T> extends DefaultObservableList<T> {
         return super.doRemove(index);
     }
 
-    /**
-     * @see de.freese.binding.collections.DefaultObservableList#doSet(int, java.lang.Object)
-     */
     @Override
     protected T doSet(final int index, final T element) {
         getLogger().debug("Index: {}; Element: {}", index, element);

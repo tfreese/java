@@ -94,9 +94,6 @@ public final class DragFileMain extends JPanel implements ActionListener {
         add(splitPane, BorderLayout.CENTER);
     }
 
-    /**
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
     @Override
     public void actionPerformed(final ActionEvent e) {
         if (e.getSource() == this.clear) {

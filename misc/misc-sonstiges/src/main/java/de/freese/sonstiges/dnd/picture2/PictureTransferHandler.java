@@ -29,9 +29,6 @@ class PictureTransferHandler extends TransferHandler {
             this.image = pic.getImage();
         }
 
-        /**
-         * @see java.awt.datatransfer.Transferable#getTransferData(java.awt.datatransfer.DataFlavor)
-         */
         @Override
         public Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException {
             if (!isDataFlavorSupported(flavor)) {
@@ -41,17 +38,11 @@ class PictureTransferHandler extends TransferHandler {
             return this.image;
         }
 
-        /**
-         * @see java.awt.datatransfer.Transferable#getTransferDataFlavors()
-         */
         @Override
         public DataFlavor[] getTransferDataFlavors() {
             return new DataFlavor[]{PICTURE_FLAVOR};
         }
 
-        /**
-         * @see java.awt.datatransfer.Transferable#isDataFlavorSupported(java.awt.datatransfer.DataFlavor)
-         */
         @Override
         public boolean isDataFlavorSupported(final DataFlavor flavor) {
             return PICTURE_FLAVOR.equals(flavor);
@@ -62,9 +53,6 @@ class PictureTransferHandler extends TransferHandler {
 
     private DTPicture sourcePic;
 
-    /**
-     * @see javax.swing.TransferHandler#canImport(javax.swing.JComponent, java.awt.datatransfer.DataFlavor[])
-     */
     @Override
     public boolean canImport(final JComponent c, final DataFlavor[] flavors) {
         for (DataFlavor flavor : flavors) {
@@ -76,17 +64,11 @@ class PictureTransferHandler extends TransferHandler {
         return false;
     }
 
-    /**
-     * @see javax.swing.TransferHandler#getSourceActions(javax.swing.JComponent)
-     */
     @Override
     public int getSourceActions(final JComponent c) {
         return COPY_OR_MOVE;
     }
 
-    /**
-     * @see javax.swing.TransferHandler#importData(javax.swing.JComponent, java.awt.datatransfer.Transferable)
-     */
     @Override
     public boolean importData(final JComponent c, final Transferable t) {
         Image image;
@@ -120,9 +102,6 @@ class PictureTransferHandler extends TransferHandler {
         return false;
     }
 
-    /**
-     * @see javax.swing.TransferHandler#createTransferable(javax.swing.JComponent)
-     */
     @Override
     protected Transferable createTransferable(final JComponent c) {
         this.sourcePic = (DTPicture) c;
@@ -131,9 +110,6 @@ class PictureTransferHandler extends TransferHandler {
         return new PictureTransferable(this.sourcePic);
     }
 
-    /**
-     * @see javax.swing.TransferHandler#exportDone(javax.swing.JComponent, java.awt.datatransfer.Transferable, int)
-     */
     @Override
     protected void exportDone(final JComponent c, final Transferable data, final int action) {
         if (this.shouldRemove && (action == MOVE)) {

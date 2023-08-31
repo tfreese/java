@@ -51,25 +51,16 @@ class FileAndTextTransferHandler extends TransferHandler {
         this.stringFlavor = DataFlavor.stringFlavor;
     }
 
-    /**
-     * @see javax.swing.TransferHandler#canImport(javax.swing.JComponent, java.awt.datatransfer.DataFlavor[])
-     */
     @Override
     public boolean canImport(final JComponent c, final DataFlavor[] flavors) {
         return hasFileFlavor(flavors) || hasStringFlavor(flavors);
     }
 
-    /**
-     * @see javax.swing.TransferHandler#getSourceActions(javax.swing.JComponent)
-     */
     @Override
     public int getSourceActions(final JComponent c) {
         return COPY_OR_MOVE;
     }
 
-    /**
-     * @see javax.swing.TransferHandler#importData(javax.swing.JComponent, java.awt.datatransfer.Transferable)
-     */
     @Override
     public boolean importData(final JComponent c, final Transferable t) {
         if (!canImport(c, t.getTransferDataFlavors())) {
@@ -132,9 +123,6 @@ class FileAndTextTransferHandler extends TransferHandler {
         return false;
     }
 
-    /**
-     * @see javax.swing.TransferHandler#createTransferable(javax.swing.JComponent)
-     */
     @Override
     protected Transferable createTransferable(final JComponent c) {
         this.source = (JTextArea) c;
@@ -162,9 +150,6 @@ class FileAndTextTransferHandler extends TransferHandler {
         return new StringSelection(data);
     }
 
-    /**
-     * @see javax.swing.TransferHandler#exportDone(javax.swing.JComponent, java.awt.datatransfer.Transferable, int)
-     */
     @Override
     protected void exportDone(final JComponent c, final Transferable data, final int action) {
         if (this.shouldRemove && (action == MOVE)) {

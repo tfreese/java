@@ -85,8 +85,6 @@ public abstract class Chromosome {
 
     /**
      * Befüllt das Chromosom mit Genen.<br>
-     *
-     * @see Genotype#populate()
      */
     public abstract void populate();
 

@@ -25,6 +25,7 @@ import javax.swing.WindowConstants;
  * @author Thomas Freese
  */
 public final class CanvasMain extends JComponent implements Runnable {
+
     @Serial
     private static final long serialVersionUID = -6167704609710052731L;
 
@@ -44,9 +45,6 @@ public final class CanvasMain extends JComponent implements Runnable {
         final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(8);
 
         frame.addWindowListener(new WindowAdapter() {
-            /**
-             * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
-             */
             @Override
             public void windowClosing(final WindowEvent e) {
                 ((JFrame) e.getSource()).setVisible(false);
@@ -84,18 +82,12 @@ public final class CanvasMain extends JComponent implements Runnable {
         // setDoubleBuffered(true);
     }
 
-    /**
-     * @see javax.swing.JComponent#paint(java.awt.Graphics)
-     */
     @Override
     public void paint(final Graphics g) {
         // g.drawImage(this.image, 0, 0, null);
         g.drawImage(this.image, 0, 0, getWidth(), getHeight(), null);
     }
 
-    /**
-     * @see java.lang.Runnable#run()
-     */
     @Override
     public void run() {
         IntUnaryOperator generator = i -> {

@@ -36,9 +36,6 @@
 //
 //        app.addWindowListener(new WindowAdapter()
 //        {
-//            /**
-//             * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
-//             */
 //            @Override
 //            public void windowClosing(final WindowEvent e)
 //            {
@@ -54,9 +51,6 @@
 //     */
 //    private class EventHandler implements ControllerListener
 //    {
-//        /**
-//         * @see javax.media.ControllerListener#controllerUpdate(javax.media.ControllerEvent)
-//         */
 //        @Override
 //        public void controllerUpdate(final ControllerEvent e)
 //        {
@@ -98,9 +92,6 @@
 //        JButton openFile = new JButton("Open file to play");
 //        openFile.addActionListener(new ActionListener()
 //        {
-//            /**
-//             * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-//             */
 //            @Override
 //            public void actionPerformed(final ActionEvent e)
 //            {

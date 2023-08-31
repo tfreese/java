@@ -12,9 +12,6 @@ import de.freese.jconky.model.TemperatureInfo;
  * @author Thomas Freese
  */
 public class TemperatureMonitorPainter extends AbstractMonitorPainter {
-    /**
-     * @see de.freese.jconky.painter.MonitorPainter#paintValue(javafx.scene.canvas.GraphicsContext, double)
-     */
     @Override
     public double paintValue(final GraphicsContext gc, final double width) {
         Map<String, TemperatureInfo> temperatures = getContext().getTemperatures();

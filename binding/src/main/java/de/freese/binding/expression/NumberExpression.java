@@ -11,11 +11,10 @@ import de.freese.binding.constant.LongConstant;
 import de.freese.binding.value.ObservableNumberValue;
 
 /**
- * @param <T> Konkreter Typ
- *
  * @author Thomas Freese
  */
 public interface NumberExpression<T extends Number> extends ObservableNumberValue<T> {
+
     default NumberBinding<? extends Number> add(final double value) {
         return Bindings.add(this, DoubleConstant.valueOf(value));
     }

@@ -16,25 +16,16 @@ public class SudokuGenotype extends Genotype {
         super(config, size);
     }
 
-    /**
-     * @see de.freese.ga.Genotype#createEmptyChromosome()
-     */
     @Override
     public Chromosome createEmptyChromosome() {
         return new SudokuChromosome(getConfig());
     }
 
-    /**
-     * @see de.freese.ga.Genotype#createEmptyGenotype(int)
-     */
     @Override
     public Genotype createEmptyGenotype(final int size) {
         return new SudokuGenotype(getConfig(), size);
     }
 
-    /**
-     * @see de.freese.ga.Genotype#getConfig()
-     */
     @Override
     protected SudokuConfig getConfig() {
         return (SudokuConfig) super.getConfig();

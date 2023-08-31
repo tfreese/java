@@ -49,9 +49,6 @@ public final class MicrometerMain {
 //            .meterFilter(MeterFilter.denyNameStartsWith("executor.queue.remaining"))
             .meterFilter(new MeterFilter()
             {
-                /**
-                 * @see io.micrometer.core.instrument.config.MeterFilter#accept(io.micrometer.core.instrument.Meter.Id)
-                 */
                 @Override
                 public MeterFilterReply accept(final Id id)
                 {
@@ -88,9 +85,6 @@ public final class MicrometerMain {
                 return null;
             }
 
-            /**
-             * @see io.micrometer.core.instrument.push.PushRegistryConfig#step()
-             */
             @Override
             public Duration step() {
                 // Default = 1 Minute
@@ -111,9 +105,6 @@ public final class MicrometerMain {
                 return null;
             }
 
-            /**
-             * @see io.micrometer.prometheus.PrometheusConfig#step()
-             */
             @Override
             public Duration step() {
                 // Default = 1 Minute
@@ -135,17 +126,11 @@ public final class MicrometerMain {
                 return null;
             }
 
-            /**
-             * @see io.micrometer.core.instrument.simple.SimpleConfig#mode()
-             */
             @Override
             public CountingMode mode() {
                 return CountingMode.STEP;
             }
 
-            /**
-             * @see io.micrometer.core.instrument.simple.SimpleConfig#step()
-             */
             @Override
             public Duration step() {
                 // Default = 1 Minute

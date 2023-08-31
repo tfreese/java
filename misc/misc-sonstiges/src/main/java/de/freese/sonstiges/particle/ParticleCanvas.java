@@ -39,9 +39,6 @@ class ParticleCanvas extends Canvas {
         this.scheduledExecutorService = Executors.newScheduledThreadPool(2);
     }
 
-    /**
-     * @see java.awt.Canvas#paint(java.awt.Graphics)
-     */
     @Override
     public void paint(final Graphics g) {
         this.particles.forEach(p -> p.draw(g));

@@ -36,9 +36,6 @@ public final class SvgToImageMain extends JFrame {
         application.initAndShowGUI();
 
         application.addWindowListener(new WindowAdapter() {
-            /**
-             * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
-             */
             @Override
             public void windowClosing(final WindowEvent e) {
                 application.dispose();

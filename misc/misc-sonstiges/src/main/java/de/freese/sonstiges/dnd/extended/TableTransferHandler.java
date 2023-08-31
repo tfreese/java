@@ -23,9 +23,6 @@ class TableTransferHandler extends StringTransferHandler {
 
     private int[] rows;
 
-    /**
-     * @see de.freese.sonstiges.dnd.extended.StringTransferHandler#cleanup(javax.swing.JComponent, boolean)
-     */
     @Override
     protected void cleanup(final JComponent c, final boolean remove) {
         JTable source = (JTable) c;
@@ -54,9 +51,6 @@ class TableTransferHandler extends StringTransferHandler {
         this.addIndex = -1;
     }
 
-    /**
-     * @see de.freese.sonstiges.dnd.extended.StringTransferHandler#exportString(javax.swing.JComponent)
-     */
     @Override
     protected String exportString(final JComponent c) {
         JTable table = (JTable) c;
@@ -84,9 +78,6 @@ class TableTransferHandler extends StringTransferHandler {
         return sb.toString();
     }
 
-    /**
-     * @see de.freese.sonstiges.dnd.extended.StringTransferHandler#importString(javax.swing.JComponent, java.lang.String)
-     */
     @Override
     protected void importString(final JComponent c, final String str) {
         JTable target = (JTable) c;

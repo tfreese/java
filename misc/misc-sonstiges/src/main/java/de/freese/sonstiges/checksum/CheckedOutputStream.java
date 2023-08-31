@@ -22,27 +22,18 @@ public class CheckedOutputStream extends FilterOutputStream {
         return this.checksum;
     }
 
-    /**
-     * @see java.io.FilterOutputStream#write(byte[])
-     */
     @Override
     public void write(final byte[] b) throws IOException {
         this.out.write(b, 0, b.length);
         this.checksum.update(b, 0, b.length);
     }
 
-    /**
-     * @see java.io.FilterOutputStream#write(byte[], int, int)
-     */
     @Override
     public void write(final byte[] b, final int off, final int len) throws IOException {
         this.out.write(b, off, len);
         this.checksum.update(b, off, len);
     }
 
-    /**
-     * @see java.io.FilterOutputStream#write(int)
-     */
     @Override
     public void write(final int b) throws IOException {
         this.out.write(b);

@@ -56,9 +56,6 @@ public abstract class Coordinate {
         return ((this.myXCoord - other.myXCoord) * (this.myXCoord - other.myXCoord)) + ((this.myYCoord - other.myYCoord) * (this.myYCoord - other.myYCoord));
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -90,9 +87,6 @@ public abstract class Coordinate {
         return this.myYCoord;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;

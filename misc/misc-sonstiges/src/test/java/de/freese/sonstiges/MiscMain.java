@@ -97,6 +97,10 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import javax.imageio.ImageIO;
 import javax.naming.Context;
@@ -135,7 +139,7 @@ public final class MiscMain {
         //        copyPipedStreamsInToOut();
         //        copyPipedStreamsOutToIn();
         //        dateTime();
-        fileWalker();
+        //        fileWalker();
         //        fileSystems();
         //        hostName();
         //        httpRedirect();
@@ -159,6 +163,7 @@ public final class MiscMain {
         //        textBlocks();
         //        utilLogging();
         //        virtualThreads();
+        //        zip();
 
         Schedulers.shutdownNow();
         executorService.shutdown();
@@ -1428,6 +1433,80 @@ public final class MiscMain {
         Thread.ofVirtual().name("virtual").start(() -> printThreadInfos.accept(Thread.currentThread()));
 
         Thread.startVirtualThread(() -> printThreadInfos.accept(Thread.currentThread()));
+    }
+
+    /**
+     * <a href="https://www.baeldung.com/java-compress-and-uncompress">java-compress-and-uncompress</a>
+     */
+    static void zip() throws Exception {
+        // De-/Compress a Stream with GZIPOutputStream, GZIPInputStream.
+
+        Path source = Paths.get(System.getProperty("user.dir"), "pom.xml");
+        Path target = Paths.get(System.getProperty("java.io.tmpdir"), "pom.zip");
+
+        // Create Zip Archive.
+        try (InputStream inputStream = Files.newInputStream(source);
+             OutputStream outputStream = Files.newOutputStream(target, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+             ZipOutputStream zipOutputStream = new ZipOutputStream(outputStream, StandardCharsets.UTF_8)) {
+
+            ZipEntry zipEntry = new ZipEntry("folder/" + source.getFileName().toString());
+            zipOutputStream.putNextEntry(zipEntry);
+
+            inputStream.transferTo(zipOutputStream);
+
+            zipOutputStream.closeEntry();
+
+            zipOutputStream.finish();
+            zipOutputStream.flush();
+        }
+
+        // Append new File.
+        URI uriTarget = URI.create("jar:" + target.toUri());
+
+        try (FileSystem fs = FileSystems.newFileSystem(uriTarget, Map.of("create", true))) {
+            Path nf = fs.getPath("newFile.xml");
+            Files.write(nf, Files.readAllBytes(source), StandardOpenOption.CREATE);
+        }
+
+        // Read Zip Archive.
+        try (InputStream inputStream = Files.newInputStream(target);
+             ZipInputStream zipInputStream = new ZipInputStream(inputStream, StandardCharsets.UTF_8)) {
+
+            ZipEntry zipEntry;
+
+            while ((zipEntry = zipInputStream.getNextEntry()) != null) {
+                System.out.println("zipEntry = " + zipEntry);
+
+                if ("folder/pom.xml".equals(zipEntry.getName())) {
+                    try (OutputStream outputStream = Files.newOutputStream(target.getParent().resolve("my-pom-1.xml"), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
+                        zipInputStream.transferTo(outputStream);
+                    }
+                }
+
+                zipInputStream.closeEntry();
+            }
+        }
+
+        // Alternative
+        try (ZipFile zipFile = new ZipFile(target.toFile(), StandardCharsets.UTF_8)) {
+
+            //            ZipEntry zipEntry = zipFile.getEntry("folder/pom.xml");
+            //            Stream<? extends ZipEntry> entries = zipFile.stream();
+
+            Enumeration<? extends ZipEntry> entries = zipFile.entries();
+
+            while (entries.hasMoreElements()) {
+                ZipEntry zipEntry = entries.nextElement();
+                System.out.println("zipEntry = " + zipEntry);
+
+                if ("folder/pom.xml".equals(zipEntry.getName())) {
+                    try (OutputStream outputStream = Files.newOutputStream(target.getParent().resolve("my-pom-2.xml"), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+                         InputStream inputStream = zipFile.getInputStream(zipEntry)) {
+                        inputStream.transferTo(outputStream);
+                    }
+                }
+            }
+        }
     }
 
     private MiscMain() {

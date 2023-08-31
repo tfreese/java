@@ -10,19 +10,14 @@ import de.freese.binding.property.Property;
  * @author Thomas Freese
  */
 public abstract class AbstractFloatBinding extends AbstractFloatExpression implements FloatBinding {
+
     private float value;
 
-    /**
-     * @see de.freese.binding.value.ObservableValue#getValue()
-     */
     @Override
     public Float getValue() {
         return this.value;
     }
 
-    /**
-     * @see de.freese.binding.binds.Binding#update()
-     */
     @Override
     public void update() {
         float old = this.value;

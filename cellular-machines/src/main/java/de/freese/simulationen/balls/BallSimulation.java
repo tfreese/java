@@ -62,24 +62,15 @@ public class BallSimulation extends AbstractSimulation {
         reset();
     }
 
-    /**
-     * @see de.freese.simulationen.model.Simulation#getImage()
-     */
     @Override
     public BufferedImage getImage() {
         return this.bufferedImage;
     }
 
-    /**
-     * Liefert true, wenn alle Bälle zum Stillstand gekommen sind.
-     */
     public boolean isFinished() {
         return this.balls.stream().allMatch(Ball::isFinished);
     }
 
-    /**
-     * @see de.freese.simulationen.model.Simulation#nextGeneration()
-     */
     @Override
     public void nextGeneration() {
         // Bälle bewegen.
@@ -88,9 +79,6 @@ public class BallSimulation extends AbstractSimulation {
         fireCompleted();
     }
 
-    /**
-     * @see de.freese.simulationen.model.Simulation#reset()
-     */
     @Override
     public void reset() {
         this.balls.clear();
@@ -115,9 +103,6 @@ public class BallSimulation extends AbstractSimulation {
         fireCompleted();
     }
 
-    /**
-     * @see de.freese.simulationen.model.AbstractSimulation#updateImage()
-     */
     @Override
     protected void updateImage() {
         Graphics g = getImage().getGraphics();

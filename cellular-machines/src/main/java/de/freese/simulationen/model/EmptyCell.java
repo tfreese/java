@@ -17,17 +17,11 @@ public class EmptyCell extends AbstractCell {
         super(simulation, color);
     }
 
-    /**
-     * @see de.freese.simulationen.model.Cell#nextGeneration()
-     */
     @Override
     public void nextGeneration() {
         // Empty
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

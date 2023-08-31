@@ -33,6 +33,7 @@ import de.freese.binding.value.ObservableValue;
  * @author Thomas Freese
  */
 public final class Bindings {
+
     public static NumberBinding<? extends Number> add(final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2) {
         final NumberBinding<? extends Number> binding;
 
@@ -54,9 +55,6 @@ public final class Bindings {
 
     public static BooleanBinding and(final ObservableBooleanValue ov1, final ObservableBooleanValue ov2) {
         BooleanBinding binding = new AbstractBooleanBinding() {
-            /**
-             * @see de.freese.binding.binds.AbstractBooleanBinding#computeValue()
-             */
             @Override
             protected Boolean computeValue() {
                 return ov1.get() && ov2.get();
@@ -83,9 +81,6 @@ public final class Bindings {
 
     public static BooleanBinding createBooleanBinding(final Predicate<Object> function, final ObservableValue<?> ov) {
         BooleanBinding binding = new AbstractBooleanBinding() {
-            /**
-             * @see de.freese.binding.binds.AbstractBooleanBinding#computeValue()
-             */
             @Override
             protected Boolean computeValue() {
                 return function.test(ov.getValue());
@@ -101,9 +96,6 @@ public final class Bindings {
 
     public static DoubleBinding createDoubleBinding(final BinaryOperator<Double> function, final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2) {
         DoubleBinding binding = new AbstractDoubleBinding() {
-            /**
-             * @see de.freese.binding.binds.AbstractDoubleBinding#computeValue()
-             */
             @Override
             protected double computeValue() {
                 return function.apply(ov1.doubleValue(), ov2.doubleValue());
@@ -120,9 +112,6 @@ public final class Bindings {
 
     public static FloatBinding createFloatBinding(final BinaryOperator<Float> function, final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2) {
         FloatBinding binding = new AbstractFloatBinding() {
-            /**
-             * @see de.freese.binding.binds.AbstractFloatBinding#computeValue()
-             */
             @Override
             protected float computeValue() {
                 return function.apply(ov1.floatValue(), ov2.floatValue());
@@ -139,9 +128,6 @@ public final class Bindings {
 
     public static IntegerBinding createIntegerBinding(final BinaryOperator<Integer> function, final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2) {
         IntegerBinding binding = new AbstractIntegerBinding() {
-            /**
-             * @see de.freese.binding.binds.AbstractIntegerBinding#computeValue()
-             */
             @Override
             protected int computeValue() {
                 return function.apply(ov1.intValue(), ov2.intValue());
@@ -158,9 +144,6 @@ public final class Bindings {
 
     public static LongBinding createLongBinding(final BinaryOperator<Long> function, final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2) {
         LongBinding binding = new AbstractLongBinding() {
-            /**
-             * @see de.freese.binding.binds.AbstractLongBinding#computeValue()
-             */
             @Override
             protected long computeValue() {
                 return function.apply(ov1.longValue(), ov2.longValue());
@@ -177,9 +160,6 @@ public final class Bindings {
 
     public static StringBinding createStringBinding(final BinaryOperator<String> function, final ObservableStringValue ov1, final ObservableStringValue ov2) {
         StringBinding binding = new AbstractStringBinding() {
-            /**
-             * @see de.freese.binding.binds.AbstractStringBinding#computeValue()
-             */
             @Override
             protected String computeValue() {
                 return function.apply(ov1.getValue(), ov2.getValue());
@@ -239,9 +219,6 @@ public final class Bindings {
 
     public static IntegerBinding length(final ObservableStringValue ov) {
         IntegerBinding binding = new AbstractIntegerBinding() {
-            /**
-             * @see de.freese.binding.binds.AbstractIntegerBinding#computeValue()
-             */
             @Override
             protected int computeValue() {
                 return getValueSafe(ov.getValue()).length();
@@ -276,9 +253,6 @@ public final class Bindings {
 
     public static BooleanBinding not(final ObservableBooleanValue ov) {
         BooleanBinding binding = new AbstractBooleanBinding() {
-            /**
-             * @see de.freese.binding.binds.AbstractBooleanBinding#computeValue()
-             */
             @Override
             protected Boolean computeValue() {
                 return !ov.get();
@@ -294,9 +268,6 @@ public final class Bindings {
 
     public static BooleanBinding or(final ObservableBooleanValue ov1, final ObservableBooleanValue ov2) {
         BooleanBinding binding = new AbstractBooleanBinding() {
-            /**
-             * @see de.freese.binding.binds.AbstractBooleanBinding#computeValue()
-             */
             @Override
             protected Boolean computeValue() {
                 return ov1.get() || ov2.get();

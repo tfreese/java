@@ -112,8 +112,6 @@ public class AntCell extends AbstractCell {
      * <li>Ist das Feld vor ihr weiss, so stellt sie sich drauf, färbt es schwarz und dreht sich um 90 Grad nach rechts.
      * <li>Ist das Feld vor ihr schwarz, so stellt sie sich drauf, färbt es weiss und dreht sich um 90 Grad nach links.
      * </ol>
-     *
-     * @see de.freese.simulationen.model.Cell#nextGeneration()
      */
     @Override
     public void nextGeneration() {

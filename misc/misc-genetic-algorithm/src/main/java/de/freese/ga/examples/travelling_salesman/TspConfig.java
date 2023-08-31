@@ -17,9 +17,6 @@ public class TspConfig extends Config {
         super();
     }
 
-    /**
-     * @see de.freese.ga.Config#getMaxFitness()
-     */
     @Override
     public double getMaxFitness() {
         // Keine Lösung bekannt.

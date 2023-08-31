@@ -17,9 +17,6 @@ public class SudokuChromosome extends Chromosome {
         super(config);
     }
 
-    /**
-     * @see de.freese.ga.Chromosome#calcFitnessValue()
-     */
     @Override
     public double calcFitnessValue() {
         int puzzleSize = getConfig().getPuzzleSize();
@@ -40,17 +37,11 @@ public class SudokuChromosome extends Chromosome {
         return fitness;
     }
 
-    /**
-     * @see de.freese.ga.Chromosome#getGene(int)
-     */
     @Override
     public SudokuGene getGene(final int index) {
         return (SudokuGene) super.getGene(index);
     }
 
-    /**
-     * @see de.freese.ga.Chromosome#mutate()
-     */
     @Override
     public void mutate() {
         for (int i = 0; i < size(); i++) {
@@ -97,9 +88,6 @@ public class SudokuChromosome extends Chromosome {
         // @formatter:on
     }
 
-    /**
-     * @see de.freese.ga.Chromosome#populate()
-     */
     @Override
     public void populate() {
         Map<Integer, SudokuGene> fixNumbers = getConfig().getFixNumbers();
@@ -142,9 +130,6 @@ public class SudokuChromosome extends Chromosome {
         // @formatter:on
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         int puzzleSize = getConfig().getPuzzleSize();
@@ -264,9 +249,6 @@ public class SudokuChromosome extends Chromosome {
         return set.stream().mapToInt(Integer::intValue).sum();
     }
 
-    /**
-     * @see de.freese.ga.Chromosome#getConfig()
-     */
     @Override
     protected SudokuConfig getConfig() {
         return (SudokuConfig) super.getConfig();

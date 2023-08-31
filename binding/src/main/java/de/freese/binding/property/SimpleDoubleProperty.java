@@ -5,6 +5,7 @@ package de.freese.binding.property;
  * @author Thomas Freese
  */
 public class SimpleDoubleProperty extends AbstractDoubleProperty {
+
     private final Object bean;
 
     private final String name;
@@ -26,17 +27,11 @@ public class SimpleDoubleProperty extends AbstractDoubleProperty {
         setValue(initialValue);
     }
 
-    /**
-     * @see de.freese.binding.property.ReadOnlyProperty#getBean()
-     */
     @Override
     public Object getBean() {
         return this.bean;
     }
 
-    /**
-     * @see de.freese.binding.property.ReadOnlyProperty#getName()
-     */
     @Override
     public String getName() {
         return this.name;

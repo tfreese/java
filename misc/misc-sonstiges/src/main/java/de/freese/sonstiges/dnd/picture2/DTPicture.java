@@ -73,9 +73,6 @@ class DTPicture extends Picture implements MouseMotionListener {
         map.put(TransferHandler.getPasteAction().getValue(Action.NAME), TransferHandler.getPasteAction());
     }
 
-    /**
-     * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
-     */
     @Override
     public void mouseDragged(final MouseEvent e) {
         // Don't bother to drag if the component displays no image.
@@ -107,17 +104,11 @@ class DTPicture extends Picture implements MouseMotionListener {
         }
     }
 
-    /**
-     * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
-     */
     @Override
     public void mouseMoved(final MouseEvent e) {
         // Empty
     }
 
-    /**
-     * @see de.freese.sonstiges.dnd.picture2.Picture#mousePressed(java.awt.event.MouseEvent)
-     */
     @Override
     public void mousePressed(final MouseEvent e) {
         // Don't bother to drag if there is no image.
@@ -129,9 +120,6 @@ class DTPicture extends Picture implements MouseMotionListener {
         e.consume();
     }
 
-    /**
-     * @see de.freese.sonstiges.dnd.picture2.Picture#mouseReleased(java.awt.event.MouseEvent)
-     */
     @Override
     public void mouseReleased(final MouseEvent e) {
         this.firstMouseEvent = null;

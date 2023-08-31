@@ -42,9 +42,6 @@ public final class DateServerMain extends Thread {
             }
         }
 
-        /**
-         * @see java.lang.Thread#run()
-         */
         @Override
         public void run() {
             if (this.clientSocket.isClosed() || (this.oos == null)) {
@@ -99,9 +96,6 @@ public final class DateServerMain extends Thread {
         System.out.println("Server listening on port 3000.");
     }
 
-    /**
-     * @see java.lang.Thread#run()
-     */
     @Override
     public void run() {
         while (true) {

@@ -53,9 +53,6 @@ public abstract class AbstractModel {
         this.payload = payload;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

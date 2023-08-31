@@ -66,9 +66,6 @@ public class Sequence {
         this.startWith = startWith;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

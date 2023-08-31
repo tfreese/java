@@ -18,6 +18,7 @@ import de.freese.binding.collections.ObservableList;
  * @author Thomas Freese
  */
 public abstract class AbstractObservableListListModel<T> implements ListModel<T>, Serializable {
+
     @Serial
     private static final long serialVersionUID = 1051092247879991757L;
 

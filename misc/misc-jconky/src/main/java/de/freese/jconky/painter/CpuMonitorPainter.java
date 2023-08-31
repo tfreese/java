@@ -29,9 +29,6 @@ public class CpuMonitorPainter extends AbstractMonitorPainter {
         this.gradientStops = new Stop[]{new Stop(0D, getSettings().getColorGradientStart()), new Stop(1D, getSettings().getColorGradientStop())};
     }
 
-    /**
-     * @see de.freese.jconky.painter.MonitorPainter#paintValue(javafx.scene.canvas.GraphicsContext, double)
-     */
     @Override
     public double paintValue(final GraphicsContext gc, final double width) {
         CpuInfos cpuInfos = getContext().getCpuInfos();

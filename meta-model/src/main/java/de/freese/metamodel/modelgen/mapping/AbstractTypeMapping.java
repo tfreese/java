@@ -15,9 +15,6 @@ public abstract class AbstractTypeMapping implements TypeMapping {
 
     private final Map<JDBCType, Type> nullableMappings = new TreeMap<>();
 
-    /**
-     * @see de.freese.metamodel.modelgen.mapping.TypeMapping#getType(java.sql.JDBCType, boolean)
-     */
     @Override
     public Type getType(final JDBCType jdbcType, final boolean nullable) {
         Type type = null;

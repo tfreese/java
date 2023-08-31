@@ -184,9 +184,6 @@ public final class SwingBindings {
      */
     public static void bindToProperty(final JTextComponent component, final Property<String> property) {
         component.addFocusListener(new FocusAdapter() {
-            /**
-             * @see java.awt.event.FocusAdapter#focusLost(java.awt.event.FocusEvent)
-             */
             @Override
             public void focusLost(final FocusEvent e) {
                 String text = component.getText();

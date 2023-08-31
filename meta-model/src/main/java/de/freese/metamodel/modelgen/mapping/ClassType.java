@@ -17,9 +17,6 @@ public class ClassType implements Type {
         this.javaClass = Objects.requireNonNull(javaClass, "javaClass required");
     }
 
-    /**
-     * @see de.freese.metamodel.modelgen.mapping.Type#equals(java.lang.Class)
-     */
     @Override
     public boolean equals(final Class<?> clazz) {
         return getJavaClass().equals(clazz);
@@ -29,41 +26,26 @@ public class ClassType implements Type {
         return this.javaClass;
     }
 
-    /**
-     * @see de.freese.metamodel.modelgen.mapping.Type#getSimpleName()
-     */
     @Override
     public String getSimpleName() {
         return getJavaClass().getSimpleName();
     }
 
-    /**
-     * @see de.freese.metamodel.modelgen.mapping.Type#isArray()
-     */
     @Override
     public boolean isArray() {
         return getJavaClass().isArray();
     }
 
-    /**
-     * @see de.freese.metamodel.modelgen.mapping.Type#isAssoziation()
-     */
     @Override
     public boolean isAssoziation() {
         return false;
     }
 
-    /**
-     * @see de.freese.metamodel.modelgen.mapping.Type#isCollection()
-     */
     @Override
     public boolean isCollection() {
         return Collection.class.isAssignableFrom(getJavaClass());
     }
 
-    /**
-     * @see de.freese.metamodel.modelgen.mapping.Type#isPrimitive()
-     */
     @Override
     public boolean isPrimitive() {
         return getJavaClass().isPrimitive();

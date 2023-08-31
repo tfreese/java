@@ -21,9 +21,6 @@ abstract class StringTransferHandler extends TransferHandler {
     @Serial
     private static final long serialVersionUID = -7174980141806424667L;
 
-    /**
-     * @see javax.swing.TransferHandler#canImport(javax.swing.JComponent, java.awt.datatransfer.DataFlavor[])
-     */
     @Override
     public boolean canImport(final JComponent c, final DataFlavor[] flavors) {
         for (DataFlavor flavor : flavors) {
@@ -35,17 +32,11 @@ abstract class StringTransferHandler extends TransferHandler {
         return false;
     }
 
-    /**
-     * @see javax.swing.TransferHandler#getSourceActions(javax.swing.JComponent)
-     */
     @Override
     public int getSourceActions(final JComponent c) {
         return COPY_OR_MOVE;
     }
 
-    /**
-     * @see javax.swing.TransferHandler#importData(javax.swing.JComponent, java.awt.datatransfer.Transferable)
-     */
     @Override
     public boolean importData(final JComponent c, final Transferable t) {
         if (canImport(c, t.getTransferDataFlavors())) {
@@ -65,17 +56,11 @@ abstract class StringTransferHandler extends TransferHandler {
 
     protected abstract void cleanup(JComponent c, boolean remove);
 
-    /**
-     * @see javax.swing.TransferHandler#createTransferable(javax.swing.JComponent)
-     */
     @Override
     protected Transferable createTransferable(final JComponent c) {
         return new StringSelection(exportString(c));
     }
 
-    /**
-     * @see javax.swing.TransferHandler#exportDone(javax.swing.JComponent, java.awt.datatransfer.Transferable, int)
-     */
     @Override
     protected void exportDone(final JComponent c, final Transferable data, final int action) {
         cleanup(c, action == MOVE);

@@ -15,9 +15,6 @@ import org.slf4j.LoggerFactory;
 class HttpWriteHandler implements CompletionHandler<Integer, MyAttachment> {
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpWriteHandler.class);
 
-    /**
-     * @see java.nio.channels.CompletionHandler#completed(java.lang.Object, java.lang.Object)
-     */
     @Override
     public void completed(final Integer result, final MyAttachment attachment) {
         AsynchronousSocketChannel channel = attachment.channel();
@@ -37,9 +34,6 @@ class HttpWriteHandler implements CompletionHandler<Integer, MyAttachment> {
         ServerAsync.close(channel, LOGGER);
     }
 
-    /**
-     * @see java.nio.channels.CompletionHandler#failed(java.lang.Throwable, java.lang.Object)
-     */
     @Override
     public void failed(final Throwable exc, final MyAttachment attachment) {
         AsynchronousSocketChannel channel = attachment.channel();

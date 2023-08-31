@@ -24,9 +24,6 @@ import de.freese.openstreetmap.model.OsmWay;
  * @author Thomas Freese
  */
 public class JdomOSMParser implements OSMParser {
-    /**
-     * @see de.freese.openstreetmap.io.OSMParser#parse(java.io.InputStream)
-     */
     @Override
     public OsmModel parse(final InputStream inputStream) throws Exception {
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();

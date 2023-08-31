@@ -15,9 +15,6 @@ public class GoFRasterSimulation extends AbstractRasterSimulation {
         reset();
     }
 
-    /**
-     * @see de.freese.simulationen.model.Simulation#nextGeneration()
-     */
     @Override
     public void nextGeneration() {
         getCellStream().map(GoFCell.class::cast).forEach(GoFCell::ermittleLebendeNachbarn);
@@ -26,17 +23,11 @@ public class GoFRasterSimulation extends AbstractRasterSimulation {
         fireCompleted();
     }
 
-    /**
-     * @see de.freese.simulationen.model.AbstractRasterSimulation#getCell(int, int)
-     */
     @Override
     protected GoFCell getCell(final int x, final int y) {
         return (GoFCell) super.getCell(x, y);
     }
 
-    /**
-     * @see de.freese.simulationen.model.AbstractRasterSimulation#reset(int, int)
-     */
     @Override
     protected void reset(final int x, final int y) {
         getCell(x, y).setAlive(getRandom().nextBoolean());

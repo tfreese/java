@@ -58,9 +58,6 @@ public class CpuInfo {
         return this.temperature;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder(getClass().getSimpleName());

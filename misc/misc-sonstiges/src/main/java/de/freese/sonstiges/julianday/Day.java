@@ -28,9 +28,6 @@ public class Day implements Serializable {
         this.dayOfMonth = day;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -64,9 +61,6 @@ public class Day implements Serializable {
         return this.year;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         // final int prime = 31;
@@ -80,9 +74,6 @@ public class Day implements Serializable {
         return (this.year * 400) + (this.month * 31) + this.dayOfMonth;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         if (this.asString == null) {

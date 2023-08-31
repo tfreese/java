@@ -168,9 +168,6 @@ public class Column {
         this.typeName = typeName;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

@@ -31,9 +31,6 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
 
     private JTextComponent source;
 
-    /**
-     * @see de.freese.sonstiges.dnd.color.textfield.ColorTransferHandler#canImport(javax.swing.JComponent, java.awt.datatransfer.DataFlavor[])
-     */
     @Override
     public boolean canImport(final JComponent c, final DataFlavor[] flavors) {
         if (hasStringFlavor(flavors)) {
@@ -43,17 +40,11 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
         return super.canImport(c, flavors);
     }
 
-    /**
-     * @see javax.swing.TransferHandler#getSourceActions(javax.swing.JComponent)
-     */
     @Override
     public int getSourceActions(final JComponent c) {
         return COPY_OR_MOVE;
     }
 
-    /**
-     * @see de.freese.sonstiges.dnd.color.textfield.ColorTransferHandler#importData(javax.swing.JComponent, java.awt.datatransfer.Transferable)
-     */
     @Override
     public boolean importData(final JComponent c, final Transferable t) {
         JTextComponent tc = (JTextComponent) c;
@@ -87,9 +78,6 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
         return super.importData(c, t);
     }
 
-    /**
-     * @see javax.swing.TransferHandler#createTransferable(javax.swing.JComponent)
-     */
     @Override
     protected Transferable createTransferable(final JComponent c) {
         this.source = (JTextComponent) c;
@@ -117,9 +105,6 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
         return new StringSelection(data);
     }
 
-    /**
-     * @see javax.swing.TransferHandler#exportDone(javax.swing.JComponent, java.awt.datatransfer.Transferable, int)
-     */
     @Override
     protected void exportDone(final JComponent c, final Transferable data, final int action) {
         if (this.shouldRemove && (action == MOVE)) {
@@ -128,7 +113,7 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
                     JTextComponent tc = (JTextComponent) c;
                     tc.getDocument().remove(this.p0.getOffset(), this.p1.getOffset() - this.p0.getOffset());
                 }
-                catch (BadLocationException e) {
+                catch (BadLocationException ex) {
                     System.out.println("Can't remove text from source.");
                 }
             }

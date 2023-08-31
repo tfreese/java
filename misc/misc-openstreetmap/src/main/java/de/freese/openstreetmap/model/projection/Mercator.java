@@ -22,27 +22,18 @@ public class Mercator implements Projection {
     /**
      * 1/4 of Pi.
      */
-    private static final double QUARTERPI = Math.PI / (2 + 2);
+    private static final double QUARTERPI = Math.PI / (2D + 2D);
 
-    /**
-     * @see de.freese.openstreetmap.model.projection.Projection#eastNorth2LatLon(de.freese.openstreetmap.model.coordinates.EastNorth)
-     */
     @Override
     public LatLon eastNorth2LatLon(final EastNorth p) {
         return new LatLon((Math.atan(Math.sinh(p.north())) * C_180) / Math.PI, (p.east() * C_180) / Math.PI);
     }
 
-    /**
-     * @see de.freese.openstreetmap.model.projection.Projection#latLon2EastNorth(double, double)
-     */
     @Override
     public EastNorth latLon2EastNorth(final double lat, final double lon) {
         return new EastNorth((lon * Math.PI) / C_180, Math.log(Math.tan(QUARTERPI + ((lat * Math.PI) / C_360))));
     }
 
-    /**
-     * @see de.freese.openstreetmap.model.projection.Projection#latLon2EastNorth(de.freese.openstreetmap.model.coordinates.LatLon)
-     */
     @Override
     public EastNorth latLon2EastNorth(final LatLon pLatLon) {
         return latLon2EastNorth(pLatLon.lat(), pLatLon.lon());
@@ -50,17 +41,12 @@ public class Mercator implements Projection {
 
     /**
      * 1/(pi/2)
-     *
-     * @see de.freese.openstreetmap.model.projection.Projection#scaleFactor()
      */
     @Override
     public double scaleFactor() {
-        return 1 / Math.PI / 2;
+        return 1D / Math.PI / 2D;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         return "Mercator";

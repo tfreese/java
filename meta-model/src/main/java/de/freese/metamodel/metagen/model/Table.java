@@ -107,9 +107,6 @@ public class Table {
         this.schema = schema;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

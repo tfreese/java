@@ -48,9 +48,6 @@ public final class SvgMain extends JFrame {
         application.initAndShowGUI();
 
         application.addWindowListener(new WindowAdapter() {
-            /**
-             * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
-             */
             @Override
             public void windowClosing(final WindowEvent event) {
                 application.dispose();
@@ -159,18 +156,12 @@ public final class SvgMain extends JFrame {
         });
 
         svgCanvas.addSVGDocumentLoaderListener(new SVGDocumentLoaderAdapter() {
-            /**
-             * @see org.apache.batik.swing.svg.SVGDocumentLoaderAdapter#documentLoadingCompleted(org.apache.batik.swing.svg.SVGDocumentLoaderEvent)
-             */
             @Override
             public void documentLoadingCompleted(final SVGDocumentLoaderEvent e) {
                 System.out.println("Document Loaded.");
                 label.setText("Document Loaded.");
             }
 
-            /**
-             * @see org.apache.batik.swing.svg.SVGDocumentLoaderAdapter#documentLoadingStarted(org.apache.batik.swing.svg.SVGDocumentLoaderEvent)
-             */
             @Override
             public void documentLoadingStarted(final SVGDocumentLoaderEvent e) {
                 System.out.println("Document Loading...");
@@ -179,9 +170,6 @@ public final class SvgMain extends JFrame {
         });
 
         svgCanvas.addGVTTreeBuilderListener(new GVTTreeBuilderAdapter() {
-            /**
-             * @see org.apache.batik.swing.svg.GVTTreeBuilderAdapter#gvtBuildCompleted(org.apache.batik.swing.svg.GVTTreeBuilderEvent)
-             */
             @Override
             public void gvtBuildCompleted(final GVTTreeBuilderEvent e) {
                 System.out.println("Build Done.");
@@ -189,9 +177,6 @@ public final class SvgMain extends JFrame {
                 pack();
             }
 
-            /**
-             * @see org.apache.batik.swing.svg.GVTTreeBuilderAdapter#gvtBuildStarted(org.apache.batik.swing.svg.GVTTreeBuilderEvent)
-             */
             @Override
             public void gvtBuildStarted(final GVTTreeBuilderEvent e) {
                 System.out.println("Build Started...");
@@ -200,17 +185,11 @@ public final class SvgMain extends JFrame {
         });
 
         svgCanvas.addGVTTreeRendererListener(new GVTTreeRendererAdapter() {
-            /**
-             * @see org.apache.batik.swing.gvt.GVTTreeRendererAdapter#gvtRenderingCompleted(org.apache.batik.swing.gvt.GVTTreeRendererEvent)
-             */
             @Override
             public void gvtRenderingCompleted(final GVTTreeRendererEvent e) {
                 label.setText("");
             }
 
-            /**
-             * @see org.apache.batik.swing.gvt.GVTTreeRendererAdapter#gvtRenderingPrepare(org.apache.batik.swing.gvt.GVTTreeRendererEvent)
-             */
             @Override
             public void gvtRenderingPrepare(final GVTTreeRendererEvent e) {
                 System.out.println("Rendering Started...");

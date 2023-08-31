@@ -25,9 +25,6 @@ final class Report implements Comparable<Report> {
         this.messages.add(text);
     }
 
-    /**
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
     @Override
     public int compareTo(final Report o) {
 
@@ -38,9 +35,6 @@ final class Report implements Comparable<Report> {
         return this.file.compareTo(o.file);
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -54,17 +48,11 @@ final class Report implements Comparable<Report> {
         return Objects.equals(this.file, other.file) && Objects.equals(this.messages, other.messages);
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         return Objects.hash(this.file, this.messages);
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

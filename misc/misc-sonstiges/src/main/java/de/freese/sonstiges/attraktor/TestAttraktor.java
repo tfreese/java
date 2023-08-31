@@ -37,9 +37,6 @@ public class TestAttraktor extends JComponent implements Runnable {
         frame.setLayout(new BorderLayout());
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
-            /**
-             * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
-             */
             @Override
             public void windowClosing(final WindowEvent e) {
                 scheduledExecutorService.shutdownNow();
@@ -87,18 +84,12 @@ public class TestAttraktor extends JComponent implements Runnable {
         this.y = 200;
     }
 
-    /**
-     * @see javax.swing.JComponent#paint(java.awt.Graphics)
-     */
     @Override
     public void paint(final Graphics g) {
         // g.drawImage(this.image, 0, 0, null);
         g.drawImage(this.image, 0, 0, getWidth(), getHeight(), null);
     }
 
-    /**
-     * @see java.lang.Runnable#run()
-     */
     @Override
     public void run() {
         Set<Point2D> points = new HashSet<>();

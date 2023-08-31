@@ -9,9 +9,6 @@ import de.freese.metamodel.Utils;
  * @author Thomas Freese
  */
 public class DefaultNamingStrategy extends AbstractNamingStrategy {
-    /**
-     * @see de.freese.metamodel.modelgen.naming.NamingStrategy#getClassName(java.lang.String)
-     */
     @Override
     public String getClassName(final String tableName) {
         String tName = normalize(tableName);
@@ -21,9 +18,6 @@ public class DefaultNamingStrategy extends AbstractNamingStrategy {
         return tName;
     }
 
-    /**
-     * @see de.freese.metamodel.modelgen.naming.NamingStrategy#getFieldName(java.lang.String)
-     */
     @Override
     public String getFieldName(final String columnName) {
         String cName = normalize(columnName);
@@ -35,9 +29,6 @@ public class DefaultNamingStrategy extends AbstractNamingStrategy {
         return cName;
     }
 
-    /**
-     * @see de.freese.metamodel.modelgen.naming.AbstractNamingStrategy#normalize(java.lang.String)
-     */
     @Override
     protected String normalize(final String value) {
         String s = super.normalize(value);

@@ -5,6 +5,7 @@ package de.freese.binding.property;
  * @author Thomas Freese
  */
 public class SimpleBooleanProperty extends AbstractBooleanProperty {
+
     private final Object bean;
 
     private final String name;
@@ -26,17 +27,11 @@ public class SimpleBooleanProperty extends AbstractBooleanProperty {
         setValue(initialValue);
     }
 
-    /**
-     * @see de.freese.binding.property.ReadOnlyProperty#getBean()
-     */
     @Override
     public Object getBean() {
         return this.bean;
     }
 
-    /**
-     * @see de.freese.binding.property.ReadOnlyProperty#getName()
-     */
     @Override
     public String getName() {
         return this.name;

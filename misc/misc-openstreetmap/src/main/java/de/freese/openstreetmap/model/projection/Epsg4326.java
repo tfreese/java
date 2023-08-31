@@ -15,25 +15,16 @@ public class Epsg4326 implements Projection {
      */
     private static final int DEGREES360 = 360;
 
-    /**
-     * @see de.freese.openstreetmap.model.projection.Projection#eastNorth2LatLon(de.freese.openstreetmap.model.coordinates.EastNorth)
-     */
     @Override
     public LatLon eastNorth2LatLon(final EastNorth p) {
         return new LatLon(p.north(), p.east());
     }
 
-    /**
-     * @see de.freese.openstreetmap.model.projection.Projection#latLon2EastNorth(double, double)
-     */
     @Override
     public EastNorth latLon2EastNorth(final double lat, final double lon) {
         return new EastNorth(lon, lat);
     }
 
-    /**
-     * @see de.freese.openstreetmap.model.projection.Projection#latLon2EastNorth(de.freese.openstreetmap.model.coordinates.LatLon)
-     */
     @Override
     public EastNorth latLon2EastNorth(final LatLon pLatLon) {
         return latLon2EastNorth(pLatLon.lat(), pLatLon.lon());
@@ -41,18 +32,14 @@ public class Epsg4326 implements Projection {
 
     /**
      * 1/360
-     *
-     * @see de.freese.openstreetmap.model.projection.Projection#scaleFactor()
      */
     @Override
     public double scaleFactor() {
-        return 1.0 / DEGREES360;
+        return 1.0D / DEGREES360;
     }
 
     /**
      * "EPSG:4326"
-     *
-     * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {

@@ -10,13 +10,11 @@ import de.freese.binding.property.Property;
  * @author Thomas Freese
  */
 public abstract class AbstractBooleanBinding extends AbstractBooleanExpression implements BooleanBinding {
+
     // private final ChangeListener<? super Object> listener = (observable, oldValue, newValue) -> update();
 
     private Boolean value;
 
-    // /**
-    // * @see de.freese.binding.binds.Binding#bind(de.freese.binding.value.ObservableValue[])
-    // */
     // @SuppressWarnings("unchecked")
     // @Override
     // public void bind(final ObservableValue<? extends Object>...dependencies)
@@ -29,17 +27,11 @@ public abstract class AbstractBooleanBinding extends AbstractBooleanExpression i
     // update();
     // }
 
-    /**
-     * @see de.freese.binding.value.ObservableValue#getValue()
-     */
     @Override
     public Boolean getValue() {
         return this.value;
     }
 
-    /**
-     * @see de.freese.binding.binds.Binding#update()
-     */
     @Override
     public void update() {
         Boolean old = this.value;

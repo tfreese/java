@@ -33,9 +33,6 @@ class DefaultDispatcher extends AbstractNioProcessor implements Dispatcher {
         this.executor = Objects.requireNonNull(executor, "executor required");
     }
 
-    /**
-     * @see de.freese.sonstiges.server.multithread.dispatcher.Dispatcher#register(java.nio.channels.SocketChannel)
-     */
     @Override
     public void register(final SocketChannel socketChannel) {
         if (isShutdown()) {
@@ -56,18 +53,12 @@ class DefaultDispatcher extends AbstractNioProcessor implements Dispatcher {
         }
     }
 
-    /**
-     * @see de.freese.sonstiges.server.multithread.AbstractNioProcessor#afterSelectorLoop()
-     */
     @Override
     protected void afterSelectorLoop() {
         // Add the new Channels to the Selector.
         processNewChannels();
     }
 
-    /**
-     * @see de.freese.sonstiges.server.multithread.AbstractNioProcessor#afterSelectorWhile()
-     */
     @Override
     protected void afterSelectorWhile() {
         // Close new Channels.
@@ -87,9 +78,6 @@ class DefaultDispatcher extends AbstractNioProcessor implements Dispatcher {
         super.afterSelectorWhile();
     }
 
-    /**
-     * @see de.freese.sonstiges.server.multithread.AbstractNioProcessor#onReadable(java.nio.channels.SelectionKey)
-     */
     @Override
     protected void onReadable(final SelectionKey selectionKey) {
         // Request.
@@ -103,9 +91,6 @@ class DefaultDispatcher extends AbstractNioProcessor implements Dispatcher {
         });
     }
 
-    /**
-     * @see de.freese.sonstiges.server.multithread.AbstractNioProcessor#onWritable(java.nio.channels.SelectionKey)
-     */
     @Override
     protected void onWritable(final SelectionKey selectionKey) {
         // Response.

@@ -33,9 +33,6 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter {
         this.gradientStops = new Stop[]{new Stop(0D, Color.WHITE), new Stop(1D, getSettings().getColorValue())};
     }
 
-    /**
-     * @see de.freese.jconky.painter.MonitorPainter#paintValue(javafx.scene.canvas.GraphicsContext, double)
-     */
     @Override
     public double paintValue(final GraphicsContext gc, final double width) {
         NetworkInfos networkInfos = getContext().getNetworkInfos();

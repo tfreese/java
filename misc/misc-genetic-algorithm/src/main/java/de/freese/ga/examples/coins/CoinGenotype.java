@@ -20,25 +20,16 @@ public class CoinGenotype extends Genotype {
         super(config, size);
     }
 
-    /**
-     * @see de.freese.ga.Genotype#createEmptyChromosome()
-     */
     @Override
     public Chromosome createEmptyChromosome() {
         return new CoinChromosome(getConfig());
     }
 
-    /**
-     * @see de.freese.ga.Genotype#createEmptyGenotype(int)
-     */
     @Override
     public Genotype createEmptyGenotype(final int size) {
         return new CoinGenotype(getConfig(), size);
     }
 
-    /**
-     * @see de.freese.ga.Genotype#crossover(de.freese.ga.Chromosome, de.freese.ga.Chromosome)
-     */
     @Override
     public Chromosome crossover(final Chromosome parent1, final Chromosome parent2) {
         Chromosome population = createEmptyChromosome();
@@ -71,9 +62,6 @@ public class CoinGenotype extends Genotype {
         return population;
     }
 
-    /**
-     * @see de.freese.ga.Genotype#getConfig()
-     */
     @Override
     protected CoinConfig getConfig() {
         return (CoinConfig) super.getConfig();

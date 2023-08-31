@@ -39,9 +39,6 @@ public class MaxInIntervall extends RecursiveAction {
         return this.result;
     }
 
-    /**
-     * @see java.util.concurrent.RecursiveAction#compute()
-     */
     @Override
     protected void compute() {
         if ((this.end - this.start) < this.intervalThreshold) {

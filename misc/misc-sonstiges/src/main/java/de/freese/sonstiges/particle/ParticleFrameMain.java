@@ -23,9 +23,6 @@ public final class ParticleFrameMain extends JFrame {
         //
         //        frame.addWindowListener(new WindowAdapter()
         //        {
-        //            /**
-        //             * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
-        //             */
         //            @Override
         //            public void windowClosing(final WindowEvent e)
         //            {
@@ -45,9 +42,6 @@ public final class ParticleFrameMain extends JFrame {
         frame.initAndShowGUI();
 
         frame.addWindowListener(new WindowAdapter() {
-            /**
-             * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
-             */
             @Override
             public void windowClosing(final WindowEvent e) {
                 frame.stop();

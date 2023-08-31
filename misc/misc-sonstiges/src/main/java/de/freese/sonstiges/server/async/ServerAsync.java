@@ -53,9 +53,6 @@ public class ServerAsync extends AbstractServer {
         this(port, AsynchronousChannelGroup.withThreadPool(Executors.newFixedThreadPool(poolSize, new NamedThreadFactory("worker-%d"))));
     }
 
-    /**
-     * @see java.lang.Runnable#run()
-     */
     @Override
     public void run() {
         getLogger().info("starting '{}' on port: {}", getName(), getPort());
@@ -77,9 +74,6 @@ public class ServerAsync extends AbstractServer {
         }
     }
 
-    /**
-     * @see de.freese.sonstiges.server.AbstractServer#start()
-     */
     @Override
     public void start() {
         run();
@@ -89,9 +83,6 @@ public class ServerAsync extends AbstractServer {
         // this.startLock.release();
     }
 
-    /**
-     * @see de.freese.sonstiges.server.AbstractServer#stop()
-     */
     @Override
     public void stop() {
         getLogger().info("stopping '{}' on port: {}", getName(), getPort());
@@ -106,9 +97,6 @@ public class ServerAsync extends AbstractServer {
      */
     private void accept() {
         this.serverSocketChannel.accept(null, new CompletionHandler<AsynchronousSocketChannel, Void>() {
-            /**
-             * @see java.nio.channels.CompletionHandler#completed(java.lang.Object, java.lang.Object)
-             */
             @Override
             public void completed(final AsynchronousSocketChannel channel, final Void attachment) {
                 try {
@@ -125,9 +113,6 @@ public class ServerAsync extends AbstractServer {
                 read(channel, ByteBuffer.allocate(256));
             }
 
-            /**
-             * @see java.nio.channels.CompletionHandler#failed(java.lang.Throwable, java.lang.Object)
-             */
             @Override
             public void failed(final Throwable ex, final Void attachment) {
                 getLogger().error(ex.getMessage(), ex);

@@ -16,25 +16,16 @@ public class TspGenotype extends Genotype {
         super(config, size);
     }
 
-    /**
-     * @see de.freese.ga.Genotype#createEmptyChromosome()
-     */
     @Override
     public Chromosome createEmptyChromosome() {
         return new TspChromosome(getConfig());
     }
 
-    /**
-     * @see de.freese.ga.Genotype#createEmptyGenotype(int)
-     */
     @Override
     public Genotype createEmptyGenotype(final int size) {
         return new TspGenotype(getConfig(), size);
     }
 
-    /**
-     * @see de.freese.ga.Genotype#crossover(de.freese.ga.Chromosome, de.freese.ga.Chromosome)
-     */
     @Override
     public Chromosome crossover(final Chromosome parent1, final Chromosome parent2) {
         // Create new child tour
@@ -75,25 +66,16 @@ public class TspGenotype extends Genotype {
         return childChromosome;
     }
 
-    /**
-     * @see de.freese.ga.Genotype#evolve()
-     */
     @Override
     public TspGenotype evolve() {
         return (TspGenotype) super.evolve();
     }
 
-    /**
-     * @see de.freese.ga.Genotype#getFittest()
-     */
     @Override
     public TspChromosome getFittest() {
         return (TspChromosome) super.getFittest();
     }
 
-    /**
-     * @see de.freese.ga.Genotype#getConfig()
-     */
     @Override
     protected TspConfig getConfig() {
         return (TspConfig) super.getConfig();

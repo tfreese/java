@@ -53,9 +53,6 @@ public final class BallSimulationMain extends JComponent {
         final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(8);
 
         frame.addWindowListener(new WindowAdapter() {
-            /**
-             * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
-             */
             @Override
             public void windowClosing(final WindowEvent event) {
                 ((JFrame) event.getSource()).setVisible(false);
@@ -145,9 +142,6 @@ public final class BallSimulationMain extends JComponent {
         SwingUtilities.invokeLater(this::repaint);
     }
 
-    /**
-     * @see java.awt.Window#paint(java.awt.Graphics)
-     */
     @Override
     public void paint(final Graphics g) {
         // g.drawImage(this.image, 0, 0, this);

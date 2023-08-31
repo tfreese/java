@@ -26,9 +26,6 @@ public class LongHandler implements EventHandler<LongEvent>, WorkHandler<LongEve
         this.ordinal = ordinal;
     }
 
-    /**
-     * @see EventHandler#onEvent(Object, long, boolean)
-     */
     @Override
     public void onEvent(final LongEvent event, final long sequence, final boolean endOfBatch) {
         // Load-Balancing auf die Handler über die Sequence.
@@ -38,9 +35,6 @@ public class LongHandler implements EventHandler<LongEvent>, WorkHandler<LongEve
         }
     }
 
-    /**
-     * @see WorkHandler#onEvent(Object)
-     */
     @Override
     public void onEvent(final LongEvent event) throws Exception {
         handleEvent(event);

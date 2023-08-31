@@ -11,19 +11,14 @@ import de.freese.binding.expression.AbstractStringExpression;
  * @author Thomas Freese
  */
 public abstract class AbstractStringProperty extends AbstractStringExpression implements Property<String> {
+
     private String value;
 
-    /**
-     * @see de.freese.binding.value.ObservableValue#getValue()
-     */
     @Override
     public String getValue() {
         return this.value;
     }
 
-    /**
-     * @see de.freese.binding.value.WritableValue#setValue(java.lang.Object)
-     */
     @Override
     public void setValue(final String value) {
         String old = this.value;

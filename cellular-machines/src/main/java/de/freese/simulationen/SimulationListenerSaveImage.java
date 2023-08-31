@@ -46,9 +46,6 @@ public class SimulationListenerSaveImage implements SimulationListener {
             this.file = Objects.requireNonNull(file, "file required");
         }
 
-        /**
-         * @see java.lang.Runnable#run()
-         */
         @Override
         public void run() {
             write(this.bufferedImage, this.file);
@@ -78,9 +75,6 @@ public class SimulationListenerSaveImage implements SimulationListener {
         this.counter = new AtomicInteger(0);
     }
 
-    /**
-     * @see de.freese.simulationen.model.SimulationListener#completed(de.freese.simulationen.model.Simulation)
-     */
     @Override
     public void completed(final Simulation simulation) {
         Image image = simulation.getImage();

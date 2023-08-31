@@ -18,9 +18,6 @@ public class TspChromosome extends Chromosome {
         super(config);
     }
 
-    /**
-     * @see de.freese.ga.Chromosome#calcFitnessValue()
-     */
     @Override
     public double calcFitnessValue() {
         return 1.0D / getDistance();
@@ -56,9 +53,6 @@ public class TspChromosome extends Chromosome {
         return tourDistance;
     }
 
-    /**
-     * @see de.freese.ga.Chromosome#populate()
-     */
     @Override
     public void populate() {
         List<City> cities = getConfig().getCities();
@@ -78,9 +72,6 @@ public class TspChromosome extends Chromosome {
         }
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         // @formatter:off
@@ -91,9 +82,6 @@ public class TspChromosome extends Chromosome {
         // @formatter:on
     }
 
-    /**
-     * @see de.freese.ga.Chromosome#getConfig()
-     */
     @Override
     protected TspConfig getConfig() {
         return (TspConfig) super.getConfig();

@@ -23,9 +23,6 @@ public class CoinConfig extends Config {
 
     private int targetCents;
 
-    /**
-     * @see de.freese.ga.Config#getMaxFitness()
-     */
     @Override
     public double getMaxFitness() {
         // Keine Lösung bekannt.

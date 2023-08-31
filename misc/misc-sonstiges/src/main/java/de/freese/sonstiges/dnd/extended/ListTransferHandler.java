@@ -24,9 +24,6 @@ class ListTransferHandler extends StringTransferHandler {
 
     private int[] indices;
 
-    /**
-     * @see de.freese.sonstiges.dnd.extended.StringTransferHandler#cleanup(javax.swing.JComponent, boolean)
-     */
     @Override
     protected void cleanup(final JComponent c, final boolean remove) {
         if (remove && (this.indices != null)) {
@@ -54,9 +51,6 @@ class ListTransferHandler extends StringTransferHandler {
         this.addIndex = -1;
     }
 
-    /**
-     * @see de.freese.sonstiges.dnd.extended.StringTransferHandler#exportString(javax.swing.JComponent)
-     */
     @Override
     protected String exportString(final JComponent c) {
         JList<?> list = (JList<?>) c;
@@ -78,9 +72,6 @@ class ListTransferHandler extends StringTransferHandler {
         return sb.toString();
     }
 
-    /**
-     * @see de.freese.sonstiges.dnd.extended.StringTransferHandler#importString(javax.swing.JComponent, java.lang.String)
-     */
     @Override
     protected void importString(final JComponent c, final String str) {
         JList<String> target = (JList<String>) c;

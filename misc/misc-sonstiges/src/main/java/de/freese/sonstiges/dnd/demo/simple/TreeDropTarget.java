@@ -30,9 +30,6 @@ class TreeDropTarget implements DropTargetListener {
         this.target = new DropTarget(this.targetTree, this);
     }
 
-    /**
-     * @see java.awt.dnd.DropTargetListener#dragEnter(java.awt.dnd.DropTargetDragEvent)
-     */
     @Override
     public void dragEnter(final DropTargetDragEvent event) {
         TreeNode node = getNodeForEvent(event);
@@ -47,17 +44,11 @@ class TreeDropTarget implements DropTargetListener {
         }
     }
 
-    /**
-     * @see java.awt.dnd.DropTargetListener#dragExit(java.awt.dnd.DropTargetEvent)
-     */
     @Override
     public void dragExit(final DropTargetEvent event) {
         // Empty
     }
 
-    /**
-     * @see java.awt.dnd.DropTargetListener#dragOver(java.awt.dnd.DropTargetDragEvent)
-     */
     @Override
     public void dragOver(final DropTargetDragEvent event) {
         TreeNode node = getNodeForEvent(event);
@@ -72,9 +63,6 @@ class TreeDropTarget implements DropTargetListener {
         }
     }
 
-    /**
-     * @see java.awt.dnd.DropTargetListener#drop(java.awt.dnd.DropTargetDropEvent)
-     */
     @Override
     public void drop(final DropTargetDropEvent event) {
         Point pt = event.getLocation();
@@ -115,9 +103,6 @@ class TreeDropTarget implements DropTargetListener {
         }
     }
 
-    /**
-     * @see java.awt.dnd.DropTargetListener#dropActionChanged(java.awt.dnd.DropTargetDragEvent)
-     */
     @Override
     public void dropActionChanged(final DropTargetDragEvent event) {
         // Empty

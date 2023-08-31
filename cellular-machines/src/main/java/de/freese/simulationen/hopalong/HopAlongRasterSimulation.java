@@ -29,9 +29,6 @@ public class HopAlongRasterSimulation extends AbstractRasterSimulation {
         reset();
     }
 
-    /**
-     * @see de.freese.simulationen.model.Simulation#nextGeneration()
-     */
     @Override
     public void nextGeneration() {
         // INPUT num
@@ -116,9 +113,6 @@ public class HopAlongRasterSimulation extends AbstractRasterSimulation {
         fireCompleted();
     }
 
-    /**
-     * @see de.freese.simulationen.model.AbstractRasterSimulation#reset()
-     */
     @Override
     public void reset() {
         this.x = this.center.x;
@@ -131,17 +125,11 @@ public class HopAlongRasterSimulation extends AbstractRasterSimulation {
         super.reset();
     }
 
-    /**
-     * @see de.freese.simulationen.model.AbstractRasterSimulation#getCell(int, int)
-     */
     @Override
     protected EmptyCell getCell(final int x, final int y) {
         return (EmptyCell) super.getCell(x, y);
     }
 
-    /**
-     * @see de.freese.simulationen.model.AbstractRasterSimulation#reset(int, int)
-     */
     @Override
     protected void reset(final int x, final int y) {
         getCell(x, y).setColor(Color.WHITE);

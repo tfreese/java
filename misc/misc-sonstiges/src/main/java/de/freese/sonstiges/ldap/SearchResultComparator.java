@@ -12,9 +12,6 @@ import org.apache.commons.lang3.StringUtils;
  * @author Thomas Freese
  */
 public class SearchResultComparator implements Comparator<SearchResult> {
-    /**
-     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-     */
     @Override
     public int compare(final SearchResult o1, final SearchResult o2) {
         int comp = 0;

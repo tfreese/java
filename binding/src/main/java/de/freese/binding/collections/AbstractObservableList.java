@@ -15,13 +15,13 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Freese
  */
 public abstract class AbstractObservableList<T> extends AbstractList<T> implements ObservableList<T> {
+
     private final EventListenerList listeners = new EventListenerList();
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
     private boolean listenerEnabled = true;
 
-    /**
-     * @see java.util.AbstractList#add(int, java.lang.Object)
-     */
     @Override
     public void add(final int index, final T element) {
         doAdd(index, element);
@@ -29,17 +29,11 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
         fireIntervalAdded(index, index);
     }
 
-    /**
-     * @see de.freese.binding.collections.ObservableList#addListener(javax.swing.event.ListDataListener)
-     */
     @Override
     public void addListener(final ListDataListener listener) {
         getListeners().add(ListDataListener.class, listener);
     }
 
-    /**
-     * @see java.util.AbstractList#get(int)
-     */
     @Override
     public abstract T get(int index);
 
@@ -47,17 +41,11 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
         return this.logger;
     }
 
-    /**
-     * @see de.freese.binding.collections.ObservableList#isListenerEnabled()
-     */
     @Override
     public boolean isListenerEnabled() {
         return this.listenerEnabled;
     }
 
-    /**
-     * @see java.util.AbstractList#remove(int)
-     */
     @Override
     public T remove(final int index) {
         T old = doRemove(index);
@@ -67,25 +55,16 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
         return old;
     }
 
-    /**
-     * @see de.freese.binding.collections.ObservableList#remove(int, int)
-     */
     @Override
     public void remove(final int from, final int to) {
         removeRange(from, to);
     }
 
-    /**
-     * @see de.freese.binding.collections.ObservableList#removeListener(javax.swing.event.ListDataListener)
-     */
     @Override
     public void removeListener(final ListDataListener listener) {
         getListeners().remove(ListDataListener.class, listener);
     }
 
-    /**
-     * @see java.util.AbstractList#set(int, java.lang.Object)
-     */
     @Override
     public T set(final int index, final T element) {
         T old = doSet(index, element);
@@ -95,33 +74,18 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
         return old;
     }
 
-    /**
-     * @see de.freese.binding.collections.ObservableList#setListenerEnabled(boolean)
-     */
     @Override
     public void setListenerEnabled(final boolean listenerEnabled) {
         this.listenerEnabled = listenerEnabled;
     }
 
-    /**
-     * @see java.util.AbstractCollection#size()
-     */
     @Override
     public abstract int size();
 
-    /**
-     * @see AbstractList#add(int, Object)
-     */
     protected abstract void doAdd(int index, T element);
 
-    /**
-     * @see AbstractList#remove(int)
-     */
     protected abstract T doRemove(int index);
 
-    /**
-     * @see AbstractList#set(int, Object)
-     */
     protected abstract T doSet(int index, T element);
 
     protected void fireContentsChanged(final int startIndex, final int endIndex) {

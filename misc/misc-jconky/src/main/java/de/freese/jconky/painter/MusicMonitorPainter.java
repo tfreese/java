@@ -17,9 +17,6 @@ import de.freese.jconky.util.JConkyUtils;
 public class MusicMonitorPainter extends AbstractMonitorPainter {
     private Image image;
 
-    /**
-     * @see de.freese.jconky.painter.MonitorPainter#paintValue(javafx.scene.canvas.GraphicsContext, double)
-     */
     @Override
     public double paintValue(final GraphicsContext gc, final double width) {
         MusicInfo musicInfo = getContext().getMusicInfo();

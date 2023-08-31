@@ -19,9 +19,6 @@ public class OpeningDateAdapter extends XmlAdapter<String, Date> {
     // */
     // private static final DateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
 
-    /**
-     * @see jakarta.xml.bind.annotation.adapters.XmlAdapter#marshal(java.lang.Object)
-     */
     @Override
     public String marshal(final Date date) throws Exception {
         Instant instant = date.toInstant();
@@ -31,9 +28,6 @@ public class OpeningDateAdapter extends XmlAdapter<String, Date> {
         // return FORMATTER.format(date);
     }
 
-    /**
-     * @see jakarta.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.Object)
-     */
     @Override
     public Date unmarshal(final String date) throws Exception {
         LocalDate localDate = LocalDate.parse(date, DATE_TIME_FORMATTER);

@@ -17,9 +17,6 @@ import de.freese.sonstiges.server.ServerMain;
  * @see IoHandler
  */
 public class HttpIoHandler extends AbstractIoHandler<SelectionKey> {
-    /**
-     * @see de.freese.sonstiges.server.handler.IoHandler#read(java.lang.Object)
-     */
     @Override
     public void read(final SelectionKey selectionKey) {
         try {
@@ -51,9 +48,6 @@ public class HttpIoHandler extends AbstractIoHandler<SelectionKey> {
         }
     }
 
-    /**
-     * @see de.freese.sonstiges.server.handler.IoHandler#write(java.lang.Object)
-     */
     @Override
     public void write(final SelectionKey selectionKey) {
         try {

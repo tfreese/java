@@ -23,9 +23,6 @@ class TransferActionListener implements ActionListener, PropertyChangeListener {
         manager.addPropertyChangeListener("permanentFocusOwner", this);
     }
 
-    /**
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
     @Override
     public void actionPerformed(final ActionEvent e) {
         if (this.focusOwner == null) {
@@ -40,9 +37,6 @@ class TransferActionListener implements ActionListener, PropertyChangeListener {
         }
     }
 
-    /**
-     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-     */
     @Override
     public void propertyChange(final PropertyChangeEvent e) {
         Object o = e.getNewValue();

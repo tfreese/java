@@ -30,8 +30,6 @@ class TreeTransferHandler extends TransferHandler {
 
     /**
      * Ist DnD erlaubt ?
-     *
-     * @see javax.swing.TransferHandler#canImport(javax.swing.JComponent, java.awt.datatransfer.DataFlavor[])
      */
     @Override
     public boolean canImport(final JComponent comp, final DataFlavor[] transferFlavors) {
@@ -46,8 +44,6 @@ class TreeTransferHandler extends TransferHandler {
 
     /**
      * Was darf DnD ?
-     *
-     * @see javax.swing.TransferHandler#getSourceActions(javax.swing.JComponent)
      */
     @Override
     public int getSourceActions(final JComponent c) {
@@ -56,8 +52,6 @@ class TreeTransferHandler extends TransferHandler {
 
     /**
      * Kopieren der Transferdaten.
-     *
-     * @see javax.swing.TransferHandler#importData(javax.swing.JComponent, java.awt.datatransfer.Transferable)
      */
     @Override
     public boolean importData(final JComponent comp, final Transferable t) {
@@ -85,8 +79,6 @@ class TreeTransferHandler extends TransferHandler {
 
     /**
      * Erzeugen der Transferdaten.
-     *
-     * @see javax.swing.TransferHandler#createTransferable(javax.swing.JComponent)
      */
     @Override
     protected Transferable createTransferable(final JComponent c) {
@@ -102,8 +94,6 @@ class TreeTransferHandler extends TransferHandler {
 
     /**
      * Abschluss des Kopiervorgangs.
-     *
-     * @see javax.swing.TransferHandler#exportDone(javax.swing.JComponent, java.awt.datatransfer.Transferable, int)
      */
     @Override
     protected void exportDone(final JComponent source, final Transferable data, final int action) {

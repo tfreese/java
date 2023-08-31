@@ -7,9 +7,6 @@ package de.freese.misc.generator.algorythm;
  * @author Thomas Freese
  */
 public class AlgorithmRecursiveBacktracking implements SudokuAlgorithm {
-    /**
-     * @see SudokuAlgorithm#create(int[][])
-     */
     @Override
     public boolean create(final int[][] grid) {
         boolean emptyField = false;

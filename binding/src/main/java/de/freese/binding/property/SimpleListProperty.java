@@ -7,6 +7,7 @@ import de.freese.binding.collections.ObservableList;
  * @author Thomas Freese
  */
 public class SimpleListProperty<T> extends AbstractListProperty<T> {
+
     private final Object bean;
 
     private final String name;
@@ -28,17 +29,11 @@ public class SimpleListProperty<T> extends AbstractListProperty<T> {
         setValue(initialValue);
     }
 
-    /**
-     * @see de.freese.binding.property.ReadOnlyProperty#getBean()
-     */
     @Override
     public Object getBean() {
         return this.bean;
     }
 
-    /**
-     * @see de.freese.binding.property.ReadOnlyProperty#getName()
-     */
     @Override
     public String getName() {
         return this.name;

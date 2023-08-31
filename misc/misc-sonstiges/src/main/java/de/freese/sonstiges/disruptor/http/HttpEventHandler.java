@@ -28,9 +28,6 @@ public class HttpEventHandler implements EventHandler<HttpEvent> {
         this.mapResponseReady = Objects.requireNonNull(mapResponseReady, "mapResponseReady required");
     }
 
-    /**
-     * @see EventHandler#onEvent(Object, long, boolean)
-     */
     @Override
     public void onEvent(final HttpEvent event, final long sequence, final boolean endOfBatch) throws Exception {
         // Load-Balancing auf die Handler über die Sequence.

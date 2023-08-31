@@ -9,11 +9,10 @@ import java.util.Objects;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * TableModel das intern eine Liste verwendet.
- *
  * @author Thomas Freese
  */
 public abstract class AbstractListTableModel<T> extends AbstractTableModel {
+
     @Serial
     private static final long serialVersionUID = 4681293552039847835L;
 

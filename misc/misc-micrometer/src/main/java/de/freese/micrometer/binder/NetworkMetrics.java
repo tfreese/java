@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Freese
  */
 public class NetworkMetrics implements MeterBinder {
+    
     private static final Logger LOGGER = LoggerFactory.getLogger(NetworkMetrics.class);
 
     private final List<String> activeInterfaces = new ArrayList<>();
@@ -46,9 +47,6 @@ public class NetworkMetrics implements MeterBinder {
         }
     }
 
-    /**
-     * @see io.micrometer.core.instrument.binder.MeterBinder#bindTo(io.micrometer.core.instrument.MeterRegistry)
-     */
     @Override
     public void bindTo(final MeterRegistry registry) {
         // Mit StepCounter müsste die Differenz aus altem und neuem Wert gesetzt werden.

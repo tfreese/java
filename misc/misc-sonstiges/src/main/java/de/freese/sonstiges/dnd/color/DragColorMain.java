@@ -99,11 +99,8 @@ public final class DragColorMain extends JPanel implements ActionListener {
         add(textPanel, BorderLayout.PAGE_END);
     }
 
-    /**
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
     @Override
-    public void actionPerformed(final ActionEvent e) {
+    public void actionPerformed(final ActionEvent event) {
         this.colorHandler.setChangesForegroundColor(this.toggleForeground.isSelected());
     }
 }

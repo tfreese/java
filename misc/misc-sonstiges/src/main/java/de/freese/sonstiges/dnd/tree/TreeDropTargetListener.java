@@ -43,25 +43,16 @@ class TreeDropTargetListener implements DropTargetListener {
         this.expandTimer.setRepeats(true);
     }
 
-    /**
-     * @see java.awt.dnd.DropTargetListener#dragEnter(java.awt.dnd.DropTargetDragEvent)
-     */
     @Override
     public void dragEnter(final DropTargetDragEvent event) {
         // Empty
     }
 
-    /**
-     * @see java.awt.dnd.DropTargetListener#dragExit(java.awt.dnd.DropTargetEvent)
-     */
     @Override
     public void dragExit(final DropTargetEvent dte) {
         this.expandTimer.stop();
     }
 
-    /**
-     * @see java.awt.dnd.DropTargetListener#dragOver(java.awt.dnd.DropTargetDragEvent)
-     */
     @Override
     public void dragOver(final DropTargetDragEvent event) {
         // Ist Target ein JTree ?
@@ -79,18 +70,12 @@ class TreeDropTargetListener implements DropTargetListener {
         }
     }
 
-    /**
-     * @see java.awt.dnd.DropTargetListener#drop(java.awt.dnd.DropTargetDropEvent)
-     */
     @Override
     public void drop(final DropTargetDropEvent event) {
         this.tree = null;
         this.expandTimer.stop();
     }
 
-    /**
-     * @see java.awt.dnd.DropTargetListener#dropActionChanged(java.awt.dnd.DropTargetDragEvent)
-     */
     @Override
     public void dropActionChanged(final DropTargetDragEvent event) {
         // Empty

@@ -10,6 +10,7 @@ import de.freese.binding.value.ObservableBooleanValue;
  * @author Thomas Freese
  */
 public interface BooleanExpression extends ObservableBooleanValue {
+
     default BooleanBinding and(final boolean value) {
         return Bindings.and(this, BooleanConstant.valueOf(value));
     }

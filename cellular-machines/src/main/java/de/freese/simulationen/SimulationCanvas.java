@@ -57,9 +57,6 @@ public class SimulationCanvas extends JComponent implements SimulationListener {
         // setDoubleBuffered(true);
     }
 
-    /**
-     * @see de.freese.simulationen.model.SimulationListener#completed(de.freese.simulationen.model.Simulation)
-     */
     @Override
     public void completed(final Simulation simulation) {
         this.image = simulation.getImage();
@@ -72,9 +69,6 @@ public class SimulationCanvas extends JComponent implements SimulationListener {
         }
     }
 
-    /**
-     * @see javax.swing.JComponent#paint(java.awt.Graphics)
-     */
     @Override
     public void paint(final Graphics g) {
         int x = 0;

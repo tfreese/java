@@ -31,9 +31,6 @@ public class SudokuConfig extends Config {
         super();
     }
 
-    /**
-     * @see de.freese.ga.Config#getMaxFitness()
-     */
     @Override
     public double getMaxFitness() {
         // Summe pro Zeile, Spalte und Block.<br>

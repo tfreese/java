@@ -7,19 +7,14 @@ import de.freese.binding.expression.AbstractFloatExpression;
  * @author Thomas Freese
  */
 public abstract class AbstractFloatProperty extends AbstractFloatExpression implements Property<Float> {
+
     private float value;
 
-    /**
-     * @see de.freese.binding.value.ObservableValue#getValue()
-     */
     @Override
     public Float getValue() {
         return this.value;
     }
 
-    /**
-     * @see de.freese.binding.value.WritableValue#setValue(java.lang.Object)
-     */
     @Override
     public void setValue(final Float value) {
         float old = this.value;

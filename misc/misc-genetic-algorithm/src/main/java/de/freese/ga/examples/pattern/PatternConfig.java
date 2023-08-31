@@ -13,9 +13,6 @@ public class PatternConfig extends Config {
         super();
     }
 
-    /**
-     * @see de.freese.ga.Config#getMaxFitness()
-     */
     @Override
     public double getMaxFitness() {
         // Max. Wert, wenn alle Gene richtig sind.

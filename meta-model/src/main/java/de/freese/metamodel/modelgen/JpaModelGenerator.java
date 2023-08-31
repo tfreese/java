@@ -34,10 +34,6 @@ import de.freese.metamodel.modelgen.model.FieldModel;
  * @author Thomas Freese
  */
 public class JpaModelGenerator extends PojoModelGenerator {
-    /**
-     * @see de.freese.metamodel.modelgen.AbstractModelGenerator#transformClassAnnotations(de.freese.metamodel.metagen.model.Table,
-     * de.freese.metamodel.modelgen.model.ClassModel)
-     */
     @Override
     protected void transformClassAnnotations(final Table table, final ClassModel classModel) {
         // Entity
@@ -95,10 +91,6 @@ public class JpaModelGenerator extends PojoModelGenerator {
         super.transformClassAnnotations(table, classModel);
     }
 
-    /**
-     * @see de.freese.metamodel.modelgen.PojoModelGenerator#transformClassJavaDoc(de.freese.metamodel.metagen.model.Table,
-     * de.freese.metamodel.modelgen.model.ClassModel)
-     */
     @Override
     protected void transformClassJavaDoc(final Table table, final ClassModel classModel) {
         String comment = table.getComment();
@@ -110,10 +102,6 @@ public class JpaModelGenerator extends PojoModelGenerator {
         classModel.addComment("JPA-Entity für Tabelle " + table.getFullName() + ".");
     }
 
-    /**
-     * @see de.freese.metamodel.modelgen.AbstractModelGenerator#transformField(de.freese.metamodel.metagen.model.Column,
-     * de.freese.metamodel.modelgen.model.ClassModel)
-     */
     @Override
     protected void transformField(final Column column, final ClassModel classModel) {
         ForeignKey fk = column.getForeignKey();
@@ -186,10 +174,6 @@ public class JpaModelGenerator extends PojoModelGenerator {
         }
     }
 
-    /**
-     * @see de.freese.metamodel.modelgen.AbstractModelGenerator#transformFieldAnnotations(de.freese.metamodel.metagen.model.Column,
-     * de.freese.metamodel.modelgen.model.FieldModel)
-     */
     @Override
     protected void transformFieldAnnotations(final Column column, final FieldModel fieldModel) {
         Type type = getTypeMapping().getType(column.getJdbcType(), column.isNullable());

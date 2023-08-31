@@ -19,9 +19,6 @@ public class ReverseThread extends Thread {
         this.in = in;
     }
 
-    /**
-     * @see java.lang.Thread#run()
-     */
     @Override
     public void run() {
         if ((this.out != null) && (this.in != null)) {

@@ -22,9 +22,6 @@ public class CheckedInputStream extends FilterInputStream {
         return this.checksum;
     }
 
-    /**
-     * @see java.io.FilterInputStream#read()
-     */
     @Override
     public int read() throws IOException {
         int b = this.in.read();
@@ -36,9 +33,6 @@ public class CheckedInputStream extends FilterInputStream {
         return b;
     }
 
-    /**
-     * @see java.io.FilterInputStream#read(byte[])
-     */
     @Override
     public int read(final byte[] b) throws IOException {
         int bytesRead = this.in.read(b, 0, b.length);
@@ -50,9 +44,6 @@ public class CheckedInputStream extends FilterInputStream {
         return bytesRead;
     }
 
-    /**
-     * @see java.io.FilterInputStream#read(byte[], int, int)
-     */
     @Override
     public int read(final byte[] b, final int off, final int len) throws IOException {
         int bytesRead = this.in.read(b, off, len);

@@ -141,9 +141,6 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
             this.timerHover.setRepeats(true);
         }
 
-        /**
-         * @see java.awt.dnd.DropTargetListener#dragEnter(java.awt.dnd.DropTargetDragEvent)
-         */
         @Override
         public void dragEnter(final DropTargetDragEvent event) {
             if (!isDragAcceptable(event)) {
@@ -154,9 +151,6 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
             }
         }
 
-        /**
-         * @see java.awt.dnd.DropTargetListener#dragExit(java.awt.dnd.DropTargetEvent)
-         */
         @Override
         public void dragExit(final DropTargetEvent event) {
             if (!DragSource.isDragImageSupported()) {
@@ -164,9 +158,6 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
             }
         }
 
-        /**
-         * @see java.awt.dnd.DropTargetListener#dragOver(java.awt.dnd.DropTargetDragEvent)
-         */
         @Override
         public void dragOver(final DropTargetDragEvent event) {
             // Even if the mouse is not moving, this method is still invoked 10 times per second
@@ -241,9 +232,6 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
              */
         }
 
-        /**
-         * @see java.awt.dnd.DropTargetListener#drop(java.awt.dnd.DropTargetDropEvent)
-         */
         @Override
         public void drop(final DropTargetDropEvent event) {
             // Prevent hover timer from doing an unwanted expandPath or collapsePath
@@ -323,9 +311,6 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
             event.dropComplete(true);
         }
 
-        /**
-         * @see java.awt.dnd.DropTargetListener#dropActionChanged(java.awt.dnd.DropTargetDragEvent)
-         */
         @Override
         public void dropActionChanged(final DropTargetDragEvent event) {
             if (!isDragAcceptable(event)) {
@@ -396,9 +381,6 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         dropTarget.setDefaultActions(DnDConstants.ACTION_COPY_OR_MOVE);
     }
 
-    /**
-     * @see java.awt.dnd.Autoscroll#autoscroll(java.awt.Point)
-     */
     @Override
     public void autoscroll(final Point pt) {
         // Figure out which row we're on.
@@ -422,9 +404,6 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         scrollRowToVisible(nRow);
     }
 
-    /**
-     * @see java.awt.dnd.DragSourceListener#dragDropEnd(java.awt.dnd.DragSourceDropEvent)
-     */
     @Override
     public void dragDropEnd(final DragSourceDropEvent event) {
         if (event.getDropSuccess()) {
@@ -447,25 +426,16 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         }
     }
 
-    /**
-     * @see java.awt.dnd.DragSourceListener#dragEnter(java.awt.dnd.DragSourceDragEvent)
-     */
     @Override
     public void dragEnter(final DragSourceDragEvent event) {
         // Empty
     }
 
-    /**
-     * @see java.awt.dnd.DragSourceListener#dragExit(java.awt.dnd.DragSourceEvent)
-     */
     @Override
     public void dragExit(final DragSourceEvent event) {
         // Empty
     }
 
-    /**
-     * @see java.awt.dnd.DragGestureListener#dragGestureRecognized(java.awt.dnd.DragGestureEvent)
-     */
     @Override
     public void dragGestureRecognized(final DragGestureEvent event) {
         Point ptDragOrigin = event.getDragOrigin();
@@ -528,25 +498,16 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         event.startDrag(null, this.imageGhost, new Point(5, 5), transferable, this);
     }
 
-    /**
-     * @see java.awt.dnd.DragSourceListener#dragOver(java.awt.dnd.DragSourceDragEvent)
-     */
     @Override
     public void dragOver(final DragSourceDragEvent event) {
         // Empty
     }
 
-    /**
-     * @see java.awt.dnd.DragSourceListener#dropActionChanged(java.awt.dnd.DragSourceDragEvent)
-     */
     @Override
     public void dropActionChanged(final DragSourceDragEvent event) {
         // Empty
     }
 
-    /**
-     * @see java.awt.dnd.Autoscroll#getAutoscrollInsets()
-     */
     @Override
     public Insets getAutoscrollInsets() {
         Rectangle raOuter = getBounds();
@@ -555,9 +516,6 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         return new Insets((raInner.y - raOuter.y) + AUTOSCROLL_MARGIN, (raInner.x - raOuter.x) + AUTOSCROLL_MARGIN, (raOuter.height - raInner.height - raInner.y) + raOuter.y + AUTOSCROLL_MARGIN, (raOuter.width - raInner.width - raInner.x) + raOuter.x + AUTOSCROLL_MARGIN);
     }
 
-    /**
-     * @see javax.swing.event.TreeModelListener#treeNodesChanged(javax.swing.event.TreeModelEvent)
-     */
     @Override
     public void treeNodesChanged(final TreeModelEvent event) {
         System.out.println("treeNodesChanged");
@@ -566,9 +524,6 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         // We don't need to reset the selection path, since it has not moved
     }
 
-    /**
-     * @see javax.swing.event.TreeModelListener#treeNodesInserted(javax.swing.event.TreeModelEvent)
-     */
     @Override
     public void treeNodesInserted(final TreeModelEvent event) {
         System.out.println("treeNodesInserted ");
@@ -580,18 +535,12 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         setSelectionPath(getChildPath(pathParent, nChildIndex));
     }
 
-    /**
-     * @see javax.swing.event.TreeModelListener#treeNodesRemoved(javax.swing.event.TreeModelEvent)
-     */
     @Override
     public void treeNodesRemoved(final TreeModelEvent event) {
         System.out.println("treeNodesRemoved ");
         sayWhat(event);
     }
 
-    /**
-     * @see javax.swing.event.TreeModelListener#treeStructureChanged(javax.swing.event.TreeModelEvent)
-     */
     @Override
     public void treeStructureChanged(final TreeModelEvent event) {
         System.out.println("treeStructureChanged ");

@@ -20,9 +20,6 @@ import de.freese.sonstiges.server.handler.IoHandler;
 class HttpReadHandler implements CompletionHandler<Integer, MyAttachment> {
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpReadHandler.class);
 
-    /**
-     * @see java.nio.channels.CompletionHandler#completed(java.lang.Object, java.lang.Object)
-     */
     @Override
     public void completed(final Integer bytesRead, final MyAttachment attachment) {
         AsynchronousSocketChannel channel = attachment.channel();
@@ -73,9 +70,6 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment> {
         }
     }
 
-    /**
-     * @see java.nio.channels.CompletionHandler#failed(java.lang.Throwable, java.lang.Object)
-     */
     @Override
     public void failed(final Throwable exc, final MyAttachment attachment) {
         AsynchronousSocketChannel channel = attachment.channel();

@@ -78,9 +78,6 @@ public class Gene implements Comparable<Gene> {
         this.value = value;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

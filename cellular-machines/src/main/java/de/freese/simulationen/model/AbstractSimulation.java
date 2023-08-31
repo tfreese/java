@@ -29,9 +29,6 @@ public abstract class AbstractSimulation implements Simulation {
         this.simulationListeners = Collections.synchronizedList(new ArrayList<>());
     }
 
-    /**
-     * @see de.freese.simulationen.model.Simulation#addWorldListener(de.freese.simulationen.model.SimulationListener)
-     */
     @Override
     public void addWorldListener(final SimulationListener simulationListener) {
         if (!this.simulationListeners.contains(simulationListener)) {
@@ -39,9 +36,6 @@ public abstract class AbstractSimulation implements Simulation {
         }
     }
 
-    /**
-     * @see de.freese.simulationen.model.Simulation#getHeight()
-     */
     @Override
     public int getHeight() {
         return this.height;
@@ -51,9 +45,6 @@ public abstract class AbstractSimulation implements Simulation {
         return this.random;
     }
 
-    /**
-     * @see de.freese.simulationen.model.Simulation#getWidth()
-     */
     @Override
     public int getWidth() {
         return this.width;

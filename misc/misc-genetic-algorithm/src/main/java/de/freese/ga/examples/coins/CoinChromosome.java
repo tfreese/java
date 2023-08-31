@@ -18,9 +18,6 @@ public class CoinChromosome extends Chromosome {
         super(config);
     }
 
-    /**
-     * @see de.freese.ga.Chromosome#calcFitnessValue()
-     */
     @Override
     public double calcFitnessValue() {
         // Münzinhalt des Chromosoms in Cent.
@@ -42,9 +39,6 @@ public class CoinChromosome extends Chromosome {
         return fitness;
     }
 
-    /**
-     * @see de.freese.ga.Chromosome#populate()
-     */
     @Override
     public void populate() {
         List<Integer> existingCoins = getConfig().getExistingCoins();
@@ -63,9 +57,6 @@ public class CoinChromosome extends Chromosome {
         }
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         // @formatter:off
@@ -77,9 +68,6 @@ public class CoinChromosome extends Chromosome {
         // @formatter:on
     }
 
-    /**
-     * @see de.freese.ga.Chromosome#getConfig()
-     */
     @Override
     protected CoinConfig getConfig() {
         return (CoinConfig) super.getConfig();

@@ -57,9 +57,6 @@ public class OSMContentHandler extends DefaultHandler {
         this.osmModel = osmModel;
     }
 
-    /**
-     * @see org.xml.sax.ContentHandler#endElement(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public void endElement(final String uri, final String localName, final String qName) throws SAXException {
         if (NODE_NAME_NODE.equals(localName)) {
@@ -73,9 +70,6 @@ public class OSMContentHandler extends DefaultHandler {
         }
     }
 
-    /**
-     * @see org.xml.sax.ContentHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)
-     */
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes attributes) throws SAXException {
         if (NODE_NAME_TAG.equals(localName)) {

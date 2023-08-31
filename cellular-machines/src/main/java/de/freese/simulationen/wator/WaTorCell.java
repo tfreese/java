@@ -41,9 +41,6 @@ public class WaTorCell extends AbstractCell {
         return CellType.SHARK.equals(this.cellType);
     }
 
-    /**
-     * @see de.freese.simulationen.model.Cell#nextGeneration()
-     */
     @Override
     public void nextGeneration() {
         if (CellType.FISH.equals(this.cellType)) {
@@ -99,9 +96,6 @@ public class WaTorCell extends AbstractCell {
         return null;
     }
 
-    /**
-     * @see de.freese.simulationen.model.AbstractCell#getSimulation()
-     */
     @Override
     protected WaTorRasterSimulation getSimulation() {
         return (WaTorRasterSimulation) super.getSimulation();

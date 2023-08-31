@@ -15,9 +15,6 @@ public class LongEvent {
         this.value = value;
     }
 
-    /**
-     * @see Object#toString()
-     */
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder(getClass().getSimpleName());

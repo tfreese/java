@@ -14,6 +14,7 @@ import de.freese.binding.swing.list.AbstractObservableListListModel;
  * @author Thomas Freese
  */
 public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObservableListListModel<T> implements ComboBoxModel<T> {
+
     @Serial
     private static final long serialVersionUID = -5837879226873538114L;
 

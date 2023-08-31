@@ -74,9 +74,6 @@ public class FractalCell extends AbstractCell {
         return ITERATIONEN;
     }
 
-    /**
-     * @see de.freese.simulationen.model.Cell#nextGeneration()
-     */
     @Override
     public void nextGeneration() {
         // Empty

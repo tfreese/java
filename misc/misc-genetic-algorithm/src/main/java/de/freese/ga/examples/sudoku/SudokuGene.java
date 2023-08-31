@@ -47,9 +47,6 @@ public class SudokuGene extends Gene {
         return this.mutable;
     }
 
-    /**
-     * @see de.freese.ga.Gene#setValue(java.lang.Object)
-     */
     @Override
     public void setValue(final Object value) {
         if (!isMutable()) {
@@ -59,9 +56,6 @@ public class SudokuGene extends Gene {
         super.setValue(value);
     }
 
-    /**
-     * @see de.freese.ga.Gene#toString()
-     */
     @Override
     public String toString() {
         return super.toString() + "; " + isMutable();

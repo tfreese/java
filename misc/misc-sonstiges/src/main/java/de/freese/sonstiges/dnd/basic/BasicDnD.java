@@ -166,9 +166,6 @@ public final class BasicDnD extends JPanel implements ActionListener {
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
     }
 
-    /**
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
     @Override
     public void actionPerformed(final ActionEvent e) {
         if ("toggleDnD".equals(e.getActionCommand())) {

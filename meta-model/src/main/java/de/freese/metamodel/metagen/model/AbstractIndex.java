@@ -54,9 +54,6 @@ public abstract class AbstractIndex {
         this.table = table;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

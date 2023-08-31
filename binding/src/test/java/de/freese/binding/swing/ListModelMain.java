@@ -19,12 +19,10 @@ import de.freese.binding.swing.list.DefaultObservableListListModel;
  * @author Thomas Freese
  */
 public final class ListModelMain {
+
     public static void main(final String[] args) throws Exception {
         JFrame frame = new JFrame("Test-ListModel");
         frame.addWindowListener(new WindowAdapter() {
-            /**
-             * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
-             */
             @Override
             public void windowClosing(final WindowEvent e) {
                 System.exit(0);

@@ -19,6 +19,7 @@ import de.freese.binding.value.ChangeListener;
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestBooleanBinding {
+
     @Test
     void testBinding() {
         SimpleBooleanProperty property1 = new SimpleBooleanProperty();

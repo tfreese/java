@@ -11,19 +11,14 @@ import de.freese.binding.expression.AbstractObjectExpression;
  * @author Thomas Freese
  */
 public abstract class AbstractObjectProperty<T> extends AbstractObjectExpression<T> implements Property<T> {
+
     private T value;
 
-    /**
-     * @see de.freese.binding.value.ObservableValue#getValue()
-     */
     @Override
     public T getValue() {
         return this.value;
     }
 
-    /**
-     * @see de.freese.binding.value.WritableValue#setValue(java.lang.Object)
-     */
     @Override
     public void setValue(final T value) {
         T old = this.value;

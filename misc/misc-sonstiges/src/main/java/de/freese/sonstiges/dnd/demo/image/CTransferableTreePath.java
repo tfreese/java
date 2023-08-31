@@ -25,9 +25,6 @@ class CTransferableTreePath implements Transferable {
         this.path = path;
     }
 
-    /**
-     * @see java.awt.datatransfer.Transferable#getTransferData(java.awt.datatransfer.DataFlavor)
-     */
     @Override
     public synchronized Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException {
         if (flavor.isMimeTypeEqual(FLAVOR_TREE_PATH.getMimeType())) // DataFlavor.javaJVMLocalObjectMimeType))
@@ -38,17 +35,11 @@ class CTransferableTreePath implements Transferable {
         throw new UnsupportedFlavorException(flavor);
     }
 
-    /**
-     * @see java.awt.datatransfer.Transferable#getTransferDataFlavors()
-     */
     @Override
     public DataFlavor[] getTransferDataFlavors() {
         return FLAVORS;
     }
 
-    /**
-     * @see java.awt.datatransfer.Transferable#isDataFlavorSupported(java.awt.datatransfer.DataFlavor)
-     */
     @Override
     public boolean isDataFlavorSupported(final DataFlavor flavor) {
         return List.of(FLAVORS).contains(flavor);

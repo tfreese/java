@@ -30,9 +30,6 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
         addFocusListener(this);
     }
 
-    /**
-     * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
-     */
     @Override
     public void focusGained(final FocusEvent e) {
         // Draw the component with a red border
@@ -40,9 +37,6 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
         this.repaint();
     }
 
-    /**
-     * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
-     */
     @Override
     public void focusLost(final FocusEvent e) {
         // Draw the component with a black border
@@ -50,42 +44,27 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
         this.repaint();
     }
 
-    /**
-     * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
-     */
     @Override
     public void mouseClicked(final MouseEvent e) {
         // Since the user clicked on us, let's get focus!
         requestFocusInWindow();
     }
 
-    /**
-     * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
-     */
     @Override
     public void mouseEntered(final MouseEvent e) {
         // Empty
     }
 
-    /**
-     * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
-     */
     @Override
     public void mouseExited(final MouseEvent e) {
         // Empty
     }
 
-    /**
-     * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
-     */
     @Override
     public void mousePressed(final MouseEvent e) {
         // Empty
     }
 
-    /**
-     * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
-     */
     @Override
     public void mouseReleased(final MouseEvent e) {
         // Empty
@@ -99,9 +78,6 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
         this.image = image;
     }
 
-    /**
-     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-     */
     @Override
     protected void paintComponent(final Graphics graphics) {
         Graphics g = graphics.create();

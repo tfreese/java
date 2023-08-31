@@ -42,9 +42,6 @@ public class ServerMultiThread extends AbstractServer {
         this.selectorProvider = Objects.requireNonNull(selectorProvider, "selectorProvider required");
     }
 
-    /**
-     * @see java.lang.Runnable#run()
-     */
     @Override
     public void run() {
         getLogger().info("starting '{}' on port: {}", getName(), getPort());
@@ -105,9 +102,6 @@ public class ServerMultiThread extends AbstractServer {
         }
     }
 
-    /**
-     * @see de.freese.sonstiges.server.AbstractServer#start()
-     */
     @Override
     public void start() {
         run();
@@ -117,9 +111,6 @@ public class ServerMultiThread extends AbstractServer {
         // this.startLock.release();
     }
 
-    /**
-     * @see de.freese.sonstiges.server.AbstractServer#stop()
-     */
     @Override
     public void stop() {
         getLogger().info("stopping '{}' on port: {}", getName(), getPort());

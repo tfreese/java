@@ -13,6 +13,7 @@ import javax.swing.event.ListDataListener;
  * @author Thomas Freese
  */
 public class FilteredObservableList<T> extends DefaultObservableList<T> {
+
     private final List<T> filteredList = new ArrayList<>();
 
     private Predicate<T> predicate;
@@ -28,25 +29,16 @@ public class FilteredObservableList<T> extends DefaultObservableList<T> {
         this.filteredList.addAll(source);
 
         source.addListener(new ListDataListener() {
-            /**
-             * @see javax.swing.event.ListDataListener#contentsChanged(javax.swing.event.ListDataEvent)
-             */
             @Override
             public void contentsChanged(final ListDataEvent e) {
                 doFilter();
             }
 
-            /**
-             * @see javax.swing.event.ListDataListener#intervalAdded(javax.swing.event.ListDataEvent)
-             */
             @Override
             public void intervalAdded(final ListDataEvent e) {
                 doFilter();
             }
 
-            /**
-             * @see javax.swing.event.ListDataListener#intervalRemoved(javax.swing.event.ListDataEvent)
-             */
             @Override
             public void intervalRemoved(final ListDataEvent e) {
                 int firstRow = e.getIndex0();
@@ -59,9 +51,6 @@ public class FilteredObservableList<T> extends DefaultObservableList<T> {
         });
     }
 
-    /**
-     * @see de.freese.binding.collections.DefaultObservableList#get(int)
-     */
     @Override
     public T get(final int index) {
         return this.filteredList.get(index);
@@ -71,9 +60,6 @@ public class FilteredObservableList<T> extends DefaultObservableList<T> {
         this.predicate = Objects.requireNonNull(predicate, "predicate required");
     }
 
-    /**
-     * @see de.freese.binding.collections.DefaultObservableList#size()
-     */
     @Override
     public int size() {
         return this.filteredList.size();

@@ -15,9 +15,6 @@ public class PatternChromosome extends Chromosome {
         super(config);
     }
 
-    /**
-     * @see de.freese.ga.Chromosome#calcFitnessValue()
-     */
     @Override
     public double calcFitnessValue() {
         double fitness = 0.0D;
@@ -33,9 +30,6 @@ public class PatternChromosome extends Chromosome {
         return fitness;
     }
 
-    /**
-     * @see de.freese.ga.Chromosome#populate()
-     */
     @Override
     public void populate() {
         // Zufällige Initialisierung.
@@ -44,9 +38,6 @@ public class PatternChromosome extends Chromosome {
         }
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         // @formatter:off
@@ -58,9 +49,6 @@ public class PatternChromosome extends Chromosome {
         // @formatter:on
     }
 
-    /**
-     * @see de.freese.ga.Chromosome#getConfig()
-     */
     @Override
     protected PatternConfig getConfig() {
         return (PatternConfig) super.getConfig();

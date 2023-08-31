@@ -17,9 +17,6 @@ import de.freese.metamodel.metagen.model.Sequence;
  * @author Thomas Freese
  */
 public class HsqldbMetaExporter extends AbstractMetaExporter {
-    /**
-     * @see de.freese.metamodel.metagen.AbstractMetaExporter#generateSequences(javax.sql.DataSource, de.freese.metamodel.metagen.model.Schema)
-     */
     @Override
     protected void generateSequences(final DataSource dataSource, final Schema schema) throws SQLException {
         StringBuilder sql = new StringBuilder();
@@ -27,7 +24,8 @@ public class HsqldbMetaExporter extends AbstractMetaExporter {
         sql.append(" from INFORMATION_SCHEMA.SYSTEM_SEQUENCES");
         sql.append(" where SEQUENCE_SCHEMA = ?");
 
-        try (Connection connection = dataSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql.toString())) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql.toString())) {
             preparedStatement.setString(1, schema.getName());
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {

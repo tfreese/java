@@ -24,10 +24,6 @@ public class DiscordColorSerializer extends StdSerializer<Color> {
         super(clazz);
     }
 
-    /**
-     * @see com.fasterxml.jackson.databind.ser.std.StdSerializer#serialize(java.lang.Object, com.fasterxml.jackson.core.JsonGenerator,
-     * com.fasterxml.jackson.databind.SerializerProvider)
-     */
     @Override
     public void serialize(final Color value, final JsonGenerator gen, final SerializerProvider provider) throws IOException {
         int rgb = value.getRed();

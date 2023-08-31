@@ -13,6 +13,7 @@ import de.freese.binding.collections.ObservableList;
  * @author Thomas Freese
  */
 public class DefaultObservableListListModel<T> extends AbstractObservableListListModel<T> {
+
     @Serial
     private static final long serialVersionUID = -578288830889934793L;
 

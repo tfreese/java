@@ -46,8 +46,6 @@ public abstract class Genotype {
 
     /**
      * Erzeugt einen neuen leeren Genotype / Population.<br>
-     *
-     * @see Genotype#tournamentSelection()
      */
     public abstract Genotype createEmptyGenotype(int size);
 
@@ -187,8 +185,6 @@ public abstract class Genotype {
 
     /**
      * Befüllt den Genotype mit Chromosomen.
-     *
-     * @see Chromosome#populate()
      */
     public void populate() {
         for (int i = 0; i < size(); i++) {

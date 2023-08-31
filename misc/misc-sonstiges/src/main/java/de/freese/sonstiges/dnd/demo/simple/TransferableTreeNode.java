@@ -22,9 +22,6 @@ class TransferableTreeNode implements Transferable {
         this.path = tp;
     }
 
-    /**
-     * @see java.awt.datatransfer.Transferable#getTransferData(java.awt.datatransfer.DataFlavor)
-     */
     @Override
     public synchronized Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException, IOException {
         if (isDataFlavorSupported(flavor)) {
@@ -34,17 +31,11 @@ class TransferableTreeNode implements Transferable {
         throw new UnsupportedFlavorException(flavor);
     }
 
-    /**
-     * @see java.awt.datatransfer.Transferable#getTransferDataFlavors()
-     */
     @Override
     public synchronized DataFlavor[] getTransferDataFlavors() {
         return FLAVORS;
     }
 
-    /**
-     * @see java.awt.datatransfer.Transferable#isDataFlavorSupported(java.awt.datatransfer.DataFlavor)
-     */
     @Override
     public boolean isDataFlavorSupported(final DataFlavor flavor) {
         return (flavor.getRepresentationClass() == TreePath.class);

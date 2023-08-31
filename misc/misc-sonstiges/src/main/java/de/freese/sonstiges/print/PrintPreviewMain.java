@@ -66,9 +66,6 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
         PrintPreviewMain printPreview = new PrintPreviewMain();
 
         WindowListener listener = new WindowAdapter() {
-            /**
-             * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
-             */
             @Override
             public void windowClosing(final WindowEvent e) {
                 System.exit(0);
@@ -159,9 +156,6 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
         }
     }
 
-    /**
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
     @Override
     public void actionPerformed(final ActionEvent event) {
         if (event.getSource() instanceof JMenuItem) {
@@ -206,9 +200,6 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
         }
     }
 
-    /**
-     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-     */
     @Override
     public void paintComponent(final Graphics g) {
         super.paintComponent(g);
@@ -313,7 +304,7 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
         // wenn Eingabe OK, Text übernehmen
         if (userInput instanceof String t) {
             this.text = t;
-            
+
             repaint(); // neu zeichnen
         }
     }
