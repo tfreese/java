@@ -16,18 +16,14 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractIoHandler<T> implements IoHandler<T> {
 
-    private static final ThreadLocal<CharsetDecoder> CHARSET_DECODER = ThreadLocal.withInitial(DEFAULT_CHARSET::newDecoder);
-
-    private static final ThreadLocal<CharsetEncoder> CHARSET_ENCODER = ThreadLocal.withInitial(DEFAULT_CHARSET::newEncoder);
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected CharsetDecoder getCharsetDecoder() {
-        return CHARSET_DECODER.get().reset();
+        return DEFAULT_CHARSET.newDecoder();
     }
 
     protected CharsetEncoder getCharsetEncoder() {
-        return CHARSET_ENCODER.get().reset();
+        return DEFAULT_CHARSET.newEncoder();
     }
 
     protected Logger getLogger() {
