@@ -164,8 +164,6 @@ public final class TestUtil {
      * Die Spaltenbreite der Elemente wird auf den breitesten Wert durch das Padding aufgefüllt.<br>
      * Ist das Padding null oder leer wird nichts gemacht.<br>
      * Beim Padding werden die CharSequences durch Strings ersetzt.
-     *
-     * @see #write(List, PrintStream, String)
      */
     private static <T extends CharSequence> void padding(final List<T[]> rows, final String padding) {
         if ((rows == null) || rows.isEmpty()) {

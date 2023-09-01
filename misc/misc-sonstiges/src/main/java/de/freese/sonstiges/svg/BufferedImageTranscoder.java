@@ -12,9 +12,6 @@ import org.apache.batik.transcoder.image.TIFFTranscoder;
 
 /**
  * @author Thomas Freese
- * @see JPEGTranscoder
- * @see PNGTranscoder
- * @see TIFFTranscoder
  */
 public class BufferedImageTranscoder extends ImageTranscoder {
     private BufferedImage image;

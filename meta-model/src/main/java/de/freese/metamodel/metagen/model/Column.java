@@ -31,7 +31,7 @@ public class Column {
 
     private int size = UNDEFINED;
     /**
-     * @see Types
+     * {@link Types}
      */
     private int sqlType = Types.NULL;
 
@@ -79,9 +79,6 @@ public class Column {
         return this.size;
     }
 
-    /**
-     * @see Types
-     */
     public int getSqlType() {
         return this.sqlType;
     }
@@ -149,9 +146,6 @@ public class Column {
         this.size = size;
     }
 
-    /**
-     * @see Types
-     */
     public void setSqlType(final int sqlType) {
         this.sqlType = sqlType;
     }

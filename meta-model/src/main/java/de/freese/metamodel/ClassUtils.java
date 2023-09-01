@@ -119,7 +119,6 @@ public final class ClassUtils {
      *
      * @throws ClassNotFoundException if the class was not found
      * @throws LinkageError if the class file could not be loaded
-     * @see Class#forName(String, boolean, ClassLoader)
      */
     public static Class<?> forName(final String name, final ClassLoader classLoader) throws ClassNotFoundException, LinkageError {
         Objects.requireNonNull(name, "name required");
@@ -193,9 +192,6 @@ public final class ClassUtils {
      * example, for class path resource loading (but not necessarily for {@code Class.forName}, which accepts a {@code null} ClassLoader reference as well).
      *
      * @return the default ClassLoader (only {@code null} if even the system ClassLoader isn't accessible)
-     *
-     * @see Thread#getContextClassLoader()
-     * @see ClassLoader#getSystemClassLoader()
      */
     public static ClassLoader getDefaultClassLoader() {
         ClassLoader cl = null;

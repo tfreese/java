@@ -7,12 +7,9 @@ import java.util.Objects;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.JTextComponent;
@@ -31,73 +28,31 @@ import de.freese.binding.value.ObservableValue;
 public final class SwingBindings {
     private static final Logger LOGGER = LoggerFactory.getLogger(SwingBindings.class);
 
-    /**
-     * Bindet bidirektional eine {@link JCheckBox} an ein {@link Property}.
-     *
-     * @see JEditorPane
-     * @see JTextArea
-     * @see JTextField
-     */
     public static void bindBidirectional(final JCheckBox component, final Property<Boolean> property) {
         bindToSwing(property, component);
         bindToProperty(component, property);
     }
 
-    /**
-     * Bindet bidirektional eine {@link JComboBox} an ein {@link Property}.
-     *
-     * @see JEditorPane
-     * @see JTextArea
-     * @see JTextField
-     */
     public static <T> void bindBidirectional(final JComboBox<T> component, final Property<T> property) {
         bindToSwing(property, component);
         bindToProperty(component, property);
     }
 
-    /**
-     * Bindet bidirektional einen {@link JSlider} an ein {@link Property}.
-     *
-     * @see JEditorPane
-     * @see JTextArea
-     * @see JTextField
-     */
     public static void bindBidirectional(final JSlider component, final Property<Integer> property) {
         bindToSwing(property, component);
         bindToProperty(component, property);
     }
 
-    /**
-     * Bindet bidirektional einen {@link JSpinner} an ein {@link Property}.
-     *
-     * @see JEditorPane
-     * @see JTextArea
-     * @see JTextField
-     */
     public static void bindBidirectional(final JSpinner component, final Property<Integer> property) {
         bindToSwing(property, component);
         bindToProperty(component, property);
     }
 
-    /**
-     * Bindet bidirektional eine {@link JTextComponent} an ein {@link Property}.
-     *
-     * @see JEditorPane
-     * @see JTextArea
-     * @see JTextField
-     */
     public static void bindBidirectional(final JTextComponent component, final Property<String> property) {
         bindToSwing(property, component);
         bindToProperty(component, property);
     }
 
-    /**
-     * Bindet eine {@link JCheckBox} an ein {@link Property}.
-     *
-     * @see JEditorPane
-     * @see JTextArea
-     * @see JTextField
-     */
     public static void bindToProperty(final JCheckBox component, final Property<Boolean> property) {
         component.addItemListener(event -> {
             boolean selected = component.isSelected();
@@ -113,13 +68,6 @@ public final class SwingBindings {
         });
     }
 
-    /**
-     * Bindet eine {@link JCheckBox} an ein {@link Property}.
-     *
-     * @see JEditorPane
-     * @see JTextArea
-     * @see JTextField
-     */
     public static <T> void bindToProperty(final JComboBox<T> component, final Property<T> property) {
         component.addItemListener(event -> {
             T selectedItem = (T) component.getSelectedItem();
@@ -135,13 +83,6 @@ public final class SwingBindings {
         });
     }
 
-    /**
-     * Bindet ein {@link JSlider} an ein {@link Property}.
-     *
-     * @see JEditorPane
-     * @see JTextArea
-     * @see JTextField
-     */
     public static void bindToProperty(final JSlider component, final Property<Integer> property) {
         component.addChangeListener(event -> {
             int value = component.getValue();
@@ -157,9 +98,6 @@ public final class SwingBindings {
         });
     }
 
-    /**
-     * Bindet ein {@link JSpinner} an ein {@link Property}.
-     */
     public static <T> void bindToProperty(final JSpinner component, final Property<T> property) {
         component.addChangeListener(event -> {
             T value = (T) component.getValue();
@@ -175,13 +113,6 @@ public final class SwingBindings {
         });
     }
 
-    /**
-     * Bindet eine {@link JTextComponent} an ein {@link Property}.
-     *
-     * @see JEditorPane
-     * @see JTextArea
-     * @see JTextField
-     */
     public static void bindToProperty(final JTextComponent component, final Property<String> property) {
         component.addFocusListener(new FocusAdapter() {
             @Override
@@ -200,9 +131,6 @@ public final class SwingBindings {
         });
     }
 
-    /**
-     * Bindet ein {@link ObservableValue} an eine {@link JCheckBox}.
-     */
     public static void bindToSwing(final ObservableValue<Boolean> value, final JCheckBox component) {
         value.addListener((observable, oldValue, newValue) -> {
             if (Objects.equals(component.isSelected(), newValue)) {
@@ -214,9 +142,6 @@ public final class SwingBindings {
         });
     }
 
-    /**
-     * Bindet ein {@link ObservableValue} an einen {@link JSlider}.
-     */
     public static void bindToSwing(final ObservableValue<Integer> value, final JSlider component) {
         value.addListener((observable, oldValue, newValue) -> {
             if (Objects.equals(component.getValue(), newValue)) {
@@ -228,9 +153,6 @@ public final class SwingBindings {
         });
     }
 
-    /**
-     * Bindet ein {@link ObservableValue} an ein {@link JLabel}.
-     */
     public static void bindToSwing(final ObservableValue<String> value, final JLabel component) {
         value.addListener((observable, oldValue, newValue) -> {
             if (Objects.equals(component.getText(), newValue)) {
@@ -242,13 +164,6 @@ public final class SwingBindings {
         });
     }
 
-    /**
-     * Bindet ein {@link ObservableValue} an eine {@link JTextComponent}.
-     *
-     * @see JEditorPane
-     * @see JTextArea
-     * @see JTextField
-     */
     public static void bindToSwing(final ObservableValue<String> value, final JTextComponent component) {
         value.addListener((observable, oldValue, newValue) -> {
             if (Objects.equals(component.getText(), newValue)) {
@@ -260,9 +175,6 @@ public final class SwingBindings {
         });
     }
 
-    /**
-     * Bindet ein {@link ObservableValue} an ein {@link TitledBorder}.
-     */
     public static void bindToSwing(final ObservableValue<String> value, final TitledBorder component) {
         value.addListener((observable, oldValue, newValue) -> {
             if (Objects.equals(component.getTitle(), newValue)) {
@@ -274,9 +186,6 @@ public final class SwingBindings {
         });
     }
 
-    /**
-     * Bindet ein {@link ObservableValue} an eine {@link JComboBox}.
-     */
     public static <T> void bindToSwing(final ObservableValue<T> value, final JComboBox<T> component) {
         value.addListener((observable, oldValue, newValue) -> {
             if (Objects.equals(component.getSelectedItem(), newValue)) {
@@ -288,9 +197,6 @@ public final class SwingBindings {
         });
     }
 
-    /**
-     * Bindet ein {@link ObservableValue} an einen {@link JSpinner}.
-     */
     public static <T> void bindToSwing(final ObservableValue<T> value, final JSpinner component) {
         value.addListener((observable, oldValue, newValue) -> {
             if (Objects.equals(component.getValue(), newValue)) {
@@ -302,9 +208,6 @@ public final class SwingBindings {
         });
     }
 
-    /**
-     * Aktualisiert die Property mit dem neuen Wert aus der Komponente.
-     */
     private static <T> void updateProperty(final Property<T> property, final T newValue) {
         Runnable task = () -> {
             if (Objects.equals(property.getValue(), newValue)) {

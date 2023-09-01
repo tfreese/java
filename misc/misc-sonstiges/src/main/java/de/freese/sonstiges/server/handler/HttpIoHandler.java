@@ -14,7 +14,6 @@ import de.freese.sonstiges.server.ServerMain;
 
 /**
  * @author Thomas Freese
- * @see IoHandler
  */
 public class HttpIoHandler extends AbstractIoHandler<SelectionKey> {
     @Override

@@ -27,10 +27,10 @@ import io.micrometer.core.instrument.util.TimeUtils;
  */
 public final class MeterExporter {
     /**
+     * {@link Metrics#globalRegistry#getMeters}
+     *
      * @param step {@link Duration}; see {@link PushRegistryConfig#step()}
      * @param baseTimeUnit {@link TimeUnit}; see {@link MeterRegistry#getBaseTimeUnit()}
-     *
-     * @see Metrics#globalRegistry#getMeters()
      */
     public static List<String> export(MeterRegistry registry, final Duration step, TimeUnit baseTimeUnit) {
         List<String> list = new ArrayList<>();
