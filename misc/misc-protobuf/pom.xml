@@ -17,6 +17,7 @@
 
     <build>
         <extensions>
+            <!-- Required for Property 'os.detected.classifier' -->
             <extension>
                 <groupId>kr.motd.maven</groupId>
                 <artifactId>os-maven-plugin</artifactId>
