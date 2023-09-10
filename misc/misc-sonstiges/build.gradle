@@ -6,7 +6,7 @@ description = "Alles zum ausprobieren"
 
 dependencies {
     javafx {
-        version = "$version_javafxBase"
+        version = "$version_javafx"
         modules = ["javafx.controls"]
     }
 

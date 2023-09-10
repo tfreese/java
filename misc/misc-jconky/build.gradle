@@ -13,7 +13,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
 
     javafx {
-        version = "$version_javafxBase"
+        version = "$version_javafx"
         modules = ["javafx.controls", "javafx.swing"]
     }
 }
