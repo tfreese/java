@@ -63,7 +63,8 @@ subprojects {
     }
 
     dependencies {
-        //implementation(platform("de.freese:maven-bom:$version_mavenBom"))
-        //testImplementation("org.junit.jupiter:junit-jupiter")
+        testImplementation("org.junit.jupiter:junit-jupiter")
+
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
 }

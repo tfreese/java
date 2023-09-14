@@ -15,7 +15,6 @@ dependencies {
     testImplementation("com.oracle.database.jdbc:ojdbc11")
     testImplementation("org.hibernate.validator:hibernate-validator")
     testImplementation("org.hsqldb:hsqldb")
-    testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.mariadb.jdbc:mariadb-java-client")
     testImplementation("org.slf4j:slf4j-simple")
     testImplementation("org.xerial:sqlite-jdbc")

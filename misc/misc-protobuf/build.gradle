@@ -1,0 +1,24 @@
+plugins {
+    id "com.google.protobuf" version "$version_protobufPlugin"
+}
+
+description = "Google Protobuf Demo"
+
+//sourceSets {
+//    main {
+//        proto {
+//            srcDir "src/main/proto"
+//        }
+//    }
+//}
+
+protobuf {
+    protoc {
+//        path = "/usr/local/bin/protoc"
+        artifact = "com.google.protobuf:protoc:$version_protobufProtoc"
+    }
+}
+
+dependencies {
+    implementation("com.google.protobuf:protobuf-java:$version_protobufProtoc")
+}

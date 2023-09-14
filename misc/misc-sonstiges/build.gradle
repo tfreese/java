@@ -46,6 +46,5 @@ dependencies {
     }
     testImplementation("org.apache.tomcat:tomcat-juli")
 
-    testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.mockito:mockito-junit-jupiter")
 }

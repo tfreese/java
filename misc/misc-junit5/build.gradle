@@ -2,7 +2,6 @@ description = "Demos für JUnit5"
 
 dependencies {
     testImplementation("org.assertj:assertj-core")
-    testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.junit.platform:junit-platform-suite-api")
     testImplementation("org.junit.vintage:junit-vintage-engine")
     testImplementation("org.mockito:mockito-junit-jupiter")

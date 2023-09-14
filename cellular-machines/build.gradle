@@ -9,8 +9,6 @@ dependencies {
     implementation("org.slf4j:slf4j-api")
 
     runtimeOnly("org.slf4j:slf4j-simple")
-
-    testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
