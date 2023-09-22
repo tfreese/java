@@ -4,7 +4,6 @@ package de.freese.jsensors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
@@ -84,17 +83,19 @@ class TestMetricBinder {
         DefaultSensorRegistry registry = new DefaultSensorRegistry();
         MapBackend mapBackend = new MapBackend(3);
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> new ExecutorServiceMetrics(Executors.newSingleThreadExecutor(), "myExecutor").bindTo(registry, name -> mapBackend));
-        String expectedMessage = "executorService not supported: 'java.util.concurrent.Executors$FinalizableDelegatedExecutorService'";
-        assertEquals(exception.getMessage(), expectedMessage);
+        new ExecutorServiceMetrics(Executors.newSingleThreadExecutor(), "myExecutor").bindTo(registry, name -> mapBackend);
+        //        Exception exception = assertThrows(IllegalArgumentException.class, () -> new ExecutorServiceMetrics(Executors.newSingleThreadExecutor(), "myExecutor").bindTo(registry, name -> mapBackend));
+        //        String expectedMessage = "executorService not supported: 'java.util.concurrent.Executors$AutoShutdownDelegatedExecutorService'";
+        //        assertEquals(exception.getMessage(), expectedMessage);
 
-        exception = assertThrows(IllegalArgumentException.class, () -> new ExecutorServiceMetrics(Executors.newSingleThreadScheduledExecutor(), "myScheduler").bindTo(registry, name -> mapBackend));
-        expectedMessage = "executorService not supported: 'java.util.concurrent.Executors$DelegatedScheduledExecutorService'";
-        assertEquals(exception.getMessage(), expectedMessage);
+        new ExecutorServiceMetrics(Executors.newSingleThreadScheduledExecutor(), "myScheduler").bindTo(registry, name -> mapBackend);
+        //        exception = assertThrows(IllegalArgumentException.class, () -> new ExecutorServiceMetrics(Executors.newSingleThreadScheduledExecutor(), "myScheduler").bindTo(registry, name -> mapBackend));
+        //        expectedMessage = "executorService not supported: 'java.util.concurrent.Executors$DelegatedScheduledExecutorService'";
+        //        assertEquals(exception.getMessage(), expectedMessage);
 
         new ExecutorServiceMetrics(ForkJoinPool.commonPool(), "myForkJoin").bindTo(registry, name -> mapBackend);
-        new ExecutorServiceMetrics(Executors.newFixedThreadPool(1), "myExecutor").bindTo(registry, name -> mapBackend);
-        new ExecutorServiceMetrics(Executors.newScheduledThreadPool(1), "myScheduler").bindTo(registry, name -> mapBackend);
+        new ExecutorServiceMetrics(Executors.newFixedThreadPool(1), "myExecutor2").bindTo(registry, name -> mapBackend);
+        new ExecutorServiceMetrics(Executors.newScheduledThreadPool(1), "myScheduler2").bindTo(registry, name -> mapBackend);
 
         registry.measureAll();
 

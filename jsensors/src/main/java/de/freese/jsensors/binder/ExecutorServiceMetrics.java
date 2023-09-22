@@ -1,7 +1,8 @@
 // Created: 03.09.2021
 package de.freese.jsensors.binder;
 
-import java.lang.reflect.Field;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.VarHandle;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
@@ -50,7 +51,7 @@ public class ExecutorServiceMetrics implements SensorBinder {
             if ("java.util.concurrent.Executors$DelegatedScheduledExecutorService".equals(className)) {
                 pool = unwrapThreadPoolExecutor(this.executorService, this.executorService.getClass());
             }
-            else if ("java.util.concurrent.Executors$FinalizableDelegatedExecutorService".equals(className)) {
+            else if ("java.util.concurrent.Executors$AutoShutdownDelegatedExecutorService".equals(className)) {
                 pool = unwrapThreadPoolExecutor(this.executorService, this.executorService.getClass().getSuperclass());
             }
 
@@ -98,18 +99,20 @@ public class ExecutorServiceMetrics implements SensorBinder {
         return List.of("executor.completed." + this.serviceName, "executor.active." + this.serviceName, "executor.queued." + this.serviceName, "executor.queue.remaining." + this.serviceName, "executor.pool.size." + this.serviceName, "executor.pool.core." + this.serviceName, "executor.pool.max." + this.serviceName);
     }
 
+    /**
+     * --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+     */
     private ThreadPoolExecutor unwrapThreadPoolExecutor(final ExecutorService executor, final Class<?> wrapper) {
         try {
-            //            MethodHandles.Lookup lookup = MethodHandles.lookup();
-            //            MethodHandles.Lookup privateLookup = MethodHandles.privateLookupIn(wrapper, lookup);
-            //            VarHandle varHandle = privateLookup.unreflectVarHandle(wrapper.getDeclaredField("e"));
-            //            //            VarHandle varHandle = privateLookup.findVarHandle(ExecutorService.class, "e", ExecutorService.class);
-            //            Object value = varHandle.get(executor);
+            // java.util.concurrent.Executors.DelegatedExecutorService.e
+            MethodHandles.Lookup lookup = MethodHandles.lookup();
+            MethodHandles.Lookup privateLookup = MethodHandles.privateLookupIn(wrapper, lookup);
+            VarHandle varHandle = privateLookup.findVarHandle(wrapper, "e", ExecutorService.class);
+            return (ThreadPoolExecutor) varHandle.get(executor);
 
-            Field field = wrapper.getDeclaredField("e");
-            field.setAccessible(true);
-
-            return (ThreadPoolExecutor) field.get(executor);
+            //            Field field = wrapper.getDeclaredField("e");
+            //            field.setAccessible(true);
+            //            return (ThreadPoolExecutor) field.get(executor);
         }
         catch (NoSuchFieldException | IllegalAccessException | RuntimeException ex) {
             // Cannot use InaccessibleObjectException since it was introduced in Java 9, so catch all RuntimeExceptions instead.
