@@ -9,7 +9,7 @@ buildscript {
     dependencies {
         classpath "de.freese.gradle:gradle-plugins:0.0.1-SNAPSHOT"
         classpath "io.spring.gradle:dependency-management-plugin:$version_springDependencyManagement"
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:$version_springBootGradlePlugin"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$version_springBoot"
         classpath "org.openjfx:javafx-plugin:$version_javafxPlugin"
     }
 }
@@ -37,8 +37,6 @@ subprojects {
                 entry "maven-settings-builder"
             }
 
-//            dependency(group: "org.apache.tomcat", name: "tomcat-catalina", version: dependencyManagement.importedProperties["tomcat.version"])
-//            dependency "org.apache.tomcat:tomcat-catalina:${dependencyManagement.importedProperties["tomcat.version"]}"
             dependencySet(group: "org.apache.tomcat", version: dependencyManagement.importedProperties["tomcat.version"]) {
                 entry "tomcat-catalina"
                 entry "tomcat-juli"
