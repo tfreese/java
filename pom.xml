@@ -47,6 +47,7 @@
         <module>binding</module>
         <module>cellular-machines</module>
         <module>jsensors</module>
+        <module>logging</module>
         <module>meta-model</module>
         <module>misc</module>
     </modules>

@@ -8,9 +8,9 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 import com.lmax.disruptor.BusySpinWaitStrategy;
+import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.WaitStrategy;
-import com.lmax.disruptor.WorkHandler;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.ProducerType;
 import com.lmax.disruptor.util.DaemonThreadFactory;
@@ -65,27 +65,17 @@ public final class LongEventMain {
 
         // EventHandler verarbeiten alle parallel ein Event -> LoadBalancing notwendig falls nur ein EventHandler arbeiten soll.
         // Connect a single handler
-        // disruptor.handleEventsWith(new LongEventHandler(-1)).then(new CleaningEventHandler());
+        //        disruptor.handleEventsWith(new LongHandler()).then(new CleaningEventHandler());
 
-        // Connect multiple Handlers
-        //        EventHandler<LongEvent>[] handlers = new LongHandler[THREAD_COUNT];
-        //
-        //        for (int i = 0; i < handlers.length; i++)
-        //        {
-        //            handlers[i] = new LongHandler(i);
-        //        }
-        //
-        //        disruptor.handleEventsWith(handlers).then(new CleaningEventHandler());
-        // disruptor.setDefaultExceptionHandler(...);
+        // Connect multiple Handlers with load balancing
+        EventHandler<LongEvent>[] handlers = new LongHandler[THREAD_COUNT];
 
-        // Ein WorkHandler verarbeitet nur jeweils ein Event.
-        WorkHandler<LongEvent>[] worker = new LongHandler[3];
-
-        for (int i = 0; i < worker.length; i++) {
-            worker[i] = new LongHandler(i);
+        for (int ordinal = 0; ordinal < handlers.length; ordinal++) {
+            handlers[ordinal] = new LongHandler(ordinal);
         }
 
-        disruptor.handleEventsWithWorkerPool(worker).then(new CleaningEventHandler());
+        disruptor.handleEventsWith(handlers).then(new CleaningEventHandler());
+        //        // disruptor.setDefaultExceptionHandler(...);
 
         // Start the Disruptor, starts all threads running
         disruptor.start();

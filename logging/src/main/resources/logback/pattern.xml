@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+
+    <!-- Levels are ordered: TRACE < DEBUG < INFO < WARN < ERROR -->
+    <!-- %date{yyyy-MM-dd HH:mm:ss.SSS}; [%-7X{user}]; [%method:%line] -->
+    <property name="PATTERN" value="%date{yyyy-MM-dd HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace(%-40.-40logger{0}){' ', '.'} - %message%n" />
+
+</included>

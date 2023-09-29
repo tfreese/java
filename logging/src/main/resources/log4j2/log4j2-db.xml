@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configuration [
+        <!ENTITY level_ROOT "INFO">
+        <!ENTITY level_APPLICATION "DEBUG">
+        ]
+        >
+<Configuration xmlns:xi="http://www.w3.org/2001/XInclude" name="Default" status="WARN" shutdownHook="enable">
+
+    <!-- Globaler Filter -->
+    <BurstFilter level="DEBUG" rate="2" maxBurst="3" />
+
+    <xi:include href="appender-console.xml" />
+    <xi:include href="appender-db.xml" />
+
+    <Loggers>
+        <Logger name="de.freese" additivity="false" level="&level_APPLICATION;">
+            <AppenderRef ref="CONSOLE_STD" />
+            <AppenderRef ref="CONSOLE_ERR" />
+            <AppenderRef ref="DB" />
+        </Logger>
+
+        <Root level="&level_ROOT;">
+            <AppenderRef ref="CONSOLE_STD" />
+            <AppenderRef ref="CONSOLE_ERR" />
+            <AppenderRef ref="DB" />
+        </Root>
+    </Loggers>
+
+</Configuration>

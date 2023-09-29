@@ -7,46 +7,35 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
 
-import com.lmax.disruptor.EventHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import de.freese.sonstiges.disruptor.AbstractLoadBalancedEventHandler;
 
 /**
  * @author Thomas Freese
  */
-public class HttpEventHandler implements EventHandler<HttpEvent> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HttpEventHandler.class);
-
+public class HttpEventHandler extends AbstractLoadBalancedEventHandler<HttpEvent> {
     private final Map<String, Boolean> mapResponseReady;
 
-    private final int ordinal;
-
     public HttpEventHandler(final int ordinal, final Map<String, Boolean> mapResponseReady) {
-        super();
+        super(ordinal);
 
-        this.ordinal = ordinal;
         this.mapResponseReady = Objects.requireNonNull(mapResponseReady, "mapResponseReady required");
     }
 
     @Override
-    public void onEvent(final HttpEvent event, final long sequence, final boolean endOfBatch) throws Exception {
-        // Load-Balancing auf die Handler über die Sequence.
-        // Sonst würden alle Handler gleichzeitig eine Sequence bearbeiten.
-        if ((this.ordinal == -1) || (this.ordinal == (sequence % HttpEventMain.THREAD_COUNT))) {
-            LOGGER.info("{}: HttpEventHandler.onEvent: RequestId={}, Sequence={}", Thread.currentThread().getName(), event.getRequestId(), sequence);
+    protected void doOnEvent(final HttpEvent event, final long sequence, final boolean endOfBatch) throws Exception {
+        getLogger().info("{}: HttpEventHandler.onEvent: RequestId={}, Sequence={}", Thread.currentThread().getName(), event.getRequestId(), sequence);
 
-            String requestId = event.getRequestId();
-            ByteBuffer buffer = event.getBuffer();
-            int numRead = event.getNumRead();
+        String requestId = event.getRequestId();
+        ByteBuffer buffer = event.getBuffer();
+        int numRead = event.getNumRead();
 
-            ByteBuffer responseBuffer = handleRequest(buffer, numRead, sequence);
+        ByteBuffer responseBuffer = handleRequest(buffer, numRead, sequence);
 
-            if (responseBuffer == null) {
-                return;
-            }
-
-            this.mapResponseReady.put(requestId, Boolean.TRUE);
+        if (responseBuffer == null) {
+            return;
         }
+
+        this.mapResponseReady.put(requestId, Boolean.TRUE);
     }
 
     private ByteBuffer handleRequest(final ByteBuffer buffer, final int numRead, final long sequence) {

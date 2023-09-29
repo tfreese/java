@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configuration [
+        <!ENTITY level_ROOT "INFO">
+        <!ENTITY level_APPLICATION "DEBUG">
+        ]
+        >
+<configuration debug="false" scan="false"><!-- scanPeriod="60 seconds" -->
+
+    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook" />
+
+    <include resource="logback/pattern.xml" />
+    <include resource="logback/appender-console.xml" />
+    <include resource="logback/appender-file.xml" />
+
+    <logger name="de.freese" additivity="false" level="&level_APPLICATION;">
+        <appender-ref ref="CONSOLE_STD" />
+        <appender-ref ref="CONSOLE_ERR" />
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <root level="&level_ROOT;">
+        <appender-ref ref="CONSOLE_STD" />
+        <appender-ref ref="CONSOLE_ERR" />
+        <appender-ref ref="FILE" />
+    </root>
+
+</configuration>

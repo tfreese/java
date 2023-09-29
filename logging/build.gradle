@@ -1,0 +1,12 @@
+plugins {
+    id "java"
+}
+
+description = "Basis-Projekt für Logging-APIs"
+
+dependencies {
+    implementation("org.apache.logging.log4j:log4j-core")
+
+    testImplementation("ch.qos.logback.db:logback-classic-db")
+    testImplementation("org.hsqldb:hsqldb")
+}

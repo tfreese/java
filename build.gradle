@@ -26,6 +26,7 @@ subprojects {
         }
 
         dependencies {
+            dependency "ch.qos.logback.db:logback-classic-db:$version_logbackClassicDb"
             dependency "com.danielflower.apprunner:javasysmon:$version_javasysmon"
             dependency "com.lmax:disruptor:$version_disruptor"
             dependency "dev.failsafe:failsafe:$version_failsafe"

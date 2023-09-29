@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Parameter:
+	- DB_DRIVER -> Datenbank Treiber
+	- DB_URL -> Host
+	- DB_USER -> User
+	- DB_PSW -> Passwort
+-->
+<Appenders>
+    <Jdbc name="DB_SYNC" tableName="LOGGING" bufferSize="3">
+        <!--ConnectionFactory class="de.freese.logging.ConnectionFactory" method="getDatabaseConnection" /-->
+        <!--DataSource jndiName="java:comp/env/jdbc/logging" /-->
+        <!--DriverManager
+            driverClassName="${DB_DRIVER:-org.hsqldb.jdbc.JDBCDriver}"
+            connectionString="${DB_URL:-jdbc:hsqldb:file:hsqldb/log4j;shutdown=true}"
+            userName="${DB_USER:-sa}"
+            password="${DB_PSW:-gehaim}"
+        /-->
+        <Column name="ID" literal="next value for LOGGING_SEQUENCE" />
+        <Column name="EVENT_DATE" isEventTimestamp="true" />
+        <Column name="HOST" pattern="${sys:HOSTNAME:-localhost}" />
+        <Column name="MODUL" pattern="%X{modul}" />
+        <Column name="LEVEL" pattern="%level" />
+        <Column name="THREAD" pattern="%thread" />
+        <Column name="USER_ID" pattern="%equals{%X{USERID}}{}{SYSTEM}" />
+        <Column name="MARKER" pattern="%marker" />
+        <Column name="LOGGER" pattern="%logger" />
+        <Column name="MESSAGE" pattern="%maxLen{%message}{1997}" /> <!-- log4j2 schneidet zu lange Strings ab und hängt '...' dran -->
+        <Column name="THROWABLE" pattern="%maxLen{%exception{full}}{3997}" />
+    </Jdbc>
+
+    <Async name="DB">
+        <AppenderRef ref="DB_SYNC" />
+    </Async>
+</Appenders>

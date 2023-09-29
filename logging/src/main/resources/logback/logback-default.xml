@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configuration [
+        <!ENTITY level_ROOT "INFO">
+        <!ENTITY level_APPLICATION "INFO">
+        ]
+        >
+<configuration debug="false" scan="false"> <!-- scanPeriod="60 seconds" -->
+
+    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook" />
+
+    <!--Levels are ordered: TRACE < DEBUG < INFO < WARN < ERROR -->
+    <!-- %date{yyyy-MM-dd HH:mm:ss.SSS}; [%-7X{USER}]; [%method:%line] -->
+    <!--property name="PATTERN" value="%date{yyyy-MM-dd HH:mm:ss.SSS} - %-5level[%thread] - %logger{0}[%method] - %message%n" /-->
+    <property name="PATTERN" value="%date{HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace(%-40.-40logger{0}){' ', '.'} - %message%n" />
+
+    <property name="LOG_DIRECTORY" value="${LOG_DIR:-${user.home}/.java-apps/logs}" />
+    <property name="LOG_FILE_NAME" value="${LOG_FILE:-application}" />
+
+    <property name="fileHistory" value="${LOG_FILE_MAX_HISTORY:-30}" />
+    <property name="fileMaxSize" value="${LOG_FILE_MAX_SIZE:-10 MB}" />
+    <property name="fileMaxSizeCap" value="${LOG_FILE_SIZE_CAP:-1GB}" />
+
+    <!-- Conditions brauchen org.codehaus.janino:janino -->
+    <!--if condition='isNull("LOG_DIR")'>
+        <then>
+            <property name="LOG_DIRECTORY" value="${user.home}/.java-apps/logs" />
+        </then>
+        <else>
+        </else>
+    </if-->
+
+    <!-- ######################################################################################################################################## -->
+
+    <appender name="CONSOLE_STD" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.out</target>
+        <immediateFlush>true</immediateFlush>
+        <encoder>
+            <pattern>${PATTERN_CONSOLE:-${PATTERN}}</pattern>
+            <outputPatternAsHeader>false</outputPatternAsHeader>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="CONSOLE_ERR" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.err</target>
+        <immediateFlush>true</immediateFlush>
+        <encoder>
+            <pattern>${PATTERN_CONSOLE:-${PATTERN}}</pattern>
+            <outputPatternAsHeader>false</outputPatternAsHeader>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIRECTORY}/${LOG_FILE_NAME}.log</file>
+        <append>true</append>
+        <immediateFlush>false</immediateFlush>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIRECTORY}/%d{yyyy-MM,aux}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}_%i.log.gz</fileNamePattern>
+            <maxFileSize>${fileMaxSize}</maxFileSize>
+            <maxHistory>${fileHistory}</maxHistory>
+            <totalSizeCap>${fileMaxSizeCap}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${PATTERN_FILE:-${PATTERN}}</pattern>
+            <outputPatternAsHeader>false</outputPatternAsHeader>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FILE" />
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>3</queueSize>
+    </appender>
+
+    <appender name="DATABASE" class="ch.qos.logback.classic.db.DBAppender">
+        <connectionSource class="ch.qos.logback.core.db.JNDIConnectionSource">
+            <jndiLocation>java:comp/env/jdbc/logging</jndiLocation>
+        </connectionSource>
+    </appender>
+
+    <appender name="DATABASE_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="DATABASE" />
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>3</queueSize>
+    </appender>
+
+    <!-- ######################################################################################################################################## -->
+
+    <logger name="de.freese" level="&level_APPLICATION;">
+        <appender-ref ref="CONSOLE_STD" />
+        <appender-ref ref="CONSOLE_ERR" />
+        <appender-ref ref="FILE_ASYNC" />
+        <appender-ref ref="DATABASE_ASYNC" />
+    </logger>
+
+    <root level="&level_ROOT;">
+        <appender-ref ref="CONSOLE_STD" />
+        <appender-ref ref="CONSOLE_ERR" />
+        <appender-ref ref="FILE_ASYNC" />
+        <appender-ref ref="DATABASE_ASYNC" />
+    </root>
+
+</configuration>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configuration [
+        <!ENTITY level_ROOT "INFO">
+        <!ENTITY level_APPLICATION "INFO">
+        ]
+        >
+<!-- shutdownHook="disable" verhindert, das der DB-Appender versucht was zu schreiben, obwohl die Datasource bereits geschlossen ist. -->
+<Configuration name="Default" status="WARN" shutdownHook="disable">
+
+    <Properties>
+        <!-- Levels are ordered: TRACE < DEBUG < INFO < WARN < ERROR -->
+        <!-- %date{yyyy-MM-dd HH:mm:ss.SSS}; [%-7X{USER}]; [%method:%line] -->
+        <!-- Default if empty: %equals{%X{USER}}{}{SYSTEM}; %X{USER:-SYSTEM} funktioniert nicht mehr ? -->
+        <!-- Postfix if not empty: %notEmpty{%X{USER} -} -->
+        <Property name="PATTERN" value="%date{HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace{%-40.-40logger{0}}{ }{.} - %message%n" />
+
+        <Property name="LOG_DIRECTORY" value="${LOG_DIR:-${sys:user.home}/.java-apps/logs}" />
+        <Property name="LOG_FILE_NAME" value="${LOG_FILE:-application}" />
+
+        <Property name="fileRollover">${LOG_FILE_MAX_HISTORY:-30}</Property>
+        <Property name="fileMaxSize">${LOG_FILE_MAX_SIZE:-10 MB}</Property>
+        <Property name="fileMaxAge">${LOG_FILE_MAX_AGE:-30d}</Property>
+
+    </Properties>
+
+    <!-- ######################################################################################################################################## -->
+
+    <BurstFilter level="DEBUG" rate="2" maxBurst="3" />
+
+    <!-- ######################################################################################################################################## -->
+
+    <Appenders>
+        <Console name="CONSOLE_STD" target="SYSTEM_OUT">
+            <PatternLayout pattern="${PATTERN_CONSOLE:-${PATTERN}}" />
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="ACCEPT" />
+            </Filters>
+        </Console>
+
+        <Console name="CONSOLE_ERR" target="SYSTEM_ERR">
+            <PatternLayout pattern="${PATTERN_CONSOLE:-${PATTERN}}" />
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+        </Console>
+
+        <!-- /${date:yyyy-MM}/ -->
+        <RollingFile name="FILE" fileName="${LOG_DIRECTORY}/${LOG_FILE_NAME}.log"
+                     filePattern="${LOG_DIRECTORY}/archiv/${LOG_FILE_NAME}_%d{yyyy-MM-dd}_%i.log.gz">
+            <append>true</append>
+            <immediateFlush>false</immediateFlush>
+            <bufferSize>4096</bufferSize>
+
+            <PatternLayout pattern="${PATTERN_FILE:-${PATTERN}}" />
+
+            <Policies>
+                <!--OnStartupTriggeringPolicy / -->
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="${fileMaxSize}" />
+            </Policies>
+            <DefaultRolloverStrategy max="${fileRollover}">
+                <Delete basePath="${LOG_DIRECTORY}" maxDepth="2">
+                    <IfFileName glob="*/${LOG_FILE_NAME}_*.log.gz" />
+                    <IfLastModified age="${fileMaxAge}" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <MyAsync name="FILE_ASYNC">
+            <executorJndiLocation>java:comp/env/executor/logging</executorJndiLocation>
+            <AppenderRef ref="FILE" />
+        </MyAsync>
+
+        <JDBC name="DATABASE_APPENDER" tableName="LOGGING" bufferSize="3">
+            <!--<DataSource jndiName="java:comp/env/jdbc/logging" />-->
+            <ConnectionFactory class="de.freese.logging.ConnectionFactory" method="getDatabaseConnection" />
+            <Column name="ID" literal="next value for LOGGING_SEQUENCE" />
+            <Column name="EVENT_DATE" isEventTimestamp="true" />
+            <Column name="HOST" pattern="${sys:HOSTNAME:-localhost}" />
+            <Column name="MODUL" pattern="%X{modul}" />
+            <Column name="LEVEL" pattern="%level" />
+            <Column name="THREAD" pattern="%thread" />
+            <Column name="USER_ID" pattern="%equals{%X{USERID}}{}{SYSTEM}" />
+            <Column name="MARKER" pattern="%marker" />
+            <Column name="LOGGER" pattern="%logger" />
+            <Column name="MESSAGE" pattern="%maxLen{%message}{1997}" /><!-- log4j2 hängt '...' an abgeschnittene Strings -->
+            <Column name="THROWABLE" pattern="%maxLen{%exception{full}}{3997}" />
+        </JDBC>
+
+        <!-- Der Modulname wird für den JdbcAppender benötigt -->
+        <Rewrite name="DATABASE_APPENDER_MY_MODULE">
+            <AppenderRef ref="DATABASE_APPENDER" />
+            <PropertiesRewritePolicy>
+                <Property name="modul">MY_MODULE</Property>
+            </PropertiesRewritePolicy>
+        </Rewrite>
+
+        <Async name="DATABASE_APPENDER_MY_MODULE_ASYNC">
+            <AppenderRef ref="DATABASE_APPENDER_MY_MODULE" />
+        </Async>
+    </Appenders>
+
+    <!-- ######################################################################################################################################## -->
+
+    <Loggers>
+        <Logger name="de.freese" additivity="false" level="&level_APPLICATION;">
+            <AppenderRef ref="CONSOLE_STD" />
+            <AppenderRef ref="CONSOLE_ERR" />
+            <AppenderRef ref="FILE_ASYNC" />
+            <AppenderRef ref="DATABASE_APPENDER_MY_MODULE_ASYNC" />
+        </Logger>
+
+        <Root level="&level_ROOT;">
+            <AppenderRef ref="CONSOLE_STD" />
+            <AppenderRef ref="CONSOLE_ERR" />
+            <AppenderRef ref="FILE_ASYNC" />
+            <AppenderRef ref="DATABASE_APPENDER_MY_MODULE_ASYNC" />
+        </Root>
+    </Loggers>
+
+</Configuration>

@@ -4,6 +4,7 @@ rootProject.name = "java"
 include "binding"
 include "cellular-machines"
 include "jsensors"
+include "logging"
 include "meta-model"
 
 //file("${rootDir}/misc").eachDirMatch(~/misc-.*/) {

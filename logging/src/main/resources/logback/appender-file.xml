@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+
+    <!-- Conditions brauchen org.codehaus.janino:janino -->
+    <!--if condition='isNull("LOG_DIR")'>
+        <then>
+            <property name="LOG_DIR" value="${user.dir}/logs" />
+        </then>
+        <else>
+        </else>
+    </if -->
+
+    <!--
+        Parameter:
+        - PATTERN_FILE			-> Pattern-Format für die Log-Datei
+        - LOG_DIR				-> Verzeichnis der Log-Datei, z.B. ${user.dir}/logs, ${user.home}/logs, ${java.io.tmpdir}/logs
+        - LOG_FILE_NAME			-> Name der Log-Datei ohne Extension, z.B. 'myApplication'
+        - LOG_FILE_MAX_SIZE		-> max. Größe der Log-Datei (SizeBased Rolling), Dateien werden durchnummeriert
+        - LOG_FILE_MAX_HISTORY	-> Anzahl der vorzuhaltenden Log-Dateien
+        - LOG_FILE_SIZE_CAP		-> Gesamte Größe an Log-Dateien
+    -->
+    <appender name="FILE_SYNC" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR:-${user.home}/.java-apps/logs}/${LOG_FILE_NAME:-application}.log</file>
+        <append>true</append>
+        <immediateFlush>false</immediateFlush>
+
+        <!-- /%d{yyyy-MM,aux}/ -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR:-${user.home}/.java-apps/logs}/archiv/${LOG_FILE_NAME:-application}_%d{yyyy-MM-dd}_%i.log.gz</fileNamePattern>
+            <maxFileSize>${LOG_FILE_MAX_SIZE:-10MB}</maxFileSize>
+            <maxHistory>${LOG_FILE_MAX_HISTORY:-30}</maxHistory>
+            <totalSizeCap>${LOG_FILE_SIZE_CAP:-1GB}</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${PATTERN_FILE:-${PATTERN}}</pattern>
+            <outputPatternAsHeader>false</outputPatternAsHeader>
+        </encoder>
+
+        <!--filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+            </filter -->
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FILE_SYNC" />
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>8</queueSize>
+    </appender>
+
+</included>

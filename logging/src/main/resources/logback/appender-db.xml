@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+
+    <!--
+        Skripte sind im Package 'ch.qos.logback.classic.db.script' enthalten.
+
+        Parameter:
+        - DB_DRIVER	-> Datenbank Treiber
+        - DB_URL	-> Host
+        - DB_USER	-> User
+        - DB_PSW	-> Passwort
+    -->
+    <appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
+        <connectionSource class="ch.qos.logback.core.db.JNDIConnectionSource">
+            <jndiLocation>java:comp/env/jdbc/logging</jndiLocation>
+        </connectionSource>
+        <!--        <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">-->
+        <!--            <driverClass>com.mysql.jdbc.Driver</driverClass>-->
+        <!--            <url>jdbc:mysql://host_name:3306/database_name</url>-->
+        <!--            <user>username</user>-->
+        <!--            <password>password</password>-->
+        <!--        </connectionSource>-->
+        <!--        <connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">-->
+        <!--            <dataSource class="com.zaxxer.hikari.HikariDataSource">-->
+        <!--                <driverClass>com.mysql.jdbc.Driver</driverClass>-->
+        <!--                <jdbcUrl>jdbc:mysql://${serverName}:${port}/${dbName}</jdbcUrl>-->
+        <!--                <user>${user}</user>-->
+        <!--                <password>${password}</password>-->
+        <!--            </dataSource>-->
+        <!--        </connectionSource>-->
+    </appender>
+
+    <appender name="DB_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="DB_SYNC" />
+    </appender>
+
+</included>
