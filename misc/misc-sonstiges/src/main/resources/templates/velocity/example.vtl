@@ -1,0 +1,24 @@
+#parse("templates/velocity/macro.vtl")  
+
+#set($this = "Velocity")
+$this is great!
+
+#foreach($name in $names)
+    $name is great!
+#end
+
+#set($condition = true)
+#if ($condition)
+    The condition is true!
+    #else
+    The condition is false!
+#end
+
+#printMethods($Math "---")
+
+PI is $PI
+
+## some comment...
+#*
+some comment...
+*# 

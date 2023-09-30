@@ -13,8 +13,8 @@ public class LongHandler extends AbstractLoadBalancedEventHandler<LongEvent> {
         super();
     }
 
-    public LongHandler(final int ordinal) {
-        super(ordinal);
+    public LongHandler(final int parallelism, final int ordinal) {
+        super(parallelism, ordinal);
     }
 
     @Override

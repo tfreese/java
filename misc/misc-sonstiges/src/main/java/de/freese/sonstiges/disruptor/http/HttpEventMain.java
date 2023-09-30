@@ -41,7 +41,7 @@ public final class HttpEventMain {
         HttpEventHandler[] handlers = new HttpEventHandler[THREAD_COUNT];
 
         for (int ordinal = 0; ordinal < handlers.length; ordinal++) {
-            handlers[ordinal] = new HttpEventHandler(ordinal, server.getMapResponseReady());
+            handlers[ordinal] = new HttpEventHandler(THREAD_COUNT, ordinal, server.getMapResponseReady());
         }
 
         disruptor.handleEventsWith(handlers).then(new CleaningEventHandler());

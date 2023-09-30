@@ -71,7 +71,7 @@ public final class LongEventMain {
         EventHandler<LongEvent>[] handlers = new LongHandler[THREAD_COUNT];
 
         for (int ordinal = 0; ordinal < handlers.length; ordinal++) {
-            handlers[ordinal] = new LongHandler(ordinal);
+            handlers[ordinal] = new LongHandler(THREAD_COUNT, ordinal);
         }
 
         disruptor.handleEventsWith(handlers).then(new CleaningEventHandler());

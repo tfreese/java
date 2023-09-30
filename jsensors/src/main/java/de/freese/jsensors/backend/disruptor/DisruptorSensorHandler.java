@@ -4,7 +4,6 @@ package de.freese.jsensors.backend.disruptor;
 import java.util.Objects;
 
 import com.lmax.disruptor.EventHandler;
-import com.lmax.disruptor.WorkHandler;
 
 import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.sensor.SensorValue;
@@ -12,7 +11,7 @@ import de.freese.jsensors.sensor.SensorValue;
 /**
  * @author Thomas Freese
  */
-class DisruptorSensorHandler implements EventHandler<SensorEvent>, WorkHandler<SensorEvent> {
+class DisruptorSensorHandler implements EventHandler<SensorEvent> {
     private final Backend backend;
 
     private final int ordinal;
@@ -35,16 +34,11 @@ class DisruptorSensorHandler implements EventHandler<SensorEvent>, WorkHandler<S
     public void onEvent(final SensorEvent event, final long sequence, final boolean endOfBatch) throws Exception {
         // Load-Balancing for the Handler by Sequence, otherwise all Handler would handle the same Sequence.
         if ((this.ordinal == -1) || (this.ordinal == (sequence % this.parallelism))) {
-            onEvent(event);
+            SensorValue sensorValue = event.getSensorValue();
+            event.setSensorValue(null);
+
+            store(sensorValue);
         }
-    }
-
-    @Override
-    public void onEvent(final SensorEvent event) throws Exception {
-        SensorValue sensorValue = event.getSensorValue();
-        event.setSensorValue(null);
-
-        store(sensorValue);
     }
 
     private void store(final SensorValue sensorValue) {

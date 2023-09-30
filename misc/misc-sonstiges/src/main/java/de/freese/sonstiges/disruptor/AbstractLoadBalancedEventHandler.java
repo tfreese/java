@@ -5,8 +5,6 @@ import com.lmax.disruptor.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.sonstiges.disruptor.example.LongEventMain;
-
 /**
  * LoadBalancing for multiple {@link EventHandler} over the Sequence.<br>
  * Otherwise, all {@link EventHandler} would process the same Event.
@@ -18,24 +16,27 @@ public abstract class AbstractLoadBalancedEventHandler<T> implements EventHandle
 
     private final int ordinal;
 
+    private final int parallelism;
+
     protected AbstractLoadBalancedEventHandler() {
-        this(-1); // Disable LoadBalancing
+        this(-1, -1); // Disable LoadBalancing
     }
 
-    protected AbstractLoadBalancedEventHandler(final int ordinal) {
+    protected AbstractLoadBalancedEventHandler(final int parallelism, final int ordinal) {
         super();
 
+        this.parallelism = parallelism;
         this.ordinal = ordinal;
     }
 
     @Override
     public final void onEvent(final T event, final long sequence, final boolean endOfBatch) throws Exception {
-        if ((this.ordinal == -1) || (this.ordinal == (sequence % LongEventMain.THREAD_COUNT))) {
+        if ((this.ordinal == -1) || (this.ordinal == (sequence % this.parallelism))) {
             doOnEvent(event, sequence, endOfBatch);
         }
     }
 
-    protected abstract void doOnEvent(final T event, final long sequence, final boolean endOfBatch) throws Exception;
+    protected abstract void doOnEvent(T event, long sequence, boolean endOfBatch) throws Exception;
 
     protected Logger getLogger() {
         return logger;

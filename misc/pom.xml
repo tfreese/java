@@ -22,6 +22,7 @@
         <module>misc-genetic-algorithm</module>
         <module>misc-jconky</module>
         <module>misc-junit5</module>
+        <module>misc-led</module>
         <module>misc-micrometer</module>
         <module>misc-openstreetmap</module>
         <module>misc-protobuf</module>

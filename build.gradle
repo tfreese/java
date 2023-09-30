@@ -7,31 +7,31 @@ buildscript {
     }
 
     dependencies {
-        classpath "de.freese.gradle:gradle-plugins:0.0.1-SNAPSHOT"
-        classpath "io.spring.gradle:dependency-management-plugin:$version_springDependencyManagement"
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:$version_springBoot"
-        classpath "org.openjfx:javafx-plugin:$version_javafxPlugin"
+        classpath("de.freese.gradle:gradle-plugins:$version_myConventionPlugin")
+        classpath("io.spring.gradle:dependency-management-plugin:$version_springDependencyManagement")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$version_springBoot")
+        classpath("org.openjfx:javafx-plugin:$version_javafxPlugin")
     }
 }
 
 subprojects {
     apply plugin: "java"
-    apply plugin: "maven-publish"
+//    apply plugin: "maven-publish"
     apply plugin: "io.spring.dependency-management"
     apply plugin: "de.freese.gradle.plugin.conventions"
 
     dependencyManagement {
         imports {
-            mavenBom "org.springframework.boot:spring-boot-dependencies:$version_springBoot"
+            mavenBom("org.springframework.boot:spring-boot-dependencies:$version_springBoot")
         }
 
         dependencies {
-            dependency "ch.qos.logback.db:logback-classic-db:$version_logbackClassicDb"
-            dependency "com.danielflower.apprunner:javasysmon:$version_javasysmon"
-            dependency "com.lmax:disruptor:$version_disruptor"
-            dependency "dev.failsafe:failsafe:$version_failsafe"
-            dependency "org.apache.commons:commons-compress:$version_commonsCompress"
-            dependency "org.apache.lucene:lucene-analyzers-common:$version_lucene"
+            dependency("ch.qos.logback.db:logback-classic-db:$version_logbackClassicDb")
+            dependency("com.danielflower.apprunner:javasysmon:$version_javasysmon")
+            dependency("com.lmax:disruptor:$version_disruptor")
+            dependency("dev.failsafe:failsafe:$version_failsafe")
+            dependency("org.apache.commons:commons-compress:$version_commonsCompress")
+            dependency("org.apache.lucene:lucene-analyzers-common:$version_lucene")
 
             dependencySet(group: "org.apache.maven", version: "$version_maven") {
                 entry "maven-model-builder"
@@ -48,21 +48,22 @@ subprojects {
                 entry "batik-swing"
             }
 
-            dependency "org.codehaus.plexus:plexus-cipher:$version_plexusCipher"
-            dependency "org.codehaus.plexus:plexus-container-default:$version_plexus"
-            dependency "org:jaudiotagger:$version_jaudiotagger"
-            dependency "org.jsoup:jsoup:$version_jsoup"
+            dependency("org.codehaus.plexus:plexus-cipher:$version_plexusCipher")
+            dependency("org.codehaus.plexus:plexus-container-default:$version_plexus")
+            dependency("org:jaudiotagger:$version_jaudiotagger")
+            dependency("org.jsoup:jsoup:$version_jsoup")
 
             dependency("org.jfree:jfreechart:$version_jfreechart") {
                 exclude "com.lowagie:itext"
                 exclude "xml-apis:xml-apis"
             }
+
+            dependency("org.apache.velocity:velocity-engine-core:$version_velocity")
         }
     }
 
     dependencies {
         testImplementation("org.junit.jupiter:junit-jupiter")
-
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
 }

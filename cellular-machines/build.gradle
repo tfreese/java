@@ -5,7 +5,7 @@ plugins {
 description = "Beispiele für zellulare Automaten (cellular machines)."
 
 dependencies {
-    implementation "org.jfree:jfreechart"
+    implementation("org.jfree:jfreechart")
     implementation("org.slf4j:slf4j-api")
 
     runtimeOnly("org.slf4j:slf4j-simple")

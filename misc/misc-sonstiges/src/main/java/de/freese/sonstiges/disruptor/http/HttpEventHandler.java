@@ -15,8 +15,8 @@ import de.freese.sonstiges.disruptor.AbstractLoadBalancedEventHandler;
 public class HttpEventHandler extends AbstractLoadBalancedEventHandler<HttpEvent> {
     private final Map<String, Boolean> mapResponseReady;
 
-    public HttpEventHandler(final int ordinal, final Map<String, Boolean> mapResponseReady) {
-        super(ordinal);
+    public HttpEventHandler(final int parallelism, final int ordinal, final Map<String, Boolean> mapResponseReady) {
+        super(parallelism, ordinal);
 
         this.mapResponseReady = Objects.requireNonNull(mapResponseReady, "mapResponseReady required");
     }

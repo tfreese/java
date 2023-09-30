@@ -4,9 +4,9 @@ package de.freese.jsensors.backend.disruptor;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.TimeoutException;
-import com.lmax.disruptor.WorkHandler;
 import com.lmax.disruptor.dsl.Disruptor;
 
 import de.freese.jsensors.backend.AbstractBackend;
@@ -78,23 +78,13 @@ public class DisruptorBackend extends AbstractBackend implements LifeCycle {
         this.disruptor = new Disruptor<>(SensorEvent::new, this.ringBufferSize, new JSensorThreadFactory("jSensor-disruptor"));
 
         // EventHandler handles all the same Event -> LoadBalancing required if only one EventHandler should handle the Event.
-        //        EventHandler<SensorEvent>[] handlers = new DisruptorSensorHandler[this.parallelism];
-        //
-        //        for (int i = 0; i < handlers.length; i++)
-        //        {
-        //            handlers[i] = new DisruptorSensorHandler(this.backend, this.parallelism, i);
-        //        }
-        //
-        //        this.disruptor.handleEventsWith(handlers); //.then(new CleaningEventHandler());
+        EventHandler<SensorEvent>[] handlers = new DisruptorSensorHandler[this.parallelism];
 
-        // WorkHandler handles only one Event.
-        WorkHandler<SensorEvent>[] workers = new DisruptorSensorHandler[this.parallelism];
-
-        for (int i = 0; i < workers.length; i++) {
-            workers[i] = new DisruptorSensorHandler(this.delegateBackend);
+        for (int i = 0; i < handlers.length; i++) {
+            handlers[i] = new DisruptorSensorHandler(this.delegateBackend, this.parallelism, i);
         }
 
-        this.disruptor.handleEventsWithWorkerPool(workers);
+        this.disruptor.handleEventsWith(handlers); //.then(new CleaningEventHandler());
 
         this.disruptor.start();
     }
