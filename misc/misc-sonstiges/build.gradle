@@ -1,8 +1,22 @@
+import org.w3c.dom.Document
+
+import javax.xml.XMLConstants
+import javax.xml.parsers.DocumentBuilder
+import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.transform.TransformerFactory
+import javax.xml.transform.dom.DOMSource
+import javax.xml.transform.stream.StreamResult
+import javax.xml.transform.stream.StreamSource
+
 plugins {
     id "org.openjfx.javafxplugin"
 }
 
 description = "Alles zum ausprobieren"
+
+//configurations.configureEach {
+//    exclude group: "ch.qos.logback", module: "logback-classic"
+//}
 
 dependencies {
     javafx {
@@ -50,3 +64,49 @@ dependencies {
 
     testImplementation("org.mockito:mockito-junit-jupiter")
 }
+
+tasks.register("xslt") {
+    group = "My Tasks"
+
+//    dependsOn("compileJava")
+
+    doLast {
+        Directory destFolder = layout.buildDirectory.get().dir("classes").dir("java").dir("main").dir("xslt")
+        mkdir destFolder
+
+        Directory srcFolder = layout.projectDirectory.dir("src").dir("xslt")
+
+        try (InputStream xsl = srcFolder.file("article.xsl").getAsFile().newInputStream()
+             InputStream xml = srcFolder.file("article.xml").getAsFile().newInputStream()
+             OutputStream html = destFolder.file("article.html").getAsFile().newOutputStream()) {
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance()
+            // documentBuilderFactory.setNamespaceAware(true);
+            // documentBuilderFactory.setValidating(true);
+            documentBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "")
+            documentBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "")
+
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder()
+            Document document = documentBuilder.parse(xml)
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance()
+            transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "")
+            transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "")
+
+            javax.xml.transform.Transformer transformer = transformerFactory.newTransformer(new StreamSource(xsl))
+            transformer.transform(new DOMSource(document), new StreamResult(html))
+
+            html.flush()
+        }
+    }
+
+//    def xslt = new File("../../d99qaia-java/src/main/resources/xslt/article.xsl").getText()
+//    def xml = new File("../../d99qaia-java/src/main/resources/xslt/article.xml").getText()
+//
+//    def transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(new StringReader(xslt)))
+//
+//    def html = new FileOutputStream("build/article.html")
+//
+//    transformer.transform(new StreamSource(new StringReader(xml)), new StreamResult(html))
+}
+
+compileJava.dependsOn("xslt")
