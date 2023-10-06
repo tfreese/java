@@ -1,4 +1,5 @@
 plugins {
+    id "java"
     id "org.openjfx.javafxplugin"
     id "org.springframework.boot"
 }

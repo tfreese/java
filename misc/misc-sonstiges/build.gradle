@@ -9,6 +9,7 @@ import javax.xml.transform.stream.StreamResult
 import javax.xml.transform.stream.StreamSource
 
 plugins {
+    id "java"
     id "org.openjfx.javafxplugin"
 }
 
