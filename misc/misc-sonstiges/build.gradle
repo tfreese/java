@@ -19,7 +19,22 @@ description = "Alles zum ausprobieren"
 //    exclude group: "ch.qos.logback", module: "logback-classic"
 //}
 
+configurations {
+    jaxb
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir(layout.buildDirectory.get().dir("generated").dir("sources").dir("jaxb"))
+        }
+    }
+}
+
 dependencies {
+    jaxb "com.sun.xml.bind:jaxb-xjc"
+    jaxb "com.sun.xml.bind:jaxb-impl"
+
     javafx {
         version = "$version_javafx"
         modules = ["javafx.controls"]
@@ -110,4 +125,61 @@ tasks.register("xslt") {
 //    transformer.transform(new StreamSource(new StringReader(xml)), new StreamResult(html))
 }
 
-compileJava.dependsOn("xslt")
+tasks.register("genJaxb") {
+    group = "My Tasks"
+
+    doLast {
+        Directory sourcesDir = layout.buildDirectory.get().dir("generated").dir("sources").dir("jaxb")
+        Directory resourcesDir = layout.projectDirectory.dir("schemas")
+        RegularFile binding = layout.projectDirectory.file("schema.xjb")
+
+        delete sourcesDir
+        mkdir sourcesDir
+
+        ant {
+            taskdef name: "xjc", classname: "com.sun.tools.xjc.XJCTask", classpath: configurations.jaxb.asPath
+
+            xjc(destdir: sourcesDir,
+                    schema: resourcesDir.dir("GolfCountryClub").file("GolfCountryClub.xsd"),
+                    binding: binding,
+                    package: "de.freese.xjc.golfcountryclub",
+                    encoding: "UTF-8",
+                    readonly: true,
+                    extension: true) {
+                arg(value: "-npa")
+            }
+
+            xjc(destdir: sourcesDir,
+                    schema: resourcesDir.dir("PhoneBanking").file("PhoneBanking.xsd"),
+                    binding: binding,
+                    package: "de.freese.xjc.phonebanking",
+                    encoding: "UTF-8",
+                    readonly: true,
+                    extension: true) {
+                arg(value: "-npa")
+            }
+
+            xjc(destdir: sourcesDir,
+                    schema: resourcesDir.dir("PublicationCatalogue").file("Catalogue.xsd"),
+                    binding: binding,
+                    package: "de.freese.xjc.catalogue",
+                    encoding: "UTF-8",
+                    readonly: true,
+                    extension: true) {
+                arg(value: "-npa")
+            }
+
+            xjc(destdir: sourcesDir,
+                    schema: resourcesDir.dir("SpaceWarGame").file("SpaceWarGame.xsd"),
+                    binding: binding,
+                    package: "de.freese.xjc.spacewargame",
+                    encoding: "UTF-8",
+                    readonly: true,
+                    extension: true) {
+                arg(value: "-npa")
+            }
+        }
+    }
+}
+
+compileJava.dependsOn("xslt", "genJaxb")

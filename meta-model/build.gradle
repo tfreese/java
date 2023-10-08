@@ -30,4 +30,4 @@ tasks.register("deleteAppFolder", Delete) {
         include "**/*.*"
     }
 }
-clean.configure { finalizedBy deleteAppFolder }
+clean.finalizedBy("deleteAppFolder")
