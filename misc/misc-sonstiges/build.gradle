@@ -72,16 +72,19 @@ tasks.register("xslt") {
 
 //    dependsOn("compileJava")
 
-    doLast {
-        Directory destFolder = layout.buildDirectory.get().dir("classes").dir("java").dir("main").dir("xslt")
+    def srcFolder = layout.projectDirectory.dir("src").dir("xslt")
+    def style = srcFolder.file("article.xsl")
+    def xml = srcFolder.file("article.xml")
+    inputs.files(style, xml)
 
-        delete destFolder
+    def destFolder = layout.buildDirectory.get().dir("classes").dir("java").dir("main").dir("xslt")
+    outputs.dir destFolder
+
+    doLast {
         mkdir destFolder
 
-        Directory srcFolder = layout.projectDirectory.dir("src").dir("xslt")
-
-        ant.xslt(style: srcFolder.file("article.xsl"),
-                in: srcFolder.file("article.xml"),
+        ant.xslt(style: style,
+                in: xml,
                 out: destFolder.file("article.html")
         )
     }
@@ -90,52 +93,56 @@ tasks.register("xslt") {
 tasks.register("genJaxb") {
     group = "My Tasks"
 
-    doLast {
-        Directory sourcesDir = layout.buildDirectory.get().dir("generated-sources").dir("xjc")
-        Directory resourcesDir = layout.projectDirectory.dir("schemas")
-        RegularFile binding = layout.projectDirectory.file("schema.xjb")
+    def resourcesDir = layout.projectDirectory.dir("schemas")
+    inputs.dir resourcesDir
 
-        delete sourcesDir
-        mkdir sourcesDir
+    def binding = layout.projectDirectory.file("schema.xjb")
+    inputs.file binding
+
+    def destdir = layout.buildDirectory.get().dir("generated-sources").dir("xjc")
+    outputs.dir destdir
+
+    doLast {
+        mkdir destdir
 
         ant {
             taskdef name: "xjc", classname: "com.sun.tools.xjc.XJCTask", classpath: configurations.jaxb.asPath
 
-            xjc(destdir: sourcesDir,
+            xjc(destdir: destdir,
                     schema: resourcesDir.dir("GolfCountryClub").file("GolfCountryClub.xsd"),
                     binding: binding,
                     package: "de.freese.xjc.golfcountryclub",
-                    encoding: "UTF-8",
+                    encoding: compileJava.options.encoding,
                     readonly: true,
                     extension: true) {
                 arg(value: "-npa")
             }
 
-            xjc(destdir: sourcesDir,
+            xjc(destdir: destdir,
                     schema: resourcesDir.dir("PhoneBanking").file("PhoneBanking.xsd"),
                     binding: binding,
                     package: "de.freese.xjc.phonebanking",
-                    encoding: "UTF-8",
+                    encoding: compileJava.options.encoding,
                     readonly: true,
                     extension: true) {
                 arg(value: "-npa")
             }
 
-            xjc(destdir: sourcesDir,
+            xjc(destdir: destdir,
                     schema: resourcesDir.dir("PublicationCatalogue").file("Catalogue.xsd"),
                     binding: binding,
                     package: "de.freese.xjc.catalogue",
-                    encoding: "UTF-8",
+                    encoding: compileJava.options.encoding,
                     readonly: true,
                     extension: true) {
                 arg(value: "-npa")
             }
 
-            xjc(destdir: sourcesDir,
+            xjc(destdir: destdir,
                     schema: resourcesDir.dir("SpaceWarGame").file("SpaceWarGame.xsd"),
                     binding: binding,
                     package: "de.freese.xjc.spacewargame",
-                    encoding: "UTF-8",
+                    encoding: compileJava.options.encoding,
                     readonly: true,
                     extension: true) {
                 arg(value: "-npa")
@@ -143,5 +150,4 @@ tasks.register("genJaxb") {
         }
     }
 }
-
 compileJava.dependsOn("xslt", "genJaxb")
