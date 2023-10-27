@@ -23,6 +23,7 @@ import org.sqlite.javax.SQLiteConnectionPoolDataSource;
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings("unchecked")
 public final class TestUtil {
     public static void closeDataSource(final DataSource dataSource) throws Exception {
         if (dataSource instanceof AutoCloseable ac) {

@@ -25,6 +25,7 @@ import de.freese.binding.value.ObservableValue;
  *
  * @author Thomas Freese
  */
+@SuppressWarnings("unchecked")
 public final class SwingBindings {
     private static final Logger LOGGER = LoggerFactory.getLogger(SwingBindings.class);
 

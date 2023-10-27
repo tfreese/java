@@ -16,6 +16,7 @@ import javax.swing.TransferHandler;
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings("unchecked")
 class ArrayListTransferHandler extends TransferHandler {
     private static final String LOCAL_ARRAY_LIST_TYPE = DataFlavor.javaJVMLocalObjectMimeType + ";class=java.util.ArrayList";
 

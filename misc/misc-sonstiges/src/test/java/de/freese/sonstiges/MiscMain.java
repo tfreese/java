@@ -294,6 +294,7 @@ public final class MiscMain {
         return readTotal;
     }
 
+    @SuppressWarnings("try")
     static void copyPipedStreamsInToOut() throws Throwable {
         // 1 MB
         int chunk = 1024 * 1024;

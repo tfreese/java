@@ -10,6 +10,7 @@ import javax.swing.JList;
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings("unchecked")
 class ListTransferHandler extends StringTransferHandler {
     @Serial
     private static final long serialVersionUID = -3208151404479849978L;

@@ -34,6 +34,7 @@ import de.freese.sonstiges.imap.model.Token;
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings("try")
 public class MailRepository implements AutoCloseable {
 
     private static DataSource toDataSource(final Path dbPath) {

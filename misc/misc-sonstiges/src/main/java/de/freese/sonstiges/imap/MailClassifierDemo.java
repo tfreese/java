@@ -31,6 +31,7 @@ import de.freese.sonstiges.imap.supplier.MailSupplier;
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings("try")
 public final class MailClassifierDemo {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MailClassifierDemo.class);
