@@ -8,6 +8,7 @@ import java.util.Objects;
  *
  * @author Thomas Freese
  */
+@SuppressWarnings("unchecked")
 public class Gene implements Comparable<Gene> {
     public static Gene of(final Object value) {
         Gene gene = new Gene();

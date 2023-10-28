@@ -4,6 +4,7 @@ package de.freese.jsensors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
@@ -83,15 +84,15 @@ class TestMetricBinder {
         DefaultSensorRegistry registry = new DefaultSensorRegistry();
         MapBackend mapBackend = new MapBackend(3);
 
-        new ExecutorServiceMetrics(Executors.newSingleThreadExecutor(), "myExecutor").bindTo(registry, name -> mapBackend);
-        //        Exception exception = assertThrows(IllegalArgumentException.class, () -> new ExecutorServiceMetrics(Executors.newSingleThreadExecutor(), "myExecutor").bindTo(registry, name -> mapBackend));
-        //        String expectedMessage = "executorService not supported: 'java.util.concurrent.Executors$AutoShutdownDelegatedExecutorService'";
-        //        assertEquals(exception.getMessage(), expectedMessage);
+        //        new ExecutorServiceMetrics(Executors.newSingleThreadExecutor(), "myExecutor").bindTo(registry, name -> mapBackend);
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> new ExecutorServiceMetrics(Executors.newSingleThreadExecutor(), "myExecutor").bindTo(registry, name -> mapBackend));
+        String expectedMessage = "executorService not supported: 'java.util.concurrent.Executors$AutoShutdownDelegatedExecutorService'";
+        assertEquals(expectedMessage, exception.getMessage());
 
-        new ExecutorServiceMetrics(Executors.newSingleThreadScheduledExecutor(), "myScheduler").bindTo(registry, name -> mapBackend);
-        //        exception = assertThrows(IllegalArgumentException.class, () -> new ExecutorServiceMetrics(Executors.newSingleThreadScheduledExecutor(), "myScheduler").bindTo(registry, name -> mapBackend));
-        //        expectedMessage = "executorService not supported: 'java.util.concurrent.Executors$DelegatedScheduledExecutorService'";
-        //        assertEquals(exception.getMessage(), expectedMessage);
+        //        new ExecutorServiceMetrics(Executors.newSingleThreadScheduledExecutor(), "myScheduler").bindTo(registry, name -> mapBackend);
+        exception = assertThrows(IllegalArgumentException.class, () -> new ExecutorServiceMetrics(Executors.newSingleThreadScheduledExecutor(), "myScheduler").bindTo(registry, name -> mapBackend));
+        expectedMessage = "executorService not supported: 'java.util.concurrent.Executors$DelegatedScheduledExecutorService'";
+        assertEquals(expectedMessage, exception.getMessage());
 
         new ExecutorServiceMetrics(ForkJoinPool.commonPool(), "myForkJoin").bindTo(registry, name -> mapBackend);
         new ExecutorServiceMetrics(Executors.newFixedThreadPool(1), "myExecutor2").bindTo(registry, name -> mapBackend);
@@ -100,16 +101,16 @@ class TestMetricBinder {
         registry.measureAll();
 
         Sensor sensorForkJoin = registry.getSensor("executor.active.myForkJoin");
-        Sensor sensorExecutor = registry.getSensor("executor.active.myExecutor");
-        Sensor sensorScheduler = registry.getSensor("executor.active.myScheduler");
+        Sensor sensorExecutor = registry.getSensor("executor.active.myExecutor2");
+        Sensor sensorScheduler = registry.getSensor("executor.active.myScheduler2");
 
         assertNotNull(sensorForkJoin);
         assertNotNull(sensorExecutor);
         assertNotNull(sensorScheduler);
 
         SensorValue sensorValueForkJoin = mapBackend.getLastValue("executor.active.myForkJoin");
-        SensorValue sensorValueExecutor = mapBackend.getLastValue("executor.active.myExecutor");
-        SensorValue sensorValueScheduler = mapBackend.getLastValue("executor.active.myScheduler");
+        SensorValue sensorValueExecutor = mapBackend.getLastValue("executor.active.myExecutor2");
+        SensorValue sensorValueScheduler = mapBackend.getLastValue("executor.active.myScheduler2");
 
         assertNotNull(sensorValueForkJoin);
         assertNotNull(sensorValueExecutor);
