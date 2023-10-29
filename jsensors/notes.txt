@@ -8,14 +8,14 @@ https://github.com/profesorfalken/jSensors
 https://github.com/openhardwaremonitor
 
 
-# Windows CPU Auslastung
+# Windows CPU Usage
 wmic cpu get loadpercentage
 Ausgabe:
 LoadPercentage
 4
 
 
-# Linux CPU Auslastung       
+# Linux CPU Usage
 /proc/stat:
 PrevIdle = previdle + previowait
 Idle = idle + iowait
@@ -30,5 +30,4 @@ Total = Idle + NonIdle
 totald = Total - PrevTotal
 idled = Idle - PrevIdle
 
-CPU_Percentage = (totald - idled)/totald    
-
+CPU_Percentage = (totald - idled) / totald

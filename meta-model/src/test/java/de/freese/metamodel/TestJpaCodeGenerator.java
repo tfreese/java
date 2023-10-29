@@ -50,7 +50,7 @@ class TestJpaCodeGenerator {
     @Test
     @Order(1)
     void testCreate() throws Exception {
-        // MetaDaten extrahieren-
+        // MetaDaten extrahieren.
         MetaExporter metaExporter = new HsqldbMetaExporter();
         List<Schema> schemas = metaExporter.export(dataSource, null, null);
 
