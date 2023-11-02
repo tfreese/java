@@ -58,9 +58,9 @@ class SimulationConsole {
             }
 
             if (Files.exists(directory)) {
-                // Alten Inhalt löschen.
+                LOGGER.info("Delete {} Pictures in {}", cycles, directory);
+
                 try (Stream<Path> stream = Files.list(directory)) {
-                    //                    stream.forEach(System.out::println);
                     stream.forEach(file -> {
                         try {
                             Files.delete(file);

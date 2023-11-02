@@ -14,6 +14,6 @@
 #BASEDIR=$PWD #Verzeichnis des Callers, aktuelles Verzeichnis
 #BASEDIR=$(dirname $0) #Verzeichnis des Skripts
 
-java -jar $(dirname $0)/app/cellular-machines-spring.jar -console -type wator -cycles 1500 -size 3840 2160 -dir /tmp/simulationen
+java -jar $(dirname $0)/build/libs/cellular-machines-0.0.1-SNAPSHOT.jar -console -type wator -cycles 1500 -size 3840 2160 -dir /tmp/simulationen
 
 # java -cp $(dirname $0)/app/cellular-machines-shaded.jar de.freese.simulationen.SimulationLauncher -console -type wator -cycles 1500 -size 3840 2160 -dir /tmp/simulationen

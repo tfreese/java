@@ -17,7 +17,7 @@ import de.freese.protobuf.model.phone.PhoneType;
 /**
  * @author Thomas Freese
  */
-public class TestProtobuf {
+class TestProtobuf {
 
     private static AddressBook addressBook;
 

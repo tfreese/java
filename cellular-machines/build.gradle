@@ -23,7 +23,7 @@ springBoot {
 // gradle bootRun --args="-console -type wator -cycles 1500 -size 3840 2160 -dir /tmp/simulationen"
 bootRun {
     args = [
-            "-swing"
-            //"-console", "-type", "wator", "-cycles", "1500", "-size", "3840", "2160", "-dir", "/tmp/simulationen"
+            //"-swing"
+            "-console", "-type", "wator", "-cycles", "1500", "-size", "3840", "2160", "-dir", "/tmp/simulationen"
     ]
 }

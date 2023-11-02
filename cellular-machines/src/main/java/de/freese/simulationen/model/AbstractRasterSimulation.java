@@ -106,7 +106,7 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation {
 
     protected Stream<Cell> getCellStream() {
         // The Raster-Stream creates wave fronts, because the calculating starts in the upper left corner.
-        // return Stream.of(this.raster).parallel().flatMap(Stream::of).parallel();
+        // return Stream.of(this.raster).flatMap(Stream::of);
 
         return this.cells.stream().parallel();
     }
