@@ -25,16 +25,17 @@ public class SaxOSMParser implements OSMParser {
         // reader.parse(new InputSource(inputStream));
 
         SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-        // to be compliant, completely disable DOCTYPE declaration:
         saxParserFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-        // or completely disable external entities declarations:
         saxParserFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
         saxParserFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
-        // or prohibit the use of all protocols by external entities:
 
         SAXParser saxParser = saxParserFactory.newSAXParser();
+
+        // Protect against to XXE attacks.
         saxParser.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
         saxParser.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+        //        saxParser.setProperty(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+
         saxParser.parse(inputStream, contentHandler);
 
         return model;

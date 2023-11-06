@@ -13,8 +13,8 @@ import de.freese.openstreetmap.model.OsmModel;
 public final class OpenStreetMapMain {
     public static void main(final String[] args) {
         try {
-            // IOSMParser parser = new JdomOSMParser();
-            // IOSMParser parser = new SaxOSMParser();
+            //            OSMParser parser = new JdomOSMParser();
+            //            OSMParser parser = new SaxOSMParser();
             OSMParser parser = new XMLStreamOSMParser();
 
             OsmModel model = parser.parse("braunschweig.zip", "braunschweig.osm");

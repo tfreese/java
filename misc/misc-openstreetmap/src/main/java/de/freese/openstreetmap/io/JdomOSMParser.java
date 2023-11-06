@@ -26,19 +26,23 @@ import de.freese.openstreetmap.model.OsmWay;
 public class JdomOSMParser implements OSMParser {
     @Override
     public OsmModel parse(final InputStream inputStream) throws Exception {
-        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+
         // to be compliant, completely disable DOCTYPE declaration:
-        docBuilderFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+        documentBuilderFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+
         // or completely disable external entities declarations:
-        docBuilderFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
-        docBuilderFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
-        // or prohibit the use of all protocols by external entities:
-        docBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-        docBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+        documentBuilderFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+        documentBuilderFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
 
-        DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+        // Protect against to XXE attacks.
+        documentBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        documentBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+        documentBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 
-        Document document = docBuilder.parse(inputStream);
+        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+
+        Document document = documentBuilder.parse(inputStream);
         document.getDocumentElement().normalize();
 
         OsmModel model = new OsmModel();
