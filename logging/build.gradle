@@ -4,9 +4,16 @@ plugins {
 
 description = "Basis-Projekt für Logging-APIs"
 
+//configurations.configureEach {
+//    exclude group: "ch.qos.logback", module: "logback-core"
+//}
+
 dependencies {
+    implementation("ch.qos.logback:logback-core")
     implementation("org.apache.logging.log4j:log4j-core")
 
-    testImplementation("ch.qos.logback.db:logback-classic-db")
+    testImplementation("ch.qos.logback.db:logback-classic-db") {
+        exclude group: "ch.qos.logback", module: "logback-core"
+    }
     testImplementation("org.hsqldb:hsqldb")
 }

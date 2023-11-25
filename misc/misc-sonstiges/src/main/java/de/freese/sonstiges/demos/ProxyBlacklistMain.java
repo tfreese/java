@@ -445,7 +445,7 @@ public final class ProxyBlacklistMain {
             TarArchiveEntry entry = null;
 
             try {
-                while ((entry = (TarArchiveEntry) tarIs.getNextEntry()) != null) {
+                while ((entry = tarIs.getNextEntry()) != null) {
                     if (entry.isFile() && tarIs.canReadEntryData(entry) && entry.getName().endsWith("domains")) {
                         bufferedReader.lines().forEach(set::add);
                     }

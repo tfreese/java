@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 import jakarta.mail.Folder;
 import jakarta.mail.Message;
 
-import com.sun.mail.imap.IMAPFolder;
-import com.sun.mail.imap.SortTerm;
+import org.eclipse.angus.mail.imap.IMAPFolder;
+import org.eclipse.angus.mail.imap.SortTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
