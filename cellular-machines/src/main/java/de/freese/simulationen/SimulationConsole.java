@@ -58,7 +58,7 @@ class SimulationConsole {
             }
 
             if (Files.exists(directory)) {
-                LOGGER.info("Delete {} Pictures in {}", cycles, directory);
+                LOGGER.info("Delete Pictures in {}", directory);
 
                 try (Stream<Path> stream = Files.list(directory)) {
                     stream.forEach(file -> {

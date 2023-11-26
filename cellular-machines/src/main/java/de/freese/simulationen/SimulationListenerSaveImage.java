@@ -81,19 +81,15 @@ public class SimulationListenerSaveImage implements SimulationListener {
 
         BufferedImage bufferedImage = new BufferedImage(simulation.getWidth(), simulation.getHeight(), BufferedImage.TYPE_INT_RGB);
 
-        // Geht recht fix.
         Graphics2D g2d = bufferedImage.createGraphics();
         g2d.drawImage(image, 0, 0, null);
         g2d.dispose();
 
-        // Dauer recht lange.
-        // bufferedImage.setRGB(0, 0, simulation.getWidth(), simulation.getHeight(), simulation.getPixelsRGB(), 0, simulation.getWidth());
-
         // Liefert die gleiche Array-Referenz.
-        // pixels = ((DataBufferInt) bufferedImage.getRaster().getDataBuffer()).getData();
+        //        int[] pixels = ((DataBufferInt) bufferedImage.getRaster().getDataBuffer()).getData();
 
         // Erzeugt ein neues Array.
-        // pixels = bufferedImage.getRaster().getPixels(0, 0, width, height, (int[]) null);
+        //        int[]  pixels = bufferedImage.getRaster().getPixels(0, 0, width, height, (int[]) null);
 
         Path file = this.directory.resolve(String.format("%s-%05d.%s", this.type.getNameShort(), this.counter.incrementAndGet(), this.format));
 
