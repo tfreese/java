@@ -56,7 +56,7 @@ public abstract class AbstractSensorRegistry implements SensorRegistry {
         return this.sensors.computeIfAbsent(name, key -> new DefaultSensor<>(name, obj, valueFunction, description));
     }
 
-    protected Backend getBackend(String name) {
+    protected Backend getBackend(final String name) {
         Backend backend = this.backends.computeIfAbsent(name, key -> NoOpBackend.getInstance());
 
         if (backend instanceof NoOpBackend) {

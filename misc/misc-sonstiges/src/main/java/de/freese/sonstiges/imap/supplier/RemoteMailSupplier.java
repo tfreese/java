@@ -34,7 +34,7 @@ public class RemoteMailSupplier implements MailSupplier {
 
     private final Function<Folder, List<Message>> messageSelector;
 
-    public RemoteMailSupplier(Map<String, Boolean> folders) {
+    public RemoteMailSupplier(final Map<String, Boolean> folders) {
         this(folders, folder -> {
             try {
                 if (folder instanceof IMAPFolder iFolder) {
@@ -51,14 +51,14 @@ public class RemoteMailSupplier implements MailSupplier {
         });
     }
 
-    public RemoteMailSupplier(Map<String, Boolean> folders, Function<Folder, List<Message>> messageSelector) {
+    public RemoteMailSupplier(final Map<String, Boolean> folders, final Function<Folder, List<Message>> messageSelector) {
         super();
 
         this.folders = Objects.requireNonNull(folders, "folders required");
         this.messageSelector = Objects.requireNonNull(messageSelector, "messageSelector required");
     }
 
-    public void saveLocal(Path basePath) throws Exception {
+    public void saveLocal(final Path basePath) throws Exception {
         Consumer<MessageWrapper> messageConsumer = message -> {
             try {
                 Path path = basePath.resolve(message.getFolderName()).resolve(message.getMessageUid() + ".mail");

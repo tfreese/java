@@ -37,7 +37,7 @@ public class ExecutorServiceMetrics implements SensorBinder {
     }
 
     @Override
-    public List<String> bindTo(final SensorRegistry registry, Function<String, Backend> backendProvider) {
+    public List<String> bindTo(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
         if (this.executorService instanceof ForkJoinPool fjp) {
             return bindTo(registry, fjp, backendProvider);
         }
@@ -69,7 +69,7 @@ public class ExecutorServiceMetrics implements SensorBinder {
         return LOGGER;
     }
 
-    private List<String> bindTo(final SensorRegistry registry, final ForkJoinPool forkJoinPool, Function<String, Backend> backendProvider) {
+    private List<String> bindTo(final SensorRegistry registry, final ForkJoinPool forkJoinPool, final Function<String, Backend> backendProvider) {
         Sensor.builder("executor.steals." + this.serviceName, forkJoinPool, pool -> Long.toString(pool.getStealCount())).description("Estimate of the total number of tasks stolen from one thread's work queue by another. The reported value " + "underestimates the actual total number of steals when the pool is not quiescent").register(registry, backendProvider);
 
         Sensor.builder("executor.queued." + this.serviceName, forkJoinPool, pool -> Long.toString(pool.getQueuedTaskCount())).description("An estimate of the total number of tasks currently held in queues by worker threads").register(registry, backendProvider);
@@ -81,7 +81,7 @@ public class ExecutorServiceMetrics implements SensorBinder {
         return List.of("executor.steals." + this.serviceName, "executor.queued." + this.serviceName, "executor.active." + this.serviceName, "executor.running." + this.serviceName);
     }
 
-    private List<String> bindTo(final SensorRegistry registry, final ThreadPoolExecutor threadPoolExecutor, Function<String, Backend> backendProvider) {
+    private List<String> bindTo(final SensorRegistry registry, final ThreadPoolExecutor threadPoolExecutor, final Function<String, Backend> backendProvider) {
         Sensor.builder("executor.completed." + this.serviceName, threadPoolExecutor, pool -> Long.toString(pool.getCompletedTaskCount())).description("The approximate total number of tasks that have completed execution").register(registry, backendProvider);
 
         Sensor.builder("executor.active." + this.serviceName, threadPoolExecutor, pool -> Integer.toString(pool.getActiveCount())).description("The approximate number of threads that are actively executing tasks").register(registry, backendProvider);

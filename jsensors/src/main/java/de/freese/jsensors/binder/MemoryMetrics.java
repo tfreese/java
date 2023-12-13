@@ -13,7 +13,7 @@ import de.freese.jsensors.sensor.Sensor;
  */
 public class MemoryMetrics implements SensorBinder {
     @Override
-    public List<String> bindTo(final SensorRegistry registry, Function<String, Backend> backendProvider) {
+    public List<String> bindTo(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
         final Runtime runtime = Runtime.getRuntime();
 
         Sensor.builder("memory.free", runtime, r -> Long.toString(r.freeMemory())).description("Free memory in Bytes").register(registry, backendProvider);

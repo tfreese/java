@@ -26,13 +26,13 @@ public class Merkmal implements Serializable {
 
     private final int weight;
 
-    public Merkmal(String token, int hamCount, int spamCount) {
+    public Merkmal(final String token, final int hamCount, final int spamCount) {
         this(token, hamCount, spamCount, 1);
     }
 
-    public Merkmal(String token, int hamCount, int spamCount, int weight) {
+    public Merkmal(final String token, final int hamCount, final int spamCount, final int weight) {
         super();
-        
+
         this.token = Objects.requireNonNull(token, "token required");
         this.hamCount = hamCount;
         this.spamCount = spamCount;

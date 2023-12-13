@@ -93,7 +93,7 @@ public final class ConnectionFactory {
         return this.dataSource;
     }
 
-    private boolean existTable(String tableName) {
+    private boolean existTable(final String tableName) {
         try (Connection connection = getDataSource().getConnection();
              ResultSet resultSet = connection.getMetaData().getTables(null, null, tableName, new String[]{"TABLE"})) {
             return resultSet.next();

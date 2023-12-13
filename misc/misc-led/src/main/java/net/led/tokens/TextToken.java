@@ -11,19 +11,17 @@ public class TextToken extends Token {
     private String text;
 
     public TextToken() {
-        this("");
+        this(null, "");
     }
 
-    public TextToken(final String newValue) {
-        super();
-
-        this.text = newValue;
+    public TextToken(final String text) {
+        this(null, text);
     }
 
-    public TextToken(final String text, final ColorModel colorModel) {
-        this(text);
+    public TextToken(final ColorModel colorModel, final String text) {
+        super(colorModel);
 
-        setColorModel(colorModel);
+        this.text = text;
     }
 
     @Override

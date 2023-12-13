@@ -53,11 +53,11 @@ public class MailClient implements AutoCloseable {
         session = null;
     }
 
-    public void login(String host, String user, String password) throws Exception {
+    public void login(final String host, final String user, final String password) throws Exception {
         login(host, new PasswordAuthentication(user, password));
     }
 
-    public void login(String host, PasswordAuthentication authentication) throws Exception {
+    public void login(final String host, final PasswordAuthentication authentication) throws Exception {
         Properties props = new Properties(System.getProperties());
         props.put("mail.debug", Boolean.FALSE.toString());
         props.put("mail.event.executor", ForkJoinPool.commonPool());
@@ -181,7 +181,7 @@ public class MailClient implements AutoCloseable {
         login(host, user, password);
     }
 
-    public void readLocal(Path folderPath, Consumer<Message> messageConsumer) throws Exception {
+    public void readLocal(final Path folderPath, final Consumer<Message> messageConsumer) throws Exception {
         //        String folderName = folderPath.getFileName().toString();
 
         List<Path> mailFiles;
@@ -201,7 +201,7 @@ public class MailClient implements AutoCloseable {
         }
     }
 
-    public void readRemote(String folderName, Function<Folder, List<Message>> messageSelector, Consumer<Message> messageConsumer) throws Exception {
+    public void readRemote(final String folderName, final Function<Folder, List<Message>> messageSelector, final Consumer<Message> messageConsumer) throws Exception {
         LOGGER.info("reading mails: {}", folderName);
 
         Folder folder = null;

@@ -92,18 +92,14 @@ public class LedPanel extends JPanel implements Runnable {
 
     @Override
     public void paintComponent(final Graphics g1) {
-        int i1;
-        int j1;
-        label0:
-        {
-            super.paintComponent(g1);
-            i1 = getInsets().top;
-            j1 = getWidth();
+        int i1 = 0;
+        int j1 = 0;
 
+        while (this.n.isEmpty()) {
             synchronized (this.n) {
-                if (!this.n.isEmpty()) {
-                    break label0;
-                }
+                super.paintComponent(g1);
+                i1 = getInsets().top;
+                j1 = getWidth();
 
                 int k1 = this.image.getWidth(this);
 
@@ -111,8 +107,6 @@ public class LedPanel extends JPanel implements Runnable {
                     g1.drawImage(this.image, i2, i1, this);
                 }
             }
-
-            return;
         }
 
         int l1 = 0;
@@ -245,15 +239,11 @@ public class LedPanel extends JPanel implements Runnable {
         A a;
 
         try {
-            label0:
-            {
-                synchronized (this.n) {
-                    if (!this.n.isEmpty()) {
-                        break label0;
-                    }
+            synchronized (this.n) {
+                while (this.n.isEmpty()) {
+                    // Empty
+                    TimeUnit.MILLISECONDS.sleep(1);
                 }
-
-                return;
             }
         }
         catch (Exception exception) {

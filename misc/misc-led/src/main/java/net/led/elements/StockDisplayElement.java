@@ -26,7 +26,7 @@ public class StockDisplayElement extends AbstractDisplayElement {
     public StockDisplayElement(final String stock) {
         super(new Token[4]);
 
-        this.symbol = new TextToken(stock, new DefaultColorModel(new Color(0xffffff)));
+        this.symbol = new TextToken(new DefaultColorModel(new Color(0xffffff)), stock);
         this.stockColorModel = new StockColorModel();
         this.last = new NumberToken(this.stockColorModel);
         this.arrow = new ArrowToken(this.stockColorModel);

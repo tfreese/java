@@ -18,7 +18,7 @@ public class SwapMetrics implements SensorBinder {
     private final JavaSysMon sysMon = new JavaSysMon();
 
     @Override
-    public List<String> bindTo(final SensorRegistry registry, Function<String, Backend> backendProvider) {
+    public List<String> bindTo(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
         Sensor.builder("swap.free", this.sysMon, mon -> {
             MemoryStats stats = mon.swap();
 

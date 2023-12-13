@@ -36,7 +36,7 @@ public final class MailClassifierDemo {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MailClassifierDemo.class);
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         Map<String, Boolean> folders = Map.of("Spam", true, "INBOX", false, "archiv", false);
         Path basePath = Paths.get(System.getProperty("user.home"), "db", "mails");
 
@@ -92,7 +92,7 @@ public final class MailClassifierDemo {
         }
     }
 
-    private static double classifyMessage(Map<String, Integer> tokenCount, MailRepository mailRepository) throws Exception {
+    private static double classifyMessage(final Map<String, Integer> tokenCount, final MailRepository mailRepository) throws Exception {
         Set<Token> tokens = mailRepository.getToken(tokenCount.keySet());
 
         Set<Merkmal> merkmalVector = tokens.stream().map(token -> {
@@ -107,7 +107,7 @@ public final class MailClassifierDemo {
         return BigDecimal.valueOf(spamProbability * 100D).setScale(3, RoundingMode.HALF_UP).doubleValue();
     }
 
-    private static List<Message> selectMessages(Folder folder, MailRepository mailRepository) {
+    private static List<Message> selectMessages(final Folder folder, final MailRepository mailRepository) {
         try {
             Message[] messages = null;
 

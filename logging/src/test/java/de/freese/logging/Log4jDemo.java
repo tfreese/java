@@ -100,7 +100,7 @@ final class Log4jDemo {
      * Use DataSource from Spring-Framework.
      */
     //@Bean
-    public JdbcAppender jdbcAppender(DataSource dataSource) {
+    public JdbcAppender jdbcAppender(final DataSource dataSource) {
         ConnectionSource connectionSource = new ConnectionSource() {
             @Override
             public Connection getConnection() throws SQLException {

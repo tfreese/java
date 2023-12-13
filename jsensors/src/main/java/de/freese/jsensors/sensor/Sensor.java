@@ -36,11 +36,11 @@ public interface Sensor {
             return this;
         }
 
-        public Sensor register(final SensorRegistry registry, Function<String, Backend> backendProvider) {
+        public Sensor register(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
             return register(registry, backendProvider.apply(this.name));
         }
 
-        public Sensor register(final SensorRegistry registry, Backend backend) {
+        public Sensor register(final SensorRegistry registry, final Backend backend) {
             return registry.registerSensor(this.name, this.obj, this.valueFunction, this.description, backend);
         }
     }

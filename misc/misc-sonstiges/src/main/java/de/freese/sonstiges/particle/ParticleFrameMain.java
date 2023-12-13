@@ -37,7 +37,7 @@ public final class ParticleFrameMain extends JFrame {
         SwingUtilities.invokeLater(() -> showGui(numOfParticles));
     }
 
-    private static void showGui(int numOfParticles) {
+    private static void showGui(final int numOfParticles) {
         ParticleFrameMain frame = new ParticleFrameMain();
         frame.initAndShowGUI();
 

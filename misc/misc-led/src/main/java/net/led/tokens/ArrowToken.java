@@ -15,15 +15,13 @@ public final class ArrowToken extends Token {
     private Object value;
 
     public ArrowToken() {
-        super();
-
-        setValue(UNCHANGED);
+        this(null);
     }
 
     public ArrowToken(final ColorModel colorModel) {
-        this();
+        super(colorModel);
 
-        setColorModel(colorModel);
+        setValue(UNCHANGED);
     }
 
     public Object getArrowType() {

@@ -49,7 +49,7 @@ public class DiscMetrics implements SensorBinder {
     }
 
     @Override
-    public List<String> bindTo(final SensorRegistry registry, Function<String, Backend> backendProvider) {
+    public List<String> bindTo(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
         if (this.file != null) {
             return bindTo(registry, this.file, File::getFreeSpace, File::getTotalSpace, backendProvider);
         }
@@ -91,7 +91,7 @@ public class DiscMetrics implements SensorBinder {
         return LOGGER;
     }
 
-    private <T> List<String> bindTo(final SensorRegistry registry, final T object, final ToLongFunction<T> functionFree, final ToLongFunction<T> functionTotal, Function<String, Backend> backendProvider) {
+    private <T> List<String> bindTo(final SensorRegistry registry, final T object, final ToLongFunction<T> functionFree, final ToLongFunction<T> functionTotal, final Function<String, Backend> backendProvider) {
         String postfix = sanitizePostfix(this.sensorPostfix);
 
         Sensor.builder("disk.free." + postfix, object, obj -> {

@@ -66,7 +66,7 @@ public class Gene implements Comparable<Gene> {
         return this.value;
     }
 
-    public <T> T getValue(Class<T> type) {
+    public <T> T getValue(final Class<T> type) {
         return type.cast(this.value);
     }
 

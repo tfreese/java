@@ -31,7 +31,7 @@ public final class MeterExporter {
      * @param step {@link Duration}; see {@link PushRegistryConfig#step()}
      * @param baseTimeUnit {@link TimeUnit}; see {@link MeterRegistry#getBaseTimeUnit()}
      */
-    public static List<String> export(MeterRegistry registry, final Duration step, TimeUnit baseTimeUnit) {
+    public static List<String> export(final MeterRegistry registry, final Duration step, final TimeUnit baseTimeUnit) {
         List<String> list = new ArrayList<>();
 
         Comparator<Meter> comparator = Comparator.comparing(m -> m.getId().getName());
@@ -185,7 +185,7 @@ public final class MeterExporter {
         return humanReadableBaseUnit(meter, value);
     }
 
-    private static String writeMeter(final Meter meter, final Duration step, TimeUnit baseTimeUnit) {
+    private static String writeMeter(final Meter meter, final Duration step, final TimeUnit baseTimeUnit) {
         return StreamSupport.stream(meter.measure().spliterator(), false).map(ms -> {
             String msLine = ms.getStatistic().getTagValueRepresentation() + "=";
 

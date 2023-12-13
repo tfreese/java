@@ -2,6 +2,7 @@ package net.led.tokens;
 
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.Objects;
 
 import net.led.elements.ColorModel;
 
@@ -11,39 +12,41 @@ import net.led.elements.ColorModel;
  * @version 1.0 12/14/04
  */
 public class NumberToken extends Token {
+    private static NumberFormat getDefaultNumberFormat() {
+        NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
+        nf.setMinimumFractionDigits(2);
+        nf.setMaximumFractionDigits(2);
+
+        return nf;
+    }
+
+    /**
+     * The number representation's format
+     */
+    private final NumberFormat numberFormat;
     /**
      * The representation of the number.
      */
     private String displayValue;
-    /**
-     * The number representation's format
-     */
-    private NumberFormat numberFormat;
-    /**
-     * The represented value
-     */
-    private double value;
 
     public NumberToken() {
-        this((NumberFormat) null);
+        this(null, null);
     }
 
     public NumberToken(final ColorModel colorModel) {
-        this();
-
-        setColorModel(colorModel);
+        this(colorModel, null);
     }
 
     public NumberToken(final NumberFormat numberFormat) {
-        this.value = Double.NaN;
-
-        setNumberFormat(numberFormat);
+        this(null, numberFormat);
     }
 
-    public NumberToken(final NumberFormat numberFormat, final ColorModel colorModel) {
-        this(numberFormat);
+    public NumberToken(final ColorModel colorModel, final NumberFormat numberFormat) {
+        super(colorModel);
 
-        setColorModel(colorModel);
+        this.numberFormat = Objects.requireNonNullElse(numberFormat, getDefaultNumberFormat());
+
+        formatDisplayValue(Double.NaN);
     }
 
     @Override
@@ -51,20 +54,10 @@ public class NumberToken extends Token {
         return this.displayValue;
     }
 
-    public void setNumberFormat(NumberFormat newValue) {
-        if (newValue == null) {
-            newValue = getDefaultNumberFormat();
-        }
-
-        this.numberFormat = newValue;
-        formatDisplayValue();
-    }
-
     @Override
     public void setValue(final Object newValue) {
-        if (newValue instanceof Number n) {
-            this.value = n.doubleValue();
-            formatDisplayValue();
+        if (newValue instanceof Number number) {
+            formatDisplayValue(number.doubleValue());
 
             return;
         }
@@ -72,20 +65,12 @@ public class NumberToken extends Token {
         throw new IllegalArgumentException("Given value must be a java.lang.Number, not " + newValue.getClass().getName());
     }
 
-    private void formatDisplayValue() {
-        if (Double.isNaN(this.value) || Double.isInfinite(this.value)) {
+    private void formatDisplayValue(final double value) {
+        if (Double.isNaN(value) || Double.isInfinite(value)) {
             this.displayValue = "N/A";
         }
         else {
-            this.displayValue = this.numberFormat.format(this.value);
+            this.displayValue = this.numberFormat.format(value);
         }
-    }
-
-    private NumberFormat getDefaultNumberFormat() {
-        NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
-        nf.setMinimumFractionDigits(2);
-        nf.setMaximumFractionDigits(2);
-
-        return nf;
     }
 }

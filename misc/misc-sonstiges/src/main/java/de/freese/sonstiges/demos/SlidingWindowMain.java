@@ -4,7 +4,7 @@ package de.freese.sonstiges.demos;
  * @author Thomas Freese
  */
 public final class SlidingWindowMain {
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         int[] arr = new int[]{2, 3};
         int windowSize = 3;
         // Output: Invalid There is no subarray of size 3 as size of whole array is 2.
@@ -29,7 +29,7 @@ public final class SlidingWindowMain {
     /**
      * Returns maximum sum in a subarray of WindowSize.
      */
-    static int maxSum(int[] arr, int arrayLength, int windowSize) {
+    static int maxSum(final int[] arr, final int arrayLength, final int windowSize) {
         // Initialize result
         int maxSum = Integer.MIN_VALUE;
 

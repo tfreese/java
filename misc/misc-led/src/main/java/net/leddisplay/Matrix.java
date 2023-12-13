@@ -189,13 +189,14 @@ public class Matrix {
         return width;
     }
 
-    public void paint(final Graphics graphics, final Element displayelement, int width, int height) {
+    public void paint(final Graphics graphics, final Element displayelement, final int width, final int height) {
         Token[] tokens = displayelement.getTokens();
         int k1 = (int) Math.ceil(getWidthOf(displayelement) / (this.dotWidth + this.hGap));
-        height /= (this.dotHeight + this.vGap);
-        width /= (this.dotWidth + this.hGap);
 
-        Point point = getAnchorPoint(width, height, k1);
+        int mHeight = height / (this.dotHeight + this.vGap);
+        int mWidth = width / (this.dotWidth + this.hGap);
+
+        Point point = getAnchorPoint(mWidth, mHeight, k1);
         int x = point.x;
         int y = point.y;
 
@@ -323,34 +324,38 @@ public class Matrix {
         return token.getDisplayValue().length() * width;
     }
 
-    private int paint(final Graphics graphics, final byte[] bytes, int x, final int offset) {
+    private int paint(final Graphics graphics, final byte[] bytes, final int x, final int offset) {
         Color color = graphics.getColor();
+
+        int mX = x;
 
         for (byte b : bytes) {
             for (int j = 0; j < 7; j++) {
                 if ((b & (1 << j)) != 0) {
                     graphics.setColor(color);
                     int y = (j * (this.dotHeight + this.vGap));
-                    graphics.fillRect(x, offset + y, this.dotWidth, this.dotHeight);
+                    graphics.fillRect(mX, offset + y, this.dotWidth, this.dotHeight);
                 }
             }
 
-            x += (this.dotWidth + this.hGap);
+            mX += (this.dotWidth + this.hGap);
         }
 
-        x += (this.hGap + this.dotWidth);
+        mX += (this.hGap + this.dotWidth);
         graphics.setColor(color);
 
-        return x;
+        return mX;
     }
 
-    private int paint(final Graphics graphics, final Token token, int x, final int offset) {
+    private int paint(final Graphics graphics, final Token token, final int x, final int offset) {
         Color color = token.getColorModel().getColor();
         graphics.setColor(color);
 
-        if (token instanceof ArrowToken) {
-            byte[] bytes = map.get(((ArrowToken) token).getArrowType());
-            x = paint(graphics, bytes, x, offset);
+        int mX = x;
+
+        if (token instanceof ArrowToken arrowToken) {
+            byte[] bytes = map.get(arrowToken.getArrowType());
+            mX = paint(graphics, bytes, x, offset);
         }
         else {
             String s = token.getDisplayValue();
@@ -362,12 +367,12 @@ public class Matrix {
                     bytes = map.get("?");
                 }
 
-                x = paint(graphics, bytes, x, offset);
+                mX = paint(graphics, bytes, mX, offset);
             }
         }
 
-        x += (this.gap * (this.hGap + this.dotWidth));
+        mX += (this.gap * (this.hGap + this.dotWidth));
 
-        return x;
+        return mX;
     }
 }

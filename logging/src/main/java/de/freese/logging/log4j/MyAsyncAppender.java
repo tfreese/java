@@ -196,7 +196,7 @@ public class MyAsyncAppender extends AbstractAppender {
         return true;
     }
 
-    private void appendEvent(LogEvent logEvent) {
+    private void appendEvent(final LogEvent logEvent) {
         boolean success = false;
 
         for (AppenderControl appender : this.appenders) {

@@ -18,7 +18,7 @@ public class LocalMailSupplier implements MailSupplier {
 
     private final Map<String, Boolean> folders;
 
-    public LocalMailSupplier(Map<String, Boolean> folders, Path basePath) {
+    public LocalMailSupplier(final Map<String, Boolean> folders, final Path basePath) {
         super();
 
         this.folders = Objects.requireNonNull(folders, "folders required");

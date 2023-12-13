@@ -18,11 +18,11 @@ public class CpuMetrics implements SensorBinder {
     private final JavaSysMon sysMon = new JavaSysMon();
 
     @Override
-    public List<String> bindTo(final SensorRegistry registry, Function<String, Backend> backendProvider) {
+    public List<String> bindTo(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
         return bindCpuUsage(registry, backendProvider);
     }
 
-    private List<String> bindCpuUsage(final SensorRegistry registry, Function<String, Backend> backendProvider) {
+    private List<String> bindCpuUsage(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
         Function<JavaSysMon, String> valueFunction = new Function<>() {
             private CpuTimes cpuTimesPrevious;
 

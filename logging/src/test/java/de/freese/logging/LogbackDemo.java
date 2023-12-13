@@ -86,7 +86,7 @@ final class LogbackDemo {
      * Use DataSource from Spring-Framework.
      */
     //@Bean
-    public DBAppender dbAppender(DataSource dataSource) {
+    public DBAppender dbAppender(final DataSource dataSource) {
         DataSourceConnectionSource connectionSource = new DataSourceConnectionSource();
         connectionSource.setDataSource(dataSource);
         connectionSource.start();

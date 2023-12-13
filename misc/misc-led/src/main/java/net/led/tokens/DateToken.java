@@ -20,19 +20,15 @@ public class DateToken extends Token {
      * The representation of the number.
      */
     private String displayValue;
-    /**
-     * The represented value
-     */
-    private Date value;
 
     public DateToken() {
-        super();
+        this(null);
     }
 
     public DateToken(final ColorModel colorModel) {
-        this();
+        super(colorModel);
 
-        setColorModel(colorModel);
+        formatDisplayValue(new Date());
     }
 
     @Override
@@ -45,9 +41,8 @@ public class DateToken extends Token {
      */
     @Override
     public void setValue(final Object newValue) {
-        if (newValue instanceof Date d) {
-            this.value = d;
-            formatDisplayValue();
+        if (newValue instanceof Date date) {
+            formatDisplayValue(date);
 
             return;
         }
@@ -55,8 +50,8 @@ public class DateToken extends Token {
         throw new IllegalArgumentException("Given value must be a java.lang.Number, not " + newValue.getClass().getName());
     }
 
-    private void formatDisplayValue() {
-        this.displayValue = getDateFormatter().format(this.value);
+    private void formatDisplayValue(final Date date) {
+        this.displayValue = getDateFormatter().format(date);
     }
 
     private DateFormat getDateFormatter() {

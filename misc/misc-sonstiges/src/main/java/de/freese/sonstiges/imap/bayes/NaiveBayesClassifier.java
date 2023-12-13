@@ -11,7 +11,7 @@ public class NaiveBayesClassifier {
 
     private static final double DEFAULT_FACTOR = 1.0D;
 
-    public double classify(Collection<Merkmal> vector) {
+    public double classify(final Collection<Merkmal> vector) {
         if (vector == null || vector.isEmpty()) {
             return 0.0D;
         }
@@ -21,7 +21,7 @@ public class NaiveBayesClassifier {
         return classifyBigDecimal(vector);
     }
 
-    double classifyBigDecimal(Collection<Merkmal> vector) {
+    double classifyBigDecimal(final Collection<Merkmal> vector) {
         BigDecimal spamLikelihood = BigDecimal.valueOf(1.0D);
         BigDecimal hamLikelihood = BigDecimal.valueOf(1.0D);
 
@@ -45,7 +45,7 @@ public class NaiveBayesClassifier {
     /**
      * Hier können sehr kleine oder sehr große Zahlen entstehen.
      */
-    double classifyClassic(Collection<Merkmal> vector) {
+    double classifyClassic(final Collection<Merkmal> vector) {
         double spamLikelihood = 1.0D;
         double hamLikelihood = 1.0D;
 
@@ -67,7 +67,7 @@ public class NaiveBayesClassifier {
     /**
      * Hier können NaN oder INVALID Zahlen entstehen.
      */
-    double classifyLog(Collection<Merkmal> vector) {
+    double classifyLog(final Collection<Merkmal> vector) {
         double spamLikelihood = 0.0D;
         double hamLikelihood = 0.0D;
 

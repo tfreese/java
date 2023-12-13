@@ -34,7 +34,6 @@ import de.freese.sonstiges.imap.textpart.PlainTextPart;
  * @author Thomas Freese
  */
 public class MessageWrapper {
-
     private static final Set<Character> ASCII_CHARS_KEEP = Set.of(
             // 228
             'ä',
@@ -52,7 +51,7 @@ public class MessageWrapper {
             'ß');
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageWrapper.class);
 
-    private static String getMessageId(Message message) throws Exception {
+    private static String getMessageId(final Message message) throws Exception {
         String messageId = null;
 
         if (message instanceof MimeMessage mm) {
@@ -138,7 +137,7 @@ public class MessageWrapper {
     }
 
     private final String folderName;
-    
+
     private final Message message;
 
     private final String messageId;
@@ -149,7 +148,7 @@ public class MessageWrapper {
         this(message, message.getFolder().getName());
     }
 
-    public MessageWrapper(final Message message, String folderName) throws Exception {
+    public MessageWrapper(final Message message, final String folderName) throws Exception {
         super();
 
         this.message = Objects.requireNonNull(message, "message required");
@@ -200,7 +199,7 @@ public class MessageWrapper {
         this.isSpam = isSpam;
     }
 
-    public void writeTo(OutputStream os) throws Exception {
+    public void writeTo(final OutputStream os) throws Exception {
         getMessage().writeTo(os);
     }
 

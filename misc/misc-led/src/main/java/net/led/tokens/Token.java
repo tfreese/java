@@ -14,20 +14,22 @@ public abstract class Token {
     }
 
     protected Token(final ColorModel colorModel) {
-        setColorModel(colorModel);
+        super();
+
+        this.colorModel = colorModel;
     }
 
     public ColorModel getColorModel() {
-        return this.colorModel;
-    }
-
-    public abstract String getDisplayValue();
-
-    public void setColorModel(ColorModel colorModel) {
         if (colorModel == null) {
             colorModel = new DefaultColorModel();
         }
 
+        return colorModel;
+    }
+
+    public abstract String getDisplayValue();
+
+    public void setColorModel(final ColorModel colorModel) {
         this.colorModel = colorModel;
     }
 

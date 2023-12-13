@@ -20,7 +20,7 @@ public class TimeDisplayElement extends AbstractDisplayElement {
     public TimeDisplayElement(final String attributName) {
         super(new Token[3]);
 
-        this.text = new TextToken(attributName, new DefaultColorModel(new Color(0xffffff)));
+        this.text = new TextToken(new DefaultColorModel(new Color(0xffffff)), attributName);
         this.date = new DateToken();
         this.time = new TimeToken();
 

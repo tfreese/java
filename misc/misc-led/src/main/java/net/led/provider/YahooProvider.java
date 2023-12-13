@@ -16,7 +16,9 @@ import java.util.concurrent.TimeUnit;
  * @author Thomas Freese
  */
 public class YahooProvider implements Runnable {
-    private static Double parseDouble(String s) {
+    private static Double parseDouble(final String value) {
+        String s = value;
+
         if (s.startsWith("\"")) {
             s = s.substring(1, s.length() - 1);
         }

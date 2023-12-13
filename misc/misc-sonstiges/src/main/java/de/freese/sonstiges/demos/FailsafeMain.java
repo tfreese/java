@@ -26,7 +26,7 @@ import de.freese.sonstiges.NamedThreadFactory;
 public final class FailsafeMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(FailsafeMain.class);
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
         // @formatter:off
         CircuitBreaker<Object> circuitBreaker = CircuitBreaker.builder()
                 //.handle(SQLException.class) // Alle Exceptions von diesem Typ werden als Fehler behandelt.
@@ -50,7 +50,7 @@ public final class FailsafeMain {
         //        ipBlock(circuitBreaker);
     }
 
-    private static void fallback(CircuitBreaker<Object> circuitBreaker) throws Exception {
+    private static void fallback(final CircuitBreaker<Object> circuitBreaker) throws Exception {
         // @formatter:off
         RetryPolicy<Object> retryPolicy = RetryPolicy.builder()
                 .withMaxRetries(2)
@@ -120,7 +120,7 @@ public final class FailsafeMain {
         printMetrics(circuitBreaker);
     }
 
-    private static void ipBlock(CircuitBreaker<Object> circuitBreaker) throws Exception {
+    private static void ipBlock(final CircuitBreaker<Object> circuitBreaker) throws Exception {
         Fallback<Object> fallback = Fallback.ofException(event -> new Exception("ERROR: Your IP is blocked !", event.getLastException()));
 
         // Ausführung in umgekehrter Reihenfolge: CircuitBreaker -> Fallback
@@ -172,7 +172,7 @@ public final class FailsafeMain {
         printMetrics(circuitBreaker);
     }
 
-    private static void printMetrics(CircuitBreaker<?> circuitBreaker) {
+    private static void printMetrics(final CircuitBreaker<?> circuitBreaker) {
         System.out.println("ExecutionCount = " + circuitBreaker.getExecutionCount());
         System.out.println("FailureCount = " + circuitBreaker.getFailureCount());
         System.out.println("FailureRate = " + circuitBreaker.getFailureRate());

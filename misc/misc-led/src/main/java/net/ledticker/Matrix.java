@@ -273,25 +273,27 @@ public class Matrix {
         return token.getDisplayValue().length() * width;
     }
 
-    private int paint(final Graphics graphics, final byte[] bytes, int x) {
+    private int paint(final Graphics graphics, final byte[] bytes, final int x) {
         Color color = graphics.getColor();
+
+        int mX = x;
 
         for (byte b : bytes) {
             for (int j = 0; j < 7; j++) {
                 if ((b & (1 << j)) != 0) {
                     graphics.setColor(color);
                     int y = (j + this.topInset) * (this.dotHeight + this.vGap);
-                    graphics.fillRect(x, y, this.dotWidth, this.dotHeight);
+                    graphics.fillRect(mX, y, this.dotWidth, this.dotHeight);
                 }
             }
 
-            x += (this.dotWidth + this.hGap);
+            mX += (this.dotWidth + this.hGap);
         }
 
-        x += (this.hGap + this.dotWidth);
+        mX += (this.hGap + this.dotWidth);
         graphics.setColor(color);
 
-        return x;
+        return mX;
     }
 
     private int paintToken(final Graphics graphics, final Token token, final int x) {

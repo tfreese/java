@@ -27,21 +27,21 @@ public final class MapBackend extends AbstractBackend {
         this.map = new HashMap<>();
     }
 
-    public SensorValue getLastValue(String name) {
+    public SensorValue getLastValue(final String name) {
         List<SensorValue> values = getValues(name);
 
         if (values.isEmpty()) {
             return null;
         }
 
-        return values.get(values.size() - 1);
+        return values.getLast();
     }
 
-    public List<SensorValue> getValues(String name) {
+    public List<SensorValue> getValues(final String name) {
         return List.copyOf(this.map.computeIfAbsent(name, key -> new ArrayList<>(keepLastNValues)));
     }
 
-    public int size(String name) {
+    public int size(final String name) {
         return getValues(name).size();
     }
 
@@ -52,7 +52,7 @@ public final class MapBackend extends AbstractBackend {
         values.add(sensorValue);
 
         if (values.size() > keepLastNValues) {
-            values.remove(0);
+            values.removeFirst();
         }
     }
 }
