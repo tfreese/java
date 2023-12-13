@@ -35,9 +35,9 @@ import de.freese.jconky.painter.TemperatureMonitorPainter;
  * <br>
  * In Eclipse:<br>
  * <ol>
- * <li>Konstruktor muss public empty-arg sein oder nicht vorhanden sein.
- * <li>VM-Parameter: --add-modules javafx.controls
- * <li>Module-Classpath: OpenJFX die jeweils 2 Jars für javafx-base, javafx-controls und javafx-graphics hinzufügen
+ * <li>Konstruktor muss public empty-arg sein oder nicht vorhanden sein.</li>
+ * <li>VM-Parameter: --add-modules javafx.controls</li>
+ * <li>Module-Classpath: OpenJFX die jeweils 2 Jars für javafx-base, javafx-controls und javafx-graphics hinzufügen</li>
  * </ol>
  *
  * @author Thomas Freese

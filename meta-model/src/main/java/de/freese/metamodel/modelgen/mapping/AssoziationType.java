@@ -17,7 +17,7 @@ public class AssoziationType implements Type {
     }
 
     @Override
-    public boolean equals(final Class<?> clazz) {
+    public boolean equalsClass(final Class<?> clazz) {
         return false;
     }
 

@@ -254,14 +254,14 @@ public class Ball {
      * Berechnung der Flugzeit zum oberen Rand.<br>
      * Wurf nach oben:<br>
      * s = sₒ + vₒt + ½gt²<br>
-     * v = vₒ + gt<br>
-     * <p>
+     * v = vₒ + gt<br><br>
+     * <br>
      * Quadratische Gleichung aufgelöst nach Mitternachtsformel:<br>
      * ax² + bx + c = 0<br>
      * x = (-b ± sqrt(b² - 4ac)) / 2a<br>
      * gt² + 2Vₒt + 2(sₒ - s) = 0<br>
-     * t = (-2vₒ ± sqrt(2vₒ² - 4g * 2(sₒ - s))) / 2g
-     * <p>
+     * t = (-2vₒ ± sqrt(2vₒ² - 4g * 2(sₒ - s))) / 2g<br>
+     * <br>
      * Alternative: pq-Formel:<br>
      * x² + px + q = 0<br>
      * x = -p/2 ± sqrt((p/2)² - q)<br>
@@ -302,13 +302,13 @@ public class Ball {
      * Wurf nach unten:<br>
      * s = sₒ + vₒt + ½gt²<br>
      * v = vₒ + gt<br>
-     * <p>
+     * <br>
      * Quadratische Gleichung aufgelöst nach Mitternachtsformel:<br>
      * ax² + bx + c = 0<br>
      * x = (-b ± sqrt(b² - 4ac)) / 2a<br>
      * gt² + 2Vₒt + 2(sₒ - s) = 0<br>
-     * t = (-2vₒ ± sqrt(2vₒ² - 4g * 2(sₒ - s))) / 2g
-     * <p>
+     * t = (-2vₒ ± sqrt(2vₒ² - 4g * 2(sₒ - s))) / 2g<br>
+     * <br>
      * Alternative: pq-Formel:<br>
      * x² + px + q = 0<br>
      * x = -p/2 ± sqrt((p/2)² - q)<br>

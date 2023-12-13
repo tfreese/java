@@ -294,13 +294,15 @@ public class Matrix {
         return x;
     }
 
-    private int paintToken(final Graphics graphics, final Token token, int x) {
+    private int paintToken(final Graphics graphics, final Token token, final int x) {
         Color color = token.getColorModel().getColor();
         graphics.setColor(color);
 
-        if (token instanceof ArrowToken) {
-            byte[] bytes = map.get(((ArrowToken) token).getArrowType());
-            x = paint(graphics, bytes, x);
+        int mX = x;
+
+        if (token instanceof ArrowToken arrowToken) {
+            byte[] bytes = map.get(arrowToken.getArrowType());
+            mX = paint(graphics, bytes, mX);
         }
         else {
             String s = token.getDisplayValue();
@@ -312,12 +314,12 @@ public class Matrix {
                     bytes = map.get("?");
                 }
 
-                x = paint(graphics, bytes, x);
+                mX = paint(graphics, bytes, mX);
             }
         }
 
-        x += (this.tokenGap * (this.hGap + this.dotWidth));
+        mX += (this.tokenGap * (this.hGap + this.dotWidth));
 
-        return x;
+        return mX;
     }
 }

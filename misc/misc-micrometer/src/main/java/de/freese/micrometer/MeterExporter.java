@@ -10,7 +10,6 @@ import java.util.stream.StreamSupport;
 
 import io.micrometer.core.instrument.Meter;
 import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.core.instrument.Metrics;
 import io.micrometer.core.instrument.Tag;
 import io.micrometer.core.instrument.binder.BaseUnits;
 import io.micrometer.core.instrument.config.NamingConvention;
@@ -27,7 +26,7 @@ import io.micrometer.core.instrument.util.TimeUtils;
  */
 public final class MeterExporter {
     /**
-     * {@link Metrics#globalRegistry#getMeters}
+     * See Metrics#globalRegistry#getMeters
      *
      * @param step {@link Duration}; see {@link PushRegistryConfig#step()}
      * @param baseTimeUnit {@link TimeUnit}; see {@link MeterRegistry#getBaseTimeUnit()}

@@ -254,9 +254,9 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
                     try {
                         Point pt = event.getLocation();
                         // TreePath pathTarget = getClosestPathForLocation(pt.x, pt.y);
-                        TreePath pathSource = (TreePath) transferable.getTransferData(flavor);
+                        TreePath treePath = (TreePath) transferable.getTransferData(flavor);
 
-                        System.out.println("DROPPING: " + pathSource.getLastPathComponent());
+                        System.out.println("DROPPING: " + treePath.getLastPathComponent());
 
                         DefaultTreeModel model = (DefaultTreeModel) getModel();
                         TreePath pathNewChild;
@@ -274,13 +274,13 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
                         // You ask the model to do the copying...
                         // ...and you supply the copyNode method in the model as well of course.
                         // if (_nShift == 0)
-                        // pathNewChild = model.copyNode(pathSource, pathTarget,
+                        // pathNewChild = model.copyNode(treePath, pathTarget,
                         // isExpanded(pathTarget));
                         // else if (_nShift > 0) // The mouse is being flicked to the right (so move
                         // the node right)
-                        // pathNewChild = model.copyNodeRight(pathSource, pathTarget);
+                        // pathNewChild = model.copyNodeRight(treePath, pathTarget);
                         // else // The mouse is being flicked to the left (so move the node left)
-                        // pathNewChild = model.copyNodeLeft(pathSource);
+                        // pathNewChild = model.copyNodeLeft(treePath);
 
                         TreePath parentPath = getClosestPathForLocation(pt.x, pt.y);
                         DefaultMutableTreeNode parent = (DefaultMutableTreeNode) parentPath.getLastPathComponent();

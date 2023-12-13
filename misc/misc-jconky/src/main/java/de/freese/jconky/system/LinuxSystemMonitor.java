@@ -736,7 +736,9 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     }
 
     /**
+     * <pre>{@code
      * /sys/devices/system/cpu/cpu<N>/cpufreq/scaling_cur_freq
+     * }</pre>
      */
     private Map<Integer, Integer> getCpuFrequencies(final int numCpus) {
         Map<Integer, Integer> frequencies = new HashMap<>();

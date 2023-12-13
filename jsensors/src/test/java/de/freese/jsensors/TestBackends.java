@@ -278,15 +278,16 @@ class TestBackends {
         return List.of(new DefaultSensorValue("test1", "1", timestamp), new DefaultSensorValue("test2", "2", timestamp + 1));
     }
 
-    private void testValues(List<SensorValue> sensorValues, List<SensorValue> consumedValues) {
-        consumedValues = consumedValues.stream().sorted(Comparator.comparing(SensorValue::getTimestamp)).toList();
+    private void testValues(final List<SensorValue> sensorValues, final List<SensorValue> consumedValues) {
 
-        assertEquals(sensorValues.size(), consumedValues.size());
+        List<SensorValue> consumed = consumedValues.stream().sorted(Comparator.comparing(SensorValue::getTimestamp)).toList();
 
-        for (int i = 0; i < consumedValues.size(); i++) {
-            assertEquals(sensorValues.get(i).getName(), consumedValues.get(i).getName());
-            assertEquals(sensorValues.get(i).getValue(), consumedValues.get(i).getValue());
-            assertEquals(sensorValues.get(i).getTimestamp(), consumedValues.get(i).getTimestamp());
+        assertEquals(sensorValues.size(), consumed.size());
+
+        for (int i = 0; i < consumed.size(); i++) {
+            assertEquals(sensorValues.get(i).getName(), consumed.get(i).getName());
+            assertEquals(sensorValues.get(i).getValue(), consumed.get(i).getValue());
+            assertEquals(sensorValues.get(i).getTimestamp(), consumed.get(i).getTimestamp());
         }
     }
 }

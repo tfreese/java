@@ -1291,7 +1291,7 @@ public final class MiscMain {
     }
 
     static void streamParallelCustomThreadPool() throws ExecutionException, InterruptedException {
-        int availableCpus = Runtime.getRuntime().availableProcessors();
+        //        int availableCpus = Runtime.getRuntime().availableProcessors();
 
         List<Long> list = LongStream.rangeClosed(1, 10).boxed().toList();
 

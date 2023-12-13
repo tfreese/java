@@ -24,7 +24,8 @@ public class FractalRasterSimulation extends AbstractRasterSimulation {
         //
         // fireCompleted();
 
-        double reC, zelle = 0.00625D; // Ein Pixel = 0.00625
+        double zelle = 0.00625D; // Ein Pixel = 0.00625
+        double reC = zelle;
 
         Color colAppleman = new Color(0, 0, 180); // Farbe Apfelmännchen
 

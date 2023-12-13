@@ -24,10 +24,10 @@ public class GoFCell extends AbstractCell {
 
     /**
      * <ol>
-     * <li>1. Eine tote Zelle mit genau drei lebenden Nachbarn wird in der nächsten Generation neu geboren.
-     * <li>2. Lebende Zellen mit weniger als zwei lebenden Nachbarn sterben in der nächsten Generation an Einsamkeit.
-     * <li>3. Eine lebende Zelle mit zwei oder drei lebenden Nachbarn bleibt in der nächsten Generation lebend.
-     * <li>4. Lebende Zellen mit mehr als drei lebenden Nachbarn sterben in der nächsten Generation an Überbevölkerung.
+     * <li>1. Eine tote Zelle mit genau drei lebenden Nachbarn wird in der nächsten Generation neu geboren.</li>
+     * <li>2. Lebende Zellen mit weniger als zwei lebenden Nachbarn sterben in der nächsten Generation an Einsamkeit.</li>
+     * <li>3. Eine lebende Zelle mit zwei oder drei lebenden Nachbarn bleibt in der nächsten Generation lebend.</li>
+     * <li>4. Lebende Zellen mit mehr als drei lebenden Nachbarn sterben in der nächsten Generation an Überbevölkerung.</li>
      * </ol>
      */
     @Override

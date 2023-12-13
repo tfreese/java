@@ -182,7 +182,7 @@ public class MailClient implements AutoCloseable {
     }
 
     public void readLocal(Path folderPath, Consumer<Message> messageConsumer) throws Exception {
-        String folderName = folderPath.getFileName().toString();
+        //        String folderName = folderPath.getFileName().toString();
 
         List<Path> mailFiles;
 
@@ -190,11 +190,11 @@ public class MailClient implements AutoCloseable {
             mailFiles = stream.sorted().filter(p -> p.toString().toLowerCase().endsWith(".mail")).toList();
         }
 
-        Session session = Session.getDefaultInstance(new Properties());
+        Session mSession = Session.getDefaultInstance(new Properties());
 
         for (Path mail : mailFiles) {
             try (InputStream inputStream = new BufferedInputStream(Files.newInputStream(mail))) {
-                Message message = new MimeMessage(session, inputStream);
+                Message message = new MimeMessage(mSession, inputStream);
 
                 messageConsumer.accept(message);
             }

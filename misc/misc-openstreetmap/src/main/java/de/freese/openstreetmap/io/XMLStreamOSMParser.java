@@ -160,6 +160,8 @@ public class XMLStreamOSMParser implements OSMParser {
                     }
 
                     break;
+                default:
+                    break;
             }
         }
 

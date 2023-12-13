@@ -60,7 +60,7 @@ final class LogbackDemo {
         JoranConfigurator config = new JoranConfigurator();
         config.setContext(lc);
 
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        //        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         URL url = ClassLoader.getSystemResource(configFile);
 
         if (url == null) {

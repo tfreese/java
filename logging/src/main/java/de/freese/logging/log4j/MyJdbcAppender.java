@@ -357,9 +357,9 @@ public class MyJdbcAppender extends AbstractAppender implements Flushable {
             }
         }
 
-        StringBuilder sql = new StringBuilder();
-        sql.append("insert into ").append(this.tableName).append(" ").append(joinerColumns).append(" values ").append(joinerParameter);
+        StringBuilder sb = new StringBuilder();
+        sb.append("insert into ").append(this.tableName).append(" ").append(joinerColumns).append(" values ").append(joinerParameter);
 
-        this.sql = sql.toString();
+        this.sql = sb.toString();
     }
 }

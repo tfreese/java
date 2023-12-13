@@ -17,14 +17,12 @@ import javax.swing.JPanel;
  * @author Thomas Freese
  */
 public class LedPanel extends JPanel implements Runnable {
-    // private static final long d = 10000L;
-
     @Serial
     private static final long serialVersionUID = -4394367414714279300L;
 
     private final int k;
-    private transient final List<A> n;
-    private transient final Map<Object, A> o;
+    private final transient List<A> n;
+    private final transient Map<Object, A> o;
 
     private transient Dimension dimension;
     private transient byte e;
@@ -82,14 +80,14 @@ public class LedPanel extends JPanel implements Runnable {
 
     @Override
     public Dimension getPreferredSize() {
-        Dimension dimension = super.getPreferredSize();
+        Dimension dim = super.getPreferredSize();
 
         if (this.dimension == null) {
             Insets insets = getInsets();
-            dimension = new Dimension(dimension.width + 399, this.height + insets.top + insets.bottom);
+            dim = new Dimension(dim.width + 399, this.height + insets.top + insets.bottom);
         }
 
-        return dimension;
+        return dim;
     }
 
     @Override
@@ -188,9 +186,9 @@ public class LedPanel extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        Thread thread = Thread.currentThread();
+        Thread t = Thread.currentThread();
 
-        while (this.thread == thread) {
+        while (this.thread == t) {
             long l1 = System.currentTimeMillis();
 
             if (!this.pause) {

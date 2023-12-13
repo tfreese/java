@@ -109,8 +109,8 @@ public class AntCell extends AbstractCell {
 
     /**
      * <ol>
-     * <li>Ist das Feld vor ihr weiss, so stellt sie sich drauf, färbt es schwarz und dreht sich um 90 Grad nach rechts.
-     * <li>Ist das Feld vor ihr schwarz, so stellt sie sich drauf, färbt es weiss und dreht sich um 90 Grad nach links.
+     * <li>Ist das Feld vor ihr weiss, so stellt sie sich drauf, färbt es schwarz und dreht sich um 90 Grad nach rechts.</li>
+     * <li>Ist das Feld vor ihr schwarz, so stellt sie sich drauf, färbt es weiss und dreht sich um 90 Grad nach links.</li>
      * </ol>
      */
     @Override

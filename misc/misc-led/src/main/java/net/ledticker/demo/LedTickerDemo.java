@@ -130,7 +130,8 @@ public class LedTickerDemo implements ActionListener, ChangeListener, UpdateList
             this.ledTicker.setSpeed(this.slider.getValue());
         }
         else if ("setDotSize".equals(command)) {
-            int width, height = 0;
+            int width = 0;
+            int height = 0;
 
             try {
                 width = Integer.parseInt(this.dotWidth.getText(), 10);
@@ -151,7 +152,8 @@ public class LedTickerDemo implements ActionListener, ChangeListener, UpdateList
             centerFrame(this.tickerFrame);
         }
         else if ("setDotGap".equals(command)) {
-            int hg, vg = 0;
+            int hg = 0;
+            int vg = 0;
 
             try {
                 hg = Integer.parseInt(this.hGap.getText(), 10);

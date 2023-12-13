@@ -166,10 +166,10 @@ public class WaTorCell extends AbstractCell {
 
     /**
      * <ol>
-     * <li>Jeder Fisch schwimmt zufällig auf eines der vier angrenzenden Felder, sofern es leer ist.
-     * <li>Mit jedem Durchgang gewinnt der Fisch einen Energiepunkt.
+     * <li>Jeder Fisch schwimmt zufällig auf eines der vier angrenzenden Felder, sofern es leer ist.</li>
+     * <li>Mit jedem Durchgang gewinnt der Fisch einen Energiepunkt.</li>
      * <li>Übersteigt die Energie den Wert für die Erzeugung eines Nachkommen ("Breed Energy"), so wird ein neuer Fisch auf einem angrenzenden freien Feld
-     * geboren. Die vorhandene Energie wird gleichmässig zwischen Eltern- und Kind-Fisch verteilt.
+     * geboren. Die vorhandene Energie wird gleichmässig zwischen Eltern- und Kind-Fisch verteilt.</li>
      * </ol>
      */
     private void nextFish() {
@@ -204,11 +204,11 @@ public class WaTorCell extends AbstractCell {
 
     /**
      * <ol>
-     * <li>Findet ein Hai keinen Fisch auf einem angrenzenden Feld, so schwimmt er zufällig auf eines der vier Felder.
-     * <li>Für jeden Zyklus, während dessen der Hai keinen Fisch findet, verliert er einen Energiepunkt.
-     * <li>Findet der Hai einen Fisch, wird seine Energie um den Energiewert des Fisches erhöht.
+     * <li>Findet ein Hai keinen Fisch auf einem angrenzenden Feld, so schwimmt er zufällig auf eines der vier Felder.</li>
+     * <li>Für jeden Zyklus, während dessen der Hai keinen Fisch findet, verliert er einen Energiepunkt.</li>
+     * <li>Findet der Hai einen Fisch, wird seine Energie um den Energiewert des Fisches erhöht.</li>
      * <li>Übersteigt die Energie den Wert für die Erzeugung eines Nachkommen ("Breed Energy"), so wird ein neuer Hai auf einem angrenzenden freien Feld
-     * geboren. Die vorhandene Energie wird gleichmässig zwischen Eltern- und Kind-Hai verteilt.
+     * geboren. Die vorhandene Energie wird gleichmässig zwischen Eltern- und Kind-Hai verteilt.</li>
      * </ol>
      */
     private void nextShark() {

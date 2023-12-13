@@ -7,12 +7,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-import com.lmax.disruptor.BusySpinWaitStrategy;
 import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.RingBuffer;
-import com.lmax.disruptor.WaitStrategy;
 import com.lmax.disruptor.dsl.Disruptor;
-import com.lmax.disruptor.dsl.ProducerType;
 import com.lmax.disruptor.util.DaemonThreadFactory;
 
 /**
@@ -38,10 +35,10 @@ public final class LongEventMain {
         // ThreadFactory threadFactory = new
         // BasicThreadFactory.Builder().namingPattern("disruptor-thread-%d").daemon(true).priority(Thread.NORM_PRIORITY).build();
 
-        ProducerType producerType = ProducerType.SINGLE; // Nur ein exklusiver Thread schreibt Daten in den RingBuffer.
+        //        ProducerType producerType = ProducerType.SINGLE; // Nur ein exklusiver Thread schreibt Daten in den RingBuffer.
         // ProducerType producerType = ProducerType.MULTI; // Verschiedene Threads schreiben Daten in den RingBuffer.
 
-        WaitStrategy waitStrategy = null;
+        //        WaitStrategy waitStrategy = null;
 
         // The BlockingWaitStrategy is the slowest of the available wait strategies, but is the most conservative with the respect
         // to CPU usage and will give the most consistent behaviour across the widest variety of deployment options.
@@ -56,7 +53,7 @@ public final class LongEventMain {
         // waitStrategy = new YieldingWaitStrategy();
 
         // This wait strategy should only be used if the number of Event Handler threads is smaller than the number of physical cores on the box.
-        waitStrategy = new BusySpinWaitStrategy();
+        //        waitStrategy = new BusySpinWaitStrategy();
 
         ExecutorService executorService = Executors.newFixedThreadPool(8);
         // Disruptor<LongEvent> disruptor = new Disruptor<>(LongEvent::new, ringBufferSize, executorService, producerType, waitStrategy);

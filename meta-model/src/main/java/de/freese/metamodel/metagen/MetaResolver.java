@@ -19,7 +19,7 @@ public final class MetaResolver {
     /**
      * Liefert auf Basis der DB-MetaDaten den entsprechenden Exporter für die Quelle.
      *
-     * @throws IllegalStateException, wenn keine Quelle ermittelt werden konnte.
+     * @throws IllegalStateException wenn keine Quelle ermittelt werden konnte.
      */
     public static MetaExporter determineMetaData(final DataSource dataSource) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {

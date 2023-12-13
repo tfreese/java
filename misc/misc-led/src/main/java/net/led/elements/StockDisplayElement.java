@@ -8,8 +8,7 @@ import net.led.tokens.TextToken;
 import net.led.tokens.Token;
 
 /**
- * This is a sample element that extends <code>AbstractDisplayElement</code> - the abstract class that represents a display's text base element.
- * <p>
+ * This is a sample element that extends <code>AbstractDisplayElement</code> - the abstract class that represents a display's text base element.<br>
  * The purpose of this element is to hold stock quote information: name, last value, trend and percent change. The trend is given by the percent change relative
  * to 0.
  */

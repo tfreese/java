@@ -7,16 +7,16 @@ import java.util.function.UnaryOperator;
 /**
  * Diese {@link Function} ersetzt die Deutschen Umlaute.<br>
  * <ul>
- * <li>'ß' -> 'ss'
- * <li>'ae' -> 'ä'
- * <li>'oe' -> 'ö'
- * <li>'ue' -> 'ü', wird nicht ersetzt, wenn darauf ein Vokal oder 'q' folgt
+ * <li>'ß' -> 'ss'</li>
+ * <li>'ae' -> 'ä'</li>
+ * <li>'oe' -> 'ö'</li>
+ * <li>'ue' -> 'ü', wird nicht ersetzt, wenn darauf ein Vokal oder 'q' folgt</li>
  * </ul>
  *
  * @author Thomas Freese
  */
 public class FunctionNormalizeGerman implements UnaryOperator<String> {
-    
+
     public static final UnaryOperator<String> INSTANCE = new FunctionNormalizeGerman();
 
     @Override
