@@ -41,7 +41,7 @@ abstract class StringTransferHandler extends TransferHandler {
     public boolean importData(final JComponent c, final Transferable t) {
         if (canImport(c, t.getTransferDataFlavors())) {
             try {
-                String str = (String) t.getTransferData(DataFlavor.stringFlavor);
+                final String str = (String) t.getTransferData(DataFlavor.stringFlavor);
                 importString(c, str);
 
                 return true;

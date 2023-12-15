@@ -83,9 +83,9 @@ class TestMicrometer {
     @Test
     @Order(2)
     void testGauge() {
-        List<String> list = new ArrayList<>(4);
+        final List<String> list = new ArrayList<>(4);
 
-        Gauge gauge = Gauge.builder("cache.size", list, List::size).register(Metrics.globalRegistry);
+        final Gauge gauge = Gauge.builder("cache.size", list, List::size).register(Metrics.globalRegistry);
 
         assertEquals(0.0D, gauge.value());
 
@@ -105,7 +105,7 @@ class TestMicrometer {
         Gauge.builder("test.gauge", Math::random).register(Metrics.globalRegistry).value();
         Timer.builder("test.timer").register(Metrics.globalRegistry).record(Duration.ofMillis(100L));
 
-        Sample sample = LongTaskTimer.builder("test.longTaskTimer").register(Metrics.globalRegistry).start();
+        final Sample sample = LongTaskTimer.builder("test.longTaskTimer").register(Metrics.globalRegistry).start();
         TimeUnit.SECONDS.sleep(1L);
         sample.stop();
 
@@ -113,7 +113,7 @@ class TestMicrometer {
 
         System.out.println();
 
-        Set<String> meterExport = new TreeSet<>();
+        final Set<String> meterExport = new TreeSet<>();
 
         Metrics.globalRegistry.getRegistries().forEach(registry -> {
             // Hier können Duplikate durch verschiedene Registries entstehen.
@@ -128,11 +128,10 @@ class TestMicrometer {
     @Test
     @Order(3)
     void testPushMetrics() throws Exception {
-
-        Logger logger = LoggerFactory.getLogger("LoggingRegistry");
+        final Logger logger = LoggerFactory.getLogger("LoggingRegistry");
 
         // PushRegistryConfig
-        LoggingRegistryConfig loggingRegistryConfig = new LoggingRegistryConfig() {
+        final LoggingRegistryConfig loggingRegistryConfig = new LoggingRegistryConfig() {
             @Override
             public String get(final String key) {
                 return null;
@@ -144,7 +143,7 @@ class TestMicrometer {
             }
         };
 
-        PushMeterRegistry pushMeterRegistry = new LoggingMeterRegistry(loggingRegistryConfig, Clock.SYSTEM, logger::info);
+        final PushMeterRegistry pushMeterRegistry = new LoggingMeterRegistry(loggingRegistryConfig, Clock.SYSTEM, logger::info);
         Metrics.addRegistry(pushMeterRegistry);
 
         //        pushMeterRegistry.start(Executors.defaultThreadFactory());
@@ -153,7 +152,7 @@ class TestMicrometer {
         Gauge.builder("test.gauge", Math::random).register(pushMeterRegistry).value();
         Timer.builder("test.timer").register(pushMeterRegistry).record(Duration.ofMillis(100L));
 
-        Sample sample = LongTaskTimer.builder("test.longTaskTimer").register(pushMeterRegistry).start();
+        final Sample sample = LongTaskTimer.builder("test.longTaskTimer").register(pushMeterRegistry).start();
         TimeUnit.SECONDS.sleep(1L);
         sample.stop();
 
@@ -169,9 +168,9 @@ class TestMicrometer {
     @Order(4)
     void testTimer() throws Exception {
         // Short Task Timer
-        Timer timer = Metrics.timer("app.event");
+        final Timer timer = Metrics.timer("app.event");
 
-        Callable<Void> callable = () -> {
+        final Callable<Void> callable = () -> {
             TimeUnit.MILLISECONDS.sleep(100L);
             return null;
         };
@@ -184,13 +183,13 @@ class TestMicrometer {
         assertEquals(200L, Metrics.globalRegistry.find("app.event").timer().totalTime(TimeUnit.MILLISECONDS), 10);
 
         // Long Task Timer
-        LongTaskTimer longTaskTimer = LongTaskTimer.builder("3rdPartyService").register(Metrics.globalRegistry);
+        final LongTaskTimer longTaskTimer = LongTaskTimer.builder("3rdPartyService").register(Metrics.globalRegistry);
 
-        Sample sample = longTaskTimer.start();
+        final Sample sample = longTaskTimer.start();
 
         TimeUnit.SECONDS.sleep(1L);
 
-        long durationInNanos = sample.stop();
+        final long durationInNanos = sample.stop();
 
         assertEquals(1_000_000_000L, durationInNanos, 5_000_000L);
         assertNotNull(Metrics.globalRegistry.find("3rdPartyService").longTaskTimer());
@@ -198,7 +197,7 @@ class TestMicrometer {
 
     String writeMeter(final Meter meter) {
         return StreamSupport.stream(meter.measure().spliterator(), false).map(ms -> {
-            String msLine = ms.getStatistic().getTagValueRepresentation() + "=";
+            final String msLine = ms.getStatistic().getTagValueRepresentation() + "=";
 
             return switch (ms.getStatistic()) {
                 case COUNT -> "value=" + ms.getValue();

@@ -6,13 +6,9 @@ package de.freese.jconky.model;
  */
 public class CpuInfo {
     private final int core;
-
     private final CpuTimes cpuTimes;
-
     private final int frequency;
-
     private final double temperature;
-
     private double usage;
 
     public CpuInfo() {
@@ -60,7 +56,7 @@ public class CpuInfo {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(getClass().getSimpleName());
+        final StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
         builder.append("core=").append(this.core);
         builder.append(", usage=").append(this.usage);

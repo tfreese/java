@@ -23,7 +23,7 @@ public class DefaultLedTicker implements LedTicker {
         DefaultElement() {
             super();
 
-            TextToken texttoken = new TextToken("WWW.LEDTICKER.NET::");
+            final TextToken texttoken = new TextToken("WWW.LEDTICKER.NET::");
 
             this.array = (new Token[]{texttoken});
         }
@@ -34,17 +34,14 @@ public class DefaultLedTicker implements LedTicker {
         }
 
         public void setDotOffColor(final Color newValue) {
-            Color color = new Color(newValue.getRGB() ^ 16_777_215);
+            final Color color = new Color(newValue.getRGB() ^ 16_777_215);
             this.array[0].getColorModel().setColor(color);
         }
     }
 
     private final List<ImageProvider> elements;
-
     private final DefaultElement h;
-
     private final LedPanel ledPanel;
-
     private final Matrix matrix;
 
     public DefaultLedTicker() {
@@ -61,7 +58,7 @@ public class DefaultLedTicker implements LedTicker {
 
     @Override
     public void addElement(final Element tickerElement) {
-        ImageProvider imageProvider = new ImageProvider(tickerElement, this.matrix, this.ledPanel);
+        final ImageProvider imageProvider = new ImageProvider(tickerElement, this.matrix, this.ledPanel);
         this.elements.add(imageProvider);
         this.ledPanel.repaint(imageProvider.getImage(), imageProvider.getObject());
     }
@@ -87,7 +84,7 @@ public class DefaultLedTicker implements LedTicker {
     @Override
     public void removeElement(final Element tickerElement) {
         for (int i = 0; i < this.elements.size(); i++) {
-            ImageProvider imageProvider = this.elements.get(i);
+            final ImageProvider imageProvider = this.elements.get(i);
 
             if (imageProvider.getElement() != tickerElement) {
                 continue;

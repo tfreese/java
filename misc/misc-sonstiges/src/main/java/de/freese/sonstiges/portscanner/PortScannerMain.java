@@ -19,9 +19,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class PortScannerMain {
     public static final int FIRST_PORT = 1;
-
     public static final int LAST_PORT = 65535;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(PortScannerMain.class);
 
     /**
@@ -36,7 +34,7 @@ public final class PortScannerMain {
         int nextArg = 0;
 
         while (nextArg < args.length) {
-            String arg = args[nextArg++];
+            final String arg = args[nextArg++];
 
             try {
                 if ("-threads".equalsIgnoreCase(arg)) {

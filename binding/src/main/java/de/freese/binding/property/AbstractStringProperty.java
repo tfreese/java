@@ -21,7 +21,7 @@ public abstract class AbstractStringProperty extends AbstractStringExpression im
 
     @Override
     public void setValue(final String value) {
-        String old = this.value;
+        final String old = this.value;
         this.value = value;
 
         if (!Objects.equals(old, value)) {

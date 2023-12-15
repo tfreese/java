@@ -15,9 +15,9 @@ import de.freese.sonstiges.discord.message.DiscordWebHookMessage;
 public class DefaultDiscordWebHookSender implements DiscordWebHookSender {
     @Override
     public void send(final DiscordWebHookMessage message, final URI uri) throws IOException {
-        String json = toJson(message);
+        final String json = toJson(message);
 
-        HttpsURLConnection connection = (HttpsURLConnection) uri.toURL().openConnection();
+        final HttpsURLConnection connection = (HttpsURLConnection) uri.toURL().openConnection();
         connection.addRequestProperty("Content-Type", "application/json");
         connection.addRequestProperty("User-Agent", "Java-DiscordWebHook");
         connection.setDoOutput(true);

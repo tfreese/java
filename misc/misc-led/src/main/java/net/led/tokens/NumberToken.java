@@ -13,7 +13,7 @@ import net.led.elements.ColorModel;
  */
 public class NumberToken extends Token {
     private static NumberFormat getDefaultNumberFormat() {
-        NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
+        final NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
 

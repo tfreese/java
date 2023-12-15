@@ -12,15 +12,11 @@ import de.freese.metamodel.ClassUtils;
  */
 public class FieldModel extends AbstractModel {
     private final ClassModel classModel;
-
     private final String fieldClazzName;
 
     private Class<?> fieldClazz;
-
     private boolean isAssoziation;
-
     private boolean isCollection;
-
     private boolean useForToStringMethod = true;
 
     protected FieldModel(final String name, final ClassModel classModel, final String fieldClazzName) {
@@ -60,8 +56,8 @@ public class FieldModel extends AbstractModel {
     }
 
     public boolean isFieldClassInstanceOf(final Class<?> clazz) {
-        String clazzSimpleName = clazz.getSimpleName();
-        String fieldClassSimpleName = getFieldClazzSimpleName();
+        final String clazzSimpleName = clazz.getSimpleName();
+        final String fieldClassSimpleName = getFieldClazzSimpleName();
 
         return clazzSimpleName.startsWith(fieldClassSimpleName);
     }

@@ -11,11 +11,8 @@ import java.util.function.Predicate;
  */
 public class ProcessInfos {
     private static final Predicate<ProcessInfo> PREDICATE_IDLE = ph -> "I".equals(ph.getState());
-
     private static final Predicate<ProcessInfo> PREDICATE_RUNNING = ph -> "R".equals(ph.getState());
-
     private static final Predicate<ProcessInfo> PREDICATE_SLEEPING = ph -> "S".equals(ph.getState());
-
     private static final Predicate<ProcessInfo> PREDICATE_WAITING = ph -> "W".equals(ph.getState());
 
     private final List<ProcessInfo> infos;
@@ -31,7 +28,7 @@ public class ProcessInfos {
     }
 
     public int getAlive() {
-        Predicate<ProcessInfo> predicateAlive = PREDICATE_RUNNING.or(PREDICATE_SLEEPING).or(PREDICATE_WAITING).or(PREDICATE_IDLE);
+        final Predicate<ProcessInfo> predicateAlive = PREDICATE_RUNNING.or(PREDICATE_SLEEPING).or(PREDICATE_WAITING).or(PREDICATE_IDLE);
 
         return (int) this.infos.stream().filter(predicateAlive).count();
     }
@@ -64,7 +61,7 @@ public class ProcessInfos {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(getClass().getSimpleName());
+        final StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
         builder.append("size=").append(size());
         builder.append("]");

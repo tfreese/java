@@ -16,16 +16,14 @@ public final class ParticleFrameMain extends JFrame {
     private static final long serialVersionUID = 6280027925982262751L;
 
     public static void main(final String[] args) {
-        int numOfParticles = 10;
+        final int numOfParticles = 10;
 
-        //        ParticleFrameMain frame = new ParticleFrameMain();
+        //        final ParticleFrameMain frame = new ParticleFrameMain();
         //        frame.initAndShowGUI();
         //
-        //        frame.addWindowListener(new WindowAdapter()
-        //        {
+        //        frame.addWindowListener(new WindowAdapter() {
         //            @Override
-        //            public void windowClosing(final WindowEvent e)
-        //            {
+        //            public void windowClosing(final WindowEvent event) {
         //                frame.stop();
         //                frame.shutdown();
         //                frame.dispose();
@@ -38,7 +36,7 @@ public final class ParticleFrameMain extends JFrame {
     }
 
     private static void showGui(final int numOfParticles) {
-        ParticleFrameMain frame = new ParticleFrameMain();
+        final ParticleFrameMain frame = new ParticleFrameMain();
         frame.initAndShowGUI();
 
         frame.addWindowListener(new WindowAdapter() {

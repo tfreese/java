@@ -11,7 +11,6 @@ public class NetworkInfos {
     private static final NetworkInfo DEFAULT_NETWORK_INFO = new NetworkInfo();
 
     private final Map<String, NetworkInfo> interfaces;
-
     private final NetworkProtocolInfo protocolInfo;
 
     public NetworkInfos() {
@@ -27,8 +26,8 @@ public class NetworkInfos {
 
     public void calculateUpAndDownload(final NetworkInfos previous) {
         this.interfaces.keySet().forEach(name -> {
-            NetworkInfo niPrevious = previous.getByName(name);
-            NetworkInfo ni = getByName(name);
+            final NetworkInfo niPrevious = previous.getByName(name);
+            final NetworkInfo ni = getByName(name);
 
             // Den ersten Durchlauf ignorieren, sonst stimmen die Zahlen nicht.
             if (niPrevious.getBytesReceived() > 0L) {
@@ -55,7 +54,7 @@ public class NetworkInfos {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(getClass().getSimpleName());
+        final StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
         builder.append("size=").append(size());
         builder.append("]");

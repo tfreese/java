@@ -25,8 +25,8 @@ public class SimulationCanvas extends JComponent implements SimulationListener {
     private static final long serialVersionUID = 4896850562260701814L;
 
     public static BufferedImage copyImage(final BufferedImage source) {
-        BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
-        Graphics g = b.getGraphics();
+        final BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
+        final Graphics g = b.getGraphics();
         g.drawImage(source, 0, 0, null);
         g.dispose();
 
@@ -36,7 +36,6 @@ public class SimulationCanvas extends JComponent implements SimulationListener {
     private final boolean useVolatileImage;
 
     private transient Image image;
-
     private transient VolatileImage volatileImage;
 
     public SimulationCanvas(final Simulation simulation) {
@@ -71,8 +70,8 @@ public class SimulationCanvas extends JComponent implements SimulationListener {
 
     @Override
     public void paint(final Graphics g) {
-        int x = 0;
-        int y = 0;
+        final int x = 0;
+        final int y = 0;
 
         if (!this.useVolatileImage) {
             g.drawImage(this.image, x, y, getWidth(), getHeight(), null);
@@ -92,7 +91,7 @@ public class SimulationCanvas extends JComponent implements SimulationListener {
             // component. If the volatile image doesn't apply for this graphics configuration
             // (in other words, the hardware acceleration doesn't apply for the new device)
             // then we need to re-create it.
-            GraphicsConfiguration gc = getGraphicsConfiguration();
+            final GraphicsConfiguration gc = getGraphicsConfiguration();
 
             // This means the device doesn't match up to this hardware accelerated image.
             if (this.volatileImage.validate(gc) == VolatileImage.IMAGE_INCOMPATIBLE) {
@@ -104,7 +103,7 @@ public class SimulationCanvas extends JComponent implements SimulationListener {
                 return;
             }
 
-            Graphics offscreenGraphics = this.volatileImage.getGraphics();
+            final Graphics offscreenGraphics = this.volatileImage.getGraphics();
             offscreenGraphics.drawImage(this.image, x, y, getWidth(), getHeight(), null);
 
             // paint back buffer to main graphics

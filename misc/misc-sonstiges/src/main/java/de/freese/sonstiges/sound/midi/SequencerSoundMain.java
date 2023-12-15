@@ -19,9 +19,7 @@ public final class SequencerSoundMain {
     }
 
     private Sequence sequence;
-
     private Sequencer sequencer;
-
     private Track track;
 
     private SequencerSoundMain() {
@@ -69,12 +67,12 @@ public final class SequencerSoundMain {
     }
 
     private void setShortMessage(final int onOrOff, final int note, final int tick) {
-        ShortMessage message = new ShortMessage();
+        final ShortMessage message = new ShortMessage();
 
         try {
             message.setMessage(onOrOff, 0, note, 90);
 
-            MidiEvent event = new MidiEvent(message, tick);
+            final MidiEvent event = new MidiEvent(message, tick);
             this.track.add(event);
         }
         catch (InvalidMidiDataException ex) {

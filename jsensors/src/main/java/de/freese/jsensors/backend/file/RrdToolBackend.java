@@ -35,14 +35,14 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
     public void start() {
         try {
             // Create Directories.
-            Path parent = this.path.getParent();
+            final Path parent = this.path.getParent();
             Files.createDirectories(parent);
 
             if (!Files.exists(this.path)) {
                 getLogger().info("create file: {}", this.path);
 
                 // Create default RRD.
-                List<String> command = new ArrayList<>();
+                final List<String> command = new ArrayList<>();
                 command.add("rrdtool");
                 command.add("create");
                 command.add(this.path.toString());
@@ -53,7 +53,7 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
                 command.add("RRA:MAX:0.5:60:168");
                 command.add("RRA:AVERAGE:0.5:1:10080");
 
-                List<String> lines = Utils.executeCommand(command);
+                final List<String> lines = Utils.executeCommand(command);
 
                 if (!lines.isEmpty()) {
                     throw new RuntimeException(String.join(LINE_SEPARATOR, lines));
@@ -79,13 +79,13 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
         try {
             for (SensorValue sensorValue : values) {
                 // Update RRD.
-                List<String> command = new ArrayList<>();
+                final List<String> command = new ArrayList<>();
                 command.add("rrdtool");
                 command.add("update");
                 command.add(this.path.toString());
                 command.add(String.format("%s:%s", sensorValue.getTimestamp(), sensorValue.getValue()));
 
-                List<String> lines = Utils.executeCommand(command);
+                final List<String> lines = Utils.executeCommand(command);
 
                 if (!lines.isEmpty()) {
                     throw new RuntimeException(String.join(LINE_SEPARATOR, lines));

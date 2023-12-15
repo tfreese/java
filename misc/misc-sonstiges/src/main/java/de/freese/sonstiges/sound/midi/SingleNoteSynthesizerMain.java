@@ -22,7 +22,6 @@ public final class SingleNoteSynthesizerMain {
     private final ShortMessage message = new ShortMessage();
 
     private Receiver receiver;
-
     private Synthesizer synth;
 
     private SingleNoteSynthesizerMain() {
@@ -39,7 +38,7 @@ public final class SingleNoteSynthesizerMain {
     }
 
     public void listAvailableInstruments() {
-        Instrument[] instrument = this.synth.getAvailableInstruments();
+        final Instrument[] instrument = this.synth.getAvailableInstruments();
 
         for (int i = 0; i < instrument.length; i++) {
             System.out.println(i + "   " + instrument[i].getName());

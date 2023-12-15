@@ -81,7 +81,7 @@ public class JpaModelGenerator extends PojoModelGenerator {
 
         // NamedNativeQuery
         classModel.addImport(NamedNativeQuery.class);
-        String alias = classModel.getName().substring(0, 1).toLowerCase();
+        final String alias = classModel.getName().substring(0, 1).toLowerCase();
 
         sb = new StringBuilder();
         sb.append("@NamedNativeQuery(name = \"all").append(Utils.capitalize(classModel.getName())).append(".native\"");
@@ -93,7 +93,7 @@ public class JpaModelGenerator extends PojoModelGenerator {
 
     @Override
     protected void transformClassJavaDoc(final Table table, final ClassModel classModel) {
-        String comment = table.getComment();
+        final String comment = table.getComment();
 
         if ((comment != null) && !comment.isBlank()) {
             classModel.addComment(comment);
@@ -104,15 +104,15 @@ public class JpaModelGenerator extends PojoModelGenerator {
 
     @Override
     protected void transformField(final Column column, final ClassModel classModel) {
-        ForeignKey fk = column.getForeignKey();
-        List<Column> reverseFKs = column.getReverseForeignKeys();
+        final ForeignKey fk = column.getForeignKey();
+        final List<Column> reverseFKs = column.getReverseForeignKeys();
 
         if (column.isPrimaryKey() || (reverseFKs.isEmpty() && (fk == null))) {
-            String fieldName = getNamingStrategy().getFieldName(column.getName());
-            ClassType type = (ClassType) getTypeMapping().getType(column.getJdbcType(), column.isNullable());
+            final String fieldName = getNamingStrategy().getFieldName(column.getName());
+            final ClassType type = (ClassType) getTypeMapping().getType(column.getJdbcType(), column.isNullable());
 
             // Normales Attribut
-            FieldModel fieldModel = classModel.addField(fieldName, type.getJavaClass());
+            final FieldModel fieldModel = classModel.addField(fieldName, type.getJavaClass());
             fieldModel.setPayload(column);
 
             transformFieldComments(column, fieldModel);
@@ -121,9 +121,9 @@ public class JpaModelGenerator extends PojoModelGenerator {
 
         if (fk != null) {
             // Anderes Objekt.
-            String refClassName = getNamingStrategy().getClassName(fk.getRefColumn().getTable().getName());
+            final String refClassName = getNamingStrategy().getClassName(fk.getRefColumn().getTable().getName());
 
-            FieldModel fieldModel = classModel.addField(refClassName.toLowerCase(), getPackageName() + "." + refClassName);
+            final FieldModel fieldModel = classModel.addField(refClassName.toLowerCase(), getPackageName() + "." + refClassName);
             fieldModel.setAssoziation(true);
             fieldModel.setPayload(column);
 
@@ -134,7 +134,7 @@ public class JpaModelGenerator extends PojoModelGenerator {
 
             fieldModel.addAnnotation("@ManyToOne(fetch = FetchType.LAZY)");
 
-            StringBuilder sb = new StringBuilder();
+            final StringBuilder sb = new StringBuilder();
             sb.append("@JoinColumn(name = \"").append(column.getName()).append("\"");
             sb.append(", foreignKey = @ForeignKey(name = \"").append(fk.getName()).append("\")");
             sb.append(", nullable = false)");
@@ -147,9 +147,9 @@ public class JpaModelGenerator extends PojoModelGenerator {
         if (!reverseFKs.isEmpty()) {
             // 1:n Children
             for (Column reverseFK : reverseFKs) {
-                String refClassName = getNamingStrategy().getClassName(reverseFK.getTable().getName());
+                final String refClassName = getNamingStrategy().getClassName(reverseFK.getTable().getName());
 
-                FieldModel fieldModel = classModel.addField(refClassName.toLowerCase() + "es", getPackageName() + "." + refClassName);
+                final FieldModel fieldModel = classModel.addField(refClassName.toLowerCase() + "es", getPackageName() + "." + refClassName);
                 fieldModel.setAssoziation(true);
                 fieldModel.setCollection(true);
                 fieldModel.setPayload(column);
@@ -160,7 +160,7 @@ public class JpaModelGenerator extends PojoModelGenerator {
                 classModel.addImport(FetchType.class);
                 classModel.addImport(CascadeType.class);
 
-                StringBuilder sb = new StringBuilder();
+                final StringBuilder sb = new StringBuilder();
                 sb.append("@OneToMany(mappedBy = \"").append(classModel.getName().toLowerCase());
                 sb.append("\", fetch = FetchType.LAZY, orphanRemoval = true, cascade =");
                 sb.append("{CascadeType.ALL}");
@@ -176,7 +176,7 @@ public class JpaModelGenerator extends PojoModelGenerator {
 
     @Override
     protected void transformFieldAnnotations(final Column column, final FieldModel fieldModel) {
-        Type type = getTypeMapping().getType(column.getJdbcType(), column.isNullable());
+        final Type type = getTypeMapping().getType(column.getJdbcType(), column.isNullable());
 
         if (type.isAssoziation()) {
             return;
@@ -193,7 +193,7 @@ public class JpaModelGenerator extends PojoModelGenerator {
         // Column
         fieldModel.addImport(jakarta.persistence.Column.class);
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append("@Column(");
         sb.append("name = \"").append(column.getName()).append("\"");
         sb.append(", nullable = ").append(column.isNullable());
@@ -212,7 +212,7 @@ public class JpaModelGenerator extends PojoModelGenerator {
         // Versuchen Sequence für Entity zu finden.
         if (column.isPrimaryKey()) {
             // @formatter:off
-           List<Sequence> sequences = column.getTable().getSchema().getSequences().stream()
+            final List<Sequence> sequences = column.getTable().getSchema().getSequences().stream()
                    .filter(seq -> seq.getName().toLowerCase().contains(fieldModel.getClassModel().getName().toLowerCase()))
                    .sorted(Comparator.comparing(seq -> seq.getName().length()))
                    .toList()
@@ -231,7 +231,7 @@ public class JpaModelGenerator extends PojoModelGenerator {
                 fieldModel.addImport(GeneratedValue.class);
                 fieldModel.addImport(GenerationType.class);
 
-                String generatorName = sequence.getName().toLowerCase() + "_gen";
+                final String generatorName = sequence.getName().toLowerCase() + "_gen";
 
                 fieldModel.addAnnotation("@SequenceGenerator(name = \"" + generatorName + "\", sequenceName = \"" + sequence.getName() + "\")");
                 fieldModel.addAnnotation("@GeneratedValue(generator = \"" + generatorName + "\", strategy = GenerationType.SEQUENCE)");

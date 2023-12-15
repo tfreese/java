@@ -19,7 +19,7 @@ public class PatternChromosome extends Chromosome {
     public double calcFitnessValue() {
         double fitness = 0.0D;
 
-        boolean[] solution = getConfig().getSolution();
+        final boolean[] solution = getConfig().getSolution();
 
         for (int i = 0; (i < size()) && (i < solution.length); i++) {
             if (getGene(i).getValue().equals(solution[i])) {

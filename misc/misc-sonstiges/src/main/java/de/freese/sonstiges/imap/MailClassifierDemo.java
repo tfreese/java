@@ -37,17 +37,17 @@ public final class MailClassifierDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(MailClassifierDemo.class);
 
     public static void main(final String[] args) {
-        Map<String, Boolean> folders = Map.of("Spam", true, "INBOX", false, "archiv", false);
-        Path basePath = Paths.get(System.getProperty("user.home"), "db", "mails");
+        final Map<String, Boolean> folders = Map.of("Spam", true, "INBOX", false, "archiv", false);
+        final Path basePath = Paths.get(System.getProperty("user.home"), "db", "mails");
 
         try (MailRepository mailRepository = new MailRepository(basePath)) {
-            MailSupplier mailSupplier = new LocalMailSupplier(folders, basePath);
-            //            MailSupplier mailSupplier = new RemoteMailSupplier(folders, folder -> MailClassifierDemo.selectMessages(folder, mailRepository));
+            final MailSupplier mailSupplier = new LocalMailSupplier(folders, basePath);
+            // final MailSupplier mailSupplier = new RemoteMailSupplier(folders, folder -> MailClassifierDemo.selectMessages(folder, mailRepository));
 
-            //            MailSupplier mailSupplier = new RemoteMailSupplier(folders);
-            //            rms.saveLocal(basePath);
+            // final MailSupplier mailSupplier = new RemoteMailSupplier(folders);
+            // rms.saveLocal(basePath);
 
-            List<MessageWrapper> messageWrappers = new ArrayList<>();
+            final List<MessageWrapper> messageWrappers = new ArrayList<>();
             mailSupplier.supply(message -> {
                 try {
                     messageWrappers.add(message);
@@ -60,21 +60,21 @@ public final class MailClassifierDemo {
                 }
             });
 
-            boolean isTraining = false;
-            Function<MessageWrapper, Map<String, Integer>> tokenFunction = new TokenFunction();
+            final boolean isTraining = false;
+            final Function<MessageWrapper, Map<String, Integer>> tokenFunction = new TokenFunction();
 
             for (MessageWrapper message : messageWrappers) {
                 if (mailRepository.containsMessageId(message.getMessageId())) {
                     continue;
                 }
 
-                Map<String, Integer> wordCount = tokenFunction.apply(message);
+                final Map<String, Integer> wordCount = tokenFunction.apply(message);
 
                 if (wordCount == null || wordCount.isEmpty()) {
                     continue;
                 }
 
-                double spamProbability = classifyMessage(wordCount, mailRepository);
+                final double spamProbability = classifyMessage(wordCount, mailRepository);
                 LOGGER.info("isSpam = {}, SpamProbability = {} %", message.isSpam(), spamProbability);
 
                 if (isTraining) {
@@ -84,7 +84,7 @@ public final class MailClassifierDemo {
             }
         }
         catch (RuntimeException ex) {
-            Throwable cause = ex.getCause();
+            final Throwable cause = ex.getCause();
             LOGGER.error(cause.getMessage(), cause);
         }
         catch (Exception ex) {
@@ -93,16 +93,16 @@ public final class MailClassifierDemo {
     }
 
     private static double classifyMessage(final Map<String, Integer> tokenCount, final MailRepository mailRepository) throws Exception {
-        Set<Token> tokens = mailRepository.getToken(tokenCount.keySet());
+        final Set<Token> tokens = mailRepository.getToken(tokenCount.keySet());
 
-        Set<Merkmal> merkmalVector = tokens.stream().map(token -> {
-            int weight = tokenCount.getOrDefault(token.getValue(), 1);
+        final Set<Merkmal> merkmalVector = tokens.stream().map(token -> {
+            final int weight = tokenCount.getOrDefault(token.getValue(), 1);
 
             return new Merkmal(token.getValue(), token.getHamCount(), token.getSpamCount(), weight);
         }).collect(Collectors.toSet());
 
-        NaiveBayesClassifier classifier = new NaiveBayesClassifier();
-        double spamProbability = classifier.classify(merkmalVector);
+        final NaiveBayesClassifier classifier = new NaiveBayesClassifier();
+        final double spamProbability = classifier.classify(merkmalVector);
 
         return BigDecimal.valueOf(spamProbability * 100D).setScale(3, RoundingMode.HALF_UP).doubleValue();
     }
@@ -111,22 +111,22 @@ public final class MailClassifierDemo {
         try {
             Message[] messages = null;
 
-            int loadedMessages = mailRepository.countMessagesForFolder(folder.getName());
+            final int loadedMessages = mailRepository.countMessagesForFolder(folder.getName());
 
-            // SearchTerm searchTerm = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
+            // final SearchTerm searchTerm = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
             // messages = folder.search(searchTerm);
 
             if (loadedMessages > 0) {
                 // Die aktuellsten n Mails.
-                int maxMessages = 10;
-                int messageCount = folder.getMessageCount();
+                final int maxMessages = 10;
+                final int messageCount = folder.getMessageCount();
 
                 if (messageCount == 0) {
                     return Collections.emptyList();
                 }
 
-                int end = messageCount;
-                int start = end - Math.min(messageCount, maxMessages) + 1;
+                final int end = messageCount;
+                final int start = end - Math.min(messageCount, maxMessages) + 1;
                 messages = folder.getMessages(start, end);
             }
             else {
@@ -141,7 +141,7 @@ public final class MailClassifierDemo {
             }
 
             // Erst mal nur bestimmte Mail-Attribute vorladen.
-            //            FetchProfile fp = new FetchProfile();
+            // final FetchProfile fp = new FetchProfile();
             //            fp.add(FetchProfile.Item.ENVELOPE);
             //            fp.add(UIDFolder.FetchProfileItem.UID);
             //            fp.add(IMAPFolder.FetchProfileItem.HEADERS);

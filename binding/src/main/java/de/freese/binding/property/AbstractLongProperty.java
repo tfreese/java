@@ -17,7 +17,7 @@ public abstract class AbstractLongProperty extends AbstractLongExpression implem
 
     @Override
     public void setValue(final Long value) {
-        long old = this.value;
+        final long old = this.value;
         this.value = value;
 
         if (old != value) {

@@ -25,7 +25,7 @@ public class PatternConfig extends Config {
         this.solution = new boolean[pattern.length()];
 
         for (int i = 0; i < pattern.length(); i++) {
-            char character = pattern.charAt(i);
+            final char character = pattern.charAt(i);
 
             this.solution[i] = character == '1';
         }

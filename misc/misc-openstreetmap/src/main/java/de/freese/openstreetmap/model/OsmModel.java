@@ -11,9 +11,7 @@ import java.util.Map;
  */
 public class OsmModel {
     private final Map<Long, OsmNode> nodeMap;
-
     private final Map<Long, OsmRelation> relationMap;
-
     private final Map<Long, OsmWay> wayMap;
 
     public OsmModel() {

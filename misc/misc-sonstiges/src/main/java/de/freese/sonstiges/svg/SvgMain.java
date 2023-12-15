@@ -44,7 +44,7 @@ public final class SvgMain extends JFrame {
     private static final long serialVersionUID = 8384522285700890883L;
 
     public static void main(final String[] args) {
-        SvgMain application = new SvgMain();
+        final SvgMain application = new SvgMain();
         application.initAndShowGUI();
 
         application.addWindowListener(new WindowAdapter() {
@@ -58,19 +58,19 @@ public final class SvgMain extends JFrame {
 
     // private static void saveImageAsPng(final InputStream inputStream, final OutputStream outputStream, final float width, final float height)
     private static void saveImageAsPng(final SVGDocument svgDocument, final OutputStream outputStream, final float width, final float height) {
-        // JPEGTranscoder transcoder = new JPEGTranscoder();
+        // final JPEGTranscoder transcoder = new JPEGTranscoder();
         // transcoder.addTranscodingHint(JPEGTranscoder.KEY_QUALITY, 0.8F);
 
-        PNGTranscoder transcoder = new PNGTranscoder();
+        final PNGTranscoder transcoder = new PNGTranscoder();
         transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, width);
         transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, height);
         // transcoder.addTranscodingHint(ImageTranscoder.KEY_FORCE_TRANSPARENT_WHITE, true);
 
-        // TranscoderInput input = new TranscoderInput(inputStream);
-        TranscoderInput input = new TranscoderInput(svgDocument);
+        // final TranscoderInput input = new TranscoderInput(inputStream);
+        final TranscoderInput input = new TranscoderInput(svgDocument);
 
         try {
-            TranscoderOutput output = new TranscoderOutput(outputStream);
+            final TranscoderOutput output = new TranscoderOutput(outputStream);
 
             transcoder.transcode(input, output);
 
@@ -91,44 +91,44 @@ public final class SvgMain extends JFrame {
         final JPanel panel = new JPanel(new BorderLayout());
         add(panel);
 
-        JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        final JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        JButton buttonLoad = new JButton("Load SVG");
-        JButton buttonSave = new JButton("Save as PNG");
-        JLabel label = new JLabel();
+        final JButton buttonLoad = new JButton("Load SVG");
+        final JButton buttonSave = new JButton("Save as PNG");
+        final JLabel label = new JLabel();
 
         p.add(buttonLoad);
         p.add(buttonSave);
         p.add(label);
 
         // SVGGraphics2D
-        JSVGCanvas svgCanvas = new JSVGCanvas();
+        final JSVGCanvas svgCanvas = new JSVGCanvas();
 
         panel.add("North", p);
         panel.add("Center", svgCanvas);
 
         buttonLoad.addActionListener(event -> {
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Vector / SVG Images", "svg");
+            final FileNameExtensionFilter filter = new FileNameExtensionFilter("Vector / SVG Images", "svg");
 
-            JFileChooser fc = new JFileChooser(".");
+            final JFileChooser fc = new JFileChooser(".");
             fc.setFileFilter(filter);
 
-            int choice = fc.showOpenDialog(panel);
+            final int choice = fc.showOpenDialog(panel);
 
             if (choice == JFileChooser.APPROVE_OPTION) {
-                File svgFile = fc.getSelectedFile();
+                final File svgFile = fc.getSelectedFile();
 
                 svgCanvas.setURI(svgFile.toURI().toString());
             }
         });
 
         buttonSave.addActionListener(event -> {
-            Path path = Paths.get(System.getProperty("java.io.tmpdir"), "svg-demo.png");
-            // URL url = ClassLoader.getSystemResource("images/image.svg");
-            // InputStream inputStream = new FileInputStream(url.getPath());
+            final Path path = Paths.get(System.getProperty("java.io.tmpdir"), "svg-demo.png");
+            // final URL url = ClassLoader.getSystemResource("images/image.svg");
+            // final InputStream inputStream = new FileInputStream(url.getPath());
 
             try {
-                // Dimension2D dimension = svgCanvas.getSVGDocumentSize();
+                // final Dimension2D dimension = svgCanvas.getSVGDocumentSize();
 
                 try (OutputStream outputStream = new FileOutputStream(path.toFile())) {
                     // saveImageAsPng(svgCanvas.getSVGDocument(), outputStream, (float) dimension.getWidth(), (float) dimension.getHeight());
@@ -147,7 +147,7 @@ public final class SvgMain extends JFrame {
 
         SwingUtilities.invokeLater(() -> {
             try {
-                URL url = ClassLoader.getSystemResource("images/image.svg");
+                final URL url = ClassLoader.getSystemResource("images/image.svg");
                 svgCanvas.setURI(url.toURI().toString());
             }
             catch (Exception ex) {

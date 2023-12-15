@@ -13,9 +13,7 @@ public class Day implements Serializable {
     private static final long serialVersionUID = 4560714541840783730L;
 
     private final int dayOfMonth;
-
     private final int month;
-
     private final int year;
 
     private transient String asString;

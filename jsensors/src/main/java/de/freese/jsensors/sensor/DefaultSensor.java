@@ -19,11 +19,8 @@ public class DefaultSensor<T> implements Sensor {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultSensor.class);
 
     private final String description;
-
     private final String name;
-
     private final WeakReference<T> ref;
-
     private final Function<T, String> valueFunction;
 
     public DefaultSensor(final String name, final T obj, final Function<T, String> valueFunction, final String description) {
@@ -47,10 +44,10 @@ public class DefaultSensor<T> implements Sensor {
 
     @Override
     public SensorValue measure() {
-        T obj = this.ref.get();
+        final T obj = this.ref.get();
 
         if (obj != null) {
-            String functionValue = this.valueFunction.apply(obj);
+            final String functionValue = this.valueFunction.apply(obj);
 
             return new DefaultSensorValue(getName(), functionValue, System.currentTimeMillis());
         }

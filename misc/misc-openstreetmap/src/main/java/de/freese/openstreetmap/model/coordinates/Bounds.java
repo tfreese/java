@@ -75,8 +75,8 @@ public class Bounds {
     // }
 
     public LatLon getCenter() {
-        double centerLat = getMin().lat() + ((getMax().lat() - getMin().lat()) / 2.0);
-        double centerLon = getMin().lon() + ((getMax().lon() - getMin().lon()) / 2.0);
+        final double centerLat = getMin().lat() + ((getMax().lat() - getMin().lat()) / 2.0);
+        final double centerLon = getMin().lon() + ((getMax().lon() - getMin().lon()) / 2.0);
 
         return new LatLon(centerLat, centerLon);
     }

@@ -11,7 +11,6 @@ import com.lmax.disruptor.RingBuffer;
  */
 public class HttpEventProducer {
     private final Map<String, Boolean> mapResponseReady;
-
     private final RingBuffer<HttpEvent> ringBuffer;
 
     public HttpEventProducer(final RingBuffer<HttpEvent> ringBuffer, final Map<String, Boolean> mapResponseReady) {
@@ -22,10 +21,10 @@ public class HttpEventProducer {
     }
 
     public void onData(final String requestId, final ByteBuffer buffer, final int numRead) {
-        long sequence = this.ringBuffer.next();
+        final long sequence = this.ringBuffer.next();
 
         try {
-            HttpEvent event = this.ringBuffer.get(sequence);
+            final HttpEvent event = this.ringBuffer.get(sequence);
 
             event.setBuffer(buffer);
             event.setRequestId(requestId);

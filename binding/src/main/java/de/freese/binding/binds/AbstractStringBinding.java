@@ -20,7 +20,7 @@ public abstract class AbstractStringBinding extends AbstractStringExpression imp
 
     @Override
     public void update() {
-        String old = this.value;
+        final String old = this.value;
         this.value = computeValue();
 
         if (Objects.equals(old, this.value)) {

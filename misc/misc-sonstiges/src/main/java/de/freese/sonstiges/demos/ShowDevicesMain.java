@@ -53,7 +53,7 @@ public final class ShowDevicesMain {
         System.out.println("ShowDevicesMain.showRootDirectories()");
 
         for (Path root : FileSystems.getDefault().getRootDirectories()) {
-            FileStore fileStore = Files.getFileStore(root);
+            final FileStore fileStore = Files.getFileStore(root);
             // System.out.format("%s\t%s\n", root, fileStore.getAttribute("volume:isRemovable"));
             System.out.printf("%s: %s%n", fileStore.name(), fileStore.type());
         }
@@ -63,10 +63,10 @@ public final class ShowDevicesMain {
         System.out.println();
         System.out.println("ShowDevicesMain.showRootsFromFileSystemView()");
 
-        FileSystemView fsv = FileSystemView.getFileSystemView();
+        final FileSystemView fsv = FileSystemView.getFileSystemView();
 
-        // List<File> roots = List.of(fsv.getRoots());
-        List<File> roots = List.of(File.listRoots());
+        // final List<File> roots = List.of(fsv.getRoots());
+        final List<File> roots = List.of(File.listRoots());
 
         for (File path : roots) {
             // System.out.printf("Drive Name: %s, %s%n", path, fsv.getSystemTypeDescription(path));

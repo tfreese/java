@@ -6,21 +6,13 @@ package de.freese.jconky.model;
  */
 public class NetworkProtocolInfo {
     private long icmpIn;
-
     private long icmpOut;
-
     private long ipIn;
-
     private long ipOut;
-
     private int tcpConnections;
-
     private long tcpIn;
-
     private long tcpOut;
-
     private long udpIn;
-
     private long udpOut;
 
     public NetworkProtocolInfo() {

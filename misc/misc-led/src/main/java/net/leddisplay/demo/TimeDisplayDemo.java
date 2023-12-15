@@ -41,37 +41,22 @@ public class TimeDisplayDemo implements ActionListener, ColorSelectorListener, U
     }
 
     private final JComboBox<String> anchor = new JComboBox<>();
-
     private final JTextField bottomLead = new JTextField(6);
-
     private final TimeDisplayElement displayElement;
-
     private final JTextField dotHeight = new JTextField(6);
-
     private final JTextField dotWidth = new JTextField(6);
-
     private final JTextField hGap = new JTextField(6);
-
     private final JTextField leftLead = new JTextField(6);
-
     private final JTextField rightLead = new JTextField(6);
-
     private final Color stockDownColor = Color.RED;
-
     private final Color stockNeutralColor = Color.YELLOW;
-
     private final Color stockUpColor = Color.GREEN;
-
     private final Color symbolColor = Color.YELLOW;
-
     private final TimeProvider timeProvider;
-
     private final JTextField topLead = new JTextField(6);
-
     private final JTextField vGap = new JTextField(6);
 
     private JFrame displayFrame;
-
     private LedDisplay ledDisplay;
 
     public TimeDisplayDemo() {
@@ -80,7 +65,7 @@ public class TimeDisplayDemo implements ActionListener, ColorSelectorListener, U
         createLedDisplayComponent();
 
         // create an TextDisplayElement and add it to the display
-        String symbol = "Zeit";
+        final String symbol = "Zeit";
         this.displayElement = new TimeDisplayElement(symbol);
         this.ledDisplay.setDisplayElement(this.displayElement);
         createGUI();
@@ -94,7 +79,7 @@ public class TimeDisplayDemo implements ActionListener, ColorSelectorListener, U
 
     @Override
     public void actionPerformed(final ActionEvent event) {
-        String command = event.getActionCommand();
+        final String command = event.getActionCommand();
 
         if ("setDotSize".equals(command)) {
             int width = 0;
@@ -200,13 +185,13 @@ public class TimeDisplayDemo implements ActionListener, ColorSelectorListener, U
     }
 
     private void centerFrame(final Window frame) {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Dimension frameSize = frame.getSize();
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        final Dimension frameSize = frame.getSize();
         frame.setLocation((screenSize.width - frameSize.width) / 2, (screenSize.height - frameSize.height) / 2);
     }
 
     private JPanel createAnchorControlPanel() {
-        TitledBorder anchorControlBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
+        final TitledBorder anchorControlBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
         anchorControlBorder.setTitle("Anchor Control");
 
         this.anchor.addItem("Center");
@@ -220,9 +205,9 @@ public class TimeDisplayDemo implements ActionListener, ColorSelectorListener, U
         this.anchor.addItem("Southeast");
         this.anchor.addItemListener(this);
 
-        JLabel label = new JLabel("Display Anchor");
+        final JLabel label = new JLabel("Display Anchor");
 
-        JPanel stocksControlsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 1));
+        final JPanel stocksControlsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 1));
         stocksControlsPanel.setBorder(anchorControlBorder);
         stocksControlsPanel.add(label);
         stocksControlsPanel.add(this.anchor);
@@ -231,17 +216,17 @@ public class TimeDisplayDemo implements ActionListener, ColorSelectorListener, U
     }
 
     private JPanel createDisplayPaneColors() {
-        TitledBorder displayColorsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
+        final TitledBorder displayColorsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
         displayColorsBorder.setTitle("Display Colors");
 
-        Color gridColor = new Color(0x111111);
-        Color bgColor = new Color(0x333333);
+        final Color gridColor = new Color(0x111111);
+        final Color bgColor = new Color(0x333333);
 
-        ColorSelectorPanel backgroundSelectorPanel = new ColorSelectorPanel("Select background color", bgColor, "bgColor", this);
-        ColorSelectorPanel gridSelectorPanel = new ColorSelectorPanel("Select turned-off led color", gridColor, "gridColor", this);
-        ColorSelectorPanel symbolSelectorPanel = new ColorSelectorPanel("Select symbol color", this.symbolColor, "symbolColor", this);
+        final ColorSelectorPanel backgroundSelectorPanel = new ColorSelectorPanel("Select background color", bgColor, "bgColor", this);
+        final ColorSelectorPanel gridSelectorPanel = new ColorSelectorPanel("Select turned-off led color", gridColor, "gridColor", this);
+        final ColorSelectorPanel symbolSelectorPanel = new ColorSelectorPanel("Select symbol color", this.symbolColor, "symbolColor", this);
 
-        JPanel textColorsPanel = new JPanel(new GridLayout(3, 1));
+        final JPanel textColorsPanel = new JPanel(new GridLayout(3, 1));
         textColorsPanel.setBorder(displayColorsBorder);
         textColorsPanel.add(backgroundSelectorPanel);
         textColorsPanel.add(gridSelectorPanel);
@@ -254,29 +239,28 @@ public class TimeDisplayDemo implements ActionListener, ColorSelectorListener, U
     }
 
     private JPanel createDotsControlsPanel() {
-        TitledBorder dotsControlsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
+        final TitledBorder dotsControlsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
         dotsControlsBorder.setTitle("Dots Controls");
 
         this.dotWidth.setText("2");
         this.dotHeight.setText("2");
 
-        JLabel dotWidthLabel = new JLabel("Dot width");
-        JLabel dotHeightLabel = new JLabel("Dot height");
-        JButton setDotSize = new JButton("Set Dot size");
+        final JLabel dotWidthLabel = new JLabel("Dot width");
+        final JLabel dotHeightLabel = new JLabel("Dot height");
+        final JButton setDotSize = new JButton("Set Dot size");
         setDotSize.setActionCommand("setDotSize");
         setDotSize.addActionListener(this);
 
-        JPanel dotsControlsPanel = new JPanel(new GridBagLayout());
+        final JPanel dotsControlsPanel = new JPanel(new GridBagLayout());
         dotsControlsPanel.setBorder(dotsControlsBorder);
 
-        GridBagConstraints gbc = new GridBagConstraints();
+        final GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 0;
         gbc.weighty = 0;
         gbc.fill = GridBagConstraints.NONE;
         gbc.insets = new Insets(5, 0, 5, 5);
-
         dotsControlsPanel.add(this.dotWidth, gbc);
 
         gbc.gridx++;
@@ -299,8 +283,8 @@ public class TimeDisplayDemo implements ActionListener, ColorSelectorListener, U
     }
 
     private void createGUI() {
-        JPanel generalPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+        final JPanel generalPanel = new JPanel(new GridBagLayout());
+        final GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 0;
@@ -321,13 +305,13 @@ public class TimeDisplayDemo implements ActionListener, ColorSelectorListener, U
         gbc.gridheight = 2;
         gbc.anchor = GridBagConstraints.NORTH;
         generalPanel.add(createDisplayPaneColors(), gbc);
-        gbc.anchor = GridBagConstraints.CENTER;
 
+        gbc.anchor = GridBagConstraints.CENTER;
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.NORTH;
         generalPanel.add(createPaddingControlsPanel(), gbc);
-        gbc.anchor = GridBagConstraints.CENTER;
 
+        gbc.anchor = GridBagConstraints.CENTER;
         gbc.weightx = 0.5;
         gbc.gridwidth = 1;
         gbc.gridx = 0;
@@ -342,8 +326,7 @@ public class TimeDisplayDemo implements ActionListener, ColorSelectorListener, U
         this.displayFrame = new JFrame("Led Ticker Component v2.0");
         this.displayFrame.getContentPane().setLayout(new GridBagLayout());
 
-        GridBagConstraints tickerFrameConstraints = new GridBagConstraints();
-
+        final GridBagConstraints tickerFrameConstraints = new GridBagConstraints();
         tickerFrameConstraints.gridx = 0;
         tickerFrameConstraints.gridy = 0;
         tickerFrameConstraints.weightx = 1;
@@ -369,29 +352,28 @@ public class TimeDisplayDemo implements ActionListener, ColorSelectorListener, U
     }
 
     private JPanel createGapsControlsPanel() {
-        TitledBorder gapsControlsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
+        final TitledBorder gapsControlsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
         gapsControlsBorder.setTitle("Gaps Controls");
 
         this.hGap.setText("1");
         this.vGap.setText("1");
 
-        JLabel hGapLabel = new JLabel("Horizontal gap");
-        JLabel vGapLabel = new JLabel("Vertical gap");
-        JButton setDotGap = new JButton("Set Dot Gap");
+        final JLabel hGapLabel = new JLabel("Horizontal gap");
+        final JLabel vGapLabel = new JLabel("Vertical gap");
+        final JButton setDotGap = new JButton("Set Dot Gap");
         setDotGap.setActionCommand("setDotGap");
         setDotGap.addActionListener(this);
 
-        JPanel gapsControlsPanel = new JPanel(new GridBagLayout());
+        final JPanel gapsControlsPanel = new JPanel(new GridBagLayout());
         gapsControlsPanel.setBorder(gapsControlsBorder);
 
-        GridBagConstraints gbc = new GridBagConstraints();
+        final GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 0;
         gbc.weighty = 0;
         gbc.fill = GridBagConstraints.NONE;
         gbc.insets = new Insets(5, 0, 5, 5);
-
         gapsControlsPanel.add(this.hGap, gbc);
 
         gbc.gridx++;
@@ -422,7 +404,7 @@ public class TimeDisplayDemo implements ActionListener, ColorSelectorListener, U
     }
 
     private JPanel createPaddingControlsPanel() {
-        TitledBorder paddingControlsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
+        final TitledBorder paddingControlsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
         paddingControlsBorder.setTitle("Padding Controls");
 
         this.topLead.setText("0");
@@ -430,25 +412,24 @@ public class TimeDisplayDemo implements ActionListener, ColorSelectorListener, U
         this.bottomLead.setText("0");
         this.rightLead.setText("0");
 
-        JLabel topLabel = new JLabel("Top lead");
-        JLabel leftLabel = new JLabel("Left lead");
-        JLabel bottomLabel = new JLabel("Bottom lead");
-        JLabel rightLabel = new JLabel("Right lead");
-        JButton setPadding = new JButton("Set Padding");
+        final JLabel topLabel = new JLabel("Top lead");
+        final JLabel leftLabel = new JLabel("Left lead");
+        final JLabel bottomLabel = new JLabel("Bottom lead");
+        final JLabel rightLabel = new JLabel("Right lead");
+        final JButton setPadding = new JButton("Set Padding");
         setPadding.setActionCommand("setPadding");
         setPadding.addActionListener(this);
 
-        JPanel paddingControlsPanel = new JPanel(new GridBagLayout());
+        final JPanel paddingControlsPanel = new JPanel(new GridBagLayout());
         paddingControlsPanel.setBorder(paddingControlsBorder);
 
-        GridBagConstraints gbc = new GridBagConstraints();
+        final GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 0;
         gbc.weighty = 0;
         gbc.fill = GridBagConstraints.NONE;
         gbc.insets = new Insets(5, 0, 5, 5);
-
         paddingControlsPanel.add(this.topLead, gbc);
 
         gbc.gridx++;
@@ -485,14 +466,14 @@ public class TimeDisplayDemo implements ActionListener, ColorSelectorListener, U
     }
 
     private JPanel createTrendColorsPanel() {
-        TitledBorder trendColorsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
+        final TitledBorder trendColorsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
         trendColorsBorder.setTitle("Trend Colors");
 
-        ColorSelectorPanel stockUpSelectorPanel = new ColorSelectorPanel("Select Stock Up Color", this.stockUpColor, "upColor", this);
-        ColorSelectorPanel stockNeutralSelectorPanel = new ColorSelectorPanel("Select Stock Neutral Color", this.stockNeutralColor, "neutralColor", this);
-        ColorSelectorPanel stockDownSelectorPanel = new ColorSelectorPanel("Select Stock Down Color", this.stockDownColor, "downColor", this);
+        final ColorSelectorPanel stockUpSelectorPanel = new ColorSelectorPanel("Select Stock Up Color", this.stockUpColor, "upColor", this);
+        final ColorSelectorPanel stockNeutralSelectorPanel = new ColorSelectorPanel("Select Stock Neutral Color", this.stockNeutralColor, "neutralColor", this);
+        final ColorSelectorPanel stockDownSelectorPanel = new ColorSelectorPanel("Select Stock Down Color", this.stockDownColor, "downColor", this);
 
-        JPanel trendColorsPanel = new JPanel(new GridLayout(3, 1));
+        final JPanel trendColorsPanel = new JPanel(new GridLayout(3, 1));
         trendColorsPanel.setBorder(trendColorsBorder);
         trendColorsPanel.add(stockUpSelectorPanel);
         trendColorsPanel.add(stockNeutralSelectorPanel);

@@ -22,14 +22,13 @@ class ListTransferHandler extends StringTransferHandler {
      * Location where items were added
      */
     private int addIndex = -1;
-
     private int[] indices;
 
     @Override
     protected void cleanup(final JComponent c, final boolean remove) {
         if (remove && (this.indices != null)) {
-            JList<?> source = (JList<?>) c;
-            DefaultListModel<?> model = (DefaultListModel<?>) source.getModel();
+            final JList<?> source = (JList<?>) c;
+            final DefaultListModel<?> model = (DefaultListModel<?>) source.getModel();
 
             // If we are moving items around in the same list, we
             // need to adjust the indices accordingly, since those
@@ -54,15 +53,15 @@ class ListTransferHandler extends StringTransferHandler {
 
     @Override
     protected String exportString(final JComponent c) {
-        JList<?> list = (JList<?>) c;
+        final JList<?> list = (JList<?>) c;
         this.indices = list.getSelectedIndices();
 
-        List<?> values = list.getSelectedValuesList();
+        final List<?> values = list.getSelectedValuesList();
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < values.size(); i++) {
-            Object val = values.get(i);
+            final Object val = values.get(i);
             sb.append((val == null) ? "" : val.toString());
 
             if (i != (values.size() - 1)) {
@@ -75,8 +74,8 @@ class ListTransferHandler extends StringTransferHandler {
 
     @Override
     protected void importString(final JComponent c, final String str) {
-        JList<String> target = (JList<String>) c;
-        DefaultListModel<String> listModel = (DefaultListModel<String>) target.getModel();
+        final JList<String> target = (JList<String>) c;
+        final DefaultListModel<String> listModel = (DefaultListModel<String>) target.getModel();
         int index = target.getSelectedIndex();
 
         // Prevent the user from dropping data back on itself.
@@ -90,7 +89,7 @@ class ListTransferHandler extends StringTransferHandler {
             return;
         }
 
-        int max = listModel.getSize();
+        final int max = listModel.getSize();
 
         if (index < 0) {
             index = max;
@@ -105,7 +104,7 @@ class ListTransferHandler extends StringTransferHandler {
 
         this.addIndex = index;
 
-        String[] values = str.split("\n");
+        final String[] values = str.split("\n");
         this.addCount = values.length;
 
         for (String value : values) {

@@ -20,7 +20,6 @@ import de.freese.jconky.model.Values;
  */
 public class CpuMonitorPainter extends AbstractMonitorPainter {
     private final Map<Integer, Values<Double>> coreUsageMap = new HashMap<>();
-
     private final Stop[] gradientStops;
 
     public CpuMonitorPainter() {
@@ -31,7 +30,7 @@ public class CpuMonitorPainter extends AbstractMonitorPainter {
 
     @Override
     public double paintValue(final GraphicsContext gc, final double width) {
-        CpuInfos cpuInfos = getContext().getCpuInfos();
+        final CpuInfos cpuInfos = getContext().getCpuInfos();
 
         this.coreUsageMap.computeIfAbsent(-1, key -> new Values<>()).addValue(cpuInfos.getTotal().getCpuUsage());
 
@@ -46,31 +45,29 @@ public class CpuMonitorPainter extends AbstractMonitorPainter {
         y += paintCores(gc, width, cpuInfos);
         gc.restore();
 
-        double height = y - 10D;
+        final double height = y - 10D;
         drawDebugBorder(gc, width, height);
 
         return height;
     }
 
     private double paintCore(final GraphicsContext gc, final double width, final CpuInfo cpuInfo) {
-        double fontSize = getSettings().getFontSize();
+        final double fontSize = getSettings().getFontSize();
 
         double x = 0D;
         double y = 0D;
 
-        int core = cpuInfo.getCore();
-        double usage = cpuInfo.getCpuUsage();
-        int frequency = cpuInfo.getFrequency() / 1000;
-        // double temperature = cpuInfo.getTemperature();
+        final int core = cpuInfo.getCore();
+        final double usage = cpuInfo.getCpuUsage();
+        final int frequency = cpuInfo.getFrequency() / 1000;
+        // final double temperature = cpuInfo.getTemperature();
 
-        String text;
+        final String text;
 
-        // if (temperature > 0D)
-        // {
+        // if (temperature > 0D) {
         // text = String.format("Core%d%3.0f%% %4dMHz %2.0f°C", core, usage * 100D, frequency, temperature);
         // }
-        // else
-        // {
+        // else {
         text = String.format("Core%02d %3.0f%% %4dMhz", core, usage * 100D, frequency);
         // }
 
@@ -78,7 +75,7 @@ public class CpuMonitorPainter extends AbstractMonitorPainter {
 
         x = fontSize * 12D;
         y = -fontSize + 3D;
-        double barWidth = width - x;
+        final double barWidth = width - x;
 
         gc.setStroke(getSettings().getColorText());
         gc.strokeRect(x, y, barWidth, 10D);
@@ -90,12 +87,12 @@ public class CpuMonitorPainter extends AbstractMonitorPainter {
     }
 
     private double paintCores(final GraphicsContext gc, final double width, final CpuInfos cpuInfos) {
-        double fontSize = getSettings().getFontSize();
+        final double fontSize = getSettings().getFontSize();
 
-        double x = getSettings().getMarginInner().getLeft();
+        final double x = getSettings().getMarginInner().getLeft();
         double y = fontSize;
 
-        double coreWidth = width - getSettings().getMarginInner().getLeft() - getSettings().getMarginInner().getRight();
+        final double coreWidth = width - getSettings().getMarginInner().getLeft() - getSettings().getMarginInner().getRight();
 
         for (int i = 0; i < getContext().getNumberOfCores(); i++) {
             gc.save();
@@ -108,9 +105,9 @@ public class CpuMonitorPainter extends AbstractMonitorPainter {
     }
 
     private double paintTotal(final GraphicsContext gc, final double width, final CpuInfos cpuInfos) {
-        CpuLoadAvg cpuLoadAvg = getContext().getCpuLoadAvg();
+        final CpuLoadAvg cpuLoadAvg = getContext().getCpuLoadAvg();
 
-        double fontSize = getSettings().getFontSize();
+        final double fontSize = getSettings().getFontSize();
 
         gc.setFont(getSettings().getFont());
 
@@ -148,13 +145,13 @@ public class CpuMonitorPainter extends AbstractMonitorPainter {
     }
 
     private double paintTotalBar(final GraphicsContext gc, final double width, final CpuInfos cpuInfos) {
-        double height = 15D;
-        double fontSize = getSettings().getFontSize();
+        final double height = 15D;
+        final double fontSize = getSettings().getFontSize();
 
         double x = 0D;
         double y = 0D;
 
-        double usage = cpuInfos.getTotal().getCpuUsage();
+        final double usage = cpuInfos.getTotal().getCpuUsage();
         // double temperature = cpuInfos.getTotal().getTemperature();
         //
         // paintTextValue(gc, String.format("%3.0f%% %2.0f°C", usage * 100D, temperature), x, y);
@@ -162,7 +159,7 @@ public class CpuMonitorPainter extends AbstractMonitorPainter {
 
         x += 40D;
         y += 3D;
-        double barWidth = width - x;
+        final double barWidth = width - x;
 
         gc.setStroke(getSettings().getColorText());
         gc.strokeRect(x, y - fontSize, barWidth, 10D);
@@ -175,9 +172,9 @@ public class CpuMonitorPainter extends AbstractMonitorPainter {
     }
 
     private double paintTotalGraph(final GraphicsContext gc, final double width) {
-        Values<Double> values = this.coreUsageMap.computeIfAbsent(-1, key -> new Values<>());
-        List<Double> valueList = values.getLastValues((int) width);
-        double height = 20D;
+        final Values<Double> values = this.coreUsageMap.computeIfAbsent(-1, key -> new Values<>());
+        final List<Double> valueList = values.getLastValues((int) width);
+        final double height = 20D;
 
         // double minValue = 0D;
         // double maxValue = values.getMaxValue();
@@ -187,15 +184,15 @@ public class CpuMonitorPainter extends AbstractMonitorPainter {
         // gc.setFill(new LinearGradient(0D, height - 2, 0D, 0D, false, CycleMethod.NO_CYCLE, this.gradientStops));
         gc.setStroke(new LinearGradient(0D, height - 2, 0D, 0D, false, CycleMethod.NO_CYCLE, this.gradientStops));
 
-        double xOffset = width - valueList.size(); // Diagramm von rechts aufbauen.
-        // double xOffset = 0D; // Diagramm von links aufbauen.
+        final double xOffset = width - valueList.size(); // Diagramm von rechts aufbauen.
+        // final double xOffset = 0D; // Diagramm von links aufbauen.
 
         for (int i = 0; i < valueList.size(); i++) {
-            double value = valueList.get(i);
+            final double value = valueList.get(i);
 
-            double x = i + xOffset;
-            double y = value * (height - 2);
-            // double y = minNorm + (((value - minValue) * (maxNorm - minNorm)) / (maxValue - minValue));
+            final double x = i + xOffset;
+            final double y = value * (height - 2);
+            // final double y = minNorm + (((value - minValue) * (maxNorm - minNorm)) / (maxValue - minValue));
 
             // gc.fillRect(x, height - 1 - y, 1, y);
             gc.strokeLine(x, height - 1 - y, x, height - 1);

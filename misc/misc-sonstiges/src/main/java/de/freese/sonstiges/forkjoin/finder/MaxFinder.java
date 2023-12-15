@@ -11,7 +11,6 @@ import java.util.concurrent.ForkJoinPool;
  */
 public class MaxFinder {
     private final int[] array;
-
     private final ForkJoinPool forkJoinPool;
     /**
      * Schwellenwert, bei dem die Suche sequenziell durchgeführt wird.
@@ -27,7 +26,7 @@ public class MaxFinder {
     }
 
     public int find() {
-        MaxInIntervall task = new MaxInIntervall(this.array, 0, this.array.length, this.intervalThreshold);
+        final MaxInIntervall task = new MaxInIntervall(this.array, 0, this.array.length, this.intervalThreshold);
         this.forkJoinPool.invoke(task);
 
         return task.getResult();

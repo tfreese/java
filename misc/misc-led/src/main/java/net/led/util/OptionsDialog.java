@@ -24,15 +24,13 @@ public class OptionsDialog extends JDialog implements ActionListener {
     private static final long serialVersionUID = -935627873163594283L;
 
     public static void centerFrame(final Window frame) {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Dimension frameSize = frame.getSize();
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        final Dimension frameSize = frame.getSize();
         frame.setLocation((screenSize.width - frameSize.width) / 2, (screenSize.height - frameSize.height) / 2);
     }
 
     private final List currentSymbols;
-
     private final transient OptionsListener listener;
-
     private final JTextField symbolField = new JTextField(6);
 
     public OptionsDialog(final JFrame owner, final OptionsListener newListener, final String[] symbols) {
@@ -50,13 +48,13 @@ public class OptionsDialog extends JDialog implements ActionListener {
 
     @Override
     public void actionPerformed(final ActionEvent e) {
-        String command = e.getActionCommand();
+        final String command = e.getActionCommand();
 
         if ("add".equals(command)) {
             addSymbol();
         }
         else if ("remove".equals(command)) {
-            String symbol = this.currentSymbols.getSelectedItem().toUpperCase();
+            final String symbol = this.currentSymbols.getSelectedItem().toUpperCase();
             this.currentSymbols.remove(symbol);
             this.listener.removeSymbol(symbol);
         }
@@ -66,7 +64,7 @@ public class OptionsDialog extends JDialog implements ActionListener {
     }
 
     private void addSymbol() {
-        String symbol = this.symbolField.getText().toUpperCase().strip();
+        final String symbol = this.symbolField.getText().toUpperCase().strip();
         this.symbolField.setText("");
 
         if ((symbol != null) && !"".equals(symbol)) {
@@ -79,21 +77,21 @@ public class OptionsDialog extends JDialog implements ActionListener {
         this.symbolField.addActionListener(this);
         this.symbolField.setActionCommand("add");
 
-        JButton addSymbolButton = new JButton("Add");
+        final JButton addSymbolButton = new JButton("Add");
         addSymbolButton.setActionCommand("add");
         addSymbolButton.addActionListener(this);
 
-        JButton removeSymbolButton = new JButton("Remove");
+        final JButton removeSymbolButton = new JButton("Remove");
         removeSymbolButton.setActionCommand("remove");
         removeSymbolButton.addActionListener(this);
 
-        JButton closeButton = new JButton("Close");
+        final JButton closeButton = new JButton("Close");
         closeButton.setActionCommand("close");
         closeButton.addActionListener(this);
 
         getContentPane().setLayout(new GridBagLayout());
 
-        GridBagConstraints gbc = new GridBagConstraints();
+        final GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;

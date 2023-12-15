@@ -13,7 +13,6 @@ public final class ProducerConsumerWaitNotify {
      */
     private static final class Consumer implements Runnable {
         private final CubbyHole cubbyhole;
-
         private final int number;
 
         Consumer(final CubbyHole cubbyHole, final int number) {
@@ -26,7 +25,7 @@ public final class ProducerConsumerWaitNotify {
         @Override
         public void run() {
             while (!Thread.interrupted()) {
-                int value = this.cubbyhole.get();
+                final int value = this.cubbyhole.get();
 
                 System.out.printf("%s: Consumer-%d got: %d%n", Thread.currentThread().getName(), this.number, value);
 
@@ -45,7 +44,6 @@ public final class ProducerConsumerWaitNotify {
      */
     private static final class CubbyHole {
         private boolean available;
-
         private int content;
 
         public synchronized int get() {
@@ -86,7 +84,6 @@ public final class ProducerConsumerWaitNotify {
      */
     private static final class Producer implements Runnable {
         private final CubbyHole cubbyhole;
-
         private final int number;
 
         Producer(final CubbyHole cubbyHole, final int number) {
@@ -116,9 +113,9 @@ public final class ProducerConsumerWaitNotify {
     }
 
     public static void main(final String[] args) throws Exception {
-        CubbyHole cubbyHole = new CubbyHole();
+        final CubbyHole cubbyHole = new CubbyHole();
 
-        Executor executor = Executors.newCachedThreadPool();
+        final Executor executor = Executors.newCachedThreadPool();
 
         // Producer starten
         for (int i = 0; i < 1; i++) {

@@ -6,15 +6,10 @@ package de.freese.jconky.model;
  */
 public class ProcessInfo {
     private final double cpuUsage;
-
     private final double memoryUsage;
-
     private final String name;
-
     private final String owner;
-
     private final int pid;
-
     private final String state;
 
     public ProcessInfo(final int pid, final String state, final String name, final String owner, final double cpuUsage, final double memoryUsage) {
@@ -63,7 +58,7 @@ public class ProcessInfo {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(getClass().getSimpleName());
+        final StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
         builder.append(" pid=").append(this.pid);
         builder.append(", name=").append(this.name);

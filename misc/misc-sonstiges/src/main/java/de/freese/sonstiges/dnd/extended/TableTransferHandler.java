@@ -20,15 +20,14 @@ class TableTransferHandler extends StringTransferHandler {
      * Location where items were added
      */
     private int addIndex = -1;
-
     private int[] rows;
 
     @Override
     protected void cleanup(final JComponent c, final boolean remove) {
-        JTable source = (JTable) c;
+        final JTable source = (JTable) c;
 
         if (remove && (this.rows != null)) {
-            DefaultTableModel model = (DefaultTableModel) source.getModel();
+            final DefaultTableModel model = (DefaultTableModel) source.getModel();
 
             // If we are moving items around in the same table, we
             // need to adjust the rows accordingly, since those
@@ -53,16 +52,16 @@ class TableTransferHandler extends StringTransferHandler {
 
     @Override
     protected String exportString(final JComponent c) {
-        JTable table = (JTable) c;
+        final JTable table = (JTable) c;
         this.rows = table.getSelectedRows();
 
-        int colCount = table.getColumnCount();
+        final int colCount = table.getColumnCount();
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < this.rows.length; i++) {
             for (int j = 0; j < colCount; j++) {
-                Object val = table.getValueAt(this.rows[i], j);
+                final Object val = table.getValueAt(this.rows[i], j);
                 sb.append((val == null) ? "" : val.toString());
 
                 if (j != (colCount - 1)) {
@@ -80,8 +79,8 @@ class TableTransferHandler extends StringTransferHandler {
 
     @Override
     protected void importString(final JComponent c, final String str) {
-        JTable target = (JTable) c;
-        DefaultTableModel model = (DefaultTableModel) target.getModel();
+        final JTable target = (JTable) c;
+        final DefaultTableModel model = (DefaultTableModel) target.getModel();
         int index = target.getSelectedRow();
 
         // Prevent the user from dropping data back on itself.
@@ -95,7 +94,7 @@ class TableTransferHandler extends StringTransferHandler {
             return;
         }
 
-        int max = model.getRowCount();
+        final int max = model.getRowCount();
 
         if (index < 0) {
             index = max;
@@ -110,10 +109,10 @@ class TableTransferHandler extends StringTransferHandler {
 
         this.addIndex = index;
 
-        String[] values = str.split("\n");
+        final String[] values = str.split("\n");
         this.addCount = values.length;
 
-        int colCount = target.getColumnCount();
+        final int colCount = target.getColumnCount();
 
         for (int i = 0; (i < values.length) && (i < colCount); i++) {
             model.insertRow(index++, values[i].split(","));

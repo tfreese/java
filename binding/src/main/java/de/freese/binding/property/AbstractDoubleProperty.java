@@ -17,7 +17,7 @@ public abstract class AbstractDoubleProperty extends AbstractDoubleExpression im
 
     @Override
     public void setValue(final Double value) {
-        double old = this.value;
+        final double old = this.value;
         this.value = value;
 
         if (Double.compare(old, value) != 0) {

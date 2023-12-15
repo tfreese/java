@@ -12,7 +12,6 @@ import java.util.TreeSet;
  */
 final class Report implements Comparable<Report> {
     private final File file;
-
     private final Set<String> messages = new TreeSet<>();
 
     Report(final File file) {
@@ -55,7 +54,7 @@ final class Report implements Comparable<Report> {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append(this.file.getAbsolutePath());
         sb.append(": ");
         sb.append(this.messages);
@@ -64,7 +63,7 @@ final class Report implements Comparable<Report> {
     }
 
     public String toString(final Path rootDirectory) {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append(rootDirectory.relativize(this.file.toPath()));
         sb.append(": ");
         sb.append(this.messages);

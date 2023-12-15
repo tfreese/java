@@ -25,14 +25,13 @@ import javax.swing.WindowConstants;
  * @author Thomas Freese
  */
 public final class CanvasMain extends JComponent implements Runnable {
-
     @Serial
     private static final long serialVersionUID = -6167704609710052731L;
 
     public static void main(final String[] args) {
-        CanvasMain canvas = new CanvasMain(100, 100);
+        final CanvasMain canvas = new CanvasMain(100, 100);
 
-        JFrame frame = new JFrame();
+        final JFrame frame = new JFrame();
         frame.setTitle("TestFrame");
         frame.setLayout(new BorderLayout());
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -60,11 +59,9 @@ public final class CanvasMain extends JComponent implements Runnable {
     }
 
     private transient final Image image;
-
     private transient final MemoryImageSource imageSource;
 
     private final int[] pixelsRGB;
-
     private final Random random;
 
     private CanvasMain(final int width, final int height) {
@@ -90,7 +87,7 @@ public final class CanvasMain extends JComponent implements Runnable {
 
     @Override
     public void run() {
-        IntUnaryOperator generator = i -> {
+        final IntUnaryOperator generator = i -> {
             if (this.random.nextBoolean()) {
                 return Color.BLACK.getRGB();
             }
@@ -98,15 +95,12 @@ public final class CanvasMain extends JComponent implements Runnable {
             return Color.WHITE.getRGB();
         };
 
-        // for (int y = 0; y < getImageHeight(); y++)
-        // {
-        // for (int x = 0; x < getImageWidth(); x++)
-        // {
+        // for (int y = 0; y < getImageHeight(); y++) {
+        // for (int x = 0; x < getImageWidth(); x++) {
         // this.pixelsRGB[x + (y * getImageWidth())] = generator.applyAsInt(0);
         // }
         // }
-        // for (int i = 0; i < this.pixelsRGB.length; i++)
-        // {
+        // for (int i = 0; i < this.pixelsRGB.length; i++) {
         // this.pixelsRGB[i] = generator.applyAsInt(0);
         // }
         Arrays.parallelSetAll(this.pixelsRGB, generator);

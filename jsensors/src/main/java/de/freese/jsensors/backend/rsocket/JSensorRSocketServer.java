@@ -37,9 +37,7 @@ public class JSensorRSocketServer implements LifeCycle {
     private static final Logger LOGGER = LoggerFactory.getLogger(JSensorRSocketServer.class);
 
     private final Backend backend;
-
     private final int parallelism;
-
     private final int port;
 
     private Disposable server;
@@ -73,7 +71,7 @@ public class JSensorRSocketServer implements LifeCycle {
         });
 
         // @formatter:off
-        Resume resume = new Resume()
+        final Resume resume = new Resume()
                 .sessionDuration(Duration.ofMinutes(5))
                 .retry(
                         Retry
@@ -84,14 +82,14 @@ public class JSensorRSocketServer implements LifeCycle {
         // @formatter:on
 
         // @formatter:off
-        TcpServer tcpServer = TcpServer.create()
+        final TcpServer tcpServer = TcpServer.create()
                 .host("localhost")
                 .port(this.port)
                 .runOn(LoopResources.create("jSensor-server-", this.parallelism, false))
                 ;
         // @formatter:on
 
-        SocketAcceptor socketAcceptor = SocketAcceptor.forFireAndForget(this::forFireAndForget);
+        final SocketAcceptor socketAcceptor = SocketAcceptor.forFireAndForget(this::forFireAndForget);
 
         // @formatter:off
         this.server = RSocketServer.create()
@@ -111,21 +109,21 @@ public class JSensorRSocketServer implements LifeCycle {
     }
 
     protected SensorValue decode(final Payload payload) {
-        ByteBuf byteBuf = payload.data();
+        final ByteBuf byteBuf = payload.data();
 
         int length = byteBuf.readInt();
-        String name = byteBuf.readCharSequence(length, StandardCharsets.UTF_8).toString();
+        final String name = byteBuf.readCharSequence(length, StandardCharsets.UTF_8).toString();
 
         length = byteBuf.readInt();
-        String value = byteBuf.readCharSequence(length, StandardCharsets.UTF_8).toString();
+        final String value = byteBuf.readCharSequence(length, StandardCharsets.UTF_8).toString();
 
-        long timeStamp = byteBuf.readLong();
+        final long timeStamp = byteBuf.readLong();
 
         return new DefaultSensorValue(name, value, timeStamp);
     }
 
     protected Mono<Void> forFireAndForget(final Payload payload) {
-        SensorValue sensorValue = decode(payload);
+        final SensorValue sensorValue = decode(payload);
 
         this.backend.store(sensorValue);
 

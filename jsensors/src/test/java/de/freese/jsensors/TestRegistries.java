@@ -25,22 +25,23 @@ import de.freese.jsensors.utils.SyncFuture;
 class TestRegistries {
     @Test
     void testDefaultSensorRegistry() throws Exception {
-        DefaultSensorRegistry registry = new DefaultSensorRegistry();
+        final DefaultSensorRegistry registry = new DefaultSensorRegistry();
 
-        MapBackend mapBackend = new MapBackend(3);
+        final MapBackend mapBackend = new MapBackend(3);
         Sensor.builder("test", "obj", Function.identity()).register(registry, mapBackend);
 
-        Exception exception = assertThrows(IllegalStateException.class, () -> registry.registerSensor("test", "", Function.identity(), "", NoOpBackend.getInstance()));
+        final Exception exception = assertThrows(IllegalStateException.class, () -> registry.registerSensor("test", "", Function.identity(), "", NoOpBackend.getInstance()));
+        assertNotNull(exception);
         assertEquals("sensor already exist: 'test'", exception.getMessage());
 
-        Sensor sensor = registry.getSensor("test");
+        final Sensor sensor = registry.getSensor("test");
         assertNotNull(sensor);
 
         registry.measureAll();
 
         assertEquals(1, mapBackend.size("test"));
 
-        SensorValue sensorValue = mapBackend.getLastValue("test");
+        final SensorValue sensorValue = mapBackend.getLastValue("test");
 
         assertNotNull(sensorValue);
         assertEquals("obj", sensorValue.getValue());
@@ -48,25 +49,27 @@ class TestRegistries {
 
     @Test
     void testScheduledSensorRegistry() throws Exception {
-        ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("test"), 2);
+        final ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("test"), 2);
 
-        SyncFuture<SensorValue> syncFuture = new SyncFuture<>();
+        final SyncFuture<SensorValue> syncFuture = new SyncFuture<>();
         Sensor.builder("test", "obj", Function.identity()).register(registry, syncFuture::setResponse);
 
         Exception exception = assertThrows(IllegalStateException.class, () -> registry.registerSensor("test", "", Function.identity(), "", NoOpBackend.getInstance()));
+        assertNotNull(exception);
         assertEquals("sensor already exist: 'test'", exception.getMessage());
 
         exception = assertThrows(IllegalStateException.class, () -> registry.scheduleSensor("test", 0, 1, TimeUnit.SECONDS));
+        assertNotNull(exception);
         assertEquals("scheduler is not started: call #start() first", exception.getMessage());
 
         registry.start();
 
-        Sensor sensor = registry.getSensor("test");
+        final Sensor sensor = registry.getSensor("test");
         assertNotNull(sensor);
 
         registry.scheduleSensor("test", 0, 1, TimeUnit.SECONDS);
 
-        SensorValue sensorValue = syncFuture.get();
+        final SensorValue sensorValue = syncFuture.get();
         registry.stop();
 
         assertNotNull(sensorValue);

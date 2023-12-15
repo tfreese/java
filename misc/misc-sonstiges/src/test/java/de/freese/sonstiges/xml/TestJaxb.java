@@ -27,7 +27,6 @@ import de.freese.sonstiges.xml.jaxb.model.DJ;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestJaxb {
     private static byte[] bytes;
-
     private static JAXBContext jaxbContext;
 
     @BeforeAll
@@ -46,10 +45,10 @@ class TestJaxb {
     void testFromXML() throws Exception {
         System.out.println(new String(TestJaxb.bytes, StandardCharsets.UTF_8));
 
-        Unmarshaller unmarshaller = TestJaxb.jaxbContext.createUnmarshaller();
+        final Unmarshaller unmarshaller = TestJaxb.jaxbContext.createUnmarshaller();
 
         try (InputStream fis = new ByteArrayInputStream(TestJaxb.bytes)) {
-            Club club = (Club) unmarshaller.unmarshal(fis);
+            final Club club = (Club) unmarshaller.unmarshal(fis);
             assertNotNull(club);
             // ClubFactory.toString(club);
         }
@@ -58,9 +57,9 @@ class TestJaxb {
     @Test
     @Order(1)
     void testToXML() throws Exception {
-        Club club = ClubFactory.createClub();
+        final Club club = ClubFactory.createClub();
 
-        Marshaller m = TestJaxb.jaxbContext.createMarshaller();
+        final Marshaller m = TestJaxb.jaxbContext.createMarshaller();
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {

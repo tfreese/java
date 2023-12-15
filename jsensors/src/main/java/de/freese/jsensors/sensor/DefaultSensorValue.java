@@ -10,9 +10,7 @@ import java.util.Objects;
  */
 public class DefaultSensorValue implements SensorValue {
     private final String name;
-
     private final long timestamp;
-
     private final String value;
 
     public DefaultSensorValue(final String name, final String value, final long timestamp) {
@@ -45,7 +43,7 @@ public class DefaultSensorValue implements SensorValue {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("SensorValue [");
         builder.append("name=").append(getName());
         builder.append(", value=").append(this.value);

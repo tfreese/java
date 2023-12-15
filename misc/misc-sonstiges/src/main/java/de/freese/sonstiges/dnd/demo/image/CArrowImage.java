@@ -17,11 +17,8 @@ import java.util.Map;
  */
 class CArrowImage extends BufferedImage {
     public static final int ARROW_DOWN = 1;
-
     public static final int ARROW_LEFT = 2;
-
     public static final int ARROW_RIGHT = 3;
-
     public static final int ARROW_UP = 0;
 
     CArrowImage(final int nArrowDirection) {
@@ -31,25 +28,25 @@ class CArrowImage extends BufferedImage {
     CArrowImage(final int width, final int height, final int arrowDirection) {
         super(width, height, TYPE_INT_ARGB_PRE); // Set the width, height and image type
 
-        Map<Key, Object> map = new HashMap<>();
+        final Map<Key, Object> map = new HashMap<>();
         map.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         map.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
-        RenderingHints hints = new RenderingHints(map);
+        final RenderingHints hints = new RenderingHints(map);
 
-        Graphics2D g2 = createGraphics(); // Create a graphics context for this buffered image
+        final Graphics2D g2 = createGraphics(); // Create a graphics context for this buffered image
         g2.setRenderingHints(hints);
 
-        float h = getHeight();
-        float w = getWidth();
-        float w13 = w / 3;
-        float w12 = w / 2;
-        float w23 = (w * 2) / 3;
-        float h13 = h / 3;
-        float h12 = h / 2;
-        float h23 = (h * 2) / 3;
+        final float h = getHeight();
+        final float w = getWidth();
+        final float w13 = w / 3;
+        final float w12 = w / 2;
+        final float w23 = (w * 2) / 3;
+        final float h13 = h / 3;
+        final float h12 = h / 2;
+        final float h23 = (h * 2) / 3;
 
-        GeneralPath pathArrow = new GeneralPath();
+        final GeneralPath pathArrow = new GeneralPath();
 
         switch (arrowDirection) {
             case ARROW_UP:
@@ -72,7 +69,6 @@ class CArrowImage extends BufferedImage {
                 break;
 
             case ARROW_DOWN:
-
                 pathArrow.moveTo(w12, h12);
                 pathArrow.lineTo(w, 0);
                 pathArrow.lineTo(w12, h - 1);

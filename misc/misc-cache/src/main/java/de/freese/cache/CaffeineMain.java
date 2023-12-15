@@ -27,11 +27,11 @@ public final class CaffeineMain {
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
 
-        ExecutorService executorService = Executors.newFixedThreadPool(3);
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(3);
+        final ExecutorService executorService = Executors.newFixedThreadPool(3);
+        final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(3);
 
         try {
-            CacheLoader<String, String> cacheLoader = key -> {
+            final CacheLoader<String, String> cacheLoader = key -> {
                 LOGGER.info("CacheLoader: {}", key);
 
                 //                if (System.currentTimeMillis() % 2 == 0)
@@ -43,7 +43,7 @@ public final class CaffeineMain {
             };
 
             // @formatter:off
-            LoadingCache<String, String> cache = Caffeine.newBuilder()
+            final LoadingCache<String, String> cache = Caffeine.newBuilder()
                     .expireAfterWrite(3, TimeUnit.SECONDS)
                     .refreshAfterWrite(1, TimeUnit.SECONDS)
                     .maximumSize(100)
@@ -63,7 +63,7 @@ public final class CaffeineMain {
             cache.get("b");
             cache.put("c", "C"); // Triggert refreshAfterWrite - Removal: REPLACED
 
-            CacheStats cacheStats = cache.stats();
+            final CacheStats cacheStats = cache.stats();
 
             LOGGER.info("hitCount: {}", cacheStats.hitCount());
             LOGGER.info("missCount: {}", cacheStats.missCount());

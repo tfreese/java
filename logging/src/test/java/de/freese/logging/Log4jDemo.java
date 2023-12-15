@@ -32,7 +32,7 @@ final class Log4jDemo {
 
         MapInitialContext.init();
 
-        Context initialContext = new InitialContext();
+        final Context initialContext = new InitialContext();
         initialContext.bind("java:comp/env/executor/logging", Executors.newCachedThreadPool());
 
         try {
@@ -49,20 +49,20 @@ final class Log4jDemo {
 
             //        System.out.println();
             //
-            //        LoggerContext context = (LoggerContext) LogManager.getContext(false);
+            //        final LoggerContext context = (LoggerContext) LogManager.getContext(false);
             //        context.getConfiguration().getLoggers().forEach((loggerName, config) -> System.out.println(loggerName));
             //        System.out.println();
             //
             //        context.getLoggers().forEach(System.out::println);
             //        System.out.println();
             //
-            //        Set<String> loggerNames = new TreeSet<>(context.getConfiguration().getLoggers().keySet());
+            //        final Set<String> loggerNames = new TreeSet<>(context.getConfiguration().getLoggers().keySet());
             //        loggerNames.add("Root");
             //        loggerNames.forEach(loggerName -> System.out.println(LogManager.getLogger(loggerName)));
             //        System.out.println();
 
             // Programmatic ShutdownHook for Async-Appender, see xml#shutdownHook
-            // For this 'shutdownHook="disable"' must configured in the xml!
+            // For this 'shutdownHook="disable"' must configure in the xml!
             LogManager.shutdown();
         }
         finally {
@@ -76,9 +76,9 @@ final class Log4jDemo {
      * Re-Initialisation with Log-File.
      */
     static void reConfigureLog4j(final String configFile) throws URISyntaxException {
-        LoggerContext context = (LoggerContext) LogManager.getContext(false);
+        final LoggerContext context = (LoggerContext) LogManager.getContext(false);
 
-        URL url = ClassLoader.getSystemResource(configFile);
+        final URL url = ClassLoader.getSystemResource(configFile);
 
         // this will force a reconfiguration
         context.setConfigLocation(url.toURI());
@@ -101,7 +101,7 @@ final class Log4jDemo {
      */
     //@Bean
     public JdbcAppender jdbcAppender(final DataSource dataSource) {
-        ConnectionSource connectionSource = new ConnectionSource() {
+        final ConnectionSource connectionSource = new ConnectionSource() {
             @Override
             public Connection getConnection() throws SQLException {
                 return dataSource.getConnection();
@@ -139,7 +139,7 @@ final class Log4jDemo {
         };
 
         // @formatter:off
-        JdbcAppender jdbcAppender = JdbcAppender.newBuilder()
+        final JdbcAppender jdbcAppender = JdbcAppender.newBuilder()
                 .setName("DATABASE_APPENDER")
                 .setBufferSize(3)
                 .setTableName("LOGGING")
@@ -163,7 +163,7 @@ final class Log4jDemo {
 
         jdbcAppender.start();
 
-        LoggerContext loggerContext = (LoggerContext) LogManager.getContext(false);
+        final LoggerContext loggerContext = (LoggerContext) LogManager.getContext(false);
         loggerContext.getConfiguration().addAppender(jdbcAppender);
         loggerContext.getRootLogger().addAppender(loggerContext.getConfiguration().getAppender(jdbcAppender.getName()));
         loggerContext.updateLoggers();

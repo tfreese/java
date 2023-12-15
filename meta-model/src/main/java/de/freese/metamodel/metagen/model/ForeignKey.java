@@ -8,9 +8,7 @@ package de.freese.metamodel.metagen.model;
  */
 public class ForeignKey {
     private Column column;
-
     private String name;
-
     private Column refColumn;
 
     public Column getColumn() {
@@ -39,7 +37,7 @@ public class ForeignKey {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("ForeignKey [");
         builder.append("name=").append(this.name);
         builder.append(", ");

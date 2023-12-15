@@ -50,8 +50,8 @@ public class FunctionStemmer implements UnaryOperator<String> {
 
         @Override
         public String stem(final String token) {
-            char[] ca = token.toCharArray();
-            int length = this.impl.stem(ca, ca.length);
+            final char[] ca = token.toCharArray();
+            final int length = this.impl.stem(ca, ca.length);
 
             return new String(ca, 0, length);
         }
@@ -66,8 +66,8 @@ public class FunctionStemmer implements UnaryOperator<String> {
 
         @Override
         public String stem(final String token) {
-            char[] ca = token.toCharArray();
-            int length = this.impl.stem(ca, ca.length);
+            final char[] ca = token.toCharArray();
+            final int length = this.impl.stem(ca, ca.length);
 
             return new String(ca, 0, length);
         }

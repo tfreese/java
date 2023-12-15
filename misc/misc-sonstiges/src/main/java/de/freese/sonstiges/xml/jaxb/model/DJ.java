@@ -13,7 +13,6 @@ import jakarta.xml.bind.annotation.XmlType;
 @XmlType(propOrder = {"firstName", "lastName"})
 public class DJ {
     private String firstName;
-
     private String lastName;
 
     public String getFirstName() {

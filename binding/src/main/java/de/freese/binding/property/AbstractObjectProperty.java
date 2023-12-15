@@ -21,7 +21,7 @@ public abstract class AbstractObjectProperty<T> extends AbstractObjectExpression
 
     @Override
     public void setValue(final T value) {
-        T old = this.value;
+        final T old = this.value;
         this.value = value;
 
         if (!Objects.equals(old, value)) {

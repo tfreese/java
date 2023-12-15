@@ -21,8 +21,8 @@ public class OpeningDateAdapter extends XmlAdapter<String, Date> {
 
     @Override
     public String marshal(final Date date) throws Exception {
-        Instant instant = date.toInstant();
-        LocalDate localDate = LocalDate.ofInstant(instant, ZoneId.systemDefault());
+        final Instant instant = date.toInstant();
+        final LocalDate localDate = LocalDate.ofInstant(instant, ZoneId.systemDefault());
 
         return DATE_TIME_FORMATTER.format(localDate);
         // return FORMATTER.format(date);
@@ -30,8 +30,8 @@ public class OpeningDateAdapter extends XmlAdapter<String, Date> {
 
     @Override
     public Date unmarshal(final String date) throws Exception {
-        LocalDate localDate = LocalDate.parse(date, DATE_TIME_FORMATTER);
-        Instant instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        final LocalDate localDate = LocalDate.parse(date, DATE_TIME_FORMATTER);
+        final Instant instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
 
         return Date.from(instant);
         // return FORMATTER.parse(date);

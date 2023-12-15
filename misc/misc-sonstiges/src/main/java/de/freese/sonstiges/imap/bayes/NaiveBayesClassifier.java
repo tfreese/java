@@ -37,7 +37,7 @@ public class NaiveBayesClassifier {
         }
 
         // Spam Wahrscheinlichkeit berechnen
-        BigDecimal spamProbability = spamLikelihood.divide(hamLikelihood.add(spamLikelihood), RoundingMode.HALF_UP);
+        final BigDecimal spamProbability = spamLikelihood.divide(hamLikelihood.add(spamLikelihood), RoundingMode.HALF_UP);
 
         return spamProbability.doubleValue();
     }

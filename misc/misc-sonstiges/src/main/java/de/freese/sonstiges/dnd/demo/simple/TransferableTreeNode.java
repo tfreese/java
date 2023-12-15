@@ -13,7 +13,6 @@ import javax.swing.tree.TreePath;
  */
 class TransferableTreeNode implements Transferable {
     public static final DataFlavor FLAVOR_TREE_PATH = new DataFlavor(TreePath.class, "Tree Path");
-
     private static final DataFlavor[] FLAVORS = {FLAVOR_TREE_PATH};
 
     private final TreePath path;

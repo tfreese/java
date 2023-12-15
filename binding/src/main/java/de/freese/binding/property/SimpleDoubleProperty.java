@@ -7,7 +7,6 @@ package de.freese.binding.property;
 public class SimpleDoubleProperty extends AbstractDoubleProperty {
 
     private final Object bean;
-
     private final String name;
 
     public SimpleDoubleProperty() {

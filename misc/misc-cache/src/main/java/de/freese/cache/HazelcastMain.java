@@ -25,19 +25,19 @@ public final class HazelcastMain {
     public static void main(final String[] args) throws Exception {
         System.setProperty("hazelcast.map.partition.count", "1");
 
-        URL configUrl = ClassLoader.getSystemResource("hazelcast.xml");
+        final URL configUrl = ClassLoader.getSystemResource("hazelcast.xml");
 
-        Config config = new XmlConfigBuilder(configUrl).build();
+        final Config config = new XmlConfigBuilder(configUrl).build();
         // config.setProperty("hazelcast.partition.count", "271");
 
-        HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance(config);
+        final HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance(config);
 
         // Map ist niemals null.
-        IMap<String, String> map = hazelcastInstance.getMap("test");
+        final IMap<String, String> map = hazelcastInstance.getMap("test");
 
         ForkJoinPool.commonPool().execute(() -> {
             while (true) {
-                String value = map.get("key");
+                final String value = map.get("key");
                 LOGGER.info("{}: cache value = {}", Thread.currentThread().getName(), value);
 
                 if (value == null) {

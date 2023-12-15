@@ -119,29 +119,17 @@ public class Matrix {
     }
 
     private int anchor;
-
     private Color backgroundColor;
-
     private int bottomInset;
-
     private int dotHeight;
-
     private Color dotOffColor;
-
     private int dotWidth;
-
     private int gap;
-
     private int hGap;
-
     private int i;
-
     private int leftInset;
-
     private int rightInset;
-
     private int topInset;
-
     private int vGap;
 
     public Matrix() {
@@ -173,7 +161,7 @@ public class Matrix {
 
     public int getWidthOf(final Element displayelement) {
         int width = 0;
-        Token[] tokens = displayelement.getTokens();
+        final Token[] tokens = displayelement.getTokens();
 
         for (int n = 0; n < tokens.length; n++) {
             width += getWidth(tokens[n]);
@@ -190,15 +178,15 @@ public class Matrix {
     }
 
     public void paint(final Graphics graphics, final Element displayelement, final int width, final int height) {
-        Token[] tokens = displayelement.getTokens();
-        int k1 = (int) Math.ceil(getWidthOf(displayelement) / (this.dotWidth + this.hGap));
+        final Token[] tokens = displayelement.getTokens();
+        final int k1 = (int) Math.ceil(getWidthOf(displayelement) / (this.dotWidth + this.hGap));
 
-        int mHeight = height / (this.dotHeight + this.vGap);
-        int mWidth = width / (this.dotWidth + this.hGap);
+        final int mHeight = height / (this.dotHeight + this.vGap);
+        final int mWidth = width / (this.dotWidth + this.hGap);
 
-        Point point = getAnchorPoint(mWidth, mHeight, k1);
+        final Point point = getAnchorPoint(mWidth, mHeight, k1);
         int x = point.x;
-        int y = point.y;
+        final int y = point.y;
 
         for (Token token : tokens) {
             x = paint(graphics, token, x, y);
@@ -257,8 +245,8 @@ public class Matrix {
     }
 
     private Point getAnchorPoint(final int width, final int height, final int k1) {
-        Point point = new Point();
-        byte byte0 = 7;
+        final Point point = new Point();
+        final byte byte0 = 7;
 
         switch (this.anchor) {
             case 0 -> {
@@ -315,7 +303,7 @@ public class Matrix {
     }
 
     private int getWidth(final Token token) {
-        int width = 6 * (this.dotWidth + this.hGap);
+        final int width = 6 * (this.dotWidth + this.hGap);
 
         if (token instanceof ArrowToken) {
             return width;
@@ -325,7 +313,7 @@ public class Matrix {
     }
 
     private int paint(final Graphics graphics, final byte[] bytes, final int x, final int offset) {
-        Color color = graphics.getColor();
+        final Color color = graphics.getColor();
 
         int mX = x;
 
@@ -333,7 +321,7 @@ public class Matrix {
             for (int j = 0; j < 7; j++) {
                 if ((b & (1 << j)) != 0) {
                     graphics.setColor(color);
-                    int y = (j * (this.dotHeight + this.vGap));
+                    final int y = (j * (this.dotHeight + this.vGap));
                     graphics.fillRect(mX, offset + y, this.dotWidth, this.dotHeight);
                 }
             }
@@ -348,17 +336,17 @@ public class Matrix {
     }
 
     private int paint(final Graphics graphics, final Token token, final int x, final int offset) {
-        Color color = token.getColorModel().getColor();
+        final Color color = token.getColorModel().getColor();
         graphics.setColor(color);
 
         int mX = x;
 
         if (token instanceof ArrowToken arrowToken) {
-            byte[] bytes = map.get(arrowToken.getArrowType());
+            final byte[] bytes = map.get(arrowToken.getArrowType());
             mX = paint(graphics, bytes, x, offset);
         }
         else {
-            String s = token.getDisplayValue();
+            final String s = token.getDisplayValue();
 
             for (int k1 = 0; k1 < s.length(); k1++) {
                 byte[] bytes = map.get(String.valueOf(s.charAt(k1)));

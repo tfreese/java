@@ -17,7 +17,6 @@ public final class Utils {
     public static final String[] EMPTY_STRING_ARRAY = {};
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Utils.class);
-
     private static final String OS = System.getProperty("os.name").toLowerCase();
 
     public static List<String> executeCommand(final List<String> command) {
@@ -25,16 +24,15 @@ public final class Utils {
 
         try {
             // @formatter:off
-            Process process = new ProcessBuilder()
+            final Process process = new ProcessBuilder()
                     .command(command)
                     .redirectErrorStream(true)
                     .start();
             // @formatter:on
 
-            Charset charset = StandardCharsets.UTF_8;
+            final Charset charset = StandardCharsets.UTF_8;
 
-            // try (InputStreamReader isr = new InputStreamReader(process.getInputStream()))
-            // {
+            // try (InputStreamReader isr = new InputStreamReader(process.getInputStream())) {
             // System.out.println(isr.getEncoding());
             // }
             try (BufferedReader readerIn = new BufferedReader(new InputStreamReader(process.getInputStream(), charset))) {
@@ -80,7 +78,7 @@ public final class Utils {
             return "";
         }
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         value.chars().filter(c -> !Character.isWhitespace((char) c)).forEach(c -> sb.append((char) c));
 

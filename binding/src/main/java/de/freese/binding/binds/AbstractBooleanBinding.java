@@ -34,7 +34,7 @@ public abstract class AbstractBooleanBinding extends AbstractBooleanExpression i
 
     @Override
     public void update() {
-        Boolean old = this.value;
+        final Boolean old = this.value;
         this.value = computeValue();
 
         if (Objects.equals(old, this.value)) {

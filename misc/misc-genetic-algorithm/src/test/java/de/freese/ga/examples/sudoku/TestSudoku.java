@@ -24,13 +24,13 @@ class TestSudoku {
     @BeforeAll
     static void beforeAll() throws Exception {
         try (InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream("sudoku_indices.txt")) {
-            List<String[]> puzzle = config.parsePuzzle(inputStream);
+            final List<String[]> puzzle = config.parsePuzzle(inputStream);
             config.setPuzzle(puzzle);
 
             chromosome = new SudokuChromosome(config);
 
             // @formatter:off
-            List<SudokuGene> genes = puzzle.stream()
+            final List<SudokuGene> genes = puzzle.stream()
                 .flatMap(Stream::of)
                 .map(Integer::parseInt)
                 .map(index -> index + 1) // Im Sudoku gib's keine 0
@@ -46,14 +46,14 @@ class TestSudoku {
 
     @Test
     void testCalcFitness() {
-        double fitness = chromosome.calcFitnessValue();
+        final double fitness = chromosome.calcFitnessValue();
 
         assertEquals(9963.0, fitness);
     }
 
     @Test
     void testMaxFittness() {
-        double maxFitness = config.getMaxFitness();
+        final double maxFitness = config.getMaxFitness();
 
         assertEquals(1215, maxFitness);
     }
@@ -63,7 +63,7 @@ class TestSudoku {
      */
     @Test
     void testSumBlocks() {
-        int puzzleBlockSize = config.getPuzzleBlockSize();
+        final int puzzleBlockSize = config.getPuzzleBlockSize();
 
         assertEquals(99, chromosome.calcBlockFitness(0, puzzleBlockSize));
         assertEquals(126, chromosome.calcBlockFitness(1, puzzleBlockSize));
@@ -83,7 +83,7 @@ class TestSudoku {
      */
     @Test
     void testSumColumns() {
-        int puzzleSize = config.getPuzzleSize();
+        final int puzzleSize = config.getPuzzleSize();
 
         assertEquals(333, chromosome.calcColumnFitness(0, puzzleSize));
         assertEquals(342, chromosome.calcColumnFitness(1, puzzleSize));

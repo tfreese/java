@@ -8,9 +8,7 @@ import java.nio.ByteBuffer;
  */
 public class HttpEvent {
     private ByteBuffer buffer;
-
     private int numRead;
-
     private String requestId;
 
     public void clear() {

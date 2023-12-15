@@ -28,9 +28,10 @@ public final class SoundClipMain extends JFrame {
         this.setSize(300, 200);
         setVisible(true);
 
-        File file = new File("C:/Windows/media/tada.wav");
+        final File file = new File("C:/Windows/media/tada.wav");
 
-        try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(file); Clip clip = AudioSystem.getClip()) {
+        try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(file);
+             Clip clip = AudioSystem.getClip()) {
             // Open audio clip and load samples from the audio input stream.
             clip.open(audioIn);
 

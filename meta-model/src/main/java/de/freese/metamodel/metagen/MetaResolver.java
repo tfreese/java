@@ -23,7 +23,7 @@ public final class MetaResolver {
      */
     public static MetaExporter determineMetaData(final DataSource dataSource) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
-            DatabaseMetaData metaData = connection.getMetaData();
+            final DatabaseMetaData metaData = connection.getMetaData();
 
             String product = metaData.getDatabaseProductName().toLowerCase();
             product = product.split(" ")[0];
@@ -36,7 +36,7 @@ public final class MetaResolver {
                 case "mysql" -> new MariaDbMetaExporter();
                 case "sqlite" -> new SQLiteMetaExporter();
                 default -> {
-                    String msg = String.format("No MetaModelGenerator found for: %s%n", metaData.getDatabaseProductName());
+                    final String msg = String.format("No MetaModelGenerator found for: %s%n", metaData.getDatabaseProductName());
                     LOGGER.error(msg);
                     throw new IllegalStateException(msg);
                 }

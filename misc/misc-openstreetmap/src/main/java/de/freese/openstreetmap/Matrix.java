@@ -41,7 +41,7 @@ public class Matrix {
      * @return Die Spiegelungsmatrix
      */
     public static Matrix mirrorX() {
-        Matrix myMat = new Matrix();
+        final Matrix myMat = new Matrix();
         myMat.m11 = 1;
         myMat.m12 = 0;
         myMat.m13 = 0;
@@ -63,7 +63,7 @@ public class Matrix {
      * @return Die Spiegelungsmatrix
      */
     public static Matrix mirrorY() {
-        Matrix myMat = new Matrix();
+        final Matrix myMat = new Matrix();
         myMat.m11 = -1;
         myMat.m12 = 0;
         myMat.m13 = 0;
@@ -87,7 +87,7 @@ public class Matrix {
      * @return Die Rotationsmatrix
      */
     public static Matrix rotate(final double alpha) {
-        Matrix myMat = new Matrix();
+        final Matrix myMat = new Matrix();
         myMat.m11 = Math.cos(alpha);
         myMat.m12 = -1 * Math.sin(alpha);
         myMat.m13 = 0;
@@ -111,7 +111,7 @@ public class Matrix {
      * @return Die Skalierungsmatrix
      */
     public static Matrix scale(final double scaleVal) {
-        Matrix myMat = new Matrix();
+        final Matrix myMat = new Matrix();
         myMat.m11 = scaleVal;
         myMat.m12 = 0;
         myMat.m13 = 0;
@@ -136,7 +136,7 @@ public class Matrix {
      * @return Die Translationsmatrix
      */
     public static Matrix translate(final double x, final double y) {
-        Matrix myMat = new Matrix();
+        final Matrix myMat = new Matrix();
         myMat.m11 = 1;
         myMat.m12 = 0;
         myMat.m13 = x;
@@ -171,13 +171,13 @@ public class Matrix {
      */
     public static Matrix zoomPoint(final Matrix old, final Point zoomPt, final double zoomScale) {
         // create translatermatrix (point to 0/0)
-        Matrix transform1 = translate(-zoomPt.getX(), -zoomPt.getY());
+        final Matrix transform1 = translate(-zoomPt.getX(), -zoomPt.getY());
 
         // create scalematrix
-        Matrix scale = Matrix.scale(zoomScale);
+        final Matrix scale = Matrix.scale(zoomScale);
 
         // create translate matrix 2 (0/0 to old point which remains unchanged)
-        Matrix transform2 = translate(zoomPt);
+        final Matrix transform2 = translate(zoomPt);
 
         // mul from back
         return transform2.multiply(scale.multiply(transform1.multiply(old)));
@@ -195,7 +195,7 @@ public class Matrix {
     public static Matrix zoomToFit(final Rectangle world, final Rectangle win) {
         // 1 - move center to 0
         // double alpha = 0 - _world.getCenterX();
-        Matrix translateStep1 = translate(0 - world.getCenterX(), 0 - world.getCenterY());
+        final Matrix translateStep1 = translate(0 - world.getCenterX(), 0 - world.getCenterY());
 
         // 2 - Scale
         Matrix scaleBy = null;
@@ -209,31 +209,23 @@ public class Matrix {
 
         // 3 - mirror by X
         // X-Achse der Bildschirmkoordinaten läuft realen Koordinaten entgegen.
-        Matrix mirrorByX = mirrorX();
+        final Matrix mirrorByX = mirrorX();
 
         // 4 - move to recenter
-        Matrix translateStep2 = translate(win.getCenterX(), win.getCenterY());
+        final Matrix translateStep2 = translate(win.getCenterX(), win.getCenterY());
 
         return translateStep2.multiply(mirrorByX.multiply((scaleBy.multiply(translateStep1))));
 
     }
 
     private double m11;
-
     private double m12;
-
     private double m13;
-
     private double m21;
-
     private double m22;
-
     private double m23;
-
     private double m31;
-
     private double m32;
-
     private double m33;
 
     public Matrix() {
@@ -256,9 +248,9 @@ public class Matrix {
      * Liefert die Invers-Matrix der Transformationsmatrix.
      */
     public Matrix invers() {
-        double myDet = ((this.m11 * this.m22 * this.m33) + (this.m12 * this.m23 * this.m31) + (this.m13 * this.m21 * this.m32)) - (this.m11 * this.m23 * this.m32) - (this.m12 * this.m21 * this.m33) - (this.m13 * this.m22 * this.m31);
+        final double myDet = ((this.m11 * this.m22 * this.m33) + (this.m12 * this.m23 * this.m31) + (this.m13 * this.m21 * this.m32)) - (this.m11 * this.m23 * this.m32) - (this.m12 * this.m21 * this.m33) - (this.m13 * this.m22 * this.m31);
 
-        Matrix retval = new Matrix();
+        final Matrix retval = new Matrix();
         retval.m11 = (this.m22 * this.m33) - (this.m32 * this.m23);
         retval.m12 = (this.m13 * this.m32) - (this.m33 * this.m12);
         retval.m13 = (this.m12 * this.m23) - (this.m13 * this.m22);
@@ -294,7 +286,7 @@ public class Matrix {
      * @return Die Ergebnismatrix der Multiplikation
      */
     public Matrix multiply(final Matrix other) {
-        Matrix retval = new Matrix();
+        final Matrix retval = new Matrix();
         retval.m11 = (this.m11 * other.m11) + (this.m12 * other.m21) + (this.m13 * other.m31);
         retval.m12 = (this.m11 * other.m12) + (this.m12 * other.m22) + (this.m13 * other.m32);
         retval.m13 = (this.m11 * other.m13) + (this.m12 * other.m23) + (this.m13 * other.m33);
@@ -318,7 +310,7 @@ public class Matrix {
      * @return Ein neuer Punkt, der das Ergebnis der Multiplikation repräsentiert
      */
     public Point multiply(final Point pt) {
-        Point retval = new Point();
+        final Point retval = new Point();
         retval.x = (int) ((pt.x * this.m11) + (pt.y * this.m12) + this.m13);
         retval.y = (int) ((pt.x * this.m21) + (pt.y * this.m22) + this.m23);
 
@@ -333,13 +325,14 @@ public class Matrix {
      * @return Ein neues Polygon, das das Ergebnis der Multiplikation repräsentiert
      */
     public Polygon multiply(final Polygon polygon) {
-        Polygon retval = new Polygon();
+        final Polygon retval = new Polygon();
 
         for (int i = 0; i < polygon.npoints; i++) {
-            Point oldpoint = new Point();
+            final Point oldpoint = new Point();
             oldpoint.x = polygon.xpoints[i];
             oldpoint.y = polygon.ypoints[i];
-            Point newpoint = multiply(oldpoint);
+
+            final Point newpoint = multiply(oldpoint);
             retval.addPoint(newpoint.x, newpoint.y);
         }
 
@@ -360,7 +353,7 @@ public class Matrix {
         toppoint = multiply(toppoint);
         btpoint = multiply(btpoint);
 
-        Rectangle retVal = new Rectangle(toppoint);
+        final Rectangle retVal = new Rectangle(toppoint);
         retVal.add(btpoint);
 
         return retVal;
@@ -373,35 +366,35 @@ public class Matrix {
      */
     @Override
     public String toString() {
-        StringBuilder x = new StringBuilder();
-        x.append("|");
-        x.append(this.m11);
-        x.append(";");
-        x.append("|");
-        x.append(this.m12);
-        x.append(";");
-        x.append("|");
-        x.append(this.m13);
-        x.append("|\n");
-        x.append("|");
-        x.append(this.m21);
-        x.append(";");
-        x.append("|");
-        x.append(this.m22);
-        x.append(";");
-        x.append("|");
-        x.append(this.m23);
-        x.append("|\n");
-        x.append("|");
-        x.append(this.m31);
-        x.append(";");
-        x.append("|");
-        x.append(this.m32);
-        x.append(";");
-        x.append("|");
-        x.append(this.m33);
-        x.append("|\n");
+        final StringBuilder sb = new StringBuilder();
+        sb.append("|");
+        sb.append(this.m11);
+        sb.append(";");
+        sb.append("|");
+        sb.append(this.m12);
+        sb.append(";");
+        sb.append("|");
+        sb.append(this.m13);
+        sb.append("|\n");
+        sb.append("|");
+        sb.append(this.m21);
+        sb.append(";");
+        sb.append("|");
+        sb.append(this.m22);
+        sb.append(";");
+        sb.append("|");
+        sb.append(this.m23);
+        sb.append("|\n");
+        sb.append("|");
+        sb.append(this.m31);
+        sb.append(";");
+        sb.append("|");
+        sb.append(this.m32);
+        sb.append(";");
+        sb.append("|");
+        sb.append(this.m33);
+        sb.append("|\n");
 
-        return x.toString();
+        return sb.toString();
     }
 }

@@ -37,14 +37,14 @@ public final class BallSimulationMain extends JComponent {
 
     public static void main(final String[] args) {
         // Dimensionen [m]
-        int w = 400;
-        int h = 240;
+        final int w = 400;
+        final int h = 240;
 
-        BallSimulationMain simulation = new BallSimulationMain(w, h);
+        final BallSimulationMain simulation = new BallSimulationMain(w, h);
         simulation.addBall(w / 3D, h / 3D, 20D, 188D, 30D);
         simulation.addBall((2D * w) / 3D, (2D * h) / 3D, -30D, -30D, 30D);
 
-        JFrame frame = new JFrame("Ballsimulation");
+        final JFrame frame = new JFrame("Ballsimulation");
         frame.setContentPane(simulation);
         frame.pack();
         frame.setLocationRelativeTo(null);
@@ -75,7 +75,6 @@ public final class BallSimulationMain extends JComponent {
     }
 
     private transient final List<Ball> balls = new ArrayList<>();
-
     private transient final BufferedImage image;
 
     private BallSimulationMain(final int width, final int height) {
@@ -103,7 +102,7 @@ public final class BallSimulationMain extends JComponent {
      * @param durchmesser [m]
      */
     public void addBall(final double x, final double y, final double vx, final double vy, final double durchmesser) {
-        Ball ball = new Ball(getImageWidth(), getImageHeight(), x, y, vx, vy, durchmesser, 0.1D);
+        final Ball ball = new Ball(getImageWidth(), getImageHeight(), x, y, vx, vy, durchmesser, 0.1D);
 
         if (!this.balls.contains(ball)) {
             this.balls.add(ball);
@@ -121,7 +120,7 @@ public final class BallSimulationMain extends JComponent {
      * Bewegen der Bälle und neu zeichnen.
      */
     public void moveAndPaintBalls() {
-        Graphics2D g = this.image.createGraphics();
+        final Graphics2D g = this.image.createGraphics();
 
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -165,8 +164,8 @@ public final class BallSimulationMain extends JComponent {
     private void gitter(final Graphics g) {
         g.setColor(Color.BLACK);
 
-        int stepX = getImageWidth() / 10;
-        int stepY = getImageHeight() / 5;
+        final int stepX = getImageWidth() / 10;
+        final int stepY = getImageHeight() / 5;
 
         for (int i = stepX; i <= getImageWidth(); i += stepX) {
             g.drawLine(i, 0, i, getImageHeight());
@@ -182,10 +181,10 @@ public final class BallSimulationMain extends JComponent {
         // g.translate(0, 0);
 
         // Koordinate umrechnen: 0,0 ist oben links.
-        double x = ball.getX() - ball.getRadius();
-        double y = ball.getMaxY() - (ball.getY() + ball.getRadius());
+        final double x = ball.getX() - ball.getRadius();
+        final double y = ball.getMaxY() - (ball.getY() + ball.getRadius());
 
-        int durchmesser = (int) ball.getDurchmesser();
+        final int durchmesser = (int) ball.getDurchmesser();
 
         g.fillOval((int) x, (int) y, durchmesser, durchmesser);
     }

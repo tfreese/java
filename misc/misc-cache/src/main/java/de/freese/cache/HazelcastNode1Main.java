@@ -21,21 +21,21 @@ public final class HazelcastNode1Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastNode1Main.class);
 
     public static void main(final String[] args) throws Exception {
-        URL configUrl = ClassLoader.getSystemResource("hazelcast-node1.xml");
-        Config config = new XmlConfigBuilder(configUrl).build();
+        final URL configUrl = ClassLoader.getSystemResource("hazelcast-node1.xml");
+        final Config config = new XmlConfigBuilder(configUrl).build();
         // config.setProperty("hazelcast.partition.count", "271");
 
-        HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance(config);
+        final HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance(config);
 
         // Map ist niemals null.
-        IMap<String, String> map = hazelcastInstance.getMap("test");
+        final IMap<String, String> map = hazelcastInstance.getMap("test");
         // ReplicatedMap<String, String> map = hazelcastInstance.getReplicatedMap("test1");
 
-        AtomicInteger atomicInteger = new AtomicInteger(0);
+        final AtomicInteger atomicInteger = new AtomicInteger(0);
 
         ForkJoinPool.commonPool().execute(() -> {
             while (true) {
-                String value = map.get("key");
+                final String value = map.get("key");
                 LOGGER.info("HazelcastNode1Main: {}: cache value = {}", Thread.currentThread().getName(), value);
 
                 if (value == null) {

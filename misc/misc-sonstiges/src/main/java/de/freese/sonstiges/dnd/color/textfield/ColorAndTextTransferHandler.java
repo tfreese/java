@@ -22,9 +22,7 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
     private static final long serialVersionUID = -2099117900708234471L;
 
     private transient final DataFlavor stringFlavor = DataFlavor.stringFlavor;
-
     private transient Position p0;
-
     private transient Position p1;
 
     private boolean shouldRemove;
@@ -47,7 +45,7 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
 
     @Override
     public boolean importData(final JComponent c, final Transferable t) {
-        JTextComponent tc = (JTextComponent) c;
+        final JTextComponent tc = (JTextComponent) c;
 
         if (!canImport(c, t.getTransferDataFlavors())) {
             return false;
@@ -61,7 +59,7 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
 
         if (hasStringFlavor(t.getTransferDataFlavors())) {
             try {
-                String str = (String) t.getTransferData(this.stringFlavor);
+                final String str = (String) t.getTransferData(this.stringFlavor);
                 tc.replaceSelection(str);
 
                 return true;
@@ -82,9 +80,9 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
     protected Transferable createTransferable(final JComponent c) {
         this.source = (JTextComponent) c;
 
-        int start = this.source.getSelectionStart();
-        int end = this.source.getSelectionEnd();
-        Document doc = this.source.getDocument();
+        final int start = this.source.getSelectionStart();
+        final int end = this.source.getSelectionEnd();
+        final Document doc = this.source.getDocument();
 
         if (start == end) {
             return null;
@@ -100,7 +98,7 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
 
         this.shouldRemove = true;
 
-        String data = this.source.getSelectedText();
+        final String data = this.source.getSelectedText();
 
         return new StringSelection(data);
     }
@@ -110,7 +108,7 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
         if (this.shouldRemove && (action == MOVE)) {
             if ((this.p0 != null) && (this.p1 != null) && (this.p0.getOffset() != this.p1.getOffset())) {
                 try {
-                    JTextComponent tc = (JTextComponent) c;
+                    final JTextComponent tc = (JTextComponent) c;
                     tc.getDocument().remove(this.p0.getOffset(), this.p1.getOffset() - this.p0.getOffset());
                 }
                 catch (BadLocationException ex) {

@@ -12,7 +12,6 @@ import de.freese.binding.collections.ObservableList;
  * @author Thomas Freese
  */
 public abstract class AbstractObservableListTableModel<T> extends AbstractListTableModel<T> {
-    
     @Serial
     private static final long serialVersionUID = -863675813360039937L;
 
@@ -23,9 +22,9 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
      */
     private final class EventListListener implements ListDataListener {
         @Override
-        public void contentsChanged(final ListDataEvent e) {
-            // int firstRow = e.getIndex0();
-            // int lastRow = e.getIndex1();
+        public void contentsChanged(final ListDataEvent event) {
+            // final int firstRow = event.getIndex0();
+            // final int lastRow = event.getIndex1();
             //
             // fireTableRowsUpdated(firstRow, lastRow);
             // fireTableRowsUpdated(0, Integer.MAX_VALUE);
@@ -34,17 +33,17 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
         }
 
         @Override
-        public void intervalAdded(final ListDataEvent e) {
-            int firstRow = e.getIndex0();
-            int lastRow = e.getIndex1();
+        public void intervalAdded(final ListDataEvent event) {
+            final int firstRow = event.getIndex0();
+            final int lastRow = event.getIndex1();
 
             fireTableRowsInserted(firstRow, lastRow);
         }
 
         @Override
-        public void intervalRemoved(final ListDataEvent e) {
-            int firstRow = e.getIndex0();
-            int lastRow = e.getIndex1();
+        public void intervalRemoved(final ListDataEvent event) {
+            final int firstRow = event.getIndex0();
+            final int lastRow = event.getIndex1();
 
             fireTableRowsDeleted(firstRow, lastRow);
         }

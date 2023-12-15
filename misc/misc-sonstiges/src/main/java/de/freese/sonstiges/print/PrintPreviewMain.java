@@ -35,37 +35,25 @@ import javax.swing.JSeparator;
  */
 public final class PrintPreviewMain extends JPanel implements Printable, ActionListener {
     private static final int BORDER_SIZE = 50;
-
     private static final Color COLOR_BACKGROUND = Color.darkGray;
-
     private static final Color COLOR_FOREGROUND = Color.black;
-
     private static final Color COLOR_FRAME = Color.lightGray;
-
     private static final Color COLOR_PAPER = Color.white;
-
     private static final String LABEL_MENU_ENTER_TEXT = "Text eingeben";
-
     private static final String LABEL_MENU_EXIT = "Beenden";
-
     private static final String LABEL_MENU_PAGE_LAYOUT = "Seite einrichten";
-
     private static final String LABEL_MENU_PRINT = "Drucken";
-
     private static final String LABEL_MENU_PRINTER = "Drucker einrichten";
-
     private static final String LABEL_MENU_ZOOM_IN = "Vergrössern";
-
     private static final String LABEL_MENU_ZOOM_OUT = "Verkleinern";
-
     @Serial
     private static final long serialVersionUID = -2189370102458478566L;
 
     public static void main(final String[] args) throws Exception {
-        JFrame frame = new JFrame("Einfaches Druckbeispiel");
-        PrintPreviewMain printPreview = new PrintPreviewMain();
+        final JFrame frame = new JFrame("Einfaches Druckbeispiel");
+        final PrintPreviewMain printPreview = new PrintPreviewMain();
 
-        WindowListener listener = new WindowAdapter() {
+        final WindowListener listener = new WindowAdapter() {
             @Override
             public void windowClosing(final WindowEvent e) {
                 System.exit(0);
@@ -76,9 +64,9 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
 
         frame.getContentPane().add(printPreview);
 
+        final JMenuBar menuBar = new JMenuBar();
+        final JMenu menu = new JMenu("Menü");
         JMenuItem menuItem;
-        JMenuBar menuBar = new JMenuBar();
-        JMenu menu = new JMenu("Menü");
 
         menuItem = new JMenuItem(LABEL_MENU_ENTER_TEXT);
         menuItem.addActionListener(printPreview);
@@ -128,9 +116,7 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
     private final transient PrinterJob printerJob;
 
     private double mdPreviewScale = 0.5D;
-
     private transient PageFormat pageFormat;
-
     private String text = "Drucken mit Java 2";
 
     private PrintPreviewMain() throws IOException {
@@ -204,7 +190,7 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
     public void paintComponent(final Graphics g) {
         super.paintComponent(g);
 
-        Graphics2D g2 = (Graphics2D) g;
+        final Graphics2D g2 = (Graphics2D) g;
 
         // Grafik auf den gewünschten Massstab skalieren
         g2.scale(this.mdPreviewScale, this.mdPreviewScale);
@@ -239,11 +225,11 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
      */
     public void print() {
         // Standardseitenformat holen und auf Querformat stellen
-        PageFormat pfLandscape = this.printerJob.defaultPage();
+        final PageFormat pfLandscape = this.printerJob.defaultPage();
         pfLandscape.setOrientation(PageFormat.LANDSCAPE);
 
         // Ein Buch erzeugen
-        Book book = new Book();
+        final Book book = new Book();
 
         // Deckblatt hinzufügen. Feste Seitenanzahl, daher kann die Indexabfrage
         // in der print(...)-Methode von CoverPage entfallen
@@ -269,7 +255,7 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
 
         // PageIndex == 0 ist die CoverPage!
         if (pageIndex == 1) {
-            Graphics2D g2 = (Graphics2D) g;
+            final Graphics2D g2 = (Graphics2D) g;
 
             // Ursprung verschieben und Ausgabebereich eingrenzen
             g2.translate((int) this.pageFormat.getImageableX(), (int) this.pageFormat.getImageableY());
@@ -299,7 +285,7 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
 
     private void enterText() {
         // Eingabedialog erzeugen und starten
-        Object userInput = JOptionPane.showInputDialog(null, "Bitte einen Text eingeben", "Drucktext", JOptionPane.PLAIN_MESSAGE, null, null, this.text);
+        final Object userInput = JOptionPane.showInputDialog(null, "Bitte einen Text eingeben", "Drucktext", JOptionPane.PLAIN_MESSAGE, null, null, this.text);
 
         // wenn Eingabe OK, Text übernehmen
         if (userInput instanceof String t) {

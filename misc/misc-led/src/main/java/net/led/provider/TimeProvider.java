@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class TimeProvider implements Runnable {
     private final List<UpdateListener> listeners = new ArrayList<>();
-
     private final List<String> symbols = new ArrayList<>();
 
     private Thread feedThread;
@@ -49,7 +48,7 @@ public class TimeProvider implements Runnable {
 
     @Override
     public void run() {
-        Thread currentThread = Thread.currentThread();
+        final Thread currentThread = Thread.currentThread();
 
         int index = 0;
         String symbol;
@@ -94,7 +93,7 @@ public class TimeProvider implements Runnable {
     }
 
     public void stop() {
-        Thread t = this.feedThread;
+        final Thread t = this.feedThread;
         this.feedThread = null;
 
         if (t != null) {

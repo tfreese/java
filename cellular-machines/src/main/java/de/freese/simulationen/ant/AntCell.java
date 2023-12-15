@@ -92,7 +92,6 @@ public class AntCell extends AbstractCell {
     }
 
     private CellType cellType;
-
     private Direction direction = Direction.NORTH;
 
     public AntCell(final AntRasterSimulation simulation) {

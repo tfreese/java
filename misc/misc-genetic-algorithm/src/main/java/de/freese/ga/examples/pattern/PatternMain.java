@@ -9,9 +9,9 @@ import de.freese.ga.Genotype;
  */
 public final class PatternMain {
     public static void main(final String[] args) {
-        String pattern = "11110000000000100000000001000000000010000000000100000000001111";
+        final String pattern = "11110000000000100000000001000000000010000000000100000000001111";
 
-        PatternConfig config = new PatternConfig();
+        final PatternConfig config = new PatternConfig();
         // config.setElitism(false);
         config.setSizeGenotype(50); // Anzahl Chromosomen/Lösungen/Pattern
         config.setPattern(pattern);

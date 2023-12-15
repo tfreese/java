@@ -110,23 +110,15 @@ public class MyJdbcAppender extends AbstractAppender implements Flushable {
     }
 
     private final List<LogEvent> buffer;
-
     private final int bufferSize;
-
     private final ColumnConfig[] columnConfigs;
-
     private final ConnectionSource connectionSource;
-
     private final Lock lock = new ReentrantLock();
-
     private final String tableName;
 
     private Connection connection;
-
     private boolean isBatchSupported = true;
-
     private String sql;
-
     private PreparedStatement statement;
 
     public MyJdbcAppender(final String name, final String tableName, final int bufferSize, final ConnectionSource connectionSource, final ColumnConfig[] columnConfigs) {
@@ -210,7 +202,7 @@ public class MyJdbcAppender extends AbstractAppender implements Flushable {
     @Override
     public boolean stop(final long timeout, final TimeUnit timeUnit) {
         setStopping();
-        boolean stopped = super.stop(timeout, timeUnit, false);
+        final boolean stopped = super.stop(timeout, timeUnit, false);
 
         if ((this.connection != null) || (this.statement != null)) {
             commitAndClose();
@@ -297,7 +289,7 @@ public class MyJdbcAppender extends AbstractAppender implements Flushable {
             }
 
             for (int i = 0; i < this.columnConfigs.length; i++) {
-                ColumnConfig columnConfig = this.columnConfigs[i];
+                final ColumnConfig columnConfig = this.columnConfigs[i];
 
                 if (columnConfig.isEventTimestamp()) {
                     this.statement.setTimestamp(i + 1, new Timestamp(event.getTimeMillis()));
@@ -336,8 +328,8 @@ public class MyJdbcAppender extends AbstractAppender implements Flushable {
     }
 
     protected void setupSql() {
-        StringJoiner joinerColumns = new StringJoiner(", ", "(", ")");
-        StringJoiner joinerParameter = new StringJoiner(", ", "(", ")");
+        final StringJoiner joinerColumns = new StringJoiner(", ", "(", ")");
+        final StringJoiner joinerParameter = new StringJoiner(", ", "(", ")");
 
         for (ColumnConfig columnConfig : this.columnConfigs) {
             final String columnName = columnConfig.getColumnName().toUpperCase();
@@ -357,7 +349,7 @@ public class MyJdbcAppender extends AbstractAppender implements Flushable {
             }
         }
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append("insert into ").append(this.tableName).append(" ").append(joinerColumns).append(" values ").append(joinerParameter);
 
         this.sql = sb.toString();

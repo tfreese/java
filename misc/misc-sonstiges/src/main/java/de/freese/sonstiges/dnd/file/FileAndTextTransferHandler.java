@@ -25,20 +25,15 @@ import javax.swing.text.Position;
  */
 class FileAndTextTransferHandler extends TransferHandler {
     private static final String NEW_LINE = "\n";
-
     @Serial
     private static final long serialVersionUID = 6906658392318378092L;
 
     private final DataFlavor fileFlavor;
-
     private final DataFlavor stringFlavor;
 
     private transient final TabbedPaneController tpc;
-
     private transient Position p0;
-
     private transient Position p1;
-
     private boolean shouldRemove;
 
     private JTextArea source;
@@ -75,10 +70,10 @@ class FileAndTextTransferHandler extends TransferHandler {
         try {
             if (hasFileFlavor(t.getTransferDataFlavors())) {
                 String str = null;
-                List<?> files = (List<?>) t.getTransferData(this.fileFlavor);
+                final List<?> files = (List<?>) t.getTransferData(this.fileFlavor);
 
                 for (Object file2 : files) {
-                    File file = (File) file2;
+                    final File file = (File) file2;
 
                     // Tell the TabbedPane controller to add
                     // a new tab with the name of this file
@@ -107,7 +102,7 @@ class FileAndTextTransferHandler extends TransferHandler {
                     return true;
                 }
 
-                String str = (String) t.getTransferData(this.stringFlavor);
+                final String str = (String) t.getTransferData(this.stringFlavor);
                 textArea.replaceSelection(str);
 
                 return true;
@@ -127,9 +122,9 @@ class FileAndTextTransferHandler extends TransferHandler {
     protected Transferable createTransferable(final JComponent c) {
         this.source = (JTextArea) c;
 
-        int start = this.source.getSelectionStart();
-        int end = this.source.getSelectionEnd();
-        Document doc = this.source.getDocument();
+        final int start = this.source.getSelectionStart();
+        final int end = this.source.getSelectionEnd();
+        final Document doc = this.source.getDocument();
 
         if (start == end) {
             return null;
@@ -145,7 +140,7 @@ class FileAndTextTransferHandler extends TransferHandler {
 
         this.shouldRemove = true;
 
-        String data = this.source.getSelectedText();
+        final String data = this.source.getSelectedText();
 
         return new StringSelection(data);
     }
@@ -155,7 +150,7 @@ class FileAndTextTransferHandler extends TransferHandler {
         if (this.shouldRemove && (action == MOVE)) {
             if ((this.p0 != null) && (this.p1 != null) && (this.p0.getOffset() != this.p1.getOffset())) {
                 try {
-                    JTextComponent tc = (JTextComponent) c;
+                    final JTextComponent tc = (JTextComponent) c;
                     tc.getDocument().remove(this.p0.getOffset(), this.p1.getOffset() - this.p0.getOffset());
                 }
                 catch (BadLocationException ex) {

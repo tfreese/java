@@ -6,9 +6,7 @@ package de.freese.jconky.model;
  */
 public class UsageInfo {
     private final String path;
-
     private final long size;
-
     private final long used;
 
     public UsageInfo() {
@@ -48,7 +46,7 @@ public class UsageInfo {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(getClass().getSimpleName());
+        final StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
         builder.append(" path=").append(this.path);
         builder.append(", size=").append(this.size);

@@ -20,7 +20,7 @@ public abstract class AbstractIntegerBinding extends AbstractIntegerExpression i
 
     @Override
     public void update() {
-        int old = this.value;
+        final int old = this.value;
         this.value = computeValue();
 
         if (Objects.equals(old, this.value)) {

@@ -49,7 +49,7 @@ public class PolygonBounds extends Bounds {
     @Override
     public LatLon getCenter() {
         this.myPolygonPath.closePath();
-        Rectangle2D bounds2D = this.myPolygonPath.getBounds2D();
+        final Rectangle2D bounds2D = this.myPolygonPath.getBounds2D();
 
         return new LatLon(bounds2D.getCenterX(), bounds2D.getCenterY());
     }
@@ -57,7 +57,7 @@ public class PolygonBounds extends Bounds {
     @Override
     public LatLon getMax() {
         this.myPolygonPath.closePath();
-        Rectangle2D bounds2D = this.myPolygonPath.getBounds2D();
+        final Rectangle2D bounds2D = this.myPolygonPath.getBounds2D();
 
         return new LatLon(bounds2D.getMaxX(), bounds2D.getMaxY());
     }
@@ -65,7 +65,7 @@ public class PolygonBounds extends Bounds {
     @Override
     public LatLon getMin() {
         this.myPolygonPath.closePath();
-        Rectangle2D bounds2D = this.myPolygonPath.getBounds2D();
+        final Rectangle2D bounds2D = this.myPolygonPath.getBounds2D();
 
         return new LatLon(bounds2D.getMinX(), bounds2D.getMinY());
     }
@@ -73,7 +73,7 @@ public class PolygonBounds extends Bounds {
     @Override
     public double getSize() {
         this.myPolygonPath.closePath();
-        Rectangle2D bounds2D = this.myPolygonPath.getBounds2D();
+        final Rectangle2D bounds2D = this.myPolygonPath.getBounds2D();
 
         return Math.max(bounds2D.getWidth(), bounds2D.getHeight());
     }

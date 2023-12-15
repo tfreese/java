@@ -8,17 +8,11 @@ import java.net.URI;
  */
 public class MusicInfo {
     private final String album;
-
     private final String artist;
-
     private final int bitRate;
-
     private final URI imageUri;
-
     private final int length;
-
     private final int position;
-
     private final String title;
 
     public MusicInfo() {
@@ -78,7 +72,7 @@ public class MusicInfo {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(getClass().getSimpleName());
+        final StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
         builder.append("artist=").append(this.artist);
         builder.append(", album=").append(this.album);

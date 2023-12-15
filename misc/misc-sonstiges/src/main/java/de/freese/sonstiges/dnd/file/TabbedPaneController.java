@@ -17,9 +17,9 @@ import javax.swing.JTextArea;
  */
 class TabbedPaneController {
     private final JTabbedPane tabbedPane;
-
     private final JPanel tabbedPanel;
     private final FileAndTextTransferHandler transferHandler;
+
     private JTextArea emptyFileArea;
     private JPanel emptyFilePanel;
     private String fileSeparator;
@@ -51,7 +51,7 @@ class TabbedPaneController {
             this.noFiles = false;
         }
 
-        String[] str = filename.split(this.fileSeparator);
+        final String[] str = filename.split(this.fileSeparator);
 
         return makeTextPanel(str[str.length - 1], filename);
     }
@@ -66,12 +66,12 @@ class TabbedPaneController {
     }
 
     protected JTextArea makeTextPanel(final String name, final String toolTip) {
-        JTextArea fileArea = new JTextArea(20, 15);
+        final JTextArea fileArea = new JTextArea(20, 15);
         fileArea.setDragEnabled(true);
         fileArea.setTransferHandler(this.transferHandler);
         fileArea.setMargin(new Insets(5, 5, 5, 5));
 
-        JScrollPane fileScrollPane = new JScrollPane(fileArea);
+        final JScrollPane fileScrollPane = new JScrollPane(fileArea);
         this.tabbedPane.addTab(name, null, fileScrollPane, toolTip);
         this.tabbedPane.setSelectedComponent(fileScrollPane);
 
@@ -79,7 +79,7 @@ class TabbedPaneController {
     }
 
     private void init() {
-        String defaultText = "Select one or more files from the file chooser and drop here...";
+        final String defaultText = "Select one or more files from the file chooser and drop here...";
         this.noFiles = true;
 
         if (this.emptyFilePanel == null) {
@@ -89,7 +89,7 @@ class TabbedPaneController {
             this.emptyFileArea.setTransferHandler(this.transferHandler);
             this.emptyFileArea.setMargin(new Insets(5, 5, 5, 5));
 
-            JScrollPane fileScrollPane = new JScrollPane(this.emptyFileArea);
+            final JScrollPane fileScrollPane = new JScrollPane(this.emptyFileArea);
             this.emptyFilePanel = new JPanel(new BorderLayout(), false);
             this.emptyFilePanel.add(fileScrollPane, BorderLayout.CENTER);
         }

@@ -56,7 +56,6 @@ class ArrayListTransferHandler extends TransferHandler {
     }
 
     private final DataFlavor localArrayListFlavor;
-
     private final DataFlavor serialArrayListFlavor;
     /**
      * Number of items added
@@ -66,9 +65,7 @@ class ArrayListTransferHandler extends TransferHandler {
      * Location where items were added
      */
     private int addIndex = -1;
-
     private int[] indices;
-
     private JList<?> source;
 
     ArrayListTransferHandler() throws ClassNotFoundException {
@@ -140,8 +137,8 @@ class ArrayListTransferHandler extends TransferHandler {
             }
         }
 
-        DefaultListModel<Object> listModel = (DefaultListModel<Object>) target.getModel();
-        int max = listModel.getSize();
+        final DefaultListModel<Object> listModel = (DefaultListModel<Object>) target.getModel();
+        final int max = listModel.getSize();
 
         if (index < 0) {
             index = max;
@@ -171,13 +168,13 @@ class ArrayListTransferHandler extends TransferHandler {
             this.source = (JList<?>) c;
             this.indices = this.source.getSelectedIndices();
 
-            List<?> values = this.source.getSelectedValuesList();
+            final List<?> values = this.source.getSelectedValuesList();
 
             if ((values == null) || (values.isEmpty())) {
                 return null;
             }
 
-            List<String> list = new ArrayList<>(values.size());
+            final List<String> list = new ArrayList<>(values.size());
 
             for (Object o : values) {
                 String str = o.toString();
@@ -198,7 +195,7 @@ class ArrayListTransferHandler extends TransferHandler {
     @Override
     protected void exportDone(final JComponent c, final Transferable data, final int action) {
         if ((action == MOVE) && (this.indices != null)) {
-            DefaultListModel<?> model = (DefaultListModel<?>) this.source.getModel();
+            final DefaultListModel<?> model = (DefaultListModel<?>) this.source.getModel();
 
             // If we are moving items around in the same list, we
             // need to adjust the indices accordingly since those

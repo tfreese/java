@@ -16,7 +16,6 @@ public abstract class AbstractIndex {
     private final Map<Integer, Column> columns = new TreeMap<>();
 
     private String name;
-
     private Table table;
 
     AbstractIndex(final Table table, final String name) {
@@ -56,7 +55,7 @@ public abstract class AbstractIndex {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append(getClass().getSimpleName()).append(" [");
         builder.append(" table=").append(this.table);
         builder.append(", name=").append(this.name);

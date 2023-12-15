@@ -11,7 +11,7 @@ import java.util.Objects;
 @SuppressWarnings("unchecked")
 public class Gene implements Comparable<Gene> {
     public static Gene of(final Object value) {
-        Gene gene = new Gene();
+        final Gene gene = new Gene();
         gene.setValue(value);
 
         return gene;
@@ -81,7 +81,7 @@ public class Gene implements Comparable<Gene> {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName()).append(": ");
         sb.append(Objects.toString(getValue(), "null"));
 

@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
  */
 public class FibonacciCalculator {
     private static final Map<Integer, Long> CACHE = new HashMap<>();
-
     private static final Logger LOGGER = LoggerFactory.getLogger(FibonacciCalculator.class);
 
     public static long fibonacci(final int n) {
@@ -46,7 +45,6 @@ public class FibonacciCalculator {
     }
 
     private final ForkJoinPool forkJoinPool;
-
     private final int n;
 
     public FibonacciCalculator(final int n, final ForkJoinPool forkJoinPool) {
@@ -57,7 +55,7 @@ public class FibonacciCalculator {
     }
 
     public long calculate() {
-        FibonacciTask task = new FibonacciTask(this.n);
+        final FibonacciTask task = new FibonacciTask(this.n);
 
         return this.forkJoinPool.invoke(task);
     }

@@ -8,15 +8,15 @@ package de.freese.ga.examples.travelling_salesman;
  */
 public record City(String name, int x, int y) {
     public double distanceTo(final City city) {
-        double xDistance = Math.abs(x() - city.x());
-        double yDistance = Math.abs(y() - city.y());
+        final double xDistance = Math.abs(x() - city.x());
+        final double yDistance = Math.abs(y() - city.y());
 
         return Math.sqrt((xDistance * xDistance) + (yDistance * yDistance));
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append(name());
         sb.append("(").append(x()).append(":").append(y()).append(")");
 

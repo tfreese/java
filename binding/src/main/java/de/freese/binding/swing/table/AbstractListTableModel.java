@@ -12,14 +12,12 @@ import javax.swing.table.AbstractTableModel;
  * @author Thomas Freese
  */
 public abstract class AbstractListTableModel<T> extends AbstractTableModel {
-
     @Serial
     private static final long serialVersionUID = 4681293552039847835L;
 
     private final int columnCount;
 
     private transient final List<String> columnNames;
-
     private transient final List<T> list;
 
     protected AbstractListTableModel(final int columnCount) {
@@ -55,7 +53,7 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel {
     public Class<?> getColumnClass(final int columnIndex) {
         if (getRowCount() != 0) {
             for (int row = 0; row < getRowCount(); row++) {
-                Object object = getValueAt(row, columnIndex);
+                final Object object = getValueAt(row, columnIndex);
 
                 if (object != null) {
                     return object.getClass();
@@ -81,8 +79,7 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel {
     }
 
     public final T getObjectAt(final int rowIndex) {
-        // if ((rowIndex < 0) || (getList().size() <= rowIndex))
-        // {
+        // if ((rowIndex < 0) || (getList().size() <= rowIndex)) {
         // getLogger().warn("Falscher Index = " + rowIndex + "; ListSize = " + getList().size());
         //
         // // return null;
@@ -103,8 +100,7 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel {
     public void refresh() {
         fireTableDataChanged();
 
-        // if (getRowCount() > 0)
-        // {
+        // if (getRowCount() > 0) {
         // fireTableRowsUpdated(0, getRowCount() - 1);
         // }
     }

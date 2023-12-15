@@ -23,7 +23,7 @@ public final class SingleNoteChannelMain {
         try (Synthesizer synth = MidiSystem.getSynthesizer()) {
             synth.open();
 
-            MidiChannel channel = synth.getChannels()[0];
+            final MidiChannel channel = synth.getChannels()[0];
             channel.noteOn(note, 70);
 
             TimeUnit.MILLISECONDS.sleep(1000);

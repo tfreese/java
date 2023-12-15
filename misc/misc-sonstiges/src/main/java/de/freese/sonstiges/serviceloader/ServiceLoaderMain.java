@@ -8,7 +8,7 @@ import java.util.ServiceLoader;
  */
 public final class ServiceLoaderMain {
     public static void main(final String[] args) {
-        ServiceLoader<Service> serviceLoader = ServiceLoader.load(Service.class);
+        final ServiceLoader<Service> serviceLoader = ServiceLoader.load(Service.class);
 
         for (Service service : serviceLoader) {
             System.out.println(service.getText());

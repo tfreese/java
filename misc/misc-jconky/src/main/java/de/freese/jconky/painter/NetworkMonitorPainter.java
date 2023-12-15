@@ -22,9 +22,7 @@ import de.freese.jconky.util.JConkyUtils;
  */
 public class NetworkMonitorPainter extends AbstractMonitorPainter {
     private final Map<String, Values<Double>> downloadMap = new HashMap<>();
-
     private final Stop[] gradientStops;
-
     private final Map<String, Values<Double>> uploadMap = new HashMap<>();
 
     public NetworkMonitorPainter() {
@@ -35,20 +33,20 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter {
 
     @Override
     public double paintValue(final GraphicsContext gc, final double width) {
-        NetworkInfos networkInfos = getContext().getNetworkInfos();
-        NetworkInfo lan = networkInfos.getByName("enp5s0");
+        final NetworkInfos networkInfos = getContext().getNetworkInfos();
+        final NetworkInfo lan = networkInfos.getByName("enp5s0");
 
         this.downloadMap.computeIfAbsent(lan.getInterfaceName(), key -> new Values<>()).addValue(lan.getDownloadPerSecond());
         this.uploadMap.computeIfAbsent(lan.getInterfaceName(), key -> new Values<>()).addValue(lan.getUploadPerSecond());
 
-        NetworkProtocolInfo protocolInfo = networkInfos.getProtocolInfo();
-        String externalIp = getContext().getExternalIp();
+        final NetworkProtocolInfo protocolInfo = networkInfos.getProtocolInfo();
+        final String externalIp = getContext().getExternalIp();
 
         gc.setFont(getSettings().getFont());
 
-        double fontSize = getSettings().getFontSize();
+        final double fontSize = getSettings().getFontSize();
 
-        double x = getSettings().getMarginInner().getLeft();
+        final double x = getSettings().getMarginInner().getLeft();
         double y = fontSize;
         paintTitle(gc, String.format("Network: %s -> %s", lan.getIp(), externalIp), x, y, width);
 
@@ -62,14 +60,14 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter {
         y += fontSize * 1.25D;
         paintTextAndValue(gc, "TCP-Connections:", Integer.toString(protocolInfo.getTcpConnections()), x, y);
 
-        double height = y + 5D;
+        final double height = y + 5D;
         drawDebugBorder(gc, width, height);
 
         return height;
     }
 
     private double paintInterface(final GraphicsContext gc, final double width, final NetworkInfo networkInfo) {
-        double fontSize = getSettings().getFontSize();
+        final double fontSize = getSettings().getFontSize();
 
         double x = 0D;
         double y = 0D;
@@ -78,8 +76,8 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter {
         x = width - (fontSize * 10.5D);
         paintTextAndValue(gc, "Upload:", JConkyUtils.toHumanReadableSize(networkInfo.getUploadPerSecond(), "%.0f %s"), x, y);
 
-        int graphWidth = (int) (width / 2) - 10;
-        int graphHeight = 40;
+        final int graphWidth = (int) (width / 2) - 10;
+        final int graphHeight = 40;
 
         x = 0D;
         y += fontSize - 4D;
@@ -104,24 +102,24 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter {
     }
 
     private void paintInterfaceGraph(final GraphicsContext gc, final double width, final double height, final Values<Double> values) {
-        List<Double> valueList = values.getLastValues((int) width);
+        final List<Double> valueList = values.getLastValues((int) width);
 
-        double minValue = 0D;
-        // double maxValue = 28D * 1024D * 1024D; // 28 MB/s als max. bei 200er Leitung.
-        double maxValue = values.getMaxValue();
-        double minNorm = 0D;
-        double maxNorm = height - 2;
+        final double minValue = 0D;
+        //final  double maxValue = 28D * 1024D * 1024D; // 28 MB/s als max. bei 200er Leitung.
+        final double maxValue = values.getMaxValue();
+        final double minNorm = 0D;
+        final double maxNorm = height - 2;
 
         // gc.setFill(new LinearGradient(0D, height - 2, 0D, 0D, false, CycleMethod.NO_CYCLE, this.gradientStops));
         gc.setStroke(new LinearGradient(0D, height - 2, 0D, 0D, false, CycleMethod.NO_CYCLE, this.gradientStops));
 
-        double xOffset = width - valueList.size(); // Diagramm von rechts aufbauen.
+        final double xOffset = width - valueList.size(); // Diagramm von rechts aufbauen.
         // double xOffset = 0D; // Diagramm von links aufbauen.
 
         for (int i = 0; i < valueList.size(); i++) {
-            double value = valueList.get(i);
-            double x = i + xOffset;
-            double y = minNorm + (((value - minValue) * (maxNorm - minNorm)) / (maxValue - minValue));
+            final double value = valueList.get(i);
+            final double x = i + xOffset;
+            final double y = minNorm + (((value - minValue) * (maxNorm - minNorm)) / (maxValue - minValue));
 
             // gc.fillRect(x, height - 1 - y, 1, y);
             gc.strokeLine(x, height - 1 - y, x, height - 1);

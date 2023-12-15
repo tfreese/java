@@ -11,7 +11,7 @@ import java.util.List;
  */
 public final class TspMain {
     public static void main(final String[] args) {
-        List<City> cities = new ArrayList<>(20);
+        final List<City> cities = new ArrayList<>(20);
         cities.add(new City("A", 60, 200));
         cities.add(new City("B", 180, 200));
         cities.add(new City("C", 80, 180));
@@ -33,7 +33,7 @@ public final class TspMain {
         cities.add(new City("S", 60, 20));
         cities.add(new City("T", 160, 20));
 
-        TspConfig config = new TspConfig();
+        final TspConfig config = new TspConfig();
         // config.setElitism(false);
         config.setSizeGenotype(200); // Anzahl Chromosomen/Lösungen/Tour
         config.setCities(cities);

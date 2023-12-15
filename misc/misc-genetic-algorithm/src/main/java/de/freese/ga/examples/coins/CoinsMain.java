@@ -14,7 +14,7 @@ import de.freese.ga.Genotype;
  */
 public final class CoinsMain {
     public static void main(final String[] args) {
-        List<Integer> existingCoins = new ArrayList<>();
+        final List<Integer> existingCoins = new ArrayList<>();
         // existingCoins.add(50);
         existingCoins.add(50);
         existingCoins.add(20);
@@ -28,7 +28,7 @@ public final class CoinsMain {
         existingCoins.add(1);
         existingCoins.add(1);
 
-        CoinConfig config = new CoinConfig();
+        final CoinConfig config = new CoinConfig();
         // config.setElitism(false);
         config.setSizeGenotype(50); // Anzahl Chromosomen/Lösungen
         config.setExistingCoins(existingCoins);

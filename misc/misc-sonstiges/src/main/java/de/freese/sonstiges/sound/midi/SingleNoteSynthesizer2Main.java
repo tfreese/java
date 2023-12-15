@@ -15,7 +15,7 @@ import javax.sound.midi.Synthesizer;
  */
 public final class SingleNoteSynthesizer2Main {
     public static void main(final String[] args) {
-        SingleNoteSynthesizer2Main synth = new SingleNoteSynthesizer2Main();
+        final SingleNoteSynthesizer2Main synth = new SingleNoteSynthesizer2Main();
         synth.setInstrument(19);
         synth.playMajorChord(60);
     }
@@ -23,7 +23,6 @@ public final class SingleNoteSynthesizer2Main {
     private final ShortMessage message = new ShortMessage();
 
     private Receiver receiver;
-
     private Synthesizer synth;
 
     private SingleNoteSynthesizer2Main() {

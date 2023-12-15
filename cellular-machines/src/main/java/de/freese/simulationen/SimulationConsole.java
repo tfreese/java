@@ -38,20 +38,20 @@ class SimulationConsole {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimulationConsole.class);
 
     public void start(final SimulationType type, final int cycles, final int width, final int height, final Path path) {
-        int cpus = Runtime.getRuntime().availableProcessors();
+        final int cpus = Runtime.getRuntime().availableProcessors();
 
         // Jeder CPU-Kern soll ausgelastet werden, wenn die Queue voll ist, wird die Grafik im Caller verarbeitet.
-        ExecutorService executorService = new ThreadPoolExecutor(cpus, cpus, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(cpus), new ThreadPoolExecutor.CallerRunsPolicy());
+        final ExecutorService executorService = new ThreadPoolExecutor(cpus, cpus, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(cpus), new ThreadPoolExecutor.CallerRunsPolicy());
 
         try {
-            Simulation simulation = switch (type) {
+            final Simulation simulation = switch (type) {
                 case ANTS -> new AntRasterSimulation(width, height);
                 case GAME_OF_LIFE -> new GoFRasterSimulation(width, height);
                 case WATER_TORUS -> new WaTorRasterSimulation(width, height);
                 case BOUNCING_BALLS -> new BallSimulation(width, height, SimulationEnvironment.getInstance().getAsInt("simulation.delay", 40));
             };
 
-            Path directory = path.resolve(type.getNameShort());
+            final Path directory = path.resolve(type.getNameShort());
 
             if (!Files.exists(directory)) {
                 Files.createDirectories(directory);

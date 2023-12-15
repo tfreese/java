@@ -17,7 +17,6 @@ class TreeDropTargetListener implements DropTargetListener {
     private final Timer expandTimer;
 
     private TreePath lastPath;
-
     private JTree tree;
 
     TreeDropTargetListener() {
@@ -62,7 +61,7 @@ class TreeDropTargetListener implements DropTargetListener {
 
         this.tree = (JTree) event.getDropTargetContext().getComponent();
 
-        TreePath path = this.tree.getClosestPathForLocation(event.getLocation().x, event.getLocation().y);
+        final TreePath path = this.tree.getClosestPathForLocation(event.getLocation().x, event.getLocation().y);
 
         if (path != this.lastPath) {
             this.lastPath = path;

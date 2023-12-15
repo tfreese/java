@@ -24,7 +24,7 @@ public class WaTorView extends SimulationView<WaTorRasterSimulation> {
         super.initialize(simulation, delay);
 
         // Slider für Settings
-        JPanel sliderPanel = new JPanel();
+        final JPanel sliderPanel = new JPanel();
         sliderPanel.setLayout(new GridLayout(3, 1));
 
         // Startenergie
@@ -34,10 +34,10 @@ public class WaTorView extends SimulationView<WaTorRasterSimulation> {
 
         JSlider slider = createSlider("Fische", getSimulation().getFishStartEnergy(), Color.GREEN);
         slider.addChangeListener(event -> {
-            JSlider source = (JSlider) event.getSource();
+            final JSlider source = (JSlider) event.getSource();
 
             if (!source.getValueIsAdjusting()) {
-                int value = source.getValue();
+                final int value = source.getValue();
 
                 getSimulation().setFishStartEnergy(value);
             }
@@ -46,10 +46,10 @@ public class WaTorView extends SimulationView<WaTorRasterSimulation> {
 
         slider = createSlider("Haie", getSimulation().getSharkStartEnergy(), Color.BLUE);
         slider.addChangeListener(event -> {
-            JSlider source = (JSlider) event.getSource();
+            final JSlider source = (JSlider) event.getSource();
 
             if (!source.getValueIsAdjusting()) {
-                int value = source.getValue();
+                final int value = source.getValue();
 
                 getSimulation().setSharkStartEnergy(value);
             }
@@ -65,10 +65,10 @@ public class WaTorView extends SimulationView<WaTorRasterSimulation> {
 
         slider = createSlider("Fische", getSimulation().getFishBreedEnergy(), Color.GREEN);
         slider.addChangeListener(event -> {
-            JSlider source = (JSlider) event.getSource();
+            final JSlider source = (JSlider) event.getSource();
 
             if (!source.getValueIsAdjusting()) {
-                int value = source.getValue();
+                final int value = source.getValue();
 
                 getSimulation().setFishBreedEnergy(value);
             }
@@ -77,10 +77,10 @@ public class WaTorView extends SimulationView<WaTorRasterSimulation> {
 
         slider = createSlider("Haie", getSimulation().getSharkBreedEnergy(), Color.BLUE);
         slider.addChangeListener(event -> {
-            JSlider source = (JSlider) event.getSource();
+            final JSlider source = (JSlider) event.getSource();
 
             if (!source.getValueIsAdjusting()) {
-                int value = source.getValue();
+                final int value = source.getValue();
 
                 getSimulation().setSharkBreedEnergy(value);
             }
@@ -98,10 +98,10 @@ public class WaTorView extends SimulationView<WaTorRasterSimulation> {
 
         slider = createSlider("Haie", getSimulation().getSharkStarveEnergy(), Color.BLUE);
         slider.addChangeListener(event -> {
-            JSlider source = (JSlider) event.getSource();
+            final JSlider source = (JSlider) event.getSource();
 
             if (!source.getValueIsAdjusting()) {
-                int value = source.getValue();
+                final int value = source.getValue();
 
                 getSimulation().setSharkStarveEnergy(value);
             }
@@ -114,8 +114,8 @@ public class WaTorView extends SimulationView<WaTorRasterSimulation> {
     }
 
     private JSlider createSlider(final String title, final int value, final Color titleColor) {
-        JSlider slider = new JSlider(SwingConstants.VERTICAL, 0, 20, value);
-        TitledBorder border = new TitledBorder(title);
+        final JSlider slider = new JSlider(SwingConstants.VERTICAL, 0, 20, value);
+        final TitledBorder border = new TitledBorder(title);
         border.setTitleColor(titleColor);
         slider.setBorder(border);
         slider.setPaintLabels(true);

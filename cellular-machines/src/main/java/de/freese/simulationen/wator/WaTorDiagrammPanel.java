@@ -39,7 +39,6 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
     private static final long serialVersionUID = -7891438395009637657L;
 
     private final TimeSeries timeSeriesFische;
-
     private final TimeSeries timeSeriesHaie;
 
     public WaTorDiagrammPanel() {
@@ -56,13 +55,13 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
         this.timeSeriesFische.setMaximumItemAge(60 * 1000L);
         this.timeSeriesHaie.setMaximumItemAge(60 * 1000L);
 
-        TimeSeriesCollection dataset = new TimeSeriesCollection();
+        final TimeSeriesCollection dataset = new TimeSeriesCollection();
         dataset.addSeries(this.timeSeriesFische);
         dataset.addSeries(this.timeSeriesHaie);
 
-        Font font = new Font("Arial", Font.BOLD, 12);
+        final Font font = new Font("Arial", Font.BOLD, 12);
 
-        ValueAxis timeAxis = new DateAxis("Zeitachse");
+        final ValueAxis timeAxis = new DateAxis("Zeitachse");
         timeAxis.setLowerMargin(0.02D);
         timeAxis.setUpperMargin(0.02D);
         timeAxis.setAutoRange(true);
@@ -71,7 +70,7 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
         timeAxis.setTickLabelFont(font);
         timeAxis.setLabelFont(font);
 
-        NumberAxis valueAxis = new NumberAxis("Anzahl");
+        final NumberAxis valueAxis = new NumberAxis("Anzahl");
         valueAxis.setAutoRangeIncludesZero(false);
         valueAxis.setTickLabelFont(font);
         valueAxis.setLabelFont(font);
@@ -80,16 +79,16 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
         // valueAxis.setAutoTickUnitSelection(true);
         // valueAxis.setRange(0.0D, 20000D);
 
-        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer(true, false);
+        final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer(true, false);
         renderer.setSeriesPaint(0, Color.GREEN);
         renderer.setSeriesStroke(0, new BasicStroke(2.5F));
         renderer.setSeriesPaint(1, Color.BLUE);
         renderer.setSeriesStroke(1, new BasicStroke(2.5F));
 
-        XYPlot xyplot = new XYPlot(dataset, timeAxis, valueAxis, renderer);
+        final XYPlot xyplot = new XYPlot(dataset, timeAxis, valueAxis, renderer);
 
-        JFreeChart chart = new JFreeChart(null, null, xyplot, true);
-        LegendTitle legend = chart.getLegend();
+        final JFreeChart chart = new JFreeChart(null, null, xyplot, true);
+        final LegendTitle legend = chart.getLegend();
         legend.setItemFont(font);
 
         setLayout(new BorderLayout());
@@ -98,10 +97,10 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
 
     @Override
     public void completed(final Simulation simulation) {
-        Runnable runnable = () -> {
-            WaTorRasterSimulation watorRasterSimulation = (WaTorRasterSimulation) simulation;
+        final Runnable runnable = () -> {
+            final WaTorRasterSimulation watorRasterSimulation = (WaTorRasterSimulation) simulation;
 
-            int[] fischeUndHaie = watorRasterSimulation.countFishesAndSharks();
+            final int[] fischeUndHaie = watorRasterSimulation.countFishesAndSharks();
 
             update(fischeUndHaie[0], fischeUndHaie[1]);
         };
@@ -113,8 +112,8 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
      * Aktualisiert das Diagramm.
      */
     protected void update(final int fishes, final int sharks) {
-        Runnable runnable = () -> {
-            RegularTimePeriod timePeriod = new FixedMillisecond();
+        final Runnable runnable = () -> {
+            final RegularTimePeriod timePeriod = new FixedMillisecond();
 
             this.timeSeriesFische.addOrUpdate(timePeriod, fishes);
             this.timeSeriesHaie.addOrUpdate(timePeriod, sharks);

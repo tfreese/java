@@ -6,7 +6,6 @@ package de.freese.sonstiges.javascript;
  */
 public class Conf {
     private int blockSize;
-
     private int threads;
 
     public int getBlockSize() {

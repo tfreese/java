@@ -38,11 +38,11 @@ public final class DragColorTextFieldMain extends JPanel {
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         // Create and set up the window.
-        JFrame frame = new JFrame("DragColorTextFieldMain");
+        final JFrame frame = new JFrame("DragColorTextFieldMain");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // Create and set up the menu bar and content pane.
-        DragColorTextFieldMain demo = new DragColorTextFieldMain();
+        final DragColorTextFieldMain demo = new DragColorTextFieldMain();
         frame.setJMenuBar(demo.createMenuBar());
         demo.setOpaque(true); // content panes must be opaque
         frame.setContentPane(demo);
@@ -63,7 +63,7 @@ public final class DragColorTextFieldMain extends JPanel {
 
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        JColorChooser chooser = new JColorChooser();
+        final JColorChooser chooser = new JColorChooser();
         chooser.setDragEnabled(true);
         add(chooser, BorderLayout.PAGE_START);
 
@@ -71,7 +71,7 @@ public final class DragColorTextFieldMain extends JPanel {
         this.colorHandler = new ColorAndTextTransferHandler();
 
         // Create some text fields.
-        JPanel buttonPanel = new JPanel(new GridLayout(3, 1));
+        final JPanel buttonPanel = new JPanel(new GridLayout(3, 1));
         textField = new JTextField("I can accept dnd.color/text and drag text.");
         textField.setTransferHandler(this.colorHandler);
         textField.setDragEnabled(true);
@@ -89,8 +89,8 @@ public final class DragColorTextFieldMain extends JPanel {
 
     public JMenuBar createMenuBar() {
         JMenuItem menuItem;
-        JMenuBar menuBar = new JMenuBar();
-        JMenu mainMenu = new JMenu("Edit");
+        final JMenuBar menuBar = new JMenuBar();
+        final JMenu mainMenu = new JMenu("Edit");
         mainMenu.setMnemonic(KeyEvent.VK_E);
 
         menuItem = new JMenuItem(new DefaultEditorKit.CutAction());

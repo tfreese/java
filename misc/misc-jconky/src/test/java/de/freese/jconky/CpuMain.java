@@ -47,7 +47,7 @@ public final class CpuMain {
         //
         // CPU_Percentage = (totald - idled)/totald
 
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
+        final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
         scheduledExecutorService.scheduleWithFixedDelay(CpuMain::showCpuLoad, 1L, 1L, TimeUnit.SECONDS);
     }
 
@@ -56,21 +56,21 @@ public final class CpuMain {
         // Files.readAllLines(path, cs)
 
         try (BufferedReader reader = new BufferedReader(new FileReader("/proc/stat", StandardCharsets.UTF_8))) {
-            String line = reader.readLine();
+            final String line = reader.readLine();
 
             // "[ ]" = "\\s+" = Whitespace: einer oder mehrere
-            String[] splits = line.split("\\s+");
+            final String[] splits = line.split("\\s+");
 
-            long user = Long.parseLong(splits[1]);
-            long nice = Long.parseLong(splits[2]);
-            long system = Long.parseLong(splits[3]);
-            long idle = Long.parseLong(splits[4]);
-            long ioWait = Long.parseLong(splits[5]);
-            long irq = Long.parseLong(splits[6]);
-            long softIrq = Long.parseLong(splits[7]);
-            long steal = Long.parseLong(splits[8]);
-            long guest = Long.parseLong(splits[9]);
-            long guestNice = Long.parseLong(splits[10]);
+            final long user = Long.parseLong(splits[1]);
+            final long nice = Long.parseLong(splits[2]);
+            final long system = Long.parseLong(splits[3]);
+            final long idle = Long.parseLong(splits[4]);
+            final long ioWait = Long.parseLong(splits[5]);
+            final long irq = Long.parseLong(splits[6]);
+            final long softIrq = Long.parseLong(splits[7]);
+            final long steal = Long.parseLong(splits[8]);
+            final long guest = Long.parseLong(splits[9]);
+            final long guestNice = Long.parseLong(splits[10]);
 
             return new CpuTimes(user, nice, system, idle, ioWait, irq, softIrq, steal, guest, guestNice);
         }
@@ -82,7 +82,7 @@ public final class CpuMain {
     private static void showCpuLoad() {
         System.out.println("CPU-Load [%] - OperatingSystemMXBean: " + (operatingSystemMXBean.getCpuLoad() * 100D));
 
-        CpuTimes cpuTimes = getCpuTimes();
+        final CpuTimes cpuTimes = getCpuTimes();
         System.out.println("CPU-Load [%] - Vorgänger-Rechnung: " + (cpuTimes.getCpuUsage(prev) * 100D));
         prev = cpuTimes;
 

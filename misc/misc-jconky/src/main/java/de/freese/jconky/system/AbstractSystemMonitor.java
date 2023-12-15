@@ -26,7 +26,6 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
      * "[ ]" = "\\s+" = Whitespace: einer oder mehrere
      */
     protected static final Pattern SPACE_PATTERN = Pattern.compile("\\s+", Pattern.UNICODE_CHARACTER_CLASS);
-
     private static final com.sun.management.OperatingSystemMXBean OPERATING_SYSTEM_MX_BEAN = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -69,7 +68,7 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
         List<String> errors = null;
 
         try {
-            Process process = processBuilder.start();
+            final Process process = processBuilder.start();
 
             try (BufferedReader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8));
                  BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8))) {
@@ -106,27 +105,24 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
     }
 
     protected List<String> readContent(final String fileName, final Charset charset) {
-        Path path = Paths.get(fileName);
+        final Path path = Paths.get(fileName);
 
         if (Files.notExists(path)) {
             return Collections.emptyList();
         }
 
         try {
-            List<String> lines = Files.readAllLines(path, charset);
+            final List<String> lines = Files.readAllLines(path, charset);
 
             // lines = Files.lines(path, charset).collect(Collectors.toList());
 
             // lines = new ArrayList<>();
             //
-            // try (BufferedReader reader = new BufferedReader(new FileReader(fileName, StandardCharsets.UTF_8)))
-            // {
-            // for (;;)
-            // {
+            // try (BufferedReader reader = new BufferedReader(new FileReader(fileName, StandardCharsets.UTF_8))) {
+            // for (;;) {
             // String line = reader.readLine();
             //
-            // if (line == null)
-            // {
+            // if (line == null) {
             // break;
             // }
             //

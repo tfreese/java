@@ -26,7 +26,6 @@ public class ExecutorServiceMetrics implements SensorBinder {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExecutorServiceMetrics.class);
 
     private final ExecutorService executorService;
-
     private final String serviceName;
 
     public ExecutorServiceMetrics(final ExecutorService executorService, final String serviceName) {
@@ -45,7 +44,7 @@ public class ExecutorServiceMetrics implements SensorBinder {
             return bindTo(registry, tpe, backendProvider);
         }
         else {
-            String className = this.executorService.getClass().getName();
+            final String className = this.executorService.getClass().getName();
             ThreadPoolExecutor pool = null;
 
             if ("java.util.concurrent.Executors$DelegatedScheduledExecutorService".equals(className)) {
@@ -105,12 +104,12 @@ public class ExecutorServiceMetrics implements SensorBinder {
     private ThreadPoolExecutor unwrapThreadPoolExecutor(final ExecutorService executor, final Class<?> wrapper) {
         try {
             // java.util.concurrent.Executors.DelegatedExecutorService.e
-            MethodHandles.Lookup lookup = MethodHandles.lookup();
-            MethodHandles.Lookup privateLookup = MethodHandles.privateLookupIn(wrapper, lookup);
-            VarHandle varHandle = privateLookup.findVarHandle(wrapper, "e", ExecutorService.class);
+            final MethodHandles.Lookup lookup = MethodHandles.lookup();
+            final MethodHandles.Lookup privateLookup = MethodHandles.privateLookupIn(wrapper, lookup);
+            final VarHandle varHandle = privateLookup.findVarHandle(wrapper, "e", ExecutorService.class);
             return (ThreadPoolExecutor) varHandle.get(executor);
 
-            //            Field field = wrapper.getDeclaredField("e");
+            //            final Field field = wrapper.getDeclaredField("e");
             //            field.setAccessible(true);
             //            return (ThreadPoolExecutor) field.get(executor);
         }

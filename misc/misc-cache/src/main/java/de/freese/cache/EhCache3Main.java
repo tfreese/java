@@ -20,13 +20,13 @@ public final class EhCache3Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(EhCache3Main.class);
 
     public static void main(final String[] args) throws Exception {
-        URL configUrl = ClassLoader.getSystemResource("ehcache3.xml");
-        Configuration xmlConfig = new XmlConfiguration(configUrl);
+        final URL configUrl = ClassLoader.getSystemResource("ehcache3.xml");
+        final Configuration xmlConfig = new XmlConfiguration(configUrl);
 
         try (CacheManager cacheManager = CacheManagerBuilder.newCacheManager(xmlConfig)) {
             cacheManager.init();
 
-            Cache<String, String> cache = cacheManager.getCache("defaultCache", String.class, String.class);
+            final Cache<String, String> cache = cacheManager.getCache("defaultCache", String.class, String.class);
 
             if (cache == null) {
                 LOGGER.error("Cache not exist");
@@ -35,7 +35,7 @@ public final class EhCache3Main {
 
             ForkJoinPool.commonPool().execute(() -> {
                 while (true) {
-                    String value = cache.get("key");
+                    final String value = cache.get("key");
                     LOGGER.info("{}: cache value = {}}", Thread.currentThread().getName(), value);
 
                     if (value == null) {

@@ -20,7 +20,7 @@ public abstract class AbstractLongBinding extends AbstractLongExpression impleme
 
     @Override
     public void update() {
-        long old = this.value;
+        final long old = this.value;
         this.value = computeValue();
 
         if (Objects.equals(old, this.value)) {

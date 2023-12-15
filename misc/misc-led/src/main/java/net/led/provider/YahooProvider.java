@@ -37,6 +37,7 @@ public class YahooProvider implements Runnable {
 
     private final List<UpdateListener> listeners = new ArrayList<>();
     private final List<String> symbols = new ArrayList<>();
+
     private Thread feedThread;
 
     public void addSymbol(final String symbol) {
@@ -73,7 +74,7 @@ public class YahooProvider implements Runnable {
 
     @Override
     public void run() {
-        Thread currentThread = Thread.currentThread();
+        final Thread currentThread = Thread.currentThread();
 
         int index = 0;
         String symbol;
@@ -118,7 +119,7 @@ public class YahooProvider implements Runnable {
     }
 
     public void stop() {
-        Thread t = this.feedThread;
+        final Thread t = this.feedThread;
         this.feedThread = null;
 
         if (t != null) {
@@ -130,7 +131,7 @@ public class YahooProvider implements Runnable {
      * Reads data from Yahoo! for each symbol.
      */
     private void readSymbolData(final String symbol) {
-        String feedURL = "http://finance.yahoo.com/d/quotes.csv?s=" + symbol + "&f=sl9p4&e=.csv";
+        final String feedURL = "http://finance.yahoo.com/d/quotes.csv?s=" + symbol + "&f=sl9p4&e=.csv";
         URL url = null;
 
         try {
@@ -142,7 +143,7 @@ public class YahooProvider implements Runnable {
         }
 
         String line = null;
-        StringTokenizer st;
+        final StringTokenizer st;
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8))) {
             line = br.readLine();
@@ -188,7 +189,7 @@ public class YahooProvider implements Runnable {
             }
 
             if ((last != null) && (changePercent != null)) {
-                Stock stock = new Stock(symbol, last, changePercent);
+                final Stock stock = new Stock(symbol, last, changePercent);
                 sendStock(stock);
             }
         }

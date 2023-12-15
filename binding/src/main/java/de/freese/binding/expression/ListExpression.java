@@ -8,8 +8,7 @@ import de.freese.binding.collections.ObservableListValue;
  */
 public interface ListExpression<T> extends ObservableListValue<T> {
 
-    // public default IntegerBinding length()
-    // {
+    // public default IntegerBinding length() {
     // return Bindings.length(this);
     // }
 }

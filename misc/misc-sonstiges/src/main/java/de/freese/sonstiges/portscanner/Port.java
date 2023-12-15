@@ -18,9 +18,7 @@ class Port implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(Port.class);
 
     private final InetAddress host;
-
     private final Map<Integer, Port> openPorts;
-
     private final int port;
 
     Port(final Map<Integer, Port> openPorts, final InetAddress host, final int port) {

@@ -42,7 +42,7 @@ public final class TestUtil {
         // jdbc:hsqldb:mem:mails
         // jdbc:hsqldb:file:/tmp/mails/mails;create=false;readonly=true;shutdown=true
         // jdbc:hsqldb:res:hsqldb/person;create=false;readonly=true
-        JDBCPool dataSource = new JDBCPool();
+        final JDBCPool dataSource = new JDBCPool();
         dataSource.setUrl(url);
         dataSource.setUser("sa");
         dataSource.setPassword("");
@@ -53,7 +53,7 @@ public final class TestUtil {
     public static DataSource createMySQLDBDataSource(final String url) throws SQLException {
         // jdbc:mariadb://localhost:3306/kodi_video99
         // useInformationSchema: Für Anzeige der Kommentare
-        MariaDbPoolDataSource dataSource = new MariaDbPoolDataSource(url + "?useInformationSchema=true");
+        final MariaDbPoolDataSource dataSource = new MariaDbPoolDataSource(url + "?useInformationSchema=true");
         dataSource.setUser("tommy");
         dataSource.setPassword("tommy");
 
@@ -65,13 +65,13 @@ public final class TestUtil {
         // remarksReporting: Für Anzeige der Kommentare
 
         // Deprecated
-        OracleDataSource dataSource = new OracleDataSource();
+        final OracleDataSource dataSource = new OracleDataSource();
         dataSource.setDriverType("thin");
         dataSource.setURL(url + "?remarksReporting=true");
         dataSource.setUser("...");
         dataSource.setPassword("...");
 
-        Properties properties = new Properties();
+        final Properties properties = new Properties();
         properties.setProperty("MinLimit", "1");
         properties.setProperty("MaxLimit", "4");
         properties.setProperty("InitialLimit", "1");
@@ -83,13 +83,13 @@ public final class TestUtil {
         // import oracle.ucp.jdbc.PoolDataSource;
         // import oracle.ucp.jdbc.PoolDataSourceFactory;
         //
-        // PoolDataSource poolDataSource = PoolDataSourceFactory.getPoolDataSource();
+        // final PoolDataSource poolDataSource = PoolDataSourceFactory.getPoolDataSource();
         // poolDataSource.setConnectionFactoryClassName(OracleDataSource.class.getName());
         // poolDataSource.setURL("jdbc:oracle:thin:@localhost:1521:XE");
         // poolDataSource.setUser("SYSTEM");
         // poolDataSource.setPassword("****");
 
-        //        HikariConfig config = new HikariConfig();
+        //        final HikariConfig config = new HikariConfig();
         //        config.setDriverClassName("oracle.jdbc.OracleDriver");
         //        config.setJdbcUrl(url);
         //        config.setUsername(user);
@@ -106,11 +106,11 @@ public final class TestUtil {
 
     public static DataSource createSQLiteDataSource(final String url) {
         // jdbc:sqlite:/tmp/MyVideos99.db
-        SQLiteConfig config = new SQLiteConfig();
+        final SQLiteConfig config = new SQLiteConfig();
         // config.setReadOnly(true);
         // config.setReadUncommited(true);
 
-        SQLiteDataSource dataSource = new SQLiteConnectionPoolDataSource(config);
+        final SQLiteDataSource dataSource = new SQLiteConnectionPoolDataSource(config);
         dataSource.setUrl(url);
 
         return dataSource;
@@ -123,7 +123,7 @@ public final class TestUtil {
      * Wenn das ResultSet einen Typ != ResultSet.TYPE_FORWARD_ONLY besitzt, wird ResultSet.first() aufgerufen und kann weiter verwendet werden.
      */
     public static void write(final ResultSet resultSet, final PrintStream ps) throws SQLException {
-        List<String[]> rows = toList(resultSet);
+        final List<String[]> rows = toList(resultSet);
         padding(rows, " ");
         addHeaderSeparator(rows, "-");
 
@@ -143,15 +143,15 @@ public final class TestUtil {
             return;
         }
 
-        String sep = (separator == null) || separator.isBlank() ? "-" : separator;
+        final String sep = (separator == null) || separator.isBlank() ? "-" : separator;
 
-        int columnCount = rows.get(0).length;
+        final int columnCount = rows.get(0).length;
 
         // Trenner zwischen Header und Daten.
-        // T[] row = (T[]) Array.newInstance(String.class, columnCount);
-        // T[] row = Arrays.copyOf(rows.get(0), columnCount);
-        // T[] row = rows.get(0).clone();
-        String[] row = new String[columnCount];
+        // final T[] row = (T[]) Array.newInstance(String.class, columnCount);
+        // final T[] row = Arrays.copyOf(rows.get(0), columnCount);
+        // final T[] row = rows.get(0).clone();
+        final String[] row = new String[columnCount];
 
         for (int column = 0; column < columnCount; column++) {
             // row[column] = String.join("", Collections.nCopies(rows.get(0)[column].length(), sep));
@@ -171,10 +171,10 @@ public final class TestUtil {
             return;
         }
 
-        int columnCount = rows.get(0).length;
+        final int columnCount = rows.get(0).length;
 
         // Breite pro Spalte herausfinden.
-        int[] columnWidth = new int[columnCount];
+        final int[] columnWidth = new int[columnCount];
 
         // @formatter:off
         IntStream.range(0, columnCount).forEach(column ->
@@ -188,11 +188,11 @@ public final class TestUtil {
         // @formatter:on
 
         // Strings pro Spalte formatieren und schreiben.
-        String pad = (padding == null) || padding.isBlank() ? " " : padding;
+        final String pad = (padding == null) || padding.isBlank() ? " " : padding;
 
         rows.stream().parallel().forEach(r -> {
             for (int column = 0; column < columnCount; column++) {
-                String value = rightPad(r[column].toString(), columnWidth[column], pad);
+                final String value = rightPad(r[column].toString(), columnWidth[column], pad);
 
                 r[column] = (T) value;
             }
@@ -200,12 +200,9 @@ public final class TestUtil {
     }
 
     private static String rightPad(final String value, final int size, final String padding) {
-        String newValue;
+        final String newValue = String.format("%-" + size + "s", value).replace(" ", padding);
 
-        newValue = String.format("%-" + size + "s", value).replace(" ", padding);
-
-        // if (value == null || value.trim().isEmpty())
-        // {
+        // if (value == null || value.trim().isEmpty()) {
         // return newValue;
         // }
         //
@@ -224,13 +221,13 @@ public final class TestUtil {
     private static List<String[]> toList(final ResultSet resultSet) throws SQLException {
         Objects.requireNonNull(resultSet, "resultSet required");
 
-        List<String[]> rows = new ArrayList<>();
+        final List<String[]> rows = new ArrayList<>();
 
-        ResultSetMetaData metaData = resultSet.getMetaData();
-        int columnCount = metaData.getColumnCount();
+        final ResultSetMetaData metaData = resultSet.getMetaData();
+        final int columnCount = metaData.getColumnCount();
 
         // Spaltennamen / Header
-        String[] header = new String[columnCount];
+        final String[] header = new String[columnCount];
         rows.add(header);
 
         for (int column = 1; column <= columnCount; column++) {
@@ -239,12 +236,12 @@ public final class TestUtil {
 
         // Daten
         while (resultSet.next()) {
-            String[] row = new String[columnCount];
+            final String[] row = new String[columnCount];
             rows.add(row);
 
             for (int column = 1; column <= columnCount; column++) {
-                Object obj = resultSet.getObject(column);
-                String value = null;
+                final Object obj = resultSet.getObject(column);
+                final String value;
 
                 if (obj == null) {
                     value = "";

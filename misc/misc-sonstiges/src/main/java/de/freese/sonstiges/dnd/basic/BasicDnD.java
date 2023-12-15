@@ -49,11 +49,11 @@ public final class BasicDnD extends JPanel implements ActionListener {
         // Make sure we have nice window decorations.
         // JFrame.setDefaultLookAndFeelDecorated(true);
         // Create and set up the window.
-        JFrame frame = new JFrame("BasicDnD");
+        final JFrame frame = new JFrame("BasicDnD");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // Create and set up the content pane.
-        JComponent newContentPane = new BasicDnD();
+        final JComponent newContentPane = new BasicDnD();
         newContentPane.setOpaque(true); // content panes must be opaque
         frame.setContentPane(newContentPane);
 
@@ -63,27 +63,21 @@ public final class BasicDnD extends JPanel implements ActionListener {
     }
 
     private final JColorChooser colorChooser;
-
     private final JList<String> list;
-
     private final JTable table;
-
     private final JTextArea textArea;
-
     private final JTextField textField;
-
     private final JCheckBox toggleDnD;
-
     private final JTree tree;
 
     private BasicDnD() {
         super(new BorderLayout());
 
-        JPanel leftPanel = createVerticalBoxPanel();
-        JPanel rightPanel = createVerticalBoxPanel();
+        final JPanel leftPanel = createVerticalBoxPanel();
+        final JPanel rightPanel = createVerticalBoxPanel();
 
         // Create a table model.
-        DefaultTableModel tm = new DefaultTableModel();
+        final DefaultTableModel tm = new DefaultTableModel();
         tm.addColumn("Column 0");
         tm.addColumn("Column 1");
         tm.addColumn("Column 2");
@@ -112,11 +106,11 @@ public final class BasicDnD extends JPanel implements ActionListener {
         this.textArea = new JTextArea(5, 30);
         this.textArea.setText("Favorite shows:\nBuffy, Alias, Angel");
 
-        JScrollPane scrollPane = new JScrollPane(this.textArea);
+        final JScrollPane scrollPane = new JScrollPane(this.textArea);
         rightPanel.add(createPanelForComponent(scrollPane, "JTextArea"));
 
         // Create a list model and a list.
-        DefaultListModel<String> listModel = new DefaultListModel<>();
+        final DefaultListModel<String> listModel = new DefaultListModel<>();
         listModel.addElement("Martha Washington");
         listModel.addElement("Abigail Adams");
         listModel.addElement("Martha Randolph");
@@ -127,29 +121,29 @@ public final class BasicDnD extends JPanel implements ActionListener {
         this.list = new JList<>(listModel);
         this.list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-        JScrollPane listView = new JScrollPane(this.list);
+        final JScrollPane listView = new JScrollPane(this.list);
         listView.setPreferredSize(new Dimension(300, 100));
         rightPanel.add(createPanelForComponent(listView, "JList"));
 
         // Create a tree.
-        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Mia Familia");
-        DefaultMutableTreeNode sharon = new DefaultMutableTreeNode("Sharon");
+        final DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Mia Familia");
+        final DefaultMutableTreeNode sharon = new DefaultMutableTreeNode("Sharon");
         rootNode.add(sharon);
 
-        DefaultMutableTreeNode maya = new DefaultMutableTreeNode("Maya");
+        final DefaultMutableTreeNode maya = new DefaultMutableTreeNode("Maya");
         sharon.add(maya);
 
-        DefaultMutableTreeNode anya = new DefaultMutableTreeNode("Anya");
+        final DefaultMutableTreeNode anya = new DefaultMutableTreeNode("Anya");
         sharon.add(anya);
         sharon.add(new DefaultMutableTreeNode("Bongo"));
         maya.add(new DefaultMutableTreeNode("Muffin"));
         anya.add(new DefaultMutableTreeNode("Winky"));
 
-        DefaultTreeModel model = new DefaultTreeModel(rootNode);
+        final DefaultTreeModel model = new DefaultTreeModel(rootNode);
         this.tree = new JTree(model);
         this.tree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
 
-        JScrollPane treeView = new JScrollPane(this.tree);
+        final JScrollPane treeView = new JScrollPane(this.tree);
         treeView.setPreferredSize(new Dimension(300, 100));
         rightPanel.add(createPanelForComponent(treeView, "JTree"));
 
@@ -158,7 +152,7 @@ public final class BasicDnD extends JPanel implements ActionListener {
         this.toggleDnD.setActionCommand("toggleDnD");
         this.toggleDnD.addActionListener(this);
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
+        final JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         splitPane.setOneTouchExpandable(true);
 
         add(splitPane, BorderLayout.CENTER);
@@ -169,7 +163,7 @@ public final class BasicDnD extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(final ActionEvent e) {
         if ("toggleDnD".equals(e.getActionCommand())) {
-            boolean toggle = this.toggleDnD.isSelected();
+            final boolean toggle = this.toggleDnD.isSelected();
             this.textArea.setDragEnabled(toggle);
             this.textField.setDragEnabled(toggle);
             this.list.setDragEnabled(toggle);
@@ -180,7 +174,7 @@ public final class BasicDnD extends JPanel implements ActionListener {
     }
 
     public JPanel createPanelForComponent(final JComponent comp, final String title) {
-        JPanel panel = new JPanel(new BorderLayout());
+        final JPanel panel = new JPanel(new BorderLayout());
         panel.add(comp, BorderLayout.CENTER);
 
         if (title != null) {
@@ -191,7 +185,7 @@ public final class BasicDnD extends JPanel implements ActionListener {
     }
 
     private JPanel createVerticalBoxPanel() {
-        JPanel p = new JPanel();
+        final JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.PAGE_AXIS));
         p.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 

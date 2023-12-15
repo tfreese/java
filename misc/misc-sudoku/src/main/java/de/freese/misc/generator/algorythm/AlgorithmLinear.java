@@ -15,9 +15,7 @@ import java.util.List;
 @Deprecated
 public class AlgorithmLinear implements SudokuAlgorithm {
     private int blockSize = 0;
-
     private int[][] grid;
-
     private List<Integer> numberList;
 
     @Override
@@ -29,8 +27,8 @@ public class AlgorithmLinear implements SudokuAlgorithm {
         int currentRow = 0;
 
         // Versuche zum Auflösen einer Zeile
-        int[] trials = new int[grid.length];
-        boolean traceOn = true;
+        final int[] trials = new int[grid.length];
+        final boolean traceOn = true;
 
         // Zeilenweisen füllen des Arrays
         while (currentRow < grid[0].length) {
@@ -89,7 +87,7 @@ public class AlgorithmLinear implements SudokuAlgorithm {
      * @return int, Anzahl verfügbarer Zahlen
      */
     private int fillArrayList(final int row, final int col) {
-        boolean[] available = new boolean[this.grid.length];
+        final boolean[] available = new boolean[this.grid.length];
         Arrays.fill(available, true);
 
         // Entfernen der Zahlen, die in der Zeile schon existieren
@@ -103,8 +101,8 @@ public class AlgorithmLinear implements SudokuAlgorithm {
         }
 
         // Entfernen der Zahlen, die in der Box schon existieren
-        Point rowRange = getRegionRowsOrCols(row);
-        Point colRange = getRegionRowsOrCols(col);
+        final Point rowRange = getRegionRowsOrCols(row);
+        final Point colRange = getRegionRowsOrCols(col);
 
         for (int x = rowRange.x; x < row; x++) {
             for (int y = colRange.x; y <= colRange.y; y++) {
@@ -146,7 +144,7 @@ public class AlgorithmLinear implements SudokuAlgorithm {
             }
 
             // Zufällige frei Zahl zuweisen
-            int index = (int) (Math.random() * this.numberList.size());
+            final int index = (int) (Math.random() * this.numberList.size());
             this.grid[row][col] = this.numberList.remove(index);
         }
 
@@ -157,8 +155,8 @@ public class AlgorithmLinear implements SudokuAlgorithm {
      * Liefert die erste und letzte Zeile/Spalte innerhalb des Blocks.
      */
     private Point getRegionRowsOrCols(final int rowOrCol) {
-        int x = (rowOrCol / this.blockSize) * this.blockSize;
-        int y = (x + this.blockSize) - 1;
+        final int x = (rowOrCol / this.blockSize) * this.blockSize;
+        final int y = (x + this.blockSize) - 1;
 
         return new Point(x, y);
     }

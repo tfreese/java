@@ -42,11 +42,11 @@ public final class DragColorMain extends JPanel implements ActionListener {
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         // Create and set up the window.
-        JFrame frame = new JFrame("DragColorMain");
+        final JFrame frame = new JFrame("DragColorMain");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // Create and set up the content pane.
-        JComponent newContentPane = new DragColorMain();
+        final JComponent newContentPane = new DragColorMain();
         newContentPane.setOpaque(true); // content panes must be opaque
         frame.setContentPane(newContentPane);
 
@@ -56,7 +56,6 @@ public final class DragColorMain extends JPanel implements ActionListener {
     }
 
     private final ColorTransferHandler colorHandler;
-
     private final JCheckBox toggleForeground;
 
     private DragColorMain() {
@@ -64,7 +63,7 @@ public final class DragColorMain extends JPanel implements ActionListener {
 
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        JColorChooser chooser = new JColorChooser();
+        final JColorChooser chooser = new JColorChooser();
         chooser.setDragEnabled(true);
         add(chooser, BorderLayout.PAGE_START);
 
@@ -72,10 +71,10 @@ public final class DragColorMain extends JPanel implements ActionListener {
         this.colorHandler = new ColorTransferHandler();
 
         // Create a matrix of 9 buttons.
-        JPanel buttonPanel = new JPanel(new GridLayout(3, 3));
+        final JPanel buttonPanel = new JPanel(new GridLayout(3, 3));
 
         for (int i = 0; i < 9; i++) {
-            JButton tmp = new JButton("Button " + i);
+            final JButton tmp = new JButton("Button " + i);
             tmp.setTransferHandler(this.colorHandler);
             buttonPanel.add(tmp);
         }
@@ -87,12 +86,12 @@ public final class DragColorMain extends JPanel implements ActionListener {
         this.toggleForeground.setSelected(true);
         this.toggleForeground.addActionListener(this);
 
-        JPanel textPanel = new JPanel(new BorderLayout());
+        final JPanel textPanel = new JPanel(new BorderLayout());
         textPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         textPanel.add(this.toggleForeground, BorderLayout.PAGE_START);
 
         // Create a label.
-        JLabel label = new JLabel("Change the dnd.color of any button or this label by dropping a dnd.color.");
+        final JLabel label = new JLabel("Change the dnd.color of any button or this label by dropping a dnd.color.");
         label.setTransferHandler(this.colorHandler);
         label.setOpaque(true); // So the background dnd.color can be changed.
         textPanel.add(label, BorderLayout.PAGE_END);

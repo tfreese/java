@@ -23,11 +23,10 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Freese
  */
 public class NetworkMetrics implements MeterBinder {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(NetworkMetrics.class);
 
     private final List<String> activeInterfaces = new ArrayList<>();
-
     private final Iterable<Tag> tags;
 
     public NetworkMetrics() {
@@ -53,7 +52,7 @@ public class NetworkMetrics implements MeterBinder {
         // Der StepFunctionCounter berechnet die Differenz automatisch.
         // Die Reihenfolge der Meter-Abfrage ergibt sich aus deren Reihenfolge der Registrierung.
         this.activeInterfaces.forEach(iface -> {
-            NetworkInterface networkInterface = new NetworkInterface(iface);
+            final NetworkInterface networkInterface = new NetworkInterface(iface);
 
             // @formatter:off
             FunctionCounter.builder("network.in", networkInterface, NetworkInterface::getInput)
@@ -78,12 +77,12 @@ public class NetworkMetrics implements MeterBinder {
             interfacePaths = interfaces.toList();
         }
 
-        List<String> interfaces = new ArrayList<>();
+        final List<String> interfaces = new ArrayList<>();
 
         for (Path interfacePath : interfacePaths) {
-            Path pathState = interfacePath.resolve("operstate");
+            final Path pathState = interfacePath.resolve("operstate");
 
-            String state = Files.readString(pathState);
+            final String state = Files.readString(pathState);
 
             if ("up".equals(state.strip())) {
                 interfaces.add(interfacePath.getFileName().toString());
@@ -93,13 +92,11 @@ public class NetworkMetrics implements MeterBinder {
         return interfaces;
     }
 
-    // private void update()
-    // {
-    // for (String iface : this.activeInterfaces)
-    // {
+    // private void update() {
+    // for (String iface : this.activeInterfaces) {
     // try
     // {
-    // List<String> lines = executeCommand("ifconfig", iface);
+    // final List<String> lines = executeCommand("ifconfig", iface);
     //
     // // lines.stream().forEach(System.out::println);
     // // lines.stream().map(l -> l.trim()).filter(l -> l.startsWith("RX packets")).forEach(System.out::println);
@@ -110,21 +107,21 @@ public class NetworkMetrics implements MeterBinder {
     // // TX packets 15894 bytes 1288395 (1.2 MiB)
     // // long inputOld = this.input;
     //
-    // long input = lines.stream().map(String::trim).filter(l -> l.startsWith("RX packets")).mapToLong(l -> {
-    // Matcher matcher = PATTERN_BYTES.matcher(l);
+    // final long input = lines.stream().map(String::trim).filter(l -> l.startsWith("RX packets")).mapToLong(l -> {
+    // final Matcher matcher = PATTERN_BYTES.matcher(l);
     //
     // matcher.find();
-    // long value = Long.parseLong(matcher.group(1));
+    // final long value = Long.parseLong(matcher.group(1));
     // return value;
     // }).findFirst().orElse(0L);
     //
     // Metrics.globalRegistry.find("network.in").tag("interface", iface).counter().increment(input);
     //
-    // long output = lines.stream().map(String::trim).filter(l -> l.startsWith("TX packets")).mapToLong(l -> {
-    // Matcher matcher = PATTERN_BYTES.matcher(l);
+    // final long output = lines.stream().map(String::trim).filter(l -> l.startsWith("TX packets")).mapToLong(l -> {
+    // final Matcher matcher = PATTERN_BYTES.matcher(l);
     //
     // matcher.find();
-    // long value = Long.parseLong(matcher.group(1));
+    // final long value = Long.parseLong(matcher.group(1));
     // return value;
     // }).findFirst().orElse(0L);
     //
@@ -132,8 +129,7 @@ public class NetworkMetrics implements MeterBinder {
     //
     // // System.out.printf("NetworkMetrics.update(): Input=%d, Output=%d", this.input, this.output);
     // }
-    // catch (Exception ex)
-    // {
+    // catch (Exception ex) {
     // LOGGER.error(ex.getMessage(), ex);
     // }
     // }

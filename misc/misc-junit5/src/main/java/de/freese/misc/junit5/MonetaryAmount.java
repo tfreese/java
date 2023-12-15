@@ -11,7 +11,6 @@ import java.util.Currency;
  */
 public class MonetaryAmount {
     private final Currency currency;
-
     private final BigDecimal value;
 
     public MonetaryAmount(final BigDecimal value, final Currency currency) {

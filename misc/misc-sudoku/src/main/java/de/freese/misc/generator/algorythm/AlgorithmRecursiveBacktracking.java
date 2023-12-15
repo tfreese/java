@@ -12,7 +12,7 @@ public class AlgorithmRecursiveBacktracking implements SudokuAlgorithm {
         boolean emptyField = false;
 
         // Mögliche Zahlen zufällig generieren
-        int[] shuffledNumbers = shuffleNumbers(grid.length);
+        final int[] shuffledNumbers = shuffleNumbers(grid.length);
 
         // Durch die Spalten gehen
         for (int x = 0; x < grid.length; x++) {
@@ -23,7 +23,7 @@ public class AlgorithmRecursiveBacktracking implements SudokuAlgorithm {
 
                     // Für alle möglichen Zahlen
                     for (int k = 0; k < grid.length; k++) {
-                        int value = shuffledNumbers[k] + 1;
+                        final int value = shuffledNumbers[k] + 1;
 
                         if (isLegal(grid, x, y, value)) {
                             grid[x][y] = value;
@@ -53,10 +53,10 @@ public class AlgorithmRecursiveBacktracking implements SudokuAlgorithm {
      */
     private boolean checkBox(final int[][] grid, final int x, final int y, final int value) {
         // Oberes, linke Ecke der Box herausfinden
-        int blockSize = (int) Math.sqrt(grid.length);
+        final int blockSize = (int) Math.sqrt(grid.length);
 
-        int xStart = (x / blockSize) * blockSize;
-        int yStart = (y / blockSize) * blockSize;
+        final int xStart = (x / blockSize) * blockSize;
+        final int yStart = (y / blockSize) * blockSize;
 
         for (int a = xStart; a < (xStart + blockSize); a++) {
             for (int b = yStart; b < (yStart + blockSize); b++) {
@@ -106,15 +106,15 @@ public class AlgorithmRecursiveBacktracking implements SudokuAlgorithm {
      * Liefert ein Array der verwendeten Zahlen in zufälliger Reihenfolge.
      */
     private int[] shuffleNumbers(final int size) {
-        int[] list = new int[size];
+        final int[] list = new int[size];
 
         for (int i = 0; i < size; i++) {
             list[i] = i;
         }
 
         for (int i = 0; i < size; i++) {
-            int r = (int) (Math.random() * size);
-            int swap = list[r];
+            final int r = (int) (Math.random() * size);
+            final int swap = list[r];
             list[r] = list[i];
             list[i] = swap;
         }

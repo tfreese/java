@@ -52,11 +52,8 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
     }
 
     private final Backend delegateBackend;
-
     private final BlockingQueue<SensorValue> queue = new LinkedBlockingQueue<>();
-
     private final AtomicBoolean stoppedRef;
-
     private final QueueWorker worker;
 
     public WorkerBackend(final Backend delegateBackend) {

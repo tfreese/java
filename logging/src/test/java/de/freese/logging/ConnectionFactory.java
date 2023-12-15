@@ -47,9 +47,9 @@ public final class ConnectionFactory {
     private ConnectionFactory() {
         super();
 
-        Path dbPath = Paths.get(System.getProperty("user.home"), "db", "logging", "logging");
+        final Path dbPath = Paths.get(System.getProperty("user.home"), "db", "logging", "logging");
 
-        JDBCPool pool = new JDBCPool(3);
+        final JDBCPool pool = new JDBCPool(3);
         pool.setUrl("jdbc:hsqldb:file:" + dbPath + ";shutdown=true");
         pool.setUser("sa");
         pool.setPassword("sa");
@@ -65,7 +65,7 @@ public final class ConnectionFactory {
 
     public void close() throws Exception {
         try (Connection connection = getDataSource().getConnection()) {
-            String productName = connection.getMetaData().getDatabaseProductName();
+            final String productName = connection.getMetaData().getDatabaseProductName();
 
             // Handled already by hsql with 'shutdown=true'.
             if (productName.contains("h2") || productName.contains("hsql")) {
@@ -112,7 +112,7 @@ public final class ConnectionFactory {
              Statement statement = connection.createStatement()) {
             // MESSAGE LONGVARCHAR
             // THROWABLE LONGVARCHAR
-            String sql = """
+            final String sql = """
                     create table if not exists LOGGING (
                         ID BIGINT NOT NULL PRIMARY KEY,
                         EVENT_DATE TIMESTAMP NOT NULL,
@@ -150,7 +150,7 @@ public final class ConnectionFactory {
                  BufferedReader reader = new BufferedReader(inputStreamReader)) {
 
                 // @formatter:off
-                String sql = reader.lines()
+                final String sql = reader.lines()
                         .filter(Objects::nonNull)
                         .map(String::strip)
                         .filter(line -> !line.isEmpty())

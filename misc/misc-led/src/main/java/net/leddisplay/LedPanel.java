@@ -19,9 +19,7 @@ public class LedPanel extends JPanel {
     private final transient Matrix matrix;
 
     private transient Element displayElement;
-
     private int height;
-
     private Dimension preferredSize;
 
     public LedPanel(final Matrix matrix) {
@@ -39,7 +37,7 @@ public class LedPanel extends JPanel {
         Dimension dimension = super.getPreferredSize();
 
         if (this.preferredSize == null) {
-            Insets insets = getInsets();
+            final Insets insets = getInsets();
             dimension = new Dimension(dimension.width + 399, this.height + insets.top + insets.bottom);
         }
 

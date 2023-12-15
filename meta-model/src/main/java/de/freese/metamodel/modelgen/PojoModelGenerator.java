@@ -10,7 +10,7 @@ import de.freese.metamodel.modelgen.model.ClassModel;
 public class PojoModelGenerator extends AbstractModelGenerator {
     @Override
     protected void transformClassJavaDoc(final Table table, final ClassModel classModel) {
-        String comment = table.getComment();
+        final String comment = table.getComment();
 
         if ((comment != null) && !comment.isBlank()) {
             classModel.addComment(comment);

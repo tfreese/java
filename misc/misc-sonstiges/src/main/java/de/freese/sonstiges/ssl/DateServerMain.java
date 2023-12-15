@@ -65,7 +65,7 @@ public final class DateServerMain extends Thread {
     }
 
     public static void main(final String[] argv) throws Exception {
-        DateServerMain server = new DateServerMain();
+        final DateServerMain server = new DateServerMain();
         server.start();
     }
 
@@ -74,12 +74,12 @@ public final class DateServerMain extends Thread {
     private DateServerMain() throws Exception {
         super();
 
-        boolean isSSL = true;
+        final boolean isSSL = true;
         ServerSocketFactory serverSocketFactory = null;
 
         if (isSSL) {
             // SSLContext sslContext = SSLContextFactory.createDefault();
-            SSLContext sslContext = DateClientMain.createSSLContext("src/main/resources/serverKeyStore", "server-pw".toCharArray(), "src/main/resources/clientTrustStore", "client-pw".toCharArray(), "server1-cert-pw".toCharArray());
+            final SSLContext sslContext = DateClientMain.createSSLContext("src/main/resources/serverKeyStore", "server-pw".toCharArray(), "src/main/resources/clientTrustStore", "client-pw".toCharArray(), "server1-cert-pw".toCharArray());
 
             serverSocketFactory = sslContext.getServerSocketFactory();
         }
@@ -102,10 +102,10 @@ public final class DateServerMain extends Thread {
             System.out.println("Waiting for connections.");
 
             try {
-                Socket clientSocket = this.serverSocket.accept();
+                final Socket clientSocket = this.serverSocket.accept();
                 System.out.println("Accepted a connection from: " + clientSocket.getInetAddress());
 
-                Runnable connect = new Connect(clientSocket);
+                final Runnable connect = new Connect(clientSocket);
                 ForkJoinPool.commonPool().execute(connect);
             }
             catch (Exception ex) {

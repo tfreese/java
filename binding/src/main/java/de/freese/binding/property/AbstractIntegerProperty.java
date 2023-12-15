@@ -17,7 +17,7 @@ public abstract class AbstractIntegerProperty extends AbstractIntegerExpression 
 
     @Override
     public void setValue(final Integer value) {
-        int old = this.value;
+        final int old = this.value;
         this.value = value;
 
         if (old != value) {

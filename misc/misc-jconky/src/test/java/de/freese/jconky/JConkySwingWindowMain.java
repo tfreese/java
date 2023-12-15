@@ -19,7 +19,7 @@ public final class JConkySwingWindowMain {
     public static void main(final String[] args) {
         JFrame.setDefaultLookAndFeelDecorated(true);
 
-        JFrame frame = new JFrame();
+        final JFrame frame = new JFrame();
         frame.setType(Type.POPUP);
         frame.setUndecorated(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -29,13 +29,13 @@ public final class JConkySwingWindowMain {
         frame.setLocationRelativeTo(null);
         // frame.setOpacity((float) Settings.getInstance().getAlpha());
 
-        JFXPanel fxPanel = new JFXPanel();
+        final JFXPanel fxPanel = new JFXPanel();
         fxPanel.setBackground(new Color(0, 0, 0, 0));
         // fxPanel.setBackground(Color.BLACK);
         frame.setContentPane(fxPanel);
 
         Platform.runLater(() -> {
-            JConky jConky = new JConky();
+            final JConky jConky = new JConky();
 
             try {
                 jConky.init();
@@ -44,7 +44,7 @@ public final class JConkySwingWindowMain {
                 JConky.getLogger().error(ex.getMessage(), ex);
             }
 
-            Scene scene = jConky.createScene();
+            final Scene scene = jConky.createScene();
             scene.setFill(new javafx.scene.paint.Color(0D, 0D, 0D, Settings.getInstance().getAlpha()));
             fxPanel.setScene(scene);
 

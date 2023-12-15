@@ -34,7 +34,6 @@ public class Ball {
      * [m]
      */
     private final double radius;
-
     private boolean finished;
     /**
      * Horizontale Geschwindigkeit [m/s].
@@ -198,13 +197,13 @@ public class Ball {
         deltaTime = Math.min(deltaTime, Math.min(timeToX, timeToY));
 
         // s = v * t
-        double dx = this.vx * deltaTime;
+        final double dx = this.vx * deltaTime;
 
         // v = a*t + vₒ
         this.vy = (-GRAVITATION * deltaTime) + this.vy;
 
         // s = sₒ + vₒt + ½gt²
-        double dy = (this.vy * deltaTime) + (0.5D * GRAVITATION * Math.pow(deltaTime, 2.0D));
+        final double dy = (this.vy * deltaTime) + (0.5D * GRAVITATION * Math.pow(deltaTime, 2.0D));
 
         this.x += dx;
         this.y += dy;
@@ -276,13 +275,13 @@ public class Ball {
         // double t1 = (-b + Math.sqrt(Math.pow(b, 2.0D) - (4.0D * a * c))) / (2.0D * a);
         // double t2 = (-b - Math.sqrt(Math.pow(b, 2.0D) - (4.0D * a * c))) / (2.0D * a);
 
-        double p = this.vy / -GRAVITATION;
-        double q = (2.0D * ((this.y + this.radius) - this.maxY.getAsInt())) / -GRAVITATION;
+        final double p = this.vy / -GRAVITATION;
+        final double q = (2.0D * ((this.y + this.radius) - this.maxY.getAsInt())) / -GRAVITATION;
 
-        double t1 = -p + Math.sqrt(Math.pow(p, 2.0D) - q);
-        double t2 = -p - Math.sqrt(Math.pow(p, 2.0D) - q);
+        final double t1 = -p + Math.sqrt(Math.pow(p, 2.0D) - q);
+        final double t2 = -p - Math.sqrt(Math.pow(p, 2.0D) - q);
 
-        double t = Math.min(Math.abs(t1), Math.abs(t2));
+        final double t = Math.min(Math.abs(t1), Math.abs(t2));
 
         // NaN, falls Geschwindigkeit zu gering um oberen Rand zu erreichen.
         return Double.isNaN(t) ? Double.MAX_VALUE : t;
@@ -316,20 +315,20 @@ public class Ball {
      * t = -(vₒ/g) ± sqrt((vₒ/g)² - (2(sₒ - s) / g))<br>
      */
     private double flytimeUnten() {
-        // double a = GRAVITATION;
-        // double b = 2.0D * -this.vy;
-        // double c = 2.0D * (this.y - this.radius);
+        // final double a = GRAVITATION;
+        // final double b = 2.0D * -this.vy;
+        // final double c = 2.0D * (this.y - this.radius);
         //
-        // double t1 = (-b + Math.sqrt(Math.pow(b, 2.0D) - (4.0D * a * c))) / (2.0D * a);
-        // double t2 = (-b - Math.sqrt(Math.pow(b, 2.0D) - (4.0D * a * c))) / (2.0D * a);
+        // final double t1 = (-b + Math.sqrt(Math.pow(b, 2.0D) - (4.0D * a * c))) / (2.0D * a);
+        // final double t2 = (-b - Math.sqrt(Math.pow(b, 2.0D) - (4.0D * a * c))) / (2.0D * a);
 
-        double p = -this.vy / GRAVITATION;
-        double q = (2.0D * (this.y - this.radius)) / GRAVITATION;
+        final double p = -this.vy / GRAVITATION;
+        final double q = (2.0D * (this.y - this.radius)) / GRAVITATION;
 
-        double t1 = -p + Math.sqrt(Math.pow(p, 2.0D) - q);
-        double t2 = -p - Math.sqrt(Math.pow(p, 2.0D) - q);
+        final double t1 = -p + Math.sqrt(Math.pow(p, 2.0D) - q);
+        final double t2 = -p - Math.sqrt(Math.pow(p, 2.0D) - q);
 
-        double t = Math.min(Math.abs(t1), Math.abs(t2));
+        final double t = Math.min(Math.abs(t1), Math.abs(t2));
 
         return Double.isNaN(t) ? Double.MAX_VALUE : t;
     }

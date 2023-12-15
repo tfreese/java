@@ -20,7 +20,6 @@ public class CoinConfig extends Config {
      * Key = Münze, Value = Anzahl
      */
     private Map<Integer, Long> coinCounter = new HashMap<>();
-
     private int targetCents;
 
     @Override
@@ -42,7 +41,7 @@ public class CoinConfig extends Config {
         setSizeChromosome(this.existingCoins.size());
 
         // Anzahl Münzen pro Wert zählen.
-        List<Integer> list = new ArrayList<>(this.existingCoins);
+        final List<Integer> list = new ArrayList<>(this.existingCoins);
         list.removeIf(value -> value == 0); // 0-Münzen ignorieren
 
         this.coinCounter = list.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));

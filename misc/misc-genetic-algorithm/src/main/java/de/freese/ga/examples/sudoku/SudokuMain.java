@@ -12,7 +12,7 @@ import de.freese.ga.Genotype;
  */
 public final class SudokuMain {
     public static void main(final String[] args) throws Exception {
-        SudokuConfig config = new SudokuConfig();
+        final SudokuConfig config = new SudokuConfig();
         List<String[]> puzzle = null;
 
         try (InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream("sudoku_easy_1.txt")) {
@@ -26,7 +26,7 @@ public final class SudokuMain {
         config.setCrossoverRate(0.01D); // 1 %
         config.setPuzzle(puzzle);
 
-        double maxFitness = config.getMaxFitness();
+        final double maxFitness = config.getMaxFitness();
 
         // Create an initial population
         Genotype population = new SudokuGenotype(config);
@@ -35,7 +35,7 @@ public final class SudokuMain {
         Chromosome fittest = population.getFittest();
 
         for (int i = 0; i < config.getSizeGenotype(); i++) {
-            double fitness = fittest.calcFitnessValue();
+            final double fitness = fittest.calcFitnessValue();
 
             System.out.printf("Generation: %2d; Fittest: %3.0f of %3.0f; %s%n", i, fitness, maxFitness, fittest);
 
@@ -47,8 +47,7 @@ public final class SudokuMain {
 
             fittest = population.getFittest();
 
-            // if (i == (config.getSizeGenotype() - 1))
-            // {
+            // if (i == (config.getSizeGenotype() - 1)) {
             // // Neustart
             // i = 0;
             // population = new SudokuGenotype(config);
@@ -59,7 +58,7 @@ public final class SudokuMain {
         }
 
         // 1215 = 3 x 405: In allen Zeilen, Spalten und Blöcken ist die Summe 45.
-        double fitness = fittest.calcFitnessValue();
+        final double fitness = fittest.calcFitnessValue();
 
         System.out.println(Double.compare(fitness, maxFitness) != 0 ? "Wrong Solution !!!" : "Solution found!");
         System.out.printf("Genes: Fittest: %3.0f of %3.0f%s%n", fitness, maxFitness, fittest);

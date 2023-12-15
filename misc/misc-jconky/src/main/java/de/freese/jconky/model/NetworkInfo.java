@@ -6,11 +6,11 @@ package de.freese.jconky.model;
  */
 public class NetworkInfo {
     private final long bytesReceived;
-
     private final long bytesTransmitted;
     private final String interfaceName;
     private final String ip;
     private final long timestamp;
+
     private double downloadPerSecond;
     private double uploadPerSecond;
 
@@ -29,7 +29,7 @@ public class NetworkInfo {
     }
 
     public void calculateUpAndDownload(final NetworkInfo previous) {
-        double time = (getTimestamp() - previous.getTimestamp()) / 1000D;
+        final double time = (getTimestamp() - previous.getTimestamp()) / 1000D;
 
         this.downloadPerSecond = (getBytesReceived() - previous.getBytesReceived()) / time;
         this.uploadPerSecond = (getBytesTransmitted() - previous.getBytesTransmitted()) / time;
@@ -65,7 +65,7 @@ public class NetworkInfo {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(getClass().getSimpleName());
+        final StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
         builder.append("interfaceName=").append(this.interfaceName);
         builder.append(", ip=").append(this.ip);

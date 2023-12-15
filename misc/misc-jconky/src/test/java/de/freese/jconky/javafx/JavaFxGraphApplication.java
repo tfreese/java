@@ -45,7 +45,6 @@ public final class JavaFxGraphApplication extends Application {
      */
     private static final class CompositeGraphPainter extends AbstractFxGraphPainter {
         private final BarFxGraphPainter barPainter = new BarFxGraphPainter();
-
         private final LineFxGraphPainter linePainter = new LineFxGraphPainter();
 
         public synchronized void addValue(final float value) {
@@ -55,7 +54,7 @@ public final class JavaFxGraphApplication extends Application {
 
         @Override
         public void paintGraph(final GraphicsContext gc, final double width, final double height) {
-            double halfHeight = height / 2D;
+            final double halfHeight = height / 2D;
 
             this.linePainter.paintGraph(gc, width, halfHeight);
 
@@ -63,9 +62,9 @@ public final class JavaFxGraphApplication extends Application {
             this.barPainter.paintGraph(gc, width, halfHeight);
             gc.translate(0D, -halfHeight);
 
-            double fontSize = 11D;
-            Font font = new Font("Arial", fontSize);
-            // FontMetrics metrics = Toolkit.getToolkit().getFontLoader().getFontMetrics(font);
+            final double fontSize = 11D;
+            final Font font = new Font("Arial", fontSize);
+            // final FontMetrics metrics = Toolkit.getToolkit().getFontLoader().getFontMetrics(font);
             // float charHeight = metrics.getLineHeight();
 
             gc.setFont(font);
@@ -79,9 +78,7 @@ public final class JavaFxGraphApplication extends Application {
     }
 
     private GraphicsContext gc;
-
     private ScheduledExecutorService scheduledExecutorService;
-
     private Supplier<Float> valueSupplier;
 
     /**
@@ -108,17 +105,17 @@ public final class JavaFxGraphApplication extends Application {
 
         this.valueSupplier = new SinusValueSupplier();
 
-        Canvas canvas = new Canvas();
+        final Canvas canvas = new Canvas();
         this.gc = canvas.getGraphicsContext2D();
 
-        Group pane = new Group();
+        final Group pane = new Group();
         pane.getChildren().add(canvas);
 
-        // GridPane pane = new GridPane();
+        // final GridPane pane = new GridPane();
         // pane.add(canvas, 0, 0);
 
         // Scene
-        Scene scene = new Scene(pane, 335D, 1060D, true, SceneAntialiasing.BALANCED);
+        final Scene scene = new Scene(pane, 335D, 1060D, true, SceneAntialiasing.BALANCED);
 
         // Bind canvas size to scene size.
         canvas.widthProperty().bind(scene.widthProperty());
@@ -127,7 +124,7 @@ public final class JavaFxGraphApplication extends Application {
         getLogger().info("Antialiasing: {}", scene.getAntiAliasing());
 
         // Transparenz
-        boolean isTransparentSupported = Platform.isSupported(ConditionalFeature.TRANSPARENT_WINDOW);
+        final boolean isTransparentSupported = Platform.isSupported(ConditionalFeature.TRANSPARENT_WINDOW);
         // isTransparentSupported = false;
 
         if (isTransparentSupported) {
@@ -152,11 +149,11 @@ public final class JavaFxGraphApplication extends Application {
             scene.setFill(Color.BLACK);
         }
 
-        CompositeGraphPainter graphPainter = new CompositeGraphPainter();
+        final CompositeGraphPainter graphPainter = new CompositeGraphPainter();
 
         this.scheduledExecutorService = Executors.newScheduledThreadPool(2);
         this.scheduledExecutorService.scheduleWithFixedDelay(() -> {
-            float value = this.valueSupplier.get();
+            final float value = this.valueSupplier.get();
             graphPainter.addValue(value);
 
             if (Platform.isFxApplicationThread()) {
@@ -171,8 +168,8 @@ public final class JavaFxGraphApplication extends Application {
         primaryStage.setScene(scene);
 
         // Auf dem 2. Monitor
-        // List<Screen> screens = Screen.getScreens();
-        // Screen screen = screens.get(screens.size() - 1);
+        // final List<Screen> screens = Screen.getScreens();
+        // final Screen screen = screens.get(screens.size() - 1);
         // primaryStage.setX(screen.getVisualBounds().getMinX() + 1200);
         // primaryStage.setY(10D);
 

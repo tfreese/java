@@ -56,7 +56,7 @@ public final class SwingBindings {
 
     public static void bindToProperty(final JCheckBox component, final Property<Boolean> property) {
         component.addItemListener(event -> {
-            boolean selected = component.isSelected();
+            final boolean selected = component.isSelected();
 
             if (Objects.equals(selected, property.getValue())) {
                 LOGGER.debug("JCheckBox: Selected equals property.getValue() -> return: {}", selected);
@@ -71,7 +71,7 @@ public final class SwingBindings {
 
     public static <T> void bindToProperty(final JComboBox<T> component, final Property<T> property) {
         component.addItemListener(event -> {
-            T selectedItem = (T) component.getSelectedItem();
+            final T selectedItem = (T) component.getSelectedItem();
 
             if (Objects.equals(selectedItem, property.getValue())) {
                 LOGGER.debug("JComboBox: SelectedItem equals property.getValue() -> return: {}", selectedItem);
@@ -86,7 +86,7 @@ public final class SwingBindings {
 
     public static void bindToProperty(final JSlider component, final Property<Integer> property) {
         component.addChangeListener(event -> {
-            int value = component.getValue();
+            final int value = component.getValue();
 
             if (Objects.equals(value, property.getValue())) {
                 LOGGER.debug("JSlider: Value equals property.getValue() -> return: {}", value);
@@ -101,7 +101,7 @@ public final class SwingBindings {
 
     public static <T> void bindToProperty(final JSpinner component, final Property<T> property) {
         component.addChangeListener(event -> {
-            T value = (T) component.getValue();
+            final T value = (T) component.getValue();
 
             if (Objects.equals(value, property.getValue())) {
                 LOGGER.debug("JSpinner: Value equals property.getValue() -> return: {}", value);
@@ -118,7 +118,7 @@ public final class SwingBindings {
         component.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(final FocusEvent e) {
-                String text = component.getText();
+                final String text = component.getText();
 
                 if (Objects.equals(text, property.getValue())) {
                     LOGGER.debug("JTextComponent: Text equals property.getValue() -> return: {}", text);
@@ -210,7 +210,7 @@ public final class SwingBindings {
     }
 
     private static <T> void updateProperty(final Property<T> property, final T newValue) {
-        Runnable task = () -> {
+        final Runnable task = () -> {
             if (Objects.equals(property.getValue(), newValue)) {
                 LOGGER.debug("newValue equals property -> return: {}", newValue);
                 return;
@@ -228,18 +228,14 @@ public final class SwingBindings {
             SwingUtilities.invokeLater(task);
         }
 
-        // if (Platform.isFxApplicationThread())
-        // {
+        // if (Platform.isFxApplicationThread()) {
         // task.run();
         // }
-        // else
-        // {
-        // try
-        // {
+        // else {
+        // try {
         // Platform.runLater(task);
         // }
-        // catch (IllegalStateException ex)
-        // {
+        // catch (IllegalStateException ex) {
         // // Toolkit not initialized
         // task.run();
         // }

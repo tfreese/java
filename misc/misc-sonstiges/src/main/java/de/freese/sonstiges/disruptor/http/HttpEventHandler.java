@@ -25,11 +25,11 @@ public class HttpEventHandler extends AbstractLoadBalancedEventHandler<HttpEvent
     protected void doOnEvent(final HttpEvent event, final long sequence, final boolean endOfBatch) throws Exception {
         getLogger().info("{}: HttpEventHandler.onEvent: RequestId={}, Sequence={}", Thread.currentThread().getName(), event.getRequestId(), sequence);
 
-        String requestId = event.getRequestId();
-        ByteBuffer buffer = event.getBuffer();
-        int numRead = event.getNumRead();
+        final String requestId = event.getRequestId();
+        final ByteBuffer buffer = event.getBuffer();
+        final int numRead = event.getNumRead();
 
-        ByteBuffer responseBuffer = handleRequest(buffer, numRead, sequence);
+        final ByteBuffer responseBuffer = handleRequest(buffer, numRead, sequence);
 
         if (responseBuffer == null) {
             return;
@@ -41,10 +41,10 @@ public class HttpEventHandler extends AbstractLoadBalancedEventHandler<HttpEvent
     private ByteBuffer handleRequest(final ByteBuffer buffer, final int numRead, final long sequence) {
         buffer.flip();
 
-        byte[] data = new byte[numRead];
+        final byte[] data = new byte[numRead];
         buffer.get(data);
 
-        String request = new String(data, StandardCharsets.UTF_8);
+        final String request = new String(data, StandardCharsets.UTF_8);
         // request = request.split("\n")[0].trim();
 
         // HTTP-Request handling.
@@ -52,7 +52,7 @@ public class HttpEventHandler extends AbstractLoadBalancedEventHandler<HttpEvent
             return null;
         }
 
-        String response = serverResponse(sequence);
+        final String response = serverResponse(sequence);
 
         buffer.clear();
         buffer.put((response).getBytes(StandardCharsets.UTF_8));
@@ -61,7 +61,7 @@ public class HttpEventHandler extends AbstractLoadBalancedEventHandler<HttpEvent
     }
 
     private String serverResponse(final long sequence) {
-        StringBuilder body = new StringBuilder();
+        final StringBuilder body = new StringBuilder();
         body.append("<html lang=\"de\">").append("\r\n");
         body.append(" <head>").append("\r\n");
         body.append("     <meta charset=\"UTF-8\">").append("\r\n");
@@ -73,7 +73,7 @@ public class HttpEventHandler extends AbstractLoadBalancedEventHandler<HttpEvent
         body.append(" </body>").append("\r\n");
         body.append("</html>").append("\r\n");
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append("HTTP/1.1 200 OK").append("\r\n");
         sb.append("Server: disruptor").append("\r\n");
         sb.append("Content-type: text/html").append("\r\n");

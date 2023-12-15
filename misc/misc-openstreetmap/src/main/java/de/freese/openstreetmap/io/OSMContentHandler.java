@@ -59,8 +59,8 @@ public class OSMContentHandler extends DefaultHandler {
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes attributes) throws SAXException {
         if (NODE_NAME_TAG.equals(localName)) {
-            String key = attributes.getValue(ATTR_NAME_KEY);
-            String value = attributes.getValue(ATTR_NAME_VALUE);
+            final String key = attributes.getValue(ATTR_NAME_KEY);
+            final String value = attributes.getValue(ATTR_NAME_VALUE);
 
             if (this.node != null) {
                 this.node.getTags().put(key, value);
@@ -73,9 +73,9 @@ public class OSMContentHandler extends DefaultHandler {
             }
         }
         else if (NODE_NAME_NODE.equals(localName)) {
-            long id = Long.parseLong(attributes.getValue(ATTR_NAME_ID));
-            float lat = Float.parseFloat(attributes.getValue(ATTR_NAME_LAT));
-            float lon = Float.parseFloat(attributes.getValue(ATTR_NAME_LON));
+            final long id = Long.parseLong(attributes.getValue(ATTR_NAME_ID));
+            final float lat = Float.parseFloat(attributes.getValue(ATTR_NAME_LAT));
+            final float lon = Float.parseFloat(attributes.getValue(ATTR_NAME_LON));
 
             this.node = new OsmNode();
             this.node.setID(id);
@@ -84,41 +84,41 @@ public class OSMContentHandler extends DefaultHandler {
             this.osmModel.getNodeMap().put(id, this.node);
         }
         else if (NODE_NAME_WAY.equals(localName)) {
-            long id = Long.parseLong(attributes.getValue(ATTR_NAME_ID));
+            final long id = Long.parseLong(attributes.getValue(ATTR_NAME_ID));
 
             this.way = new OsmWay();
             this.way.setID(id);
             this.osmModel.getWayMap().put(id, this.way);
         }
         else if (NODE_NAME_WAYNODE.equals(localName)) {
-            long refID = Long.parseLong(attributes.getValue(ATTR_NAME_REF));
+            final long refID = Long.parseLong(attributes.getValue(ATTR_NAME_REF));
 
-            OsmNode n = this.osmModel.getNodeMap().get(refID);
+            final OsmNode n = this.osmModel.getNodeMap().get(refID);
 
             if (n != null) {
                 this.way.getNodes().add(n);
             }
         }
         else if (NODE_NAME_RELATION.equals(localName)) {
-            long id = Long.parseLong(attributes.getValue(ATTR_NAME_ID));
+            final long id = Long.parseLong(attributes.getValue(ATTR_NAME_ID));
 
             this.relation = new OsmRelation();
             this.relation.setID(id);
             this.osmModel.getRelationMap().put(id, this.relation);
         }
         else if (NODE_NAME_RELATIONMEMBER.equals(localName)) {
-            String type = attributes.getValue(ATTR_NAME_TYPE);
-            long refID = Long.parseLong(attributes.getValue(ATTR_NAME_REF));
+            final String type = attributes.getValue(ATTR_NAME_TYPE);
+            final long refID = Long.parseLong(attributes.getValue(ATTR_NAME_REF));
 
             if (NODE_NAME_NODE.equals(type)) {
-                OsmNode refNode = this.osmModel.getNodeMap().get(refID);
+                final OsmNode refNode = this.osmModel.getNodeMap().get(refID);
 
                 if (refNode != null) {
                     this.relation.getNodes().add(refNode);
                 }
             }
             else if (NODE_NAME_WAY.equals(type)) {
-                OsmWay refWay = this.osmModel.getWayMap().get(refID);
+                final OsmWay refWay = this.osmModel.getWayMap().get(refID);
 
                 if (refWay != null) {
                     this.relation.getWays().add(refWay);

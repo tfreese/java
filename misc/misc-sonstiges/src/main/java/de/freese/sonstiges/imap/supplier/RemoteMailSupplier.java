@@ -31,7 +31,6 @@ public class RemoteMailSupplier implements MailSupplier {
     private static final Logger LOGGER = LoggerFactory.getLogger(RemoteMailSupplier.class);
 
     private final Map<String, Boolean> folders;
-
     private final Function<Folder, List<Message>> messageSelector;
 
     public RemoteMailSupplier(final Map<String, Boolean> folders) {
@@ -59,9 +58,9 @@ public class RemoteMailSupplier implements MailSupplier {
     }
 
     public void saveLocal(final Path basePath) throws Exception {
-        Consumer<MessageWrapper> messageConsumer = message -> {
+        final Consumer<MessageWrapper> messageConsumer = message -> {
             try {
-                Path path = basePath.resolve(message.getFolderName()).resolve(message.getMessageUid() + ".mail");
+                final Path path = basePath.resolve(message.getFolderName()).resolve(message.getMessageUid() + ".mail");
 
                 if (!Files.exists(path.getParent())) {
                     Files.createDirectories(path.getParent());
@@ -87,12 +86,12 @@ public class RemoteMailSupplier implements MailSupplier {
             mailClient.login();
 
             for (Map.Entry<String, Boolean> entry : folders.entrySet()) {
-                String folderName = entry.getKey();
-                boolean isSpam = entry.getValue();
+                final String folderName = entry.getKey();
+                final boolean isSpam = entry.getValue();
 
                 mailClient.readRemote(folderName, messageSelector, message -> {
                     try {
-                        MessageWrapper messageWrapper = new MessageWrapper(message, folderName);
+                        final MessageWrapper messageWrapper = new MessageWrapper(message, folderName);
                         messageWrapper.setSpam(isSpam);
                         messageConsumer.accept(messageWrapper);
                     }

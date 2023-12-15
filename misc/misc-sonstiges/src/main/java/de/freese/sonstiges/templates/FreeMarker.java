@@ -19,11 +19,11 @@ public final class FreeMarker {
     private static final Logger LOGGER = LoggerFactory.getLogger(FreeMarker.class);
 
     public static void main(final String[] args) {
-        String templateFile = "example.ftl";
+        final String templateFile = "example.ftl";
 
         try {
 
-            Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
+            final Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
             // cfg.setTemplateLoader(new FileTemplateLoader(new File(".")));
             // cfg.setTemplateLoader(new ClassTemplateLoader(FreeMarker.class, ""));
             cfg.setDirectoryForTemplateLoading(Paths.get("src", "main", "resources", "templates", "freemarker").toFile());
@@ -31,9 +31,9 @@ public final class FreeMarker {
             // cfg.setObjectWrapper(ObjectWrapper.BEANS_WRAPPER);
             // cfg.setObjectWrapper(BeansWrapper.getDefaultInstance());
 
-            Template template = cfg.getTemplate(templateFile);
+            final Template template = cfg.getTemplate(templateFile);
 
-            Map<String, Object> model = new HashMap<>();
+            final Map<String, Object> model = new HashMap<>();
             // SimpleHash model = new SimpleHash();
             model.put("names", List.of("List element 1", "List element 2", "List element 3"));
             model.put("Math", Math.class);

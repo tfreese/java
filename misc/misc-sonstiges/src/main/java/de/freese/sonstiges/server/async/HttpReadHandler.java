@@ -22,9 +22,9 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment> {
 
     @Override
     public void completed(final Integer bytesRead, final MyAttachment attachment) {
-        AsynchronousSocketChannel channel = attachment.channel();
-        ByteBuffer byteBuffer = attachment.byteBuffer();
-        StringBuilder httpHeader = attachment.httpHeader();
+        final AsynchronousSocketChannel channel = attachment.channel();
+        final ByteBuffer byteBuffer = attachment.byteBuffer();
+        final StringBuilder httpHeader = attachment.httpHeader();
 
         try {
             LOGGER.debug("{}: Read Request", channel.getRemoteAddress());
@@ -40,21 +40,21 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment> {
             return;
         }
 
-        Charset charset = IoHandler.DEFAULT_CHARSET;
+        final Charset charset = IoHandler.DEFAULT_CHARSET;
 
         byteBuffer.flip();
-        CharBuffer charBuffer = charset.decode(byteBuffer);
+        final CharBuffer charBuffer = charset.decode(byteBuffer);
 
-        String request = charBuffer.toString();
+        final String request = charBuffer.toString();
         LOGGER.debug("\n{}", request);
 
         httpHeader.append(request);
 
         byteBuffer.clear();
 
-        int length = httpHeader.length();
+        final int length = httpHeader.length();
 
-        char[] endOfHeader = new char[4];
+        final char[] endOfHeader = new char[4];
         httpHeader.getChars(length - 4, length, endOfHeader, 0);
 
         if ((endOfHeader[0] == '\r') && (endOfHeader[1] == '\n') && (endOfHeader[2] == '\r') && (endOfHeader[3] == '\n')) {
@@ -72,16 +72,16 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment> {
 
     @Override
     public void failed(final Throwable exc, final MyAttachment attachment) {
-        AsynchronousSocketChannel channel = attachment.channel();
+        final AsynchronousSocketChannel channel = attachment.channel();
 
         ServerAsync.close(channel, LOGGER);
         LOGGER.error(exc.getMessage(), exc);
     }
 
     private void write(final AsynchronousSocketChannel channel) {
-        Charset charset = IoHandler.DEFAULT_CHARSET;
+        final Charset charset = IoHandler.DEFAULT_CHARSET;
 
-        CharBuffer charBufferBody = CharBuffer.allocate(256);
+        final CharBuffer charBufferBody = CharBuffer.allocate(256);
         charBufferBody.put("<html>").put("\r\n");
         charBufferBody.put("<head>").put("\r\n");
         charBufferBody.put("<title>NIO Test</title>").put("\r\n");
@@ -92,7 +92,7 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment> {
         charBufferBody.put("</body>").put("\r\n");
         charBufferBody.put("</html>").put("\r\n");
 
-        CharBuffer charBuffer = CharBuffer.allocate(1024);
+        final CharBuffer charBuffer = CharBuffer.allocate(1024);
         charBuffer.put("HTTP/1.1 200 OK").put("\r\n");
         charBuffer.put("Server: nio").put("\r\n");
         charBuffer.put("Content-type: text/html").put("\r\n");
@@ -103,9 +103,9 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment> {
         charBuffer.put(charBufferBody);
         charBuffer.flip();
 
-        ByteBuffer byteBuffer = charset.encode(charBuffer);
+        final ByteBuffer byteBuffer = charset.encode(charBuffer);
 
-        MyAttachment attachment = new MyAttachment(byteBuffer, channel);
+        final MyAttachment attachment = new MyAttachment(byteBuffer, channel);
 
         channel.write(byteBuffer, attachment, new HttpWriteHandler());
     }

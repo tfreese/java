@@ -17,15 +17,15 @@ public final class ForkJoinFibonacciCalculatorMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ForkJoinFibonacciCalculatorMain.class);
 
     public static void main(final String[] args) {
-        int n = 50;
+        final int n = 50;
         long result;
 
         result = FibonacciCalculator.fibonacci(n);
         LOGGER.info("n = {}, Result = {}", n, result);
 
         // ForkJoin braucht signifikant länger durch das Erzeugen der vielen Tasks, steuerbar über FibonacciTask.THRESHOLD.
-        ForkJoinPool forkJoinPool = new ForkJoinPool();
-        FibonacciCalculator calculator = new FibonacciCalculator(n, forkJoinPool);
+        final ForkJoinPool forkJoinPool = new ForkJoinPool();
+        final FibonacciCalculator calculator = new FibonacciCalculator(n, forkJoinPool);
         result = calculator.calculate();
         LOGGER.info("n = {}, Result = {}, Parallelism = {}", n, result, forkJoinPool.getParallelism());
 

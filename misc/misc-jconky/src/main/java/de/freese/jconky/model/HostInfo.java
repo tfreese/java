@@ -6,9 +6,7 @@ package de.freese.jconky.model;
  */
 public class HostInfo {
     private final String architecture;
-
     private final String name;
-
     private final String version;
 
     public HostInfo() {
@@ -37,7 +35,7 @@ public class HostInfo {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(getClass().getSimpleName());
+        final StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
         builder.append("name=").append(this.name);
         builder.append(", version=").append(this.version);

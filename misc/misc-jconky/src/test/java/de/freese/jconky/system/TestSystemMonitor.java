@@ -33,41 +33,39 @@ class TestSystemMonitor {
     @Test
     @EnabledOnOs(OS.LINUX)
     void testCpuInfos() {
-        SystemMonitor systemMonitor = createSystemMonitor();
+        final SystemMonitor systemMonitor = createSystemMonitor();
 
-        CpuInfos cpuInfos = systemMonitor.getCpuInfos();
+        final CpuInfos cpuInfos = systemMonitor.getCpuInfos();
         assertNotNull(cpuInfos);
 
-        CpuInfo cpuInfo = cpuInfos.get(-1);
+        final CpuInfo cpuInfo = cpuInfos.get(-1);
         assertNotNull(cpuInfos);
         assertEquals(-1, cpuInfo.getCore());
 
         // Bei AMD gib's keine Temperatur pro Core.
         // int processors = Runtime.getRuntime().availableProcessors();
         //
-        // for (int i = 0; i < processors; i++)
-        // {
+        // for (int i = 0; i < processors; i++) {
         // cpuInfo = cpuInfos.get(i);
         // assertNotNull(cpuInfos);
         // assertEquals(i, cpuInfo.getCore());
         //
         // // Temperaturen sind nur für die "realen" Cores verfügbar.
-        // if (i < (processors / 2))
-        // {
+        // if (i < (processors / 2)) {
         // assertTrue(cpuInfo.getTemperature() > 0D);
         // }
         // }
 
-        CpuTimes cpuTimes = cpuInfo.getCpuTimes();
+        final CpuTimes cpuTimes = cpuInfo.getCpuTimes();
         assertNotNull(cpuTimes);
     }
 
     @Test
     @EnabledOnOs(OS.LINUX)
     void testCpuLoadAvg() {
-        SystemMonitor systemMonitor = createSystemMonitor();
+        final SystemMonitor systemMonitor = createSystemMonitor();
 
-        CpuLoadAvg loadAvg = systemMonitor.getCpuLoadAvg();
+        final CpuLoadAvg loadAvg = systemMonitor.getCpuLoadAvg();
 
         assertNotNull(loadAvg);
         assertTrue(loadAvg.getOneMinute() > 0D);
@@ -77,9 +75,9 @@ class TestSystemMonitor {
 
     @Test
     void testExternalIp() {
-        SystemMonitor systemMonitor = createSystemMonitor();
+        final SystemMonitor systemMonitor = createSystemMonitor();
 
-        String externalIp = systemMonitor.getExternalIp();
+        final String externalIp = systemMonitor.getExternalIp();
 
         assertNotNull(externalIp);
         assertFalse(externalIp.isBlank());
@@ -88,9 +86,9 @@ class TestSystemMonitor {
     @Test
     @EnabledOnOs(OS.LINUX)
     void testFilesystems() {
-        SystemMonitor systemMonitor = createSystemMonitor();
+        final SystemMonitor systemMonitor = createSystemMonitor();
 
-        Map<String, UsageInfo> map = systemMonitor.getFilesystems();
+        final Map<String, UsageInfo> map = systemMonitor.getFilesystems();
 
         assertNotNull(map);
         assertEquals(2, map.size());
@@ -99,9 +97,9 @@ class TestSystemMonitor {
     @Test
     @EnabledOnOs(OS.LINUX)
     void testHostInfo() {
-        SystemMonitor systemMonitor = createSystemMonitor();
+        final SystemMonitor systemMonitor = createSystemMonitor();
 
-        HostInfo hostInfo = systemMonitor.getHostInfo();
+        final HostInfo hostInfo = systemMonitor.getHostInfo();
 
         assertNotNull(hostInfo);
         assertNotNull(hostInfo.getName());
@@ -112,9 +110,9 @@ class TestSystemMonitor {
     @Test
     @EnabledOnOs(OS.LINUX)
     void testMusicInfo() {
-        SystemMonitor systemMonitor = createSystemMonitor();
+        final SystemMonitor systemMonitor = createSystemMonitor();
 
-        MusicInfo musicInfo = systemMonitor.getMusicInfo();
+        final MusicInfo musicInfo = systemMonitor.getMusicInfo();
 
         assertNotNull(musicInfo);
     }
@@ -122,9 +120,9 @@ class TestSystemMonitor {
     @Test
     @EnabledOnOs(OS.LINUX)
     void testNetworkInfos() {
-        SystemMonitor systemMonitor = createSystemMonitor();
+        final SystemMonitor systemMonitor = createSystemMonitor();
 
-        NetworkInfos networkInfos = systemMonitor.getNetworkInfos();
+        final NetworkInfos networkInfos = systemMonitor.getNetworkInfos();
 
         assertNotNull(networkInfos);
         assertTrue(networkInfos.size() > 1);
@@ -134,20 +132,18 @@ class TestSystemMonitor {
     @Test
     @EnabledOnOs(OS.LINUX)
     void testProcessInfos() {
-        SystemMonitor systemMonitor = createSystemMonitor();
+        final SystemMonitor systemMonitor = createSystemMonitor();
 
-        double uptimeInSeconds = systemMonitor.getUptimeInSeconds();
-        long totalSystemMemory = systemMonitor.getTotalSystemMemory();
+        final double uptimeInSeconds = systemMonitor.getUptimeInSeconds();
+        final long totalSystemMemory = systemMonitor.getTotalSystemMemory();
 
-        ProcessInfos processInfos = systemMonitor.getProcessInfos(uptimeInSeconds, totalSystemMemory);
+        final ProcessInfos processInfos = systemMonitor.getProcessInfos(uptimeInSeconds, totalSystemMemory);
 
         assertNotNull(processInfos);
         assertTrue(processInfos.size() > 1);
 
-        // for (ProcessInfo processInfo : processInfos.getSortedByName(Integer.MAX_VALUE))
-        // {
-        // if ("clementine".equals(processInfo.getName()))
-        // {
+        // for (ProcessInfo processInfo : processInfos.getSortedByName(Integer.MAX_VALUE)) {
+        // if ("clementine".equals(processInfo.getName())) {
         // System.out.print("");
         // }
         //
@@ -158,9 +154,9 @@ class TestSystemMonitor {
     @Test
     @EnabledOnOs(OS.LINUX)
     void testRamAndSwap() {
-        SystemMonitor systemMonitor = createSystemMonitor();
+        final SystemMonitor systemMonitor = createSystemMonitor();
 
-        Map<String, UsageInfo> map = systemMonitor.getRamAndSwap();
+        final Map<String, UsageInfo> map = systemMonitor.getRamAndSwap();
 
         assertNotNull(map);
         assertEquals(2, map.size());
@@ -169,9 +165,9 @@ class TestSystemMonitor {
     @Test
     @EnabledOnOs(OS.LINUX)
     void testTemperatures() {
-        SystemMonitor systemMonitor = createSystemMonitor();
+        final SystemMonitor systemMonitor = createSystemMonitor();
 
-        Map<String, TemperatureInfo> map = systemMonitor.getTemperatures();
+        final Map<String, TemperatureInfo> map = systemMonitor.getTemperatures();
 
         assertNotNull(map);
         assertTrue(map.size() > 3);

@@ -28,7 +28,6 @@ import de.freese.jsensors.utils.LifeCycle;
  */
 public class RSocketBackend extends AbstractBackend implements LifeCycle {
     private final int parallelism;
-
     private final URI uri;
 
     private RSocketClient client;
@@ -48,7 +47,7 @@ public class RSocketBackend extends AbstractBackend implements LifeCycle {
     @Override
     public void start() {
         // @formatter:off
-        TcpClient tcpClient = TcpClient.create()
+        final TcpClient tcpClient = TcpClient.create()
                 .host(this.uri.getHost())
                 .port(this.uri.getPort())
                 .runOn(LoopResources.create("jSensor-rSocket-" + this.uri.getPort(), this.parallelism, true))
@@ -56,13 +55,13 @@ public class RSocketBackend extends AbstractBackend implements LifeCycle {
         // @formatter:on
 
         // @formatter:off
-        RSocketConnector connector = RSocketConnector.create()
+        final RSocketConnector connector = RSocketConnector.create()
                 .payloadDecoder(PayloadDecoder.DEFAULT)
                 .reconnect(Retry.fixedDelay(3, Duration.ofSeconds(1)))
                 ;
         // @formatter:on
 
-        Mono<RSocket> rSocket = connector.connect(TcpClientTransport.create(tcpClient));
+        final Mono<RSocket> rSocket = connector.connect(TcpClientTransport.create(tcpClient));
 
         this.client = RSocketClient.from(rSocket);
     }
@@ -73,7 +72,7 @@ public class RSocketBackend extends AbstractBackend implements LifeCycle {
     }
 
     protected ByteBuf encode(final SensorValue sensorValue) {
-        ByteBuf byteBuf = ByteBufAllocator.DEFAULT.buffer();
+        final ByteBuf byteBuf = ByteBufAllocator.DEFAULT.buffer();
 
         // byteBuf.writeCharSequence(sensorValue.getName(), StandardCharsets.UTF_8);
         byte[] bytes = sensorValue.getName().getBytes(StandardCharsets.UTF_8);
@@ -92,7 +91,7 @@ public class RSocketBackend extends AbstractBackend implements LifeCycle {
 
     @Override
     protected void storeValue(final SensorValue sensorValue) {
-        ByteBuf byteBuf = encode(sensorValue);
+        final ByteBuf byteBuf = encode(sensorValue);
 
         // @formatter:off
         this.client

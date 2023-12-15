@@ -49,7 +49,7 @@ class ColorTransferHandler extends TransferHandler {
     public boolean importData(final JComponent c, final Transferable t) {
         if (hasColorFlavor(t.getTransferDataFlavors())) {
             try {
-                Color col = (Color) t.getTransferData(this.colorFlavor);
+                final Color col = (Color) t.getTransferData(this.colorFlavor);
 
                 if (isChangesForegroundColor()) {
                     c.setForeground(col);

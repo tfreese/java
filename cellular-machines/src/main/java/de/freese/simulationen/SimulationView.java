@@ -29,19 +29,14 @@ public class SimulationView<S extends Simulation> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private JPanel buttonPanel;
-
     private JButton buttonStart;
-
     private JPanel controlPanel;
     /**
      * 40 ms = 25 Bilder/Sekunde
      */
     private int delay = 40;
-
     private JPanel mainPanel;
-
     private ScheduledFuture<?> scheduledFuture;
-
     private S simulation;
 
     public S getSimulation() {
@@ -59,7 +54,7 @@ public class SimulationView<S extends Simulation> {
         getMainPanel().setLayout(new BorderLayout());
         getMainPanel().add(getControlPanel(), BorderLayout.EAST);
 
-        SimulationCanvas canvas = new SimulationCanvas(simulation);
+        final SimulationCanvas canvas = new SimulationCanvas(simulation);
         getMainPanel().add(canvas, BorderLayout.CENTER);
     }
 
@@ -104,7 +99,7 @@ public class SimulationView<S extends Simulation> {
     }
 
     protected void start() {
-        Runnable runnable = this::step;
+        final Runnable runnable = this::step;
 
         this.scheduledFuture = getScheduledExecutorService().scheduleWithFixedDelay(runnable, 0, getDelay(), TimeUnit.MILLISECONDS);
 
@@ -122,7 +117,7 @@ public class SimulationView<S extends Simulation> {
 
             getLogger().error(ex.getMessage(), ex);
 
-            StringWriter sw = new StringWriter();
+            final StringWriter sw = new StringWriter();
 
             try (PrintWriter pw = new PrintWriter(sw)) {
                 ex.printStackTrace(pw);
@@ -150,15 +145,15 @@ public class SimulationView<S extends Simulation> {
             this.buttonStart.addActionListener(event -> start());
             this.buttonPanel.add(this.buttonStart, BorderLayout.WEST);
 
-            JButton buttonStop = new JButton("Stop");
+            final JButton buttonStop = new JButton("Stop");
             buttonStop.addActionListener(event -> stop());
             this.buttonPanel.add(buttonStop, BorderLayout.EAST);
 
-            JButton buttonStep = new JButton("Step");
+            final JButton buttonStep = new JButton("Step");
             buttonStep.addActionListener(event -> step());
             this.buttonPanel.add(buttonStep, BorderLayout.NORTH);
 
-            JButton buttonReset = new JButton("Reset");
+            final JButton buttonReset = new JButton("Reset");
             buttonReset.addActionListener(event -> reset());
             this.buttonPanel.add(buttonReset, BorderLayout.SOUTH);
         }

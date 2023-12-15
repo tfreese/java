@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({"tts", "avatar_url", "username", "content"})
 public class DiscordWebHookMessage {
     private final List<DiscordEmbed> embeds = new ArrayList<>();
+
     private String avatarContent;
     private String avatarUrl;
     private String avatarUsername;

@@ -17,7 +17,7 @@ public abstract class AbstractFloatProperty extends AbstractFloatExpression impl
 
     @Override
     public void setValue(final Float value) {
-        float old = this.value;
+        final float old = this.value;
         this.value = value;
 
         if (Float.compare(old, value) != 0) {

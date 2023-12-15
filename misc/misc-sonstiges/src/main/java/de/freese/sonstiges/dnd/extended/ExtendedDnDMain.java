@@ -44,11 +44,11 @@ public final class ExtendedDnDMain extends JPanel {
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         // Create and set up the window.
-        JFrame frame = new JFrame("ExtendedDnDMain");
+        final JFrame frame = new JFrame("ExtendedDnDMain");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // Create and set up the content pane.
-        JComponent newContentPane = new ExtendedDnDMain();
+        final JComponent newContentPane = new ExtendedDnDMain();
         newContentPane.setOpaque(true); // content panes must be opaque
         frame.setContentPane(newContentPane);
 
@@ -66,16 +66,16 @@ public final class ExtendedDnDMain extends JPanel {
     }
 
     private JPanel createArea() {
-        String text = "This is the text that I want to show.";
+        final String text = "This is the text that I want to show.";
 
-        JTextArea area = new JTextArea();
+        final JTextArea area = new JTextArea();
         area.setText(text);
         area.setDragEnabled(true);
 
-        JScrollPane scrollPane = new JScrollPane(area);
+        final JScrollPane scrollPane = new JScrollPane(area);
         scrollPane.setPreferredSize(new Dimension(400, 100));
 
-        JPanel panel = new JPanel(new BorderLayout());
+        final JPanel panel = new JPanel(new BorderLayout());
         panel.add(scrollPane, BorderLayout.CENTER);
         panel.setBorder(BorderFactory.createTitledBorder("Text Area"));
 
@@ -83,7 +83,7 @@ public final class ExtendedDnDMain extends JPanel {
     }
 
     private JPanel createList() {
-        DefaultListModel<String> listModel = new DefaultListModel<>();
+        final DefaultListModel<String> listModel = new DefaultListModel<>();
         listModel.addElement("List 0");
         listModel.addElement("List 1");
         listModel.addElement("List 2");
@@ -94,16 +94,16 @@ public final class ExtendedDnDMain extends JPanel {
         listModel.addElement("List 7");
         listModel.addElement("List 8");
 
-        JList<String> list = new JList<>(listModel);
+        final JList<String> list = new JList<>(listModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-        JScrollPane scrollPane = new JScrollPane(list);
+        final JScrollPane scrollPane = new JScrollPane(list);
         scrollPane.setPreferredSize(new Dimension(400, 100));
 
         list.setDragEnabled(true);
         list.setTransferHandler(new ListTransferHandler());
 
-        JPanel panel = new JPanel(new BorderLayout());
+        final JPanel panel = new JPanel(new BorderLayout());
         panel.add(scrollPane, BorderLayout.CENTER);
         panel.setBorder(BorderFactory.createTitledBorder("List"));
 
@@ -111,7 +111,7 @@ public final class ExtendedDnDMain extends JPanel {
     }
 
     private JPanel createTable() {
-        DefaultTableModel model = new DefaultTableModel();
+        final DefaultTableModel model = new DefaultTableModel();
 
         model.addColumn("Column 0");
         model.addColumn("Column 1");
@@ -123,17 +123,17 @@ public final class ExtendedDnDMain extends JPanel {
         model.addRow(new String[]{"Table 20", "Table 21", "Table 22", "Table 23"});
         model.addRow(new String[]{"Table 30", "Table 31", "Table 32", "Table 33"});
 
-        JTable table = new JTable(model);
+        final JTable table = new JTable(model);
         table.getTableHeader().setReorderingAllowed(false);
         table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-        JScrollPane scrollPane = new JScrollPane(table);
+        final JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(400, 100));
 
         table.setDragEnabled(true);
         table.setTransferHandler(new TableTransferHandler());
 
-        JPanel panel = new JPanel(new BorderLayout());
+        final JPanel panel = new JPanel(new BorderLayout());
         panel.add(scrollPane, BorderLayout.CENTER);
         panel.setBorder(BorderFactory.createTitledBorder("Table"));
 

@@ -26,7 +26,7 @@ public class LedDialog extends JDialog {
     private static final long serialVersionUID = 1L;
 
     public static void main(final String[] args) {
-        JDialog dialog = new LedDialog(null);
+        final JDialog dialog = new LedDialog(null);
         dialog.setVisible(true);
 
         dialog.addWindowListener(new WindowAdapter() {
@@ -42,7 +42,6 @@ public class LedDialog extends JDialog {
     private JComponent jLedComponent;
     private transient LedDisplay ledDisplay;
     private DateFormat timeFormatter;
-
     private Timer timer;
 
     public LedDialog(final Frame owner) {
@@ -58,13 +57,13 @@ public class LedDialog extends JDialog {
                 return;
             }
 
-            Date currentDate = new Date();
+            final Date currentDate = new Date();
 
-            String time = getTimeFormatter().format(new Time(currentDate.getTime()));
-            String date = getDateFormatter().format(currentDate);
+            final String time = getTimeFormatter().format(new Time(currentDate.getTime()));
+            final String date = getDateFormatter().format(currentDate);
 
-            String symbol = time + " " + date;
-            TextDisplayElement displayElement = new TextDisplayElement(symbol);
+            final String symbol = time + " " + date;
+            final TextDisplayElement displayElement = new TextDisplayElement(symbol);
             getLedDisplay().setDisplayElement(displayElement);
 
             LedDialog.this.timer.start();
@@ -95,8 +94,8 @@ public class LedDialog extends JDialog {
 
     private JComponent getJLedComponent() {
         if (this.jLedComponent == null) {
-            String symbol = "Hallo!";
-            TextDisplayElement displayElement = new TextDisplayElement(symbol);
+            final String symbol = "Hallo!";
+            final TextDisplayElement displayElement = new TextDisplayElement(symbol);
             getLedDisplay().setDisplayElement(displayElement);
 
             this.jLedComponent = getLedDisplay().getComponent();

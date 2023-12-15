@@ -23,8 +23,8 @@ public class OsmRelation extends AbstractOsmEntity {
     public Rectangle getBounds() {
         if (this.bounds == null) {
             for (OsmNode osmNode : getNodes()) {
-                double x = Mercator.mercX(osmNode.getLongitude());
-                double y = Mercator.mercY(osmNode.getLatitude());
+                final double x = Mercator.mercX(osmNode.getLongitude());
+                final double y = Mercator.mercY(osmNode.getLatitude());
 
                 if (this.bounds == null) {
                     this.bounds = new Rectangle();
@@ -52,13 +52,13 @@ public class OsmRelation extends AbstractOsmEntity {
             this.polygon = new Polygon();
 
             for (OsmNode osmNode : getNodes()) {
-                double x = Mercator.mercX(osmNode.getLongitude());
-                double y = Mercator.mercY(osmNode.getLatitude());
+                final double x = Mercator.mercX(osmNode.getLongitude());
+                final double y = Mercator.mercY(osmNode.getLatitude());
                 this.polygon.addPoint((int) x, (int) y);
             }
 
             for (OsmWay osmWay : getWays()) {
-                Polygon pWay = osmWay.getDrawablePolygon(myZTFMatrix);
+                final Polygon pWay = osmWay.getDrawablePolygon(myZTFMatrix);
 
                 for (int i = 0; i < pWay.npoints; i++) {
                     this.polygon.addPoint(pWay.xpoints[i], pWay.ypoints[i]);

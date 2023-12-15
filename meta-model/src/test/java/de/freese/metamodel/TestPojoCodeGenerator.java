@@ -51,11 +51,11 @@ class TestPojoCodeGenerator {
     @Order(1)
     void testCreate() throws Exception {
         // MetaDaten extrahieren.
-        MetaExporter metaExporter = new HsqldbMetaExporter();
-        List<Schema> schemas = metaExporter.export(dataSource, "PUBLIC", null);
+        final MetaExporter metaExporter = new HsqldbMetaExporter();
+        final List<Schema> schemas = metaExporter.export(dataSource, "PUBLIC", null);
 
         // MetaDaten in ClassModel umwandeln.
-        AbstractModelGenerator modelGenerator = new PojoModelGenerator();
+        final AbstractModelGenerator modelGenerator = new PojoModelGenerator();
         modelGenerator.setAddFullConstructor(false);
         // modelGenerator.setNamingStrategy(new DefaultNamingStrategy());
         modelGenerator.setPackageName("test.pojo");
@@ -63,8 +63,8 @@ class TestPojoCodeGenerator {
         modelGenerator.setTypeMapping(new JavaTypeMapping());
         modelGenerator.setValidationAnnotations(false);
 
-        Path path = Paths.get("src/test/generated");
-        Path pathPojo = path.resolve("test").resolve("pojo");
+        final Path path = Paths.get("src/test/generated");
+        final Path pathPojo = path.resolve("test").resolve("pojo");
 
         Files.createDirectories(pathPojo);
 
@@ -72,13 +72,13 @@ class TestPojoCodeGenerator {
         Files.deleteIfExists(path.resolve("Person.java"));
 
         // ClassModel als Code schreiben.
-        AbstractCodeWriter codeWriter = new JavaCodeWriter();
+        final AbstractCodeWriter codeWriter = new JavaCodeWriter();
 
         for (Schema schema : schemas) {
-            List<ClassModel> classModels = modelGenerator.generate(schema);
+            final List<ClassModel> classModels = modelGenerator.generate(schema);
 
             for (ClassModel classModel : classModels) {
-                Path pathFile = pathPojo.resolve(classModel.getName() + codeWriter.getFileExtension());
+                final Path pathFile = pathPojo.resolve(classModel.getName() + codeWriter.getFileExtension());
 
                 try (PrintStream ps = new PrintStream(new BufferedOutputStream(Files.newOutputStream(pathFile)), true, StandardCharsets.UTF_8)) {
                     codeWriter.write(classModel, ps);

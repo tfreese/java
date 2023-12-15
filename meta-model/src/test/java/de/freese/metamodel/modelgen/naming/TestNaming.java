@@ -16,7 +16,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 class TestNaming {
     @Test
     void testClassNaming() {
-        NamingStrategy namingStrategy = new DefaultNamingStrategy();
+        final NamingStrategy namingStrategy = new DefaultNamingStrategy();
 
         assertEquals("Test", namingStrategy.getClassName("Test"));
         assertEquals("Test", namingStrategy.getClassName("TEST"));
@@ -28,7 +28,7 @@ class TestNaming {
 
     @Test
     void testFieldNaming() {
-        NamingStrategy namingStrategy = new DefaultNamingStrategy();
+        final NamingStrategy namingStrategy = new DefaultNamingStrategy();
 
         assertEquals("test", namingStrategy.getFieldName("Test"));
         assertEquals("test", namingStrategy.getFieldName("TEST"));

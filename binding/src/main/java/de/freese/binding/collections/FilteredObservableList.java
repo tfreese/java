@@ -41,8 +41,8 @@ public class FilteredObservableList<T> extends DefaultObservableList<T> {
 
             @Override
             public void intervalRemoved(final ListDataEvent e) {
-                int firstRow = e.getIndex0();
-                int lastRow = e.getIndex1();
+                final int firstRow = e.getIndex0();
+                final int lastRow = e.getIndex1();
 
                 for (int i = firstRow; i <= lastRow; i++) {
                     FilteredObservableList.this.filteredList.remove(i);

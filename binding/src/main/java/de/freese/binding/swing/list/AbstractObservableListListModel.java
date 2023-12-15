@@ -17,7 +17,6 @@ import de.freese.binding.collections.ObservableList;
  * @author Thomas Freese
  */
 public abstract class AbstractObservableListListModel<T> implements ListModel<T>, Serializable {
-
     @Serial
     private static final long serialVersionUID = 1051092247879991757L;
 
@@ -29,18 +28,18 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
     protected class EventListListener implements ListDataListener {
 
         @Override
-        public void contentsChanged(final ListDataEvent e) {
-            fireContentsChanged(e.getSource(), e.getIndex0(), e.getIndex1());
+        public void contentsChanged(final ListDataEvent event) {
+            fireContentsChanged(event.getSource(), event.getIndex0(), event.getIndex1());
         }
 
         @Override
-        public void intervalAdded(final ListDataEvent e) {
-            fireIntervalAdded(e.getSource(), e.getIndex0(), e.getIndex1());
+        public void intervalAdded(final ListDataEvent event) {
+            fireIntervalAdded(event.getSource(), event.getIndex0(), event.getIndex1());
         }
 
         @Override
-        public void intervalRemoved(final ListDataEvent e) {
-            fireIntervalRemoved(e.getSource(), e.getIndex0(), e.getIndex1());
+        public void intervalRemoved(final ListDataEvent event) {
+            fireIntervalRemoved(event.getSource(), event.getIndex0(), event.getIndex1());
         }
     }
 
@@ -92,16 +91,16 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @param index1 the other end of the new interval
      */
     protected void fireContentsChanged(final Object source, final int index0, final int index1) {
-        Object[] listeners = this.eventListenerList.getListenerList();
-        ListDataEvent e = null;
+        final Object[] listeners = this.eventListenerList.getListenerList();
+        ListDataEvent event = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i] == ListDataListener.class) {
-                if (e == null) {
-                    e = new ListDataEvent(source, ListDataEvent.CONTENTS_CHANGED, index0, index1);
+                if (event == null) {
+                    event = new ListDataEvent(source, ListDataEvent.CONTENTS_CHANGED, index0, index1);
                 }
 
-                ((ListDataListener) listeners[i + 1]).contentsChanged(e);
+                ((ListDataListener) listeners[i + 1]).contentsChanged(event);
             }
         }
     }
@@ -115,16 +114,16 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @param index1 the other end of the new interval
      */
     protected void fireIntervalAdded(final Object source, final int index0, final int index1) {
-        Object[] listeners = this.eventListenerList.getListenerList();
-        ListDataEvent e = null;
+        final Object[] listeners = this.eventListenerList.getListenerList();
+        ListDataEvent event = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i] == ListDataListener.class) {
-                if (e == null) {
-                    e = new ListDataEvent(source, ListDataEvent.INTERVAL_ADDED, index0, index1);
+                if (event == null) {
+                    event = new ListDataEvent(source, ListDataEvent.INTERVAL_ADDED, index0, index1);
                 }
 
-                ((ListDataListener) listeners[i + 1]).intervalAdded(e);
+                ((ListDataListener) listeners[i + 1]).intervalAdded(event);
             }
         }
     }
@@ -139,16 +138,16 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @param index1 the other end of the new interval
      */
     protected void fireIntervalRemoved(final Object source, final int index0, final int index1) {
-        Object[] listeners = this.eventListenerList.getListenerList();
-        ListDataEvent e = null;
+        final Object[] listeners = this.eventListenerList.getListenerList();
+        ListDataEvent event = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i] == ListDataListener.class) {
-                if (e == null) {
-                    e = new ListDataEvent(source, ListDataEvent.INTERVAL_REMOVED, index0, index1);
+                if (event == null) {
+                    event = new ListDataEvent(source, ListDataEvent.INTERVAL_REMOVED, index0, index1);
                 }
 
-                ((ListDataListener) listeners[i + 1]).intervalRemoved(e);
+                ((ListDataListener) listeners[i + 1]).intervalRemoved(event);
             }
         }
     }

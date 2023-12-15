@@ -25,7 +25,6 @@ public class BallSimulation extends AbstractSimulation {
      * [m]
      */
     private static final int DURCHMESSER = 30;
-
     private final List<Ball> balls = new ArrayList<>();
 
     private final BufferedImage bufferedImage;
@@ -33,7 +32,6 @@ public class BallSimulation extends AbstractSimulation {
      * [ms]
      */
     private final int delay;
-
     private final int numberOfBalls;
 
     /**
@@ -84,8 +82,8 @@ public class BallSimulation extends AbstractSimulation {
         this.balls.clear();
 
         for (int i = 0; i < this.numberOfBalls; i++) {
-            int x = getRandom().nextInt(getWidth() - DURCHMESSER) + DURCHMESSER;
-            int y = getRandom().nextInt(getHeight() - DURCHMESSER) + DURCHMESSER;
+            final int x = getRandom().nextInt(getWidth() - DURCHMESSER) + DURCHMESSER;
+            final int y = getRandom().nextInt(getHeight() - DURCHMESSER) + DURCHMESSER;
             int vx = getRandom().nextInt(160) + 20;
             int vy = getRandom().nextInt(160) + 20;
 
@@ -105,7 +103,7 @@ public class BallSimulation extends AbstractSimulation {
 
     @Override
     protected void updateImage() {
-        Graphics g = getImage().getGraphics();
+        final Graphics g = getImage().getGraphics();
 
         if (g instanceof Graphics2D g2d) {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -131,7 +129,7 @@ public class BallSimulation extends AbstractSimulation {
      * @param vy Vertikale Geschwindigkeit [m/s].
      */
     private void addBall(final double x, final double y, final double vx, final double vy) {
-        Ball ball = new Ball(getWidth(), getHeight(), x, y, vx, vy, DURCHMESSER, DAEMPFUNG);
+        final Ball ball = new Ball(getWidth(), getHeight(), x, y, vx, vy, DURCHMESSER, DAEMPFUNG);
 
         if (!this.balls.contains(ball)) {
             this.balls.add(ball);
@@ -141,8 +139,8 @@ public class BallSimulation extends AbstractSimulation {
     private void gitter(final Graphics g) {
         g.setColor(Color.BLACK);
 
-        int stepX = getWidth() / 10;
-        int stepY = getHeight() / 5;
+        final int stepX = getWidth() / 10;
+        final int stepY = getHeight() / 5;
 
         for (int i = stepX; i <= getWidth(); i += stepX) {
             g.drawLine(i, 0, i, getHeight());
@@ -158,10 +156,10 @@ public class BallSimulation extends AbstractSimulation {
         // g.translate(0, 0);
 
         // Koordinate umrechnen: 0,0 ist oben links.
-        double x = ball.getX() - ball.getRadius();
-        double y = ball.getMaxY() - (ball.getY() + ball.getRadius());
+        final double x = ball.getX() - ball.getRadius();
+        final double y = ball.getMaxY() - (ball.getY() + ball.getRadius());
 
-        int durchmesser = (int) ball.getDurchmesser();
+        final int durchmesser = (int) ball.getDurchmesser();
 
         g.fillOval((int) x, (int) y, durchmesser, durchmesser);
     }

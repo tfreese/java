@@ -43,15 +43,15 @@ public final class JmxMain {
     public static void main(final String[] args) throws Exception {
         // Siehe auch org.springframework.jmx.support.JmxUtils
 
-        MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
+        final MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
 
         // Eigene MBean registrieren.
         mBeanServer.registerMBean((DateMXBean) () -> LocalDateTime.now().toString(), new ObjectName("bean:name=dateBean"));
         //        DateMXBean dateBeanProxy = JMX.newMBeanProxy(mBeanServer, new ObjectName("bean:name=dateBean"), DateMXBean.class);
 
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
+        final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
 
-        HikariConfig config = new HikariConfig();
+        final HikariConfig config = new HikariConfig();
         config.setDriverClassName(DatabaseDriver.H2.getDriverClassName());
         config.setJdbcUrl("jdbc:h2:mem:jmx");
         config.setUsername("sa");
@@ -62,9 +62,9 @@ public final class JmxMain {
         config.setPoolName("HikariConnectionPool");
         config.setRegisterMbeans(true);
 
-        HikariDataSource dataSource = new HikariDataSource(config);
-        ObjectName poolName = new ObjectName("com.zaxxer.hikari:type=Pool (" + config.getPoolName() + ")");
-        HikariPoolMXBean poolProxy = JMX.newMXBeanProxy(mBeanServer, poolName, HikariPoolMXBean.class);
+        final HikariDataSource dataSource = new HikariDataSource(config);
+        final ObjectName poolName = new ObjectName("com.zaxxer.hikari:type=Pool (" + config.getPoolName() + ")");
+        final HikariPoolMXBean poolProxy = JMX.newMXBeanProxy(mBeanServer, poolName, HikariPoolMXBean.class);
 
         scheduledExecutorService.scheduleWithFixedDelay(() -> {
             try {
@@ -81,8 +81,8 @@ public final class JmxMain {
         }, 100, 1000, TimeUnit.MILLISECONDS);
         scheduledExecutorService.scheduleWithFixedDelay(() -> {
             try {
-                ObjectName on = ObjectName.getInstance("com.zaxxer.hikari:type=Pool (HikariConnectionPool)");
-                MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+                final ObjectName on = ObjectName.getInstance("com.zaxxer.hikari:type=Pool (HikariConnectionPool)");
+                final MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 
                 LOGGER.info("ActiveConnections = {}", mbs.getAttribute(on, "ActiveConnections"));
                 LOGGER.info("IdleConnections = {}", mbs.getAttribute(on, "IdleConnections"));
@@ -95,12 +95,13 @@ public final class JmxMain {
             }
         }, 1L, 3L, TimeUnit.SECONDS);
 
-        Callable<Void> job = () -> {
-            String query = "VALUES (NOW())";
-            //            String query = DatabaseDriver.H2.getValidationQuery();
+        final Callable<Void> job = () -> {
+            final String query = "VALUES (NOW())";
+            // final String query = DatabaseDriver.H2.getValidationQuery();
 
             for (int i = 0; i < 10; i++) {
-                try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement()) {
+                try (Connection connection = dataSource.getConnection();
+                     Statement statement = connection.createStatement()) {
                     try (ResultSet resultSet = statement.executeQuery(query)) {
                         resultSet.next();
 
@@ -115,8 +116,8 @@ public final class JmxMain {
             return null;
         };
 
-        Future<Void> future1 = scheduledExecutorService.submit(job);
-        Future<Void> future2 = scheduledExecutorService.submit(job);
+        final Future<Void> future1 = scheduledExecutorService.submit(job);
+        final Future<Void> future2 = scheduledExecutorService.submit(job);
 
         // Avoid Terminating
         //        System.in.read();

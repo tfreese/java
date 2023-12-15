@@ -6,9 +6,7 @@ package de.freese.jconky.model;
  */
 public class CpuLoadAvg {
     private final double fifteenMinutes;
-
     private final double fiveMinutes;
-
     private final double oneMinute;
 
     public CpuLoadAvg() {
@@ -38,7 +36,7 @@ public class CpuLoadAvg {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(getClass().getSimpleName());
+        final StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
         builder.append("oneMinute=").append(this.oneMinute);
         builder.append(", fiveMinutes=").append(this.fiveMinutes);

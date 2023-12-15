@@ -15,7 +15,6 @@ import javax.swing.TransferHandler;
  */
 class PictureTransferHandler extends TransferHandler {
     private static final DataFlavor PICTURE_FLAVOR = DataFlavor.imageFlavor;
-
     @Serial
     private static final long serialVersionUID = 7183662667049793445L;
 
@@ -50,7 +49,6 @@ class PictureTransferHandler extends TransferHandler {
     }
 
     private boolean shouldRemove;
-
     private DTPicture sourcePic;
 
     @Override
@@ -71,10 +69,10 @@ class PictureTransferHandler extends TransferHandler {
 
     @Override
     public boolean importData(final JComponent c, final Transferable t) {
-        Image image;
+        final Image image;
 
         if (canImport(c, t.getTransferDataFlavors())) {
-            DTPicture pic = (DTPicture) c;
+            final DTPicture pic = (DTPicture) c;
 
             // Don't drop on myself.
             if (this.sourcePic == pic) {

@@ -20,14 +20,11 @@ import java.util.stream.Stream;
 public abstract class AbstractRasterSimulation extends AbstractSimulation {
 
     private final Image image;
-
     private final MemoryImageSource imageSource;
-
     /**
      * Pixel-Backend for {@link MemoryImageSource} and {@link Image}.
      */
     private final int[] pixelsRGB;
-
     private final Cell[][] raster;
 
     private Set<Cell> cells;
@@ -59,10 +56,8 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation {
         // @formatter:off
         IntStream.range(0, getHeight())
             .parallel()
-            .forEach(y ->
-            {
-                for (int x = 0; x < getWidth(); x++)
-                {
+            .forEach(y -> {
+                for (int x = 0; x < getWidth(); x++) {
                     reset(x, y);
                 }
             })
@@ -73,19 +68,16 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation {
     }
 
     protected final void fillRaster(final Supplier<Cell> cellSupplier) {
-        Set<Cell> set = Collections.synchronizedSet(new HashSet<>());
+        final Set<Cell> set = Collections.synchronizedSet(new HashSet<>());
 
         // @formatter:off
         IntStream.range(0, getHeight())
             .parallel()
-            .forEach(y ->
-            {
-                for (int x = 0; x < getWidth(); x++)
-                {
-                    Cell cell = cellSupplier.get();
+            .forEach(y -> {
+                for (int x = 0; x < getWidth(); x++) {
+                    final Cell cell = cellSupplier.get();
 
-                    if(cell instanceof AbstractCell c)
-                    {
+                    if(cell instanceof AbstractCell c) {
                         c.setXY(x, y);
                     }
 

@@ -24,7 +24,6 @@ public class SudokuConfig extends Config {
     private final Map<Integer, SudokuGene> fixNumbers = new TreeMap<>();
 
     private int puzzleBlockSize = (int) Math.sqrt(this.puzzleSize);
-
     private int puzzleSize = 9;
 
     public SudokuConfig() {
@@ -35,7 +34,7 @@ public class SudokuConfig extends Config {
     public double getMaxFitness() {
         // Summe pro Zeile, Spalte und Block.<br>
         // Gaußsche Summenformel = (n² + n) / 2
-        int puzzleSum = (int) (Math.pow(this.puzzleSize, 2) + this.puzzleSize) / 2;
+        final int puzzleSum = (int) (Math.pow(this.puzzleSize, 2) + this.puzzleSize) / 2;
 
         double fitness = 0.0D;
 
@@ -55,7 +54,7 @@ public class SudokuConfig extends Config {
     }
 
     public List<String[]> parsePuzzle(final InputStream inputStream) throws IOException {
-        List<String[]> puzzle = new ArrayList<>();
+        final List<String[]> puzzle = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
             // @formatter:off
@@ -98,12 +97,12 @@ public class SudokuConfig extends Config {
         this.fixNumbers.clear();
 
         for (int row = 0; row < this.puzzleSize; row++) {
-            String[] columns = puzzle.get(row);
+            final String[] columns = puzzle.get(row);
 
             for (int col = 0; col < this.puzzleSize; col++) {
-                int index = (row * this.puzzleSize) + col;
+                final int index = (row * this.puzzleSize) + col;
 
-                int number = Integer.parseInt(columns[col]);
+                final int number = Integer.parseInt(columns[col]);
 
                 if (number > 0) {
                     this.fixNumbers.put(index, new SudokuGene(number, false));

@@ -67,11 +67,11 @@ public abstract class AbstractMonitorPainter implements MonitorPainter {
         gc.setFill(getSettings().getColorTitle());
         gc.fillText(title, x, y);
 
-        double fontSize = getSettings().getFontSize();
+        final double fontSize = getSettings().getFontSize();
         int length = title.length();
         length++;
 
-        double strokeY = (y - (fontSize / 2D)) + 1.5D;
+        final double strokeY = (y - (fontSize / 2D)) + 1.5D;
 
         gc.setStroke(getSettings().getColorTitle());
         gc.setLineDashes(3D);

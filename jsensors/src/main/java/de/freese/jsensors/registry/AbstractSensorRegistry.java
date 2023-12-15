@@ -22,14 +22,12 @@ import de.freese.jsensors.sensor.Sensor;
  */
 public abstract class AbstractSensorRegistry implements SensorRegistry {
     private final Map<String, Backend> backends = new TreeMap<>();
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     private final Map<String, Sensor> sensors = new TreeMap<>();
 
     @Override
     public Sensor getSensor(final String name) {
-        Sensor sensor = this.sensors.get(name);
+        final Sensor sensor = this.sensors.get(name);
 
         if (sensor == null) {
             throw new IllegalStateException(String.format("sensor does not exist: '%s'", name));
@@ -57,7 +55,7 @@ public abstract class AbstractSensorRegistry implements SensorRegistry {
     }
 
     protected Backend getBackend(final String name) {
-        Backend backend = this.backends.computeIfAbsent(name, key -> NoOpBackend.getInstance());
+        final Backend backend = this.backends.computeIfAbsent(name, key -> NoOpBackend.getInstance());
 
         if (backend instanceof NoOpBackend) {
             getLogger().warn("NoOpBackend is used for sensor: {}", name);

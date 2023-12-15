@@ -17,7 +17,6 @@ public class HopAlongRasterSimulation extends AbstractRasterSimulation {
     private final Point center;
 
     private double x;
-
     private double y;
 
     public HopAlongRasterSimulation(final int width, final int height) {
@@ -42,17 +41,18 @@ public class HopAlongRasterSimulation extends AbstractRasterSimulation {
         // x = xx
         // y = yy
 
-        // double a = 0.01D;
-        // double b = -0.3D;
-        // double c = 0.003D;
-        double a = -14D;
-        double b = 0.9F;
-        double c = 0.1D;
+        // final double a = 0.01D;
+        // final double b = -0.3D;
+        // final double c = 0.003D;
+        final double a = -14D;
+        final double b = 0.9F;
+        final double c = 0.1D;
 
-        double xx = this.y - (Math.signum(this.x) * Math.sqrt(Math.abs((b * this.x) - c)));
-        // // double xx = y - (FastMath.signum(x) * FastMath.pow(Math.abs((b * x) - c), 0.5D));
-        // // double xx = this.y + (FastMath.signum(this.x) * Math.abs((b * this.x) - c));
-        double yy = a - this.x;
+        final double xx = this.y - (Math.signum(this.x) * Math.sqrt(Math.abs((b * this.x) - c)));
+        // final double xx = y - (FastMath.signum(x) * FastMath.pow(Math.abs((b * x) - c), 0.5D));
+        // final double xx = this.y + (FastMath.signum(this.x) * Math.abs((b * this.x) - c));
+        final double yy = a - this.x;
+
         this.x = xx;
         this.y = yy;
 
@@ -68,21 +68,18 @@ public class HopAlongRasterSimulation extends AbstractRasterSimulation {
         // int newY = this.y + this.center.y;
         //
 
-        // if (Double.isNaN(xx) || Double.isNaN(yy))
-        // {
+        // if (Double.isNaN(xx) || Double.isNaN(yy)) {
         // return;
         // }
 
         // int newX = (int) this.x + this.center.x;
         // int newY = (int) this.y + this.center.y;
         //
-        // if ((newX < 0) || (newY < 0))
-        // {
+        // if ((newX < 0) || (newY < 0)) {
         // return;
         // }
         //
-        // if ((newX >= getWidth()) || (newY >= getHeight()))
-        // {
+        // if ((newX >= getWidth()) || (newY >= getHeight())) {
         // return;
         // }
 
@@ -107,7 +104,7 @@ public class HopAlongRasterSimulation extends AbstractRasterSimulation {
             // return;
         }
 
-        EmptyCell cell = getCell(newX, newY);
+        final EmptyCell cell = getCell(newX, newY);
         cell.setColor(Color.BLACK);
 
         fireCompleted();

@@ -19,8 +19,8 @@ public class SudokuChromosome extends Chromosome {
 
     @Override
     public double calcFitnessValue() {
-        int puzzleSize = getConfig().getPuzzleSize();
-        int puzzleBlockSize = getConfig().getPuzzleBlockSize();
+        final int puzzleSize = getConfig().getPuzzleSize();
+        final int puzzleBlockSize = getConfig().getPuzzleBlockSize();
 
         double fitness = 0.0D;
 
@@ -46,10 +46,10 @@ public class SudokuChromosome extends Chromosome {
     public void mutate() {
         for (int i = 0; i < size(); i++) {
             if (getConfig().getRandom().nextDouble() < getConfig().getMutationRate()) {
-                int j = getConfig().getRandom().nextInt(size());
+                final int j = getConfig().getRandom().nextInt(size());
 
-                SudokuGene geneI = getGene(i);
-                SudokuGene geneJ = getGene(j);
+                final SudokuGene geneI = getGene(i);
+                final SudokuGene geneJ = getGene(j);
 
                 // Nur veränderbare.
                 if (geneI.isMutable()) {
@@ -66,21 +66,18 @@ public class SudokuChromosome extends Chromosome {
 //        IntStream.range(0, chromosome.size())
 //            .parallel()
 //            .forEach(i -> {
-//                if (getConfig().getRandom().nextDouble() < getConfig().getMutationRate())
-//                {
-//                    int j = getRandom().nextInt(chromosome.size());
+//                if (getConfig().getRandom().nextDouble() < getConfig().getMutationRate()) {
+//                    final int j = getRandom().nextInt(chromosome.size());
 //
-//                    SudokuGene geneI = chromosome.getGene(i);
-//                    SudokuGene geneJ = chromosome.getGene(j);
+//                    final SudokuGene geneI = chromosome.getGene(i);
+//                    final SudokuGene geneJ = chromosome.getGene(j);
 //
 //                    // Nur veränderbare.
-//                    if (geneI.isMutable())
-//                    {
+//                    if (geneI.isMutable()) {
 //                        chromosome.setGene(i, new SudokuGene(geneJ.getValue(), true));
 //                    }
 //
-//                    if (geneJ.isMutable())
-//                    {
+//                    if (geneJ.isMutable()) {
 //                        chromosome.setGene(j, new SudokuGene(geneI.getValue(), true));
 //                    }
 //                }
@@ -90,11 +87,11 @@ public class SudokuChromosome extends Chromosome {
 
     @Override
     public void populate() {
-        Map<Integer, SudokuGene> fixNumbers = getConfig().getFixNumbers();
+        final Map<Integer, SudokuGene> fixNumbers = getConfig().getFixNumbers();
 
         // Population pro Zeile testen.
-        // Set<Integer> set= IntStream.range(0, 9).collect(TreeSet::new, TreeSet::add,TreeSet::addAll);
-        // Set<Integer> set= IntStream.range(0, 9).boxed().collect(Collectors.toSet());
+        // final Set<Integer> set= IntStream.range(0, 9).collect(TreeSet::new, TreeSet::add,TreeSet::addAll);
+        //final  Set<Integer> set= IntStream.range(0, 9).boxed().collect(Collectors.toSet());
 
         for (int i = 0; i < size(); i++) {
             // Erst nach fest vorgegeben Zahlen suchen.
@@ -102,7 +99,7 @@ public class SudokuChromosome extends Chromosome {
 
             if (gene == null) {
                 // Dann welche generieren.
-                int n = getConfig().getRandom().nextInt(9) + 1;
+                final int n = getConfig().getRandom().nextInt(9) + 1;
 
                 gene = new SudokuGene(n, true);
             }
@@ -117,10 +114,9 @@ public class SudokuChromosome extends Chromosome {
 //              // Erst nach fest vorgegeben Zahlen suchen.
 //              SudokuGene gene = this.fixNumbers.get(i);
 //
-//              if (gene == null)
-//              {
+//              if (gene == null) {
 //                  // Dann welche generieren.
-//                  int n = getConfig().getRandom().nextInt(9) + 1;
+//                  final int n = getConfig().getRandom().nextInt(9) + 1;
 //
 //                  gene = new SudokuGene(n, true);
 //              }
@@ -132,17 +128,17 @@ public class SudokuChromosome extends Chromosome {
 
     @Override
     public String toString() {
-        int puzzleSize = getConfig().getPuzzleSize();
-        int puzzleBlockSize = getConfig().getPuzzleBlockSize();
+        final int puzzleSize = getConfig().getPuzzleSize();
+        final int puzzleBlockSize = getConfig().getPuzzleBlockSize();
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append("\n");
 
         for (int row = 0; row < puzzleSize; row++) {
             for (int col = 0; col < puzzleSize; col++) {
-                int index = (row * puzzleSize) + col;
+                final int index = (row * puzzleSize) + col;
 
-                SudokuGene gene = getGene(index);
+                final SudokuGene gene = getGene(index);
 
                 if (gene.isMutable()) {
                     sb.append(String.format(" %d ", gene.getInteger()));
@@ -162,9 +158,9 @@ public class SudokuChromosome extends Chromosome {
             sb.append("\n");
 
             if ((((row + 1) % puzzleBlockSize) == 0) && (row < (puzzleSize - 1))) {
-                char[] chars = new char[(puzzleBlockSize * 3) + 2];
+                final char[] chars = new char[(puzzleBlockSize * 3) + 2];
                 Arrays.fill(chars, '-');
-                String separator = new String(chars);
+                final String separator = new String(chars);
 
                 sb.append(String.format("%s|%s|%s%n", separator, separator, separator));
             }
@@ -189,7 +185,7 @@ public class SudokuChromosome extends Chromosome {
             default -> 0;
         };
 
-        Set<Integer> set = new HashSet<>();
+        final Set<Integer> set = new HashSet<>();
 
         for (int i = start; i < (start + puzzleBlockSize); i++) {
             set.add(getGene(i).getInteger());
@@ -217,15 +213,15 @@ public class SudokuChromosome extends Chromosome {
      * Soll: bei 9 Zahlen 45 in Summe
      */
     double calcColumnFitness(final int column, final int puzzleSize) {
-        int start = column;
+        final int start = column;
 
-        Set<Integer> set = new HashSet<>();
+        final Set<Integer> set = new HashSet<>();
 
         for (int i = start; i < (puzzleSize * puzzleSize); i += puzzleSize) {
             set.add(getGene(i).getInteger());
         }
 
-        // double fitness = set.size();
+        // final double fitness = set.size();
 
         return set.stream().mapToInt(Integer::intValue).sum();
     }
@@ -235,16 +231,16 @@ public class SudokuChromosome extends Chromosome {
      * Soll: bei 9 Zahlen 45 in Summe
      */
     double calcRowFitness(final int row) {
-        int start = row * 9;
-        int end = start + 9;
+        final int start = row * 9;
+        final int end = start + 9;
 
-        Set<Integer> set = new HashSet<>();
+        final Set<Integer> set = new HashSet<>();
 
         for (int i = start; i < end; i++) {
             set.add(getGene(i).getInteger());
         }
 
-        // double fitness = set.size();
+        // final double fitness = set.size();
 
         return set.stream().mapToInt(Integer::intValue).sum();
     }

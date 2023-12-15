@@ -11,7 +11,6 @@ public final class JConkyUtils {
      * ArchLinux: getconf CLK_TCK;<br>
      */
     public static final int USER_HZ = 100;
-
     private static final String[] SIZE_UNITS = new String[]{"B", "K", "M", "G", "T", "P", "E"};
 
     public static double jiffieToMillies(final double jiffie) {
@@ -23,7 +22,7 @@ public final class JConkyUtils {
      * ArchLinux: getconf CLK_TCK;<br>
      */
     public static double jiffieToMillies(final double jiffie, final int userHz) {
-        double multiplier = 1000D / userHz;
+        final double multiplier = 1000D / userHz;
 
         return jiffie * multiplier;
     }
@@ -52,9 +51,9 @@ public final class JConkyUtils {
      * @param withoutHourPattern String; %1d:%02d
      */
     public static String toClockString(final double duration, final String withHourPattern, final String withoutHourPattern) {
-        int seconds = (int) duration % 60;
-        int minutes = (int) (duration / 60) % 60;
-        int hours = (int) (duration / 60 / 60) % 60;
+        final int seconds = (int) duration % 60;
+        final int minutes = (int) (duration / 60) % 60;
+        final int hours = (int) (duration / 60 / 60) % 60;
 
         String clock = null;
 
@@ -85,7 +84,7 @@ public final class JConkyUtils {
             unitIndex = (int) (Math.log10(size) / 3D);
         }
 
-        double unitValue = 1 << (unitIndex * 10);
+        final double unitValue = 1 << (unitIndex * 10);
 
         // // String readableSize = new DecimalFormat("#,##0.#").format(size / unitValue) + " " + SIZE_UNITS[unitIndex];
         // // String readableSize = String.format("%7.0f %s", size / unitValue, SIZE_UNITS[unitIndex]);

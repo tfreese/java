@@ -14,7 +14,6 @@ public class FibonacciTask extends RecursiveTask<Long> {
      * Schwellenwert, bei dem die Berechnung sequenziell durchgeführt wird.
      */
     private static final int THRESHOLD = 15;
-
     @Serial
     private static final long serialVersionUID = 67781993370162624L;
 
@@ -34,8 +33,8 @@ public class FibonacciTask extends RecursiveTask<Long> {
             result = FibonacciCalculator.fibonacci(this.n);
         }
         else {
-            FibonacciTask task1 = new FibonacciTask(this.n - 1);
-            FibonacciTask task2 = new FibonacciTask(this.n - 2);
+            final FibonacciTask task1 = new FibonacciTask(this.n - 1);
+            final FibonacciTask task2 = new FibonacciTask(this.n - 2);
             task2.fork();
 
             result = task1.compute() + task2.join();

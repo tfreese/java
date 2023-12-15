@@ -120,23 +120,15 @@ public class Matrix {
     }
 
     private final int bottomInset;
-
     private final int topInset;
 
     private Color backgroundColor;
-
     private int dotHeight;
-
     private Color dotOffColor;
-
     private int dotWidth;
-
     private int elementGap;
-
     private int hGap;
-
     private int tokenGap;
-
     private int vGap;
 
     public Matrix() {
@@ -159,10 +151,10 @@ public class Matrix {
     }
 
     public Image getImage() {
-        int height = getHeight();
-        int width = 10 * (this.hGap + this.dotWidth);
+        final int height = getHeight();
+        final int width = 10 * (this.hGap + this.dotWidth);
 
-        BufferedImage bufferedimage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        final BufferedImage bufferedimage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         paintDots(bufferedimage.getGraphics(), width, height);
 
         return bufferedimage;
@@ -170,7 +162,7 @@ public class Matrix {
 
     public int getWidthOf(final Element tickerElement) {
         int width = 0;
-        Token[] tokens = tickerElement.getTokens();
+        final Token[] tokens = tickerElement.getTokens();
 
         for (int i = 0; i < tokens.length; i++) {
             width += getWidth(tokens[i]);
@@ -205,7 +197,7 @@ public class Matrix {
     }
 
     public void paintElement(final Graphics graphics, final Element tickerElement) {
-        Token[] tokens = tickerElement.getTokens();
+        final Token[] tokens = tickerElement.getTokens();
         int x = 0;
 
         for (Token token : tokens) {
@@ -240,15 +232,15 @@ public class Matrix {
     }
 
     protected Image getDefaultImage() {
-        int height = getHeight();
-        int width = 10 * (this.hGap + this.dotWidth);
+        final int height = getHeight();
+        final int width = 10 * (this.hGap + this.dotWidth);
 
-        BufferedImage bufferedimage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        final BufferedImage bufferedimage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         paintDots(bufferedimage.getGraphics(), width, height);
 
-        String s = "WWW.LEDTICKER.NET::";
+        final String s = "WWW.LEDTICKER.NET::";
         int x = 0;
-        Graphics graphics = bufferedimage.getGraphics();
+        final Graphics graphics = bufferedimage.getGraphics();
 
         for (int i = 0; i < s.length(); i++) {
             byte[] bytes = map.get(String.valueOf(s.charAt(i)));
@@ -264,7 +256,7 @@ public class Matrix {
     }
 
     private int getWidth(final Token token) {
-        int width = 6 * (this.dotWidth + this.hGap);
+        final int width = 6 * (this.dotWidth + this.hGap);
 
         if (token instanceof ArrowToken) {
             return width;
@@ -274,7 +266,7 @@ public class Matrix {
     }
 
     private int paint(final Graphics graphics, final byte[] bytes, final int x) {
-        Color color = graphics.getColor();
+        final Color color = graphics.getColor();
 
         int mX = x;
 
@@ -282,7 +274,7 @@ public class Matrix {
             for (int j = 0; j < 7; j++) {
                 if ((b & (1 << j)) != 0) {
                     graphics.setColor(color);
-                    int y = (j + this.topInset) * (this.dotHeight + this.vGap);
+                    final int y = (j + this.topInset) * (this.dotHeight + this.vGap);
                     graphics.fillRect(mX, y, this.dotWidth, this.dotHeight);
                 }
             }
@@ -297,17 +289,17 @@ public class Matrix {
     }
 
     private int paintToken(final Graphics graphics, final Token token, final int x) {
-        Color color = token.getColorModel().getColor();
+        final Color color = token.getColorModel().getColor();
         graphics.setColor(color);
 
         int mX = x;
 
         if (token instanceof ArrowToken arrowToken) {
-            byte[] bytes = map.get(arrowToken.getArrowType());
+            final byte[] bytes = map.get(arrowToken.getArrowType());
             mX = paint(graphics, bytes, mX);
         }
         else {
-            String s = token.getDisplayValue();
+            final String s = token.getDisplayValue();
 
             for (int i = 0; i < s.length(); i++) {
                 byte[] bytes = map.get(String.valueOf(s.charAt(i)));

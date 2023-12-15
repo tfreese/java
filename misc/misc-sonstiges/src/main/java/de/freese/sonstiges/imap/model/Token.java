@@ -8,14 +8,12 @@ import java.util.Objects;
 public class Token {
 
     private final int hamCount;
-
     private final int spamCount;
-
     private final String value;
 
     public Token(final String value, final int hamCount, final int spamCount) {
         super();
-        
+
         this.value = value;
         this.hamCount = hamCount;
         this.spamCount = spamCount;
@@ -31,7 +29,7 @@ public class Token {
             return false;
         }
 
-        Token token = (Token) o;
+        final Token token = (Token) o;
 
         return hamCount == token.hamCount && spamCount == token.spamCount && value.equals(token.value);
     }

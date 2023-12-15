@@ -23,17 +23,17 @@ class TestProtobuf {
 
     @BeforeAll
     static void beforeAll() {
-        long id = System.currentTimeMillis();
-        String name = "Test";
-        String email = "test@example.org";
+        final long id = System.currentTimeMillis();
+        final String name = "Test";
+        final String email = "test@example.org";
 
         // @formatter:off
-        PhoneNumber.Builder phoneNumberBuilder = PhoneNumber.newBuilder()
+        final PhoneNumber.Builder phoneNumberBuilder = PhoneNumber.newBuilder()
                 .setType(PhoneType.PHONE_TYPE_HOME)
                 .setNumber("007")
                 ;
 
-        Person.Builder personBuilder = Person.newBuilder()
+        final  Person.Builder personBuilder = Person.newBuilder()
                 .setId(id)
                 .setName(name)
                 .setEmail(email)
@@ -52,9 +52,9 @@ class TestProtobuf {
 
     @Test
     void testChangeValue() {
-        Person person = addressBook.getPersons(0);
+        final Person person = addressBook.getPersons(0);
 
-        Person person1 = Person.newBuilder(person).setName("Dummy").build();
+        final Person person1 = Person.newBuilder(person).setName("Dummy").build();
 
         assertEquals(person.getId(), person1.getId());
         assertEquals(person.getEmail(), person1.getEmail());
@@ -64,12 +64,12 @@ class TestProtobuf {
     @Test
     void testSerialisation() throws Exception {
         // Serialize
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         addressBook.writeTo(baos);
         baos.flush();
 
         // Deserialize
-        AddressBook deserialized = AddressBook.parseFrom(baos.toByteArray());
+        final AddressBook deserialized = AddressBook.parseFrom(baos.toByteArray());
         // AddressBook.newBuilder().mergeFrom(baos.toByteArray()).build();
 
         assertEquals(addressBook, deserialized);

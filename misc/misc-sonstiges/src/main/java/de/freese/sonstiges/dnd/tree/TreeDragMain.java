@@ -27,10 +27,10 @@ public final class TreeDragMain extends JFrame {
         super("TreeDragMain");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        TreeTransferHandler transferHandler = new TreeTransferHandler();
+        final TreeTransferHandler transferHandler = new TreeTransferHandler();
 
         // this.treeLeft = new de.freese.base.swing.components.tree.ExtTree();
-        JTree treeLeft = new JTree();
+        final JTree treeLeft = new JTree();
         treeLeft.setDragEnabled(true);
         treeLeft.setTransferHandler(transferHandler);
 
@@ -41,15 +41,15 @@ public final class TreeDragMain extends JFrame {
             ex.printStackTrace();
         }
 
-        JScrollPane spLeft = new JScrollPane(treeLeft);
+        final JScrollPane spLeft = new JScrollPane(treeLeft);
         spLeft.setPreferredSize(new Dimension(200, 400));
 
         // this.treeRight = new de.freese.base.swing.components.tree.ExtTree();
-        JTree treeRight = new JTree();
+        final JTree treeRight = new JTree();
         treeRight.setDragEnabled(true);
         treeRight.setTransferHandler(transferHandler);
 
-        JScrollPane spRight = new JScrollPane(treeRight);
+        final JScrollPane spRight = new JScrollPane(treeRight);
         spRight.setPreferredSize(new Dimension(200, 400));
 
         getContentPane().setLayout(new FlowLayout());

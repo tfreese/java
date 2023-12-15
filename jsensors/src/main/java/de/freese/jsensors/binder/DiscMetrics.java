@@ -27,9 +27,7 @@ public class DiscMetrics implements SensorBinder {
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscMetrics.class);
 
     private final File file;
-
     private final Path path;
-
     private final String sensorPostfix;
 
     public DiscMetrics(final String sensorPostfix, final File file) {
@@ -55,7 +53,7 @@ public class DiscMetrics implements SensorBinder {
         }
         else if (this.path != null) {
             try {
-                FileStore fileStore = Files.getFileStore(this.path);
+                final FileStore fileStore = Files.getFileStore(this.path);
 
                 return bindTo(registry, fileStore, fs -> {
                     try {
@@ -92,23 +90,23 @@ public class DiscMetrics implements SensorBinder {
     }
 
     private <T> List<String> bindTo(final SensorRegistry registry, final T object, final ToLongFunction<T> functionFree, final ToLongFunction<T> functionTotal, final Function<String, Backend> backendProvider) {
-        String postfix = sanitizePostfix(this.sensorPostfix);
+        final String postfix = sanitizePostfix(this.sensorPostfix);
 
         Sensor.builder("disk.free." + postfix, object, obj -> {
-            long free = functionFree.applyAsLong(obj);
+            final long free = functionFree.applyAsLong(obj);
 
             return Long.toString(free);
         }).description("Free Disk-Space in Bytes").register(registry, backendProvider);
 
         Sensor.builder("disk.usage." + postfix, object, obj -> {
-            double free = functionFree.applyAsLong(obj);
-            long total = functionTotal.applyAsLong(obj);
+            final double free = functionFree.applyAsLong(obj);
+            final long total = functionTotal.applyAsLong(obj);
 
             if (total == 0L) {
                 return "0";
             }
 
-            double usage = (1D - (free / total)) * 100D;
+            final double usage = (1D - (free / total)) * 100D;
 
             return Double.toString(usage);
         }).description("Used Disk-Space in %").register(registry, backendProvider);

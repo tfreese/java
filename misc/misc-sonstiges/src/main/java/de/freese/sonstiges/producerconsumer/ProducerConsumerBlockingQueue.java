@@ -15,7 +15,6 @@ public final class ProducerConsumerBlockingQueue {
      */
     private static final class Consumer implements Runnable {
         private final int number;
-
         private final BlockingQueue<Integer> queue;
 
         Consumer(final BlockingQueue<Integer> queue, final int number) {
@@ -29,7 +28,7 @@ public final class ProducerConsumerBlockingQueue {
         public synchronized void run() {
             while (!Thread.interrupted()) {
                 try {
-                    Integer value;
+                    final Integer value;
                     // value = this.queue.take();
                     value = this.queue.poll(5000, TimeUnit.MILLISECONDS);
 
@@ -87,11 +86,11 @@ public final class ProducerConsumerBlockingQueue {
     }
 
     public static void main(final String[] args) throws Exception {
-        // BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(5);
-        BlockingQueue<Integer> queue = new LinkedBlockingQueue<>(5);
-        // BlockingQueue<Integer> queue = new SynchronousQueue<>();
+        // final BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(5);
+        final BlockingQueue<Integer> queue = new LinkedBlockingQueue<>(5);
+        // final BlockingQueue<Integer> queue = new SynchronousQueue<>();
 
-        Executor executor = Executors.newCachedThreadPool();
+        final Executor executor = Executors.newCachedThreadPool();
 
         // Producer starten
         for (int i = 0; i < 1; i++) {

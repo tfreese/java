@@ -41,44 +41,41 @@ public class XMLStreamOSMParser implements OSMParser {
 
     @Override
     public OsmModel parse(final InputStream inputStream) throws Exception {
-        // Validate gegen Schema.
-        // SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        // Schema schema = schemaFactory.newSchema(schemaFile);
+        // final SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        // final Schema schema = schemaFactory.newSchema(schemaFile);
         // Validator validator = schema.newValidator();
         // validator.validate(xmlFile);
 
-        XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+        final XMLInputFactory inputFactory = XMLInputFactory.newInstance();
 
         // Protect against to XXE attacks.
         inputFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
         inputFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
         //        inputFactory.setProperty(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 
-        XMLStreamReader reader = inputFactory.createXMLStreamReader(inputStream);
+        final XMLStreamReader reader = inputFactory.createXMLStreamReader(inputStream);
 
         return parseDocument(reader);
     }
 
     private OsmModel parseDocument(final XMLStreamReader reader) throws XMLStreamException {
-        OsmModel model = new OsmModel();
+        final OsmModel model = new OsmModel();
 
         while (reader.hasNext()) {
-            int event = reader.next();
+            final int event = reader.next();
 
-            // for (int i = 0; i < reader.getAttributeCount(); i++)
-            // {
+            // for (int i = 0; i < reader.getAttributeCount(); i++) {
             // System.out.printf("%d: AttributeLocalName=%s, AttributeValue=%s%n", Integer.valueOf(i), reader.getAttributeLocalName(i),
             // reader.getAttributeValue(i));
             // }
 
             switch (event) {
                 case XMLStreamConstants.START_ELEMENT:
-
                     String localName = reader.getLocalName();
 
                     if (NODE_NAME_TAG.equals(localName)) {
-                        String key = reader.getAttributeValue(null, ATTR_NAME_KEY);
-                        String value = reader.getAttributeValue(null, ATTR_NAME_VALUE);
+                        final String key = reader.getAttributeValue(null, ATTR_NAME_KEY);
+                        final String value = reader.getAttributeValue(null, ATTR_NAME_VALUE);
 
                         if (this.node != null) {
                             this.node.getTags().put(key, value);
@@ -91,9 +88,9 @@ public class XMLStreamOSMParser implements OSMParser {
                         }
                     }
                     else if (NODE_NAME_NODE.equals(localName)) {
-                        long id = Long.parseLong(reader.getAttributeValue(null, ATTR_NAME_ID));
-                        float lat = Float.parseFloat(reader.getAttributeValue(null, ATTR_NAME_LAT));
-                        float lon = Float.parseFloat(reader.getAttributeValue(null, ATTR_NAME_LON));
+                        final long id = Long.parseLong(reader.getAttributeValue(null, ATTR_NAME_ID));
+                        final float lat = Float.parseFloat(reader.getAttributeValue(null, ATTR_NAME_LAT));
+                        final float lon = Float.parseFloat(reader.getAttributeValue(null, ATTR_NAME_LON));
 
                         this.node = new OsmNode();
                         this.node.setID(id);
@@ -102,41 +99,41 @@ public class XMLStreamOSMParser implements OSMParser {
                         model.getNodeMap().put(id, this.node);
                     }
                     else if (NODE_NAME_WAY.equals(localName)) {
-                        long id = Long.parseLong(reader.getAttributeValue(null, ATTR_NAME_ID));
+                        final long id = Long.parseLong(reader.getAttributeValue(null, ATTR_NAME_ID));
 
                         this.way = new OsmWay();
                         this.way.setID(id);
                         model.getWayMap().put(id, this.way);
                     }
                     else if (NODE_NAME_WAYNODE.equals(localName)) {
-                        long refID = Long.parseLong(reader.getAttributeValue(null, ATTR_NAME_REF));
+                        final long refID = Long.parseLong(reader.getAttributeValue(null, ATTR_NAME_REF));
 
-                        OsmNode n = model.getNodeMap().get(refID);
+                        final OsmNode n = model.getNodeMap().get(refID);
 
                         if (n != null) {
                             this.way.getNodes().add(n);
                         }
                     }
                     else if (NODE_NAME_RELATION.equals(localName)) {
-                        long id = Long.parseLong(reader.getAttributeValue(null, ATTR_NAME_ID));
+                        final long id = Long.parseLong(reader.getAttributeValue(null, ATTR_NAME_ID));
 
                         this.relation = new OsmRelation();
                         this.relation.setID(id);
                         model.getRelationMap().put(id, this.relation);
                     }
                     else if (NODE_NAME_RELATIONMEMBER.equals(localName)) {
-                        String type = reader.getAttributeValue(null, ATTR_NAME_TYPE);
-                        long refID = Long.parseLong(reader.getAttributeValue(null, ATTR_NAME_REF));
+                        final String type = reader.getAttributeValue(null, ATTR_NAME_TYPE);
+                        final long refID = Long.parseLong(reader.getAttributeValue(null, ATTR_NAME_REF));
 
                         if (NODE_NAME_NODE.equals(type)) {
-                            OsmNode refNode = model.getNodeMap().get(refID);
+                            final OsmNode refNode = model.getNodeMap().get(refID);
 
                             if (refNode != null) {
                                 this.relation.getNodes().add(refNode);
                             }
                         }
                         else if (NODE_NAME_WAY.equals(type)) {
-                            OsmWay refWay = model.getWayMap().get(refID);
+                            final OsmWay refWay = model.getWayMap().get(refID);
 
                             if (refWay != null) {
                                 this.relation.getWays().add(refWay);

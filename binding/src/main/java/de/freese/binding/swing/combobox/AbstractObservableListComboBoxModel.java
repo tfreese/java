@@ -14,7 +14,6 @@ import de.freese.binding.swing.list.AbstractObservableListListModel;
  * @author Thomas Freese
  */
 public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObservableListListModel<T> implements ComboBoxModel<T> {
-
     @Serial
     private static final long serialVersionUID = -5837879226873538114L;
 
@@ -26,10 +25,10 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
          * Überschrieben, um sicherzustellen, das das selektierte Objekt in der ComboBox angepasst wird, wenn sich die Daten der {ObservableList} anpassen.
          */
         @Override
-        public void contentsChanged(final ListDataEvent e) {
+        public void contentsChanged(final ListDataEvent event) {
             AbstractObservableListComboBoxModel.this.selectedObject = null;
 
-            super.contentsChanged(e);
+            super.contentsChanged(event);
         }
     }
 
@@ -46,7 +45,7 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
 
     @Override
     public void setSelectedItem(final Object anItem) {
-        int index = getList().indexOf(anItem);
+        final int index = getList().indexOf(anItem);
 
         if (index != -1) {
             this.selectedObject = getList().get(index);

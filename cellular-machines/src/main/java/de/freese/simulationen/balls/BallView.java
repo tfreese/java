@@ -19,12 +19,12 @@ public class BallView extends SimulationView<BallSimulation> {
         super.start();
 
         // Die Simulation würde ewig weitergehen, auch wenn die Bälle schon am Boden liegen.
-        BooleanSupplier exitCondition = getSimulation()::isFinished;
-        Runnable task = this::stop;
+        final BooleanSupplier exitCondition = getSimulation()::isFinished;
+        final Runnable task = this::stop;
 
-        ScheduledFutureAwareRunnable futureAwareRunnable = new ScheduledFutureAwareRunnable(exitCondition, task, "Ball-Simulation");
+        final ScheduledFutureAwareRunnable futureAwareRunnable = new ScheduledFutureAwareRunnable(exitCondition, task, "Ball-Simulation");
 
-        ScheduledFuture<?> scheduledFuture = getScheduledExecutorService().scheduleWithFixedDelay(futureAwareRunnable, 3, 3, TimeUnit.SECONDS);
+        final ScheduledFuture<?> scheduledFuture = getScheduledExecutorService().scheduleWithFixedDelay(futureAwareRunnable, 3, 3, TimeUnit.SECONDS);
         futureAwareRunnable.setScheduledFuture(scheduledFuture);
     }
 }

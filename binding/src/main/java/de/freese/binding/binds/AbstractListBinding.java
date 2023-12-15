@@ -23,7 +23,7 @@ public abstract class AbstractListBinding<T> extends AbstractListExpression<T> i
 
     @Override
     public void update() {
-        ObservableList<T> old = this.value;
+        final ObservableList<T> old = this.value;
         this.value = computeValue();
 
         if (Objects.equals(old, this.value)) {

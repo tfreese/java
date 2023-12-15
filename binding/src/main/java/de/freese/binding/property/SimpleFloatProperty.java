@@ -7,7 +7,6 @@ package de.freese.binding.property;
 public class SimpleFloatProperty extends AbstractFloatProperty {
 
     private final Object bean;
-
     private final String name;
 
     public SimpleFloatProperty() {

@@ -21,7 +21,7 @@ public abstract class AbstractBooleanProperty extends AbstractBooleanExpression 
 
     @Override
     public void setValue(final Boolean value) {
-        Boolean old = this.value;
+        final Boolean old = this.value;
         this.value = value;
 
         if (!Objects.equals(old, value)) {

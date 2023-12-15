@@ -6,7 +6,6 @@ package de.freese.jconky.model;
  */
 public class TemperatureInfo {
     private final String device;
-
     private final double temperature;
 
     public TemperatureInfo() {
@@ -30,7 +29,7 @@ public class TemperatureInfo {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(getClass().getSimpleName());
+        final StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
         builder.append(" device=").append(this.device);
         builder.append(", temperature=").append(this.temperature);

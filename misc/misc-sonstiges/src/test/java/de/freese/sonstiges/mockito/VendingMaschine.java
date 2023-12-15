@@ -6,7 +6,6 @@ package de.freese.sonstiges.mockito;
  */
 public class VendingMaschine {
     private final Box[] boxes;
-
     private final CashBox cashBox;
 
     public VendingMaschine(final CashBox cashBox, final Box[] boxes) {
@@ -17,13 +16,13 @@ public class VendingMaschine {
     }
 
     public void selectItem(final int boxIndex) throws Exception {
-        Box box = this.boxes[boxIndex];
+        final Box box = this.boxes[boxIndex];
 
         if (box.isEmpty()) {
             throw new Exception("box is empty");
         }
 
-        int amountRequired = box.getPrice();
+        final int amountRequired = box.getPrice();
 
         if (amountRequired > this.cashBox.getCurrentAmount()) {
             throw new Exception("not enough money");

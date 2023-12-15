@@ -24,7 +24,7 @@ public class CheckedInputStream extends FilterInputStream {
 
     @Override
     public int read() throws IOException {
-        int b = this.in.read();
+        final int b = this.in.read();
 
         if (b != -1) {
             this.checksum.update(b);
@@ -35,7 +35,7 @@ public class CheckedInputStream extends FilterInputStream {
 
     @Override
     public int read(final byte[] b) throws IOException {
-        int bytesRead = this.in.read(b, 0, b.length);
+        final int bytesRead = this.in.read(b, 0, b.length);
 
         if (bytesRead != -1) {
             this.checksum.update(b, 0, bytesRead);
@@ -46,7 +46,7 @@ public class CheckedInputStream extends FilterInputStream {
 
     @Override
     public int read(final byte[] b, final int off, final int len) throws IOException {
-        int bytesRead = this.in.read(b, off, len);
+        final int bytesRead = this.in.read(b, off, len);
 
         if (bytesRead != -1) {
             this.checksum.update(b, off, bytesRead);

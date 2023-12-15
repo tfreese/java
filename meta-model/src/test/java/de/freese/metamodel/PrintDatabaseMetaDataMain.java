@@ -16,10 +16,10 @@ import javax.sql.DataSource;
  */
 public final class PrintDatabaseMetaDataMain {
     public static void main(final String[] args) throws Exception {
-        DataSource dataSource = TestUtil.createHsqlDBDataSource("jdbc:hsqldb:res:hsqldb/person;create=false;readonly=true");
+        final DataSource dataSource = TestUtil.createHsqlDBDataSource("jdbc:hsqldb:res:hsqldb/person;create=false;readonly=true");
 
         try (Connection connection = dataSource.getConnection()) {
-            DatabaseMetaData metaData = connection.getMetaData();
+            final DatabaseMetaData metaData = connection.getMetaData();
 
             // @formatter:off
             System.out.printf("%n%s: %d/%d, %s%n",
@@ -30,10 +30,10 @@ public final class PrintDatabaseMetaDataMain {
             // @formatter:on
 
             // "PUBLIC"
-            String schema = "PUBLIC";
+            final String schema = "PUBLIC";
 
             // "T_%"
-            String table = "T_%";
+            final String table = "T_%";
 
             printCatalogsAndSchemas(connection);
             printClientInfoAndClientProperties(connection);
@@ -55,7 +55,7 @@ public final class PrintDatabaseMetaDataMain {
     private static void printCatalogsAndSchemas(final Connection connection) throws SQLException {
         System.out.printf("%nConnection Catalog: %s%n", connection.getCatalog());
 
-        DatabaseMetaData metaData = connection.getMetaData();
+        final DatabaseMetaData metaData = connection.getMetaData();
 
         try (ResultSet rs = metaData.getCatalogs()) {
             System.out.println("\nCatalogs:");
@@ -69,24 +69,23 @@ public final class PrintDatabaseMetaDataMain {
     }
 
     private static void printClientInfoAndClientProperties(final Connection connection) throws SQLException {
-        Properties properties = connection.getClientInfo();
+        final Properties properties = connection.getClientInfo();
 
         if (properties != null) {
             System.out.println("\nClientInfo:");
             properties.forEach((key, value) -> System.out.printf("ClientInfo: %s - %s%n", key, value));
         }
 
-        // DatabaseMetaData metaData = connection.getMetaData();
+        // final DatabaseMetaData metaData = connection.getMetaData();
         //
-        // try (ResultSet rs = metaData.getClientInfoProperties())
-        // {
+        // try (ResultSet rs = metaData.getClientInfoProperties()) {
         // System.out.println("\nClientInfoProperties:");
         // write(rs, System.out);
         // }
     }
 
     private static void printColumns(final Connection connection, final String schema, final String tableName) throws SQLException {
-        DatabaseMetaData metaData = connection.getMetaData();
+        final DatabaseMetaData metaData = connection.getMetaData();
 
         try (ResultSet columns = metaData.getColumns(null, schema, tableName, null)) {
             System.out.println("\nSpalten:");
@@ -95,7 +94,7 @@ public final class PrintDatabaseMetaDataMain {
     }
 
     private static void printForeignKeys(final Connection connection, final String schema, final String tableName) throws SQLException {
-        DatabaseMetaData metaData = connection.getMetaData();
+        final DatabaseMetaData metaData = connection.getMetaData();
 
         // ForeignKeys von dieser Tabelle.
         try (ResultSet foreignKeys = metaData.getImportedKeys(schema, schema, tableName)) {
@@ -111,7 +110,7 @@ public final class PrintDatabaseMetaDataMain {
     }
 
     private static void printIndices(final Connection connection, final String schema, final String tableName) throws SQLException {
-        DatabaseMetaData metaData = connection.getMetaData();
+        final DatabaseMetaData metaData = connection.getMetaData();
 
         try (ResultSet unique = metaData.getIndexInfo(schema, schema, tableName, false, true)) {
             // NON_UNIQUE = true
@@ -127,7 +126,7 @@ public final class PrintDatabaseMetaDataMain {
     }
 
     private static void printPrimaryKeys(final Connection connection, final String schema, final String tableName) throws SQLException {
-        DatabaseMetaData metaData = connection.getMetaData();
+        final DatabaseMetaData metaData = connection.getMetaData();
 
         try (ResultSet primaryKeys = metaData.getPrimaryKeys(schema, schema, tableName)) {
             System.out.println("\nPrimaryKeys:");
@@ -150,9 +149,9 @@ public final class PrintDatabaseMetaDataMain {
     }
 
     private static void printTables(final Connection connection, final String schema, final String tableNamePattern) throws SQLException {
-        String[] types = {"TABLE", "VIEW", "SYSTEM TABLE", "GLOBAL TEMPORARY", "LOCAL TEMPORARY", "ALIAS", "SYNONYM", "SEQUENCE"};
+        final String[] types = {"TABLE", "VIEW", "SYSTEM TABLE", "GLOBAL TEMPORARY", "LOCAL TEMPORARY", "ALIAS", "SYNONYM", "SEQUENCE"};
 
-        DatabaseMetaData metaData = connection.getMetaData();
+        final DatabaseMetaData metaData = connection.getMetaData();
 
         try (ResultSet tables = metaData.getTables(null, schema, tableNamePattern, types)) {
             System.out.println("\nTabellen:");

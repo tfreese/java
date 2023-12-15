@@ -20,25 +20,17 @@ public class Column {
     private final List<Column> reverseForeignKeys = new ArrayList<>();
 
     private String comment;
-
     private int decimalDigits = UNDEFINED;
-
     private ForeignKey foreignKey;
-
     private String name;
-
     private boolean nullable;
-
     private int size = UNDEFINED;
     /**
      * {@link Types}
      */
     private int sqlType = Types.NULL;
-
     private Table table;
-
     private int tableIndex;
-
     private String typeName;
 
     Column(final Table table, final String name) {
@@ -111,7 +103,7 @@ public class Column {
      * Liefert true, wenn die Column zu den PrimaryKey-Columns gehört.
      */
     public boolean isPrimaryKey() {
-        PrimaryKey pk = getTable().getPrimaryKey();
+        final PrimaryKey pk = getTable().getPrimaryKey();
 
         if (pk == null) {
             return false;
@@ -164,7 +156,7 @@ public class Column {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("Column [");
         builder.append("schema=").append(getTable().getSchema().getName());
         builder.append(", table=").append(getTable().getName());

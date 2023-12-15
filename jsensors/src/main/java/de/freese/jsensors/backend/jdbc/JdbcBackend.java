@@ -26,9 +26,7 @@ import de.freese.jsensors.utils.LifeCycle;
  */
 public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
     private final DataSource dataSource;
-
     private final boolean exclusive;
-
     private final String tableName;
 
     /**
@@ -46,7 +44,7 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
     public void start() {
         // Create Table if not exist.
         try (Connection con = this.dataSource.getConnection()) {
-            DatabaseMetaData metaData = con.getMetaData();
+            final DatabaseMetaData metaData = con.getMetaData();
             boolean exist = false;
 
             try (ResultSet tables = metaData.getTables(null, null, this.tableName, new String[]{"TABLE"})) {
@@ -61,10 +59,10 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
 
                 try (Statement stmt = con.createStatement()) {
                     // Create Table.
-                    StringBuilder sql = new StringBuilder();
+                    final StringBuilder sql = new StringBuilder();
                     sql.append("CREATE TABLE ").append(this.tableName);
 
-                    StringJoiner joiner = new StringJoiner(", ", " (", ")");
+                    final StringJoiner joiner = new StringJoiner(", ", " (", ")");
 
                     if (!this.exclusive) {
                         // With SensorName.
@@ -81,13 +79,13 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
                     if (this.exclusive) {
                         // Without SensorName.
                         // String index = String.format("ALTER TABLE %s ADD CONSTRAINT TIMESTAMP_PK PRIMARY KEY (TIMESTAMP);", this.tableName);
-                        String index = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (TIMESTAMP);", this.tableName, this.tableName);
+                        final String index = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (TIMESTAMP);", this.tableName, this.tableName);
 
                         stmt.execute(index);
                     }
                     else {
                         // With SensorName.
-                        String index = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (NAME, TIMESTAMP);", this.tableName, this.tableName);
+                        final String index = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (NAME, TIMESTAMP);", this.tableName, this.tableName);
 
                         stmt.execute(index);
 
@@ -117,7 +115,7 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
             return;
         }
 
-        StringBuilder sql = new StringBuilder();
+        final StringBuilder sql = new StringBuilder();
         sql.append("INSERT INTO ").append(this.tableName);
 
         if (this.exclusive) {

@@ -18,18 +18,18 @@ import de.freese.openstreetmap.model.OsmModel;
 public class SaxOSMParser implements OSMParser {
     @Override
     public OsmModel parse(final InputStream inputStream) throws Exception {
-        OsmModel model = new OsmModel();
-        OSMContentHandler contentHandler = new OSMContentHandler(model);
-        // XMLReader reader = XMLReaderFactory.createXMLReader();
+        final OsmModel model = new OsmModel();
+        final OSMContentHandler contentHandler = new OSMContentHandler(model);
+        // final XMLReader reader = XMLReaderFactory.createXMLReader();
         // reader.setContentHandler(contentHandler);
         // reader.parse(new InputSource(inputStream));
 
-        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+        final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         saxParserFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
         saxParserFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
         saxParserFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
 
-        SAXParser saxParser = saxParserFactory.newSAXParser();
+        final SAXParser saxParser = saxParserFactory.newSAXParser();
 
         // Protect against to XXE attacks.
         saxParser.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");

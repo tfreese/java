@@ -13,9 +13,7 @@ public abstract class AbstractCell implements Cell {
     private final AbstractRasterSimulation simulation;
 
     private Color color;
-
     private int x = -1;
-
     private int y = -1;
 
     protected AbstractCell(final AbstractRasterSimulation simulation) {
@@ -54,7 +52,7 @@ public abstract class AbstractCell implements Cell {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
         sb.append(" ");
         sb.append("[x=").append(getX()).append(",y=").append(getY()).append("]");
@@ -75,10 +73,10 @@ public abstract class AbstractCell implements Cell {
      * Liefert nur die Nord-, Ost-, Süd- und West-Nachbarn dieser Zelle.
      */
     protected void visitNeighbours(final BiConsumer<Integer, Integer> biConsumer) {
-        int xWest = getSimulation().getXTorusKoord(getX(), -1);
-        int xOst = getSimulation().getXTorusKoord(getX(), +1);
-        int ySued = getSimulation().getYTorusKoord(getY(), -1);
-        int yNord = getSimulation().getYTorusKoord(getY(), +1);
+        final int xWest = getSimulation().getXTorusKoord(getX(), -1);
+        final int xOst = getSimulation().getXTorusKoord(getX(), +1);
+        final int ySued = getSimulation().getYTorusKoord(getY(), -1);
+        final int yNord = getSimulation().getYTorusKoord(getY(), +1);
 
         // Nord
         biConsumer.accept(getX(), yNord);
@@ -97,10 +95,10 @@ public abstract class AbstractCell implements Cell {
      * Liefert alle Nachbarn dieser Zelle.
      */
     protected void visitNeighboursAll(final BiConsumer<Integer, Integer> biConsumer) {
-        int xWest = getSimulation().getXTorusKoord(getX(), -1);
-        int xOst = getSimulation().getXTorusKoord(getX(), +1);
-        int ySued = getSimulation().getYTorusKoord(getY(), -1);
-        int yNord = getSimulation().getYTorusKoord(getY(), +1);
+        final int xWest = getSimulation().getXTorusKoord(getX(), -1);
+        final int xOst = getSimulation().getXTorusKoord(getX(), +1);
+        final int ySued = getSimulation().getYTorusKoord(getY(), -1);
+        final int yNord = getSimulation().getYTorusKoord(getY(), +1);
 
         // Nord
         biConsumer.accept(getX(), yNord);

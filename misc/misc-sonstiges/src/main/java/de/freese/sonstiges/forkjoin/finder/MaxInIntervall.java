@@ -15,13 +15,11 @@ public class MaxInIntervall extends RecursiveAction {
     private static final long serialVersionUID = -6829518464952417401L;
 
     private final int[] array;
-
     private final int end;
     /**
      * Schwellenwert, bei dem die Suche sequenziell durchgeführt wird.
      */
     private final int intervalThreshold;
-
     private final int start;
 
     private volatile int result;
@@ -45,10 +43,10 @@ public class MaxInIntervall extends RecursiveAction {
             this.result = findMaxSequentially();
         }
         else {
-            int middle = (this.end - this.start) / 2;
+            final int middle = (this.end - this.start) / 2;
 
-            MaxInIntervall task1 = new MaxInIntervall(this.array, this.start, this.start + middle, this.intervalThreshold);
-            MaxInIntervall task2 = new MaxInIntervall(this.array, this.start + middle, this.end, this.intervalThreshold);
+            final MaxInIntervall task1 = new MaxInIntervall(this.array, this.start, this.start + middle, this.intervalThreshold);
+            final MaxInIntervall task2 = new MaxInIntervall(this.array, this.start + middle, this.end, this.intervalThreshold);
 
             invokeAll(task1, task2);
 
@@ -60,7 +58,7 @@ public class MaxInIntervall extends RecursiveAction {
         int max = Integer.MIN_VALUE;
 
         for (int i = this.start; i < this.end; i++) {
-            int n = this.array[i];
+            final int n = this.array[i];
 
             if (n > max) {
                 max = n;

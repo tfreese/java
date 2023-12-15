@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 @JsonRootName(value = "footer")
 public class DiscordFooter {
     private String iconUrl;
-
     private String text;
 
     public String getIconUrl() {

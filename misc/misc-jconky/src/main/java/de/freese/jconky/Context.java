@@ -36,29 +36,17 @@ public final class Context {
     }
 
     private CpuInfos cpuInfos = new CpuInfos();
-
     private CpuLoadAvg cpuLoadAvg = new CpuLoadAvg();
-
     private String externalIp = "";
-
     private HostInfo hostInfo = new HostInfo();
-
     private MusicInfo musicInfo = new MusicInfo();
-
     private NetworkInfos networkInfos = new NetworkInfos();
-
     private int numberOfCores;
-
     private ProcessInfos processInfos = new ProcessInfos();
-
     private Map<String, TemperatureInfo> temperatures = new HashMap<>();
-
     private long totalSystemMemory;
-
     private int updates;
-
     private double uptimeInSeconds;
-
     private Map<String, UsageInfo> usages = new HashMap<>();
 
     private Context() {
@@ -122,7 +110,7 @@ public final class Context {
             this.cpuLoadAvg = getSystemMonitor().getCpuLoadAvg();
 
             // CpuUsages berechnen.
-            CpuInfos cpuInfosPrevious = this.cpuInfos;
+            final CpuInfos cpuInfosPrevious = this.cpuInfos;
             this.cpuInfos = getSystemMonitor().getCpuInfos();
 
             this.cpuInfos.getTotal().calculateCpuUsage(cpuInfosPrevious.getTotal());
@@ -159,7 +147,7 @@ public final class Context {
      */
     public void updateNetworkInfos() {
         try {
-            NetworkInfos networkInfosPrevious = this.networkInfos;
+            final NetworkInfos networkInfosPrevious = this.networkInfos;
             this.networkInfos = getSystemMonitor().getNetworkInfos();
 
             this.networkInfos.calculateUpAndDownload(networkInfosPrevious);
@@ -236,7 +224,7 @@ public final class Context {
      */
     public void updateUsages() {
         try {
-            Map<String, UsageInfo> map = new HashMap<>();
+            final Map<String, UsageInfo> map = new HashMap<>();
             map.putAll(getSystemMonitor().getRamAndSwap());
             map.putAll(getSystemMonitor().getFilesystems());
 

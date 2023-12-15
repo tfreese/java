@@ -17,8 +17,8 @@ class HttpWriteHandler implements CompletionHandler<Integer, MyAttachment> {
 
     @Override
     public void completed(final Integer result, final MyAttachment attachment) {
-        AsynchronousSocketChannel channel = attachment.channel();
-        ByteBuffer byteBuffer = attachment.byteBuffer();
+        final AsynchronousSocketChannel channel = attachment.channel();
+        final ByteBuffer byteBuffer = attachment.byteBuffer();
 
         try {
             LOGGER.debug("{}: Write Response", channel.getRemoteAddress());
@@ -36,7 +36,7 @@ class HttpWriteHandler implements CompletionHandler<Integer, MyAttachment> {
 
     @Override
     public void failed(final Throwable exc, final MyAttachment attachment) {
-        AsynchronousSocketChannel channel = attachment.channel();
+        final AsynchronousSocketChannel channel = attachment.channel();
 
         ServerAsync.close(channel, LOGGER);
         LOGGER.error(exc.getMessage(), exc);

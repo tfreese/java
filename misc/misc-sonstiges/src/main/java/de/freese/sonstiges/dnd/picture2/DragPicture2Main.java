@@ -29,15 +29,10 @@ import javax.swing.WindowConstants;
  */
 public final class DragPicture2Main extends JPanel {
     private static final String ADELE = "Adele";
-
     private static final String ALEXI = "Alexi";
-
     private static final String ANYA = "Anya";
-
     private static final String COSMO = "Cosmo";
-
     private static final String LAINE = "Laine";
-
     private static final String MAYA = "Maya";
 
     @Serial
@@ -57,11 +52,11 @@ public final class DragPicture2Main extends JPanel {
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         // Create and set up the window.
-        JFrame frame = new JFrame("DragPicture2Main");
+        final JFrame frame = new JFrame("DragPicture2Main");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // Create and set up the menu bar and content pane.
-        DragPicture2Main demo = new DragPicture2Main();
+        final DragPicture2Main demo = new DragPicture2Main();
         frame.setJMenuBar(demo.createMenuBar());
         demo.setOpaque(true); // content panes must be opaque
         frame.setContentPane(demo);
@@ -75,7 +70,7 @@ public final class DragPicture2Main extends JPanel {
      * Returns an ImageIcon, or null if the path was invalid.
      */
     private static ImageIcon createImageIcon(final String path, final String description) {
-        URL imageURL = DragPicture2Main.class.getResource(path);
+        final URL imageURL = DragPicture2Main.class.getResource(path);
 
         if (imageURL == null) {
             System.err.println("Resource not found: " + path);
@@ -89,60 +84,60 @@ public final class DragPicture2Main extends JPanel {
     private DragPicture2Main() {
         super(new BorderLayout());
 
-        PictureTransferHandler picHandler = new PictureTransferHandler();
+        final PictureTransferHandler picHandler = new PictureTransferHandler();
 
         // Since we are using keyboard accelerators, we don't
         // need the component to install its own input map
         // bindings.
         DTPicture.setInstallInputMapBindings(false);
 
-        JPanel mugshots = new JPanel(new GridLayout(4, 3));
-        DTPicture pic1 = new DTPicture(createImageIcon(MAYA + ".jpg", MAYA).getImage());
+        final JPanel mugshots = new JPanel(new GridLayout(4, 3));
+        final DTPicture pic1 = new DTPicture(createImageIcon(MAYA + ".jpg", MAYA).getImage());
         pic1.setTransferHandler(picHandler);
         mugshots.add(pic1);
 
-        DTPicture pic2 = new DTPicture(createImageIcon(ANYA + ".jpg", ANYA).getImage());
+        final DTPicture pic2 = new DTPicture(createImageIcon(ANYA + ".jpg", ANYA).getImage());
         pic2.setTransferHandler(picHandler);
         mugshots.add(pic2);
 
-        DTPicture pic3 = new DTPicture(createImageIcon(LAINE + ".jpg", LAINE).getImage());
+        final DTPicture pic3 = new DTPicture(createImageIcon(LAINE + ".jpg", LAINE).getImage());
         pic3.setTransferHandler(picHandler);
         mugshots.add(pic3);
 
-        DTPicture pic4 = new DTPicture(createImageIcon(COSMO + ".jpg", COSMO).getImage());
+        final DTPicture pic4 = new DTPicture(createImageIcon(COSMO + ".jpg", COSMO).getImage());
         pic4.setTransferHandler(picHandler);
         mugshots.add(pic4);
 
-        DTPicture pic5 = new DTPicture(createImageIcon(ADELE + ".jpg", ADELE).getImage());
+        final DTPicture pic5 = new DTPicture(createImageIcon(ADELE + ".jpg", ADELE).getImage());
         pic5.setTransferHandler(picHandler);
         mugshots.add(pic5);
 
-        DTPicture pic6 = new DTPicture(createImageIcon(ALEXI + ".jpg", ALEXI).getImage());
+        final DTPicture pic6 = new DTPicture(createImageIcon(ALEXI + ".jpg", ALEXI).getImage());
         pic6.setTransferHandler(picHandler);
         mugshots.add(pic6);
 
         // These six components with no pictures provide handy drop targets.
-        DTPicture pic7 = new DTPicture(null);
+        final DTPicture pic7 = new DTPicture(null);
         pic7.setTransferHandler(picHandler);
         mugshots.add(pic7);
 
-        DTPicture pic8 = new DTPicture(null);
+        final DTPicture pic8 = new DTPicture(null);
         pic8.setTransferHandler(picHandler);
         mugshots.add(pic8);
 
-        DTPicture pic9 = new DTPicture(null);
+        final DTPicture pic9 = new DTPicture(null);
         pic9.setTransferHandler(picHandler);
         mugshots.add(pic9);
 
-        DTPicture pic10 = new DTPicture(null);
+        final DTPicture pic10 = new DTPicture(null);
         pic10.setTransferHandler(picHandler);
         mugshots.add(pic10);
 
-        DTPicture pic11 = new DTPicture(null);
+        final DTPicture pic11 = new DTPicture(null);
         pic11.setTransferHandler(picHandler);
         mugshots.add(pic11);
 
-        DTPicture pic12 = new DTPicture(null);
+        final DTPicture pic12 = new DTPicture(null);
         pic12.setTransferHandler(picHandler);
         mugshots.add(pic12);
 
@@ -152,11 +147,11 @@ public final class DragPicture2Main extends JPanel {
     }
 
     public JMenuBar createMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
-        JMenu mainMenu = new JMenu("Edit");
+        final JMenuBar menuBar = new JMenuBar();
+        final JMenu mainMenu = new JMenu("Edit");
         mainMenu.setMnemonic(KeyEvent.VK_E);
 
-        TransferActionListener actionListener = new TransferActionListener();
+        final TransferActionListener actionListener = new TransferActionListener();
 
         JMenuItem menuItem = new JMenuItem("Cut");
         menuItem.setActionCommand((String) TransferHandler.getCutAction().getValue(Action.NAME));

@@ -13,7 +13,7 @@ import java.util.List;
  */
 public final class RsyncMain {
     public static void main(final String[] args) {
-        List<String> command = new ArrayList<>();
+        final List<String> command = new ArrayList<>();
         command.add("rsync");
         command.add("--verbose");
         command.add("--stats");
@@ -51,15 +51,14 @@ public final class RsyncMain {
 
         System.out.println(command);
 
-        Charset charset = StandardCharsets.UTF_8;
+        final Charset charset = StandardCharsets.UTF_8;
 
         try {
-            Process process = Runtime.getRuntime().exec(command.toArray(String[]::new));
+            final Process process = Runtime.getRuntime().exec(command.toArray(String[]::new));
 
-            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream(), charset));
-            BufferedReader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream(), charset));
-            // BufferedWriter outputWriter =
-            // new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
+            final BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream(), charset));
+            final BufferedReader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream(), charset));
+            // final BufferedWriter outputWriter = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
 
             // outputWriter.write("bla");
 
@@ -73,7 +72,7 @@ public final class RsyncMain {
                 System.err.println(line);
             }
 
-            int exitVal = process.waitFor();
+            final int exitVal = process.waitFor();
             System.out.println("Exit value: " + exitVal);
         }
         catch (Exception ex) {

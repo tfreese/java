@@ -52,14 +52,14 @@ class TestStemmer {
                 return ((SnowballProgram) stemmerImpl).getCurrent();
             };
             case GermanMinimalStemmer germanMinimalStemmer -> value -> {
-                char[] ca = value.toCharArray();
-                int length = ((GermanMinimalStemmer) stemmerImpl).stem(ca, ca.length);
+                final char[] ca = value.toCharArray();
+                final int length = ((GermanMinimalStemmer) stemmerImpl).stem(ca, ca.length);
 
                 return new String(ca, 0, length);
             };
             case GermanLightStemmer germanLightStemmer -> value -> {
-                char[] ca = value.toCharArray();
-                int length = ((GermanLightStemmer) stemmerImpl).stem(ca, ca.length);
+                final char[] ca = value.toCharArray();
+                final int length = ((GermanLightStemmer) stemmerImpl).stem(ca, ca.length);
 
                 return new String(ca, 0, length);
             };
@@ -68,12 +68,12 @@ class TestStemmer {
     }
 
     void testBaeume(final Stemmer stemmer) throws Exception {
-        String stem = stemmer.stem("bäume");
+        final String stem = stemmer.stem("bäume");
         assertEquals("baum", stem);
     }
 
     void testBaum(final Stemmer stemmer) throws Exception {
-        String stem = stemmer.stem("baum");
+        final String stem = stemmer.stem("baum");
         assertEquals("baum", stem);
     }
 
@@ -109,42 +109,42 @@ class TestStemmer {
     }
 
     void testHuehner(final Stemmer stemmer) throws Exception {
-        String stem = stemmer.stem("hühner");
+        final String stem = stemmer.stem("hühner");
         assertEquals("huhn", stem);
     }
 
     void testHuhn(final Stemmer stemmer) throws Exception {
-        String stem = stemmer.stem("huhn");
+        final String stem = stemmer.stem("huhn");
         assertEquals("huhn", stem);
     }
 
     void testTaegig(final Stemmer stemmer) throws Exception {
-        String stem = stemmer.stem("tägig");
+        final String stem = stemmer.stem("tägig");
         assertEquals("tagig", stem);
     }
 
     void testTage(final Stemmer stemmer) throws Exception {
-        String stem = stemmer.stem("tage");
+        final String stem = stemmer.stem("tage");
         assertEquals("tag", stem);
     }
 
     void testTagung(final Stemmer stemmer) throws Exception {
-        String stem = stemmer.stem("tagung");
+        final String stem = stemmer.stem("tagung");
         assertEquals("tagung", stem);
     }
 
     void testWaelder(final Stemmer stemmer) throws Exception {
-        String stem = stemmer.stem("wälder");
+        final String stem = stemmer.stem("wälder");
         assertEquals("wald", stem);
     }
 
     void testWald(final Stemmer stemmer) throws Exception {
-        String stem = stemmer.stem("wald");
+        final String stem = stemmer.stem("wald");
         assertEquals("wald", stem);
     }
 
     void testWeisse(final Stemmer stemmer) throws Exception {
-        String stem = stemmer.stem("weisse");
+        final String stem = stemmer.stem("weisse");
         assertEquals("weiss", stem);
     }
 }

@@ -19,11 +19,11 @@ public class MusicMonitorPainter extends AbstractMonitorPainter {
 
     @Override
     public double paintValue(final GraphicsContext gc, final double width) {
-        MusicInfo musicInfo = getContext().getMusicInfo();
+        final MusicInfo musicInfo = getContext().getMusicInfo();
 
-        double fontSize = getSettings().getFontSize();
+        final double fontSize = getSettings().getFontSize();
 
-        double x = getSettings().getMarginInner().getLeft();
+        final double x = getSettings().getMarginInner().getLeft();
         double y = fontSize;
         paintTitle(gc, "Music", x, y, width);
 
@@ -37,20 +37,19 @@ public class MusicMonitorPainter extends AbstractMonitorPainter {
         paintText(gc, "Title : " + Objects.toString(musicInfo.getTitle(), ""), x, y);
 
         y += fontSize * 1.25D;
-        String position = JConkyUtils.toClockString(musicInfo.getPosition(), "%d:%02d:%02d", "%d:%02d");
-        String length = JConkyUtils.toClockString(musicInfo.getLength(), "%d:%02d:%02d", "%d:%02d");
-        String text = String.format("%s / %s, %.2f %%, %d KB/s", position, length, musicInfo.getProgress() * 100D, musicInfo.getBitRate());
+        final String position = JConkyUtils.toClockString(musicInfo.getPosition(), "%d:%02d:%02d", "%d:%02d");
+        final String length = JConkyUtils.toClockString(musicInfo.getLength(), "%d:%02d:%02d", "%d:%02d");
+        final String text = String.format("%s / %s, %.2f %%, %d KB/s", position, length, musicInfo.getProgress() * 100D, musicInfo.getBitRate());
         paintText(gc, "Time  : " + text, x, y);
 
         // updateImage(musicInfo.getImageUri());
         //
         // y += 5D;
-        // double imageWidth = width - getSettings().getMarginInner().getLeft() - getSettings().getMarginInner().getRight();
-        // double imageHeight = imageWidth;
+        // final double imageWidth = width - getSettings().getMarginInner().getLeft() - getSettings().getMarginInner().getRight();
+        // final double imageHeight = imageWidth;
         //
-        // if (musicInfo.getImageUri() != null)
-        // {
-        // double globalAlpha = gc.getGlobalAlpha();
+        // if (musicInfo.getImageUri() != null) {
+        // final double globalAlpha = gc.getGlobalAlpha();
         // gc.setGlobalAlpha(getSettings().getAlpha());
         // gc.drawImage(this.image, x, y, imageWidth, imageHeight);
         // gc.setGlobalAlpha(globalAlpha);
@@ -58,7 +57,7 @@ public class MusicMonitorPainter extends AbstractMonitorPainter {
         //
         // y += imageHeight;
 
-        double height = y + 5D;
+        final double height = y + 5D;
         drawDebugBorder(gc, width, height);
 
         return height;
@@ -74,8 +73,8 @@ public class MusicMonitorPainter extends AbstractMonitorPainter {
         }
 
         try {
-            URL url = uri.toURL();
-            String urlString = url.toString();
+            final URL url = uri.toURL();
+            final String urlString = url.toString();
             getLogger().debug("URL: {}", url);
 
             if ((this.image == null) || !this.image.getUrl().equals(urlString)) {

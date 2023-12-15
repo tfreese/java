@@ -32,7 +32,7 @@ public class TspChromosome extends Chromosome {
         // Loop through our tour's cities.
         for (int i = 0; i < size(); i++) {
             // Get city we're travelling from
-            City fromCity = getGene(i).getValue(City.class);
+            final City fromCity = getGene(i).getValue(City.class);
 
             // City we're travelling to.
             City destinationCity = null;
@@ -55,9 +55,9 @@ public class TspChromosome extends Chromosome {
 
     @Override
     public void populate() {
-        List<City> cities = getConfig().getCities();
+        final List<City> cities = getConfig().getCities();
 
-        List<Gene> genes = new ArrayList<>();
+        final List<Gene> genes = new ArrayList<>();
 
         // Loop through all our destination cities and add them to our tour
         for (int i = 0; i < size(); i++) {

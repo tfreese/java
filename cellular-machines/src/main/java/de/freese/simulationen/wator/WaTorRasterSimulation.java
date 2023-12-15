@@ -16,34 +16,28 @@ import de.freese.simulationen.wator.WaTorCell.CellType;
  */
 public class WaTorRasterSimulation extends AbstractRasterSimulation {
     private final LongAdder fishCounter = new LongAdder();
-
     private final LongAdder sharkCounter = new LongAdder();
 
     /**
      * Richtung der Berechnung.
      */
     private int direction;
-
     /**
      * Brut-Energie der Fische.
      */
     private int fishBreedEnergy = 5;
-
     /**
      * Start-Energie der Fische.
      */
     private int fishStartEnergy = 1;
-
     /**
      * Brut-Energie der Haie.
      */
     private int sharkBreedEnergy = 15;
-
     /**
      * Start-Energie der Haie.
      */
     private int sharkStartEnergy = 10;
-
     /**
      * Start-Energie der Haie.
      */
@@ -172,7 +166,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
         if (this.direction == 0) {
             for (int x = 0; x < getWidth(); x++) {
                 for (int y = 0; y < getHeight(); y++) {
-                    WaTorCell cell = getCell(x, y);
+                    final WaTorCell cell = getCell(x, y);
 
                     if (cell != null) {
                         cell.nextGeneration();
@@ -183,7 +177,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
         else if (this.direction == 1) {
             for (int x = getWidth() - 1; x >= 0; x--) {
                 for (int y = 0; y < getHeight(); y++) {
-                    WaTorCell cell = getCell(x, y);
+                    final WaTorCell cell = getCell(x, y);
 
                     if (cell != null) {
                         cell.nextGeneration();
@@ -194,7 +188,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
         else if (this.direction == 2) {
             for (int x = getWidth() - 1; x >= 0; x--) {
                 for (int y = getHeight() - 1; y >= 0; y--) {
-                    WaTorCell cell = getCell(x, y);
+                    final WaTorCell cell = getCell(x, y);
 
                     if (cell != null) {
                         cell.nextGeneration();
@@ -205,7 +199,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
         else if (this.direction == 3) {
             for (int x = 0; x < getWidth(); x++) {
                 for (int y = getHeight() - 1; y >= 0; y--) {
-                    WaTorCell cell = getCell(x, y);
+                    final WaTorCell cell = getCell(x, y);
 
                     if (cell != null) {
                         cell.nextGeneration();
@@ -230,14 +224,11 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
             // @formatter:off
             IntStream.range(0, getWidth())
                 .parallel()
-                .forEach(x ->
-                {
-                    for (int y = 0; y < getHeight(); y++)
-                    {
-                        WaTorCell cell = getCell(x, y);
+                .forEach(x -> {
+                    for (int y = 0; y < getHeight(); y++) {
+                        final WaTorCell cell = getCell(x, y);
 
-                        if (cell != null)
-                        {
+                        if (cell != null) {
                             cell.nextGeneration();
                         }
                     }
@@ -248,14 +239,11 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
             // @formatter:off
             IntStream.rangeClosed(getWidth() - 1, 0)
                 .parallel()
-                .forEach(x ->
-                {
-                    for (int y = 0; y < getHeight(); y++)
-                    {
-                        WaTorCell cell = getCell(x, y);
+                .forEach(x -> {
+                    for (int y = 0; y < getHeight(); y++) {
+                        final WaTorCell cell = getCell(x, y);
 
-                        if (cell != null)
-                        {
+                        if (cell != null) {
                             cell.nextGeneration();
                         }
                     }
@@ -266,14 +254,11 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
             // @formatter:off
             IntStream.rangeClosed(getWidth() - 1, 0)
                 .parallel()
-                .forEach(x ->
-                {
-                    for (int y = getHeight() - 1; y >= 0; y--)
-                    {
-                        WaTorCell cell = getCell(x, y);
+                .forEach(x -> {
+                    for (int y = getHeight() - 1; y >= 0; y--) {
+                        final WaTorCell cell = getCell(x, y);
 
-                        if (cell != null)
-                        {
+                        if (cell != null) {
                             cell.nextGeneration();
                         }
                     }
@@ -284,14 +269,11 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
             // @formatter:off
             IntStream.range(0, getWidth())
                 .parallel()
-                .forEach(x ->
-                {
-                    for (int y = getHeight() - 1; y >= 0; y--)
-                    {
-                        WaTorCell cell = getCell(x, y);
+                .forEach(x -> {
+                    for (int y = getHeight() - 1; y >= 0; y--) {
+                        final WaTorCell cell = getCell(x, y);
 
-                        if (cell != null)
-                        {
+                        if (cell != null) {
                             cell.nextGeneration();
                         }
                     }
@@ -314,9 +296,9 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
     @Override
     protected void reset(final int x, final int y) {
         // Zufällige Platzierung.
-        int rand = getRandom().nextInt(10);
+        final int rand = getRandom().nextInt(10);
 
-        WaTorCell cell = getCell(x, y);
+        final WaTorCell cell = getCell(x, y);
 
         switch (rand) {
             case 3 -> {

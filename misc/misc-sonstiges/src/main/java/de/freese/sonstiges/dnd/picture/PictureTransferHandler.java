@@ -48,9 +48,7 @@ class PictureTransferHandler extends TransferHandler {
     }
 
     private final DataFlavor pictureFlavor = DataFlavor.imageFlavor;
-
     private boolean shouldRemove;
-
     private DTPicture sourcePic;
 
     @Override
@@ -71,10 +69,10 @@ class PictureTransferHandler extends TransferHandler {
 
     @Override
     public boolean importData(final JComponent c, final Transferable t) {
-        Image image;
+        final Image image;
 
         if (canImport(c, t.getTransferDataFlavors())) {
-            DTPicture pic = (DTPicture) c;
+            final DTPicture pic = (DTPicture) c;
 
             // Don't drop on myself.
             if (this.sourcePic == pic) {

@@ -31,7 +31,7 @@ public abstract class AbstractBatchBackend extends AbstractBackend {
     }
 
     protected List<SensorValue> flush() {
-        List<SensorValue> list = this.buffer;
+        final List<SensorValue> list = this.buffer;
         this.buffer = null;
 
         return list;

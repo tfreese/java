@@ -36,11 +36,11 @@ public final class DragFileMain extends JPanel implements ActionListener {
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         // Create and set up the window.
-        JFrame frame = new JFrame("DragFileMain");
+        final JFrame frame = new JFrame("DragFileMain");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // Create and set up the menu bar and content pane.
-        DragFileMain demo = new DragFileMain();
+        final DragFileMain demo = new DragFileMain();
         demo.setOpaque(true); // content panes must be opaque
         frame.setContentPane(demo);
 
@@ -57,23 +57,23 @@ public final class DragFileMain extends JPanel implements ActionListener {
     private DragFileMain() {
         super(new BorderLayout());
 
-        JFileChooser fc = new JFileChooser();
+        final JFileChooser fc = new JFileChooser();
 
         fc.setMultiSelectionEnabled(true);
         fc.setDragEnabled(true);
         fc.setControlButtonsAreShown(false);
 
-        JPanel fcPanel = new JPanel(new BorderLayout());
+        final JPanel fcPanel = new JPanel(new BorderLayout());
         fcPanel.add(fc, BorderLayout.CENTER);
 
         this.clear = new JButton("Clear All");
         this.clear.addActionListener(this);
 
-        JPanel buttonPanel = new JPanel(new BorderLayout());
+        final JPanel buttonPanel = new JPanel(new BorderLayout());
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         buttonPanel.add(this.clear, BorderLayout.LINE_END);
 
-        JPanel upperPanel = new JPanel(new BorderLayout());
+        final JPanel upperPanel = new JPanel(new BorderLayout());
         upperPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         upperPanel.add(fcPanel, BorderLayout.CENTER);
         upperPanel.add(buttonPanel, BorderLayout.PAGE_END);
@@ -83,20 +83,20 @@ public final class DragFileMain extends JPanel implements ActionListener {
         // the panel contains a plain text area. Then, as
         // files are dropped onto the area, the tabbed panel
         // replaces the file area.
-        JTabbedPane tabbedPane = new JTabbedPane();
-        JPanel tabPanel = new JPanel(new BorderLayout());
+        final JTabbedPane tabbedPane = new JTabbedPane();
+        final JPanel tabPanel = new JPanel(new BorderLayout());
         tabPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         this.tpc = new TabbedPaneController(tabbedPane, tabPanel);
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel, tabPanel);
+        final JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel, tabPanel);
         splitPane.setDividerLocation(400);
         splitPane.setPreferredSize(new Dimension(530, 650));
         add(splitPane, BorderLayout.CENTER);
     }
 
     @Override
-    public void actionPerformed(final ActionEvent e) {
-        if (e.getSource() == this.clear) {
+    public void actionPerformed(final ActionEvent event) {
+        if (event.getSource() == this.clear) {
             this.tpc.clearAll();
         }
     }

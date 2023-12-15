@@ -33,25 +33,24 @@ import de.freese.sonstiges.xml.jaxb.model.ClubFactory;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestJacksonJson {
     private static byte[] bytes;
-
     private static ObjectMapper jsonMapper;
 
     @BeforeAll
     static void beforeAll() throws Exception {
         jsonMapper = new ObjectMapper();
 
-        // JacksonXmlModule xmlModule = new JacksonXmlModule();
+        // final JacksonXmlModule xmlModule = new JacksonXmlModule();
         // xmlModule.setDefaultUseWrapper(false);
         //
-        // ObjectMapper objectMapper = new XmlMapper(xmlModule);
+        // final ObjectMapper objectMapper = new XmlMapper(xmlModule);
         // objectMapper.registerModule(new JaxbAnnotationModule());
         // objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-        // AnnotationIntrospector jaxbIntrospector = new JaxbAnnotationIntrospector(TypeFactory.defaultInstance());
-        // AnnotationIntrospector jacksonIntrospector = new JacksonAnnotationIntrospector();
+        // final AnnotationIntrospector jaxbIntrospector = new JaxbAnnotationIntrospector(TypeFactory.defaultInstance());
+        // final AnnotationIntrospector jacksonIntrospector = new JacksonAnnotationIntrospector();
         //
         // // Annotation-Mix: Verwende primär JaxB-Annotations und sekundär Jackson-Annotations
-        // AnnotationIntrospector introspector = new AnnotationIntrospectorPair(jaxbIntrospector, jacksonIntrospector);
+        // Afinal nnotationIntrospector introspector = new AnnotationIntrospectorPair(jaxbIntrospector, jacksonIntrospector);
 
         // jsonMapper.setAnnotationIntrospector(introspector);
         // jsonMapper.getDeserializationConfig().with(introspector);
@@ -75,9 +74,9 @@ class TestJacksonJson {
     void test010ToJSON() throws Exception {
         jsonMapper.setAnnotationIntrospector(new JacksonAnnotationIntrospector());
 
-        Club club = ClubFactory.createClub();
+        final Club club = ClubFactory.createClub();
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         try (OutputStream os = baos) {
             // jsonMapper.writerWithDefaultPrettyPrinter().writeValue(baos, club);
@@ -95,7 +94,7 @@ class TestJacksonJson {
         System.out.println(new String(TestJacksonJson.bytes, StandardCharsets.UTF_8));
 
         try (InputStream is = new ByteArrayInputStream(TestJacksonJson.bytes)) {
-            Club club = jsonMapper.readValue(is, Club.class);
+            final Club club = jsonMapper.readValue(is, Club.class);
             assertNotNull(club);
             // ClubFactory.toString(club);
         }
@@ -105,9 +104,9 @@ class TestJacksonJson {
     void test020ToXML() throws Exception {
         // jsonMapper.setAnnotationIntrospector(new JaxbAnnotationIntrospector(TypeFactory.defaultInstance()));
 
-        Club club = ClubFactory.createClub();
+        final Club club = ClubFactory.createClub();
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         try (OutputStream os = baos) {
             jsonMapper.writer().writeValue(os, club);
@@ -124,7 +123,7 @@ class TestJacksonJson {
         System.out.println(new String(TestJacksonJson.bytes, StandardCharsets.UTF_8));
 
         try (InputStream is = new ByteArrayInputStream(TestJacksonJson.bytes)) {
-            Club club = jsonMapper.readValue(is, Club.class);
+            final Club club = jsonMapper.readValue(is, Club.class);
             assertNotNull(club);
             // ClubFactory.toString(club);
         }

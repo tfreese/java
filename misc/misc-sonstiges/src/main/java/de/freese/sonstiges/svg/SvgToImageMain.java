@@ -32,7 +32,7 @@ public final class SvgToImageMain extends JFrame {
     private static final long serialVersionUID = 8384522285700890883L;
 
     public static void main(final String[] args) {
-        SvgToImageMain application = new SvgToImageMain();
+        final SvgToImageMain application = new SvgToImageMain();
         application.initAndShowGUI();
 
         application.addWindowListener(new WindowAdapter() {
@@ -55,11 +55,11 @@ public final class SvgToImageMain extends JFrame {
     }
 
     private static BufferedImage loadImage(final InputStream inputStream, final float width, final float height) throws Exception {
-        BufferedImageTranscoder transcoder = new BufferedImageTranscoder();
+        final BufferedImageTranscoder transcoder = new BufferedImageTranscoder();
         transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, width);
         transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, height);
 
-        TranscoderInput input = new TranscoderInput(inputStream);
+        final TranscoderInput input = new TranscoderInput(inputStream);
         transcoder.transcode(input, null);
 
         return transcoder.getBufferedImage();
@@ -81,27 +81,27 @@ public final class SvgToImageMain extends JFrame {
         final JPanel panel = new JPanel(new BorderLayout());
         add(panel);
 
-        JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        final JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        JButton button = new JButton("Load...");
+        final JButton button = new JButton("Load...");
         p.add(button);
 
-        ImageIcon imageIcon = new ImageIcon();
-        JLabel picLabel = new JLabel(imageIcon);
+        final ImageIcon imageIcon = new ImageIcon();
+        final JLabel picLabel = new JLabel(imageIcon);
 
         panel.add("North", p);
         panel.add("Center", picLabel);
 
         button.addActionListener(event -> {
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Vector / SVG Images", "svg");
+            final FileNameExtensionFilter filter = new FileNameExtensionFilter("Vector / SVG Images", "svg");
 
-            JFileChooser fc = new JFileChooser(".");
+            final JFileChooser fc = new JFileChooser(".");
             fc.setFileFilter(filter);
 
-            int choice = fc.showOpenDialog(panel);
+            final int choice = fc.showOpenDialog(panel);
 
             if (choice == JFileChooser.APPROVE_OPTION) {
-                File svgFile = fc.getSelectedFile();
+                final File svgFile = fc.getSelectedFile();
 
                 try {
                     imageIcon.setImage(loadImage(svgFile, 600, 600));
@@ -116,7 +116,7 @@ public final class SvgToImageMain extends JFrame {
 
         SwingUtilities.invokeLater(() -> {
             try {
-                URL url = ClassLoader.getSystemResource("images/image.svg");
+                final URL url = ClassLoader.getSystemResource("images/image.svg");
                 imageIcon.setImage(loadImage(url, 600, 600));
                 pack();
                 setLocationRelativeTo(null);

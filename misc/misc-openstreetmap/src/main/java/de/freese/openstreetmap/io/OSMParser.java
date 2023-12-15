@@ -26,7 +26,7 @@ public interface OSMParser {
         OsmModel model = null;
 
         try (ZipFile zipFile = new ZipFile(zipFileName)) {
-            ZipEntry entry = zipFile.getEntry(zipEntryName);
+            final ZipEntry entry = zipFile.getEntry(zipEntryName);
 
             try (InputStream is = zipFile.getInputStream(entry)) {
                 model = parse(is);

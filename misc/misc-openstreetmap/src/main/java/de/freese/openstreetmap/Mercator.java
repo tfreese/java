@@ -13,7 +13,7 @@ public final class Mercator {
      * Breitengrad.<br>
      */
     public static double mercX(final double longitude) {
-        double x;
+        final double x;
 
         // Formel nach OpenStreetMap.
         // x = longitude * RAD_AEQUATOR_RADIUS;
@@ -37,7 +37,7 @@ public final class Mercator {
             lat = -89.5D;
         }
 
-        double y;
+        final double y;
 
         // Formel nach OpenStreetMap.
         // double phi = m_lat * RAD;

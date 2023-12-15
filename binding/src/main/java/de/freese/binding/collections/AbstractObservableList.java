@@ -48,7 +48,7 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
 
     @Override
     public T remove(final int index) {
-        T old = doRemove(index);
+        final T old = doRemove(index);
 
         fireIntervalRemoved(index, index);
 
@@ -67,7 +67,7 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
 
     @Override
     public T set(final int index, final T element) {
-        T old = doSet(index, element);
+        final T old = doSet(index, element);
 
         fireContentsChanged(index, index);
 
@@ -93,13 +93,13 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
             return;
         }
 
-        int start = Math.min(startIndex, endIndex);
-        int end = Math.max(startIndex, endIndex);
+        final int start = Math.min(startIndex, endIndex);
+        final int end = Math.max(startIndex, endIndex);
 
         final ListDataListener[] l = getListeners().getListeners(ListDataListener.class);
         final ListDataEvent event = new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, start, end);
 
-        Runnable runnable = () -> {
+        final Runnable runnable = () -> {
             for (int i = l.length - 1; i >= 0; i--) {
                 l[i].contentsChanged(event);
             }
@@ -118,13 +118,13 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
             return;
         }
 
-        int start = Math.min(startIndex, endIndex);
-        int end = Math.max(startIndex, endIndex);
+        final int start = Math.min(startIndex, endIndex);
+        final int end = Math.max(startIndex, endIndex);
 
         final ListDataListener[] l = getListeners().getListeners(ListDataListener.class);
         final ListDataEvent event = new ListDataEvent(this, ListDataEvent.INTERVAL_ADDED, start, end);
 
-        Runnable runnable = () -> {
+        final Runnable runnable = () -> {
             for (int i = l.length - 1; i >= 0; i--) {
                 l[i].intervalAdded(event);
             }
@@ -143,13 +143,13 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
             return;
         }
 
-        int start = Math.min(startIndex, endIndex);
-        int end = Math.max(startIndex, endIndex);
+        final int start = Math.min(startIndex, endIndex);
+        final int end = Math.max(startIndex, endIndex);
 
         final ListDataListener[] l = getListeners().getListeners(ListDataListener.class);
         final ListDataEvent event = new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, start, end);
 
-        Runnable runnable = () -> {
+        final Runnable runnable = () -> {
             for (int i = l.length - 1; i >= 0; i--) {
                 l[i].intervalRemoved(event);
             }

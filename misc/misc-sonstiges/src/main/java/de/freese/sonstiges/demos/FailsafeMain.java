@@ -28,7 +28,7 @@ public final class FailsafeMain {
 
     public static void main(final String[] args) throws Exception {
         // @formatter:off
-        CircuitBreaker<Object> circuitBreaker = CircuitBreaker.builder()
+        final CircuitBreaker<Object> circuitBreaker = CircuitBreaker.builder()
                 //.handle(SQLException.class) // Alle Exceptions von diesem Typ werden als Fehler behandelt.
                 //.withFailureThreshold(3, 5) // Öffnen, wenn 3 von 5 Ausführungen Fehler erzeugen.
                 .withFailureThreshold(3, Duration.ofSeconds(1)) // Öffnen, wenn 3 Fehler im Zeitraum auftreten.
@@ -52,7 +52,7 @@ public final class FailsafeMain {
 
     private static void fallback(final CircuitBreaker<Object> circuitBreaker) throws Exception {
         // @formatter:off
-        RetryPolicy<Object> retryPolicy = RetryPolicy.builder()
+        final RetryPolicy<Object> retryPolicy = RetryPolicy.builder()
                 .withMaxRetries(2)
                 .withDelay(Duration.ofSeconds(1L))
                 .onRetry(event -> {
@@ -68,7 +68,7 @@ public final class FailsafeMain {
 
         // Restrict concurrent executions on a resource.
         // @formatter:off
-        Bulkhead<Object> bulkhead = Bulkhead.builder(10)
+        final Bulkhead<Object> bulkhead = Bulkhead.builder(10)
                 .withMaxWaitTime(Duration.ofMillis(500))
                 //.onFailure(event -> LOGGER.error("Bulkhead onFailure: {} ms", event.getElapsedTime().toMillis()))
                 .build()
@@ -76,29 +76,29 @@ public final class FailsafeMain {
         // @formatter:on
 
         // Permits 100 executions per second.
-        //RateLimiter<Object> rateLimiter = RateLimiter.smoothBuilder(100, Duration.ofSeconds(1)).withMaxWaitTime(Duration.ofSeconds(1)).build();
+        // final RateLimiter<Object> rateLimiter = RateLimiter.smoothBuilder(100, Duration.ofSeconds(1)).withMaxWaitTime(Duration.ofSeconds(1)).build();
         // Permits an execution every 10 millis.
-        //RateLimiter<Object> rateLimiter = RateLimiter.smoothBuilder(Duration.ofMillis(10)).withMaxWaitTime(Duration.ofSeconds(1)).build();
+        // final RateLimiter<Object> rateLimiter = RateLimiter.smoothBuilder(Duration.ofMillis(10)).withMaxWaitTime(Duration.ofSeconds(1)).build();
 
         // @formatter:off
-        Timeout<Object> timeout = Timeout.builder(Duration.ofMillis(50))
+        final Timeout<Object> timeout = Timeout.builder(Duration.ofMillis(50))
                 .onFailure(event -> LOGGER.error("Timeout onFailure: {} ms", event.getElapsedTime().toMillis()))
                 .build()
                 ;
         // @formatter:on
 
-        Fallback<Object> fallback = Fallback.of("fallback");
+        final Fallback<Object> fallback = Fallback.of("fallback");
 
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(3, new NamedThreadFactory("scheduler-%d"));
+        final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(3, new NamedThreadFactory("scheduler-%d"));
 
         // Ausführung in umgekehrter Reihenfolge: Timeout -> Bulkhead/RateLimiter -> CircuitBreaker -> RetryPolicy -> Fallback
         // @formatter:off
-        FailsafeExecutor<Object> failsafeExecutor = Failsafe.with(fallback, retryPolicy, circuitBreaker, bulkhead, timeout)
+        final FailsafeExecutor<Object> failsafeExecutor = Failsafe.with(fallback, retryPolicy, circuitBreaker, bulkhead, timeout)
                 .with(scheduledExecutorService)
                 ;
         // @formatter:on
 
-        CheckedSupplier<String> checkedSupplier = () -> {
+        final CheckedSupplier<String> checkedSupplier = () -> {
             if (System.currentTimeMillis() % 3 == 0) {
                 throw new RuntimeException("Test Exception");
             }
@@ -109,8 +109,8 @@ public final class FailsafeMain {
         };
 
         for (int i = 0; i < 20; i++) {
-            //            String result = failsafeExecutor.get(checkedSupplier);
-            String result = failsafeExecutor.getAsync(checkedSupplier).get();
+            // final String result = failsafeExecutor.get(checkedSupplier);
+            final String result = failsafeExecutor.getAsync(checkedSupplier).get();
 
             LOGGER.info("Result = {}", result);
 
@@ -121,12 +121,12 @@ public final class FailsafeMain {
     }
 
     private static void ipBlock(final CircuitBreaker<Object> circuitBreaker) throws Exception {
-        Fallback<Object> fallback = Fallback.ofException(event -> new Exception("ERROR: Your IP is blocked !", event.getLastException()));
+        final Fallback<Object> fallback = Fallback.ofException(event -> new Exception("ERROR: Your IP is blocked !", event.getLastException()));
 
         // Ausführung in umgekehrter Reihenfolge: CircuitBreaker -> Fallback
-        FailsafeExecutor<Object> failsafeExecutor = Failsafe.with(fallback, circuitBreaker);
+        final FailsafeExecutor<Object> failsafeExecutor = Failsafe.with(fallback, circuitBreaker);
 
-        CheckedRunnable checkedRunnable = () -> {
+        final CheckedRunnable checkedRunnable = () -> {
             if (circuitBreaker.isOpen() || circuitBreaker.isHalfOpen()) {
                 return;
             }
@@ -141,7 +141,7 @@ public final class FailsafeMain {
                 failsafeExecutor.run(checkedRunnable);
             }
             catch (FailsafeException ex) {
-                Throwable cause = ex.getCause();
+                final Throwable cause = ex.getCause();
 
                 if (cause != null) {
                     LOGGER.error(cause.getMessage());

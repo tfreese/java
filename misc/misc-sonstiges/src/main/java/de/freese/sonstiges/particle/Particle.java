@@ -10,7 +10,6 @@ class Particle {
     private final Random random;
 
     private int x;
-
     private int y;
 
     Particle(final Random random, final int initialX, final int initialY) {
@@ -22,8 +21,8 @@ class Particle {
     }
 
     public void draw(final Graphics g) {
-        int lx;
-        int ly;
+        final int lx;
+        final int ly;
 
         synchronized (this) {
             lx = this.x;

@@ -11,6 +11,7 @@ import de.freese.simulationen.model.AbstractCell;
  */
 public class GoFCell extends AbstractCell {
     private final LongAdder lebendeNachbarn = new LongAdder();
+
     private boolean alive = true;
 
     public GoFCell(final GoFRasterSimulation simulation) {
@@ -60,7 +61,7 @@ public class GoFCell extends AbstractCell {
         this.lebendeNachbarn.reset();
 
         visitNeighboursAll((x, y) -> {
-            GoFCell cell = getSimulation().getCell(x, y);
+            final GoFCell cell = getSimulation().getCell(x, y);
 
             if ((cell != null) && cell.isAlive()) {
                 this.lebendeNachbarn.increment();
@@ -70,26 +71,23 @@ public class GoFCell extends AbstractCell {
         // int anzahlLebendeNachbarn = 0;
         //
         // // Startpunkt unten links.
-        // int startX = getSimulation().getXTorusKoord(getX(), -1);
-        // int startY = getSimulation().getYTorusKoord(getY(), -1);
+        // final int startX = getSimulation().getXTorusKoord(getX(), -1);
+        // final int startY = getSimulation().getYTorusKoord(getY(), -1);
         //
-        // for (int offsetX = 0; offsetX < 3; offsetX++)
-        // {
+        // for (int offsetX = 0; offsetX < 3; offsetX++) {
         // int x = getSimulation().getXTorusKoord(startX, offsetX);
         //
-        // for (int offsetY = 0; offsetY < 3; offsetY++)
-        // {
+        // for (int offsetY = 0; offsetY < 3; offsetY++) {
         // // Diese Zelle (this) ausnehmen.
         // if ((offsetX == 1) && (offsetY == 1))
         // {
         // continue;
         // }
         //
-        // int y = getSimulation().getYTorusKoord(startY, offsetY);
-        // GofRasterCell cell = getSimulation().getCell(x, y);
+        // final int y = getSimulation().getYTorusKoord(startY, offsetY);
+        // final GofRasterCell cell = getSimulation().getCell(x, y);
         //
-        // if ((cell != null) && cell.isAlive())
-        // {
+        // if ((cell != null) && cell.isAlive()) {
         // anzahlLebendeNachbarn++;
         // }
         // }

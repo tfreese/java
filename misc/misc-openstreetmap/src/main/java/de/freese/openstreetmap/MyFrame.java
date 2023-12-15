@@ -31,7 +31,7 @@ public class MyFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(final ActionEvent e) {
-        String doWhat = e.getActionCommand();
+        final String doWhat = e.getActionCommand();
 
         if ("ZTF".equals(doWhat)) {
             this.myPanel.zoomToFit();
@@ -71,10 +71,10 @@ public class MyFrame extends JFrame implements ActionListener {
     }
 
     public void initGui() {
-        BorderLayout myLayout = new BorderLayout();
+        final BorderLayout myLayout = new BorderLayout();
 
         // work on panel
-        Panel myButtonPanel = new Panel();
+        final Panel myButtonPanel = new Panel();
         Button myWorkButton;
 
         this.myPanel.setLayout(new FlowLayout());
@@ -86,8 +86,8 @@ public class MyFrame extends JFrame implements ActionListener {
         myButtonPanel.add(myWorkButton);
 
         // inner panel
-        Panel navPanel = new Panel();
-        GridLayout gridL = new GridLayout();
+        final Panel navPanel = new Panel();
+        final GridLayout gridL = new GridLayout();
         gridL.setRows(3);
         gridL.setColumns(3);
         navPanel.setLayout(gridL);

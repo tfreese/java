@@ -15,6 +15,7 @@ public class ClassModel extends AbstractModel {
     private final List<FieldModel> fields = new ArrayList<>();
     private final Set<String> imports = new TreeSet<>();
     private final List<Class<?>> interfaces = new ArrayList<>();
+
     private boolean addFullConstructor;
     private String packageName;
 
@@ -29,7 +30,7 @@ public class ClassModel extends AbstractModel {
     }
 
     public FieldModel addField(final String name, final String fieldClazzName) {
-        FieldModel fieldModel = new FieldModel(name, this, fieldClazzName);
+        final FieldModel fieldModel = new FieldModel(name, this, fieldClazzName);
         this.fields.add(fieldModel);
 
         return fieldModel;
@@ -54,7 +55,7 @@ public class ClassModel extends AbstractModel {
     }
 
     public Set<String> getImports() {
-        Set<String> set = new TreeSet<>(this.imports);
+        final Set<String> set = new TreeSet<>(this.imports);
 
         // @formatter:off
         getFields().stream()

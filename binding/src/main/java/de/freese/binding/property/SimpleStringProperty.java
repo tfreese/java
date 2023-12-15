@@ -7,7 +7,6 @@ package de.freese.binding.property;
 public class SimpleStringProperty extends AbstractStringProperty {
 
     private final Object bean;
-
     private final String name;
 
     public SimpleStringProperty() {

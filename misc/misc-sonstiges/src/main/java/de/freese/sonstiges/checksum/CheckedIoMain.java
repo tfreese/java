@@ -10,8 +10,8 @@ import java.util.zip.Adler32;
  */
 public final class CheckedIoMain {
     public static void main(final String[] args) throws Exception {
-        Adler32 inChecker = new Adler32();
-        Adler32 outChecker = new Adler32();
+        final Adler32 inChecker = new Adler32();
+        final Adler32 outChecker = new Adler32();
 
         try (CheckedInputStream in = new CheckedInputStream(new FileInputStream("words.txt"), inChecker)) {
             try (CheckedOutputStream out = new CheckedOutputStream(new FileOutputStream("out.txt"), outChecker)) {

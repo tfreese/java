@@ -31,9 +31,7 @@ public class ServerSingleThread extends AbstractServer {
     private final Semaphore stopLock = new Semaphore(1, true);
 
     private boolean isShutdown;
-
     private Selector selector;
-
     private ServerSocketChannel serverSocketChannel;
 
     public ServerSingleThread(final int port) throws IOException {
@@ -76,19 +74,19 @@ public class ServerSingleThread extends AbstractServer {
             getStartLock().release();
 
             while (!Thread.interrupted()) {
-                int readyChannels = this.selector.select();
+                final int readyChannels = this.selector.select();
 
                 if (this.isShutdown || !this.selector.isOpen()) {
                     break;
                 }
 
                 if (readyChannels > 0) {
-                    Set<SelectionKey> selected = this.selector.selectedKeys();
-                    Iterator<SelectionKey> iterator = selected.iterator();
+                    final Set<SelectionKey> selected = this.selector.selectedKeys();
+                    final Iterator<SelectionKey> iterator = selected.iterator();
 
                     try {
                         while (iterator.hasNext()) {
-                            SelectionKey selectionKey = iterator.next();
+                            final SelectionKey selectionKey = iterator.next();
                             iterator.remove();
 
                             if (!selectionKey.isValid()) {
@@ -96,7 +94,7 @@ public class ServerSingleThread extends AbstractServer {
                             }
                             else if (selectionKey.isAcceptable()) {
                                 // Verbindung mit Client herstellen.
-                                SocketChannel socketChannel = this.serverSocketChannel.accept();
+                                final SocketChannel socketChannel = this.serverSocketChannel.accept();
                                 socketChannel.configureBlocking(false);
                                 socketChannel.register(this.selector, SelectionKey.OP_READ);
 
@@ -143,7 +141,7 @@ public class ServerSingleThread extends AbstractServer {
 
     @Override
     public void start() {
-        Thread thread = new NamedThreadFactory(getName() + "-%d").newThread(this);
+        final Thread thread = new NamedThreadFactory(getName() + "-%d").newThread(this);
         thread.start();
 
         // Warten bis fertig.
@@ -162,7 +160,7 @@ public class ServerSingleThread extends AbstractServer {
         this.stopLock.acquireUninterruptibly();
 
         try {
-            SelectionKey selectionKey = this.serverSocketChannel.keyFor(this.selector);
+            final SelectionKey selectionKey = this.serverSocketChannel.keyFor(this.selector);
 
             if (selectionKey != null) {
                 selectionKey.cancel();

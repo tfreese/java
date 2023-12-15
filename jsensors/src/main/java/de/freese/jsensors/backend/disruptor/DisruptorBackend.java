@@ -78,7 +78,7 @@ public class DisruptorBackend extends AbstractBackend implements LifeCycle {
         this.disruptor = new Disruptor<>(SensorEvent::new, this.ringBufferSize, new JSensorThreadFactory("jSensor-disruptor"));
 
         // EventHandler handles all the same Event -> LoadBalancing required if only one EventHandler should handle the Event.
-        EventHandler<SensorEvent>[] handlers = new DisruptorSensorHandler[this.parallelism];
+        final EventHandler<SensorEvent>[] handlers = new DisruptorSensorHandler[this.parallelism];
 
         for (int i = 0; i < handlers.length; i++) {
             handlers[i] = new DisruptorSensorHandler(this.delegateBackend, this.parallelism, i);
@@ -104,12 +104,12 @@ public class DisruptorBackend extends AbstractBackend implements LifeCycle {
 
     @Override
     protected void storeValue(final SensorValue sensorValue) {
-        RingBuffer<SensorEvent> ringBuffer = this.disruptor.getRingBuffer();
+        final RingBuffer<SensorEvent> ringBuffer = this.disruptor.getRingBuffer();
 
-        long sequence = ringBuffer.next();
+        final long sequence = ringBuffer.next();
 
         try {
-            SensorEvent event = ringBuffer.get(sequence);
+            final SensorEvent event = ringBuffer.get(sequence);
 
             event.setSensorValue(sensorValue);
         }

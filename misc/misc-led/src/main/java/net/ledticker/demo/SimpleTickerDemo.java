@@ -42,13 +42,10 @@ public class SimpleTickerDemo implements ActionListener, OptionsListener, Update
     }
 
     private final Map<String, StockDisplayElement> elements = new HashMap<>();
-
     private final YahooProvider yahooProvider;
 
     private LedTicker ledTicker;
-
     private JPopupMenu menu;
-
     private JFrame tickerFrame;
 
     public SimpleTickerDemo() {
@@ -71,11 +68,11 @@ public class SimpleTickerDemo implements ActionListener, OptionsListener, Update
 
     @Override
     public void actionPerformed(final ActionEvent e) {
-        String command = e.getActionCommand();
+        final String command = e.getActionCommand();
 
         if ("menuOptions".equals(command)) {
             this.menu.setVisible(false);
-            String[] symbols = new String[this.elements.size()];
+            final String[] symbols = new String[this.elements.size()];
             int i = 0;
 
             for (String string : this.elements.keySet()) {
@@ -102,7 +99,7 @@ public class SimpleTickerDemo implements ActionListener, OptionsListener, Update
 
     @Override
     public void addSymbol(final String symbol) {
-        StockDisplayElement ste = new StockDisplayElement(symbol);
+        final StockDisplayElement ste = new StockDisplayElement(symbol);
         this.elements.put(symbol, ste);
         this.ledTicker.addElement(ste);
         this.yahooProvider.addSymbol(symbol);
@@ -110,7 +107,7 @@ public class SimpleTickerDemo implements ActionListener, OptionsListener, Update
 
     @Override
     public void removeSymbol(final String symbol) {
-        StockDisplayElement ste = this.elements.get(symbol);
+        final StockDisplayElement ste = this.elements.get(symbol);
 
         if (ste != null) {
             this.yahooProvider.removeSymbol(symbol);
@@ -121,9 +118,9 @@ public class SimpleTickerDemo implements ActionListener, OptionsListener, Update
 
     @Override
     public void update(final Object newValue) {
-        Stock stock = (Stock) newValue;
+        final Stock stock = (Stock) newValue;
 
-        StockDisplayElement ste = this.elements.get(stock.getID());
+        final StockDisplayElement ste = this.elements.get(stock.getID());
 
         if (ste != null) {
             ste.setLast(stock.getLast());
@@ -137,13 +134,15 @@ public class SimpleTickerDemo implements ActionListener, OptionsListener, Update
         this.tickerFrame = new JFrame("Led Ticker Component v2.0");
 
         this.tickerFrame.getContentPane().setLayout(new GridBagLayout());
-        GridBagConstraints tickerFrameConstarints = new GridBagConstraints();
+
+        final GridBagConstraints tickerFrameConstarints = new GridBagConstraints();
         tickerFrameConstarints.gridx = 0;
         tickerFrameConstarints.gridy = 0;
         tickerFrameConstarints.weightx = 1;
         tickerFrameConstarints.weighty = 0;
         tickerFrameConstarints.insets = new Insets(0, 0, 0, 0);
         tickerFrameConstarints.fill = GridBagConstraints.HORIZONTAL;
+
         this.tickerFrame.getContentPane().add(this.ledTicker.getTickerComponent(), tickerFrameConstarints);
 
         this.tickerFrame.setUndecorated(true);
@@ -160,29 +159,30 @@ public class SimpleTickerDemo implements ActionListener, OptionsListener, Update
         this.ledTicker.setTokenGap(6);
         this.ledTicker.setDotSize(3, 3);
         this.ledTicker.setDotGaps(1, 1);
-        String[] initialSymbols = {"MSFT", "INTC", "DELL", "GOOG", "ORCL", "AMZN", "GE", "JNJ", "PG", "WMT", "HD"};
+
+        final String[] initialSymbols = {"MSFT", "INTC", "DELL", "GOOG", "ORCL", "AMZN", "GE", "JNJ", "PG", "WMT", "HD"};
 
         for (String initialSymbol : initialSymbols) {
-            StockDisplayElement ste = new StockDisplayElement(initialSymbol);
+            final StockDisplayElement ste = new StockDisplayElement(initialSymbol);
             this.elements.put(ste.getSymbol(), ste);
             this.ledTicker.addElement(ste);
         }
     }
 
     private void createPopUpMenu() {
-        JMenuItem optionsMenuItem = new JMenuItem("Options");
+        final JMenuItem optionsMenuItem = new JMenuItem("Options");
         optionsMenuItem.setActionCommand("menuOptions");
         optionsMenuItem.addActionListener(this);
 
-        JMenuItem moveUpMenuItem = new JMenuItem("Move to screen top");
+        final JMenuItem moveUpMenuItem = new JMenuItem("Move to screen top");
         moveUpMenuItem.setActionCommand("moveUp");
         moveUpMenuItem.addActionListener(this);
 
-        JMenuItem moveDownMenuItem = new JMenuItem("Move to screen bottom");
+        final JMenuItem moveDownMenuItem = new JMenuItem("Move to screen bottom");
         moveDownMenuItem.setActionCommand("moveDown");
         moveDownMenuItem.addActionListener(this);
 
-        JMenuItem exitMenuItem = new JMenuItem("Exit");
+        final JMenuItem exitMenuItem = new JMenuItem("Exit");
         exitMenuItem.setActionCommand("exit");
         exitMenuItem.addActionListener(this);
 
@@ -197,16 +197,16 @@ public class SimpleTickerDemo implements ActionListener, OptionsListener, Update
 
         this.ledTicker.getTickerComponent().addMouseListener((new MouseAdapter() {
             @Override
-            public void mousePressed(final MouseEvent e) {
-                if (e.isPopupTrigger()) {
-                    SimpleTickerDemo.this.menu.show(e.getComponent(), e.getX(), e.getY());
+            public void mousePressed(final MouseEvent event) {
+                if (event.isPopupTrigger()) {
+                    SimpleTickerDemo.this.menu.show(event.getComponent(), event.getX(), event.getY());
                 }
             }
 
             @Override
-            public void mouseReleased(final MouseEvent e) {
-                if (e.isPopupTrigger()) {
-                    SimpleTickerDemo.this.menu.show(e.getComponent(), e.getX(), e.getY());
+            public void mouseReleased(final MouseEvent event) {
+                if (event.isPopupTrigger()) {
+                    SimpleTickerDemo.this.menu.show(event.getComponent(), event.getX(), event.getY());
                 }
             }
         }));

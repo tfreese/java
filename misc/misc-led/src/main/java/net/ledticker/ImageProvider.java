@@ -12,11 +12,8 @@ import net.led.elements.Element;
  */
 public class ImageProvider {
     private final Component component;
-
     private final Element element;
-
     private final Matrix matrix;
-
     private final Object object;
 
     private Image image;
@@ -33,8 +30,8 @@ public class ImageProvider {
     }
 
     public void createImage() {
-        int width = this.matrix.getWidthOf(this.element);
-        int height = this.matrix.getHeight();
+        final int width = this.matrix.getWidthOf(this.element);
+        final int height = this.matrix.getHeight();
 
         if ((this.image == null) || (this.image.getWidth(null) != width) || (this.image.getHeight(null) != height) || (this.image instanceof BufferedImage)) {
             this.image = this.component.createImage(width, height);
@@ -45,7 +42,7 @@ public class ImageProvider {
         }
 
         if (this.image != null) {
-            Graphics g = this.image.getGraphics();
+            final Graphics g = this.image.getGraphics();
             this.matrix.paintDots(g, this.image.getWidth(null), this.image.getHeight(null));
             this.matrix.paintElement(g, this.element);
         }

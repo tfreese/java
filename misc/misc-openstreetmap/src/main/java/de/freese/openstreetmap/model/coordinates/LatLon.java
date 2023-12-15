@@ -35,9 +35,9 @@ public class LatLon extends Coordinate {
      * @return the course (direction) in degrees
      */
     public static double deriveCourse(final double lat1, final double lon1, final double lat2, final double lon2) {
-        double dLat = lat1 - lat2;
-        double dLon = lon1 - lon2;
-        double alpha = (Math.atan2(dLat, dLon) * 180D) / Math.PI;
+        final double dLat = lat1 - lat2;
+        final double dLon = lon1 - lon2;
+        final double alpha = (Math.atan2(dLat, dLon) * 180D) / Math.PI;
 
         if (alpha <= 90) {
             return 90 - alpha;
@@ -130,9 +130,9 @@ public class LatLon extends Coordinate {
      * @return the course-track-error.
      */
     public static double xtd(final double lat1, final double lon1, final double lat2, final double lon2, final double lat3, final double lon3) {
-        double distAD = dist(lat1, lon1, lat3, lon3);
-        double crsAD = course(lat1, lon1, lat3, lon3);
-        double crsAB = course(lat1, lon1, lat2, lon2);
+        final double distAD = dist(lat1, lon1, lat3, lon3);
+        final double crsAD = course(lat1, lon1, lat3, lon3);
+        final double crsAB = course(lat1, lon1, lat2, lon2);
 
         return Math.asin(Math.sin(distAD) * Math.sin(crsAD - crsAB));
     }

@@ -7,7 +7,6 @@ package de.freese.binding.property;
 public class SimpleObjectProperty<T> extends AbstractObjectProperty<T> {
 
     private final Object bean;
-
     private final String name;
 
     public SimpleObjectProperty() {

@@ -37,29 +37,29 @@ public final class JavaFxApplication extends Application {
 
     @Override
     public void start(final Stage stage) {
-        Group root = new Group();
-        Scene scene = new Scene(root, 500, 500, Color.BLACK);
-        Rectangle r = new Rectangle(0, 0, 250, 250);
+        final Group root = new Group();
+        final Scene scene = new Scene(root, 500, 500, Color.BLACK);
+        final Rectangle r = new Rectangle(0, 0, 250, 250);
         r.setFill(Color.BLUE);
         root.getChildren().add(r);
 
-        TranslateTransition translate = new TranslateTransition(Duration.millis(750));
+        final TranslateTransition translate = new TranslateTransition(Duration.millis(750));
         translate.setToX(390);
         translate.setToY(390);
         // translate.toXProperty().bind(stage.widthProperty());
         // translate.toYProperty().bind(stage.heightProperty());
 
-        FillTransition fill = new FillTransition(Duration.millis(750));
+        final FillTransition fill = new FillTransition(Duration.millis(750));
         fill.setToValue(Color.RED);
 
-        RotateTransition rotate = new RotateTransition(Duration.millis(750));
+        final RotateTransition rotate = new RotateTransition(Duration.millis(750));
         rotate.setToAngle(360);
 
-        ScaleTransition scale = new ScaleTransition(Duration.millis(750));
+        final ScaleTransition scale = new ScaleTransition(Duration.millis(750));
         scale.setToX(0.1);
         scale.setToY(0.1);
 
-        ParallelTransition transition = new ParallelTransition(r, translate, fill, rotate, scale);
+        final ParallelTransition transition = new ParallelTransition(r, translate, fill, rotate, scale);
         transition.setCycleCount(Animation.INDEFINITE);
         transition.setAutoReverse(true);
         transition.play();

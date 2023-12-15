@@ -32,7 +32,7 @@ public class CoinGenotype extends Genotype {
 
     @Override
     public Chromosome crossover(final Chromosome parent1, final Chromosome parent2) {
-        Chromosome population = createEmptyChromosome();
+        final Chromosome population = createEmptyChromosome();
 
         for (int i = 0; i < parent1.size(); i++) {
             final Gene coin;
@@ -45,10 +45,10 @@ public class CoinGenotype extends Genotype {
             }
 
             // Zählen wie viele Münzen von diesem Wert insgesamt vorhanden sind.
-            long coinsExisting = getConfig().getCoinCounter().getOrDefault(coin.getValue(), 1L);
+            final long coinsExisting = getConfig().getCoinCounter().getOrDefault(coin.getValue(), 1L);
 
             // Zählen wie viele Münzen von diesem Wert im Chromosom bereits vorhanden sind.
-            long coinsInPopulation = Stream.of(population.getGenes()).filter(Objects::nonNull).filter(g -> g.getValue().equals(coin.getValue())).count();
+            final long coinsInPopulation = Stream.of(population.getGenes()).filter(Objects::nonNull).filter(g -> g.getValue().equals(coin.getValue())).count();
 
             // Münze eines Wertes nur zuweisen, wenn noch welche übrig sind.
             if (coinsInPopulation < coinsExisting) {

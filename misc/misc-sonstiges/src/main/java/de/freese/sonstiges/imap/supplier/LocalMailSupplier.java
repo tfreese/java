@@ -15,7 +15,6 @@ import de.freese.sonstiges.imap.model.MessageWrapper;
 public class LocalMailSupplier implements MailSupplier {
 
     private final Path basePath;
-
     private final Map<String, Boolean> folders;
 
     public LocalMailSupplier(final Map<String, Boolean> folders, final Path basePath) {
@@ -29,12 +28,12 @@ public class LocalMailSupplier implements MailSupplier {
     public void supply(final Consumer<MessageWrapper> messageConsumer) throws Exception {
         try (MailClient mailClient = new MailClient()) {
             for (Map.Entry<String, Boolean> entry : folders.entrySet()) {
-                String folderName = entry.getKey();
-                boolean isSpam = entry.getValue();
+                final String folderName = entry.getKey();
+                final boolean isSpam = entry.getValue();
 
                 mailClient.readLocal(basePath.resolve(folderName), message -> {
                     try {
-                        MessageWrapper messageWrapper = new MessageWrapper(message, folderName);
+                        final MessageWrapper messageWrapper = new MessageWrapper(message, folderName);
                         messageWrapper.setSpam(isSpam);
                         messageConsumer.accept(messageWrapper);
                     }

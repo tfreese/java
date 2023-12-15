@@ -100,17 +100,12 @@ public class MyAsyncAppender extends AbstractAppender {
     }
 
     private final AppenderRef[] appenderRefs;
-
     private final List<AppenderControl> appenders;
-
     private final Configuration configuration;
-
     private final String errorRef;
-
     private final String executorJndiLocation;
 
     private AppenderControl errorAppender;
-
     private Executor executor;
 
     protected MyAsyncAppender(final String name, final AppenderRef[] appenderRefs, final String errorRef, final Configuration configuration, final String executorJndiLocation) {
@@ -132,7 +127,7 @@ public class MyAsyncAppender extends AbstractAppender {
         final LogEvent memento = Log4jLogEvent.createMemento(event);
         //        InternalAsyncUtil.makeMessageImmutable(event.getMessage());
 
-        Runnable task = () -> appendEvent(memento);
+        final Runnable task = () -> appendEvent(memento);
 
         executor.execute(task);
     }
@@ -170,7 +165,7 @@ public class MyAsyncAppender extends AbstractAppender {
 
         if (executorJndiLocation != null && !executorJndiLocation.isBlank()) {
             try {
-                Context initialContext = new InitialContext();
+                final Context initialContext = new InitialContext();
                 executor = (Executor) initialContext.lookup(this.executorJndiLocation);
             }
             catch (Exception ex) {

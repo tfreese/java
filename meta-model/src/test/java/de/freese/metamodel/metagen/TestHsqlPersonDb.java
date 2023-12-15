@@ -32,7 +32,6 @@ import de.freese.metamodel.metagen.model.UniqueConstraint;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestHsqlPersonDb {
     private static final String SCHEMA_NAME = "PUBLIC";
-
     private static DataSource dataSource;
 
     @AfterAll
@@ -50,19 +49,19 @@ class TestHsqlPersonDb {
     @Test
     @Order(40)
     void testColumns() throws Exception {
-        List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, "T_PERSON");
+        final List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, "T_PERSON");
 
         assertNotNull(schemas);
         assertEquals(1, schemas.size());
         assertEquals(SCHEMA_NAME, schemas.get(0).getName());
 
-        List<Table> tables = schemas.get(0).getTables();
+        final List<Table> tables = schemas.get(0).getTables();
         assertNotNull(tables);
         assertEquals(1, tables.size());
 
         assertEquals("T_PERSON", tables.get(0).getName());
 
-        List<Column> columns = tables.get(0).getColumnsOrdered();
+        final List<Column> columns = tables.get(0).getColumnsOrdered();
         assertNotNull(columns);
         assertEquals(3, columns.size());
 
@@ -77,19 +76,19 @@ class TestHsqlPersonDb {
     @Test
     @Order(60)
     void testForeignKey() throws Exception {
-        List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, "T_ADDRESS");
+        final List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, "T_ADDRESS");
 
         assertNotNull(schemas);
         assertEquals(1, schemas.size());
         assertEquals(SCHEMA_NAME, schemas.get(0).getName());
 
-        Table table = schemas.get(0).getTable("T_ADDRESS");
+        final Table table = schemas.get(0).getTable("T_ADDRESS");
         assertNotNull(table);
 
-        Column column = table.getColumn("PERSON_ID");
+        final Column column = table.getColumn("PERSON_ID");
         assertNotNull(column);
 
-        ForeignKey foreignKey = column.getForeignKey();
+        final ForeignKey foreignKey = column.getForeignKey();
         assertNotNull(foreignKey);
         assertNotNull(foreignKey.getColumn());
         assertNotNull(foreignKey.getRefColumn());
@@ -107,21 +106,21 @@ class TestHsqlPersonDb {
     @Test
     @Order(70)
     void testIndices() throws Exception {
-        List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, "T_PERSON");
+        final List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, "T_PERSON");
 
         assertNotNull(schemas);
         assertEquals(1, schemas.size());
         assertEquals(SCHEMA_NAME, schemas.get(0).getName());
 
-        Table table = schemas.get(0).getTable("T_PERSON");
+        final Table table = schemas.get(0).getTable("T_PERSON");
         assertNotNull(table);
 
         // UniqueConstraint
-        List<UniqueConstraint> uniqueConstraints = table.getUniqueConstraints();
+        final List<UniqueConstraint> uniqueConstraints = table.getUniqueConstraints();
         assertNotNull(uniqueConstraints);
         assertEquals(1, uniqueConstraints.size());
 
-        UniqueConstraint uniqueConstraint = uniqueConstraints.get(0);
+        final UniqueConstraint uniqueConstraint = uniqueConstraints.get(0);
         assertEquals("PERSON_UNQ", uniqueConstraint.getName());
 
         List<Column> columns = uniqueConstraint.getColumnsOrdered();
@@ -131,11 +130,11 @@ class TestHsqlPersonDb {
         assertEquals("VORNAME", columns.get(1).getName());
 
         // Index
-        List<Index> indices = table.getIndices();
+        final List<Index> indices = table.getIndices();
         assertNotNull(indices);
         assertEquals(1, indices.size());
 
-        Index index = indices.get(0);
+        final Index index = indices.get(0);
         assertEquals("PERSON_IDX", index.getName());
 
         columns = index.getColumnsOrdered();
@@ -147,20 +146,20 @@ class TestHsqlPersonDb {
     @Test
     @Order(50)
     void testPrimaryKey() throws Exception {
-        List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, "T_PERSON");
+        final List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, "T_PERSON");
 
         assertNotNull(schemas);
         assertEquals(1, schemas.size());
         assertEquals(SCHEMA_NAME, schemas.get(0).getName());
 
-        Table table = schemas.get(0).getTable("T_PERSON");
+        final Table table = schemas.get(0).getTable("T_PERSON");
         assertNotNull(table);
 
-        PrimaryKey primaryKey = table.getPrimaryKey();
+        final PrimaryKey primaryKey = table.getPrimaryKey();
         assertNotNull(primaryKey);
         assertEquals("PERSON_PK", primaryKey.getName());
 
-        List<Column> columns = primaryKey.getColumnsOrdered();
+        final List<Column> columns = primaryKey.getColumnsOrdered();
         assertEquals(1, columns.size());
         assertEquals("ID", columns.get(0).getName());
     }
@@ -168,7 +167,7 @@ class TestHsqlPersonDb {
     @Test
     @Order(10)
     void testSchema() throws Exception {
-        List<Schema> schemas = this.metaExporter.export(dataSource, null, null);
+        final List<Schema> schemas = this.metaExporter.export(dataSource, null, null);
 
         assertNotNull(schemas);
         assertEquals(3, schemas.size());
@@ -177,13 +176,13 @@ class TestHsqlPersonDb {
     @Test
     @Order(20)
     void testSequences() throws Exception {
-        List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, null);
+        final List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, null);
 
         assertNotNull(schemas);
         assertEquals(1, schemas.size());
         assertEquals(SCHEMA_NAME, schemas.get(0).getName());
 
-        List<Sequence> sequences = schemas.get(0).getSequences();
+        final List<Sequence> sequences = schemas.get(0).getSequences();
         assertNotNull(sequences);
         assertEquals(2, sequences.size());
 
@@ -195,13 +194,13 @@ class TestHsqlPersonDb {
     @Test
     @Order(30)
     void testTable() throws Exception {
-        List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, null);
+        final List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, null);
 
         assertNotNull(schemas);
         assertEquals(1, schemas.size());
         assertEquals(SCHEMA_NAME, schemas.get(0).getName());
 
-        List<Table> tables = schemas.get(0).getTables();
+        final List<Table> tables = schemas.get(0).getTables();
         assertNotNull(tables);
         assertEquals(2, tables.size());
 

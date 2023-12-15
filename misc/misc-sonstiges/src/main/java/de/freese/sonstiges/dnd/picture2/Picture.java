@@ -81,7 +81,7 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
 
     @Override
     protected void paintComponent(final Graphics graphics) {
-        Graphics g = graphics.create();
+        final Graphics g = graphics.create();
 
         // Draw in our entire space, even if isOpaque is false.
         g.setColor(Color.WHITE);

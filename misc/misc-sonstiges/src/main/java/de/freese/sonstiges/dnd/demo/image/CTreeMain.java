@@ -56,9 +56,7 @@ import javax.swing.tree.TreePath;
  */
 public final class CTreeMain extends JTree implements DragSourceListener, DragGestureListener, Autoscroll, TreeModelListener {
     private static final int AUTOSCROLL_MARGIN = 12;
-
     private static final BufferedImage IMAGE_LEFT = new CArrowImage(15, 15, CArrowImage.ARROW_LEFT);
-
     private static final BufferedImage IMAGE_RIGHT = new CArrowImage(15, 15, CArrowImage.ARROW_RIGHT);
 
     @Serial
@@ -72,17 +70,17 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
             // Empty
         }
 
-        CTreeMain tree = new CTreeMain();
+        final CTreeMain tree = new CTreeMain();
         tree.setPreferredSize(new Dimension(300, 300));
 
-        JScrollPane scrollPane = new JScrollPane(tree);
+        final JScrollPane scrollPane = new JScrollPane(tree);
 
-        JFrame frame = new JFrame("Drag Images");
+        final JFrame frame = new JFrame("Drag Images");
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
         frame.pack();
 
-        Dimension dimScreen = Toolkit.getDefaultToolkit().getScreenSize();
-        Dimension dimFrame = frame.getSize();
+        final Dimension dimScreen = Toolkit.getDefaultToolkit().getScreenSize();
+        final Dimension dimFrame = frame.getSize();
         frame.setLocation((dimScreen.width - dimFrame.width) / 2, (dimScreen.height - dimFrame.height) / 2);
 
         frame.addWindowListener(new WindowAdapter() {
@@ -97,22 +95,16 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
 
     private class CDropTargetListener implements DropTargetListener {
         private final Color colorCueLine;
-
         private final Rectangle2D rectangleCueLine = new Rectangle2D.Float();
-
         private final Timer timerHover;
 
         /**
          * Cumulative left/right mouse movement
          */
         private int leftRight;
-
         private TreePath pathLast;
-
         private Point pointLast = new Point();
-
         private Rectangle2D rectangleGhost = new Rectangle2D.Float();
-
         private int shift;
 
         CDropTargetListener() {
@@ -161,14 +153,14 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         @Override
         public void dragOver(final DropTargetDragEvent event) {
             // Even if the mouse is not moving, this method is still invoked 10 times per second
-            Point pt = event.getLocation();
+            final Point pt = event.getLocation();
 
             if (pt.equals(this.pointLast)) {
                 return;
             }
 
             // Try to determine whether the user is flicking the cursor right or left
-            int nDeltaLeftRight = pt.x - this.pointLast.x;
+            final int nDeltaLeftRight = pt.x - this.pointLast.x;
 
             if (((this.leftRight > 0) && (nDeltaLeftRight < 0)) || ((this.leftRight < 0) && (nDeltaLeftRight > 0))) {
                 this.leftRight = 0;
@@ -178,7 +170,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
 
             this.pointLast = pt;
 
-            Graphics2D g2 = (Graphics2D) getGraphics();
+            final Graphics2D g2 = (Graphics2D) getGraphics();
 
             // If a drag image is not supported by the platform, then draw my own drag image
             if (!DragSource.isDragImageSupported()) {
@@ -194,7 +186,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
                 paintImmediately(this.rectangleCueLine.getBounds());
             }
 
-            TreePath path = getClosestPathForLocation(pt.x, pt.y);
+            final TreePath path = getClosestPathForLocation(pt.x, pt.y);
 
             if (!(path.equals(this.pathLast))) {
                 // We've moved up or down, so reset left/right movement trend
@@ -204,7 +196,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
             }
 
             // In any case draw (over the ghost image if necessary) a cue line indicating where a drop will occur
-            Rectangle raPath = getPathBounds(path);
+            final Rectangle raPath = getPathBounds(path);
             this.rectangleCueLine.setRect(0, raPath.y + raPath.getHeight(), getWidth(), 2);
 
             g2.setColor(this.colorCueLine);
@@ -245,21 +237,21 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
 
             event.acceptDrop(event.getDropAction());
 
-            Transferable transferable = event.getTransferable();
+            final Transferable transferable = event.getTransferable();
 
-            DataFlavor[] flavors = transferable.getTransferDataFlavors();
+            final DataFlavor[] flavors = transferable.getTransferDataFlavors();
 
             for (DataFlavor flavor : flavors) {
                 if (flavor.isMimeTypeEqual(DataFlavor.javaJVMLocalObjectMimeType)) {
                     try {
-                        Point pt = event.getLocation();
-                        // TreePath pathTarget = getClosestPathForLocation(pt.x, pt.y);
-                        TreePath treePath = (TreePath) transferable.getTransferData(flavor);
+                        final Point pt = event.getLocation();
+                        // final TreePath pathTarget = getClosestPathForLocation(pt.x, pt.y);
+                        final TreePath treePath = (TreePath) transferable.getTransferData(flavor);
 
                         System.out.println("DROPPING: " + treePath.getLastPathComponent());
 
-                        DefaultTreeModel model = (DefaultTreeModel) getModel();
-                        TreePath pathNewChild;
+                        final DefaultTreeModel model = (DefaultTreeModel) getModel();
+                        final TreePath pathNewChild;
 
                         // .
                         // .. Add your code here to ask your TreeModel to copy the node and act on
@@ -282,10 +274,10 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
                         // else // The mouse is being flicked to the left (so move the node left)
                         // pathNewChild = model.copyNodeLeft(treePath);
 
-                        TreePath parentPath = getClosestPathForLocation(pt.x, pt.y);
-                        DefaultMutableTreeNode parent = (DefaultMutableTreeNode) parentPath.getLastPathComponent();
+                        final TreePath parentPath = getClosestPathForLocation(pt.x, pt.y);
+                        final DefaultMutableTreeNode parent = (DefaultMutableTreeNode) parentPath.getLastPathComponent();
                         pathNewChild = (TreePath) transferable.getTransferData(flavor);
-                        DefaultMutableTreeNode node = (DefaultMutableTreeNode) pathNewChild.getLastPathComponent();
+                        final DefaultMutableTreeNode node = (DefaultMutableTreeNode) pathNewChild.getLastPathComponent();
                         model.insertNodeInto(node, parent, parent.getChildCount());
 
                         // Löschen des Sources in der Methode dragDropEnd
@@ -373,11 +365,11 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         putClientProperty("JTree.lineStyle", "Angled");
 
         // Make this JTree a drag source
-        DragSource dragSource = DragSource.getDefaultDragSource();
+        final DragSource dragSource = DragSource.getDefaultDragSource();
         dragSource.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_COPY_OR_MOVE, this);
 
         // Also, make this JTree a drag target
-        DropTarget dropTarget = new DropTarget(this, new CDropTargetListener());
+        final DropTarget dropTarget = new DropTarget(this, new CDropTargetListener());
         dropTarget.setDefaultActions(DnDConstants.ACTION_COPY_OR_MOVE);
     }
 
@@ -391,7 +383,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
             return;
         }
 
-        Rectangle raOuter = getBounds();
+        final Rectangle raOuter = getBounds();
 
         // Now decide if the row is at the top of the screen or at the
         // bottom. We do this to make the previous row (or the next
@@ -407,7 +399,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
     @Override
     public void dragDropEnd(final DragSourceDropEvent event) {
         if (event.getDropSuccess()) {
-            int nAction = event.getDropAction();
+            final int nAction = event.getDropAction();
 
             if (nAction == DnDConstants.ACTION_MOVE) { // The dragged item (_pathSource) has been inserted at the target selected by the
                 // user.
@@ -438,19 +430,19 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
 
     @Override
     public void dragGestureRecognized(final DragGestureEvent event) {
-        Point ptDragOrigin = event.getDragOrigin();
-        TreePath path = getPathForLocation(ptDragOrigin.x, ptDragOrigin.y);
+        final Point ptDragOrigin = event.getDragOrigin();
+        final TreePath path = getPathForLocation(ptDragOrigin.x, ptDragOrigin.y);
 
         if ((path == null) || isRootPath(path)) {
             return; // Ignore user trying to drag the root node
         }
 
         // Work out the offset of the drag point from the TreePath bounding rectangle origin
-        Rectangle raPath = getPathBounds(path);
+        final Rectangle raPath = getPathBounds(path);
         this.pointOffset.setLocation(ptDragOrigin.x - raPath.x, ptDragOrigin.y - raPath.y);
 
         // Get the cell renderer (which is a JLabel) for the path being dragged
-        JLabel lbl = (JLabel) getCellRenderer().getTreeCellRendererComponent(this, // tree
+        final JLabel label = (JLabel) getCellRenderer().getTreeCellRendererComponent(this, // tree
                 path.getLastPathComponent(), // value
                 false, // isSelected (don't want a colored background)
                 isExpanded(path), // isExpanded
@@ -458,23 +450,23 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
                 0, // row (not important for rendering)
                 false // hasFocus (donÄt want a focus rectangle)
         );
-        lbl.setSize((int) raPath.getWidth(), (int) raPath.getHeight()); // <-- The layout manager
+        label.setSize((int) raPath.getWidth(), (int) raPath.getHeight()); // <-- The layout manager
         // would normally do this
 
         // Get a buffered image of the selection for dragging a ghost image
         this.imageGhost = new BufferedImage((int) raPath.getWidth(), (int) raPath.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE);
 
-        Graphics2D g2 = this.imageGhost.createGraphics();
+        final Graphics2D g2 = this.imageGhost.createGraphics();
 
         // Ask the cell renderer to paint itself into the BufferedImage
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC, 0.5F)); // Make the image
         // ghostlike
-        lbl.paint(g2);
+        label.paint(g2);
 
         // Now paint a gradient UNDER the ghosted JLabel text (but not under the icon if any)
         // Note: this will need tweaking if your icon is not positioned to the left of the text
-        Icon icon = lbl.getIcon();
-        int nStartOfText = (icon == null) ? 0 : (icon.getIconWidth() + lbl.getIconTextGap());
+        final Icon icon = label.getIcon();
+        final int nStartOfText = (icon == null) ? 0 : (icon.getIconWidth() + label.getIconTextGap());
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.DST_OVER, 0.5F)); // Make the
         // gradient
         // ghostlike
@@ -488,7 +480,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         System.out.println("DRAGGING: " + path.getLastPathComponent());
 
         // Wrap the path being transferred into a Transferable object
-        Transferable transferable = new CTransferableTreePath(path);
+        final Transferable transferable = new CTransferableTreePath(path);
 
         // Remember the path being dragged (because if it is being moved, we will have to delete it
         // later)
@@ -510,8 +502,8 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
 
     @Override
     public Insets getAutoscrollInsets() {
-        Rectangle raOuter = getBounds();
-        Rectangle raInner = getParent().getBounds();
+        final Rectangle raOuter = getBounds();
+        final Rectangle raInner = getParent().getBounds();
 
         return new Insets((raInner.y - raOuter.y) + AUTOSCROLL_MARGIN, (raInner.x - raOuter.x) + AUTOSCROLL_MARGIN, (raOuter.height - raInner.height - raInner.y) + raOuter.y + AUTOSCROLL_MARGIN, (raOuter.width - raInner.width - raInner.x) + raOuter.x + AUTOSCROLL_MARGIN);
     }
@@ -530,8 +522,8 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         sayWhat(event);
 
         // We need to reset the selection path to the node just inserted
-        int nChildIndex = event.getChildIndices()[0];
-        TreePath pathParent = event.getTreePath();
+        final int nChildIndex = event.getChildIndices()[0];
+        final TreePath pathParent = event.getTreePath();
         setSelectionPath(getChildPath(pathParent, nChildIndex));
     }
 
@@ -548,7 +540,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
     }
 
     private TreePath getChildPath(final TreePath pathParent, final int childIndex) {
-        TreeModel model = getModel();
+        final TreeModel model = getModel();
 
         return pathParent.pathByAddingChild(model.getChild(pathParent.getLastPathComponent(), childIndex));
     }
@@ -560,7 +552,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
     private void sayWhat(final TreeModelEvent event) {
         System.out.println(event.getTreePath().getLastPathComponent());
 
-        int[] nIndex = event.getChildIndices();
+        final int[] nIndex = event.getChildIndices();
 
         for (int i = 0; i < nIndex.length; i++) {
             System.out.println(i + ". " + nIndex[i]);

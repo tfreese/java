@@ -8,6 +8,7 @@ import java.util.Objects;
  */
 public class AssoziationType implements Type {
     private final String simpleName;
+
     private boolean isCollection;
 
     public AssoziationType(final String simpleName) {

@@ -13,7 +13,6 @@ import de.freese.jsensors.sensor.SensorValue;
  */
 public final class MapBackend extends AbstractBackend {
     private final int keepLastNValues;
-
     private final Map<String, List<SensorValue>> map;
 
     public MapBackend(final int keepLastNValues) {
@@ -28,7 +27,7 @@ public final class MapBackend extends AbstractBackend {
     }
 
     public SensorValue getLastValue(final String name) {
-        List<SensorValue> values = getValues(name);
+        final List<SensorValue> values = getValues(name);
 
         if (values.isEmpty()) {
             return null;
@@ -47,7 +46,7 @@ public final class MapBackend extends AbstractBackend {
 
     @Override
     protected void storeValue(final SensorValue sensorValue) {
-        List<SensorValue> values = map.computeIfAbsent(sensorValue.getName(), key -> new ArrayList<>(keepLastNValues));
+        final List<SensorValue> values = map.computeIfAbsent(sensorValue.getName(), key -> new ArrayList<>(keepLastNValues));
 
         values.add(sensorValue);
 

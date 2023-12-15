@@ -14,11 +14,11 @@ import de.freese.jconky.model.TemperatureInfo;
 public class TemperatureMonitorPainter extends AbstractMonitorPainter {
     @Override
     public double paintValue(final GraphicsContext gc, final double width) {
-        Map<String, TemperatureInfo> temperatures = getContext().getTemperatures();
+        final Map<String, TemperatureInfo> temperatures = getContext().getTemperatures();
 
-        double fontSize = getSettings().getFontSize();
+        final double fontSize = getSettings().getFontSize();
 
-        double x = getSettings().getMarginInner().getLeft();
+        final double x = getSettings().getMarginInner().getLeft();
         double y = fontSize;
         paintTitle(gc, "Temperatures", x, y, width);
 
@@ -35,7 +35,7 @@ public class TemperatureMonitorPainter extends AbstractMonitorPainter {
         paintText(gc, sb.toString(), x, y);
 
         y += fontSize * 1.25D;
-        GpuInfo gpuInfo = (GpuInfo) temperatures.get("GPU");
+        final GpuInfo gpuInfo = (GpuInfo) temperatures.get("GPU");
         sb = new StringBuilder("GPU: ");
         sb.append(String.format("%.0f°C", gpuInfo.getTemperature()));
         sb.append(String.format(", %.2fW", gpuInfo.getPower()));
@@ -43,7 +43,7 @@ public class TemperatureMonitorPainter extends AbstractMonitorPainter {
         sb.append(String.format(", Load %d%%", gpuInfo.getUsage()));
         paintText(gc, sb.toString(), x, y);
 
-        double height = y + 5D;
+        final double height = y + 5D;
         drawDebugBorder(gc, width, height);
 
         return height;

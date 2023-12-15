@@ -21,7 +21,7 @@ import de.freese.binding.swing.list.DefaultObservableListListModel;
 public final class ListModelMain {
 
     public static void main(final String[] args) throws Exception {
-        JFrame frame = new JFrame("Test-ListModel");
+        final JFrame frame = new JFrame("Test-ListModel");
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(final WindowEvent e) {
@@ -33,7 +33,7 @@ public final class ListModelMain {
         observableList = observableList.sorted((o1, o2) -> o2.get(0).compareTo(o1.get(1))); // Absteigend nach erster Spalte.
         observableList = observableList.filtered(map -> (Integer.parseInt(map.get(0).split("-")[0]) % 2) == 0); // Nur jede 2. Zeile
 
-        JList<Map<Integer, String>> jList = new JList<>(new DefaultObservableListListModel<>(observableList));
+        final JList<Map<Integer, String>> jList = new JList<>(new DefaultObservableListListModel<>(observableList));
         jList.setVisibleRowCount(5);
 
         frame.add(jList);
@@ -46,7 +46,7 @@ public final class ListModelMain {
         for (int i = 0; i < 7; i++) {
             TimeUnit.MILLISECONDS.sleep(2000);
 
-            Map<Integer, String> row = new HashMap<>();
+            final Map<Integer, String> row = new HashMap<>();
             row.put(0, i + "-0");
             row.put(1, i + "-1");
             row.put(2, i + "-2");

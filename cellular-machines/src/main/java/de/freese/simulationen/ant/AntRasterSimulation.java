@@ -21,7 +21,6 @@ public class AntRasterSimulation extends AbstractRasterSimulation {
      * Performance-Optimierung: Nur die Ameisen verarbeiten lassen.
      */
     private final Set<AntCell> antsNextGeneration = Collections.synchronizedSet(new HashSet<>());
-
     private final int numberOfAnts;
 
     /**
@@ -61,12 +60,12 @@ public class AntRasterSimulation extends AbstractRasterSimulation {
         getCellStream().map(AntCell.class::cast).forEach(c -> c.setCellType(CellType.EMPTY));
 
         for (int i = 0; i < this.numberOfAnts; i++) {
-            // int x = getRandom().nextInt(50) + minX;
-            // int y = getRandom().nextInt(50) + minY;
-            int x = getRandom().nextInt(getWidth());
-            int y = getRandom().nextInt(getHeight());
+            // final int x = getRandom().nextInt(50) + minX;
+            // final int y = getRandom().nextInt(50) + minY;
+            final int x = getRandom().nextInt(getWidth());
+            final int y = getRandom().nextInt(getHeight());
 
-            AntCell cell = getCell(x, y);
+            final AntCell cell = getCell(x, y);
             cell.setCellType(CellType.ANT);
             cell.setDirection(getRandomDirection());
 

@@ -9,7 +9,6 @@ import de.freese.binding.collections.ObservableList;
 public class SimpleListProperty<T> extends AbstractListProperty<T> {
 
     private final Object bean;
-
     private final String name;
 
     public SimpleListProperty() {

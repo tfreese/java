@@ -24,11 +24,8 @@ public class ColorSelectorPanel extends JPanel implements ActionListener {
     private final String displayLabel;
 
     private Color color = Color.WHITE;
-
     private String id;
-
     private transient ColorSelectorListener listener;
-
     private JButton selectButton;
 
     public ColorSelectorPanel(final String displayLabel) {
@@ -56,10 +53,10 @@ public class ColorSelectorPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(final ActionEvent event) {
-        String command = event.getActionCommand();
+        final String command = event.getActionCommand();
 
         if (command.equals(this.displayLabel)) {
-            Color newColor = JColorChooser.showDialog(ColorSelectorPanel.this, "Choose a color", this.color);
+            final Color newColor = JColorChooser.showDialog(ColorSelectorPanel.this, "Choose a color", this.color);
 
             if (newColor != null) {
                 this.selectButton.setBackground(newColor);
@@ -69,8 +66,8 @@ public class ColorSelectorPanel extends JPanel implements ActionListener {
     }
 
     public void centerFrame(final Window frame) {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Dimension frameSize = frame.getSize();
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        final Dimension frameSize = frame.getSize();
         frame.setLocation((screenSize.width - frameSize.width) / 2, (screenSize.height - frameSize.height) / 2);
     }
 
@@ -94,7 +91,7 @@ public class ColorSelectorPanel extends JPanel implements ActionListener {
         this.selectButton.setBackground(this.color);
         this.selectButton.addActionListener(this);
 
-        JLabel selectLabel = new JLabel(this.displayLabel);
+        final JLabel selectLabel = new JLabel(this.displayLabel);
 
         setLayout(new FlowLayout(FlowLayout.LEFT, 5, 1));
         add(this.selectButton);

@@ -27,34 +27,29 @@ import de.freese.metamodel.modelgen.naming.NamingStrategy;
  */
 public abstract class AbstractModelGenerator {
     private boolean addFullConstructor;
-
     private NamingStrategy namingStrategy = new DefaultNamingStrategy();
-
     private String packageName;
-
     private boolean serializeable;
-
     private TypeMapping typeMapping;
-
     private boolean validationAnnotations;
 
     public List<ClassModel> generate(final Schema schema) {
         Objects.requireNonNull(schema, "schema required");
 
-        List<ClassModel> classModels = new ArrayList<>(schema.getTables().size());
+        final List<ClassModel> classModels = new ArrayList<>(schema.getTables().size());
 
         for (Table table : schema.getTables()) {
-            ClassModel classModel = transformClass(table);
+            final ClassModel classModel = transformClass(table);
             classModel.setPackageName(getPackageName());
 
-            List<Column> toStringColumns = getColumnsForToString(table);
+            final List<Column> toStringColumns = getColumnsForToString(table);
 
             // @formatter:off
             classModel.getFields().stream()
                     .filter(field -> {
                         field.setUseForToString(false);
 
-                        Column column = field.getPayload(Column.class);
+                        final Column column = field.getPayload(Column.class);
                         return toStringColumns.contains(column);
                     })
                     .forEach(field -> field.setUseForToString(true))
@@ -156,8 +151,8 @@ public abstract class AbstractModelGenerator {
     }
 
     protected ClassModel transformClass(final Table table) {
-        String name = getNamingStrategy().getClassName(table.getName());
-        ClassModel classModel = new ClassModel(name);
+        final String name = getNamingStrategy().getClassName(table.getName());
+        final ClassModel classModel = new ClassModel(name);
         classModel.setSerializeable(isSerializeable());
         classModel.setAddFullConstructor(isAddFullConstructor());
 
@@ -178,10 +173,10 @@ public abstract class AbstractModelGenerator {
     protected abstract void transformClassJavaDoc(Table table, ClassModel classModel);
 
     protected void transformField(final Column column, final ClassModel classModel) {
-        String fieldName = getNamingStrategy().getFieldName(column.getName());
-        ClassType type = (ClassType) getTypeMapping().getType(column.getJdbcType(), column.isNullable());
+        final String fieldName = getNamingStrategy().getFieldName(column.getName());
+        final ClassType type = (ClassType) getTypeMapping().getType(column.getJdbcType(), column.isNullable());
 
-        FieldModel fieldModel = classModel.addField(fieldName, type.getJavaClass());
+        final FieldModel fieldModel = classModel.addField(fieldName, type.getJavaClass());
         fieldModel.setPayload(column);
 
         transformFieldComments(column, fieldModel);
@@ -206,7 +201,7 @@ public abstract class AbstractModelGenerator {
     }
 
     protected void transformFieldComments(final Column column, final FieldModel fieldModel) {
-        String comment = column.getComment();
+        final String comment = column.getComment();
 
         if ((comment != null) && !comment.isBlank()) {
             fieldModel.addComment(comment);

@@ -22,7 +22,6 @@ import de.freese.jsensors.utils.LifeCycle;
  */
 public class ScheduledSensorRegistry extends AbstractSensorRegistry implements LifeCycle {
     private final int corePoolSize;
-
     private final ThreadFactory threadFactory;
 
     private ScheduledExecutorService scheduledExecutorService;
@@ -48,9 +47,9 @@ public class ScheduledSensorRegistry extends AbstractSensorRegistry implements L
             throw new IllegalStateException("scheduler is not started: call #start() first");
         }
 
-        Sensor sensor = getSensor(name);
+        final Sensor sensor = getSensor(name);
 
-        Runnable task = () -> getBackend(sensor.getName()).store(sensor.measure());
+        final Runnable task = () -> getBackend(sensor.getName()).store(sensor.measure());
 
         this.scheduledExecutorService.scheduleWithFixedDelay(task, initialDelay, delay, unit);
     }

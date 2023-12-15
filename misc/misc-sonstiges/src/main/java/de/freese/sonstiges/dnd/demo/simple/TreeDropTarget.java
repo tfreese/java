@@ -22,7 +22,6 @@ import javax.swing.tree.TreePath;
  */
 class TreeDropTarget implements DropTargetListener {
     private final DropTarget target;
-
     private final JTree targetTree;
 
     TreeDropTarget(final JTree tree) {
@@ -32,7 +31,7 @@ class TreeDropTarget implements DropTargetListener {
 
     @Override
     public void dragEnter(final DropTargetDragEvent event) {
-        TreeNode node = getNodeForEvent(event);
+        final TreeNode node = getNodeForEvent(event);
 
         if (node.isLeaf()) {
             event.rejectDrag();
@@ -51,7 +50,7 @@ class TreeDropTarget implements DropTargetListener {
 
     @Override
     public void dragOver(final DropTargetDragEvent event) {
-        TreeNode node = getNodeForEvent(event);
+        final TreeNode node = getNodeForEvent(event);
 
         if (node.isLeaf()) {
             event.rejectDrag();
@@ -65,11 +64,11 @@ class TreeDropTarget implements DropTargetListener {
 
     @Override
     public void drop(final DropTargetDropEvent event) {
-        Point pt = event.getLocation();
-        DropTargetContext dtc = event.getDropTargetContext();
-        JTree tree = (JTree) dtc.getComponent();
-        TreePath parentPath = tree.getClosestPathForLocation(pt.x, pt.y);
-        DefaultMutableTreeNode parent = (DefaultMutableTreeNode) parentPath.getLastPathComponent();
+        final Point pt = event.getLocation();
+        final DropTargetContext dtc = event.getDropTargetContext();
+        final JTree tree = (JTree) dtc.getComponent();
+        final TreePath parentPath = tree.getClosestPathForLocation(pt.x, pt.y);
+        final DefaultMutableTreeNode parent = (DefaultMutableTreeNode) parentPath.getLastPathComponent();
 
         if (parent.isLeaf()) {
             event.rejectDrop();
@@ -78,16 +77,16 @@ class TreeDropTarget implements DropTargetListener {
         }
 
         try {
-            Transferable tr = event.getTransferable();
-            DataFlavor[] flavors = tr.getTransferDataFlavors();
+            final Transferable tr = event.getTransferable();
+            final DataFlavor[] flavors = tr.getTransferDataFlavors();
 
             for (DataFlavor flavor : flavors) {
                 if (tr.isDataFlavorSupported(flavor)) {
                     event.acceptDrop(event.getDropAction());
 
-                    TreePath p = (TreePath) tr.getTransferData(flavor);
-                    DefaultMutableTreeNode node = (DefaultMutableTreeNode) p.getLastPathComponent();
-                    DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+                    final TreePath p = (TreePath) tr.getTransferData(flavor);
+                    final DefaultMutableTreeNode node = (DefaultMutableTreeNode) p.getLastPathComponent();
+                    final DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
                     model.insertNodeInto(node, parent, 0);
                     event.dropComplete(true);
 
@@ -109,10 +108,10 @@ class TreeDropTarget implements DropTargetListener {
     }
 
     private TreeNode getNodeForEvent(final DropTargetDragEvent event) {
-        Point p = event.getLocation();
-        DropTargetContext dtc = event.getDropTargetContext();
-        JTree tree = (JTree) dtc.getComponent();
-        TreePath path = tree.getClosestPathForLocation(p.x, p.y);
+        final Point p = event.getLocation();
+        final DropTargetContext dtc = event.getDropTargetContext();
+        final JTree tree = (JTree) dtc.getComponent();
+        final TreePath path = tree.getClosestPathForLocation(p.x, p.y);
 
         return (TreeNode) path.getLastPathComponent();
     }

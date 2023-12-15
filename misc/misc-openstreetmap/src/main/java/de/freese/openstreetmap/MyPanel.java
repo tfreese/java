@@ -19,9 +19,7 @@ public class MyPanel extends JPanel {
     private static final long serialVersionUID = -1375597059859723042L;
 
     private transient final OsmModel model;
-
     private Rectangle mapBounds;
-
     private transient Matrix myZTFMatrix;
 
     public MyPanel(final OsmModel model) {
@@ -40,10 +38,8 @@ public class MyPanel extends JPanel {
 
                 this.mapBounds = this.mapBounds.union(osmWay.getBounds());
             }
-            // for (OsmRelation osmRelation : this.model.getRelationMap().valueCollection())
-            // {
-            // if (this.mapBounds == null)
-            // {
+            // for (OsmRelation osmRelation : this.model.getRelationMap().valueCollection()) {
+            // if (this.mapBounds == null) {
             // this.mapBounds = new Rectangle(osmRelation.getBounds());
             // continue;
             // }
@@ -62,12 +58,11 @@ public class MyPanel extends JPanel {
         }
 
         for (OsmWay osmWay : this.model.getWayMap().values()) {
-            Polygon polyToDraw = osmWay.getDrawablePolygon(this.myZTFMatrix);
+            final Polygon polyToDraw = osmWay.getDrawablePolygon(this.myZTFMatrix);
             g.drawPolygon(polyToDraw);
         }
-        // for (OsmRelation osmRelation : this.model.getRelationMap().valueCollection())
-        // {
-        // Polygon polyToDraw = osmRelation.getDrawablePolygon(this.myZTFMatrix);
+        // for (OsmRelation osmRelation : this.model.getRelationMap().valueCollection()) {
+        // final Polygon polyToDraw = osmRelation.getDrawablePolygon(this.myZTFMatrix);
         // g.drawPolygon(polyToDraw);
         // }
     }
@@ -78,7 +73,7 @@ public class MyPanel extends JPanel {
      * @param delta Die Strecke, um die verschoben werden soll
      */
     public void scrollHorizontal(final int delta) {
-        Matrix transMat = Matrix.translate(delta, 0);
+        final Matrix transMat = Matrix.translate(delta, 0);
         this.myZTFMatrix = transMat.multiply(this.myZTFMatrix);
     }
 
@@ -88,7 +83,7 @@ public class MyPanel extends JPanel {
      * @param delta Die Strecke, um die verschoben werden soll
      */
     public void scrollVertical(final int delta) {
-        Matrix transMat = Matrix.translate(0, delta);
+        final Matrix transMat = Matrix.translate(0, delta);
         this.myZTFMatrix = transMat.multiply(this.myZTFMatrix);
     }
 
@@ -98,10 +93,10 @@ public class MyPanel extends JPanel {
      * @param factor Der Faktor um den herein- bzw. herausgezoomt wird
      */
     public void zoom(final double factor) {
-        Point center = new Point(getWidth() / 2, getHeight() / 2);
+        final Point center = new Point(getWidth() / 2, getHeight() / 2);
         this.myZTFMatrix = Matrix.zoomPoint(this.myZTFMatrix, center, factor);
 
-        // Matrix scaleMat = Matrix.scale(factor);
+        // final Matrix scaleMat = Matrix.scale(factor);
         // this.myZTFMatrix = scaleMat.multiply(this.myZTFMatrix);
     }
 
@@ -110,7 +105,7 @@ public class MyPanel extends JPanel {
      * Anzeigebereich passen
      */
     public void zoomToFit() {
-        Rectangle bounds = getMapBounds();
+        final Rectangle bounds = getMapBounds();
         this.myZTFMatrix = Matrix.zoomToFit(bounds, new Rectangle(getWidth() - 2, getHeight() - 2));
     }
 }

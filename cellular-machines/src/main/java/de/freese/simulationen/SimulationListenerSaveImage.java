@@ -36,7 +36,6 @@ public class SimulationListenerSaveImage implements SimulationListener {
      */
     private final class WriteImageTask implements Runnable {
         private final BufferedImage bufferedImage;
-
         private final Path file;
 
         WriteImageTask(final BufferedImage bufferedImage, final Path file) {
@@ -53,13 +52,9 @@ public class SimulationListenerSaveImage implements SimulationListener {
     }
 
     private final AtomicInteger counter;
-
     private final Path directory;
-
     private final Executor executor;
-
     private final String format;
-
     private final SimulationType type;
 
     /**
@@ -77,21 +72,21 @@ public class SimulationListenerSaveImage implements SimulationListener {
 
     @Override
     public void completed(final Simulation simulation) {
-        Image image = simulation.getImage();
+        final Image image = simulation.getImage();
 
-        BufferedImage bufferedImage = new BufferedImage(simulation.getWidth(), simulation.getHeight(), BufferedImage.TYPE_INT_RGB);
+        final BufferedImage bufferedImage = new BufferedImage(simulation.getWidth(), simulation.getHeight(), BufferedImage.TYPE_INT_RGB);
 
-        Graphics2D g2d = bufferedImage.createGraphics();
+        final Graphics2D g2d = bufferedImage.createGraphics();
         g2d.drawImage(image, 0, 0, null);
         g2d.dispose();
 
         // Liefert die gleiche Array-Referenz.
-        //        int[] pixels = ((DataBufferInt) bufferedImage.getRaster().getDataBuffer()).getData();
+        // final int[] pixels = ((DataBufferInt) bufferedImage.getRaster().getDataBuffer()).getData();
 
         // Erzeugt ein neues Array.
-        //        int[]  pixels = bufferedImage.getRaster().getPixels(0, 0, width, height, (int[]) null);
+        // final int[] pixels = bufferedImage.getRaster().getPixels(0, 0, width, height, (int[]) null);
 
-        Path file = this.directory.resolve(String.format("%s-%05d.%s", this.type.getNameShort(), this.counter.incrementAndGet(), this.format));
+        final Path file = this.directory.resolve(String.format("%s-%05d.%s", this.type.getNameShort(), this.counter.incrementAndGet(), this.format));
 
         this.executor.execute(new WriteImageTask(bufferedImage, file));
     }

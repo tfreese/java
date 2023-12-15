@@ -19,11 +19,11 @@ public class LongEventProducer {
 
     public void onData(final ByteBuffer bb) {
         // Grab the next sequence
-        long sequence = this.ringBuffer.next();
+        final long sequence = this.ringBuffer.next();
 
         try {
             // Get the entry in the Disruptor
-            LongEvent event = this.ringBuffer.get(sequence);
+            final LongEvent event = this.ringBuffer.get(sequence);
 
             // for the sequence
             event.setValue(bb.getLong(0));  // Fill with data

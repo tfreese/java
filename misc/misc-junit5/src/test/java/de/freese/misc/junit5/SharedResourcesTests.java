@@ -1,5 +1,7 @@
 package de.freese.misc.junit5;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Properties;
 
 import org.junit.jupiter.api.AfterEach;
@@ -33,14 +35,14 @@ class SharedResourcesTests {
     @ResourceLock(value = "system.properties", mode = ResourceAccessMode.READ_WRITE)
     void testCanSetCustomPropertyToBar() {
         System.setProperty("my.prop", "bar");
-        Assertions.assertEquals("bar", System.getProperty("my.prop"));
+        assertEquals("bar", System.getProperty("my.prop"));
     }
 
     @Test
     @ResourceLock(value = "system.properties", mode = ResourceAccessMode.READ_WRITE)
     void testCanSetCustomPropertyToFoo() {
         System.setProperty("my.prop", "foo");
-        Assertions.assertEquals("foo", System.getProperty("my.prop"));
+        assertEquals("foo", System.getProperty("my.prop"));
     }
 
     @Test

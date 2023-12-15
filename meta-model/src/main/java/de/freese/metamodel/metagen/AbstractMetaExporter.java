@@ -33,7 +33,7 @@ public abstract class AbstractMetaExporter implements MetaExporter {
     public List<Schema> export(final DataSource dataSource, final String schemaNamePattern, final String tableNamePattern) throws Exception {
         Objects.requireNonNull(dataSource, "dataSource required");
 
-        List<Schema> schemas = generateSchemas(dataSource, schemaNamePattern);
+        final List<Schema> schemas = generateSchemas(dataSource, schemaNamePattern);
 
         for (Schema schema : schemas) {
             // Tabellen des Schemas
@@ -76,20 +76,20 @@ public abstract class AbstractMetaExporter implements MetaExporter {
      * Erzeugt das Meta-Modell der Spalten einer Tabelle.
      */
     protected void createColumn(final Table table, final ResultSet resultSet) throws SQLException {
-        String columnName = resultSet.getString("COLUMN_NAME");
-        int dataType = resultSet.getInt("DATA_TYPE");
-        String typeName = resultSet.getString("TYPE_NAME");
-        int columnSize = resultSet.getInt("COLUMN_SIZE");
-        int decimalDigits = resultSet.getInt("DECIMAL_DIGITS");
-        String comment = resultSet.getString("REMARKS");
-        boolean nullable = resultSet.getBoolean("NULLABLE");
-        int tableIndex = resultSet.getInt("ORDINAL_POSITION");
+        final String columnName = resultSet.getString("COLUMN_NAME");
+        final int dataType = resultSet.getInt("DATA_TYPE");
+        final String typeName = resultSet.getString("TYPE_NAME");
+        final int columnSize = resultSet.getInt("COLUMN_SIZE");
+        final int decimalDigits = resultSet.getInt("DECIMAL_DIGITS");
+        final String comment = resultSet.getString("REMARKS");
+        final boolean nullable = resultSet.getBoolean("NULLABLE");
+        final int tableIndex = resultSet.getInt("ORDINAL_POSITION");
 
         if (getLogger().isDebugEnabled()) {
             getLogger().debug("Processing Column: {}.{}", table.getFullName(), columnName);
         }
 
-        Column column = table.getColumn(columnName);
+        final Column column = table.getColumn(columnName);
         column.setSqlType(dataType);
         column.setTypeName(typeName);
         column.setComment(comment);
@@ -98,9 +98,8 @@ public abstract class AbstractMetaExporter implements MetaExporter {
         column.setDecimalDigits(decimalDigits);
         column.setTableIndex(tableIndex);
 
-        // try
-        // {
-        // Charset charset = StandardCharsets.UTF_8;
+        // try {
+        // final Charset charset = StandardCharsets.UTF_8;
         // column.setComment(new String(comment.getBytes(charset), charset));
         // }
         // catch (Exception ex)
@@ -114,9 +113,9 @@ public abstract class AbstractMetaExporter implements MetaExporter {
      */
     protected void createForeignKey(final Table table, final ResultSet resultSet) throws SQLException {
         String fkName = resultSet.getString("FK_NAME");
-        String columnName = resultSet.getString("FKCOLUMN_NAME");
-        String refTableName = resultSet.getString("PKTABLE_NAME");
-        String refColumnName = resultSet.getString("PKCOLUMN_NAME");
+        final String columnName = resultSet.getString("FKCOLUMN_NAME");
+        final String refTableName = resultSet.getString("PKTABLE_NAME");
+        final String refColumnName = resultSet.getString("PKCOLUMN_NAME");
 
         if (fkName.isBlank()) {
             fkName = table.getName().toUpperCase() + "_FK";
@@ -126,12 +125,12 @@ public abstract class AbstractMetaExporter implements MetaExporter {
             getLogger().debug("Processing ForeignKey: {} on {}.{} -> {}.{}", fkName, table.getFullName(), columnName, refTableName, refColumnName);
         }
 
-        Column column = table.getColumn(columnName);
+        final Column column = table.getColumn(columnName);
 
-        Table refTable = table.getSchema().getTable(refTableName);
-        Column refColumn = refTable.getColumn(refColumnName);
+        final Table refTable = table.getSchema().getTable(refTableName);
+        final Column refColumn = refTable.getColumn(refColumnName);
 
-        ForeignKey foreignKey = new ForeignKey();
+        final ForeignKey foreignKey = new ForeignKey();
         foreignKey.setName(fkName);
         foreignKey.setColumn(column);
         foreignKey.setRefColumn(refColumn);
@@ -144,11 +143,11 @@ public abstract class AbstractMetaExporter implements MetaExporter {
      */
     protected void createIndices(final Table table, final ResultSet resultSet) throws SQLException {
         String indexName = resultSet.getString("INDEX_NAME");
-        String columnName = resultSet.getString("COLUMN_NAME");
-        int keyColumnIndex = resultSet.getInt("ORDINAL_POSITION");
+        final String columnName = resultSet.getString("COLUMN_NAME");
+        final int keyColumnIndex = resultSet.getInt("ORDINAL_POSITION");
 
         // NON_UNIQUE = true
-        boolean unique = !resultSet.getBoolean("NON_UNIQUE");
+        final boolean unique = !resultSet.getBoolean("NON_UNIQUE");
 
         if (indexName.isBlank()) {
             if (!unique) {
@@ -163,14 +162,14 @@ public abstract class AbstractMetaExporter implements MetaExporter {
             getLogger().debug("Processing Index: {} on {}.{}", indexName, table.getFullName(), columnName);
         }
 
-        Column column = table.getColumn(columnName);
+        final Column column = table.getColumn(columnName);
 
         if (!unique) {
-            Index index = table.getIndex(indexName);
+            final Index index = table.getIndex(indexName);
             index.addColumn(keyColumnIndex, column);
         }
         else {
-            UniqueConstraint uniqueConstraint = table.getUniqueConstraint(indexName);
+            final UniqueConstraint uniqueConstraint = table.getUniqueConstraint(indexName);
             uniqueConstraint.addColumn(keyColumnIndex, column);
         }
     }
@@ -180,8 +179,8 @@ public abstract class AbstractMetaExporter implements MetaExporter {
      */
     protected void createPrimaryKey(final Table table, final ResultSet resultSet) throws SQLException {
         String pkName = resultSet.getString("PK_NAME");
-        String columnName = resultSet.getString("COLUMN_NAME");
-        int keyColumnIndex = resultSet.getInt("KEY_SEQ");
+        final String columnName = resultSet.getString("COLUMN_NAME");
+        final int keyColumnIndex = resultSet.getInt("KEY_SEQ");
 
         if (pkName.isBlank()) {
             pkName = table.getName().toUpperCase() + "_PK";
@@ -198,13 +197,13 @@ public abstract class AbstractMetaExporter implements MetaExporter {
      * Erzeugt das Meta-Modell eines Schemas.
      */
     protected Schema createSchema(final ResultSet resultSet) throws SQLException {
-        String schemaName = resultSet.getString("TABLE_SCHEM");
+        final String schemaName = resultSet.getString("TABLE_SCHEM");
 
         if (getLogger().isDebugEnabled()) {
             getLogger().debug("Processing Schema: {}", schemaName);
         }
 
-        Schema schema = new Schema();
+        final Schema schema = new Schema();
         schema.setName(schemaName);
 
         return schema;
@@ -214,13 +213,12 @@ public abstract class AbstractMetaExporter implements MetaExporter {
      * Erzeugt das Meta-Modell einer Tabelle.
      */
     protected void createTable(final Schema schema, final ResultSet resultSet) throws SQLException {
-        // String catalog = resultSet.getString("TABLE_CAT");
-        String schemaName = resultSet.getString("TABLE_SCHEM");
-        String tableName = resultSet.getString("TABLE_NAME");
-        String comment = resultSet.getString("REMARKS");
+        // final String catalog = resultSet.getString("TABLE_CAT");
+        final String schemaName = resultSet.getString("TABLE_SCHEM");
+        final String tableName = resultSet.getString("TABLE_NAME");
+        final String comment = resultSet.getString("REMARKS");
 
-        // if (StringUtils.isBlank(schema) && StringUtils.isNotBlank(catalog))
-        // {
+        // if (StringUtils.isBlank(schema) && StringUtils.isNotBlank(catalog)) {
         // schema = catalog;
         // }
 
@@ -228,13 +226,13 @@ public abstract class AbstractMetaExporter implements MetaExporter {
             getLogger().debug("Processing Table: {}.{}", schemaName, tableName);
         }
 
-        Table table = schema.getTable(tableName);
+        final Table table = schema.getTable(tableName);
         table.setComment(comment);
     }
 
     protected void generateColumns(final DataSource dataSource, final Table table) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
-            DatabaseMetaData metaData = connection.getMetaData();
+            final DatabaseMetaData metaData = connection.getMetaData();
 
             try (ResultSet resultSet = metaData.getColumns(null, table.getSchema().getName(), table.getName(), null)) {
                 while (resultSet.next()) {
@@ -246,7 +244,7 @@ public abstract class AbstractMetaExporter implements MetaExporter {
 
     protected void generateForeignKeys(final DataSource dataSource, final Table table) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
-            DatabaseMetaData metaData = connection.getMetaData();
+            final DatabaseMetaData metaData = connection.getMetaData();
 
             // ForeignKeys von dieser Tabelle.
             try (ResultSet resultSet = metaData.getImportedKeys(null, table.getSchema().getName(), table.getName())) {
@@ -256,10 +254,8 @@ public abstract class AbstractMetaExporter implements MetaExporter {
             }
 
             // ForeignKeys auf diese Tabelle.
-            // try (ResultSet resultSet = metaData.getExportedKeys(null, table.getSchema().getName(), table.getName()))
-            // {
-            // while (resultSet.next())
-            // {
+            // try (ResultSet resultSet = metaData.getExportedKeys(null, table.getSchema().getName(), table.getName())) {
+            // while (resultSet.next()) {
             // createForeignKey(table, resultSet);
             // }
             // }
@@ -268,7 +264,7 @@ public abstract class AbstractMetaExporter implements MetaExporter {
 
     protected void generateIndices(final DataSource dataSource, final Table table) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
-            DatabaseMetaData metaData = connection.getMetaData();
+            final DatabaseMetaData metaData = connection.getMetaData();
 
             try (ResultSet resultSet = metaData.getIndexInfo(null, table.getSchema().getName(), table.getName(), false, true)) {
                 while (resultSet.next()) {
@@ -280,7 +276,7 @@ public abstract class AbstractMetaExporter implements MetaExporter {
 
     protected void generatePrimaryKeys(final DataSource dataSource, final Table table) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
-            DatabaseMetaData metaData = connection.getMetaData();
+            final DatabaseMetaData metaData = connection.getMetaData();
 
             try (ResultSet resultSet = metaData.getPrimaryKeys(null, table.getSchema().getName(), table.getName())) {
                 while (resultSet.next()) {
@@ -291,14 +287,14 @@ public abstract class AbstractMetaExporter implements MetaExporter {
     }
 
     protected List<Schema> generateSchemas(final DataSource dataSource, final String schemaNamePattern) throws SQLException {
-        List<Schema> schemas = new ArrayList<>();
+        final List<Schema> schemas = new ArrayList<>();
 
         try (Connection connection = dataSource.getConnection()) {
-            DatabaseMetaData metaData = connection.getMetaData();
+            final DatabaseMetaData metaData = connection.getMetaData();
 
             try (ResultSet resultSet = metaData.getSchemas(null, schemaNamePattern)) {
                 while (resultSet.next()) {
-                    Schema schema = createSchema(resultSet);
+                    final Schema schema = createSchema(resultSet);
 
                     schemas.add(schema);
                 }
@@ -312,7 +308,7 @@ public abstract class AbstractMetaExporter implements MetaExporter {
 
     protected void generateTables(final DataSource dataSource, final Schema schema, final String tableNamePattern) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
-            DatabaseMetaData metaData = connection.getMetaData();
+            final DatabaseMetaData metaData = connection.getMetaData();
 
             try (ResultSet resultSet = metaData.getTables(null, schema.getName(), tableNamePattern, new String[]{"TABLE"})) {
                 while (resultSet.next()) {

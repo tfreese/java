@@ -1,5 +1,8 @@
 package de.freese.misc.junit5;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.stream.IntStream;
@@ -33,9 +36,10 @@ class CalculatorTests {
     @Test
     @Tag("input-validation")
     void testCannotSetValueToNull() {
-        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> this.calculator.set(null));
+        final IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> this.calculator.set(null));
 
-        Assertions.assertEquals("cannot set value to null", exception.getMessage());
+        assertNotNull(exception);
+        assertEquals("cannot set value to null", exception.getMessage());
     }
 
     @Test
@@ -43,9 +47,11 @@ class CalculatorTests {
     @Tag("multiplication")
     @Tag("division")
     void testDivideResultOfMultiplication() {
-        BigDecimal newValue = this.calculator.set(2).multiply(3).divide(4).get();
+        final BigDecimal newValue = this.calculator.set(2).multiply(3).divide(4).get();
 
-        Assertions.assertEquals(new BigDecimal("1.5"), newValue);
+        assertNotNull(newValue);
+
+        assertEquals(new BigDecimal("1.5"), newValue);
     }
 
     /**
@@ -55,18 +61,18 @@ class CalculatorTests {
     @RepeatedTest(10)
     @Tag("power")
     void testFlakyTest() {
-        double actualResult = this.calculator.set(Math.random()).power(2).doubleValue();
+        final double actualResult = this.calculator.set(Math.random()).power(2).doubleValue();
 
-        Assertions.assertEquals(0.0, actualResult, 0.5);
+        assertEquals(0.0, actualResult, 0.5);
     }
 
     @Test
     @DisplayName("1 + 1 = 2")
     @Tag("addition")
     void testOnePlusOneIsTwo() {
-        long newValue = this.calculator.set(1).add(1).longValue();
+        final long newValue = this.calculator.set(1).add(1).longValue();
 
-        Assertions.assertEquals(2, newValue);
+        assertEquals(2, newValue);
     }
 
     @TestFactory
@@ -74,9 +80,9 @@ class CalculatorTests {
     @Tag("power")
     Stream<DynamicTest> testPowerOfTwo() {
         return IntStream.range(1, 100).mapToObj(value -> DynamicTest.dynamicTest(MessageFormat.format("{0}^2 = {0} * {0}", value), () -> {
-            var expectedValue = new Calculator(value).multiply(value).get();
-            var actualValue = this.calculator.set(value).power(2).get();
-            Assertions.assertEquals(expectedValue, actualValue);
+            final var expectedValue = new Calculator(value).multiply(value).get();
+            final var actualValue = this.calculator.set(value).power(2).get();
+            assertEquals(expectedValue, actualValue);
         }));
     }
 
@@ -91,17 +97,17 @@ class CalculatorTests {
     })
     @Tag("sqrt")
     void testSqrt(final long input, final double expectedResult) {
-        double actualResult = this.calculator.set(input).sqrt().doubleValue();
+        final double actualResult = this.calculator.set(input).sqrt().doubleValue();
 
-        Assertions.assertEquals(expectedResult, actualResult, 1e-16);
+        assertEquals(expectedResult, actualResult, 1e-16);
     }
 
     @ParameterizedTest(name = "sqrt({0}) = {1}")
     @CsvFileSource(resources = "/sqrt.csv")
     @Tag("sqrt")
     void testSqrtFromFile(final long input, final double expectedResult) {
-        double actualResult = this.calculator.set(input).sqrt().doubleValue();
+        final double actualResult = this.calculator.set(input).sqrt().doubleValue();
 
-        Assertions.assertEquals(expectedResult, actualResult, 1e-16);
+        assertEquals(expectedResult, actualResult, 1e-16);
     }
 }

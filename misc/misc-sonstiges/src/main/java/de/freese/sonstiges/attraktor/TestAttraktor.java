@@ -32,7 +32,7 @@ public class TestAttraktor extends JComponent implements Runnable {
     public static void main(final String[] args) {
         final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(3);
 
-        JFrame frame = new JFrame();
+        final JFrame frame = new JFrame();
         frame.setTitle("TestFrame");
         frame.setLayout(new BorderLayout());
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -43,7 +43,7 @@ public class TestAttraktor extends JComponent implements Runnable {
             }
         });
 
-        TestAttraktor canvas = new TestAttraktor();
+        final TestAttraktor canvas = new TestAttraktor();
         frame.add(canvas);
         frame.setSize(800, 800);
         frame.setLocationRelativeTo(null);
@@ -54,22 +54,18 @@ public class TestAttraktor extends JComponent implements Runnable {
     }
 
     private final transient Image image;
-
     private final transient MemoryImageSource imageSource;
-
     private final int[] pixels;
-
     private final transient Random random;
 
     private double x = 200D;
-
     private double y = 200D;
 
     public TestAttraktor() {
         super();
 
-        int width = 800;
-        int height = width;
+        final int width = 800;
+        final int height = width;
 
         this.pixels = new int[width * height];
         this.imageSource = new MemoryImageSource(width, height, this.pixels, 0, width);
@@ -92,23 +88,23 @@ public class TestAttraktor extends JComponent implements Runnable {
 
     @Override
     public void run() {
-        Set<Point2D> points = new HashSet<>();
+        final Set<Point2D> points = new HashSet<>();
 
-        double a = -14D;
-        double b = 0.9F;
-        double c = 0.1D;
+        final double a = -14D;
+        final double b = 0.9F;
+        final double c = 0.1D;
 
-        Point2D min = new Point2D.Double(0, 0);
-        Point2D max = new Point2D.Double(0, 0);
+        final Point2D min = new Point2D.Double(0, 0);
+        final Point2D max = new Point2D.Double(0, 0);
 
         for (int i = 0; i < 10; i++) {
-            double xx = this.y - (Math.signum(this.x) * Math.sqrt(Math.abs((b * this.x) - c)));
-            // double xx = this.y - (FastMath.signum(this.x) * FastMath.pow(Math.abs((b * this.x) - c), 0.5D));
-            double yy = a - this.x;
+            final double xx = this.y - (Math.signum(this.x) * Math.sqrt(Math.abs((b * this.x) - c)));
+            // final double xx = this.y - (FastMath.signum(this.x) * FastMath.pow(Math.abs((b * this.x) - c), 0.5D));
+            final double yy = a - this.x;
             this.x = xx;
             this.y = yy;
 
-            Point2D point = new Point2D.Double(this.x, this.y);
+            final Point2D point = new Point2D.Double(this.x, this.y);
             points.add(point);
 
             min.setLocation(Math.min(min.getX(), point.getX()), Math.min(min.getY(), point.getY()));

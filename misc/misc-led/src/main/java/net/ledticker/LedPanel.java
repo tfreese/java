@@ -63,7 +63,7 @@ public class LedPanel extends JPanel implements Runnable {
 
     public void b(final Object obj) {
         synchronized (this.n) {
-            A a = this.o.remove(obj);
+            final A a = this.o.remove(obj);
 
             if (a != null) {
                 this.n.remove(a);
@@ -83,7 +83,7 @@ public class LedPanel extends JPanel implements Runnable {
         Dimension dim = super.getPreferredSize();
 
         if (this.dimension == null) {
-            Insets insets = getInsets();
+            final Insets insets = getInsets();
             dim = new Dimension(dim.width + 399, this.height + insets.top + insets.bottom);
         }
 
@@ -101,7 +101,7 @@ public class LedPanel extends JPanel implements Runnable {
                 i1 = getInsets().top;
                 j1 = getWidth();
 
-                int k1 = this.image.getWidth(this);
+                final int k1 = this.image.getWidth(this);
 
                 for (int i2 = 0; i2 < j1; i2 += k1) {
                     g1.drawImage(this.image, i2, i1, this);
@@ -111,10 +111,10 @@ public class LedPanel extends JPanel implements Runnable {
 
         int l1 = 0;
         int j2 = (this.n.get(0)).c();
-        int k2 = this.n.size();
+        final int k2 = this.n.size();
 
         while (j2 < j1) {
-            A a = this.n.get(l1);
+            final A a = this.n.get(l1);
 
             if (a.getImage() != null) {
                 g1.drawImage(a.getImage(), j2, i1, this);
@@ -154,11 +154,11 @@ public class LedPanel extends JPanel implements Runnable {
             else {
                 boolean flag = this.i;
                 int i1 = (this.n.get(0)).c();
-                int j1 = getWidth();
+                final int j1 = getWidth();
                 int k1 = 0;
 
                 for (int l1 = this.n.size(); (k1 < l1) && (i1 < j1) && !flag; k1++) {
-                    A a1 = this.n.get(k1);
+                    final A a1 = this.n.get(k1);
 
                     if (a1 == a) {
                         flag = true;
@@ -180,7 +180,7 @@ public class LedPanel extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        Thread t = Thread.currentThread();
+        final Thread t = Thread.currentThread();
 
         while (this.thread == t) {
             long l1 = System.currentTimeMillis();
@@ -255,7 +255,7 @@ public class LedPanel extends JPanel implements Runnable {
         if ((a.c() + a.b()) <= 0) {
             this.n.remove(0);
 
-            int i1 = a.c() + a.b();
+            final int i1 = a.c() + a.b();
             a.d();
             this.n.add(a);
             a = this.n.get(0);

@@ -28,7 +28,7 @@ public class Html2Text extends HTMLEditorKit.ParserCallback {
     public Html2Text parse(final String html) throws Exception {
         this.sb = new StringBuilder();
 
-        ParserDelegator delegator = new ParserDelegator();
+        final ParserDelegator delegator = new ParserDelegator();
 
         // org.apache.lucene.analysis.charfilter.HTMLStripCharFilter
         try (Reader reader = new StringReader(html)) {

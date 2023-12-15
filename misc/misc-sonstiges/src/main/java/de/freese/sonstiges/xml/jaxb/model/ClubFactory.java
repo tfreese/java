@@ -6,7 +6,7 @@ package de.freese.sonstiges.xml.jaxb.model;
 public final class ClubFactory {
     public static Club createClub() {
         // 1
-        Club club = new Club();
+        final Club club = new Club();
         club.setEmployees(100);
         club.getGuests().put(2010, 10000);
         club.getGuests().put(2011, 11111);

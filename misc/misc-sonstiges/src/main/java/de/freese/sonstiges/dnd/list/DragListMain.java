@@ -42,11 +42,11 @@ public final class DragListMain extends JPanel {
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         // Create and set up the window.
-        JFrame frame = new JFrame("DragListMain");
+        final JFrame frame = new JFrame("DragListMain");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // Create and set up the content pane.
-        DragListMain demo = new DragListMain();
+        final DragListMain demo = new DragListMain();
         frame.setContentPane(demo);
 
         // Display the window.
@@ -59,10 +59,10 @@ public final class DragListMain extends JPanel {
     private DragListMain() throws ClassNotFoundException {
         this.arrayListHandler = new ArrayListTransferHandler();
 
-        JList<String> list1;
-        JList<String> list2;
+        final JList<String> list1;
+        final JList<String> list2;
 
-        DefaultListModel<String> list1Model = new DefaultListModel<>();
+        final DefaultListModel<String> list1Model = new DefaultListModel<>();
         list1Model.addElement("0 (list 1)");
         list1Model.addElement("1 (list 1)");
         list1Model.addElement("2 (list 1)");
@@ -75,15 +75,15 @@ public final class DragListMain extends JPanel {
         list1.setTransferHandler(this.arrayListHandler);
         list1.setDragEnabled(true);
 
-        JScrollPane list1View = new JScrollPane(list1);
+        final JScrollPane list1View = new JScrollPane(list1);
         list1View.setPreferredSize(new Dimension(200, 100));
 
-        JPanel panel1 = new JPanel();
+        final JPanel panel1 = new JPanel();
         panel1.setLayout(new BorderLayout());
         panel1.add(list1View, BorderLayout.CENTER);
         panel1.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        DefaultListModel<String> list2Model = new DefaultListModel<>();
+        final DefaultListModel<String> list2Model = new DefaultListModel<>();
         list2Model.addElement("0 (list 2)");
         list2Model.addElement("1 (list 2)");
         list2Model.addElement("2 (list 2)");
@@ -96,10 +96,10 @@ public final class DragListMain extends JPanel {
         list2.setTransferHandler(this.arrayListHandler);
         list2.setDragEnabled(true);
 
-        JScrollPane list2View = new JScrollPane(list2);
+        final JScrollPane list2View = new JScrollPane(list2);
         list2View.setPreferredSize(new Dimension(200, 100));
 
-        JPanel panel2 = new JPanel();
+        final JPanel panel2 = new JPanel();
         panel2.setLayout(new BorderLayout());
         panel2.add(list2View, BorderLayout.CENTER);
         panel2.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));

@@ -25,7 +25,6 @@ class NetworkInterface {
     private final String iface;
 
     private double input;
-
     private double output;
 
     NetworkInterface(final String iface) {
@@ -64,14 +63,14 @@ class NetworkInterface {
 
         try {
             // @formatter:off
-            Process process = new ProcessBuilder()
+            final Process process = new ProcessBuilder()
                     .command(command)
                     .redirectErrorStream(true)
                     .start()
                     ;
             // @formatter:on
 
-            Charset charset = StandardCharsets.UTF_8;
+            final Charset charset = StandardCharsets.UTF_8;
 
             // try (InputStreamReader isr = new InputStreamReader(process.getInputStream()))
             // {
@@ -100,17 +99,17 @@ class NetworkInterface {
     private void update() {
         LOGGER.info("update: {}", this.iface);
 
-        List<String> lines = executeCommand("ifconfig", this.iface).stream().map(String::strip).filter(line -> !line.isEmpty()).toList();
+        final List<String> lines = executeCommand("ifconfig", this.iface).stream().map(String::strip).filter(line -> !line.isEmpty()).toList();
 
         this.input = lines.stream().filter(l -> l.startsWith("RX packets")).mapToLong(l -> {
-            Matcher matcher = PATTERN_BYTES.matcher(l);
+            final Matcher matcher = PATTERN_BYTES.matcher(l);
             matcher.find();
 
             return Long.parseLong(matcher.group(1));
         }).findFirst().orElse(0L);
 
         this.output = lines.stream().filter(l -> l.startsWith("TX packets")).mapToLong(l -> {
-            Matcher matcher = PATTERN_BYTES.matcher(l);
+            final Matcher matcher = PATTERN_BYTES.matcher(l);
             matcher.find();
 
             return Long.parseLong(matcher.group(1));

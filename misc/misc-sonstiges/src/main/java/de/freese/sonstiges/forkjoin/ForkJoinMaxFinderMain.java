@@ -19,18 +19,18 @@ public final class ForkJoinMaxFinderMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ForkJoinMaxFinderMain.class);
 
     public static void main(final String[] args) {
-        Random random = new Random();
+        final Random random = new Random();
 
         // Zufallsarray erstellen.
-        int[] array = new int[100_000_000];
+        final int[] array = new int[100_000_000];
 
         for (int i = 0; i < array.length; i++) {
             array[i] = random.nextInt();
         }
 
-        ForkJoinPool forkJoinPool = new ForkJoinPool();
-        MaxFinder finder = new MaxFinder(array, 1000, forkJoinPool);
-        int result = finder.find();
+        final ForkJoinPool forkJoinPool = new ForkJoinPool();
+        final MaxFinder finder = new MaxFinder(array, 1000, forkJoinPool);
+        final int result = finder.find();
         LOGGER.info("Max = {}, Parallelism = {}", result, forkJoinPool.getParallelism());
 
         forkJoinPool.shutdown();

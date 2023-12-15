@@ -24,17 +24,13 @@ import de.freese.sonstiges.server.handler.IoHandler;
  */
 public class DispatcherPool implements Dispatcher {
     private static final Logger LOGGER = LoggerFactory.getLogger(DispatcherPool.class);
-
     private static final AtomicIntegerFieldUpdater<DispatcherPool> NEXT_INDEX = AtomicIntegerFieldUpdater.newUpdater(DispatcherPool.class, "nextIndex");
 
     private final List<DefaultDispatcher> dispatchers;
-
     private final int numOfDispatcher;
-
     private final int numOfWorker;
 
     private ExecutorService executorServiceWorker;
-
     private volatile int nextIndex;
 
     public DispatcherPool(final int numOfDispatcher, final int numOfWorker) {
@@ -49,7 +45,7 @@ public class DispatcherPool implements Dispatcher {
         }
 
         if (numOfDispatcher > numOfWorker) {
-            String message = String.format("numOfDispatcher > numOfWorker: %d < %d", numOfDispatcher, numOfWorker);
+            final String message = String.format("numOfDispatcher > numOfWorker: %d < %d", numOfDispatcher, numOfWorker);
             throw new IllegalArgumentException(message);
         }
 
@@ -65,17 +61,17 @@ public class DispatcherPool implements Dispatcher {
     }
 
     public void start(final IoHandler<SelectionKey> ioHandler, final SelectorProvider selectorProvider, final String serverName) throws Exception {
-        ThreadFactory threadFactoryDispatcher = new NamedThreadFactory(serverName + "-dispatcher-%d");
-        ThreadFactory threadFactoryWorker = new NamedThreadFactory(serverName + "-worker-%d");
+        final ThreadFactory threadFactoryDispatcher = new NamedThreadFactory(serverName + "-dispatcher-%d");
+        final ThreadFactory threadFactoryWorker = new NamedThreadFactory(serverName + "-worker-%d");
 
         // this.executorServiceWorker = new ThreadPoolExecutor(1, this.numOfWorker, 60L, TimeUnit.SECONDS, new SynchronousQueue<>(), threadFactoryWorker);
         this.executorServiceWorker = Executors.newFixedThreadPool(this.numOfWorker, threadFactoryWorker);
 
         while (this.dispatchers.size() < this.numOfDispatcher) {
-            DefaultDispatcher dispatcher = new DefaultDispatcher(selectorProvider.openSelector(), ioHandler, this.executorServiceWorker);
+            final DefaultDispatcher dispatcher = new DefaultDispatcher(selectorProvider.openSelector(), ioHandler, this.executorServiceWorker);
             this.dispatchers.add(dispatcher);
 
-            Thread thread = threadFactoryDispatcher.newThread(dispatcher);
+            final Thread thread = threadFactoryDispatcher.newThread(dispatcher);
 
             getLogger().debug("start dispatcher: {}", thread.getName());
             thread.start();
@@ -95,9 +91,9 @@ public class DispatcherPool implements Dispatcher {
      * Returns the next {@link Dispatcher} in a Round-Robin procedure.<br>
      */
     private synchronized Dispatcher nextDispatcher() {
-        int length = this.dispatchers.size();
+        final int length = this.dispatchers.size();
 
-        int indexToUse = Math.abs(NEXT_INDEX.getAndIncrement(this) % length);
+        final int indexToUse = Math.abs(NEXT_INDEX.getAndIncrement(this) % length);
 
         return this.dispatchers.get(indexToUse);
     }

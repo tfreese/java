@@ -56,7 +56,7 @@ class DTPicture extends Picture implements MouseMotionListener {
         // with a value of false. Your program would do one or the
         // other, but not both.
         if (installInputMapBindings) {
-            InputMap imap = this.getInputMap();
+            final InputMap imap = this.getInputMap();
             imap.put(KeyStroke.getKeyStroke("ctrl X"), TransferHandler.getCutAction().getValue(Action.NAME));
             imap.put(KeyStroke.getKeyStroke("ctrl C"), TransferHandler.getCopyAction().getValue(Action.NAME));
             imap.put(KeyStroke.getKeyStroke("ctrl V"), TransferHandler.getPasteAction().getValue(Action.NAME));
@@ -65,35 +65,35 @@ class DTPicture extends Picture implements MouseMotionListener {
         // Add the cut/copy/paste actions to the action map.
         // This step is necessary because the menu's action listener
         // looks for these actions to fire.
-        ActionMap map = getActionMap();
+        final ActionMap map = getActionMap();
         map.put(TransferHandler.getCutAction().getValue(Action.NAME), TransferHandler.getCutAction());
         map.put(TransferHandler.getCopyAction().getValue(Action.NAME), TransferHandler.getCopyAction());
         map.put(TransferHandler.getPasteAction().getValue(Action.NAME), TransferHandler.getPasteAction());
     }
 
     @Override
-    public void mouseDragged(final MouseEvent e) {
+    public void mouseDragged(final MouseEvent event) {
         // Don't bother to drag if the component displays no image.
         if (getImage() == null) {
             return;
         }
 
         if (this.firstMouseEvent != null) {
-            e.consume();
+            event.consume();
 
             // If they are holding down the control key, COPY rather than MOVE
-            int ctrlMask = InputEvent.CTRL_DOWN_MASK;
-            int action = ((e.getModifiersEx() & ctrlMask) == ctrlMask) ? TransferHandler.COPY : TransferHandler.MOVE;
+            final int ctrlMask = InputEvent.CTRL_DOWN_MASK;
+            final int action = ((event.getModifiersEx() & ctrlMask) == ctrlMask) ? TransferHandler.COPY : TransferHandler.MOVE;
 
-            int dx = Math.abs(e.getX() - this.firstMouseEvent.getX());
-            int dy = Math.abs(e.getY() - this.firstMouseEvent.getY());
+            final int dx = Math.abs(event.getX() - this.firstMouseEvent.getX());
+            final int dy = Math.abs(event.getY() - this.firstMouseEvent.getY());
 
             // Arbitrarily define a 5-pixel shift as the
             // official beginning of a drag.
             if ((dx > 5) || (dy > 5)) {
                 // This is a drag, not a click.
-                JComponent c = (JComponent) e.getSource();
-                TransferHandler handler = c.getTransferHandler();
+                final JComponent c = (JComponent) event.getSource();
+                final TransferHandler handler = c.getTransferHandler();
 
                 // Tell the transfer handler to initiate the drag.
                 handler.exportAsDrag(c, this.firstMouseEvent, action);
@@ -103,23 +103,23 @@ class DTPicture extends Picture implements MouseMotionListener {
     }
 
     @Override
-    public void mouseMoved(final MouseEvent e) {
+    public void mouseMoved(final MouseEvent event) {
         // Empty
     }
 
     @Override
-    public void mousePressed(final MouseEvent e) {
+    public void mousePressed(final MouseEvent event) {
         // Don't bother to drag if there is no image.
         if (getImage() == null) {
             return;
         }
 
-        this.firstMouseEvent = e;
-        e.consume();
+        this.firstMouseEvent = event;
+        event.consume();
     }
 
     @Override
-    public void mouseReleased(final MouseEvent e) {
+    public void mouseReleased(final MouseEvent event) {
         this.firstMouseEvent = null;
     }
 

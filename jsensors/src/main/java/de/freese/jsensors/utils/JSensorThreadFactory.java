@@ -11,11 +11,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class JSensorThreadFactory implements ThreadFactory {
     private final boolean daemon;
-
     private final ThreadFactory defaultThreadFactory = Executors.defaultThreadFactory();
-
     private final String namePrefix;
-
     private final AtomicInteger threadNumber = new AtomicInteger(1);
 
     public JSensorThreadFactory(final String namePrefix) {
@@ -31,7 +28,7 @@ public class JSensorThreadFactory implements ThreadFactory {
 
     @Override
     public Thread newThread(final Runnable r) {
-        Thread thread = this.defaultThreadFactory.newThread(r);
+        final Thread thread = this.defaultThreadFactory.newThread(r);
 
         thread.setName(this.namePrefix + this.threadNumber.getAndIncrement());
         thread.setDaemon(this.daemon);

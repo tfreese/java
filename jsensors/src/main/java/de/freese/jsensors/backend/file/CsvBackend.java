@@ -23,7 +23,6 @@ import de.freese.jsensors.utils.LifeCycle;
  */
 public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
     private final boolean exclusive;
-
     private final Path path;
 
     /**
@@ -40,7 +39,7 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
     public void start() {
         try {
             // Create Directories.
-            Path parent = this.path.getParent();
+            final Path parent = this.path.getParent();
             Files.createDirectories(parent);
 
             if (!Files.exists(this.path)) {
@@ -48,7 +47,7 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
 
                 // Create CSV-Header
                 try (OutputStream os = Files.newOutputStream(this.path, StandardOpenOption.CREATE)) {
-                    String header = null;
+                    final String header;
 
                     if (this.exclusive) {
                         // Without SensorName.
@@ -59,7 +58,7 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
                         header = String.format("\"%s\",\"%s\",\"%s\",\"%s\"%n", "NAME", "VALUE", "TIMESTAMP", "TIME");
                     }
 
-                    byte[] bytes = header.getBytes(StandardCharsets.UTF_8);
+                    final byte[] bytes = header.getBytes(StandardCharsets.UTF_8);
 
                     os.write(bytes);
                 }
@@ -76,7 +75,7 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
     }
 
     protected byte[] encode(final SensorValue sensorValue) {
-        String formatted = null;
+        final String formatted;
 
         if (this.exclusive) {
             // Without Sensor Name.
@@ -98,7 +97,7 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
 
         try (OutputStream os = new BufferedOutputStream(Files.newOutputStream(this.path, StandardOpenOption.APPEND))) {
             for (SensorValue sensorValue : values) {
-                byte[] bytes = encode(sensorValue);
+                final byte[] bytes = encode(sensorValue);
 
                 os.write(bytes);
             }

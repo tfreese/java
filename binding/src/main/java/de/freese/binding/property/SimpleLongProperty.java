@@ -7,7 +7,6 @@ package de.freese.binding.property;
 public class SimpleLongProperty extends AbstractLongProperty {
 
     private final Object bean;
-
     private final String name;
 
     public SimpleLongProperty() {

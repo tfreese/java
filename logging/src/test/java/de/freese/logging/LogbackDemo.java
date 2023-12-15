@@ -25,14 +25,14 @@ final class LogbackDemo {
         try {
             MapInitialContext.init();
 
-            Context initialContext = new InitialContext();
+            final Context initialContext = new InitialContext();
             initialContext.bind("java:comp/env/jdbc/logging", ConnectionFactory.getInstance().getDataSource());
 
             reConfigureLogback("logback/logback-default.xml");
             doLog(LoggerFactory.getLogger(LogbackDemo.class));
 
             // Programmatic ShutdownHook for Async-Appender, see xml#shutdownHook
-            LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+            final LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
             loggerContext.stop();
         }
         finally {
@@ -54,13 +54,13 @@ final class LogbackDemo {
      * Re-Initialisation with Log-File.
      */
     private static void reConfigureLogback(final String configFile) throws Exception {
-        LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+        final LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
         lc.reset();
 
-        JoranConfigurator config = new JoranConfigurator();
+        final JoranConfigurator config = new JoranConfigurator();
         config.setContext(lc);
 
-        //        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        // final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         URL url = ClassLoader.getSystemResource(configFile);
 
         if (url == null) {
@@ -87,16 +87,16 @@ final class LogbackDemo {
      */
     //@Bean
     public DBAppender dbAppender(final DataSource dataSource) {
-        DataSourceConnectionSource connectionSource = new DataSourceConnectionSource();
+        final DataSourceConnectionSource connectionSource = new DataSourceConnectionSource();
         connectionSource.setDataSource(dataSource);
         connectionSource.start();
 
-        DBAppender dbAppender = new DBAppender();
+        final DBAppender dbAppender = new DBAppender();
         dbAppender.setConnectionSource(connectionSource);
         dbAppender.start();
 
-        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-        ch.qos.logback.classic.Logger logger = loggerContext.getLogger("ROOT");
+        final LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+        final ch.qos.logback.classic.Logger logger = loggerContext.getLogger("ROOT");
         logger.addAppender(dbAppender);
 
         return dbAppender;

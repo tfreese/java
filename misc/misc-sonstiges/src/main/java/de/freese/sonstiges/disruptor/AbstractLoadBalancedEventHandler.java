@@ -13,9 +13,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractLoadBalancedEventHandler<T> implements EventHandler<T> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     private final int ordinal;
-
     private final int parallelism;
 
     protected AbstractLoadBalancedEventHandler() {

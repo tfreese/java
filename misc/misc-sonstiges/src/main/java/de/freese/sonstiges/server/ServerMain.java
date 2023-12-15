@@ -21,7 +21,7 @@ import de.freese.sonstiges.server.singlethread.ServerSingleThread;
  */
 public final class ServerMain {
     public static String getRemoteAddress(final SelectionKey selectionKey) throws IOException {
-        SelectableChannel selectableChannel = selectionKey.channel();
+        final SelectableChannel selectableChannel = selectionKey.channel();
 
         if (selectableChannel instanceof SocketChannel sc) {
             return getRemoteAddress(sc);
@@ -37,9 +37,9 @@ public final class ServerMain {
     public static void main(final String[] args) throws Exception {
         // final SelectorProvider selectorProvider = SelectorProvider.provider();
 
-        // AbstractServer server = new ServerSingleThread(8001);
-        AbstractServer server = new ServerMultiThread(8001, 2, 4);
-        // AbstractServer server = new ServerAsync(8001, 4);
+        // final AbstractServer server = new ServerSingleThread(8001);
+        final AbstractServer server = new ServerMultiThread(8001, 2, 4);
+        // final AbstractServer server = new ServerAsync(8001, 4);
 
         server.setIoHandler(new HttpIoHandler());
         server.start();
@@ -54,8 +54,8 @@ public final class ServerMain {
         System.out.println();
 
         // Console für programmatische Eingabe simulieren.
-        // PipedOutputStream pos = new PipedOutputStream();
-        // PipedInputStream pis = new PipedInputStream(pos);
+        // final PipedOutputStream pos = new PipedOutputStream();
+        // final PipedInputStream pis = new PipedInputStream(pos);
         // System.setIn(pis);
 
         while (!server.isStarted()) {
@@ -63,8 +63,8 @@ public final class ServerMain {
             TimeUnit.MILLISECONDS.sleep(100);
         }
 
-        InetSocketAddress serverAddress = new InetSocketAddress("localhost", 8001);
-        Charset charset = IoHandler.DEFAULT_CHARSET;
+        final InetSocketAddress serverAddress = new InetSocketAddress("localhost", 8001);
+        final Charset charset = IoHandler.DEFAULT_CHARSET;
 
         // try (SocketChannel client = selectorProvider.openSocketChannel())
         try (SocketChannel client = SocketChannel.open(serverAddress)) {
@@ -99,7 +99,7 @@ public final class ServerMain {
 
     private static void requestResponse(final SocketChannel client, final Charset charset) throws Exception {
         // Request
-        CharBuffer charBufferHeader = CharBuffer.allocate(256);
+        final CharBuffer charBufferHeader = CharBuffer.allocate(256);
         charBufferHeader.put("GET / HTTP/1.1").put("\r\n");
         charBufferHeader.put("Host: localhost:8001").put("\r\n");
         charBufferHeader.put("User-Agent: " + ServerSingleThread.class.getSimpleName()).put("\r\n");
@@ -122,7 +122,7 @@ public final class ServerMain {
         while (client.read(buffer) > 0) {
             buffer.flip();
 
-            CharBuffer charBuffer = charset.decode(buffer);
+            final CharBuffer charBuffer = charset.decode(buffer);
 
             System.out.println();
             System.out.println(charBuffer.toString().strip());

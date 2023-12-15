@@ -39,7 +39,7 @@ public final class ValidateMp3TagsMain {
         Path rootDirectory = Paths.get("/mnt", "mediathek", "musik");
         rootDirectory = rootDirectory.resolve("Suede");
 
-        List<FieldKey> fields = new ArrayList<>();
+        final List<FieldKey> fields = new ArrayList<>();
         fields.add(FieldKey.ALBUM);
         fields.add(FieldKey.ALBUM_ARTIST);
         fields.add(FieldKey.ALBUM_ARTIST_SORT);
@@ -50,7 +50,7 @@ public final class ValidateMp3TagsMain {
         fields.add(FieldKey.TITLE);
         fields.add(FieldKey.TITLE_SORT);
 
-        List<FieldKey> unwantedKeys = new ArrayList<>(Arrays.asList(FieldKey.values()));
+        final List<FieldKey> unwantedKeys = new ArrayList<>(Arrays.asList(FieldKey.values()));
         unwantedKeys.removeAll(fields);
         unwantedKeys.remove(FieldKey.YEAR);
         unwantedKeys.remove(FieldKey.TRACK_TOTAL);
@@ -64,7 +64,7 @@ public final class ValidateMp3TagsMain {
         unwantedKeys.remove(FieldKey.DISC_NO);
         unwantedKeys.remove(FieldKey.COVER_ART);
 
-        Map<File, Report> reports = new HashMap<>();
+        final Map<File, Report> reports = new HashMap<>();
 
         try {
             walk(rootDirectory, audioFile -> {
@@ -96,8 +96,8 @@ public final class ValidateMp3TagsMain {
      * Prüfen ob Cover vorhanden sind.
      */
     static void containsCovers(final Map<File, Report> reports, final AudioFile audioFile) {
-        Tag tag = audioFile.getTag();
-        List<Artwork> artworks = tag.getArtworkList();
+        final Tag tag = audioFile.getTag();
+        final List<Artwork> artworks = tag.getArtworkList();
 
         if ((artworks == null) || artworks.isEmpty()) {
             return;
@@ -107,8 +107,7 @@ public final class ValidateMp3TagsMain {
 
         // String value = tag.getFirst(FieldKey.COVER_ART);
         //
-        // if (StringUtils.isBlank(value))
-        // {
+        // if (StringUtils.isBlank(value)) {
         // return;
         // }
         //
@@ -119,7 +118,7 @@ public final class ValidateMp3TagsMain {
      * Prüfen, ob die Tags Inhalte haben.
      */
     static void containsFlag(final Map<File, Report> reports, final AudioFile audioFile, final List<FieldKey> keys) {
-        Tag tag = audioFile.getTag();
+        final Tag tag = audioFile.getTag();
 
         for (FieldKey key : keys) {
             for (TagField field : tag.getFields(key)) {
@@ -130,7 +129,7 @@ public final class ValidateMp3TagsMain {
                 String value = null;
 
                 try {
-                    TagTextField textField = (TagTextField) field;
+                    final TagTextField textField = (TagTextField) field;
                     value = textField.getContent();
                 }
                 catch (NullPointerException ex) {
@@ -148,7 +147,7 @@ public final class ValidateMp3TagsMain {
     }
 
     static void containsText(final Map<File, Report> reports, final AudioFile audioFile, final List<FieldKey> fields, final Set<String> texte) {
-        Tag tag = audioFile.getTag();
+        final Tag tag = audioFile.getTag();
 
         for (FieldKey field : fields) {
             for (TagField tagField : tag.getFields(field)) {
@@ -156,7 +155,7 @@ public final class ValidateMp3TagsMain {
                     continue;
                 }
 
-                String value = ((TagTextField) tagField).getContent();
+                final String value = ((TagTextField) tagField).getContent();
 
                 if ((value == null) || value.isEmpty()) {
                     continue;
@@ -176,9 +175,9 @@ public final class ValidateMp3TagsMain {
      * Prüfen die Schreibweise der Tags.
      */
     static void validateName(final Map<File, Report> reports, final AudioFile audioFile, final List<FieldKey> keys) {
-        Tag tag = audioFile.getTag();
+        final Tag tag = audioFile.getTag();
 
-        String fileName = audioFile.getFile().getName();
+        final String fileName = audioFile.getFile().getName();
 
         if (fileName.endsWith("MP3") || fileName.endsWith("WMA") || fileName.endsWith("FLAC")) {
             addReport(reports, audioFile.getFile(), "dateiname");
@@ -214,14 +213,14 @@ public final class ValidateMp3TagsMain {
                 value = value.replace("\\.", " ");
                 value = value.replace('-', ' ');
 
-                String[] splits = value.split(" ");
+                final String[] splits = value.split(" ");
 
                 for (String split : splits) {
                     if ((split == null) || split.isBlank()) {
                         continue;
                     }
 
-                    char c = split.charAt(0);
+                    final char c = split.charAt(0);
 
                     if (Character.isLetter(c) && !Character.isUpperCase(c)) {
                         addReport(reports, audioFile.getFile(), "schreibweise");
@@ -232,7 +231,7 @@ public final class ValidateMp3TagsMain {
     }
 
     private static void addReport(final Map<File, Report> reports, final File file, final String text) {
-        Report report = reports.computeIfAbsent(file, key -> new Report(file));
+        final Report report = reports.computeIfAbsent(file, key -> new Report(file));
 
         report.addMessage(text);
     }
@@ -251,19 +250,16 @@ public final class ValidateMp3TagsMain {
                     .forEach(path -> {
                         System.out.println(path);
 
-                        try
-                        {
-                            AudioFile audioFile = AudioFileIO.read(path.toFile());
+                        try {
+                            final  AudioFile audioFile = AudioFileIO.read(path.toFile());
 
                             consumer.accept(audioFile);
                         }
-                        catch (RuntimeException ex)
-                        {
+                        catch (RuntimeException ex) {
                             throw ex;
                         }
-                        catch (Exception ex)
-                        {
-                            RuntimeException rex = new RuntimeException(ex);
+                        catch (Exception ex) {
+                            final RuntimeException rex = new RuntimeException(ex);
                             rex.setStackTrace(ex.getStackTrace());
 
                             throw rex;

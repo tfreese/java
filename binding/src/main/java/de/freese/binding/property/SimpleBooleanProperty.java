@@ -7,7 +7,6 @@ package de.freese.binding.property;
 public class SimpleBooleanProperty extends AbstractBooleanProperty {
 
     private final Object bean;
-
     private final String name;
 
     public SimpleBooleanProperty() {

@@ -40,7 +40,6 @@ public class MailClient implements AutoCloseable {
     private static final Logger LOGGER = LoggerFactory.getLogger(MailClient.class);
 
     private Session session;
-
     private Store store;
 
     @Override
@@ -58,12 +57,12 @@ public class MailClient implements AutoCloseable {
     }
 
     public void login(final String host, final PasswordAuthentication authentication) throws Exception {
-        Properties props = new Properties(System.getProperties());
+        final Properties props = new Properties(System.getProperties());
         props.put("mail.debug", Boolean.FALSE.toString());
         props.put("mail.event.executor", ForkJoinPool.commonPool());
         props.put("mail.host", host);
 
-        String protocol = "imaps";
+        final String protocol = "imaps";
         props.put("mail.store.protocol", protocol);
 
         if ("imaps".equals(protocol)) {
@@ -79,7 +78,7 @@ public class MailClient implements AutoCloseable {
             props.put("mail.imap.starttls.enable", "true");
         }
 
-        Authenticator authenticator = new Authenticator() {
+        final Authenticator authenticator = new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return authentication;
@@ -101,7 +100,7 @@ public class MailClient implements AutoCloseable {
     }
 
     public void login() throws Exception {
-        //        Console console = System.console();
+        // final Console console = System.console();
         //
         //        if (console != null)
         //        {
@@ -120,7 +119,7 @@ public class MailClient implements AutoCloseable {
         //            host = br.readLine();
         //        }
 
-        JPanel panel = new JPanel();
+        final JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
 
         // Host
@@ -131,7 +130,7 @@ public class MailClient implements AutoCloseable {
         gbc.insets = new Insets(10, 10, 10, 10);
         panel.add(new JLabel("Host:"), gbc);
 
-        JTextField hostField = new JTextField(30);
+        final JTextField hostField = new JTextField(30);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -145,7 +144,7 @@ public class MailClient implements AutoCloseable {
         gbc.insets = new Insets(10, 10, 10, 10);
         panel.add(new JLabel("User:"), gbc);
 
-        JTextField userField = new JTextField(30);
+        final JTextField userField = new JTextField(30);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -159,7 +158,7 @@ public class MailClient implements AutoCloseable {
         gbc.insets = new Insets(10, 10, 10, 10);
         panel.add(new JLabel("Password:"), gbc);
 
-        JPasswordField passwordField = new JPasswordField(30);
+        final JPasswordField passwordField = new JPasswordField(30);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 2;
@@ -168,33 +167,33 @@ public class MailClient implements AutoCloseable {
         hostField.setCaretPosition(0);
         hostField.requestFocus();
 
-        int choice = JOptionPane.showConfirmDialog(null, panel, "Mail Account", JOptionPane.PLAIN_MESSAGE);
+        final int choice = JOptionPane.showConfirmDialog(null, panel, "Mail Account", JOptionPane.PLAIN_MESSAGE);
 
         if (choice != JOptionPane.OK_OPTION) {
             return;
         }
 
-        String host = hostField.getText();
-        String user = userField.getText();
-        String password = String.valueOf(passwordField.getPassword());
+        final String host = hostField.getText();
+        final String user = userField.getText();
+        final String password = String.valueOf(passwordField.getPassword());
 
         login(host, user, password);
     }
 
     public void readLocal(final Path folderPath, final Consumer<Message> messageConsumer) throws Exception {
-        //        String folderName = folderPath.getFileName().toString();
+        // final String folderName = folderPath.getFileName().toString();
 
-        List<Path> mailFiles;
+        final List<Path> mailFiles;
 
         try (Stream<Path> stream = Files.list(folderPath)) {
             mailFiles = stream.sorted().filter(p -> p.toString().toLowerCase().endsWith(".mail")).toList();
         }
 
-        Session mSession = Session.getDefaultInstance(new Properties());
+        final Session mSession = Session.getDefaultInstance(new Properties());
 
         for (Path mail : mailFiles) {
             try (InputStream inputStream = new BufferedInputStream(Files.newInputStream(mail))) {
-                Message message = new MimeMessage(mSession, inputStream);
+                final Message message = new MimeMessage(mSession, inputStream);
 
                 messageConsumer.accept(message);
             }
@@ -204,7 +203,7 @@ public class MailClient implements AutoCloseable {
     public void readRemote(final String folderName, final Function<Folder, List<Message>> messageSelector, final Consumer<Message> messageConsumer) throws Exception {
         LOGGER.info("reading mails: {}", folderName);
 
-        Folder folder = null;
+        final Folder folder;
 
         //        folder = store.getDefaultFolder();
         //        LOGGER.info("Getting the default folder: {}", folder.getFullName());
@@ -239,7 +238,7 @@ public class MailClient implements AutoCloseable {
                 folder.open(Folder.READ_ONLY);
             }
 
-            List<Message> messages = messageSelector.apply(folder);
+            final List<Message> messages = messageSelector.apply(folder);
 
             if (messages == null) {
                 return;

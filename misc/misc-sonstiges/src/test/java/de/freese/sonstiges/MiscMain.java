@@ -178,14 +178,12 @@ public final class MiscMain {
                 .filter(p -> {
                     long subFolder = 0 ;
 
-                    try(Stream<Path> subStream = Files.list(p))
-                    {
+                    try(Stream<Path> subStream = Files.list(p)) {
                         subFolder = subStream
                                 .filter(Files::isDirectory)
                                 .count();
                     }
-                    catch (Exception ex)
-                    {
+                    catch (Exception ex) {
                         // Ignore
                     }
 
@@ -202,7 +200,7 @@ public final class MiscMain {
             System.out.printf("n = %d%n", n);
 
             // Liefert den höchsten Wert (power of 2), der kleiner als n ist.
-            int nn = Integer.highestOneBit(n);
+            final int nn = Integer.highestOneBit(n);
 
             System.out.printf("Integer.highestOneBit = %d%n", nn);
 
@@ -221,14 +219,14 @@ public final class MiscMain {
     }
 
     static void byteBuffer() throws Exception {
-        CharsetEncoder encoder = StandardCharsets.UTF_8.newEncoder();
-        CharsetDecoder decoder = StandardCharsets.UTF_8.newDecoder();
+        final CharsetEncoder encoder = StandardCharsets.UTF_8.newEncoder();
+        final CharsetDecoder decoder = StandardCharsets.UTF_8.newDecoder();
 
-        String text = "Hello World !";
+        final String text = "Hello World !";
         System.out.printf("Original: '%s'%n", text);
 
         // To Base64
-        CharBuffer charBuffer = CharBuffer.allocate(128);
+        final CharBuffer charBuffer = CharBuffer.allocate(128);
         charBuffer.put(text);
         charBuffer.flip();
 
@@ -243,7 +241,7 @@ public final class MiscMain {
         byteBuffer = Base64.getEncoder().encode(byteBuffer);
 
         // ByteBuffer mit UTF8 in CharBuffer umwandeln.
-        String base64String = decoder.decode(byteBuffer).toString();
+        final String base64String = decoder.decode(byteBuffer).toString();
         System.out.printf("as Base64: '%s'%n", base64String);
 
         // From Base64
@@ -262,12 +260,12 @@ public final class MiscMain {
         byteBuffer = Base64.getDecoder().decode(byteBuffer);
 
         // ByteBuffer mit UTF8 in CharBuffer umwandeln.
-        String originalString = decoder.decode(byteBuffer).toString();
+        final String originalString = decoder.decode(byteBuffer).toString();
         System.out.printf("Original: '%s'%n", originalString);
     }
 
     static void collator() {
-        Collator collator = Collator.getInstance(Locale.GERMAN);
+        final Collator collator = Collator.getInstance(Locale.GERMAN);
         collator.setStrength(Collator.PRIMARY);
 
         System.out.println("compare: " + collator.compare("4.9", "4.11"));
@@ -275,7 +273,7 @@ public final class MiscMain {
     }
 
     static long copy(final InputStream source, final OutputStream sink, final int bufferSize) throws IOException {
-        byte[] buffer = new byte[bufferSize];
+        final byte[] buffer = new byte[bufferSize];
         long readTotal = 0;
 
         int read = 0;
@@ -285,8 +283,7 @@ public final class MiscMain {
             readTotal += read;
         }
 
-        // for (int read = 0; read >= 0; read = source.read(buffer))
-        // {
+        // for (int read = 0; read >= 0; read = source.read(buffer)) {
         // sink.write(buffer, 0, read);
         // readTotal += read;
         // }
@@ -297,11 +294,11 @@ public final class MiscMain {
     @SuppressWarnings("try")
     static void copyPipedStreamsInToOut() throws Throwable {
         // 1 MB
-        int chunk = 1024 * 1024;
+        final int chunk = 1024 * 1024;
 
-        String fileName = "archlinux-2019.11.01-x86_64.iso";
-        Path pathSource = Paths.get(System.getProperty("user.home"), "downloads", "iso", fileName);
-        Path pathTarget = Paths.get(System.getProperty("user.dir"), "target", fileName);
+        final String fileName = "archlinux-2019.11.01-x86_64.iso";
+        final Path pathSource = Paths.get(System.getProperty("user.home"), "downloads", "iso", fileName);
+        final Path pathTarget = Paths.get(System.getProperty("user.dir"), "target", fileName);
 
         Files.deleteIfExists(pathTarget);
 
@@ -313,9 +310,9 @@ public final class MiscMain {
 
         try (PipedInputStream pipeIn = new PipedInputStream(chunk);
              PipedOutputStream pipeOut = new PipedOutputStream(pipeIn)) {
-            AtomicReference<Throwable> referenceThrowable = new AtomicReference<>(null);
+            final AtomicReference<Throwable> referenceThrowable = new AtomicReference<>(null);
 
-            Runnable writeTask = () -> {
+            final Runnable writeTask = () -> {
                 LOGGER.info("start target copy: {}", Thread.currentThread().getName());
 
                 try (OutputStream fileOutput = new BufferedOutputStream(Files.newOutputStream(pathTarget), chunk)) {
@@ -344,7 +341,7 @@ public final class MiscMain {
 
             LOGGER.info("source copy finished: {}", Thread.currentThread().getName());
 
-            Throwable th = referenceThrowable.get();
+            final Throwable th = referenceThrowable.get();
 
             if (th != null) {
                 throw th;
@@ -354,22 +351,18 @@ public final class MiscMain {
             // Files.copy(pathSource, pathTarget);
 
             // Kopieren mit Temp-Datei (java.io.tmpdir), doppelter Daten-Transfer, ist am langsamsten.
-            // Path pathTemp = Files.createTempFile("copyDocuments_" + System.nanoTime(), ".tmp");
+            // final Path pathTemp = Files.createTempFile("copyDocuments_" + System.nanoTime(), ".tmp");
             //
-            // try
-            // {
-            // try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(pathTemp), chunk))
-            // {
+            // try {
+            // try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(pathTemp), chunk)) {
             // Files.copy(pathSource, outputStream);
             // }
             //
-            // try (InputStream inputStream = new BufferedInputStream(Files.newInputStream(pathTemp), chunk))
-            // {
+            // try (InputStream inputStream = new BufferedInputStream(Files.newInputStream(pathTemp), chunk)) {
             // Files.copy(inputStream, pathTarget);
             // }
             // }
-            // finally
-            // {
+            // finally {
             // Files.deleteIfExists(pathTemp);
             // }
 
@@ -379,15 +372,15 @@ public final class MiscMain {
 
     static void copyPipedStreamsOutToIn() throws Throwable {
         // 1 MB
-        int chunk = 1024 * 1024;
+        final int chunk = 1024 * 1024;
 
         try (PipedOutputStream pipeOut = new PipedOutputStream();
              PipedInputStream pipeIn = new PipedInputStream(pipeOut, chunk)) {
-            Runnable readTask = () -> {
+            final Runnable readTask = () -> {
                 LOGGER.info("start readTask: {}", Thread.currentThread().getName());
 
                 try {
-                    byte[] bytes = pipeIn.readAllBytes();
+                    final byte[] bytes = pipeIn.readAllBytes();
 
                     LOGGER.info("readTask finished with: {}; {}", new String(bytes, StandardCharsets.UTF_8), Thread.currentThread().getName());
                 }
@@ -431,7 +424,7 @@ public final class MiscMain {
         System.out.println("14b: " + LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()), ZoneId.systemDefault()));
         System.out.println("14c: " + LocalDateTime.ofEpochSecond(System.currentTimeMillis() / 1000, 0, ZoneOffset.ofHours(+2)));
 
-        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+        final WeekFields weekFields = WeekFields.of(Locale.getDefault());
         int weekNumber = LocalDate.of(2016, Month.JANUARY, 1).get(weekFields.weekOfWeekBasedYear());
         System.out.println("15: 2016-01-01 - weekOfWeekBasedYear = " + weekNumber);
         weekNumber = LocalDate.of(2016, Month.JANUARY, 1).get(weekFields.weekOfYear());
@@ -449,8 +442,8 @@ public final class MiscMain {
         // builder.bind("java:comp/env/bla", "BlaBla");
         // // builder.activate();
         //
-        // Context context = new InitialContext();
-        // Object object = context.lookup("java:comp/env/bla");
+        // final Context context = new InitialContext();
+        // final Object object = context.lookup("java:comp/env/bla");
         // System.out.println(object);
         //
         // builder = SimpleNamingContextBuilder.emptyActivatedContextBuilder();
@@ -461,12 +454,12 @@ public final class MiscMain {
     }
 
     static void fileSystems() throws Exception {
-        FileSystem defaultFileSystem = FileSystems.getDefault();
+        final FileSystem defaultFileSystem = FileSystems.getDefault();
 
         for (FileStore store : defaultFileSystem.getFileStores()) {
-            long total = store.getTotalSpace() / 1024 / 1024 / 1024;
-            long used = (store.getTotalSpace() - store.getUnallocatedSpace()) / 1024 / 1024 / 1024;
-            long avail = store.getUsableSpace() / 1024 / 1024 / 1024;
+            final long total = store.getTotalSpace() / 1024 / 1024 / 1024;
+            final long used = (store.getTotalSpace() - store.getUnallocatedSpace()) / 1024 / 1024 / 1024;
+            final long avail = store.getUsableSpace() / 1024 / 1024 / 1024;
 
             System.out.format("%-20s %8d %8d %8d%n", store, total, used, avail);
         }
@@ -474,7 +467,7 @@ public final class MiscMain {
         System.out.println();
 
         for (Path rootPath : defaultFileSystem.getRootDirectories()) {
-            FileStore fileStore = Files.getFileStore(rootPath);
+            final FileStore fileStore = Files.getFileStore(rootPath);
 
             System.out.println("RootPath: " + rootPath + ", FileStore: " + fileStore);
             // if(fileStore.type().toLowerCase().contains("udf")) {
@@ -489,7 +482,7 @@ public final class MiscMain {
 
         System.out.println();
 
-        FileSystemView fsv = FileSystemView.getFileSystemView();
+        final FileSystemView fsv = FileSystemView.getFileSystemView();
 
         for (File file : File.listRoots()) {
             System.out.println("Drive Name: " + file);
@@ -505,7 +498,7 @@ public final class MiscMain {
             System.out.println("Path Root: " + path.getRoot());
             System.out.println("Path FileSystem: " + path.getFileSystem());
 
-            FileStore fileStore = Files.getFileStore(path);
+            final FileStore fileStore = Files.getFileStore(path);
             System.out.println("Path FileStore: " + fileStore.toString() + ", Name:" + fileStore.name() + ", Type: " + fileStore.type());
 
             System.out.println("Path Display Name: " + fsv.getSystemDisplayName(path.toFile()));
@@ -600,10 +593,10 @@ public final class MiscMain {
         Objects.requireNonNull(random, "random is required");
         Objects.requireNonNull(pattern, "pattern is required");
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < pattern.length(); i++) {
-            char c = pattern.charAt(i);
+            final char c = pattern.charAt(i);
 
             switch (c) {
                 case 'l' -> sb.append((char) (97 + random.nextInt(26))); // Kleinbuchstaben
@@ -642,18 +635,18 @@ public final class MiscMain {
 
         try {
             // List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            final Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
 
             while (interfaces.hasMoreElements()) {
-                NetworkInterface nic = interfaces.nextElement();
+                final NetworkInterface nic = interfaces.nextElement();
 
                 // nic.getInterfaceAddresses().forEach(System.out::println);
 
-                // Stream<InetAddress> addresses = nic.inetAddresses();
-                Enumeration<InetAddress> addresses = nic.getInetAddresses();
+                // final Stream<InetAddress> addresses = nic.inetAddresses();
+                final Enumeration<InetAddress> addresses = nic.getInetAddresses();
 
                 while (addresses.hasMoreElements()) {
-                    InetAddress address = addresses.nextElement();
+                    final InetAddress address = addresses.nextElement();
 
                     if (!address.isLoopbackAddress() && (address instanceof Inet4Address)) {
                         hostName = address.getHostName();
@@ -676,15 +669,15 @@ public final class MiscMain {
     }
 
     static void httpRedirect() throws Exception {
-        URI uri = URI.create("http://gmail.com");
+        final URI uri = URI.create("http://gmail.com");
 
         // Ausgabe verfügbarer Proxies für eine URL.
-        List<Proxy> proxies = ProxySelector.getDefault().select(uri);
+        final List<Proxy> proxies = ProxySelector.getDefault().select(uri);
         proxies.forEach(System.out::println);
 
-        // SocketAddress proxyAddress = new InetSocketAddress("194.114.63.23", 8080);
-        // Proxy proxy = new Proxy(Proxy.Type.HTTP, proxyAddress);
-        Proxy proxy = proxies.get(0);
+        // final SocketAddress proxyAddress = new InetSocketAddress("194.114.63.23", 8080);
+        // final Proxy proxy = new Proxy(Proxy.Type.HTTP, proxyAddress);
+        final Proxy proxy = proxies.get(0);
 
         HttpURLConnection conn = (HttpURLConnection) uri.toURL().openConnection(proxy);
         conn.setReadTimeout(5000);
@@ -696,7 +689,7 @@ public final class MiscMain {
 
         boolean redirect = false;
 
-        int status = conn.getResponseCode();
+        final int status = conn.getResponseCode();
 
         if ((status == HttpURLConnection.HTTP_MOVED_TEMP) || (status == HttpURLConnection.HTTP_MOVED_PERM) || (status == HttpURLConnection.HTTP_SEE_OTHER)) {
             redirect = true;
@@ -706,10 +699,10 @@ public final class MiscMain {
 
         if (redirect) {
             // get redirect url from "location" header field
-            String newUrl = conn.getHeaderField("Location");
+            final String newUrl = conn.getHeaderField("Location");
 
             // get the cookie if we need, for login
-            String cookies = conn.getHeaderField("Set-Cookie");
+            final String cookies = conn.getHeaderField("Set-Cookie");
 
             // open the new connection again
             conn = (HttpURLConnection) URI.create(newUrl).toURL().openConnection(proxy);
@@ -721,7 +714,7 @@ public final class MiscMain {
             System.out.println("Redirect to URL : " + newUrl);
         }
 
-        StringBuilder html = new StringBuilder();
+        final StringBuilder html = new StringBuilder();
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
             br.lines().forEach(line -> html.append(line).append(System.lineSeparator()));
@@ -738,11 +731,12 @@ public final class MiscMain {
     }
 
     static void javaVersion() {
+        //        Runtime.version()
         // String javaVersion = SystemUtils.JAVA_VERSION;
-        String javaVersion = System.getProperty("java.version");
-        String javaVersionDate = System.getProperty("java.version.date");
-        String vmVersion = System.getProperty("java.vm.version");
-        String[] splits = javaVersion.toLowerCase().split("[._]");
+        final String javaVersion = System.getProperty("java.version");
+        final String javaVersionDate = System.getProperty("java.version.date");
+        final String vmVersion = System.getProperty("java.vm.version");
+        final String[] splits = javaVersion.toLowerCase().split("[._]");
 
         // Major
         String versionString = String.format("%03d", Integer.parseInt(splits[0]));
@@ -765,7 +759,7 @@ public final class MiscMain {
             }
         }
 
-        int version = Integer.parseInt(versionString.replace(".", ""));
+        final int version = Integer.parseInt(versionString.replace(".", ""));
 
         System.out.printf("javaVersionDate = %s%n", javaVersionDate);
         System.out.printf("vmVersion = %s%n", vmVersion);
@@ -777,13 +771,13 @@ public final class MiscMain {
         System.setProperty(Context.INITIAL_CONTEXT_FACTORY, "org.apache.naming.java.javaURLContextFactory");
         System.setProperty(Context.URL_PKG_PREFIXES, "org.apache.naming");
 
-        InitialContext initialContext = new InitialContext();
+        final InitialContext initialContext = new InitialContext();
         initialContext.createSubcontext("java:");
         initialContext.createSubcontext("java:comp");
         initialContext.createSubcontext("java:comp/env");
         initialContext.createSubcontext("java:comp/env/jdbc");
 
-        Context context = (Context) new InitialContext().lookup("java:comp/env");
+        final Context context = (Context) new InitialContext().lookup("java:comp/env");
         context.bind("test", "dummy");
         LOGGER.info(new InitialContext().lookup("java:comp/env/test").toString());
 
@@ -792,11 +786,11 @@ public final class MiscMain {
     }
 
     static void listDirectories() throws Exception {
-        Path base = Paths.get(System.getProperty("user.dir"));
+        final Path base = Paths.get(System.getProperty("user.dir"));
 
         // Liefert alles im Verzeichnis, nicht rekursiv.
         System.out.println();
-        DirectoryStream.Filter<Path> filter = path -> (Files.isDirectory(path) && !path.getFileName().toString().startsWith("."));
+        final DirectoryStream.Filter<Path> filter = path -> (Files.isDirectory(path) && !path.getFileName().toString().startsWith("."));
 
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(base, filter)) {
             for (Path path : stream) {
@@ -813,8 +807,8 @@ public final class MiscMain {
 
         // Liefert alles im Verzeichnis, nicht rekursiv.
         System.out.println();
-        Predicate<Path> isDirectory = Files::isDirectory;
-        Predicate<Path> isHidden = p -> p.getFileName().toString().startsWith(".");
+        final Predicate<Path> isDirectory = Files::isDirectory;
+        final Predicate<Path> isHidden = p -> p.getFileName().toString().startsWith(".");
 
         try (Stream<Path> children = Files.list(base).filter(isDirectory.and(isHidden.negate()))) {
             children.forEach(System.out::println);
@@ -825,13 +819,13 @@ public final class MiscMain {
     }
 
     static void nioPipeChannels() throws Exception {
-        Pipe pipe = Pipe.open();
+        final Pipe pipe = Pipe.open();
 
-        Callable<Void> writeCallable = () -> {
+        final Callable<Void> writeCallable = () -> {
             // Schreiben
-            Pipe.SinkChannel sinkChannel = pipe.sink();
+            final Pipe.SinkChannel sinkChannel = pipe.sink();
 
-            ByteBuffer buf = ByteBuffer.allocateDirect(24);
+            final ByteBuffer buf = ByteBuffer.allocateDirect(24);
 
             for (int i = 1; i <= 3; i++) {
                 System.out.printf("%s-%s: write %d%n", Thread.currentThread().getName(), "MiscMain.nioPipe", i);
@@ -847,13 +841,13 @@ public final class MiscMain {
             return null;
         };
 
-        Callable<Void> readCallable = () -> {
+        final Callable<Void> readCallable = () -> {
             // Lesen
-            Pipe.SourceChannel sourceChannel = pipe.source();
+            final Pipe.SourceChannel sourceChannel = pipe.source();
 
-            ByteBuffer buf = ByteBuffer.allocate(24);
+            final ByteBuffer buf = ByteBuffer.allocate(24);
 
-            int bytesRead = sourceChannel.read(buf);
+            final int bytesRead = sourceChannel.read(buf);
             buf.flip();
 
             System.out.printf("%s-%s: bytesRead=%d%n", Thread.currentThread().getName(), "MiscMain.nioPipe", bytesRead);
@@ -871,7 +865,7 @@ public final class MiscMain {
         System.out.println();
 
         // Reihenfolge absichtlich vertauscht,
-        Future<Void> readFuture = ForkJoinPool.commonPool().submit(readCallable);
+        final Future<Void> readFuture = ForkJoinPool.commonPool().submit(readCallable);
         ForkJoinPool.commonPool().submit(writeCallable);
 
         readFuture.get();
@@ -879,7 +873,7 @@ public final class MiscMain {
 
     static void printCharsets() {
         System.out.printf("Charsets: Default=%s", Charset.defaultCharset());
-        Set<String> sets = Charset.availableCharsets().keySet();
+        final Set<String> sets = Charset.availableCharsets().keySet();
         // Arrays.sort(ids);
 
         for (String set : sets) {
@@ -889,7 +883,7 @@ public final class MiscMain {
 
     static void printTimeZones() {
         System.out.printf("TimeZones: Default=%s", TimeZone.getDefault());
-        String[] ids = TimeZone.getAvailableIDs();
+        final String[] ids = TimeZone.getAvailableIDs();
         Arrays.sort(ids);
 
         for (String id : ids) {
@@ -901,15 +895,15 @@ public final class MiscMain {
         try {
             // run the Unix "ps -ef" command
             // using the Runtime exec method:
-            // Process process = Runtime.getRuntime().exec("ps -ef");
-            // Process process = Runtime.getRuntime().exec("ping -c5 weg.de");
-            // Process process = new ProcessBuilder().command("df -hT").start();
-            ProcessBuilder processBuilder = new ProcessBuilder().command("/bin/sh", "-c", "df | grep vgdesktop-root | awk '{print $4}'");
+            //final  Process process = Runtime.getRuntime().exec("ps -ef");
+            // final Process process = Runtime.getRuntime().exec("ping -c5 weg.de");
+            // final Process process = new ProcessBuilder().command("df -hT").start();
+            final ProcessBuilder processBuilder = new ProcessBuilder().command("/bin/sh", "-c", "df | grep vgdesktop-root | awk '{print $4}'");
             // .directory(directory);
             // .redirectErrorStream(true); // Gibt Fehler auf dem InputStream aus.
 
             for (int i = 0; i < 10; i++) {
-                Process process = processBuilder.start();
+                final Process process = processBuilder.start();
 
                 try (BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8));
                      BufferedReader stdError = new BufferedReader(new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8))) {
@@ -944,7 +938,7 @@ public final class MiscMain {
 
         System.out.println();
 
-        Scheduler scheduler = Schedulers.fromExecutor(executorService);
+        final Scheduler scheduler = Schedulers.fromExecutor(executorService);
         // subscribeOn(Scheduler scheduler)
 
         // @formatter:off
@@ -1027,7 +1021,7 @@ public final class MiscMain {
 
         LOGGER.info("Start");
 
-        Sinks.Many<String> latestChange = Sinks.many().replay().latest();
+        final Sinks.Many<String> latestChange = Sinks.many().replay().latest();
 
         // Analog AccumulativeRunnable
         latestChange.asFlux().buffer(Duration.ofMillis(250), Schedulers.boundedElastic()).subscribe(list -> LOGGER.info(list.toString()));
@@ -1057,10 +1051,10 @@ public final class MiscMain {
      * Runs only with JVM-Options: --add-opens java.base/java.lang=ALL-UNNAMED
      */
     static void reflection() throws Exception {
-        String string = "test";
+        final String string = "test";
 
         try {
-            Field field = String.class.getDeclaredField("value");
+            final Field field = String.class.getDeclaredField("value");
             field.setAccessible(true);
             System.out.printf("Old Relection-Api: %s%n", Arrays.toString((byte[]) field.get(string)));
         }
@@ -1069,9 +1063,9 @@ public final class MiscMain {
         }
 
         try {
-            MethodHandles.Lookup methodLookup = MethodHandles.privateLookupIn(String.class, MethodHandles.lookup());
-            //            MethodHandles.Lookup methodLookup = MethodHandles.lookup();
-            VarHandle handle = methodLookup.findVarHandle(String.class, "value", byte[].class);
+            final MethodHandles.Lookup methodLookup = MethodHandles.privateLookupIn(String.class, MethodHandles.lookup());
+            // final MethodHandles.Lookup methodLookup = MethodHandles.lookup();
+            final VarHandle handle = methodLookup.findVarHandle(String.class, "value", byte[].class);
             System.out.printf("New MethodHandles: %s%n", Arrays.toString((byte[]) handle.get(string)));
         }
         catch (Exception ex) {
@@ -1102,21 +1096,20 @@ public final class MiscMain {
     }
 
     static void rrd() throws Exception {
-        Path path = Paths.get(System.getProperty("user.dir"), "target", "mapped.dat");
+        final Path path = Paths.get(System.getProperty("user.dir"), "target", "mapped.dat");
 
-        // try (RandomAccessFile raf = new RandomAccessFile(path.toFile(), "rw"))
-        // {
+        // try (RandomAccessFile raf = new RandomAccessFile(path.toFile(), "rw")) {
         // // Erstellt leere Datei fester Größe.
         // raf.setLength(8 * 1024);
         // }
 
-        // FileChannel fileChannel = raf.getChannel())
+        // final FileChannel fileChannel = raf.getChannel())
 
         try (FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.CREATE, StandardOpenOption.READ, StandardOpenOption.WRITE)) {
-            long fileSize = 8 * 1024; // 8 kB
+            final long fileSize = 8 * 1024; // 8 kB
 
             // Bereich der Datei im Buffer mappen.
-            MappedByteBuffer buffer = fileChannel.map(FileChannel.MapMode.READ_WRITE, 0, fileSize);
+            final MappedByteBuffer buffer = fileChannel.map(FileChannel.MapMode.READ_WRITE, 0, fileSize);
 
             buffer.putInt(1305); // Erster Eintrag
             buffer.putInt(8, 1305); // Dritter Eintrag, absolute Position
@@ -1150,7 +1143,7 @@ public final class MiscMain {
         // Multi int-Read mit MappedByteBuffer.
         try (FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.READ)) {
             // Bereich der Datei im Buffer mappen, nur jeweils 12 Bytes = 3 Integers.
-            MappedByteBuffer buffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, 12);
+            final MappedByteBuffer buffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, 12);
 
             System.out.println(buffer.getInt());
             System.out.println(buffer.getInt());
@@ -1162,7 +1155,7 @@ public final class MiscMain {
         // Einzel int-Read mit ByteBuffer (allocate).
         try (FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.READ)) {
             // Nur jeweils 4 Bytes = 1 Integer.
-            ByteBuffer buffer = ByteBuffer.allocate(4);
+            final ByteBuffer buffer = ByteBuffer.allocate(4);
 
             fileChannel.read(buffer);
             buffer.flip();
@@ -1184,7 +1177,7 @@ public final class MiscMain {
         // Multi int-Read mit ByteBuffer (allocate).
         try (FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.READ)) {
             // Nur jeweils 12 Bytes = 3 Integers.
-            ByteBuffer buffer = ByteBuffer.allocate(12);
+            final ByteBuffer buffer = ByteBuffer.allocate(12);
 
             fileChannel.read(buffer);
             buffer.flip();
@@ -1199,7 +1192,7 @@ public final class MiscMain {
         for (Provider provider : Security.getProviders()) {
             System.out.printf(" --- Provider %s, version %s --- %n", provider.getName(), provider.getVersionStr());
 
-            Set<Service> services = provider.getServices();
+            final Set<Service> services = provider.getServices();
 
             for (Service service : services) {
                 if (service.getType().equalsIgnoreCase(MessageDigest.class.getSimpleName())) {
@@ -1212,15 +1205,15 @@ public final class MiscMain {
     }
 
     static void showMemory() {
-        Runtime runtime = Runtime.getRuntime();
-        long maxMemory = runtime.maxMemory();
-        long allocatedMemory = runtime.totalMemory();
-        long freeMemory = runtime.freeMemory();
+        final Runtime runtime = Runtime.getRuntime();
+        final long maxMemory = runtime.maxMemory();
+        final long allocatedMemory = runtime.totalMemory();
+        final long freeMemory = runtime.freeMemory();
 
-        long divider = 1024 * 1024;
-        String unit = "MB";
+        final long divider = 1024 * 1024;
+        final String unit = "MB";
 
-        NumberFormat format = NumberFormat.getInstance();
+        final NumberFormat format = NumberFormat.getInstance();
 
         System.out.printf("Free memory: %s%n", format.format(freeMemory / divider) + unit);
         System.out.printf("Allocated memory: %s%n", format.format(allocatedMemory / divider) + unit);
@@ -1237,7 +1230,7 @@ public final class MiscMain {
         //        notificationTest.show();//for error noti notificationTest.showError();
 
         if (SystemTray.isSupported()) {
-            SystemTray systemTray = SystemTray.getSystemTray();
+            final SystemTray systemTray = SystemTray.getSystemTray();
 
             Image image = null;
             //            image = Toolkit.getDefaultToolkit().createImage("images/duke.png");
@@ -1250,18 +1243,18 @@ public final class MiscMain {
                 image = ImageIO.read(inputStream);
             }
 
-            PopupMenu popupMenu = new PopupMenu();
-            TrayIcon trayIcon = new TrayIcon(image, "Tray Demo", popupMenu);
+            final PopupMenu popupMenu = new PopupMenu();
+            final TrayIcon trayIcon = new TrayIcon(image, "Tray Demo", popupMenu);
 
             // create a action listener to listen for default action executed on the tray icon
-            ActionListener listener = event -> {
+            final ActionListener listener = event -> {
                 System.out.println(event);
 
                 // Exit the JVM.
                 systemTray.remove(trayIcon);
             };
 
-            MenuItem defaultItem = new MenuItem("Test-Menu");
+            final MenuItem defaultItem = new MenuItem("Test-Menu");
             defaultItem.addActionListener(listener);
             popupMenu.add(defaultItem);
 
@@ -1279,10 +1272,10 @@ public final class MiscMain {
     }
 
     static void splitList() {
-        List<Integer> intList = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        final List<Integer> intList = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
-        Map<Integer, List<Integer>> groups = intList.stream().collect(Collectors.groupingBy(s -> (s - 1) / 3));
-        List<List<Integer>> subSets = new ArrayList<>(groups.values());
+        final Map<Integer, List<Integer>> groups = intList.stream().collect(Collectors.groupingBy(s -> (s - 1) / 3));
+        final List<List<Integer>> subSets = new ArrayList<>(groups.values());
 
         subSets.forEach(list -> {
             System.out.println("\nSub-List:");
@@ -1293,7 +1286,7 @@ public final class MiscMain {
     static void streamParallelCustomThreadPool() throws ExecutionException, InterruptedException {
         //        int availableCpus = Runtime.getRuntime().availableProcessors();
 
-        List<Long> list = LongStream.rangeClosed(1, 10).boxed().toList();
+        final List<Long> list = LongStream.rangeClosed(1, 10).boxed().toList();
 
         // Alle Threads des ForkJoinPool.commonPool() werden verwendet.
         list.stream().parallel().forEach(value -> LOGGER.info("{}", value));
@@ -1305,12 +1298,12 @@ public final class MiscMain {
         // Grund für das Verhalten ist folgende Methode: java.util.concurrent.ForkJoinTask.fork
         // "Arranges to asynchronously execute this task in the pool the current task is running in,
         // if applicable, or using the ForkJoinPool.commonPool() if not in ForkJoinPool."
-        ExecutorService customThreadPool = new ForkJoinPool(2);
+        final ExecutorService customThreadPool = new ForkJoinPool(2);
         // Analog
         // ExecutorService customThreadPool = Executors.newWorkStealingPool(2);
 
         try {
-            Runnable runnable = () -> list.stream().parallel().forEach(value -> LOGGER.info("{}", value));
+            final Runnable runnable = () -> list.stream().parallel().forEach(value -> LOGGER.info("{}", value));
             customThreadPool.submit(runnable).get();
         }
         finally {
@@ -1322,8 +1315,8 @@ public final class MiscMain {
     static void systemMXBean() throws Exception {
         System.out.println("\nOperatingSystemMXBean");
 
-        OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
-        com.sun.management.OperatingSystemMXBean os = (com.sun.management.OperatingSystemMXBean) operatingSystemMXBean;
+        final OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
+        final com.sun.management.OperatingSystemMXBean os = (com.sun.management.OperatingSystemMXBean) operatingSystemMXBean;
 
         // Das funktioniert nur, wenn es mehrmals aufgerufen wird.
         os.getCpuLoad();
@@ -1369,7 +1362,7 @@ public final class MiscMain {
         // '\t' Tabulator
         // '%s' String.format Platzhalter
 
-        String sql = """
+        final String sql = """
                 select
                 *
                 from \
@@ -1386,7 +1379,7 @@ public final class MiscMain {
 
     static void utilLogging() {
         // java.util.logging.Logger.GLOBAL_LOGGER_NAME
-        java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MiscMain.class.getName());
+        final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MiscMain.class.getName());
         //logger.setLevel(Level.ALL);
 
         logger.severe("Schwerwiegender Fehler");
@@ -1399,8 +1392,8 @@ public final class MiscMain {
     }
 
     static void virtualThreads() throws Exception {
-        Consumer<Thread> printThreadInfos = thread -> {
-            String message = "isVirtual = %b, ID = %s".formatted(thread.isVirtual(), thread);
+        final Consumer<Thread> printThreadInfos = thread -> {
+            final String message = "isVirtual = %b, ID = %s".formatted(thread.isVirtual(), thread);
             LOGGER.info(message);
         };
 
@@ -1442,15 +1435,15 @@ public final class MiscMain {
     static void zip() throws Exception {
         // De-/Compress a Stream with GZIPOutputStream, GZIPInputStream.
 
-        Path source = Paths.get(System.getProperty("user.dir"), "pom.xml");
-        Path target = Paths.get(System.getProperty("java.io.tmpdir"), "pom.zip");
+        final Path source = Paths.get(System.getProperty("user.dir"), "pom.xml");
+        final Path target = Paths.get(System.getProperty("java.io.tmpdir"), "pom.zip");
 
         // Create Zip Archive.
         try (InputStream inputStream = Files.newInputStream(source);
              OutputStream outputStream = Files.newOutputStream(target, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
              ZipOutputStream zipOutputStream = new ZipOutputStream(outputStream, StandardCharsets.UTF_8)) {
 
-            ZipEntry zipEntry = new ZipEntry("folder/" + source.getFileName().toString());
+            final ZipEntry zipEntry = new ZipEntry("folder/" + source.getFileName().toString());
             zipOutputStream.putNextEntry(zipEntry);
 
             inputStream.transferTo(zipOutputStream);
@@ -1462,10 +1455,10 @@ public final class MiscMain {
         }
 
         // Append new File.
-        URI uriTarget = URI.create("jar:" + target.toUri());
+        final URI uriTarget = URI.create("jar:" + target.toUri());
 
         try (FileSystem fs = FileSystems.newFileSystem(uriTarget, Map.of("create", true))) {
-            Path nf = fs.getPath("newFile.xml");
+            final Path nf = fs.getPath("newFile.xml");
             Files.write(nf, Files.readAllBytes(source), StandardOpenOption.CREATE);
         }
 
@@ -1494,10 +1487,10 @@ public final class MiscMain {
             //            ZipEntry zipEntry = zipFile.getEntry("folder/pom.xml");
             //            Stream<? extends ZipEntry> entries = zipFile.stream();
 
-            Enumeration<? extends ZipEntry> entries = zipFile.entries();
+            final Enumeration<? extends ZipEntry> entries = zipFile.entries();
 
             while (entries.hasMoreElements()) {
-                ZipEntry zipEntry = entries.nextElement();
+                final ZipEntry zipEntry = entries.nextElement();
                 System.out.println("zipEntry = " + zipEntry);
 
                 if ("folder/pom.xml".equals(zipEntry.getName())) {

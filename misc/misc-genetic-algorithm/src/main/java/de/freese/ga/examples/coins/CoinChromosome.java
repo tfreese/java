@@ -21,11 +21,11 @@ public class CoinChromosome extends Chromosome {
     @Override
     public double calcFitnessValue() {
         // Münzinhalt des Chromosoms in Cent.
-        int cents = Stream.of(getGenes()).mapToInt(Gene::getInteger).sum();
+        final int cents = Stream.of(getGenes()).mapToInt(Gene::getInteger).sum();
 
-        int targetCent = getConfig().getTargetCents();
+        final int targetCent = getConfig().getTargetCents();
 
-        int changeDifference = Math.abs(targetCent - cents);
+        final int changeDifference = Math.abs(targetCent - cents);
 
         // 99 Cent ist maximum.
         double fitness = (getConfig().getMaximumCents() - changeDifference);
@@ -41,9 +41,9 @@ public class CoinChromosome extends Chromosome {
 
     @Override
     public void populate() {
-        List<Integer> existingCoins = getConfig().getExistingCoins();
+        final List<Integer> existingCoins = getConfig().getExistingCoins();
 
-        List<Gene> genes = new ArrayList<>();
+        final List<Gene> genes = new ArrayList<>();
 
         for (int i = 0; i < size(); i++) {
             genes.add(Gene.of(existingCoins.get(i)));

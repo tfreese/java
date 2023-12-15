@@ -18,7 +18,7 @@ public class SortThread extends Thread {
             return;
         }
 
-        String mid = a[(lo + hi) / 2];
+        final String mid = a[(lo + hi) / 2];
 
         while (lo < hi) {
             while ((lo < hi) && (a[lo].compareTo(mid) < 0)) {
@@ -30,7 +30,7 @@ public class SortThread extends Thread {
             }
 
             if (lo < hi) {
-                String value = a[lo];
+                final String value = a[lo];
                 a[lo] = a[hi];
                 a[hi] = value;
                 lo++;
@@ -39,7 +39,7 @@ public class SortThread extends Thread {
         }
 
         if (hi < lo) {
-            int t = hi;
+            final int t = hi;
             hi = lo;
             lo = t;
         }
@@ -49,7 +49,6 @@ public class SortThread extends Thread {
     }
 
     private final BufferedReader in;
-
     private final PrintWriter out;
 
     public SortThread(final PrintWriter out, final BufferedReader in) {
@@ -63,7 +62,7 @@ public class SortThread extends Thread {
     public void run() {
         if ((this.out != null) && (this.in != null)) {
             try {
-                String[] listOfWords = new String[MAXWORDS];
+                final String[] listOfWords = new String[MAXWORDS];
                 int numWords = 0;
 
                 while ((listOfWords[numWords] = this.in.readLine()) != null) {

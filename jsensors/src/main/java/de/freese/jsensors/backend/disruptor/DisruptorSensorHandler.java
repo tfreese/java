@@ -13,9 +13,7 @@ import de.freese.jsensors.sensor.SensorValue;
  */
 class DisruptorSensorHandler implements EventHandler<SensorEvent> {
     private final Backend backend;
-
     private final int ordinal;
-
     private final int parallelism;
 
     DisruptorSensorHandler(final Backend backend) {
@@ -34,7 +32,7 @@ class DisruptorSensorHandler implements EventHandler<SensorEvent> {
     public void onEvent(final SensorEvent event, final long sequence, final boolean endOfBatch) throws Exception {
         // Load-Balancing for the Handler by Sequence, otherwise all Handler would handle the same Sequence.
         if ((this.ordinal == -1) || (this.ordinal == (sequence % this.parallelism))) {
-            SensorValue sensorValue = event.getSensorValue();
+            final SensorValue sensorValue = event.getSensorValue();
             event.setSensorValue(null);
 
             store(sensorValue);

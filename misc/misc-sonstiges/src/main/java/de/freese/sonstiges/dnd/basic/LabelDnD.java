@@ -35,8 +35,8 @@ public final class LabelDnD extends JPanel {
     private static final class DragMouseAdapter extends MouseAdapter {
         @Override
         public void mousePressed(final MouseEvent e) {
-            JComponent c = (JComponent) e.getSource();
-            TransferHandler handler = c.getTransferHandler();
+            final JComponent c = (JComponent) e.getSource();
+            final TransferHandler handler = c.getTransferHandler();
             handler.exportAsDrag(c, e, TransferHandler.COPY);
         }
     }
@@ -55,11 +55,11 @@ public final class LabelDnD extends JPanel {
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         // Create and set up the window.
-        JFrame frame = new JFrame("LabelDnD");
+        final JFrame frame = new JFrame("LabelDnD");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // Create and set up the content pane.
-        JComponent newContentPane = new LabelDnD();
+        final JComponent newContentPane = new LabelDnD();
         newContentPane.setOpaque(true); // content panes must be opaque
         frame.setContentPane(newContentPane);
 
@@ -74,21 +74,21 @@ public final class LabelDnD extends JPanel {
     private LabelDnD() {
         super(new GridLayout(2, 1));
 
-        JTextField textField = new JTextField(40);
+        final JTextField textField = new JTextField(40);
         textField.setDragEnabled(true);
 
-        JPanel panelTextField = new JPanel(new GridLayout(1, 1));
+        final JPanel panelTextField = new JPanel(new GridLayout(1, 1));
         TitledBorder titledBorder = BorderFactory.createTitledBorder("JTextField: drag and drop is enabled");
         panelTextField.add(textField);
         panelTextField.setBorder(titledBorder);
 
-        JLabel label = new JLabel("I'm a Label!", SwingConstants.LEADING);
+        final JLabel label = new JLabel("I'm a Label!", SwingConstants.LEADING);
         label.setTransferHandler(new TransferHandler("text"));
 
-        MouseListener listener = new DragMouseAdapter();
+        final MouseListener listener = new DragMouseAdapter();
         label.addMouseListener(listener);
 
-        JPanel panelLabel = new JPanel(new GridLayout(1, 1));
+        final JPanel panelLabel = new JPanel(new GridLayout(1, 1));
         titledBorder = BorderFactory.createTitledBorder("JLabel: drag from or drop to this label");
         panelLabel.add(label);
         panelLabel.setBorder(titledBorder);

@@ -49,8 +49,7 @@ public final class JConky extends Application {
         return LOGGER;
     }
 
-    // public static void main(final String[] args)
-    // {
+    // public static void main(final String[] args) {
     // // Kein Taskbar Icon, funktioniert unter Linux aber nicht.
     // PlatformImpl.setTaskbarApplication(false);
     //
@@ -67,24 +66,23 @@ public final class JConky extends Application {
     // }
 
     private ContextPainter conkyContextPainter;
-
     private ScheduledExecutorService scheduledExecutorService;
 
     public Scene createScene() {
         // Font-Antialiasing
         System.setProperty("prism.lcdtext", "true");
 
-        Canvas canvas = new Canvas();
+        final Canvas canvas = new Canvas();
         this.conkyContextPainter.setCanvas(canvas);
 
-        Group pane = new Group();
+        final Group pane = new Group();
         pane.getChildren().add(canvas);
 
         // GridPane pane = new GridPane();
         // pane.add(canvas, 0, 0);
 
         // Scene
-        Scene scene = new Scene(pane, 335D, 1070D, true, SceneAntialiasing.BALANCED);
+        final Scene scene = new Scene(pane, 335D, 1070D, true, SceneAntialiasing.BALANCED);
 
         // Bind canvas size to scene size.
         canvas.widthProperty().bind(scene.widthProperty());
@@ -140,10 +138,10 @@ public final class JConky extends Application {
 
         getLogger().info("start");
 
-        Scene scene = createScene();
+        final Scene scene = createScene();
 
         // Transparenz
-        boolean isTransparentSupported = Platform.isSupported(ConditionalFeature.TRANSPARENT_WINDOW);
+        final boolean isTransparentSupported = Platform.isSupported(ConditionalFeature.TRANSPARENT_WINDOW);
         // isTransparentSupported = false;
 
         if (isTransparentSupported) {
@@ -175,9 +173,9 @@ public final class JConky extends Application {
         primaryStage.setScene(scene);
 
         // Auf dem 2. Monitor
-        List<Screen> screens = Screen.getScreens();
+        final List<Screen> screens = Screen.getScreens();
         // Screen screen = screens.get(0); // Linker Monitor
-        Screen screen = screens.get(screens.size() - 1); // Rechter Monitor
+        final Screen screen = screens.get(screens.size() - 1); // Rechter Monitor
         primaryStage.setX(screen.getVisualBounds().getMinX() + 1240D);
         primaryStage.setY(5D);
 

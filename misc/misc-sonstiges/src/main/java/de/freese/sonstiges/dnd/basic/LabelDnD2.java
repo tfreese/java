@@ -32,8 +32,8 @@ public final class LabelDnD2 extends JPanel {
     private static final class DragMouseAdapter extends MouseAdapter {
         @Override
         public void mousePressed(final MouseEvent e) {
-            JComponent c = (JComponent) e.getSource();
-            TransferHandler handler = c.getTransferHandler();
+            final JComponent c = (JComponent) e.getSource();
+            final TransferHandler handler = c.getTransferHandler();
             handler.exportAsDrag(c, e, TransferHandler.COPY);
         }
     }
@@ -52,11 +52,11 @@ public final class LabelDnD2 extends JPanel {
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         // Create and set up the window.
-        JFrame frame = new JFrame("LabelDnD2");
+        final JFrame frame = new JFrame("LabelDnD2");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // Create and set up the content pane.
-        JComponent newContentPane = new LabelDnD2();
+        final JComponent newContentPane = new LabelDnD2();
         newContentPane.setOpaque(true); // content panes must be opaque
         frame.setContentPane(newContentPane);
 
@@ -68,18 +68,18 @@ public final class LabelDnD2 extends JPanel {
     private LabelDnD2() {
         super(new BorderLayout());
 
-        JColorChooser chooser = new JColorChooser();
+        final JColorChooser chooser = new JColorChooser();
         chooser.setDragEnabled(true);
 
-        JLabel label = new JLabel("I'm a Label and I accept dnd.color!", SwingConstants.LEADING);
+        final JLabel label = new JLabel("I'm a Label and I accept dnd.color!", SwingConstants.LEADING);
         label.setTransferHandler(new TransferHandler("foreground"));
 
         // label.setTransferHandler(new TransferHandler("background"));
-        MouseListener listener = new DragMouseAdapter();
+        final MouseListener listener = new DragMouseAdapter();
         label.addMouseListener(listener);
 
-        JPanel panel = new JPanel(new GridLayout(1, 1));
-        TitledBorder t2 = BorderFactory.createTitledBorder("JLabel: drop dnd.color onto the label");
+        final JPanel panel = new JPanel(new GridLayout(1, 1));
+        final TitledBorder t2 = BorderFactory.createTitledBorder("JLabel: drop dnd.color onto the label");
         panel.add(label);
         panel.setBorder(t2);
 

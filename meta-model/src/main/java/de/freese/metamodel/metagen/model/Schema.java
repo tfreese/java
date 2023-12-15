@@ -14,6 +14,7 @@ import java.util.TreeMap;
 public class Schema {
     private final Map<String, Sequence> sequences = new TreeMap<>();
     private final Map<String, Table> tables = new TreeMap<>();
+
     private String name;
 
     public String getName() {
@@ -44,7 +45,7 @@ public class Schema {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("Schema [");
         builder.append("name=").append(getName());
         builder.append("]");

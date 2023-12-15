@@ -21,16 +21,16 @@ public class HttpIoHandler extends AbstractIoHandler<SelectionKey> {
         try {
             getLogger().debug("{}: read request", ServerMain.getRemoteAddress(selectionKey));
 
-            CharsetDecoder charsetDecoder = getCharsetDecoder();
+            final CharsetDecoder charsetDecoder = getCharsetDecoder();
 
-            ReadableByteChannel channel = (ReadableByteChannel) selectionKey.channel();
+            final ReadableByteChannel channel = (ReadableByteChannel) selectionKey.channel();
 
-            ByteBuffer inputBuffer = ByteBuffer.allocate(1024);
+            final ByteBuffer inputBuffer = ByteBuffer.allocate(1024);
 
             while (channel.read(inputBuffer) > 0) {
                 inputBuffer.flip();
 
-                CharBuffer charBuffer = charsetDecoder.decode(inputBuffer);
+                final CharBuffer charBuffer = charsetDecoder.decode(inputBuffer);
 
                 if (getLogger().isDebugEnabled()) {
                     getLogger().debug("\n{}", charBuffer.toString().strip());
@@ -52,11 +52,11 @@ public class HttpIoHandler extends AbstractIoHandler<SelectionKey> {
         try {
             getLogger().debug("{}: write response", ServerMain.getRemoteAddress(selectionKey));
 
-            CharsetEncoder charsetEncoder = getCharsetEncoder();
+            final CharsetEncoder charsetEncoder = getCharsetEncoder();
 
-            WritableByteChannel channel = (WritableByteChannel) selectionKey.channel();
+            final WritableByteChannel channel = (WritableByteChannel) selectionKey.channel();
 
-            CharBuffer charBufferBody = CharBuffer.allocate(256);
+            final CharBuffer charBufferBody = CharBuffer.allocate(256);
             charBufferBody.put("<html>").put("\r\n");
             charBufferBody.put("<head>").put("\r\n");
             charBufferBody.put("<title>NIO Test</title>").put("\r\n");
@@ -67,7 +67,7 @@ public class HttpIoHandler extends AbstractIoHandler<SelectionKey> {
             charBufferBody.put("</body>").put("\r\n");
             charBufferBody.put("</html>").put("\r\n");
 
-            CharBuffer charBuffer = CharBuffer.allocate(1024);
+            final CharBuffer charBuffer = CharBuffer.allocate(1024);
             charBuffer.put("HTTP/1.1 200 OK").put("\r\n");
             charBuffer.put("Server: nio").put("\r\n");
             charBuffer.put("Content-type: text/html").put("\r\n");
@@ -78,7 +78,7 @@ public class HttpIoHandler extends AbstractIoHandler<SelectionKey> {
             charBuffer.put(charBufferBody);
             charBuffer.flip();
 
-            ByteBuffer buffer = charsetEncoder.encode(charBuffer);
+            final ByteBuffer buffer = charsetEncoder.encode(charBuffer);
             // int bytesWritten = 0;
 
             while (buffer.hasRemaining()) {

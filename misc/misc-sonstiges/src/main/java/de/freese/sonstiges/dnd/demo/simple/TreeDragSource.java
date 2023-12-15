@@ -21,9 +21,7 @@ import javax.swing.tree.TreePath;
  */
 class TreeDragSource implements DragSourceListener, DragGestureListener {
     private final DragGestureRecognizer recognizer;
-
     private final DragSource source;
-
     private final JTree sourceTree;
 
     private DefaultMutableTreeNode oldNode;
@@ -60,7 +58,7 @@ class TreeDragSource implements DragSourceListener, DragGestureListener {
 
     @Override
     public void dragGestureRecognized(final DragGestureEvent event) {
-        TreePath path = this.sourceTree.getSelectionPath();
+        final TreePath path = this.sourceTree.getSelectionPath();
 
         if ((path == null) || (path.getPathCount() <= 1)) {
             // We can't move the root node or an empty selection
@@ -68,7 +66,7 @@ class TreeDragSource implements DragSourceListener, DragGestureListener {
         }
 
         this.oldNode = (DefaultMutableTreeNode) path.getLastPathComponent();
-        TransferableTreeNode transferable = new TransferableTreeNode(path);
+        final TransferableTreeNode transferable = new TransferableTreeNode(path);
         this.source.startDrag(event, DragSource.DefaultMoveNoDrop, transferable, this);
 
         // If you support dropping the node anywhere, you should probably

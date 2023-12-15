@@ -25,7 +25,7 @@ import de.freese.metamodel.modelgen.model.FieldModel;
 class TestCodeGen {
     @Test
     void testJavaCodeGen() throws Exception {
-        ClassModel classModel = new ClassModel("MyTest");
+        final ClassModel classModel = new ClassModel("MyTest");
         classModel.setAddFullConstructor(false);
         classModel.setSerializeable(false);
         classModel.setPackageName("de.freese.test");
@@ -50,7 +50,7 @@ class TestCodeGen {
         fieldModel = classModel.addField("myList", List.class);
         fieldModel.addComment("List-Field");
 
-        CodeWriter codeWriter = new JavaCodeWriter();
+        final CodeWriter codeWriter = new JavaCodeWriter();
         codeWriter.write(classModel, System.out);
 
         assertTrue(true);

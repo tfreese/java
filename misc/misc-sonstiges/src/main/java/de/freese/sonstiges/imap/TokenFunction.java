@@ -30,9 +30,9 @@ import de.freese.sonstiges.imap.textpart.AbstractTextPart;
 public class TokenFunction implements Function<MessageWrapper, Map<String, Integer>> {
 
     public static final UnaryOperator<List<String>> PRE_FILTER = token -> {
-        // String linkRegEx = "^((http[s]?|ftp|file):\\/)?\\/?([^:\\/\\s]+)(:([^\\/]*))?((\\/\\w+)*\\/)([\\w\\-\\.]+[^#?\\s]+)(\\?([^#]*))?(#(.*))?$";
-        String linkRegEx = "^((http[s]?|ftp|file):.*)|(^(www.).*)";
-        String mailRegEx = "^(.+)@(.+).(.+)$"; // ^[A-Za-z0-9+_.-]+@(.+)$
+        // final String linkRegEx = "^((http[s]?|ftp|file):\\/)?\\/?([^:\\/\\s]+)(:([^\\/]*))?((\\/\\w+)*\\/)([\\w\\-\\.]+[^#?\\s]+)(\\?([^#]*))?(#(.*))?$";
+        final String linkRegEx = "^((http[s]?|ftp|file):.*)|(^(www.).*)";
+        final String mailRegEx = "^(.+)@(.+).(.+)$"; // ^[A-Za-z0-9+_.-]+@(.+)$
 
         // @formatter:off
         return token.stream()
@@ -67,7 +67,7 @@ public class TokenFunction implements Function<MessageWrapper, Map<String, Integ
     };
 
     public static final BiFunction<List<String>, Locale, Map<String, Integer>> STEMMER_FILTER = (token, locale) -> {
-        Function<String, String> functionStemmer = FunctionStemmer.get(locale);
+        final Function<String, String> functionStemmer = FunctionStemmer.get(locale);
 
         // @formatter:off
         return token.stream()
@@ -92,7 +92,7 @@ public class TokenFunction implements Function<MessageWrapper, Map<String, Integ
         try {
             LOGGER.info("message: {} - {} - {}", message.getDate(), message.getSubject(), message.getFrom());
 
-            List<AbstractTextPart> textParts = message.getTextParts();
+            final List<AbstractTextPart> textParts = message.getTextParts();
 
             if ((textParts == null) || textParts.isEmpty()) {
                 LOGGER.warn("no text for: {} - {} - {}", message.getDate(), message.getSubject(), message.getFrom());
@@ -100,7 +100,7 @@ public class TokenFunction implements Function<MessageWrapper, Map<String, Integ
             }
 
             // @formatter:off
-            List<String> token = textParts.stream()
+             List<String> token = textParts.stream()
                     .map(AbstractTextPart::getText)
                     .map(t -> Jsoup.parse(t).text()) // HTML-Text extrahieren
                     .map(t -> t.split(" "))
@@ -117,7 +117,7 @@ public class TokenFunction implements Function<MessageWrapper, Map<String, Integ
                 return null;
             }
 
-            Locale locale = FunctionStripStopWords.getInstance().guessLocale(token);
+            final Locale locale = FunctionStripStopWords.getInstance().guessLocale(token);
 
             token = PRE_FILTER.apply(token);
 

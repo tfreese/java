@@ -19,13 +19,12 @@ import de.freese.binding.value.ChangeListener;
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestBooleanBinding {
-
     @Test
     void testBinding() {
-        SimpleBooleanProperty property1 = new SimpleBooleanProperty();
-        SimpleBooleanProperty property2 = new SimpleBooleanProperty();
+        final SimpleBooleanProperty property1 = new SimpleBooleanProperty();
+        final SimpleBooleanProperty property2 = new SimpleBooleanProperty();
 
-        BooleanBinding binding = property1.and(property2);
+        final BooleanBinding binding = property1.and(property2);
         assertFalse(binding.getValue());
 
         property1.setValue(true);
@@ -37,7 +36,7 @@ class TestBooleanBinding {
 
     @Test
     void testProperty() {
-        Property<Boolean> property = new SimpleBooleanProperty();
+        final Property<Boolean> property = new SimpleBooleanProperty();
 
         ChangeListener<Boolean> listener = (observable, oldValue, newValue) -> assertEquals(false, newValue);
         property.addListener(listener);

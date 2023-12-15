@@ -11,7 +11,6 @@ import java.util.Objects;
  */
 public abstract class Chromosome {
     private final Config config;
-
     private final Gene[] genes;
 
     protected Chromosome(final Config config) {
@@ -55,10 +54,10 @@ public abstract class Chromosome {
     public void mutate() {
         for (int i = 0; i < size(); i++) {
             if (getConfig().getRandom().nextDouble() < getConfig().getMutationRate()) {
-                int j = getConfig().getRandom().nextInt(size());
+                final int j = getConfig().getRandom().nextInt(size());
 
-                Gene gene1 = getGene(i);
-                Gene gene2 = getGene(j);
+                final Gene gene1 = getGene(i);
+                final Gene gene2 = getGene(j);
 
                 setGene(j, gene1);
                 setGene(i, gene2);
@@ -69,12 +68,11 @@ public abstract class Chromosome {
 //        IntStream.range(0, chromosome.size())
 //            .parallel()
 //            .forEach(i -> {
-//                if (getRandom().nextDouble() < getMutationRate())
-//                {
-//                    int j = getRandom().nextInt(chromosome.size());
+//                if (getRandom().nextDouble() < getMutationRate()) {
+//                    final int j = getRandom().nextInt(chromosome.size());
 //
-//                    G gene1 = chromosome.getGene(i);
-//                    G gene2 = chromosome.getGene(j);
+//                    final G gene1 = chromosome.getGene(i);
+//                   final  G gene2 = chromosome.getGene(j);
 //
 //                    chromosome.setGene(j, gene1);
 //                    chromosome.setGene(i, gene2);

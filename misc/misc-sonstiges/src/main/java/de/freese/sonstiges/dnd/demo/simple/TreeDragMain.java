@@ -21,7 +21,6 @@ public final class TreeDragMain extends JFrame {
     }
 
     private transient final TreeDragSource ds;
-
     private transient final TreeDropTarget dt;
 
     private final JTree tree;

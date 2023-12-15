@@ -13,19 +13,19 @@ import de.freese.misc.generator.algorythm.SudokuAlgorithm;
  */
 public final class SudokuGeneratorMain {
     public static void main(final String[] args) {
-        SudokuGeneratorMain generator = new SudokuGeneratorMain(new AlgorithmRecursiveBacktracking());
+        final SudokuGeneratorMain generator = new SudokuGeneratorMain(new AlgorithmRecursiveBacktracking());
 
         // Liefert fehlerhafte Rätsel
-        // SudokuGeneratorMain generator = new SudokuGeneratorMain(new AlgorithmLinear());
+        // final SudokuGeneratorMain generator = new SudokuGeneratorMain(new AlgorithmLinear());
 
-        int[][] grid = generator.create(3);
+        final int[][] grid = generator.create(3);
         toString(grid);
     }
 
     public static void toString(final int[][] grid) {
-        int blockSize = (int) Math.sqrt(grid.length);
+        final int blockSize = (int) Math.sqrt(grid.length);
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         for (int x = 0; x < grid.length; x++) {
             if ((x % blockSize) == 0) {
@@ -64,9 +64,9 @@ public final class SudokuGeneratorMain {
      * Erstellt das Rätsel einer bestimmten Blockgrösse und liefert das Array.
      */
     public int[][] create(final int blockSize) {
-        int n = blockSize * blockSize;
+        final int n = blockSize * blockSize;
 
-        int[][] grid = new int[n][n];
+        final int[][] grid = new int[n][n];
 
         return create(grid);
     }
@@ -84,23 +84,21 @@ public final class SudokuGeneratorMain {
         }
 
         if (grid.length != grid[0].length) {
-            String text = String.format("Array ist falsch dimensioniert: x=%d, y=%d !", grid.length, grid[0].length);
+            final String text = String.format("Array ist falsch dimensioniert: x=%d, y=%d !", grid.length, grid[0].length);
 
             throw new IllegalArgumentException(text);
         }
 
-        double blockSize = Math.sqrt(grid.length);
+        final double blockSize = Math.sqrt(grid.length);
 
         if ((blockSize - Math.floor(blockSize)) != 0.0D) {
             throw new IllegalArgumentException("Array benötigt ganzzahlige Wurzel der Dimensionen !");
         }
 
-        // if (blockSize > 4)
-        // {
+        // if (blockSize > 4) {
         // this.algorithm = new AlgorithmLinear();
         // }
-        // else
-        // {
+        // else {
         // this.algorithm = new AlgorithmRecursiveBacktracking();
         // }
 

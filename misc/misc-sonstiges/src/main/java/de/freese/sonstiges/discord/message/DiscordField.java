@@ -11,9 +11,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 @JsonRootName(value = "field")
 public class DiscordField {
     private boolean inline;
-
     private String name;
-
     private String value;
 
     public String getName() {

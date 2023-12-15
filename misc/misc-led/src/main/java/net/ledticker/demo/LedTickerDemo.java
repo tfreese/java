@@ -46,16 +46,14 @@ public class LedTickerDemo implements ActionListener, ChangeListener, UpdateList
     }
 
     private final JTextField dotHeight = new JTextField(6);
-
     private final JTextField dotWidth = new JTextField(6);
-
     private final Map<String, StockDisplayElement> elements = new HashMap<>();
-
     private final JTextField hGap = new JTextField(6);
     private final JSlider slider = new JSlider(1, 10);
     private final JTextField stocksField = new JTextField(6);
     private final JTextField vGap = new JTextField(6);
     private final YahooProvider yahooProvider;
+
     private LedTicker ledTicker;
     private Color stockDownColor = Color.RED;
     private Color stockNeutralColor = Color.YELLOW;
@@ -72,7 +70,8 @@ public class LedTickerDemo implements ActionListener, ChangeListener, UpdateList
         // Create the YahooProvider.
         this.yahooProvider = new YahooProvider();
 
-        String[] initialSymbols = {"MSFT", "INTC", "DELL", "GOOG", "ORCL", "AMZN", "GE", "JNJ", "PG", "WMT", "HD"};
+        final String[] initialSymbols = {"MSFT", "INTC", "DELL", "GOOG", "ORCL", "AMZN", "GE", "JNJ", "PG", "WMT", "HD"};
+
         for (String initialSymbol : initialSymbols) {
             addSymbol(initialSymbol);
         }
@@ -86,17 +85,17 @@ public class LedTickerDemo implements ActionListener, ChangeListener, UpdateList
 
     @Override
     public void actionPerformed(final ActionEvent e) {
-        String command = e.getActionCommand();
+        final String command = e.getActionCommand();
 
         if ("addStock".equals(command)) {
-            String name = this.stocksField.getText().toUpperCase();
+            final String name = this.stocksField.getText().toUpperCase();
             this.stocksField.setText(name);
             addSymbol(name);
         }
         else if ("removeStock".equals(command)) {
-            String name = this.stocksField.getText().toUpperCase();
+            final String name = this.stocksField.getText().toUpperCase();
             this.stocksField.setText(name);
-            StockDisplayElement ste = this.elements.get(name);
+            final StockDisplayElement ste = this.elements.get(name);
 
             if (ste != null) {
                 this.yahooProvider.removeSymbol(name);
@@ -228,9 +227,9 @@ public class LedTickerDemo implements ActionListener, ChangeListener, UpdateList
 
     @Override
     public void update(final Object newValue) {
-        Stock stock = (Stock) newValue;
+        final Stock stock = (Stock) newValue;
 
-        StockDisplayElement ste = this.elements.get(stock.getID());
+        final StockDisplayElement ste = this.elements.get(stock.getID());
 
         if (ste != null) {
             ste.setLast(stock.getLast());
@@ -240,35 +239,37 @@ public class LedTickerDemo implements ActionListener, ChangeListener, UpdateList
     }
 
     private void addSymbol(final String symbol) {
-        StockDisplayElement ste = new StockDisplayElement(symbol);
+        final StockDisplayElement ste = new StockDisplayElement(symbol);
         ste.setStockUpColor(this.stockUpColor);
         ste.setStockNeutralColor(this.stockNeutralColor);
         ste.setStockDownColor(this.stockDownColor);
         ste.setSymbolColor(this.symbolColor);
+
         this.elements.put(symbol, ste);
         this.yahooProvider.addSymbol(symbol);
         this.ledTicker.addElement(ste);
     }
 
     private void centerFrame(final Window frame) {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Dimension frameSize = frame.getSize();
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        final Dimension frameSize = frame.getSize();
         frame.setLocation((screenSize.width - frameSize.width) / 2, (screenSize.height - frameSize.height) / 2);
     }
 
     private JPanel createDotsControlsPanel() {
-        TitledBorder dotsControlsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
+        final TitledBorder dotsControlsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
         dotsControlsBorder.setTitle("Dots Controls");
 
-        JLabel dotWidthLabel = new JLabel("Dot width");
-        JLabel dotHeightLabel = new JLabel("Dot height");
-        JButton setDotSize = new JButton("Set Dot size");
+        final JLabel dotWidthLabel = new JLabel("Dot width");
+        final JLabel dotHeightLabel = new JLabel("Dot height");
+        final JButton setDotSize = new JButton("Set Dot size");
         setDotSize.setActionCommand("setDotSize");
         setDotSize.addActionListener(this);
 
-        JPanel dotsControlsPanel = new JPanel(new GridBagLayout());
+        final JPanel dotsControlsPanel = new JPanel(new GridBagLayout());
         dotsControlsPanel.setBorder(dotsControlsBorder);
-        GridBagConstraints gbc = new GridBagConstraints();
+
+        final GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 0;
@@ -298,8 +299,8 @@ public class LedTickerDemo implements ActionListener, ChangeListener, UpdateList
     }
 
     private void createGUI() {
-        JPanel generalPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+        final JPanel generalPanel = new JPanel(new GridBagLayout());
+        final GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 0;
@@ -343,8 +344,8 @@ public class LedTickerDemo implements ActionListener, ChangeListener, UpdateList
         // ADD TICKER COMPONENT
         this.tickerFrame = new JFrame("Led Ticker Component v2.0");
         this.tickerFrame.getContentPane().setLayout(new GridBagLayout());
-        GridBagConstraints tickerFrameConstarints = new GridBagConstraints();
 
+        final GridBagConstraints tickerFrameConstarints = new GridBagConstraints();
         tickerFrameConstarints.gridx = 0;
         tickerFrameConstarints.gridy = 0;
         tickerFrameConstarints.weightx = 1;
@@ -369,18 +370,19 @@ public class LedTickerDemo implements ActionListener, ChangeListener, UpdateList
     }
 
     private JPanel createGapsControlsPanel() {
-        TitledBorder gapsControlsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
+        final TitledBorder gapsControlsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
         gapsControlsBorder.setTitle("Gaps Controls");
 
-        JLabel hGapLabel = new JLabel("Horizontal gap");
-        JLabel vGapLabel = new JLabel("Vertical gap");
-        JButton setDotGap = new JButton("Set Dot Gap");
+        final JLabel hGapLabel = new JLabel("Horizontal gap");
+        final JLabel vGapLabel = new JLabel("Vertical gap");
+        final JButton setDotGap = new JButton("Set Dot Gap");
         setDotGap.setActionCommand("setDotGap");
         setDotGap.addActionListener(this);
 
-        JPanel gapsControlsPanel = new JPanel(new GridBagLayout());
+        final JPanel gapsControlsPanel = new JPanel(new GridBagLayout());
         gapsControlsPanel.setBorder(gapsControlsBorder);
-        GridBagConstraints gbc = new GridBagConstraints();
+
+        final GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 0;
@@ -420,18 +422,18 @@ public class LedTickerDemo implements ActionListener, ChangeListener, UpdateList
     }
 
     private JPanel createScrollControlsPanel() {
-        TitledBorder scrollControlsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
+        final TitledBorder scrollControlsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
         scrollControlsBorder.setTitle("Ticker Controls");
 
-        JButton pause = new JButton("Pause");
+        final JButton pause = new JButton("Pause");
         pause.setActionCommand("pause");
         pause.addActionListener(this);
 
-        JButton start = new JButton("Start");
+        final JButton start = new JButton("Start");
         start.setActionCommand("start");
         start.addActionListener(this);
 
-        JButton stop = new JButton("Stop");
+        final JButton stop = new JButton("Stop");
         stop.setActionCommand("stop");
         stop.addActionListener(this);
 
@@ -440,14 +442,15 @@ public class LedTickerDemo implements ActionListener, ChangeListener, UpdateList
         this.slider.setPaintLabels(true);
         this.slider.setMajorTickSpacing(3);
         this.slider.setMinorTickSpacing(1);
-        Hashtable<Integer, JLabel> labels = new Hashtable<>();
+
+        final Map<Integer, JLabel> labels = new HashMap<>();
 
         for (int i = this.slider.getMinimum(); i <= this.slider.getMaximum(); i++) {
             labels.put(i, new JLabel(String.valueOf(i)));
         }
-        this.slider.setLabelTable(labels);
+        this.slider.setLabelTable(new Hashtable<>(labels));
 
-        JPanel scrollControlsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 1));
+        final JPanel scrollControlsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 1));
         scrollControlsPanel.setBorder(scrollControlsBorder);
         scrollControlsPanel.add(start);
         scrollControlsPanel.add(stop);
@@ -458,25 +461,25 @@ public class LedTickerDemo implements ActionListener, ChangeListener, UpdateList
     }
 
     private JPanel createStocksControlsPanel() {
-        TitledBorder stocksControlsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
+        final TitledBorder stocksControlsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
         stocksControlsBorder.setTitle("Stocks Controls");
 
-        JButton addStock = new JButton("Add Stock");
+        final JButton addStock = new JButton("Add Stock");
         addStock.setActionCommand("addStock");
         addStock.addActionListener(this);
 
         this.stocksField.setActionCommand("addStock");
         this.stocksField.addActionListener(this);
 
-        JButton removeStock = new JButton("Remove Stock");
+        final JButton removeStock = new JButton("Remove Stock");
         removeStock.setActionCommand("removeStock");
         removeStock.addActionListener(this);
 
-        JButton removeAllStocks = new JButton("Remove All");
+        final JButton removeAllStocks = new JButton("Remove All");
         removeAllStocks.setActionCommand("removeAll");
         removeAllStocks.addActionListener(this);
 
-        JPanel stocksControlsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 1));
+        final JPanel stocksControlsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 1));
         stocksControlsPanel.setBorder(stocksControlsBorder);
         stocksControlsPanel.add(addStock);
         stocksControlsPanel.add(this.stocksField);
@@ -487,17 +490,17 @@ public class LedTickerDemo implements ActionListener, ChangeListener, UpdateList
     }
 
     private JPanel createTickerPaneColors() {
-        TitledBorder stocksColorsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
+        final TitledBorder stocksColorsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
         stocksColorsBorder.setTitle("Ticker Colors");
 
-        Color gridColor = new Color(0x111111);
-        Color bgColor = new Color(0x333333);
+        final Color gridColor = new Color(0x111111);
+        final Color bgColor = new Color(0x333333);
 
-        ColorSelectorPanel backgroundSelectorPanel = new ColorSelectorPanel("Select background color", bgColor, "bgColor", this);
-        ColorSelectorPanel gridSelectorPanel = new ColorSelectorPanel("Select turned-off led color", gridColor, "gridColor", this);
-        ColorSelectorPanel symbolSelectorPanel = new ColorSelectorPanel("Select symbol color", this.symbolColor, "symbolColor", this);
+        final ColorSelectorPanel backgroundSelectorPanel = new ColorSelectorPanel("Select background color", bgColor, "bgColor", this);
+        final ColorSelectorPanel gridSelectorPanel = new ColorSelectorPanel("Select turned-off led color", gridColor, "gridColor", this);
+        final ColorSelectorPanel symbolSelectorPanel = new ColorSelectorPanel("Select symbol color", this.symbolColor, "symbolColor", this);
 
-        JPanel stocksColorsPanel = new JPanel(new GridLayout(3, 1));
+        final JPanel stocksColorsPanel = new JPanel(new GridLayout(3, 1));
         stocksColorsPanel.setBorder(stocksColorsBorder);
         stocksColorsPanel.add(backgroundSelectorPanel);
         stocksColorsPanel.add(gridSelectorPanel);
@@ -510,14 +513,14 @@ public class LedTickerDemo implements ActionListener, ChangeListener, UpdateList
     }
 
     private JPanel createTrendColorsPanel() {
-        TitledBorder trendColorsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
+        final TitledBorder trendColorsBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black));
         trendColorsBorder.setTitle("Trend Colors");
 
-        ColorSelectorPanel stockUpSelectorPanel = new ColorSelectorPanel("Select Stock Up Color", this.stockUpColor, "upColor", this);
-        ColorSelectorPanel stockNeutralSelectorPanel = new ColorSelectorPanel("Select Stock Neutral Color", this.stockNeutralColor, "neutralColor", this);
-        ColorSelectorPanel stockDownSelectorPanel = new ColorSelectorPanel("Select Stock Down Color", this.stockDownColor, "downColor", this);
+        final ColorSelectorPanel stockUpSelectorPanel = new ColorSelectorPanel("Select Stock Up Color", this.stockUpColor, "upColor", this);
+        final ColorSelectorPanel stockNeutralSelectorPanel = new ColorSelectorPanel("Select Stock Neutral Color", this.stockNeutralColor, "neutralColor", this);
+        final ColorSelectorPanel stockDownSelectorPanel = new ColorSelectorPanel("Select Stock Down Color", this.stockDownColor, "downColor", this);
 
-        JPanel trendColorsPanel = new JPanel(new GridLayout(3, 1));
+        final JPanel trendColorsPanel = new JPanel(new GridLayout(3, 1));
         trendColorsPanel.setBorder(trendColorsBorder);
         trendColorsPanel.add(stockUpSelectorPanel);
         trendColorsPanel.add(stockNeutralSelectorPanel);

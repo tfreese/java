@@ -13,11 +13,8 @@ import java.util.Random;
  */
 public abstract class AbstractSimulation implements Simulation {
     private final int height;
-
     private final Random random;
-
     private final List<SimulationListener> simulationListeners;
-
     private final int width;
 
     protected AbstractSimulation(final int width, final int height) {

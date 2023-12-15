@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonRootName(value = "embed")
 public class DiscordEmbed {
     private final List<DiscordField> fields = new ArrayList<>();
+
     private DiscordAuthor author;
     private Color color;
     private DiscordFooter footer;
@@ -28,11 +29,8 @@ public class DiscordEmbed {
      * Kleines Bild oben rechts
      */
     private DiscordThumbnail thumbnail;
-
     private String title;
-
     private String titleDescription;
-
     private String titleUrl;
 
     public DiscordEmbed addField(final DiscordField field) {

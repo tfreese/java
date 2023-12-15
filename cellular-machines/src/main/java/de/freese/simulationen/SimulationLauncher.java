@@ -29,7 +29,7 @@ public final class SimulationLauncher {
             throw new IllegalArgumentException("parameter required: -swing or -console");
         }
 
-        List<String> parameter = new ArrayList<>(List.of(args));
+        final List<String> parameter = new ArrayList<>(List.of(args));
 
         if ("-swing".equals(parameter.get(0))) {
             launchSwing();
@@ -81,7 +81,7 @@ public final class SimulationLauncher {
             }
         }
 
-        SimulationConsole simulationConsole = new SimulationConsole();
+        final SimulationConsole simulationConsole = new SimulationConsole();
         simulationConsole.start(type, cycles, width, height, path);
 
         SimulationEnvironment.getInstance().shutdown();
@@ -96,31 +96,31 @@ public final class SimulationLauncher {
             System.exit(-1);
         });
 
-        // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // Single-Monitor
+        // final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // Single-Monitor
         // int width = (int) screenSize.getWidth() - 75;
         // int height = (int) screenSize.getHeight() - 75;
 
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment(); // Multi-Monitor
-        // GraphicsDevice gd = ge.getDefaultScreenDevice(); // Haupt-Monitor
-        GraphicsDevice[] gds = ge.getScreenDevices();
+        final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment(); // Multi-Monitor
+        // final GraphicsDevice gd = ge.getDefaultScreenDevice(); // Haupt-Monitor
+        final GraphicsDevice[] gds = ge.getScreenDevices();
 
         int maxWidth = 0;
         int maxHeight = 0;
 
         for (GraphicsDevice gd : gds) {
-            Rectangle r = gd.getDefaultConfiguration().getBounds();
+            final Rectangle r = gd.getDefaultConfiguration().getBounds();
             maxWidth = Math.max(maxWidth, (int) r.getWidth());
             maxHeight = Math.max(maxHeight, (int) r.getHeight());
 
-            // DisplayMode displayMode = gd.getDisplayMode();
+            // final DisplayMode displayMode = gd.getDisplayMode();
             // maxWidth = Math.max(maxWidth, displayMode.getWidth());
             // maxHeight = Math.max(maxHeight, displayMode.getHeight());
         }
 
-        int width = maxWidth - 75;
-        int height = maxHeight - 75;
+        final int width = maxWidth - 75;
+        final int height = maxHeight - 75;
 
-        SimulationSwing demo = new SimulationSwing();
+        final SimulationSwing demo = new SimulationSwing();
         demo.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(final WindowEvent event) {

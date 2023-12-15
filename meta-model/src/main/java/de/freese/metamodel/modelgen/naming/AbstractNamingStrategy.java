@@ -26,13 +26,13 @@ public abstract class AbstractNamingStrategy implements NamingStrategy {
             return null;
         }
 
-        String str = value.strip();
+        final String str = value.strip();
 
-        if (str.length() == 0) {
+        if (str.isEmpty()) {
             return "";
         }
 
-        StringBuilder builder = new StringBuilder(str.length());
+        final StringBuilder builder = new StringBuilder(str.length());
 
         for (int i = 0; i < str.length(); i++) {
             if (i == 0) {

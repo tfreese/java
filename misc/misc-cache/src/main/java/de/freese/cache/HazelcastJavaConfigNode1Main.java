@@ -33,17 +33,17 @@ public final class HazelcastJavaConfigNode1Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastJavaConfigNode1Main.class);
 
     public static void main(final String[] args) throws Exception {
-        HazelcastInstance hazelcastInstance = getHazelcastInstance();
+        final HazelcastInstance hazelcastInstance = getHazelcastInstance();
 
         // Map ist niemals null.
-        IMap<String, String> map = hazelcastInstance.getMap("test");
+        final IMap<String, String> map = hazelcastInstance.getMap("test");
         // ReplicatedMap<String, String> map = hazelcastInstance.getReplicatedMap("test1");
 
-        AtomicInteger atomicInteger = new AtomicInteger(0);
+        final AtomicInteger atomicInteger = new AtomicInteger(0);
 
         ForkJoinPool.commonPool().execute(() -> {
             while (true) {
-                String value = map.get("key");
+                final String value = map.get("key");
                 LOGGER.info("HazelcastJavaConfigNode1Main: {}: cache value = {}", Thread.currentThread().getName(), value);
 
                 if (value == null) {
@@ -67,7 +67,7 @@ public final class HazelcastJavaConfigNode1Main {
     }
 
     private static HazelcastInstance getHazelcastInstance() {
-        MapConfig mapConfig = new MapConfig("test");
+        final MapConfig mapConfig = new MapConfig("test");
         mapConfig.setTimeToLiveSeconds(3);
         mapConfig.setMaxIdleSeconds(3);
         mapConfig.setAsyncBackupCount(0);
@@ -76,7 +76,7 @@ public final class HazelcastJavaConfigNode1Main {
         mapConfig.setInMemoryFormat(InMemoryFormat.BINARY);
         mapConfig.setCacheDeserializedValues(CacheDeserializedValues.INDEX_ONLY);
 
-        Config config = new Config();
+        final Config config = new Config();
         config.addMapConfig(mapConfig);
 
         // @formatter:off

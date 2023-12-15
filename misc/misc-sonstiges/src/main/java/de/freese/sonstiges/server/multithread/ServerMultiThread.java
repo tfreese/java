@@ -24,11 +24,9 @@ import de.freese.sonstiges.server.multithread.dispatcher.DispatcherPool;
  */
 public class ServerMultiThread extends AbstractServer {
     private final DispatcherPool dispatcherPool;
-
     private final SelectorProvider selectorProvider;
 
     private Acceptor acceptor;
-
     private ServerSocketChannel serverSocketChannel;
 
     public ServerMultiThread(final int port, final int numOfDispatcher, final int numOfWorker) throws IOException {
@@ -90,7 +88,7 @@ public class ServerMultiThread extends AbstractServer {
             // Create Acceptor.
             this.acceptor = new Acceptor(this.selectorProvider.openSelector(), this.serverSocketChannel, this.dispatcherPool);
 
-            Thread thread = new NamedThreadFactory(getName() + "-acceptor-%d").newThread(this.acceptor);
+            final Thread thread = new NamedThreadFactory(getName() + "-acceptor-%d").newThread(this.acceptor);
             getLogger().debug("start {}", thread.getName());
             thread.start();
 
@@ -119,10 +117,9 @@ public class ServerMultiThread extends AbstractServer {
         this.dispatcherPool.stop();
 
         try {
-            // SelectionKey selectionKey = this.serverSocketChannel.keyFor(this.selector);
+            // final SelectionKey selectionKey = this.serverSocketChannel.keyFor(this.selector);
             //
-            // if (selectionKey != null)
-            // {
+            // if (selectionKey != null) {
             // selectionKey.cancel();
             // }
 

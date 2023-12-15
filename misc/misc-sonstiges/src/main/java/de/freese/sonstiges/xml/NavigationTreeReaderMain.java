@@ -24,28 +24,28 @@ public final class NavigationTreeReaderMain {
     public static void main(final String[] args) throws Exception {
         try {
             URL url = ClassLoader.getSystemResource("navigationTree.xsd");
-            Source schemaFile = new StreamSource(new File(url.toURI()));
+            final Source schemaFile = new StreamSource(new File(url.toURI()));
 
             url = ClassLoader.getSystemResource("navigationTree.xml");
-            Source xmlFile = new StreamSource(new File(url.toURI()));
+            final Source xmlFile = new StreamSource(new File(url.toURI()));
 
             // Validate gegen Schema.
-            SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            final SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             schemaFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
             schemaFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
 
-            Schema schema = schemaFactory.newSchema(schemaFile);
-            Validator validator = schema.newValidator();
+            final Schema schema = schemaFactory.newSchema(schemaFile);
+            final Validator validator = schema.newValidator();
             validator.validate(xmlFile);
 
             // System.setProperty("javax.xml.stream.XMLInputFactory", value) ;
 
             // Stax Parsing.
-            XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+            final XMLInputFactory inputFactory = XMLInputFactory.newInstance();
             inputFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
             inputFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
 
-            XMLStreamReader reader = inputFactory.createXMLStreamReader(xmlFile);
+            final XMLStreamReader reader = inputFactory.createXMLStreamReader(xmlFile);
 
             parseDocument(reader);
 
@@ -72,7 +72,7 @@ public final class NavigationTreeReaderMain {
 
     private static void parseRestOfDocument(final XMLStreamReader reader) throws XMLStreamException {
         while (reader.hasNext()) {
-            int type = reader.next();
+            final int type = reader.next();
 
             switch (type) {
                 case XMLStreamConstants.START_ELEMENT -> {

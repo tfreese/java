@@ -59,7 +59,7 @@ public class MessageWrapper {
         }
 
         if (messageId == null) {
-            String[] messageIdHeader = message.getHeader("Message-ID");
+            final String[] messageIdHeader = message.getHeader("Message-ID");
 
             if (messageIdHeader != null && messageIdHeader.length > 0) {
                 messageId = messageIdHeader[0];
@@ -67,15 +67,15 @@ public class MessageWrapper {
         }
 
         if (messageId == null) {
-            Date date = message.getReceivedDate() != null ? message.getReceivedDate() : message.getSentDate();
+            final Date date = message.getReceivedDate() != null ? message.getReceivedDate() : message.getSentDate();
 
             LOGGER.warn("no messageId, generating one: {} - {} - {}", date, message.getSubject(), message.getFrom());
 
             messageId = Optional.ofNullable(message.getFrom()).map(addresses -> addresses[0]).map(InternetAddress.class::cast).map(InternetAddress::getAddress).orElse("");
 
             if (date != null) {
-                Instant instant = date.toInstant();
-                LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+                final Instant instant = date.toInstant();
+                final LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
                 messageId += "-" + DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(localDateTime);
             }
 
@@ -88,7 +88,7 @@ public class MessageWrapper {
     }
 
     private static List<AbstractTextPart> getTextParts(final Part part) throws Exception {
-        List<AbstractTextPart> textParts = new ArrayList<>();
+        final List<AbstractTextPart> textParts = new ArrayList<>();
 
         if (part.isMimeType("text/*")) {
             if (!(part.getContent() instanceof String text)) {
@@ -103,12 +103,12 @@ public class MessageWrapper {
             }
         }
         else if (part.isMimeType("multipart/*")) {
-            Multipart mp = (Multipart) part.getContent();
+            final Multipart mp = (Multipart) part.getContent();
 
             for (int i = 0; i < mp.getCount(); i++) {
-                Part bp = mp.getBodyPart(i);
+                final Part bp = mp.getBodyPart(i);
 
-                List<AbstractTextPart> tp = getTextParts(bp);
+                final List<AbstractTextPart> tp = getTextParts(bp);
 
                 textParts.addAll(tp);
             }
@@ -123,7 +123,7 @@ public class MessageWrapper {
         }
 
         int pos = 0;
-        char[] chars = input.toCharArray();
+        final char[] chars = input.toCharArray();
 
         for (char c : chars) {
             if (!ASCII_CHARS_KEEP.contains(c) && (c < 32 || c > 126)) {
@@ -137,9 +137,7 @@ public class MessageWrapper {
     }
 
     private final String folderName;
-
     private final Message message;
-
     private final String messageId;
 
     private boolean isSpam;
@@ -173,8 +171,8 @@ public class MessageWrapper {
     }
 
     public long getMessageUid() throws Exception {
-        Message msg = getMessage();
-        Folder folder = msg.getFolder();
+        final Message msg = getMessage();
+        final Folder folder = msg.getFolder();
 
         if (folder instanceof UIDFolder uidFolder) {
             return uidFolder.getUID(msg);

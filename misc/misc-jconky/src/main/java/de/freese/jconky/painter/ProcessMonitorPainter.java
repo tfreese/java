@@ -13,11 +13,11 @@ import de.freese.jconky.util.JConkyUtils;
 public class ProcessMonitorPainter extends AbstractMonitorPainter {
     @Override
     public double paintValue(final GraphicsContext gc, final double width) {
-        ProcessInfos infos = getContext().getProcessInfos();
+        final ProcessInfos infos = getContext().getProcessInfos();
 
         gc.setFont(getSettings().getFont());
 
-        double fontSize = getSettings().getFontSize();
+        final double fontSize = getSettings().getFontSize();
 
         double x = getSettings().getMarginInner().getLeft();
         double y = fontSize + 0D;
@@ -63,7 +63,7 @@ public class ProcessMonitorPainter extends AbstractMonitorPainter {
             paintText(gc, String.format("%8d %8.2f %8.2f", processInfo.getPid(), processInfo.getMemoryUsage() * 100D, processInfo.getCpuUsage() * 100D), x + 100D, y);
         }
 
-        double height = y + 5D;
+        final double height = y + 5D;
         drawDebugBorder(gc, width, height);
 
         return height;

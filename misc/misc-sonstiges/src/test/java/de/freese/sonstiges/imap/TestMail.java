@@ -35,11 +35,8 @@ import de.freese.sonstiges.imap.analyze.FunctionStripStopWords;
 class TestMail {
 
     private static PrintStream printStream = System.out;
-
     private static String textHtml1;
-
     private static String textHtml2;
-
     private static String textPlain;
 
     @BeforeAll
@@ -48,7 +45,7 @@ class TestMail {
             printStream = new PrintStream(OutputStream.nullOutputStream(), false);
         }
 
-        Charset charset = StandardCharsets.UTF_8;
+        final Charset charset = StandardCharsets.UTF_8;
 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream("mail1.txt"), charset))) {
             textPlain = bufferedReader.lines().collect(Collectors.joining(" "));
@@ -104,7 +101,7 @@ class TestMail {
 
     @Test
     void testHtml1ToText() throws Exception {
-        String text = Jsoup.parse(textHtml1).text();
+        final String text = Jsoup.parse(textHtml1).text();
         printStream.println(text);
 
         prepare(text);
@@ -114,7 +111,7 @@ class TestMail {
 
     @Test
     void testHtml2ToText() throws Exception {
-        String text = Jsoup.parse(textHtml2).text();
+        final String text = Jsoup.parse(textHtml2).text();
         printStream.println(text);
 
         prepare(text);
@@ -125,7 +122,7 @@ class TestMail {
     @Test
     void testTextPlain() throws Exception {
         // String text = new Html2Text().parse(TEXT_PLAIN).getText();
-        String text = textPlain;
+        final String text = textPlain;
         printStream.println(text);
 
         prepare(text);
@@ -149,14 +146,14 @@ class TestMail {
                 ;
         // @formatter:on
 
-        Locale locale = FunctionStripStopWords.getInstance().guessLocale(token);
+        final Locale locale = FunctionStripStopWords.getInstance().guessLocale(token);
 
         token = TokenFunction.PRE_FILTER.apply(token);
         token.forEach(printStream::println);
 
         printStream.println();
         printStream.println("Stemmer --------------------");
-        Map<String, Integer> wordCount = TokenFunction.STEMMER_FILTER.apply(token, locale);
+        final Map<String, Integer> wordCount = TokenFunction.STEMMER_FILTER.apply(token, locale);
         wordCount.forEach((word, count) -> printStream.printf("%s - %d%n", word, count));
     }
 }

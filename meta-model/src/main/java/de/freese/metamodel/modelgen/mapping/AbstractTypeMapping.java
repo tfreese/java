@@ -12,12 +12,11 @@ import java.util.TreeMap;
  */
 public abstract class AbstractTypeMapping implements TypeMapping {
     private final Map<JDBCType, Type> notNullMappings = new TreeMap<>();
-
     private final Map<JDBCType, Type> nullableMappings = new TreeMap<>();
 
     @Override
     public Type getType(final JDBCType jdbcType, final boolean nullable) {
-        Type type = null;
+        final Type type;
 
         if (nullable) {
             type = this.nullableMappings.get(jdbcType);

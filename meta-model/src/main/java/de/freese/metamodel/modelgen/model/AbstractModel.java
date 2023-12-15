@@ -12,9 +12,7 @@ import java.util.Objects;
  */
 public abstract class AbstractModel {
     private final List<String> annotations = new ArrayList<>();
-
     private final List<String> comments = new ArrayList<>();
-
     private final String name;
 
     private Object payload;
@@ -55,7 +53,7 @@ public abstract class AbstractModel {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("name = ").append(this.name);

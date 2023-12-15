@@ -7,7 +7,6 @@ package de.freese.binding.property;
 public class SimpleIntegerProperty extends AbstractIntegerProperty {
 
     private final Object bean;
-
     private final String name;
 
     public SimpleIntegerProperty() {

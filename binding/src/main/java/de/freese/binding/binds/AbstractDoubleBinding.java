@@ -20,7 +20,7 @@ public abstract class AbstractDoubleBinding extends AbstractDoubleExpression imp
 
     @Override
     public void update() {
-        double old = this.value;
+        final double old = this.value;
         this.value = computeValue();
 
         if (Objects.equals(old, this.value)) {

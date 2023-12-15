@@ -11,17 +11,17 @@ import org.mockito.Mockito;
 class TestVendingMaschine {
     @Test
     void testWithMockito() throws Exception {
-        CashBox cashBox = Mockito.mock(CashBox.class);
+        final CashBox cashBox = Mockito.mock(CashBox.class);
         Mockito.when(cashBox.getCurrentAmount()).thenReturn(42);
 
         Mockito.doThrow(new IllegalArgumentException("Invalid value")).when(cashBox).withdraw(ArgumentMatchers.intThat(new NonNegativeIntegerMatcher()));
 
-        Box box = Mockito.mock(Box.class);
+        final Box box = Mockito.mock(Box.class);
         Mockito.when(box.isEmpty()).thenReturn(Boolean.FALSE);
         Mockito.when(box.getPrice()).thenReturn(42);
 
-        Box[] boxes = {box};
-        VendingMaschine maschine = new VendingMaschine(cashBox, boxes);
+        final Box[] boxes = {box};
+        final VendingMaschine maschine = new VendingMaschine(cashBox, boxes);
         maschine.selectItem(0);
 
         // Sicherstellen, dass Methoden mit diesen Parametern einmal aufgerufen wurden.

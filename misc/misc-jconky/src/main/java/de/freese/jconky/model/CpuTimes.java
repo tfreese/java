@@ -17,23 +17,14 @@ package de.freese.jconky.model;
  */
 public class CpuTimes {
     private final long guest;
-
     private final long guestNice;
-
     private final long idle;
-
     private final long ioWait;
-
     private final long irq;
-
     private final long nice;
-
     private final long softIrq;
-
     private final long steal;
-
     private final long system;
-
     private final long user;
 
     public CpuTimes() {
@@ -59,10 +50,10 @@ public class CpuTimes {
      * Liefert die CPU-Auslastung von 0 bis 1.<br>
      */
     public double getCpuUsage(final CpuTimes previous) {
-        double totalDiff = (double) getTotal() - previous.getTotal();
-        double idleDiff = (double) getTotalIdle() - previous.getTotalIdle();
+        final double totalDiff = (double) getTotal() - previous.getTotal();
+        final double idleDiff = (double) getTotalIdle() - previous.getTotalIdle();
 
-        double percent = 1D - (idleDiff / totalDiff);
+        final double percent = 1D - (idleDiff / totalDiff);
 
         if (Double.isNaN(percent)) {
             return 0D;

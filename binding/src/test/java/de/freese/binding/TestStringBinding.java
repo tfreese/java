@@ -22,13 +22,12 @@ import de.freese.binding.value.ChangeListener;
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestStringBinding {
-    
     @Test
     void testBindingConcat() {
-        SimpleStringProperty p1 = new SimpleStringProperty();
-        SimpleStringProperty p2 = new SimpleStringProperty();
+        final SimpleStringProperty p1 = new SimpleStringProperty();
+        final SimpleStringProperty p2 = new SimpleStringProperty();
 
-        StringBinding binding = p1.concat(p2);
+        final StringBinding binding = p1.concat(p2);
         assertNull(binding.getValue());
 
         p1.setValue("a");
@@ -41,10 +40,10 @@ class TestStringBinding {
 
     @Test
     void testBindingIsEmpty() {
-        SimpleStringProperty p1 = new SimpleStringProperty();
+        final SimpleStringProperty p1 = new SimpleStringProperty();
 
-        BooleanBinding bindingEmpty = p1.isEmpty();
-        BooleanBinding bindingNotEmpty = p1.isNotEmpty();
+        final BooleanBinding bindingEmpty = p1.isEmpty();
+        final BooleanBinding bindingNotEmpty = p1.isNotEmpty();
 
         assertTrue(bindingEmpty.get());
         assertFalse(bindingNotEmpty.get());
@@ -56,9 +55,9 @@ class TestStringBinding {
 
     @Test
     void testBindingLength() {
-        SimpleStringProperty p1 = new SimpleStringProperty();
+        final SimpleStringProperty p1 = new SimpleStringProperty();
 
-        IntegerBinding binding = p1.length();
+        final IntegerBinding binding = p1.length();
         assertEquals(0, binding.get());
 
         p1.setValue("a");
@@ -70,7 +69,7 @@ class TestStringBinding {
 
     @Test
     void testProperty() {
-        Property<String> p = new SimpleStringProperty();
+        final Property<String> p = new SimpleStringProperty();
 
         ChangeListener<String> listener = (observable, oldValue, newValue) -> assertEquals("TeSt", newValue);
         p.addListener(listener);

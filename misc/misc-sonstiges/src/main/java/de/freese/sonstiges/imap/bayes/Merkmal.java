@@ -12,18 +12,14 @@ import java.util.Objects;
 public class Merkmal implements Serializable {
 
     public static final Double DEFAULT_HAM_PROBABILITY = 0.001D;
-
     public static final Double DEFAULT_SPAM_PROBABILITY = 0.001D;
 
     @Serial
     private static final long serialVersionUID = -5899758231801834734L;
 
     private final int hamCount;
-
     private final int spamCount;
-
     private final String token;
-
     private final int weight;
 
     public Merkmal(final String token, final int hamCount, final int spamCount) {
@@ -49,7 +45,7 @@ public class Merkmal implements Serializable {
             return false;
         }
 
-        Merkmal merkmal = (Merkmal) o;
+        final Merkmal merkmal = (Merkmal) o;
 
         return hamCount == merkmal.hamCount && spamCount == merkmal.spamCount && weight == merkmal.weight && token.equals(merkmal.token);
     }

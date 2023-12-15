@@ -88,13 +88,13 @@ public class SimulationEnvironment {
     private ScheduledExecutorService scheduledExecutorService;
 
     public boolean getAsBoolean(final String property, final boolean nullDefault) {
-        String value = this.properties.getProperty(property);
+        final String value = this.properties.getProperty(property);
 
         return value != null ? Boolean.parseBoolean(value) : nullDefault;
     }
 
     public int getAsInt(final String property, final int nullDefault) {
-        String value = this.properties.getProperty(property);
+        final String value = this.properties.getProperty(property);
 
         return value != null ? Integer.parseInt(value) : nullDefault;
     }

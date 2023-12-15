@@ -21,10 +21,10 @@ public final class Velocity {
     private static final Logger LOGGER = LoggerFactory.getLogger(Velocity.class);
 
     public static void main(final String[] args) {
-        String templateFile = Paths.get("templates", "velocity", "example.vtl").toString();
+        final String templateFile = Paths.get("templates", "velocity", "example.vtl").toString();
 
         try {
-            Properties properties = new Properties();
+            final Properties properties = new Properties();
             properties.put("resource.loaders", "classpath");
             properties.put("resource.loader.classpath.description", "Velocity Classpath Resource Loader");
             properties.put("resource.loader.classpath.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
@@ -32,15 +32,14 @@ public final class Velocity {
             properties.put("resource.loader.classpath.cache", "false");
             properties.put("resource.loader.classpath.modification_check_interval", "0");
 
-            // VelocityEngine ve = new VelocityEngine("velocity.properties");
-            VelocityEngine ve = new VelocityEngine(properties);
+            // final VelocityEngine ve = new VelocityEngine("velocity.properties");
+            final VelocityEngine ve = new VelocityEngine(properties);
             ve.init();
 
-            /*
-             * Make a context object and populate with the data. This is where the Velocity engine gets the data to resolve the references (ex. $list) in the
-             * template
-             */
-            VelocityContext context = new VelocityContext();
+            // Make a context object and populate with the data. This is where the Velocity engine gets the data to resolve the references (ex. $list) in the
+            // template.
+
+            final VelocityContext context = new VelocityContext();
             context.put("names", List.of("List element 1", "List element 2", "List element 3"));
             context.put("Math", Math.class);
             context.put("PI", Math.PI);
@@ -48,11 +47,9 @@ public final class Velocity {
             // Direkter Aufruf, wenn Template als String bereits vorliegt.
             // Velocity.evaluate(context, stringWriter, logTag, template);
 
-            /*
-             * get the Template object. This is the parsed version of your template input file. Note that getTemplate() can throw ResourceNotFoundException : if
-             * it doesn't find the template ParseErrorException : if there is something wrong with the VTL Exception : if something else goes wrong (this is
-             * generally indicative of as serious problem...)
-             */
+            // get the Template object. This is the parsed version of your template input file. Note that getTemplate() can throw ResourceNotFoundException : if
+            // it doesn't find the template ParseErrorException : if there is something wrong with the VTL Exception : if something else goes wrong (this is
+            // generally indicative of as serious problem...)
             Template template = null;
 
             try {
@@ -67,10 +64,8 @@ public final class Velocity {
                 //                System.err.println("Example : Syntax error in template " + templateFile + ":" + ex);
             }
 
-            /*
-             * Now have the template engine process your template using the data placed into the context. Think of it as a 'merge' of the template and the data
-             * to produce the output stream.
-             */
+            // Now have the template engine process your template using the data placed into the context. Think of it as a 'merge' of the template and the data
+            // to produce the output stream.
             try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out))) {
                 if (template != null) {
                     template.merge(context, writer);

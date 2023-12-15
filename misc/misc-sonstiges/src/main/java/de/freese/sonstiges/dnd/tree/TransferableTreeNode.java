@@ -17,9 +17,7 @@ class TransferableTreeNode implements Transferable {
      * Datentyp-Definition
      */
     static final DataFlavor TREE_PATH_FLAVOR = new DataFlavor(TreePath.class, "Tree Path");
-
     private final DataFlavor[] flavors = {TREE_PATH_FLAVOR};
-
     private final TreePath path;
 
     TransferableTreeNode(final TreePath tp) {

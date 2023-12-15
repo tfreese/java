@@ -17,20 +17,20 @@ import de.freese.sonstiges.discord.message.DiscordWebHookMessage;
 public final class DiscordMain {
     public static void main(final String[] args) throws Exception {
         // URL für den WebHook: Servereinstellungen -> Integrationen -> WebHooks anzeigen -> WebHook-URL kopieren
-        //        String webHookId = args[0];
-        //        String webHookToken = args[1];
+        //        final String webHookId = args[0];
+        //        final String webHookToken = args[1];
 
         // URL für Demo-Bild.
-        String iconUrl = "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png";
+        final String iconUrl = "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png";
 
-        DiscordWebHookMessage message = new DiscordWebHookMessage();
+        final DiscordWebHookMessage message = new DiscordWebHookMessage();
         message.setTts(false);
         message.setAvatarUrl("https://avatars.githubusercontent.com/u/1973918?v=4");
         message.setAvatarUsername("Avatar Username");
         message.setAvatarContent("Avatar Content");
 
         // Ein einzelner Abschnitt / Nachrichtenblock.
-        DiscordEmbed embed = new DiscordEmbed();
+        final DiscordEmbed embed = new DiscordEmbed();
         embed.setColor(Color.RED);
         embed.setAuthor(new DiscordAuthor().setName("Author Name").setNameUrl("https://discord.com/developers/docs/resources/webhook").setIconUrl(iconUrl));
         embed.setTitle("Title").setTitleDescription("Title description").setTitleUrl("https://google.de");
@@ -46,7 +46,7 @@ public final class DiscordMain {
         message.addEmbed(new DiscordEmbed().setColor(Color.GREEN).setTitleDescription("Just another added embed object!"));
 
         // Message senden.
-        DiscordWebHookSender discordWebHookSender = new DefaultDiscordWebHookSender();
+        final DiscordWebHookSender discordWebHookSender = new DefaultDiscordWebHookSender();
         System.out.println(discordWebHookSender.toJson(message));
         //        discordWebHookSender.send(message, webHookId, webHookToken);
     }

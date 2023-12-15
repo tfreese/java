@@ -19,7 +19,7 @@ public class CurrencyConverter {
     }
 
     public MonetaryAmount convert(final MonetaryAmount amount, final Currency currency) {
-        double exchangeRate = this.exchangeRateService.getRate(amount.getCurrency().getCurrencyCode(), currency.getCurrencyCode());
+        final double exchangeRate = this.exchangeRateService.getRate(amount.getCurrency().getCurrencyCode(), currency.getCurrencyCode());
 
         return new MonetaryAmount(amount.getValue().multiply(BigDecimal.valueOf(exchangeRate)), currency);
     }

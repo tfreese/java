@@ -24,6 +24,7 @@ public class Table {
     private final Map<String, Column> columns = new TreeMap<>();
     private final Map<String, Index> indices = new TreeMap<>();
     private final Map<String, UniqueConstraint> uniqueConstraints = new TreeMap<>();
+
     private String comment;
     private String name;
     private PrimaryKey primaryKey;
@@ -41,7 +42,7 @@ public class Table {
             this.primaryKey = new PrimaryKey(this, keyName);
         }
 
-        Column column = getColumn(columnName);
+        final Column column = getColumn(columnName);
 
         this.primaryKey.addColumn(keyColumnIndex, column);
     }
@@ -109,7 +110,7 @@ public class Table {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("Table [");
         builder.append("schema=").append(getSchema().getName());
         builder.append(", name=").append(getName());
@@ -121,7 +122,7 @@ public class Table {
     public void validate() {
         if (getPrimaryKey() != null) {
             // Entferne den UniqueConstraint, welcher nur eine Spalte enthält und diese der PrimaryKey ist.
-            Set<String> pkColumns = getPrimaryKey().getColumnMap().values().stream().map(Column::getName).collect(Collectors.toSet());
+            final Set<String> pkColumns = getPrimaryKey().getColumnMap().values().stream().map(Column::getName).collect(Collectors.toSet());
 
             for (UniqueConstraint uc : getUniqueConstraints()) {
                 if (uc.getColumnMap().size() > 1) {

@@ -20,7 +20,7 @@ public abstract class AbstractFloatBinding extends AbstractFloatExpression imple
 
     @Override
     public void update() {
-        float old = this.value;
+        final float old = this.value;
         this.value = computeValue();
 
         if (Objects.equals(old, this.value)) {

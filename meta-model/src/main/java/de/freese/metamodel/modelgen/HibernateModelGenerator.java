@@ -25,7 +25,7 @@ public class HibernateModelGenerator extends JpaModelGenerator {
     protected void transformClassAnnotations(final Table table, final ClassModel classModel) {
         super.transformClassAnnotations(table, classModel);
 
-        String className = classModel.getName();
+        final String className = classModel.getName();
 
         classModel.addImport(DynamicInsert.class);
         classModel.addAnnotation("@DynamicInsert");
@@ -41,10 +41,9 @@ public class HibernateModelGenerator extends JpaModelGenerator {
         classModel.addImport(NamedQuery.class);
         classModel.addImport(QueryHint.class);
 
-        String alias = className.substring(0, 1).toLowerCase();
+        final String alias = className.substring(0, 1).toLowerCase();
 
-        StringBuilder sb = new StringBuilder();
-
+        final StringBuilder sb = new StringBuilder();
         sb.append("@NamedQueries({");
         sb.append("@NamedQuery(name = \"all").append(className).append("\"");
         sb.append(", query = ").append(String.format("\"select %2$s from %1$s %2$s\"", className, alias));
@@ -55,7 +54,7 @@ public class HibernateModelGenerator extends JpaModelGenerator {
 
     @Override
     protected void transformClassJavaDoc(final Table table, final ClassModel classModel) {
-        String comment = table.getComment();
+        final String comment = table.getComment();
 
         if ((comment != null) && !comment.isBlank()) {
             classModel.addComment(comment);

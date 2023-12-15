@@ -33,27 +33,27 @@ import de.freese.jsensors.utils.JSensorThreadFactory;
  */
 public final class JFreeChartMain {
     public static void main(final String[] args) throws Exception {
-        ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("scheduler"), 2);
+        final ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("scheduler"), 2);
         registry.start();
 
-        TimeSeries timeSeriesCpuUsage = new TimeSeries("cpu.usage");
+        final TimeSeries timeSeriesCpuUsage = new TimeSeries("cpu.usage");
         new CpuMetrics().bindTo(registry, name -> sensorValue -> {
             if ((sensorValue.getValue() == null) || sensorValue.getValue().isBlank()) {
                 return;
             }
 
-            RegularTimePeriod timePeriod = new FixedMillisecond(sensorValue.getTimestamp());
+            final RegularTimePeriod timePeriod = new FixedMillisecond(sensorValue.getTimestamp());
             timeSeriesCpuUsage.add(timePeriod, sensorValue.getValueAsDouble());
         });
         registry.scheduleSensor("cpu.usage", 1, 1, TimeUnit.SECONDS);
 
-        TimeSeries timeSeriesMemoryUsage = new TimeSeries("memory.usage");
+        final TimeSeries timeSeriesMemoryUsage = new TimeSeries("memory.usage");
         new MemoryMetrics().bindTo(registry, name -> sensorValue -> {
             if ((sensorValue.getValue() == null) || sensorValue.getValue().isBlank()) {
                 return;
             }
 
-            RegularTimePeriod timePeriod = new FixedMillisecond(sensorValue.getTimestamp());
+            final RegularTimePeriod timePeriod = new FixedMillisecond(sensorValue.getTimestamp());
             timeSeriesMemoryUsage.add(timePeriod, sensorValue.getValueAsDouble());
         });
         registry.scheduleSensor("memory.usage", 1, 1, TimeUnit.SECONDS);
@@ -66,13 +66,13 @@ public final class JFreeChartMain {
         timeSeriesCpuUsage.setMaximumItemAge(60 * 1000L);
         timeSeriesMemoryUsage.setMaximumItemAge(60 * 1000L);
 
-        TimeSeriesCollection dataset = new TimeSeriesCollection();
+        final TimeSeriesCollection dataset = new TimeSeriesCollection();
         dataset.addSeries(timeSeriesCpuUsage);
         dataset.addSeries(timeSeriesMemoryUsage);
 
-        Font font = new Font("Arial", Font.BOLD, 12);
+        final Font font = new Font("Arial", Font.BOLD, 12);
 
-        ValueAxis timeAxis = new DateAxis("Zeitachse");
+        final ValueAxis timeAxis = new DateAxis("Zeitachse");
         timeAxis.setLowerMargin(0.02D);
         timeAxis.setUpperMargin(0.02D);
         timeAxis.setAutoRange(true);
@@ -81,7 +81,7 @@ public final class JFreeChartMain {
         timeAxis.setTickLabelFont(font);
         timeAxis.setLabelFont(font);
 
-        NumberAxis valueAxis = new NumberAxis("Usage [%]");
+        final NumberAxis valueAxis = new NumberAxis("Usage [%]");
         valueAxis.setAutoRangeIncludesZero(false);
         valueAxis.setTickLabelFont(font);
         valueAxis.setLabelFont(font);
@@ -90,21 +90,21 @@ public final class JFreeChartMain {
         // valueAxis.setAutoTickUnitSelection(true);
         // valueAxis.setRange(0.0D, 20000D);
 
-        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer(true, false);
+        final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer(true, false);
         renderer.setSeriesPaint(0, Color.GREEN);
         renderer.setSeriesStroke(0, new BasicStroke(2.5F));
         renderer.setSeriesPaint(1, Color.BLUE);
         renderer.setSeriesStroke(1, new BasicStroke(2.5F));
 
-        XYPlot xyplot = new XYPlot(dataset, timeAxis, valueAxis, renderer);
+        final XYPlot xyplot = new XYPlot(dataset, timeAxis, valueAxis, renderer);
 
-        JFreeChart chart = new JFreeChart(null, null, xyplot, true);
-        LegendTitle legend = chart.getLegend();
+        final JFreeChart chart = new JFreeChart(null, null, xyplot, true);
+        final LegendTitle legend = chart.getLegend();
         legend.setItemFont(font);
 
-        // ChartPanel chartPanel = new ChartPanel(chart);
+        // final ChartPanel chartPanel = new ChartPanel(chart);
 
-        ChartFrame chartFrame = new ChartFrame("JSensors", chart, true);
+        final ChartFrame chartFrame = new ChartFrame("JSensors", chart, true);
         chartFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         chartFrame.setSize(1280, 800);
         chartFrame.setLocationRelativeTo(null);

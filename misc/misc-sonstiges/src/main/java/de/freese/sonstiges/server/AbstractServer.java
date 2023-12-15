@@ -20,6 +20,7 @@ public abstract class AbstractServer implements Runnable {
      * ReentrantLock nicht möglich, da dort die Locks auf Thread-Ebene verwaltet werden.
      */
     private final Semaphore startLock = new Semaphore(1, true);
+
     private IoHandler<SelectionKey> ioHandler;
     private String name = getClass().getSimpleName();
 

@@ -17,7 +17,6 @@ import de.freese.jsensors.sensor.SensorValue;
  */
 public class ExecutorBackend extends AbstractBackend {
     private final Backend delegateBackend;
-
     private final Executor executor;
 
     public ExecutorBackend(final Backend delegateBackend, final Executor executor) {
@@ -45,7 +44,7 @@ public class ExecutorBackend extends AbstractBackend {
     protected void storeValue(final SensorValue sensorValue) {
         this.executor.execute(() -> {
             // final Thread currentThread = Thread.currentThread();
-            // String oldName = currentThread.getName();
+            // final String oldName = currentThread.getName();
             // currentThread.setName("task-" + sensorValue.getName());
 
             try {

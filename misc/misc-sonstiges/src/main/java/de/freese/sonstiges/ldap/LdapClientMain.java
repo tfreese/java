@@ -21,7 +21,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public final class LdapClientMain {
     public static void main(final String[] args) throws Exception {
-        Properties env = new Properties();
+        final Properties env = new Properties();
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
         env.put(Context.PROVIDER_URL, "ldap://localhost:3389");
         env.put(Context.SECURITY_PRINCIPAL, "cn=ldap,ou=users,dc=freese,dc=de");
@@ -29,24 +29,24 @@ public final class LdapClientMain {
         env.put(Context.SECURITY_AUTHENTICATION, "simple");
         // env.put(Context.SECURITY_PROTOCOL, "ssl");
 
-        InitialDirContext context = new InitialDirContext(env);
+        final InitialDirContext context = new InitialDirContext(env);
 
         // Specify the attributes to return
-        String[] returnedAttributes = {"*"};
+        final String[] returnedAttributes = {"*"};
 
-        SearchControls searchControls = new SearchControls();
+        final SearchControls searchControls = new SearchControls();
         searchControls.setSearchScope(SearchControls.ONELEVEL_SCOPE);
         searchControls.setReturningAttributes(returnedAttributes);
 
         // specify the LDAP search filter, just users
         // String searchFilter = "mail=*THO*";
-        String searchFilter = "(objectclass=*)";
+        final String searchFilter = "(objectclass=*)";
 
-        NamingEnumeration<SearchResult> search = context.search("ou=addressbook,dc=freese,dc=de", searchFilter, searchControls);
-        List<SearchResult> results = new ArrayList<>();
+        final NamingEnumeration<SearchResult> search = context.search("ou=addressbook,dc=freese,dc=de", searchFilter, searchControls);
+        final List<SearchResult> results = new ArrayList<>();
 
         while (search.hasMoreElements()) {
-            SearchResult searchResult = search.nextElement();
+            final SearchResult searchResult = search.nextElement();
             System.out.println(searchResult.toString());
             results.add(searchResult);
         }
@@ -58,10 +58,10 @@ public final class LdapClientMain {
         try (PrintWriter pw = new PrintWriter("/tmp/ldap-backup.ldif", StandardCharsets.UTF_8)) {
             for (SearchResult searchResult : results) {
                 // System.out.println(searchResult.getAttributes().get("mobile"));
-                String cn = getValue(searchResult, "cn");
-                String uid = getValue(searchResult, "uid");
-                String sn = getValue(searchResult, "sn");
-                String givenName = getValue(searchResult, "givenName");
+                final String cn = getValue(searchResult, "cn");
+                final String uid = getValue(searchResult, "uid");
+                final String sn = getValue(searchResult, "sn");
+                final String givenName = getValue(searchResult, "givenName");
 
                 // Prüfen, ob cn aus Vor- und Nachname besteht.
                 if ((cn != null) && cn.contains(" ")) {
@@ -131,7 +131,7 @@ public final class LdapClientMain {
     }
 
     private static String getValue(final SearchResult searchResult, final String key) throws Exception {
-        Attribute attribute = searchResult.getAttributes().get(key);
+        final Attribute attribute = searchResult.getAttributes().get(key);
 
         if (attribute == null) {
             return null;
@@ -141,14 +141,14 @@ public final class LdapClientMain {
     }
 
     private static void writeMultiValue(final PrintWriter pw, final SearchResult searchResult, final String key) throws Exception {
-        Attribute attribute = searchResult.getAttributes().get(key);
+        final Attribute attribute = searchResult.getAttributes().get(key);
 
         if (attribute == null) {
             return;
         }
 
         for (int i = 0; i < attribute.size(); i++) {
-            String value = StringUtils.trim(attribute.get(i).toString());
+            final String value = StringUtils.trim(attribute.get(i).toString());
 
             if (StringUtils.isBlank(value)) {
                 continue;
@@ -159,13 +159,13 @@ public final class LdapClientMain {
     }
 
     private static void writeSingleValue(final PrintWriter pw, final SearchResult searchResult, final String key) throws Exception {
-        Attribute attribute = searchResult.getAttributes().get(key);
+        final Attribute attribute = searchResult.getAttributes().get(key);
 
         if (attribute == null) {
             return;
         }
 
-        String value = StringUtils.trim(attribute.get().toString());
+        final String value = StringUtils.trim(attribute.get().toString());
 
         if (StringUtils.isBlank(value)) {
             return;

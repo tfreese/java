@@ -15,9 +15,7 @@ public final class MethodHandleMain {
      */
     static class MyPoint {
         private int x;
-
         private int y;
-
         private int z;
 
         public int getX() {
@@ -55,8 +53,8 @@ public final class MethodHandleMain {
     }
 
     private static void accessFields() throws Throwable {
-        MethodHandles.Lookup lookup = MethodHandles.lookup();
-        MyPoint point = new MyPoint();
+        final MethodHandles.Lookup lookup = MethodHandles.lookup();
+        final MyPoint point = new MyPoint();
 
         // Set the x and y fields.
         MethodHandle mh = lookup.findSetter(MyPoint.class, "x", int.class);
@@ -67,35 +65,35 @@ public final class MethodHandleMain {
 
         // Get the field values.
         mh = lookup.findGetter(MyPoint.class, "x", int.class);
-        int x = (int) mh.invoke(point);
+        final int x = (int) mh.invoke(point);
         System.out.printf("x = %d%n", x);
 
         mh = lookup.findGetter(MyPoint.class, "y", int.class);
-        int y = (int) mh.invoke(point);
+        final int y = (int) mh.invoke(point);
         System.out.printf("y = %d%n", y);
     }
 
     private static void accessPrivateFields() throws Throwable {
-        Field field = MyPoint.class.getDeclaredField("z");
+        final Field field = MyPoint.class.getDeclaredField("z");
         field.setAccessible(true);
 
-        MethodHandles.Lookup lookup = MethodHandles.lookup();
-        MethodHandle mhSetter = lookup.unreflectSetter(field);
+        final MethodHandles.Lookup lookup = MethodHandles.lookup();
+        final MethodHandle mhSetter = lookup.unreflectSetter(field);
 
-        MyPoint point = new MyPoint();
+        final MyPoint point = new MyPoint();
 
         // field.set(point, 5);
         // field.get(point);
         mhSetter.invoke(point, 5);
 
-        MethodHandle mhGetter = lookup.unreflectGetter(field);
-        int z = (int) mhGetter.invoke(point);
+        final MethodHandle mhGetter = lookup.unreflectGetter(field);
+        final int z = (int) mhGetter.invoke(point);
 
         System.out.printf("z = %d%n", z);
     }
 
     private static void insertArguments() throws Throwable {
-        MethodHandles.Lookup lookup = MethodHandles.lookup();
+        final MethodHandles.Lookup lookup = MethodHandles.lookup();
 
         MethodHandle mh = lookup.findStatic(Math.class, "pow", MethodType.methodType(double.class, double.class, double.class));
         System.out.printf("2^10 = %f%n", mh.invoke(2.0, 10.0D));

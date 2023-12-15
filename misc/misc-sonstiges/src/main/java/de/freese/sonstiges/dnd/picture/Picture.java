@@ -31,42 +31,42 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
     }
 
     @Override
-    public void focusGained(final FocusEvent e) {
+    public void focusGained(final FocusEvent event) {
         // Draw the component with a red border
         // indicating that it has focus.
         this.repaint();
     }
 
     @Override
-    public void focusLost(final FocusEvent e) {
+    public void focusLost(final FocusEvent event) {
         // Draw the component with a black border
         // indicating that it doesn't have focus.
         this.repaint();
     }
 
     @Override
-    public void mouseClicked(final MouseEvent e) {
+    public void mouseClicked(final MouseEvent event) {
         // Since the user clicked on us, let's get focus!
         requestFocusInWindow();
     }
 
     @Override
-    public void mouseEntered(final MouseEvent e) {
+    public void mouseEntered(final MouseEvent event) {
         // Empty
     }
 
     @Override
-    public void mouseExited(final MouseEvent e) {
+    public void mouseExited(final MouseEvent event) {
         // Empty
     }
 
     @Override
-    public void mousePressed(final MouseEvent e) {
+    public void mousePressed(final MouseEvent event) {
         // Empty
     }
 
     @Override
-    public void mouseReleased(final MouseEvent e) {
+    public void mouseReleased(final MouseEvent event) {
         // Empty
     }
 
@@ -80,7 +80,7 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
 
     @Override
     protected void paintComponent(final Graphics graphics) {
-        Graphics g = graphics.create();
+        final Graphics g = graphics.create();
 
         // Draw in our entire space, even if isOpaque is false.
         g.setColor(Color.WHITE);

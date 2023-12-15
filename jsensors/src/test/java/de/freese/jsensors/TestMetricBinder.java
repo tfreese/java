@@ -31,20 +31,20 @@ import de.freese.jsensors.sensor.SensorValue;
 class TestMetricBinder {
     @Test
     void testCpuMetrics() throws Exception {
-        DefaultSensorRegistry registry = new DefaultSensorRegistry();
-        MapBackend mapBackend = new MapBackend(3);
+        final DefaultSensorRegistry registry = new DefaultSensorRegistry();
+        final MapBackend mapBackend = new MapBackend(3);
 
         new CpuMetrics().bindTo(registry, name -> mapBackend);
 
         registry.measureAll();
-        SensorValue sensorValue1 = mapBackend.getLastValue("cpu.usage");
+        final SensorValue sensorValue1 = mapBackend.getLastValue("cpu.usage");
         assertNotNull(sensorValue1);
         assertEquals("0", sensorValue1.getValue());
 
         TimeUnit.MILLISECONDS.sleep(300L);
 
         registry.measureAll();
-        SensorValue sensorValue2 = mapBackend.getLastValue("cpu.usage");
+        final SensorValue sensorValue2 = mapBackend.getLastValue("cpu.usage");
         assertNotNull(sensorValue2);
 
         assertNotEquals(sensorValue1.getTimestamp(), sensorValue2.getTimestamp());
@@ -54,44 +54,46 @@ class TestMetricBinder {
 
     @Test
     void testDiscMetrics() throws Exception {
-        DefaultSensorRegistry registry = new DefaultSensorRegistry();
-        MapBackend mapBackend = new MapBackend(3);
+        final DefaultSensorRegistry registry = new DefaultSensorRegistry();
+        final MapBackend mapBackend = new MapBackend(3);
 
         new DiscMetrics("tmp1", Path.of(System.getProperty("java.io.tmpdir"))).bindTo(registry, name -> mapBackend);
 
         registry.measureAll();
-        SensorValue sensorValuePathFree = mapBackend.getLastValue("disk.free.tmp1");
-        SensorValue sensorValuePathUsage = mapBackend.getLastValue("disk.usage.tmp1");
+        final SensorValue sensorValuePathFree = mapBackend.getLastValue("disk.free.tmp1");
+        final SensorValue sensorValuePathUsage = mapBackend.getLastValue("disk.usage.tmp1");
         assertNotNull(sensorValuePathFree);
         assertNotNull(sensorValuePathUsage);
 
         new DiscMetrics("tmp2", new File(System.getProperty("java.io.tmpdir"))).bindTo(registry, name -> mapBackend);
 
         registry.measureAll();
-        SensorValue sensorValueFileFree = mapBackend.getLastValue("disk.free.tmp2");
-        SensorValue sensorValueFileUsage = mapBackend.getLastValue("disk.usage.tmp2");
+        final SensorValue sensorValueFileFree = mapBackend.getLastValue("disk.free.tmp2");
+        final SensorValue sensorValueFileUsage = mapBackend.getLastValue("disk.usage.tmp2");
         assertNotNull(sensorValueFileFree);
         assertNotNull(sensorValueFileUsage);
 
         // Max. Difference: 4kb
-        long delta = 1024L * 4;
+        final long delta = 1024L * 4;
         assertEquals(sensorValuePathFree.getValueAsLong(), sensorValueFileFree.getValueAsLong(), delta, "'free' sensor values not equal");
         assertEquals(sensorValuePathUsage.getValueAsDouble(), sensorValueFileUsage.getValueAsDouble(), delta, "'usage' sensor values not equal");
     }
 
     @Test
     void testExecutorServiceMetrics() throws Exception {
-        DefaultSensorRegistry registry = new DefaultSensorRegistry();
-        MapBackend mapBackend = new MapBackend(3);
+        final DefaultSensorRegistry registry = new DefaultSensorRegistry();
+        final MapBackend mapBackend = new MapBackend(3);
 
         //        new ExecutorServiceMetrics(Executors.newSingleThreadExecutor(), "myExecutor").bindTo(registry, name -> mapBackend);
         Exception exception = assertThrows(IllegalArgumentException.class, () -> new ExecutorServiceMetrics(Executors.newSingleThreadExecutor(), "myExecutor").bindTo(registry, name -> mapBackend));
         String expectedMessage = "executorService not supported: 'java.util.concurrent.Executors$AutoShutdownDelegatedExecutorService'";
+        assertNotNull(exception);
         assertEquals(expectedMessage, exception.getMessage());
 
         //        new ExecutorServiceMetrics(Executors.newSingleThreadScheduledExecutor(), "myScheduler").bindTo(registry, name -> mapBackend);
         exception = assertThrows(IllegalArgumentException.class, () -> new ExecutorServiceMetrics(Executors.newSingleThreadScheduledExecutor(), "myScheduler").bindTo(registry, name -> mapBackend));
         expectedMessage = "executorService not supported: 'java.util.concurrent.Executors$DelegatedScheduledExecutorService'";
+        assertNotNull(exception);
         assertEquals(expectedMessage, exception.getMessage());
 
         new ExecutorServiceMetrics(ForkJoinPool.commonPool(), "myForkJoin").bindTo(registry, name -> mapBackend);
@@ -100,17 +102,17 @@ class TestMetricBinder {
 
         registry.measureAll();
 
-        Sensor sensorForkJoin = registry.getSensor("executor.active.myForkJoin");
-        Sensor sensorExecutor = registry.getSensor("executor.active.myExecutor2");
-        Sensor sensorScheduler = registry.getSensor("executor.active.myScheduler2");
+        final Sensor sensorForkJoin = registry.getSensor("executor.active.myForkJoin");
+        final Sensor sensorExecutor = registry.getSensor("executor.active.myExecutor2");
+        final Sensor sensorScheduler = registry.getSensor("executor.active.myScheduler2");
 
         assertNotNull(sensorForkJoin);
         assertNotNull(sensorExecutor);
         assertNotNull(sensorScheduler);
 
-        SensorValue sensorValueForkJoin = mapBackend.getLastValue("executor.active.myForkJoin");
-        SensorValue sensorValueExecutor = mapBackend.getLastValue("executor.active.myExecutor2");
-        SensorValue sensorValueScheduler = mapBackend.getLastValue("executor.active.myScheduler2");
+        final SensorValue sensorValueForkJoin = mapBackend.getLastValue("executor.active.myForkJoin");
+        final SensorValue sensorValueExecutor = mapBackend.getLastValue("executor.active.myExecutor2");
+        final SensorValue sensorValueScheduler = mapBackend.getLastValue("executor.active.myScheduler2");
 
         assertNotNull(sensorValueForkJoin);
         assertNotNull(sensorValueExecutor);
@@ -119,17 +121,17 @@ class TestMetricBinder {
 
     @Test
     void testMemoryMetrics() throws Exception {
-        DefaultSensorRegistry registry = new DefaultSensorRegistry();
-        MapBackend mapBackend = new MapBackend(3);
+        final DefaultSensorRegistry registry = new DefaultSensorRegistry();
+        final MapBackend mapBackend = new MapBackend(3);
 
         new MemoryMetrics().bindTo(registry, name -> mapBackend);
 
         registry.measureAll();
 
-        SensorValue sensorValueFree = mapBackend.getLastValue("memory.free");
-        SensorValue sensorValueMax = mapBackend.getLastValue("memory.max");
-        SensorValue sensorValueTotal = mapBackend.getLastValue("memory.total");
-        SensorValue sensorValueUsage = mapBackend.getLastValue("memory.usage");
+        final SensorValue sensorValueFree = mapBackend.getLastValue("memory.free");
+        final SensorValue sensorValueMax = mapBackend.getLastValue("memory.max");
+        final SensorValue sensorValueTotal = mapBackend.getLastValue("memory.total");
+        final SensorValue sensorValueUsage = mapBackend.getLastValue("memory.usage");
 
         assertNotNull(sensorValueFree);
         assertNotNull(sensorValueMax);
@@ -149,15 +151,15 @@ class TestMetricBinder {
 
     @Test
     void testSwapMetrics() throws Exception {
-        DefaultSensorRegistry registry = new DefaultSensorRegistry();
-        MapBackend mapBackend = new MapBackend(3);
+        final DefaultSensorRegistry registry = new DefaultSensorRegistry();
+        final MapBackend mapBackend = new MapBackend(3);
 
         new SwapMetrics().bindTo(registry, name -> mapBackend);
 
         registry.measureAll();
 
-        SensorValue sensorValueFree = mapBackend.getLastValue("swap.free");
-        SensorValue sensorValueUsage = mapBackend.getLastValue("swap.usage");
+        final SensorValue sensorValueFree = mapBackend.getLastValue("swap.free");
+        final SensorValue sensorValueUsage = mapBackend.getLastValue("swap.usage");
 
         assertNotNull(sensorValueFree);
         assertNotNull(sensorValueUsage);

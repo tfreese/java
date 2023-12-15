@@ -12,7 +12,6 @@ import java.util.TreeSet;
  */
 public final class Values<T extends Comparable<?>> {
     private final TreeSet<T> treeSet = new TreeSet<>();
-
     private final LinkedList<T> valueList = new LinkedList<>();
 
     private LinkedList<T> newValues;
@@ -38,10 +37,10 @@ public final class Values<T extends Comparable<?>> {
         }
 
         // Alte Werte entfernen.
-        int n = Math.min(count, this.valueList.size());
+        final int n = Math.min(count, this.valueList.size());
 
         while (this.valueList.size() > n) {
-            T oldValue = this.valueList.removeFirst();
+            final T oldValue = this.valueList.removeFirst();
 
             this.treeSet.remove(oldValue);
         }

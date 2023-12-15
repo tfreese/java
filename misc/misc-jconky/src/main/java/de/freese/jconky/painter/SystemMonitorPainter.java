@@ -27,15 +27,15 @@ public class SystemMonitorPainter extends AbstractMonitorPainter {
 
     @Override
     public double paintValue(final GraphicsContext gc, final double width) {
-        Map<String, UsageInfo> usages = getContext().getUsages();
+        final Map<String, UsageInfo> usages = getContext().getUsages();
 
-        double fontSize = getSettings().getFontSize();
+        final double fontSize = getSettings().getFontSize();
 
-        double x = getSettings().getMarginInner().getLeft();
+        final double x = getSettings().getMarginInner().getLeft();
         double y = fontSize;
         paintTitle(gc, "System", x, y, width);
 
-        List<String> paths = Arrays.asList("RAM", "SWAP", "/", "/tmp");
+        final List<String> paths = Arrays.asList("RAM", "SWAP", "/", "/tmp");
 
         for (String path : paths) {
             y += fontSize * 1.25D;
@@ -49,7 +49,7 @@ public class SystemMonitorPainter extends AbstractMonitorPainter {
         y += fontSize * 1.25D;
         paintTextAndValue(gc, "Updates:", Integer.toString(getContext().getUpdates()), x, y);
 
-        double height = y + 5D;
+        final double height = y + 5D;
         drawDebugBorder(gc, width, height);
 
         return height;
@@ -63,13 +63,13 @@ public class SystemMonitorPainter extends AbstractMonitorPainter {
         double x = getSettings().getMarginInner().getLeft();
         double y = 0;
 
-        String path = String.format("%7s:", usageInfo.getPath());
+        final String path = String.format("%7s:", usageInfo.getPath());
 
-        String format = "%.1f%s";
-        long used = usageInfo.getUsed();
-        long size = usageInfo.getSize();
-        double usage = usageInfo.getUsage();
-        String value = String.format("%s/%s", JConkyUtils.toHumanReadableSize(used, format), JConkyUtils.toHumanReadableSize(size, format));
+        final String format = "%.1f%s";
+        final long used = usageInfo.getUsed();
+        final long size = usageInfo.getSize();
+        final double usage = usageInfo.getUsage();
+        final String value = String.format("%s/%s", JConkyUtils.toHumanReadableSize(used, format), JConkyUtils.toHumanReadableSize(size, format));
         paintTextAndValue(gc, path, value, x, y);
 
         x = 150D;
@@ -77,7 +77,7 @@ public class SystemMonitorPainter extends AbstractMonitorPainter {
 
         x = 190D;
         y = -9.5D;
-        double barWidth = width - x;
+        final double barWidth = width - x;
         gc.setStroke(getSettings().getColorText());
         gc.strokeRect(x, y, barWidth, 10D);
 

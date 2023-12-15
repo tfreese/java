@@ -20,16 +20,16 @@ public class SwapMetrics implements SensorBinder {
     @Override
     public List<String> bindTo(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
         Sensor.builder("swap.free", this.sysMon, mon -> {
-            MemoryStats stats = mon.swap();
+            final MemoryStats stats = mon.swap();
 
             return Long.toString(stats.getFreeBytes());
         }).description("Free swap in Bytes").register(registry, backendProvider);
 
         Sensor.builder("swap.usage", this.sysMon, mon -> {
-            MemoryStats stats = mon.swap();
-            double free = stats.getFreeBytes();
-            double total = stats.getTotalBytes();
-            double usage = (1D - (free / total)) * 100D;
+            final MemoryStats stats = mon.swap();
+            final double free = stats.getFreeBytes();
+            final double total = stats.getTotalBytes();
+            final double usage = (1D - (free / total)) * 100D;
 
             return Double.toString(usage);
         }).description("Used swap in %").register(registry, backendProvider);

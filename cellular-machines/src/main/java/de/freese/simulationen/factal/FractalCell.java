@@ -44,8 +44,8 @@ public class FractalCell extends AbstractCell {
             ziLast = zi;
             zLast = z;
 
-            double ziT = 2 * (z * zi);
-            double zT = (z * z) - (zi * zi);
+            final double ziT = 2 * (z * zi);
+            final double zT = (z * z) - (zi * zi);
 
             z = zT + cr;
             zi = ziT + ci;
@@ -60,8 +60,8 @@ public class FractalCell extends AbstractCell {
         double z = 0.0D;
 
         for (int i = 0; i < ITERATIONEN; i++) {
-            double ziT = 2 * (z * zi);
-            double zT = (z * z) - (zi * zi);
+            final double ziT = 2 * (z * zi);
+            final double zT = (z * z) - (zi * zi);
 
             z = zT + cr;
             zi = ziT + ci;

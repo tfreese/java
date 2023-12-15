@@ -22,7 +22,7 @@ public abstract class AbstractListProperty<T> extends AbstractListExpression<T> 
 
     @Override
     public void setValue(final ObservableList<T> value) {
-        ObservableList<T> old = this.value;
+        final ObservableList<T> old = this.value;
         this.value = value;
 
         if (!Objects.equals(old, value)) {

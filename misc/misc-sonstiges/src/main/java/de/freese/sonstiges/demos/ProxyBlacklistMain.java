@@ -51,18 +51,18 @@ public final class ProxyBlacklistMain {
     private static final class HostComparator implements Comparator<String> {
         @Override
         public int compare(final String o1, final String o2) {
-            String s1 = new StringBuilder(o1).reverse().toString();
-            String s2 = new StringBuilder(o2).reverse().toString();
+            final String s1 = new StringBuilder(o1).reverse().toString();
+            final String s2 = new StringBuilder(o2).reverse().toString();
 
             return s1.compareTo(s2);
         }
     }
 
     public static void main(final String[] args) throws Exception {
-        ProxyBlacklistMain bl = new ProxyBlacklistMain();
+        final ProxyBlacklistMain bl = new ProxyBlacklistMain();
 
-        Path tempDirPath = Paths.get(System.getProperty("java.io.tmpdir"));
-        Path blackListRaw = tempDirPath.resolve("blackList.txt");
+        final Path tempDirPath = Paths.get(System.getProperty("java.io.tmpdir"));
+        final Path blackListRaw = tempDirPath.resolve("blackList.txt");
 
         Files.createDirectories(blackListRaw.getParent());
         Set<String> blackList;
@@ -115,9 +115,9 @@ public final class ProxyBlacklistMain {
     void createPrivoxyBlacklist(final Path privoxySkriptPath, final Path targetDirectory) throws Exception {
         Files.createDirectories(targetDirectory);
 
-        Set<String> easyList = new TreeSet<>(new HostComparator());
+        final Set<String> easyList = new TreeSet<>(new HostComparator());
 
-        List<URI> uris = new ArrayList<>();
+        final List<URI> uris = new ArrayList<>();
         uris.add(new URI("https://easylist-downloads.adblockplus.org/easylist.txt"));
         uris.add(new URI("https://easylist-downloads.adblockplus.org/easylistgermany.txt"));
         uris.add(new URI("https://easylist-downloads.adblockplus.org/easyprivacy.txt"));
@@ -128,7 +128,7 @@ public final class ProxyBlacklistMain {
         uris.add(new URI("https://easylist-downloads.adblockplus.org/fanboy-social.txt"));
         // uris.add(new URI("https://easylist-downloads.adblockplus.org/fanboy-annoyance.txt"));
 
-        int tasks = uris.size();
+        final int tasks = uris.size();
 
         uris.forEach(uri -> COMPLETION_SERVICE.submit(() -> load(uri)));
 
@@ -136,32 +136,32 @@ public final class ProxyBlacklistMain {
             easyList.addAll(COMPLETION_SERVICE.take().get());
         }
 
-        Path downloadPath = targetDirectory.resolve("blacklist-adblock-download.txt");
+        final Path downloadPath = targetDirectory.resolve("blacklist-adblock-download.txt");
         writeBlacklist(easyList, downloadPath);
 
-        Path pathScript = privoxySkriptPath.resolve("adblockplus2privoxy.sh");
-        Process process = new ProcessBuilder(pathScript.toString(), downloadPath.toString()).start();
+        final Path pathScript = privoxySkriptPath.resolve("adblockplus2privoxy.sh");
+        final Process process = new ProcessBuilder(pathScript.toString(), downloadPath.toString()).start();
         process.waitFor();
 
         // Blacklist Domain
-        Set<String> blackListDomain = new TreeSet<>(new HostComparator());
+        final Set<String> blackListDomain = new TreeSet<>(new HostComparator());
         blackListDomain.addAll(load(privoxySkriptPath.resolve("blacklist-domain.txt").toUri()));
         blackListDomain.addAll(load(privoxySkriptPath.resolve("blacklist-regex.txt").toUri()));
         blackListDomain.addAll(load(targetDirectory.resolve("privoxy-blacklist-domain.txt").toUri()));
 
         // Blacklist HTTP-Elements
-        Set<String> blackListElements = new TreeSet<>();
+        final Set<String> blackListElements = new TreeSet<>();
         blackListElements.addAll(load(targetDirectory.resolve("privoxy-blacklist-elements.txt").toUri()));
 
         // Whitelist Domain
-        Set<String> whiteListDomain = new TreeSet<>();
+        final Set<String> whiteListDomain = new TreeSet<>();
         blackListElements.addAll(load(targetDirectory.resolve("privoxy-whitelist-domain.txt").toUri()));
 
         // Whitelist Images
-        Set<String> whiteListImages = new TreeSet<>();
+        final Set<String> whiteListImages = new TreeSet<>();
         blackListElements.addAll(load(targetDirectory.resolve("privoxy-whitelist-images.txt").toUri()));
 
-        Charset charset = StandardCharsets.UTF_8;
+        final Charset charset = StandardCharsets.UTF_8;
 
         // Privoxy Filter
         try (PrintWriter writer = new PrintWriter(targetDirectory.resolve("privoxy-generated.filter").toFile(), charset)) {
@@ -227,10 +227,9 @@ public final class ProxyBlacklistMain {
             .map(value -> value.replace("\\.", "."))
             .map(value -> {
                 // 0.0.0.0 undertonenetworks.com #[zedo.com]
-                int lastIndex = value.lastIndexOf("#");
+                final int lastIndex = value.lastIndexOf("#");
 
-                if(lastIndex >= 0)
-                {
+                if(lastIndex >= 0) {
                    return value.substring(0, lastIndex).strip();
                 }
 
@@ -238,26 +237,23 @@ public final class ProxyBlacklistMain {
             })
             .map(value -> {
                 // 0.0.0.0 undertonenetworks.com/something
-                int lastIndex = value.lastIndexOf("/");
+                final int lastIndex = value.lastIndexOf("/");
 
-                if(lastIndex >= 0)
-                {
+                if(lastIndex >= 0) {
                    return value.substring(0, lastIndex).strip();
                 }
 
                 return value;
             })
             .map(value -> {
-                if(value.startsWith("."))
-                {
+                if(value.startsWith(".")) {
                     return value.substring(1).strip();
                 }
 
                 return value;
             })
             .map(value -> {
-                if(value.endsWith(".") || value.endsWith(","))
-                {
+                if(value.endsWith(".") || value.endsWith(",")) {
                     return value.substring(0, value.length() - 1).strip();
                 }
 
@@ -274,11 +270,11 @@ public final class ProxyBlacklistMain {
      * BlackList mit Regex ausdünnen.
      */
     Set<String> filterByRegEx(final Path privoxySkriptPath, final Set<String> blackList) throws Exception {
-        Path path = privoxySkriptPath.resolve("blacklist-regex.txt");
+        final Path path = privoxySkriptPath.resolve("blacklist-regex.txt");
 
-        Set<String> regexList = load(path.toUri());
+        final Set<String> regexList = load(path.toUri());
 
-        Set<String> set = validateRegex(blackList, regexList);
+        final Set<String> set = validateRegex(blackList, regexList);
         LOGGER.info("after validateRegex Size: {}", set.size());
 
         return set;
@@ -298,34 +294,28 @@ public final class ProxyBlacklistMain {
             .parallel()
             .filter(Objects::nonNull)
             .map(host -> {
-                if(StringUtils.containsOnly(host, ".0123456789"))
-                {
+                if(StringUtils.containsOnly(host, ".0123456789")) {
                     String hostName = cache.get(host);
 
-                    if("null".equals(hostName))
-                    {
+                    if("null".equals(hostName)) {
                         return null;
                     }
 
-                    if(hostName != null)
-                    {
+                    if(hostName != null) {
                         return hostName;
                     }
 
-                    try
-                    {
+                    try {
                         hostName = InetAddress.getByName(host).getHostName();
                     }
-                    catch (UnknownHostException ex)
-                    {
+                    catch (UnknownHostException ex) {
                         // Ignore
                         cache.put(host, "null");
 
                         return null;
                     }
 
-                    if (StringUtils.containsOnly(hostName, ".0123456789"))
-                    {
+                    if (StringUtils.containsOnly(hostName, ".0123456789")) {
                         // IP -> Keine Namensauflösung möglich.
                         cache.put(host, "null");
 
@@ -353,7 +343,7 @@ public final class ProxyBlacklistMain {
     Set<String> load(final URI uri) {
         LOGGER.info("Load: {}", uri);
 
-        Set<String> set = new HashSet<>();
+        final Set<String> set = new HashSet<>();
 
         try {
             if ("file".equals(uri.getScheme())) {
@@ -362,7 +352,7 @@ public final class ProxyBlacklistMain {
                 }
             }
             else {
-                URLConnection connection = uri.toURL().openConnection();
+                final URLConnection connection = uri.toURL().openConnection();
 
                 try (InputStream is = connection.getInputStream();
                      BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
@@ -383,7 +373,7 @@ public final class ProxyBlacklistMain {
      * Laden der allgemeinen BlackList.
      */
     Set<String> loadHostBlacklist() throws Exception {
-        List<URI> uris = new ArrayList<>();
+        final List<URI> uris = new ArrayList<>();
         uris.add(new URI("https://someonewhocares.org/hosts/hosts"));
         uris.add(new URI("https://winhelp2002.mvps.org/hosts.txt"));
         uris.add(new URI("https://pgl.yoyo.org/adservers/serverlist.php?hostformat=nohtml&showintro=0"));
@@ -393,7 +383,7 @@ public final class ProxyBlacklistMain {
         uris.forEach(uri -> COMPLETION_SERVICE.submit(() -> load(uri)));
 
         // Mit diesen wächst die Blacklist auf über 1,5 Mio. !!!
-        List<URI> uriTars = new ArrayList<>();
+        final List<URI> uriTars = new ArrayList<>();
         // uriTars.add(new URI("https://www.shallalist.de/Downloads/shallalist.tar.gz"));
         // uriTars.add(new URI("https://urlblacklist.com/cgi-bin/commercialdownload.pl?type=download&file=bigblacklist"));
 
@@ -401,7 +391,7 @@ public final class ProxyBlacklistMain {
 
         tasks += uriTars.size();
 
-        Set<String> blackList = new HashSet<>();
+        final Set<String> blackList = new HashSet<>();
 
         for (int i = 0; i < tasks; i++) {
             blackList.addAll(COMPLETION_SERVICE.take().get());
@@ -414,14 +404,14 @@ public final class ProxyBlacklistMain {
      * Laden der IP-BlackList.
      */
     Set<String> loadIpBlacklist() throws Exception {
-        List<URI> uris = new ArrayList<>();
+        final List<URI> uris = new ArrayList<>();
         uris.add(new URI("https://myip.ms/files/blacklist/general/latest_blacklist.txt"));
 
-        int tasks = uris.size();
+        final int tasks = uris.size();
 
         uris.forEach(uri -> COMPLETION_SERVICE.submit(() -> load(uri)));
 
-        Set<String> blackList = new HashSet<>();
+        final Set<String> blackList = new HashSet<>();
 
         for (int i = 0; i < tasks; i++) {
             blackList.addAll(COMPLETION_SERVICE.take().get());
@@ -436,7 +426,7 @@ public final class ProxyBlacklistMain {
     Set<String> loadTGZ(final URI uri) throws IOException {
         LOGGER.info("Download: {}", uri);
 
-        Set<String> set = new HashSet<>();
+        final Set<String> set = new HashSet<>();
 
         try (InputStream is = uri.toURL().openStream();
              GZIPInputStream gzipIs = new GZIPInputStream(is);
@@ -472,15 +462,12 @@ public final class ProxyBlacklistMain {
             .filter(host -> {
                 boolean match = false;
 
-                for (String regex : regexList)
-                {
-                    if (!StringUtils.startsWith(host, ".*"))
-                    {
+                for (String regex : regexList) {
+                    if (!StringUtils.startsWith(host, ".*")) {
                         regex = ".*" + regex;
                     }
 
-                    if (host.matches(regex))
-                    {
+                    if (host.matches(regex)) {
                         match = true;
                         break;
                     }

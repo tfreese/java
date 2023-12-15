@@ -21,7 +21,7 @@ import javax.script.ScriptException;
  */
 public final class JavaScriptMain {
     public static void main(final String[] args) throws Exception {
-        ScriptEngineManager manager = new ScriptEngineManager();
+        final ScriptEngineManager manager = new ScriptEngineManager();
 
         manager.getEngineFactories().forEach(System.out::println);
 
@@ -45,7 +45,7 @@ public final class JavaScriptMain {
             return;
         }
 
-        JavaScriptMain javaScript = new JavaScriptMain();
+        final JavaScriptMain javaScript = new JavaScriptMain();
         javaScript.simpleScript(engine);
         javaScript.bindings(engine);
         javaScript.scriptFile(engine);
@@ -58,24 +58,24 @@ public final class JavaScriptMain {
     }
 
     private void bindings(final ScriptEngine engine) throws ScriptException {
-        StringBuilder script = new StringBuilder();
+        final StringBuilder script = new StringBuilder();
         script.append("a + b");
 
-        Bindings bindings = engine.getBindings(ScriptContext.ENGINE_SCOPE);
+        final Bindings bindings = engine.getBindings(ScriptContext.ENGINE_SCOPE);
         bindings.put("a", 6);
         bindings.put("b", 7);
 
-        Object result = engine.eval(script.toString(), bindings);
-        Double summe = (Double) result;
+        final Object result = engine.eval(script.toString(), bindings);
+        final Double summe = (Double) result;
 
         System.out.printf("%d + %d = %f%n", (int) bindings.get("a"), (int) bindings.get("a"), summe);
         System.out.println();
     }
 
     private void scriptFile(final ScriptEngine engine) throws ScriptException, IOException {
-        Conf conf = new Conf();
+        final Conf conf = new Conf();
 
-        Bindings bindings = engine.getBindings(ScriptContext.ENGINE_SCOPE);
+        final Bindings bindings = engine.getBindings(ScriptContext.ENGINE_SCOPE);
         bindings.put("conf", conf);
 
         try (Reader reader = new InputStreamReader(ClassLoader.getSystemResourceAsStream("configuration.js"), StandardCharsets.UTF_8)) {
@@ -88,7 +88,7 @@ public final class JavaScriptMain {
     }
 
     private void simpleFunction(final ScriptEngine engine) throws ScriptException, NoSuchMethodException {
-        StringBuilder script = new StringBuilder();
+        final StringBuilder script = new StringBuilder();
         script.append("function addiere(a,b)");
         script.append("{");
         script.append(" return a + b;");
@@ -96,10 +96,10 @@ public final class JavaScriptMain {
 
         engine.eval(script.toString());
 
-        Invocable invocable = (Invocable) engine;
+        final Invocable invocable = (Invocable) engine;
 
-        Object result = invocable.invokeFunction("addiere", 5, 6);
-        Double summe = (Double) result;
+        final Object result = invocable.invokeFunction("addiere", 5, 6);
+        final Double summe = (Double) result;
 
         System.out.printf("Summe = %f%n", summe);
 
@@ -107,15 +107,15 @@ public final class JavaScriptMain {
     }
 
     private void simpleScript(final ScriptEngine engine) throws ScriptException {
-        StringBuilder script = new StringBuilder();
+        final StringBuilder script = new StringBuilder();
         script.append("var sum = 0;");
         script.append("for(var i = 0; i < 1000; i++)");
         script.append("{");
         script.append(" sum+=i;");
         script.append("}");
 
-        Object result = engine.eval(script.toString());
-        Double summe = (Double) result;
+        final Object result = engine.eval(script.toString());
+        final Double summe = (Double) result;
 
         System.out.printf("Summe = %f%n", summe);
         System.out.println();
@@ -125,8 +125,8 @@ public final class JavaScriptMain {
         engine.eval("function plus(a,b) { return a + b; }");
         engine.eval("function minus(a,b) { return a - b; }");
 
-        Invocable invocable = (Invocable) engine;
-        Calculator calculator = invocable.getInterface(Calculator.class);
+        final Invocable invocable = (Invocable) engine;
+        final Calculator calculator = invocable.getInterface(Calculator.class);
 
         System.out.printf("Plus = %f%n", calculator.plus(5, 4));
         System.out.printf("Minus = %f%n", calculator.minus(5, 4));

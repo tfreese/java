@@ -11,17 +11,17 @@ import de.freese.jconky.model.HostInfo;
 public class HostMonitorPainter extends AbstractMonitorPainter {
     @Override
     public double paintValue(final GraphicsContext gc, final double width) {
-        HostInfo hostInfo = getContext().getHostInfo();
+        final HostInfo hostInfo = getContext().getHostInfo();
 
         gc.setFont(getSettings().getFont());
 
-        double fontSize = getSettings().getFontSize();
+        final double fontSize = getSettings().getFontSize();
 
-        double x = getSettings().getMarginInner().getLeft();
-        double y = fontSize;
+        final double x = getSettings().getMarginInner().getLeft();
+        final double y = fontSize;
         paintText(gc, String.format("%s - %s on %s", hostInfo.getName(), hostInfo.getVersion(), hostInfo.getArchitecture()), x, y);
 
-        double height = y + 5D;
+        final double height = y + 5D;
         drawDebugBorder(gc, width, height);
 
         return height;

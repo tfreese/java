@@ -9,7 +9,6 @@ import java.io.PrintWriter;
  */
 public class ReverseThread extends Thread {
     private final BufferedReader in;
-
     private final PrintWriter out;
 
     public ReverseThread(final PrintWriter out, final BufferedReader in) {
@@ -40,8 +39,8 @@ public class ReverseThread extends Thread {
 
     private String reverseIt(final String source) {
         int i = 0;
-        int len = source.length();
-        StringBuilder sb = new StringBuilder(len);
+        final int len = source.length();
+        final StringBuilder sb = new StringBuilder(len);
 
         for (i = (len - 1); i >= 0; i--) {
             sb.append(source.charAt(i));

@@ -13,8 +13,8 @@ public class SinusValueSupplier implements Supplier<Float> {
     @Override
     public Float get() {
         //        double radian = this.grad * (Math.PI / 180D);
-        double radian = Math.toRadians(this.grad);
-        double sinus = Math.sin(radian);
+        final double radian = Math.toRadians(this.grad);
+        final double sinus = Math.sin(radian);
 
         this.grad += 1;
 

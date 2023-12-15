@@ -10,13 +10,9 @@ import java.util.Objects;
  */
 public class Sequence {
     private long increment;
-
     private String name;
-
     private long nextValue;
-
     private Schema schema;
-
     private long startWith;
 
     Sequence(final Schema schema, final String name) {
@@ -68,7 +64,7 @@ public class Sequence {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("Sequence [");
         builder.append("schema=").append(getSchema().getName());
         builder.append(", name=").append(getName());

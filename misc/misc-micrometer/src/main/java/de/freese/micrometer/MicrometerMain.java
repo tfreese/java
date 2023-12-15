@@ -52,10 +52,8 @@ public final class MicrometerMain {
                 @Override
                 public MeterFilterReply accept(final Id id)
                 {
-                    if("scheduledExecutorService".equals(id.getTag("name")))
-                    {
-                        if ("executor.pool.max".equals(id.getName()) || "executor.queue.remaining".equals(id.getName()))
-                        {
+                    if("scheduledExecutorService".equals(id.getTag("name"))) {
+                        if ("executor.pool.max".equals(id.getName()) || "executor.queue.remaining".equals(id.getName())) {
                             // Ist bei ScheduledExecutorService immer Integer.MAX_VALUE;
                             return MeterFilterReply.DENY;
                         }
@@ -78,8 +76,7 @@ public final class MicrometerMain {
 
     static void initLoggingRegistry() {
         // PushRegistryConfig
-        LoggingRegistryConfig loggingRegistryConfig = new LoggingRegistryConfig() {
-
+        final LoggingRegistryConfig loggingRegistryConfig = new LoggingRegistryConfig() {
             @Override
             public String get(final String key) {
                 return null;
@@ -92,14 +89,14 @@ public final class MicrometerMain {
             }
         };
 
-        LoggingMeterRegistry loggingMeterRegistry = new LoggingMeterRegistry(loggingRegistryConfig, Clock.SYSTEM);
-        // LoggingMeterRegistry loggingMeterRegistry = LoggingMeterRegistry.builder(loggingRegistryConfig).clock(Clock.SYSTEM).loggingSink(System.out::println).build();
+        final LoggingMeterRegistry loggingMeterRegistry = new LoggingMeterRegistry(loggingRegistryConfig, Clock.SYSTEM);
+        // final LoggingMeterRegistry loggingMeterRegistry = LoggingMeterRegistry.builder(loggingRegistryConfig).clock(Clock.SYSTEM).loggingSink(System.out::println).build();
         Metrics.addRegistry(loggingMeterRegistry);
     }
 
     static void initPrometheusRegistry() throws Exception {
         // PrometheusConfig.DEFAULT; step = 1 Minute
-        PrometheusConfig prometheusConfig = new PrometheusConfig() {
+        final PrometheusConfig prometheusConfig = new PrometheusConfig() {
             @Override
             public String get(final String key) {
                 return null;
@@ -112,7 +109,7 @@ public final class MicrometerMain {
             }
         };
 
-        PrometheusMeterRegistry prometheusMeterRegistry = new PrometheusMeterRegistry(prometheusConfig);
+        final PrometheusMeterRegistry prometheusMeterRegistry = new PrometheusMeterRegistry(prometheusConfig);
         prometheusMeterRegistry.config().meterFilter(new PrometheusRenameFilter());
         Metrics.addRegistry(prometheusMeterRegistry);
 
@@ -120,7 +117,7 @@ public final class MicrometerMain {
     }
 
     static void initSimpleRegistry() {
-        SimpleConfig simpleConfig = new SimpleConfig() {
+        final SimpleConfig simpleConfig = new SimpleConfig() {
             @Override
             public String get(final String key) {
                 return null;
@@ -138,7 +135,7 @@ public final class MicrometerMain {
             }
         };
 
-        SimpleMeterRegistry simpleMeterRegistry = new SimpleMeterRegistry(simpleConfig, Clock.SYSTEM);
+        final SimpleMeterRegistry simpleMeterRegistry = new SimpleMeterRegistry(simpleConfig, Clock.SYSTEM);
         Metrics.addRegistry(simpleMeterRegistry);
     }
 
@@ -151,14 +148,14 @@ public final class MicrometerMain {
         // new LogbackMetrics().bindTo(Metrics.globalRegistry);
         new NetworkMetrics().bindTo(Metrics.globalRegistry);
 
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(4, new NamedThreadFactory("scheduler"));
+        final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(4, new NamedThreadFactory("scheduler"));
         new ExecutorServiceMetrics(scheduledExecutorService, "scheduledExecutorService", null).bindTo(Metrics.globalRegistry);
 
         // Diese funktionieren nicht, da sie in privaten Wrappern gekapselt werden !
         // new ExecutorServiceMetrics(Executors.newSingleThreadExecutor(), "test1", null).bindTo(Metrics.globalRegistry);
         // new ExecutorServiceMetrics(Executors.newSingleThreadScheduledExecutor(), "test1", null).bindTo(Metrics.globalRegistry);
 
-        // ScheduledExecutorService scheduledExecutorService =
+        // final ScheduledExecutorService scheduledExecutorService =
         // ExecutorServiceMetrics.monitor(Metrics.globalRegistry, Executors.newScheduledThreadPool(4, new NamedThreadFactory("scheduler")),
         // "scheduledExecutorService");
 
@@ -170,12 +167,10 @@ public final class MicrometerMain {
             // Metrics.counter("test.counter").increment();
             //
             // Metrics.timer("test.timer").record(() -> {
-            // try
-            // {
+            // try {
             // TimeUnit.MILLISECONDS.sleep((int) (1500 * Math.random()));
             // }
-            // catch (InterruptedException ex)
-            // {
+            // catch (InterruptedException ex) {
             // // Empty
             // }
             // });
@@ -189,7 +184,7 @@ public final class MicrometerMain {
      */
     private static void startServerForPrometheus() throws Exception {
         // @formatter:off
-        Optional<PrometheusMeterRegistry> prometheusMeterRegistryOptional = Metrics.globalRegistry.getRegistries().stream()
+        final Optional<PrometheusMeterRegistry> prometheusMeterRegistryOptional = Metrics.globalRegistry.getRegistries().stream()
                 .filter(PrometheusMeterRegistry.class::isInstance)
                 .map(PrometheusMeterRegistry.class::cast)
                 .findFirst()
@@ -200,17 +195,17 @@ public final class MicrometerMain {
             return;
         }
 
-        PrometheusMeterRegistry prometheusMeterRegistry = prometheusMeterRegistryOptional.get();
+        final PrometheusMeterRegistry prometheusMeterRegistry = prometheusMeterRegistryOptional.get();
 
-        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
+        final HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
         server.setExecutor(Executors.newSingleThreadExecutor(new NamedThreadFactory("jre-httpserver")));
 
         server.createContext("/prometheus", httpExchange -> {
-            String response = prometheusMeterRegistry.scrape();
+            final String response = prometheusMeterRegistry.scrape();
 
             LOGGER.debug("{}{}", System.lineSeparator(), response);
 
-            byte[] bytes = response.getBytes(StandardCharsets.UTF_8);
+            final byte[] bytes = response.getBytes(StandardCharsets.UTF_8);
 
             httpExchange.sendResponseHeaders(200, bytes.length);
 
@@ -222,11 +217,11 @@ public final class MicrometerMain {
         });
 
         server.createContext("/exporter", httpExchange -> {
-            String response = MeterExporter.export(prometheusMeterRegistry, Duration.ofSeconds(1), TimeUnit.SECONDS).stream().collect(Collectors.joining(System.lineSeparator()));
+            final String response = MeterExporter.export(prometheusMeterRegistry, Duration.ofSeconds(1), TimeUnit.SECONDS).stream().collect(Collectors.joining(System.lineSeparator()));
 
             LOGGER.debug("{}{}", System.lineSeparator(), response);
 
-            byte[] bytes = response.getBytes(StandardCharsets.UTF_8);
+            final byte[] bytes = response.getBytes(StandardCharsets.UTF_8);
 
             httpExchange.sendResponseHeaders(200, bytes.length);
 

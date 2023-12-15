@@ -54,7 +54,7 @@ public final class Bindings {
     }
 
     public static BooleanBinding and(final ObservableBooleanValue ov1, final ObservableBooleanValue ov2) {
-        BooleanBinding binding = new AbstractBooleanBinding() {
+        final BooleanBinding binding = new AbstractBooleanBinding() {
             @Override
             protected Boolean computeValue() {
                 return ov1.get() && ov2.get();
@@ -80,7 +80,7 @@ public final class Bindings {
     }
 
     public static BooleanBinding createBooleanBinding(final Predicate<Object> function, final ObservableValue<?> ov) {
-        BooleanBinding binding = new AbstractBooleanBinding() {
+        final BooleanBinding binding = new AbstractBooleanBinding() {
             @Override
             protected Boolean computeValue() {
                 return function.test(ov.getValue());
@@ -95,7 +95,7 @@ public final class Bindings {
     }
 
     public static DoubleBinding createDoubleBinding(final BinaryOperator<Double> function, final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2) {
-        DoubleBinding binding = new AbstractDoubleBinding() {
+        final DoubleBinding binding = new AbstractDoubleBinding() {
             @Override
             protected double computeValue() {
                 return function.apply(ov1.doubleValue(), ov2.doubleValue());
@@ -111,7 +111,7 @@ public final class Bindings {
     }
 
     public static FloatBinding createFloatBinding(final BinaryOperator<Float> function, final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2) {
-        FloatBinding binding = new AbstractFloatBinding() {
+        final FloatBinding binding = new AbstractFloatBinding() {
             @Override
             protected float computeValue() {
                 return function.apply(ov1.floatValue(), ov2.floatValue());
@@ -127,7 +127,7 @@ public final class Bindings {
     }
 
     public static IntegerBinding createIntegerBinding(final BinaryOperator<Integer> function, final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2) {
-        IntegerBinding binding = new AbstractIntegerBinding() {
+        final IntegerBinding binding = new AbstractIntegerBinding() {
             @Override
             protected int computeValue() {
                 return function.apply(ov1.intValue(), ov2.intValue());
@@ -143,7 +143,7 @@ public final class Bindings {
     }
 
     public static LongBinding createLongBinding(final BinaryOperator<Long> function, final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2) {
-        LongBinding binding = new AbstractLongBinding() {
+        final LongBinding binding = new AbstractLongBinding() {
             @Override
             protected long computeValue() {
                 return function.apply(ov1.longValue(), ov2.longValue());
@@ -159,7 +159,7 @@ public final class Bindings {
     }
 
     public static StringBinding createStringBinding(final BinaryOperator<String> function, final ObservableStringValue ov1, final ObservableStringValue ov2) {
-        StringBinding binding = new AbstractStringBinding() {
+        final StringBinding binding = new AbstractStringBinding() {
             @Override
             protected String computeValue() {
                 return function.apply(ov1.getValue(), ov2.getValue());
@@ -218,7 +218,7 @@ public final class Bindings {
     }
 
     public static IntegerBinding length(final ObservableStringValue ov) {
-        IntegerBinding binding = new AbstractIntegerBinding() {
+        final IntegerBinding binding = new AbstractIntegerBinding() {
             @Override
             protected int computeValue() {
                 return getValueSafe(ov.getValue()).length();
@@ -252,7 +252,7 @@ public final class Bindings {
     }
 
     public static BooleanBinding not(final ObservableBooleanValue ov) {
-        BooleanBinding binding = new AbstractBooleanBinding() {
+        final BooleanBinding binding = new AbstractBooleanBinding() {
             @Override
             protected Boolean computeValue() {
                 return !ov.get();
@@ -267,7 +267,7 @@ public final class Bindings {
     }
 
     public static BooleanBinding or(final ObservableBooleanValue ov1, final ObservableBooleanValue ov2) {
-        BooleanBinding binding = new AbstractBooleanBinding() {
+        final BooleanBinding binding = new AbstractBooleanBinding() {
             @Override
             protected Boolean computeValue() {
                 return ov1.get() || ov2.get();

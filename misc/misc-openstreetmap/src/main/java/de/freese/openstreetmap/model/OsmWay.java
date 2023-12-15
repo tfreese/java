@@ -22,8 +22,8 @@ public class OsmWay extends AbstractOsmEntity {
     public Rectangle getBounds() {
         if (this.bounds == null) {
             for (OsmNode osmNode : getNodes()) {
-                double x = Mercator.mercX(osmNode.getLongitude());
-                double y = Mercator.mercY(osmNode.getLatitude());
+                final double x = Mercator.mercX(osmNode.getLongitude());
+                final double y = Mercator.mercY(osmNode.getLatitude());
 
                 if (this.bounds == null) {
                     this.bounds = new Rectangle();
@@ -43,8 +43,8 @@ public class OsmWay extends AbstractOsmEntity {
             this.polygon = new Polygon();
 
             for (OsmNode osmNode : getNodes()) {
-                double x = Mercator.mercX(osmNode.getLongitude());
-                double y = Mercator.mercY(osmNode.getLatitude());
+                final double x = Mercator.mercX(osmNode.getLongitude());
+                final double y = Mercator.mercY(osmNode.getLatitude());
                 this.polygon.addPoint((int) x, (int) y);
             }
         }

@@ -6,9 +6,7 @@ package de.freese.jconky.model;
  */
 public class GpuInfo extends TemperatureInfo {
     private final int fanSpeed;
-
     private final double power;
-
     private final int usage;
 
     public GpuInfo() {
@@ -37,7 +35,7 @@ public class GpuInfo extends TemperatureInfo {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(getClass().getSimpleName());
+        final StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
         builder.append(" device=").append(getDevice());
         builder.append(", temperature=").append(getTemperature());

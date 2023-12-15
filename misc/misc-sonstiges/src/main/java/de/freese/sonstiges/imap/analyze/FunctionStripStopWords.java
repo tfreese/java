@@ -39,20 +39,20 @@ public class FunctionStripStopWords implements UnaryOperator<String> {
     }
 
     private static void parseStopWords() {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
         try {
             URL url = classLoader.getResource("stopwords_global.txt");
-            Set<String> global = new TreeSet<>(Files.readAllLines(Paths.get(url.toURI()), StandardCharsets.UTF_8));
+            final Set<String> global = new TreeSet<>(Files.readAllLines(Paths.get(url.toURI()), StandardCharsets.UTF_8));
             CACHE.put(Locale.ROOT, global);
 
             url = classLoader.getResource("stopwords_de.txt");
-            Set<String> de = new TreeSet<>(Files.readAllLines(Paths.get(url.toURI()), StandardCharsets.UTF_8));
+            final Set<String> de = new TreeSet<>(Files.readAllLines(Paths.get(url.toURI()), StandardCharsets.UTF_8));
             // de.addAll(global);
             CACHE.put(Locale.GERMAN, de);
 
             url = classLoader.getResource("stopwords_en.txt");
-            Set<String> en = new TreeSet<>(Files.readAllLines(Paths.get(url.toURI()), StandardCharsets.UTF_8));
+            final Set<String> en = new TreeSet<>(Files.readAllLines(Paths.get(url.toURI()), StandardCharsets.UTF_8));
             // en.addAll(global);
             CACHE.put(Locale.ENGLISH, en);
         }

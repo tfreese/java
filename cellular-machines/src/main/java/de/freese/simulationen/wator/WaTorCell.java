@@ -22,6 +22,7 @@ public class WaTorCell extends AbstractCell {
 
     private final List<int[]> fischNachbarnList = new ArrayList<>(8);
     private final List<int[]> freieNachbarnList = new ArrayList<>(8);
+
     private CellType cellType;
     private int energy;
 
@@ -123,7 +124,7 @@ public class WaTorCell extends AbstractCell {
         this.fischNachbarnList.clear();
 
         visitNeighbours((x, y) -> {
-            WaTorCell cell = getSimulation().getCell(x, y);
+            final WaTorCell cell = getSimulation().getCell(x, y);
 
             if (cell.isEmpty()) {
                 this.freieNachbarnList.add(new int[]{x, y});
@@ -144,7 +145,7 @@ public class WaTorCell extends AbstractCell {
 
         while (!this.freieNachbarnList.isEmpty()) {
             final int size = this.freieNachbarnList.size();
-            int[] koords = this.freieNachbarnList.remove(getSimulation().getRandom().nextInt(size));
+            final int[] koords = this.freieNachbarnList.remove(getSimulation().getRandom().nextInt(size));
 
             final WaTorCell cell = getSimulation().getCell(koords[0], koords[1]);
 

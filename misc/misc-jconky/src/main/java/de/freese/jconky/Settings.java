@@ -30,27 +30,16 @@ public final class Settings {
     }
 
     private final double alpha;
-
     private final Color colorGradientStart;
-
     private final Color colorGradientStop;
-
     private final Color colorText;
-
     private final Color colorTitle;
-
     private final Color colorValue;
-
     private final Font font;
-
     private final String fontName;
-
     private final double fontSize;
-
     private final Insets marginInner;
-
     private final Insets marginOuter;
-
     private final SystemMonitor systemMonitor;
 
     private Settings() {

@@ -12,9 +12,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 @JsonRootName(value = "author")
 public class DiscordAuthor {
     private String iconUrl;
-
     private String name;
-
     private String nameUrl;
 
     public String getIconUrl() {

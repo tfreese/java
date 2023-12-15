@@ -18,7 +18,6 @@ import java.util.stream.Stream;
  */
 public abstract class Genotype {
     private final Chromosome[] chromosomes;
-
     private final Config config;
 
     protected Genotype(final Config config) {
@@ -54,10 +53,10 @@ public abstract class Genotype {
      * Beim Crossover werden aus der Population/Genotype paarweise Chromosomen ausgewählt, die dann mit einer Wahrscheinlichkeit W zu kreuzen sind.
      */
     public Chromosome crossover(final Chromosome parent1, final Chromosome parent2) {
-        Chromosome population = createEmptyChromosome();
+        final Chromosome population = createEmptyChromosome();
 
         for (int i = 0; i < parent1.size(); i++) {
-            Gene gene = null;
+            final Gene gene;
 
             if (getConfig().getRandom().nextDouble() <= getConfig().getCrossoverRate()) {
                 gene = parent1.getGene(i);
@@ -78,7 +77,7 @@ public abstract class Genotype {
      * 3. Zufällige Veränderung der Gene, {@link Chromosome#mutate()}<br>
      */
     public Genotype evolve() {
-        Genotype newPopulation = createEmptyGenotype();
+        final Genotype newPopulation = createEmptyGenotype();
 
         int elitismOffset = 0;
 
@@ -87,16 +86,14 @@ public abstract class Genotype {
             elitismOffset = 1;
         }
 
-        // for (int i = elitismOffset; i < size(); i++)
-        // {
+        // for (int i = elitismOffset; i < size(); i++) {
         // // Loop over the population size and create new individuals with crossover.
         // // Select parents
         // Chromosome parent1 = tournamentSelection();
         // Chromosome parent2 = tournamentSelection();
         //
         // // Kann bei einigen Beispielen zur Endlos-Schleife führen.
-        // // while(parent1.calcFitnessValue() == parent2.calcFitnessValue())
-        // // {
+        // // while(parent1.calcFitnessValue() == parent2.calcFitnessValue()) {
         // // parent2 = tournamentSelection();
         // // }
         //
@@ -116,17 +113,16 @@ public abstract class Genotype {
             .map(i -> {
                 // Loop over the population size and create new individuals with crossover.
                 // Select parents
-                Chromosome parent1 = tournamentSelection();
-                Chromosome parent2 = tournamentSelection();
+                final Chromosome parent1 = tournamentSelection();
+                final Chromosome parent2 = tournamentSelection();
 
                 // Kann bei einigen Beispielen zur Endlos-Schleife führen.
-//                while(parent1.calcFitnessValue() == parent2.calcFitnessValue())
-//                {
+//                while(parent1.calcFitnessValue() == parent2.calcFitnessValue())  {
 //                    parent2 = tournamentSelection();
 //                }
 
                 // Crossover parents
-                Chromosome child = crossover(parent1, parent2);
+                final Chromosome child = crossover(parent1, parent2);
 
                 // Add child to new population
                 newPopulation.setChromosome(i, child);
@@ -157,10 +153,9 @@ public abstract class Genotype {
         //
         // for (int i = 1; i < size(); i++)
         // {
-        // Chromosome chromosome = getChromosome(i);
+        // final Chromosome chromosome = getChromosome(i);
         //
-        // if (fittestFitness <= chromosome.calcFitnessValue())
-        // {
+        // if (fittestFitness <= chromosome.calcFitnessValue()) {
         // fittest = chromosome;
         // fittestFitness = fittest.calcFitnessValue();
         // }
@@ -169,16 +164,16 @@ public abstract class Genotype {
         // return fittest;
 
         // Parallelisierung
-        // Supplier<NavigableMap<Double, Chromosome>> mapSupplier = () -> Collections.synchronizedNavigableMap(new TreeMap<>());
+        // final Supplier<NavigableMap<Double, Chromosome>> mapSupplier = () -> Collections.synchronizedNavigableMap(new TreeMap<>());
 
         // @formatter:off
-        NavigableMap<Double, Chromosome> map = Stream.of(getChromosomes())
+        final NavigableMap<Double, Chromosome> map = Stream.of(getChromosomes())
                 .parallel()
                 .collect(Collectors.toMap(Chromosome::calcFitnessValue, Function.identity(), (a, b) -> a, TreeMap::new))
                 ;
         // @formatter:on
 
-        Entry<Double, Chromosome> entry = map.lastEntry();
+        final Entry<Double, Chromosome> entry = map.lastEntry();
 
         return entry.getValue();
     }
@@ -188,7 +183,7 @@ public abstract class Genotype {
      */
     public void populate() {
         for (int i = 0; i < size(); i++) {
-            Chromosome chromosome = createEmptyChromosome();
+            final Chromosome chromosome = createEmptyChromosome();
             chromosome.populate();
             setChromosome(i, chromosome);
         }
@@ -210,10 +205,10 @@ public abstract class Genotype {
      * (survival of the fittest)
      */
     public Chromosome tournamentSelection() {
-        Genotype tournament = createEmptyGenotype(getConfig().getTournamentSize());
+        final Genotype tournament = createEmptyGenotype(getConfig().getTournamentSize());
 
         for (int i = 0; i < getConfig().getTournamentSize(); i++) {
-            int randomID = getConfig().getRandom().nextInt(size());
+            final int randomID = getConfig().getRandom().nextInt(size());
 
             tournament.setChromosome(i, getChromosome(randomID));
         }

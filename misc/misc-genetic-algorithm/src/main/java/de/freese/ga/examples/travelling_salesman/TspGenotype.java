@@ -29,11 +29,11 @@ public class TspGenotype extends Genotype {
     @Override
     public Chromosome crossover(final Chromosome parent1, final Chromosome parent2) {
         // Create new child tour
-        Chromosome childChromosome = createEmptyChromosome();
+        final Chromosome childChromosome = createEmptyChromosome();
 
         // Get start and end sub tour positions for parent1's tour
-        int startPos = getConfig().getRandom().nextInt(parent1.size());
-        int endPos = getConfig().getRandom().nextInt(parent1.size());
+        final int startPos = getConfig().getRandom().nextInt(parent1.size());
+        final int endPos = getConfig().getRandom().nextInt(parent1.size());
 
         // Loop and add the sub tour from parent1 to our child
         for (int i = 0; i < childChromosome.size(); i++) {

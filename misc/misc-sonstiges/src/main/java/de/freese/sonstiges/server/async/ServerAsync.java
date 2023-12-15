@@ -121,7 +121,7 @@ public class ServerAsync extends AbstractServer {
     }
 
     private void read(final AsynchronousSocketChannel channel, final ByteBuffer byteBuffer) {
-        MyAttachment attachment = new MyAttachment(byteBuffer, channel);
+        final MyAttachment attachment = new MyAttachment(byteBuffer, channel);
 
         channel.read(byteBuffer, attachment, new HttpReadHandler());
     }

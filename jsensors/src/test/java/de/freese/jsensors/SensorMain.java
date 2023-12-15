@@ -24,13 +24,13 @@ public final class SensorMain {
     static final Logger LOGGER = LoggerFactory.getLogger(SensorMain.class);
 
     public static void main(final String[] args) throws Exception {
-        Path logPath = Paths.get(System.getProperty("user.home"), ".java-apps", "jSensors");
+        final Path logPath = Paths.get(System.getProperty("user.home"), ".java-apps", "jSensors");
 
-        ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("scheduler"), 4);
+        final ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("scheduler"), 4);
         registry.start();
 
-        ConsoleBackend consoleBackend = new ConsoleBackend();
-        CsvBackend csvBackendCpuUsage = new CsvBackend(5, logPath.resolve("cpuUsage.csv"), true);
+        final ConsoleBackend consoleBackend = new ConsoleBackend();
+        final CsvBackend csvBackendCpuUsage = new CsvBackend(5, logPath.resolve("cpuUsage.csv"), true);
         csvBackendCpuUsage.start();
 
         // CPU
@@ -43,7 +43,7 @@ public final class SensorMain {
         registry.scheduleSensor("swap.usage", 1, 1, TimeUnit.SECONDS);
 
         // Memory
-        CsvBackend csvBackendMemory = new CsvBackend(5, logPath.resolve("memoryMetrics.csv"), false);
+        final CsvBackend csvBackendMemory = new CsvBackend(5, logPath.resolve("memoryMetrics.csv"), false);
         csvBackendMemory.start();
 
         new MemoryMetrics().bindTo(registry, name -> new CompositeBackend().add(consoleBackend).add(csvBackendMemory));

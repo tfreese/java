@@ -20,9 +20,9 @@ public class MemoryMetrics implements SensorBinder {
         Sensor.builder("memory.max", runtime, r -> Long.toString(r.maxMemory())).description("Max. memory in Bytes").register(registry, backendProvider);
         Sensor.builder("memory.total", runtime, r -> Long.toString(r.totalMemory())).description("Total memory in Bytes").register(registry, backendProvider);
         Sensor.builder("memory.usage", runtime, r -> {
-            double free = r.freeMemory();
-            double total = r.totalMemory();
-            double usage = (1D - (free / total)) * 100D;
+            final double free = r.freeMemory();
+            final double total = r.totalMemory();
+            final double usage = (1D - (free / total)) * 100D;
 
             return Double.toString(usage);
         }).description("Used Memory in %").register(registry, backendProvider);
