@@ -21,7 +21,7 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
     @Serial
     private static final long serialVersionUID = -2099117900708234471L;
 
-    private transient final DataFlavor stringFlavor = DataFlavor.stringFlavor;
+    private final transient DataFlavor stringFlavor = DataFlavor.stringFlavor;
     private transient Position p0;
     private transient Position p1;
 

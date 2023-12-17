@@ -62,15 +62,15 @@ final class MercatorConstants {
      */
     public static final double RAD_HALBE = RAD / 2.0D;
 
-    static private double getMittlererRadius() {
+    private static double getMittlererRadius() {
         return MITTLERER_RADIUS;
     }
 
-    static private double getPolarRadius() {
+    private static double getPolarRadius() {
         return POLAR_RADIUS;
     }
 
-    static private double getRad() {
+    private static double getRad() {
         return RAD;
     }
 

@@ -74,8 +74,8 @@ public final class BallSimulationMain extends JComponent {
         }, 3, 3, TimeUnit.SECONDS);
     }
 
-    private transient final List<Ball> balls = new ArrayList<>();
-    private transient final BufferedImage image;
+    private final transient List<Ball> balls = new ArrayList<>();
+    private final transient BufferedImage image;
 
     private BallSimulationMain(final int width, final int height) {
         super();

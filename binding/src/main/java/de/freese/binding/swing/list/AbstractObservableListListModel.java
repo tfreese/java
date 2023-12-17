@@ -45,7 +45,7 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
 
     private final EventListenerList eventListenerList = new EventListenerList();
 
-    private transient final ObservableList<T> list;
+    private final transient ObservableList<T> list;
 
     protected AbstractObservableListListModel(final ObservableList<T> list) {
         super();

@@ -52,7 +52,7 @@ public final class DragFileMain extends JPanel implements ActionListener {
 
     private final JButton clear;
 
-    private transient final TabbedPaneController tpc;
+    private final transient TabbedPaneController tpc;
 
     private DragFileMain() {
         super(new BorderLayout());
