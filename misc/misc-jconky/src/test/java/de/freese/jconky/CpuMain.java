@@ -17,7 +17,7 @@ import de.freese.jconky.model.CpuTimes;
  * @author Thomas Freese
  */
 public final class CpuMain {
-    private static final com.sun.management.OperatingSystemMXBean operatingSystemMXBean = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+    private static final com.sun.management.OperatingSystemMXBean OPERATING_SYSTEM_MX_BEAN = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
     private static CpuTimes prev = new CpuTimes();
 
     public static void main(final String[] args) {
@@ -80,7 +80,7 @@ public final class CpuMain {
     }
 
     private static void showCpuLoad() {
-        System.out.println("CPU-Load [%] - OperatingSystemMXBean: " + (operatingSystemMXBean.getCpuLoad() * 100D));
+        System.out.println("CPU-Load [%] - OperatingSystemMXBean: " + (OPERATING_SYSTEM_MX_BEAN.getCpuLoad() * 100D));
 
         final CpuTimes cpuTimes = getCpuTimes();
         System.out.println("CPU-Load [%] - Vorgänger-Rechnung: " + (cpuTimes.getCpuUsage(prev) * 100D));

@@ -3,6 +3,7 @@ package net.leddisplay.demo;
 import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.Serial;
 import java.sql.Time;
 import java.text.DateFormat;
@@ -31,7 +32,7 @@ public class LedDialog extends JDialog {
 
         dialog.addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(final java.awt.event.WindowEvent e) {
+            public void windowClosing(final WindowEvent event) {
                 System.exit(0);
             }
         });

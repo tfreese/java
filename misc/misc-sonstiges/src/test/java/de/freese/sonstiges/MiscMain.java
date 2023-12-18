@@ -124,8 +124,8 @@ import de.freese.sonstiges.xml.jaxb.model.DJ;
  * @author Thomas Freese
  */
 public final class MiscMain {
+    private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool();
     private static final Logger LOGGER = LoggerFactory.getLogger(MiscMain.class);
-    private static final ExecutorService executorService = Executors.newCachedThreadPool();
 
     public static void main(final String[] args) throws Throwable {
         // System.out.println("args = " + Arrays.deepToString(args));
@@ -133,7 +133,7 @@ public final class MiscMain {
 
         //        System.out.println(generatePW(new SecureRandom(), "lllll_UUUUU_dddddd."));
 
-        //        bitShift();
+        bitShift();
         //        byteBuffer();
         //        collator();
         //        copyPipedStreamsInToOut();
@@ -166,7 +166,7 @@ public final class MiscMain {
         //        zip();
 
         Schedulers.shutdownNow();
-        executorService.shutdown();
+        EXECUTOR_SERVICE.shutdown();
     }
 
     static void artistsWithOnlyOneSubdir() throws Exception {
@@ -196,6 +196,16 @@ public final class MiscMain {
     }
 
     static void bitShift() {
+        //        MAP.put("A", new byte[]{126, 9, 9, 9, 126});
+
+        //        for (byte b : new byte[]{126, 9, 9, 9, 126}) {
+        //            for (int j = 0; j < 7; j++) {
+        //                if ((b & (1 << j)) != 0) {
+        //                    System.out.println("b & (1 << j) = " + (b & (1 << j)));
+        //                }
+        //            }
+        //        }
+
         for (int n = 0; n < 40; n++) {
             System.out.printf("n = %d%n", n);
 
@@ -325,7 +335,7 @@ public final class MiscMain {
                 LOGGER.info("target copy finished: {}", Thread.currentThread().getName());
             };
 
-            executorService.execute(writeTask);
+            EXECUTOR_SERVICE.execute(writeTask);
 
             // readTask
             LOGGER.info("start source copy: {}", Thread.currentThread().getName());
@@ -389,7 +399,7 @@ public final class MiscMain {
                 }
             };
 
-            executorService.execute(readTask);
+            EXECUTOR_SERVICE.execute(readTask);
 
             // writeTask
             LOGGER.info("start writeTask: {}", Thread.currentThread().getName());
@@ -493,7 +503,8 @@ public final class MiscMain {
 
         System.out.println();
 
-        for (Path path : List.of(Paths.get("pom.xml"), Paths.get(System.getProperty("user.home"), ".xinitrc"), Paths.get(System.getProperty("user.home"), ".m2", "settings.xml"), Paths.get(System.getProperty("java.io.tmpdir")))) {
+        for (Path path : List.of(Paths.get("pom.xml"), Paths.get(System.getProperty("user.home"), ".xinitrc"), Paths.get(System.getProperty("user.home"), ".m2", "settings.xml"),
+                Paths.get(System.getProperty("java.io.tmpdir")))) {
             System.out.println("Path: " + path + ", Size=" + Files.size(path));
             System.out.println("Path Root: " + path.getRoot());
             System.out.println("Path FileSystem: " + path.getFileSystem());
@@ -938,7 +949,7 @@ public final class MiscMain {
 
         System.out.println();
 
-        final Scheduler scheduler = Schedulers.fromExecutor(executorService);
+        final Scheduler scheduler = Schedulers.fromExecutor(EXECUTOR_SERVICE);
         // subscribeOn(Scheduler scheduler)
 
         // @formatter:off
@@ -1044,7 +1055,8 @@ public final class MiscMain {
         Flux.just(0).doFinally(state -> System.out.println("flux finally 1")).doFinally(state -> System.out.println("flux finally 2")).subscribe();
         Stream.of(0).onClose(() -> System.out.println("stream close 1")).onClose(() -> System.out.println("stream close 2")).close();
 
-        Flux.fromStream(Stream.of(0).onClose(() -> System.out.println("stream close 3")).onClose(() -> System.out.println("stream close 4"))).doFinally(state -> System.out.println("flux finally 5")).doFinally(state -> System.out.println("flux finally 6")).subscribe();
+        Flux.fromStream(Stream.of(0).onClose(() -> System.out.println("stream close 3")).onClose(() -> System.out.println("stream close 4")))
+                .doFinally(state -> System.out.println("flux finally 5")).doFinally(state -> System.out.println("flux finally 6")).subscribe();
     }
 
     /**
@@ -1472,7 +1484,8 @@ public final class MiscMain {
                 System.out.println("zipEntry = " + zipEntry);
 
                 if ("folder/pom.xml".equals(zipEntry.getName())) {
-                    try (OutputStream outputStream = Files.newOutputStream(target.getParent().resolve("my-pom-1.xml"), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
+                    try (OutputStream outputStream = Files.newOutputStream(target.getParent().resolve("my-pom-1.xml"), StandardOpenOption.CREATE,
+                            StandardOpenOption.TRUNCATE_EXISTING)) {
                         zipInputStream.transferTo(outputStream);
                     }
                 }
@@ -1494,7 +1507,8 @@ public final class MiscMain {
                 System.out.println("zipEntry = " + zipEntry);
 
                 if ("folder/pom.xml".equals(zipEntry.getName())) {
-                    try (OutputStream outputStream = Files.newOutputStream(target.getParent().resolve("my-pom-2.xml"), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+                    try (OutputStream outputStream = Files.newOutputStream(target.getParent().resolve("my-pom-2.xml"), StandardOpenOption.CREATE,
+                            StandardOpenOption.TRUNCATE_EXISTING);
                          InputStream inputStream = zipFile.getInputStream(zipEntry)) {
                         inputStream.transferTo(outputStream);
                     }

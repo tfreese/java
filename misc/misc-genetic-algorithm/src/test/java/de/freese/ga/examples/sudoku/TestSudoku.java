@@ -17,17 +17,17 @@ import org.junit.jupiter.api.TestMethodOrder;
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestSudoku {
-    private static final SudokuConfig config = new SudokuConfig();
+    private static final SudokuConfig CONFIG = new SudokuConfig();
 
     private static SudokuChromosome chromosome;
 
     @BeforeAll
     static void beforeAll() throws Exception {
         try (InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream("sudoku_indices.txt")) {
-            final List<String[]> puzzle = config.parsePuzzle(inputStream);
-            config.setPuzzle(puzzle);
+            final List<String[]> puzzle = CONFIG.parsePuzzle(inputStream);
+            CONFIG.setPuzzle(puzzle);
 
-            chromosome = new SudokuChromosome(config);
+            chromosome = new SudokuChromosome(CONFIG);
 
             // @formatter:off
             final List<SudokuGene> genes = puzzle.stream()
@@ -53,7 +53,7 @@ class TestSudoku {
 
     @Test
     void testMaxFittness() {
-        final double maxFitness = config.getMaxFitness();
+        final double maxFitness = CONFIG.getMaxFitness();
 
         assertEquals(1215, maxFitness);
     }
@@ -63,7 +63,7 @@ class TestSudoku {
      */
     @Test
     void testSumBlocks() {
-        final int puzzleBlockSize = config.getPuzzleBlockSize();
+        final int puzzleBlockSize = CONFIG.getPuzzleBlockSize();
 
         assertEquals(99, chromosome.calcBlockFitness(0, puzzleBlockSize));
         assertEquals(126, chromosome.calcBlockFitness(1, puzzleBlockSize));
@@ -83,7 +83,7 @@ class TestSudoku {
      */
     @Test
     void testSumColumns() {
-        final int puzzleSize = config.getPuzzleSize();
+        final int puzzleSize = CONFIG.getPuzzleSize();
 
         assertEquals(333, chromosome.calcColumnFitness(0, puzzleSize));
         assertEquals(342, chromosome.calcColumnFitness(1, puzzleSize));

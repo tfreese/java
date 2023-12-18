@@ -19,12 +19,13 @@ import java.util.function.IntUnaryOperator;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 /**
  * @author Thomas Freese
  */
-public final class CanvasMain extends JComponent implements Runnable {
+public final class CanvasMain extends JPanel implements Runnable {
     @Serial
     private static final long serialVersionUID = -6167704609710052731L;
 
@@ -36,7 +37,9 @@ public final class CanvasMain extends JComponent implements Runnable {
         frame.setLayout(new BorderLayout());
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setContentPane(canvas);
+        //        frame.add(canvas);
         // frame.pack();
+
         frame.setSize(500, 500);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
