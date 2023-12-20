@@ -6,26 +6,30 @@ import net.led.elements.ColorModel;
  * @author Thomas Freese
  */
 public final class ArrowToken extends Token {
-    public static final Object DECREASING = new Object();
+    public enum ArrowForm {
+        DECREASING,
+        INCREASING,
+        UNCHANGED
+    }
 
-    public static final Object INCREASING = new Object();
-
-    public static final Object UNCHANGED = new Object();
-
-    private Object value;
+    private ArrowForm form = ArrowForm.UNCHANGED;
 
     public ArrowToken() {
-        this(null);
+        super(null);
+    }
+
+    public ArrowToken(final ArrowForm form) {
+        super(null);
+
+        this.form = form;
     }
 
     public ArrowToken(final ColorModel colorModel) {
         super(colorModel);
-
-        setValue(UNCHANGED);
     }
 
-    public Object getArrowType() {
-        return this.value;
+    public ArrowForm getArrowForm() {
+        return this.form;
     }
 
     @Override
@@ -34,7 +38,7 @@ public final class ArrowToken extends Token {
     }
 
     @Override
-    public void setValue(final Object value) {
-        this.value = value;
+    public void setValue(final Object form) {
+        this.form = (ArrowForm) form;
     }
 }

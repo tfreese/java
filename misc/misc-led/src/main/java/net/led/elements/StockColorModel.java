@@ -7,11 +7,8 @@ import java.awt.Color;
  */
 public class StockColorModel implements ColorModel {
     private Color color;
-
     private Color downColor;
-
     private Color neutralColor;
-
     private Color upColor;
 
     public StockColorModel() {

@@ -2,7 +2,9 @@ package net.leddisplay;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -113,9 +115,9 @@ public class Matrix {
         MAP.put("/", new byte[]{96, 16, 8, 4, 3});
         MAP.put("'", new byte[]{0, 0, 7, 0, 0});
         MAP.put("\"", new byte[]{0, 7, 0, 7, 0});
-        MAP.put(ArrowToken.INCREASING, new byte[]{16, 24, 28, 24, 16});
-        MAP.put(ArrowToken.UNCHANGED, new byte[]{8, 28, 28, 28, 8});
-        MAP.put(ArrowToken.DECREASING, new byte[]{4, 12, 28, 12, 4});
+        MAP.put(ArrowToken.ArrowForm.INCREASING, new byte[]{16, 24, 28, 24, 16});
+        MAP.put(ArrowToken.ArrowForm.UNCHANGED, new byte[]{8, 28, 28, 28, 8});
+        MAP.put(ArrowToken.ArrowForm.DECREASING, new byte[]{4, 12, 28, 12, 4});
     }
 
     private int anchor;
@@ -153,6 +155,16 @@ public class Matrix {
     public int getHeight() {
         return (7 * (this.dotHeight + this.vGap)) - this.vGap;
         // return ((this.topInset + this.bottomInset + 7) * (this.dotHeight + this.vGap)) - this.vGap;
+    }
+
+    public Image getImage() {
+        final int height = getHeight();
+        final int width = 10 * (this.hGap + this.dotWidth);
+
+        final BufferedImage bufferedimage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        paintDots(bufferedimage.getGraphics(), width, height);
+
+        return bufferedimage;
     }
 
     public int getWidthOf(final Element element) {
@@ -342,7 +354,7 @@ public class Matrix {
         int mX = x;
 
         if (token instanceof ArrowToken arrowToken) {
-            final byte[] bytes = MAP.get(arrowToken.getArrowType());
+            final byte[] bytes = MAP.get(arrowToken.getArrowForm());
             mX = paint(graphics, bytes, mX, offset);
         }
         else {

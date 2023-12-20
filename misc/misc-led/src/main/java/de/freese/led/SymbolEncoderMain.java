@@ -22,12 +22,15 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 /**
+ * Helper to encode Symbols for a LED-Matrix.
+ * Each LED-Row is encoded in a int bitwise.
+ *
  * @author Thomas Freese
  */
-public final class MatrixEncoderMain {
+public final class SymbolEncoderMain {
     public static void main(final String[] args) {
         SwingUtilities.invokeLater(() -> {
-            final JFrame frame = new MatrixEncoderMain().init(5, 7);
+            final JFrame frame = new SymbolEncoderMain().init(5, 7);
             frame.setVisible(true);
         });
     }
@@ -36,7 +39,7 @@ public final class MatrixEncoderMain {
     private JTextField[] textFields;
     private JToggleButton[][] toggleButtons;
 
-    private MatrixEncoderMain() {
+    private SymbolEncoderMain() {
         super();
     }
 
@@ -146,7 +149,7 @@ public final class MatrixEncoderMain {
     }
 
     private JFrame init(final int dotsHorizontal, final int dotsVertical) {
-        final JFrame frame = new JFrame("LED MatrixEncoderMain");
+        final JFrame frame = new JFrame("LED Matrix Encoder");
         frame.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();

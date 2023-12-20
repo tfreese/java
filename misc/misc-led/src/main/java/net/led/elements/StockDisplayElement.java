@@ -14,13 +14,9 @@ import net.led.tokens.Token;
  */
 public class StockDisplayElement extends AbstractDisplayElement {
     private final ArrowToken arrow;
-
     private final NumberToken changePercent;
-
     private final NumberToken last;
-
     private final StockColorModel stockColorModel;
-
     private final TextToken symbol;
 
     public StockDisplayElement(final String stock) {
@@ -47,13 +43,13 @@ public class StockDisplayElement extends AbstractDisplayElement {
         this.stockColorModel.setChangePercent(change);
 
         if (change > 0D) {
-            this.arrow.setValue(ArrowToken.INCREASING);
+            this.arrow.setValue(ArrowToken.ArrowForm.INCREASING);
         }
         else if (change < 0D) {
-            this.arrow.setValue(ArrowToken.DECREASING);
+            this.arrow.setValue(ArrowToken.ArrowForm.DECREASING);
         }
         else {
-            this.arrow.setValue(ArrowToken.UNCHANGED);
+            this.arrow.setValue(ArrowToken.ArrowForm.UNCHANGED);
         }
     }
 

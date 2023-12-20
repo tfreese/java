@@ -15,7 +15,7 @@ public class NumberToken extends Token {
     private static NumberFormat getDefaultNumberFormat() {
         final NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
         nf.setMinimumFractionDigits(2);
-        nf.setMaximumFractionDigits(2);
+        nf.setMaximumFractionDigits(3);
 
         return nf;
     }

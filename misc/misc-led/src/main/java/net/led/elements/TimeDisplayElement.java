@@ -12,9 +12,7 @@ import net.led.tokens.Token;
  */
 public class TimeDisplayElement extends AbstractDisplayElement {
     private final DateToken date;
-
     private final TextToken text;
-
     private final TimeToken time;
 
     public TimeDisplayElement(final String attributName) {
