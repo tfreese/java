@@ -15,13 +15,13 @@ public abstract class AbstractLedToken implements LedToken {
 
     protected AbstractLedToken(final Color color) {
         super();
-        
+
         this.color = color;
     }
 
     @Override
     public Color getColor() {
-        return color;
+        return color == null ? Color.WHITE : color;
     }
 
     public void setColor(final Color color) {

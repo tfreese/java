@@ -20,15 +20,15 @@ import net.leddisplay.LedDisplayFactory;
 /**
  * @author Thomas Freese
  */
-public final class LedDisplayDemo {
+public final class LedLegacyDemo {
     public static void main(final String[] args) {
         SwingUtilities.invokeLater(() -> {
-            final JFrame frame = new LedDisplayDemo().init();
+            final JFrame frame = new LedLegacyDemo().init();
             frame.setVisible(true);
         });
     }
 
-    private LedDisplayDemo() {
+    private LedLegacyDemo() {
         super();
     }
 

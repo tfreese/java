@@ -1,5 +1,5 @@
 // Created: 19.12.23
-package de.freese.led;
+package de.freese.led.encoder;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -23,7 +23,7 @@ import javax.swing.WindowConstants;
 
 /**
  * Helper to encode Symbols for a LED-Matrix.
- * Each LED-Row is encoded in a int bitwise.
+ * Each LED-Row is encoded in an int bitwise.
  *
  * @author Thomas Freese
  */
@@ -184,7 +184,7 @@ public final class SymbolEncoderMain {
     }
 
     private void updateTextArea() {
-        final StringJoiner stringJoiner = new StringJoiner(", ", "new int[] {", "}");
+        final StringJoiner stringJoiner = new StringJoiner(", ", "new int[]{", "}");
 
         for (final JTextField textField : textFields) {
             final String value = textField.getText();

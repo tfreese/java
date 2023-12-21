@@ -6,9 +6,10 @@ import java.awt.Color;
 /**
  * @author Thomas Freese
  */
+@FunctionalInterface
 public interface LedToken {
     default Color getColor() {
-        return null;
+        return Color.WHITE;
     }
 
     String getValue();

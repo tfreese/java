@@ -1,28 +1,22 @@
 // Created: 20.12.23
 package de.freese.led.model.element;
 
-import java.awt.Color;
-
 import de.freese.led.model.token.LedToken;
 import de.freese.led.model.token.TextToken;
 
 /**
  * @author Thomas Freese
  */
-public class TextElement extends AbstractLedElement {
+public class TextElement implements LedElement {
 
     private final LedToken[] tokens;
 
     public TextElement() {
-        this(null, null);
+        this(null);
     }
 
     public TextElement(final String value) {
-        this(value, null);
-    }
-
-    public TextElement(final String value, final Color color) {
-        super(color);
+        super();
 
         tokens = new LedToken[]{new TextToken(value)};
     }
