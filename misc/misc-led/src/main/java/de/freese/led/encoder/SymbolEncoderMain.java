@@ -10,8 +10,11 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.StringJoiner;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -58,6 +61,37 @@ public final class SymbolEncoderMain {
                 final JToggleButton button = new JToggleButton(x + "-" + y);
                 button.setPreferredSize(new Dimension(60, 60));
                 button.addActionListener(action -> encodeRow(row));
+                button.addMouseListener(new MouseListener() {
+                    @Override
+                    public void mouseClicked(final MouseEvent event) {
+                        // Empty
+                    }
+
+                    @Override
+                    public void mouseEntered(final MouseEvent event) {
+                        event.consume();
+
+                        if (event.isControlDown()) {
+                            button.setSelected(!button.isSelected());
+                            encodeRow(row);
+                        }
+                    }
+
+                    @Override
+                    public void mouseExited(final MouseEvent event) {
+                        // Empty
+                    }
+
+                    @Override
+                    public void mousePressed(final MouseEvent event) {
+                        // Empty
+                    }
+
+                    @Override
+                    public void mouseReleased(final MouseEvent event) {
+                        // Empty
+                    }
+                });
 
                 toggleButtons[y][x] = button;
                 panel.add(button);
@@ -169,11 +203,33 @@ public final class SymbolEncoderMain {
 
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridy = dotsVertical + 1;
+        gbc.gridy = GridBagConstraints.RELATIVE;
         gbc.gridwidth = dotsHorizontal + 1;
-        gbc.gridheight = 0;
+        gbc.gridheight = 1;
         gbc.fill = GridBagConstraints.BOTH;
         frame.add(createTextArea(), gbc);
+
+        final JButton clearButton = new JButton("Clear");
+        clearButton.addActionListener(action -> {
+            for (int y = 0; y < toggleButtons.length; y++) {
+                for (int x = 0; x < toggleButtons[y].length; x++) {
+                    toggleButtons[y][x].setSelected(false);
+                }
+            }
+
+            for (final JTextField textField : textFields) {
+                textField.setText(null);
+            }
+
+            this.textArea.setText(null);
+        });
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = GridBagConstraints.RELATIVE;
+        gbc.gridwidth = dotsHorizontal;
+        gbc.gridheight = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        frame.add(clearButton, gbc);
 
         frame.pack();
         //        frame.setSize(800, 600);
@@ -190,7 +246,7 @@ public final class SymbolEncoderMain {
             final String value = textField.getText();
 
             if (value == null || value.isBlank()) {
-                stringJoiner.add("null");
+                stringJoiner.add("0");
             }
             else {
                 stringJoiner.add(value);

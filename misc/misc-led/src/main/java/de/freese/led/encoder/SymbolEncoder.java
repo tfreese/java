@@ -7,7 +7,7 @@ package de.freese.led.encoder;
  * @author Thomas Freese
  */
 public interface SymbolEncoder {
-    int[] getEncoded(char symbol);
+    int[] getEncoded(Object symbol);
 
     int getHorizontalDots();
 

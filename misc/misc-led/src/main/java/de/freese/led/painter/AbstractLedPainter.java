@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import de.freese.led.encoder.SymbolEncoder;
 import de.freese.led.model.element.LedElement;
+import de.freese.led.model.token.ArrowToken;
 import de.freese.led.model.token.LedToken;
 
 /**
@@ -129,12 +130,20 @@ public abstract class AbstractLedPainter implements LedPainter {
         int xOffset = 0;
         final int yOffset = 0;
 
-        for (int i = 0; i < value.length(); i++) {
-            final char symbol = value.charAt(i);
-            final int[] encodedSymbol = symbolEncoder.getEncoded(symbol);
+        if (ledToken instanceof ArrowToken arrowToken) {
+            final int[] encodedSymbol = symbolEncoder.getEncoded(arrowToken.getArrow());
             final int symbolWidth = paintSymbol(graphics, encodedSymbol, x + xOffset, y + yOffset);
 
             xOffset += symbolWidth + gethGap();
+        }
+        else {
+            for (int i = 0; i < value.length(); i++) {
+                final char symbol = value.charAt(i);
+                final int[] encodedSymbol = symbolEncoder.getEncoded(symbol);
+                final int symbolWidth = paintSymbol(graphics, encodedSymbol, x + xOffset, y + yOffset);
+
+                xOffset += symbolWidth + gethGap();
+            }
         }
 
         return xOffset;

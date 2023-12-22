@@ -3,13 +3,19 @@ package de.freese.led;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+import de.freese.led.model.element.AnimatedElement;
+import de.freese.led.model.token.ArrowToken;
 import de.freese.led.model.token.LedToken;
 import de.freese.led.model.token.TextToken;
 
@@ -32,26 +38,35 @@ public final class LedDemo {
     private static JFrame init() {
         final JFrame frame = new JFrame("LED Display Demo");
 
-        final Consumer<LedDisplay> configurer = display -> {
-            display.setDotHeight(16);
-            display.setDotWidth(16);
-            display.sethGap(4);
-            display.setvGap(4);
-            //            display.setLedElement(new TextElement("AaBb ?w"));
-            display.setLedElement(() -> new LedToken[]{new TextToken("AaBb ?w"), new TextToken("A", Color.RED), new TextToken("B", Color.BLUE)});
+        final Supplier<AnimatedElement> elementSupplier = () -> {
+            final String text = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789^!\"$%&/()=°[]{}ß?\\+*~#',;.:-_@€<>|µÄäÜüÖö";
+            final LedToken arrowTokenIncreasing = new ArrowToken(ArrowToken.Arrow.INCREASING, Color.GREEN);
+            final LedToken arrowTokenDecreasing = new ArrowToken(ArrowToken.Arrow.DECREASING, Color.RED);
+            final LedToken arrowTokenLeft = new ArrowToken(ArrowToken.Arrow.LEFT);
+            final LedToken arrowTokenRight = new ArrowToken(ArrowToken.Arrow.RIGHT);
+            final LedToken arrowTokenUnchanged = new ArrowToken(ArrowToken.Arrow.UNCHANGED);
+
+            final AnimatedElement animatedElement = new AnimatedElement(text);
+
+            return animatedElement.addToken(arrowTokenIncreasing).addToken(arrowTokenDecreasing).addToken(arrowTokenLeft).addToken(arrowTokenRight).addToken(arrowTokenUnchanged)
+                    .addToken(new TextToken("     "));
         };
 
-        //        final String text = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789~'!@#$%^&*()-_=\\|{}[]:;,.<>?/\"";
-        //        final Token textToken = new TextToken(text);
-        //        final Token arrowTokenDecreasing = new ArrowToken(ArrowToken.ArrowForm.DECREASING);
-        //        final Token arrowTokenIncreasing = new ArrowToken(ArrowToken.ArrowForm.INCREASING);
-        //        final Token arrowTokenUnchanged = new ArrowToken(ArrowToken.ArrowForm.UNCHANGED);
-        //        ledDisplay.setDisplayElement(() -> new Token[]{textToken, arrowTokenDecreasing, arrowTokenIncreasing, arrowTokenUnchanged});
+        final Consumer<LedDisplay> configurer = display -> {
+            display.setDotHeight(12);
+            display.setDotWidth(12);
+            display.sethGap(4);
+            display.setvGap(4);
+        };
 
+        final AnimatedElement ledElementRect = elementSupplier.get();
         final LedDisplay ledDisplayRect = LedDisplay.withRectangles();
+        ledDisplayRect.setLedElement(ledElementRect);
         configurer.accept(ledDisplayRect);
 
+        final AnimatedElement ledElementCircle = elementSupplier.get();
         final LedDisplay ledDisplayCircle = LedDisplay.withCircles();
+        ledDisplayCircle.setLedElement(ledElementCircle);
         configurer.accept(ledDisplayCircle);
 
         final JPanel panel = new JPanel(new GridLayout(2, 1));
@@ -59,6 +74,17 @@ public final class LedDemo {
         panel.add(ledDisplayCircle.getComponent());
 
         frame.setContentPane(panel);
+
+        final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(4);
+        scheduledExecutorService.scheduleWithFixedDelay(() -> {
+            ledElementRect.shiftToken();
+            ledElementCircle.shiftToken();
+
+            SwingUtilities.invokeLater(() -> {
+                ledDisplayRect.update();
+                ledDisplayCircle.update();
+            });
+        }, 1000, 400, TimeUnit.MILLISECONDS);
 
         return frame;
     }
