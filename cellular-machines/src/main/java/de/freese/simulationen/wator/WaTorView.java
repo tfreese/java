@@ -4,6 +4,7 @@ package de.freese.simulationen.wator;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.time.Duration;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
@@ -20,7 +21,7 @@ import de.freese.simulationen.SimulationView;
  */
 public class WaTorView extends SimulationView<WaTorRasterSimulation> {
     @Override
-    public void initialize(final WaTorRasterSimulation simulation, final int delay) {
+    public void initialize(final WaTorRasterSimulation simulation, final Duration delay) {
         super.initialize(simulation, delay);
 
         // Slider für Settings

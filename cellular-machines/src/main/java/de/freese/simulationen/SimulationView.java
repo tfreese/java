@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.time.Duration;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -34,7 +35,7 @@ public class SimulationView<S extends Simulation> {
     /**
      * 40 ms = 25 Bilder/Sekunde
      */
-    private int delay = 40;
+    private Duration delay = Duration.ofMillis(40);
     private JPanel mainPanel;
     private ScheduledFuture<?> scheduledFuture;
     private S simulation;
@@ -43,7 +44,7 @@ public class SimulationView<S extends Simulation> {
         return this.simulation;
     }
 
-    public void initialize(final S simulation, final int delay) {
+    public void initialize(final S simulation, final Duration delay) {
         this.simulation = simulation;
         this.delay = delay;
 
@@ -68,10 +69,8 @@ public class SimulationView<S extends Simulation> {
 
     /**
      * Liefert das Delay für das ScheduledFuture zum Berechnen der Simulationen.
-     *
-     * @return int [ms]
      */
-    protected int getDelay() {
+    protected Duration getDelay() {
         return this.delay;
     }
 
@@ -101,7 +100,7 @@ public class SimulationView<S extends Simulation> {
     protected void start() {
         final Runnable runnable = this::step;
 
-        this.scheduledFuture = getScheduledExecutorService().scheduleWithFixedDelay(runnable, 0, getDelay(), TimeUnit.MILLISECONDS);
+        this.scheduledFuture = getScheduledExecutorService().scheduleWithFixedDelay(runnable, 0, getDelay().toMillis(), TimeUnit.MILLISECONDS);
 
         this.buttonStart.setEnabled(false);
     }
