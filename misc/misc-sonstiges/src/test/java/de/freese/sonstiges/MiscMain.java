@@ -906,7 +906,7 @@ public final class MiscMain {
         try {
             // run the Unix "ps -ef" command
             // using the Runtime exec method:
-            //final  Process process = Runtime.getRuntime().exec("ps -ef");
+            // final Process process = Runtime.getRuntime().exec("ps -ef");
             // final Process process = Runtime.getRuntime().exec("ping -c5 weg.de");
             // final Process process = new ProcessBuilder().command("df -hT").start();
             final ProcessBuilder processBuilder = new ProcessBuilder().command("/bin/sh", "-c", "df | grep vgdesktop-root | awk '{print $4}'");
@@ -1392,7 +1392,7 @@ public final class MiscMain {
     static void utilLogging() {
         // java.util.logging.Logger.GLOBAL_LOGGER_NAME
         final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MiscMain.class.getName());
-        //logger.setLevel(Level.ALL);
+        // logger.setLevel(Level.ALL);
 
         logger.severe("Schwerwiegender Fehler");
         logger.warning("Warnung");

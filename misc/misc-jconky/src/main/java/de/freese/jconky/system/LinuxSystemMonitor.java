@@ -118,7 +118,8 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         this.processBuilderPlayerctlPosition = new ProcessBuilder().command("/bin/sh", "-c", "playerctl -s position");
         this.processBuilderHddtemp = new ProcessBuilder().command("/bin/sh", "-c", "sudo hddtemp /dev/sda /dev/sdb");
         this.processBuilderSmartctl = new ProcessBuilder().command("/bin/sh", "-c", "sudo smartctl -A /dev/nvme0n1");
-        this.processBuilderNvidiaSmi = new ProcessBuilder().command("/bin/sh", "-c", "nvidia-smi --format=csv,noheader,nounits --query-gpu=temperature.gpu,power.draw,fan.speed,utilization.gpu");
+        this.processBuilderNvidiaSmi = new ProcessBuilder().command("/bin/sh", "-c",
+                "nvidia-smi --format=csv,noheader,nounits --query-gpu=temperature.gpu,power.draw,fan.speed,utilization.gpu");
     }
 
     @Override

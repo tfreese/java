@@ -19,7 +19,8 @@ import javax.net.ssl.TrustManagerFactory;
  * @author Thomas Freese
  */
 public final class DateClientMain {
-    public static SSLContext createSSLContext(final String serverKeyStoreFile, final char[] serverKeyStorePassword, final String clientTrustStoreFile, final char[] clientTrustStorePassword, final char[] certPassword) throws Exception {
+    public static SSLContext createSSLContext(final String serverKeyStoreFile, final char[] serverKeyStorePassword, final String clientTrustStoreFile,
+                                              final char[] clientTrustStorePassword, final char[] certPassword) throws Exception {
         final KeyStore serverKeyStore = KeyStore.getInstance("JKS", "SUN");
         final KeyStore clientTrustStore = KeyStore.getInstance("JKS", "SUN");
 
@@ -52,7 +53,8 @@ public final class DateClientMain {
                 // Siehe: de.freese.base.security.ssl.SSLContextFactory
                 //
                 // final SSLContext sslContext = SSLContextFactory.createDefault();
-                final SSLContext sslContext = createSSLContext("src/main/resources/serverKeyStore", "server-pw".toCharArray(), "src/main/resources/clientTrustStore", "client-pw".toCharArray(), "server1-cert-pw".toCharArray());
+                final SSLContext sslContext = createSSLContext("src/main/resources/serverKeyStore", "server-pw".toCharArray(), "src/main/resources/clientTrustStore",
+                        "client-pw".toCharArray(), "server1-cert-pw".toCharArray());
 
                 socketFactory = sslContext.getSocketFactory();
             }

@@ -56,7 +56,7 @@
         <async-backup-count>0</async-backup-count>
         <time-to-live-seconds>3</time-to-live-seconds>
         <max-idle-seconds>3</max-idle-seconds>
-        <eviction eviction-policy="LRU" max-size-policy="PER_NODE" size="3"/>
+        <eviction eviction-policy="LRU" max-size-policy="PER_NODE" size="3" />
         <merge-policy>com.hazelcast.spi.merge.PutIfAbsentMergePolicy</merge-policy>
         <cache-deserialized-values>INDEX-ONLY</cache-deserialized-values>
     </map>

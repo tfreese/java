@@ -3,6 +3,7 @@ package de.freese.jconky.painter;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

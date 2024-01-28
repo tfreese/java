@@ -8,14 +8,14 @@
 	- MAIL_PORT 	-> Port
 -->
 <Appenders>
-	<SMTP name="MAIL_SYNC" subject="${MAIL_SUBJECT:-Error Log}" from="${MAIL_FROM}" to="${MAIL_TO}"
-		smtpHost="${MAIL_HOST}" smtpPort="${MAIL_PORT:-25}" bufferSize="3">
-		<Filters>
-			<ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
-		</Filters>
-	</SMTP>
+    <SMTP name="MAIL_SYNC" subject="${MAIL_SUBJECT:-Error Log}" from="${MAIL_FROM}" to="${MAIL_TO}"
+          smtpHost="${MAIL_HOST}" smtpPort="${MAIL_PORT:-25}" bufferSize="3">
+        <Filters>
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
+        </Filters>
+    </SMTP>
 
-	<Async name="MAIL">
-		<AppenderRef ref="MAIL_SYNC" />
-	</Async>
+    <Async name="MAIL">
+        <AppenderRef ref="MAIL_SYNC" />
+    </Async>
 </Appenders>

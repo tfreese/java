@@ -4,17 +4,17 @@
 	- PATTERN_CONSOLE -> Pattern-Format für die Console
 -->
 <Appenders>
-	<Console name="CONSOLE_STD" target="SYSTEM_OUT">
-		<PatternLayout pattern="${PATTERN_CONSOLE:-${PATTERN}}" />
-		<Filters>
-			<ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="ACCEPT" />
-		</Filters>
-	</Console>
+    <Console name="CONSOLE_STD" target="SYSTEM_OUT">
+        <PatternLayout pattern="${PATTERN_CONSOLE:-${PATTERN}}" />
+        <Filters>
+            <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="ACCEPT" />
+        </Filters>
+    </Console>
 
-	<Console name="CONSOLE_ERR" target="SYSTEM_ERR">
-		<PatternLayout pattern="${PATTERN_CONSOLE:-${PATTERN}}" />
-		<Filters>
-			<ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
-		</Filters>
-	</Console>
+    <Console name="CONSOLE_ERR" target="SYSTEM_ERR">
+        <PatternLayout pattern="${PATTERN_CONSOLE:-${PATTERN}}" />
+        <Filters>
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
+        </Filters>
+    </Console>
 </Appenders>

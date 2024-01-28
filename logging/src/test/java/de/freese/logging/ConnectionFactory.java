@@ -131,7 +131,7 @@ public final class ConnectionFactory {
 
             statement.execute("create sequence if not exists LOGGING_SEQUENCE as bigint start with 1 increment by 1");
             statement.execute("create index if not exists LOGGING_IDX_EVENTDATE on LOGGING (EVENT_DATE)");
-            //statement.execute("create index if not exists LOGGING_IDX_MODUL on LOGGING (MODUL)");
+            // statement.execute("create index if not exists LOGGING_IDX_MODUL on LOGGING (MODUL)");
         }
         catch (SQLException ex) {
             throw new RuntimeException(ex);

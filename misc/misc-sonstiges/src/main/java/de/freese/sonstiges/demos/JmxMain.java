@@ -72,7 +72,8 @@ public final class JmxMain {
                     LOGGER.info("Hikari not initialized, please wait...");
                 }
                 else {
-                    LOGGER.info("HikariPoolState: Active={}; Idle={}, Wait={}, Total={}", poolProxy.getActiveConnections(), poolProxy.getIdleConnections(), poolProxy.getThreadsAwaitingConnection(), poolProxy.getTotalConnections());
+                    LOGGER.info("HikariPoolState: Active={}; Idle={}, Wait={}, Total={}", poolProxy.getActiveConnections(), poolProxy.getIdleConnections(),
+                            poolProxy.getThreadsAwaitingConnection(), poolProxy.getTotalConnections());
                 }
             }
             catch (Throwable ex) {

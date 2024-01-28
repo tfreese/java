@@ -105,7 +105,7 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter {
         final List<Double> valueList = values.getLastValues((int) width);
 
         final double minValue = 0D;
-        //final  double maxValue = 28D * 1024D * 1024D; // 28 MB/s als max. bei 200er Leitung.
+        // final  double maxValue = 28D * 1024D * 1024D; // 28 MB/s als max. bei 200er Leitung.
         final double maxValue = values.getMaxValue();
         final double minNorm = 0D;
         final double maxNorm = height - 2;

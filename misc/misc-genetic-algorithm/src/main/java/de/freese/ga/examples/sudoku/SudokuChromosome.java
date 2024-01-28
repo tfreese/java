@@ -91,7 +91,7 @@ public class SudokuChromosome extends Chromosome {
 
         // Population pro Zeile testen.
         // final Set<Integer> set= IntStream.range(0, 9).collect(TreeSet::new, TreeSet::add,TreeSet::addAll);
-        //final  Set<Integer> set= IntStream.range(0, 9).boxed().collect(Collectors.toSet());
+        // final Set<Integer> set= IntStream.range(0, 9).boxed().collect(Collectors.toSet());
 
         for (int i = 0; i < size(); i++) {
             // Erst nach fest vorgegeben Zahlen suchen.

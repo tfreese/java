@@ -9,31 +9,31 @@
 	- LOG_FILE_MAX_HISTORY	-> Anzahl der vorzuhaltenden Log-Dateien
 -->
 <Appenders>
-	<!-- /${date:yyyy-MM}/ -->
-	<RollingFile name="FILE_SYNC" fileName="${LOG_DIR:-${sys:user.home}/.java-apps/logs}/${LOG_FILE_NAME:-application}.log"
-				 filePattern="${LOG_DIR:-${sys:user.home}/.java-apps/logs}/archiv/${LOG_FILE_NAME:-application}_%d{yyyy-MM-dd}_%i.log.gz">
-		<append>true</append>
-		<immediateFlush>false</immediateFlush>
-		<bufferSize>4096</bufferSize>
+    <!-- /${date:yyyy-MM}/ -->
+    <RollingFile name="FILE_SYNC" fileName="${LOG_DIR:-${sys:user.home}/.java-apps/logs}/${LOG_FILE_NAME:-application}.log"
+                 filePattern="${LOG_DIR:-${sys:user.home}/.java-apps/logs}/archiv/${LOG_FILE_NAME:-application}_%d{yyyy-MM-dd}_%i.log.gz">
+        <append>true</append>
+        <immediateFlush>false</immediateFlush>
+        <bufferSize>4096</bufferSize>
 
-		<PatternLayout>
-			<Pattern>${PATTERN_FILE:-${PATTERN}}</Pattern>
-		</PatternLayout>
+        <PatternLayout>
+            <Pattern>${PATTERN_FILE:-${PATTERN}}</Pattern>
+        </PatternLayout>
 
-		<Policies>
-			<!--OnStartupTriggeringPolicy / -->
-			<TimeBasedTriggeringPolicy />
-			<SizeBasedTriggeringPolicy size="${LOG_FILE_MAX_SIZE:-10 MB}" />
-		</Policies>
-		<DefaultRolloverStrategy max="${LOG_FILE_MAX_HISTORY:-30}">
-			<Delete basePath="${LOG_DIR:-${sys:user.home}/.java-apps/logs}" maxDepth="2">
-				<IfFileName glob="*/${LOG_FILE_NAME:-application}_*.log.gz" />
-				<IfLastModified age="${LOG_FILE_MAX_AGE:-30d}" />
-			</Delete>
-		</DefaultRolloverStrategy>
-	</RollingFile>
+        <Policies>
+            <!--OnStartupTriggeringPolicy / -->
+            <TimeBasedTriggeringPolicy />
+            <SizeBasedTriggeringPolicy size="${LOG_FILE_MAX_SIZE:-10 MB}" />
+        </Policies>
+        <DefaultRolloverStrategy max="${LOG_FILE_MAX_HISTORY:-30}">
+            <Delete basePath="${LOG_DIR:-${sys:user.home}/.java-apps/logs}" maxDepth="2">
+                <IfFileName glob="*/${LOG_FILE_NAME:-application}_*.log.gz" />
+                <IfLastModified age="${LOG_FILE_MAX_AGE:-30d}" />
+            </Delete>
+        </DefaultRolloverStrategy>
+    </RollingFile>
 
-	<Async name="FILE">
-		<AppenderRef ref="FILE_SYNC" />
-	</Async>
+    <Async name="FILE">
+        <AppenderRef ref="FILE_SYNC" />
+    </Async>
 </Appenders>

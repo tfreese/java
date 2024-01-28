@@ -4,8 +4,9 @@ package de.freese.jconky;
 import java.text.NumberFormat;
 import java.util.Arrays;
 
-import com.sun.javafx.application.PlatformImpl;
 import javafx.application.Application;
+
+import com.sun.javafx.application.PlatformImpl;
 
 /**
  * @author Thomas Freese

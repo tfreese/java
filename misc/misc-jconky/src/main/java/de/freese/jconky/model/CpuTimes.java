@@ -31,7 +31,8 @@ public class CpuTimes {
         this(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
-    public CpuTimes(final long user, final long nice, final long system, final long idle, final long ioWait, final long irq, final long softIrq, final long steal, final long guest, final long guestNice) {
+    public CpuTimes(final long user, final long nice, final long system, final long idle, final long ioWait, final long irq, final long softIrq, final long steal, final long guest,
+                    final long guestNice) {
         super();
 
         this.user = user;

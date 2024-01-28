@@ -178,7 +178,8 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
                 paintImmediately(this.rectangleGhost.getBounds());
 
                 // And remember where we are about to draw the new ghost image
-                this.rectangleGhost.setRect(pt.x - CTreeMain.this.pointOffset.x, pt.y - CTreeMain.this.pointOffset.y, CTreeMain.this.imageGhost.getWidth(), CTreeMain.this.imageGhost.getHeight());
+                this.rectangleGhost.setRect(pt.x - CTreeMain.this.pointOffset.x, pt.y - CTreeMain.this.pointOffset.y, CTreeMain.this.imageGhost.getWidth(),
+                        CTreeMain.this.imageGhost.getHeight());
                 g2.drawImage(CTreeMain.this.imageGhost, AffineTransform.getTranslateInstance(this.rectangleGhost.getX(), this.rectangleGhost.getY()), null);
             }
             else {
@@ -505,7 +506,8 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         final Rectangle raOuter = getBounds();
         final Rectangle raInner = getParent().getBounds();
 
-        return new Insets((raInner.y - raOuter.y) + AUTOSCROLL_MARGIN, (raInner.x - raOuter.x) + AUTOSCROLL_MARGIN, (raOuter.height - raInner.height - raInner.y) + raOuter.y + AUTOSCROLL_MARGIN, (raOuter.width - raInner.width - raInner.x) + raOuter.x + AUTOSCROLL_MARGIN);
+        return new Insets((raInner.y - raOuter.y) + AUTOSCROLL_MARGIN, (raInner.x - raOuter.x) + AUTOSCROLL_MARGIN,
+                (raOuter.height - raInner.height - raInner.y) + raOuter.y + AUTOSCROLL_MARGIN, (raOuter.width - raInner.width - raInner.x) + raOuter.x + AUTOSCROLL_MARGIN);
     }
 
     @Override

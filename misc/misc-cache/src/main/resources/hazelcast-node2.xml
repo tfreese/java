@@ -91,7 +91,7 @@
             <in-memory-format>OBJECT</in-memory-format>
             <time-to-live-seconds>3</time-to-live-seconds>
             <max-idle-seconds>0</max-idle-seconds>
-            <eviction eviction-policy="LRU" max-size-policy="ENTRY_COUNT" size="3"/>
+            <eviction eviction-policy="LRU" max-size-policy="ENTRY_COUNT" size="3" />
             <cache-local-entries>true</cache-local-entries>
         </near-cache>
 

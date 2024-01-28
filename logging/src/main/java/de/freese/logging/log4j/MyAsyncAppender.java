@@ -195,7 +195,8 @@ public class MyAsyncAppender extends AbstractAppender {
         boolean success = false;
 
         for (AppenderControl appender : this.appenders) {
-            System.err.printf("%s - %s - %s - %s%n", getClass().getSimpleName(), Thread.currentThread().getName(), appender.getAppenderName(), logEvent.getMessage().getFormattedMessage());
+            System.err.printf("%s - %s - %s - %s%n", getClass().getSimpleName(), Thread.currentThread().getName(), appender.getAppenderName(),
+                    logEvent.getMessage().getFormattedMessage());
 
             try {
                 appender.callAppender(logEvent);

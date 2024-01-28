@@ -43,7 +43,8 @@ public final class CoinsMain {
         // for (int i = 0; i < config.getSizeGenotype(); i++)
         for (int i = 0; fittest.calcFitnessValue() < config.getMaxFitness(); i++) {
             // %8.3f = 8 Stellen, 3 davon nach dem Komma.
-            System.out.printf("Generation: %2d; Fittest: %8.3f; %s = %d Cent%n", i, fittest.calcFitnessValue(), fittest, Stream.of(fittest.getGenes()).mapToInt(Gene::getInteger).sum());
+            System.out.printf("Generation: %2d; Fittest: %8.3f; %s = %d Cent%n", i, fittest.calcFitnessValue(), fittest,
+                    Stream.of(fittest.getGenes()).mapToInt(Gene::getInteger).sum());
 
             population = population.evolve();
 

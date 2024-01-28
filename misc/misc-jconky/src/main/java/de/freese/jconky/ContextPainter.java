@@ -8,6 +8,7 @@ import java.util.Objects;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,31 +1,31 @@
 //// Created: 26.04.2012
-//package de.freese.sonstiges.sound;
+// package de.freese.sonstiges.sound;
 //
-//import java.awt.BorderLayout;
-//import java.awt.Color;
-//import java.awt.Component;
-//import java.awt.Container;
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
-//import java.awt.event.WindowAdapter;
-//import java.awt.event.WindowEvent;
-//import java.io.File;
-//import java.io.Serial;
+// import java.awt.BorderLayout;
+// import java.awt.Color;
+// import java.awt.Component;
+// import java.awt.Container;
+// import java.awt.event.ActionEvent;
+// import java.awt.event.ActionListener;
+// import java.awt.event.WindowAdapter;
+// import java.awt.event.WindowEvent;
+// import java.io.File;
+// import java.io.Serial;
 //
-//import javax.media.ControllerEvent;
-//import javax.media.ControllerListener;
-//import javax.media.Manager;
-//import javax.media.Player;
-//import javax.media.RealizeCompleteEvent;
-//import javax.swing.JButton;
-//import javax.swing.JFileChooser;
-//import javax.swing.JFrame;
-//import javax.swing.JOptionPane;
+// import javax.media.ControllerEvent;
+// import javax.media.ControllerListener;
+// import javax.media.Manager;
+// import javax.media.Player;
+// import javax.media.RealizeCompleteEvent;
+// import javax.swing.JButton;
+// import javax.swing.JFileChooser;
+// import javax.swing.JFrame;
+// import javax.swing.JOptionPane;
 //
 ///**
 // * @author Thomas Freese
 // */
-//public final class MediaPlayerMain extends JFrame
+// public final class MediaPlayerMain extends JFrame
 //{
 //    @Serial
 //    private static final long serialVersionUID = 5487817007951030101L;

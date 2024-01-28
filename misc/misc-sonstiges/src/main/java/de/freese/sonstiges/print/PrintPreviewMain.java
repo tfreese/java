@@ -130,7 +130,8 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
         setBackground(COLOR_BACKGROUND);
 
         // "Wunschgrösse" für das Panel berechnen
-        setPreferredSize(new Dimension((int) ((this.pageFormat.getWidth() + (2 * BORDER_SIZE)) * this.mdPreviewScale), (int) ((this.pageFormat.getHeight() + (2 * BORDER_SIZE)) * this.mdPreviewScale)));
+        setPreferredSize(new Dimension((int) ((this.pageFormat.getWidth() + (2 * BORDER_SIZE)) * this.mdPreviewScale),
+                (int) ((this.pageFormat.getHeight() + (2 * BORDER_SIZE)) * this.mdPreviewScale)));
 
         // Grafiken laden
         try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("images/duke.png")) {
@@ -206,9 +207,11 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
         g2.setPaint(COLOR_FRAME);
 
         g2.drawLine(0, (int) this.pageFormat.getImageableY() - 1, (int) this.pageFormat.getWidth() - 1, (int) this.pageFormat.getImageableY() - 1);
-        g2.drawLine(0, (int) (this.pageFormat.getImageableY() + this.pageFormat.getImageableHeight()), (int) this.pageFormat.getWidth() - 1, (int) (this.pageFormat.getImageableY() + this.pageFormat.getImageableHeight()));
+        g2.drawLine(0, (int) (this.pageFormat.getImageableY() + this.pageFormat.getImageableHeight()), (int) this.pageFormat.getWidth() - 1,
+                (int) (this.pageFormat.getImageableY() + this.pageFormat.getImageableHeight()));
         g2.drawLine((int) this.pageFormat.getImageableX() - 1, 0, (int) this.pageFormat.getImageableX() - 1, (int) this.pageFormat.getHeight() - 1);
-        g2.drawLine((int) (this.pageFormat.getImageableX() + this.pageFormat.getImageableWidth()), 0, (int) (this.pageFormat.getImageableX() + this.pageFormat.getImageableWidth()), (int) this.pageFormat.getHeight() - 1);
+        g2.drawLine((int) (this.pageFormat.getImageableX() + this.pageFormat.getImageableWidth()), 0, (int) (this.pageFormat.getImageableX() + this.pageFormat.getImageableWidth()),
+                (int) this.pageFormat.getHeight() - 1);
 
         // Ursprung zum 2.mal verschieben. Achtung: translate() arbeitet inkrementell!
         g2.translate(this.pageFormat.getImageableX(), this.pageFormat.getImageableY());

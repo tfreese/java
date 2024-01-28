@@ -79,7 +79,8 @@ public final class DateServerMain extends Thread {
 
         if (isSSL) {
             // SSLContext sslContext = SSLContextFactory.createDefault();
-            final SSLContext sslContext = DateClientMain.createSSLContext("src/main/resources/serverKeyStore", "server-pw".toCharArray(), "src/main/resources/clientTrustStore", "client-pw".toCharArray(), "server1-cert-pw".toCharArray());
+            final SSLContext sslContext = DateClientMain.createSSLContext("src/main/resources/serverKeyStore", "server-pw".toCharArray(), "src/main/resources/clientTrustStore",
+                    "client-pw".toCharArray(), "server1-cert-pw".toCharArray());
 
             serverSocketFactory = sslContext.getServerSocketFactory();
         }

@@ -19,7 +19,8 @@ public class NetworkProtocolInfo {
         super();
     }
 
-    public NetworkProtocolInfo(final long icmpIn, final long icmpOut, final long ipIn, final long ipOut, final int tcpConnections, final long tcpIn, final long tcpOut, final long udpIn, final long udpOut) {
+    public NetworkProtocolInfo(final long icmpIn, final long icmpOut, final long ipIn, final long ipOut, final int tcpConnections, final long tcpIn, final long tcpOut,
+                               final long udpIn, final long udpOut) {
         super();
         this.icmpIn = icmpIn;
         this.icmpOut = icmpOut;

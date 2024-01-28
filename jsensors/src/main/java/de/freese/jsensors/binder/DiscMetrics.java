@@ -89,7 +89,8 @@ public class DiscMetrics implements SensorBinder {
         return LOGGER;
     }
 
-    private <T> List<String> bindTo(final SensorRegistry registry, final T object, final ToLongFunction<T> functionFree, final ToLongFunction<T> functionTotal, final Function<String, Backend> backendProvider) {
+    private <T> List<String> bindTo(final SensorRegistry registry, final T object, final ToLongFunction<T> functionFree, final ToLongFunction<T> functionTotal,
+                                    final Function<String, Backend> backendProvider) {
         final String postfix = sanitizePostfix(this.sensorPostfix);
 
         Sensor.builder("disk.free." + postfix, object, obj -> {

@@ -85,13 +85,15 @@ class TestMetricBinder {
         final MapBackend mapBackend = new MapBackend(3);
 
         //        new ExecutorServiceMetrics(Executors.newSingleThreadExecutor(), "myExecutor").bindTo(registry, name -> mapBackend);
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> new ExecutorServiceMetrics(Executors.newSingleThreadExecutor(), "myExecutor").bindTo(registry, name -> mapBackend));
+        Exception exception = assertThrows(IllegalArgumentException.class,
+                () -> new ExecutorServiceMetrics(Executors.newSingleThreadExecutor(), "myExecutor").bindTo(registry, name -> mapBackend));
         String expectedMessage = "executorService not supported: 'java.util.concurrent.Executors$AutoShutdownDelegatedExecutorService'";
         assertNotNull(exception);
         assertEquals(expectedMessage, exception.getMessage());
 
         //        new ExecutorServiceMetrics(Executors.newSingleThreadScheduledExecutor(), "myScheduler").bindTo(registry, name -> mapBackend);
-        exception = assertThrows(IllegalArgumentException.class, () -> new ExecutorServiceMetrics(Executors.newSingleThreadScheduledExecutor(), "myScheduler").bindTo(registry, name -> mapBackend));
+        exception = assertThrows(IllegalArgumentException.class,
+                () -> new ExecutorServiceMetrics(Executors.newSingleThreadScheduledExecutor(), "myScheduler").bindTo(registry, name -> mapBackend));
         expectedMessage = "executorService not supported: 'java.util.concurrent.Executors$DelegatedScheduledExecutorService'";
         assertNotNull(exception);
         assertEquals(expectedMessage, exception.getMessage());

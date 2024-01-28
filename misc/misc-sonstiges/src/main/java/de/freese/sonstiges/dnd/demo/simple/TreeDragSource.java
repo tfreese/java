@@ -36,7 +36,7 @@ class TreeDragSource implements DragSourceListener, DragGestureListener {
 
     @Override
     public void dragDropEnd(final DragSourceDropEvent event) {
-        //to support move or copy, we have to check which occurred:
+        // to support move or copy, we have to check which occurred:
         System.out.println("Drop Action: " + event.getDropAction());
 
         if (event.getDropSuccess() && (event.getDropAction() == DnDConstants.ACTION_MOVE)) {

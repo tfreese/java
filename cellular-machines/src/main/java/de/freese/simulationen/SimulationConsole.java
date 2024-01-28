@@ -41,7 +41,8 @@ class SimulationConsole {
         final int cpus = Runtime.getRuntime().availableProcessors();
 
         // Jeder CPU-Kern soll ausgelastet werden, wenn die Queue voll ist, wird die Grafik im Caller verarbeitet.
-        final ExecutorService executorService = new ThreadPoolExecutor(cpus, cpus, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(cpus), new ThreadPoolExecutor.CallerRunsPolicy());
+        final ExecutorService executorService = new ThreadPoolExecutor(cpus, cpus, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(cpus),
+                new ThreadPoolExecutor.CallerRunsPolicy());
 
         try {
             final Simulation simulation = switch (type) {

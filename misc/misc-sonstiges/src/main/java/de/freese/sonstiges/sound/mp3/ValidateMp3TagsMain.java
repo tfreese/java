@@ -33,8 +33,8 @@ public final class ValidateMp3TagsMain {
         LogManager.getLogManager().reset();
 
         // JUL-Logger auf slf4j umleiten.
-        //SLF4JBridgeHandler.removeHandlersForRootLogger();
-        //SLF4JBridgeHandler.install();
+        // SLF4JBridgeHandler.removeHandlersForRootLogger();
+        // SLF4JBridgeHandler.install();
 
         Path rootDirectory = Paths.get("/mnt", "mediathek", "musik");
         rootDirectory = rootDirectory.resolve("Suede");
@@ -74,7 +74,7 @@ public final class ValidateMp3TagsMain {
 
                 containsCovers(reports, audioFile);
 
-                //containsFlag(reports, audioFile, unwantedKeys);
+                // containsFlag(reports, audioFile, unwantedKeys);
             });
         }
         catch (Exception ex) {

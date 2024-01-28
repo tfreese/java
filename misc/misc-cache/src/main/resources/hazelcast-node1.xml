@@ -10,18 +10,18 @@
     </group-->
 
     <properties>
-            <property name="hazelcast.backpressure.enabled">true</property> <!-- verhindert Überlastung des Clusters -->
-            <property name="hazelcast.event.thread.count">1</property>
-            <property name="hazelcast.io.thread.count">1</property> <!-- 1= jeweils 1 Thread für Input / Output -->
-            <!--property name="hazelcast.io.input.thread.count">1</property>
-            <property name="hazelcast.io.output.thread.count">1</property-->
-            <property name="hazelcast.logging.type">slf4j</property>
-            <property name="hazelcast.operation.backup.timeout.millis">60000</property>
-            <property name="hazelcast.operation.generic.thread.count">1</property>
-            <property name="hazelcast.operation.thread.count">1</property> <!-- für Partitionen -->
-            <property name="hazelcast.partition.count">2</property>
-            <property name="hazelcast.phone.home.enabled">false</property>
-            <property name="hazelcast.shutdownhook.policy">GRACEFUL</property>
+        <property name="hazelcast.backpressure.enabled">true</property> <!-- verhindert Überlastung des Clusters -->
+        <property name="hazelcast.event.thread.count">1</property>
+        <property name="hazelcast.io.thread.count">1</property> <!-- 1= jeweils 1 Thread für Input / Output -->
+        <!--property name="hazelcast.io.input.thread.count">1</property>
+        <property name="hazelcast.io.output.thread.count">1</property-->
+        <property name="hazelcast.logging.type">slf4j</property>
+        <property name="hazelcast.operation.backup.timeout.millis">60000</property>
+        <property name="hazelcast.operation.generic.thread.count">1</property>
+        <property name="hazelcast.operation.thread.count">1</property> <!-- für Partitionen -->
+        <property name="hazelcast.partition.count">2</property>
+        <property name="hazelcast.phone.home.enabled">false</property>
+        <property name="hazelcast.shutdownhook.policy">GRACEFUL</property>
     </properties>
 
     <!--serialization>
@@ -79,7 +79,7 @@
         <async-backup-count>1</async-backup-count>
         <time-to-live-seconds>3</time-to-live-seconds>
         <max-idle-seconds>0</max-idle-seconds>
-        <eviction eviction-policy="LRU" max-size-policy="PER_NODE" size="3"/>
+        <eviction eviction-policy="LRU" max-size-policy="PER_NODE" size="3" />
         <merge-policy>com.hazelcast.spi.merge.PutIfAbsentMergePolicy</merge-policy>
         <cache-deserialized-values>INDEX-ONLY</cache-deserialized-values>
         <statistics-enabled>false</statistics-enabled>

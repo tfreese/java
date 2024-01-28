@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<navigationTree xmlns="http://www.example.org/NavigationSchema"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pim="http://www.example.org/PIMSchema"
-	xsi:schemaLocation="
+<navigationTree xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xmlns="http://www.example.org/NavigationSchema"
+                xsi:schemaLocation="
 		http://www.example.org/NavigationSchema navigationTree.xsd
 		http://www.example.org/PIMSchema pim.xsd ">
 
-	<node>
-		<context>Context 1</context>
-		<modul>Modul 1</modul>
-		<class>Class 1</class>
-		<icon>Icon 1</icon>
-	</node>
-	<node>
-		<context>Context 2</context>
-		<modul>Modul 2</modul>
-		<class>Class 2</class>
-		<icon>Icon 2</icon>
+    <node>
+        <context>Context 1</context>
+        <modul>Modul 1</modul>
+        <class>Class 1</class>
+        <icon>Icon 1</icon>
+    </node>
+    <node>
+        <context>Context 2</context>
+        <modul>Modul 2</modul>
+        <class>Class 2</class>
+        <icon>Icon 2</icon>
 
-		<node>
-			<context>Context 3</context>
-			<modul>Modul 3</modul>
-			<class>Class 3</class>
-			<icon>Icon 3</icon>
-		</node>
-	</node>
+        <node>
+            <context>Context 3</context>
+            <modul>Modul 3</modul>
+            <class>Class 3</class>
+            <icon>Icon 3</icon>
+        </node>
+    </node>
 
 </navigationTree>

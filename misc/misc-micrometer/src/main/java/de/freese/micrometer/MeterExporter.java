@@ -61,7 +61,8 @@ public final class MeterExporter {
                 return;
             }
 
-            final String text = id(timer) + ": throughput=" + unitlessRate(step, count) + "; mean=" + time(baseTimeUnit, snapshot.mean(baseTimeUnit)) + "; max=" + time(baseTimeUnit, snapshot.max(baseTimeUnit));
+            final String text = id(timer) + ": throughput=" + unitlessRate(step, count) + "; mean=" + time(baseTimeUnit, snapshot.mean(baseTimeUnit)) + "; max=" + time(
+                    baseTimeUnit, snapshot.max(baseTimeUnit));
             list.add(text);
         }, summary -> {
             final HistogramSnapshot snapshot = summary.takeSnapshot();
@@ -84,7 +85,9 @@ public final class MeterExporter {
                 return;
             }
 
-            final String text = id(longTaskTimer) + ": active=" + value(longTaskTimer, activeTasks) + "; duration=" + time(baseTimeUnit, longTaskTimer.duration(baseTimeUnit)) + "; mean=" + time(baseTimeUnit, longTaskTimer.mean(baseTimeUnit)) + "; max=" + time(baseTimeUnit, longTaskTimer.max(baseTimeUnit));
+            final String text = id(longTaskTimer) + ": active=" + value(longTaskTimer, activeTasks) + "; duration=" + time(baseTimeUnit,
+                    longTaskTimer.duration(baseTimeUnit)) + "; mean=" + time(baseTimeUnit, longTaskTimer.mean(baseTimeUnit)) + "; max=" + time(baseTimeUnit,
+                    longTaskTimer.max(baseTimeUnit));
             list.add(text);
         }, timeGauge -> {
             final double value = timeGauge.value(baseTimeUnit);
@@ -164,7 +167,8 @@ public final class MeterExporter {
             return meterIdName;
         }
 
-        final String meterIdTags = id.getTags().stream().map(t -> Tag.of(namingConvention.tagKey(t.getKey()), namingConvention.tagValue(t.getValue()))).map(tag -> tag.getKey() + "=" + tag.getValue()).collect(Collectors.joining(",", "{", "}"));
+        final String meterIdTags = id.getTags().stream().map(t -> Tag.of(namingConvention.tagKey(t.getKey()), namingConvention.tagValue(t.getValue())))
+                .map(tag -> tag.getKey() + "=" + tag.getValue()).collect(Collectors.joining(",", "{", "}"));
 
         return meterIdName + meterIdTags;
     }

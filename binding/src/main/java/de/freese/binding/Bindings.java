@@ -94,7 +94,8 @@ public final class Bindings {
         return binding;
     }
 
-    public static DoubleBinding createDoubleBinding(final BinaryOperator<Double> function, final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2) {
+    public static DoubleBinding createDoubleBinding(final BinaryOperator<Double> function, final ObservableNumberValue<? extends Number> ov1,
+                                                    final ObservableNumberValue<? extends Number> ov2) {
         final DoubleBinding binding = new AbstractDoubleBinding() {
             @Override
             protected double computeValue() {
@@ -110,7 +111,8 @@ public final class Bindings {
         return binding;
     }
 
-    public static FloatBinding createFloatBinding(final BinaryOperator<Float> function, final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2) {
+    public static FloatBinding createFloatBinding(final BinaryOperator<Float> function, final ObservableNumberValue<? extends Number> ov1,
+                                                  final ObservableNumberValue<? extends Number> ov2) {
         final FloatBinding binding = new AbstractFloatBinding() {
             @Override
             protected float computeValue() {
@@ -126,7 +128,8 @@ public final class Bindings {
         return binding;
     }
 
-    public static IntegerBinding createIntegerBinding(final BinaryOperator<Integer> function, final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2) {
+    public static IntegerBinding createIntegerBinding(final BinaryOperator<Integer> function, final ObservableNumberValue<? extends Number> ov1,
+                                                      final ObservableNumberValue<? extends Number> ov2) {
         final IntegerBinding binding = new AbstractIntegerBinding() {
             @Override
             protected int computeValue() {
@@ -142,7 +145,8 @@ public final class Bindings {
         return binding;
     }
 
-    public static LongBinding createLongBinding(final BinaryOperator<Long> function, final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2) {
+    public static LongBinding createLongBinding(final BinaryOperator<Long> function, final ObservableNumberValue<? extends Number> ov1,
+                                                final ObservableNumberValue<? extends Number> ov2) {
         final LongBinding binding = new AbstractLongBinding() {
             @Override
             protected long computeValue() {

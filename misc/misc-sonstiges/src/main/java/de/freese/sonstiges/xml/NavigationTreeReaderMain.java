@@ -82,7 +82,8 @@ public final class NavigationTreeReaderMain {
                     System.out.println("AttributeCount: " + reader.getAttributeCount());
 
                     for (int i = 0; i < reader.getAttributeCount(); i++) {
-                        System.out.printf("%d: AttributeLocalName=%s, AttributeValue=%s, AttributePrefix=%s%n", i, reader.getAttributeLocalName(i), reader.getAttributeValue(i), reader.getAttributePrefix(i));
+                        System.out.printf("%d: AttributeLocalName=%s, AttributeValue=%s, AttributePrefix=%s%n", i, reader.getAttributeLocalName(i), reader.getAttributeValue(i),
+                                reader.getAttributePrefix(i));
                     }
                 }
 

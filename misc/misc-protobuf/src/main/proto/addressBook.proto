@@ -10,5 +10,5 @@ option optimize_for = SPEED;
 import "person.proto";
 
 message AddressBook {
-  repeated Person persons = 1;
+    repeated Person persons = 1;
 }

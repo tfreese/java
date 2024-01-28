@@ -217,7 +217,8 @@ public final class MicrometerMain {
         });
 
         server.createContext("/exporter", httpExchange -> {
-            final String response = MeterExporter.export(prometheusMeterRegistry, Duration.ofSeconds(1), TimeUnit.SECONDS).stream().collect(Collectors.joining(System.lineSeparator()));
+            final String response = MeterExporter.export(prometheusMeterRegistry, Duration.ofSeconds(1), TimeUnit.SECONDS).stream()
+                    .collect(Collectors.joining(System.lineSeparator()));
 
             LOGGER.debug("{}{}", System.lineSeparator(), response);
 
