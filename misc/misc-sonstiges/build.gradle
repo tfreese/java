@@ -55,7 +55,7 @@ dependencies {
     }
 
     runtimeOnly("com.oracle.database.jdbc:ojdbc11")
-    runtimeOnly("org.glassfish.jaxb:jaxb-runtime") // Implementierung von jakarta.json.bind:jakarta.json.bind-api
+    runtimeOnly("org.glassfish.jaxb:jaxb-runtime") // Implementation of jakarta.json.bind:jakarta.json.bind-api
     runtimeOnly("org.slf4j:slf4j-simple")
 
     // tomcat-juli ist in tomcat-catalina enthalten, aber auch viele andere Jars die nicht benötigt werden.
