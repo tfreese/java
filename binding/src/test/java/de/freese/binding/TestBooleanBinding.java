@@ -1,7 +1,6 @@
 // Created: 31.07.2018
 package de.freese.binding;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -38,7 +37,7 @@ class TestBooleanBinding {
     void testProperty() {
         final Property<Boolean> property = new SimpleBooleanProperty();
 
-        ChangeListener<Boolean> listener = (observable, oldValue, newValue) -> assertEquals(false, newValue);
+        ChangeListener<Boolean> listener = (observable, oldValue, newValue) -> assertFalse(newValue);
         property.addListener(listener);
         property.setValue(false);
         property.removeListener(listener);

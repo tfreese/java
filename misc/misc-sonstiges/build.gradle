@@ -63,8 +63,6 @@ dependencies {
         exclude group: "org.apache.tomcat"
     }
     testImplementation("org.apache.tomcat:tomcat-juli")
-
-    testImplementation("org.mockito:mockito-junit-jupiter")
 }
 
 tasks.register("xslt") {

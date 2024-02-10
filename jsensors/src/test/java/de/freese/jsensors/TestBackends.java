@@ -1,6 +1,7 @@
 // Created: 28.10.2020
 package de.freese.jsensors;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -16,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.stream.Stream;
 
@@ -52,18 +52,20 @@ class TestBackends {
     static void afterAll() throws Exception {
         dataSource.close(1);
 
-        try (Stream<Path> stream = Files.list(LOG_PATH)) {
-            stream.forEach(path -> {
-                try {
-                    Files.delete(path);
-                }
-                catch (IOException ex) {
-                    // Ignore
-                }
-            });
-        }
+        if (Files.exists(LOG_PATH)) {
+            try (Stream<Path> stream = Files.list(LOG_PATH)) {
+                stream.forEach(path -> {
+                    try {
+                        Files.delete(path);
+                    }
+                    catch (IOException ex) {
+                        // Ignore
+                    }
+                });
+            }
 
-        Files.delete(LOG_PATH);
+            Files.delete(LOG_PATH);
+        }
     }
 
     @BeforeAll
@@ -91,7 +93,7 @@ class TestBackends {
 
         final List<String> lines = Files.readAllLines(path);
         assertEquals(3, lines.size());
-        assertEquals(3, lines.get(0).chars().filter(c -> ((char) c) == ',').count());
+        assertEquals(3, lines.getFirst().chars().filter(c -> ((char) c) == ',').count());
     }
 
     @Test
@@ -110,7 +112,7 @@ class TestBackends {
 
             final List<String> lines = Files.readAllLines(path);
             assertEquals(2, lines.size());
-            assertEquals(2, lines.get(0).chars().filter(c -> ((char) c) == ',').count());
+            assertEquals(2, lines.getFirst().chars().filter(c -> ((char) c) == ',').count());
         }
     }
 
@@ -118,17 +120,13 @@ class TestBackends {
     void testDisruptorBackend() throws Exception {
         final List<SensorValue> sensorValues = createSensorValues();
         final List<SensorValue> consumedValues = Collections.synchronizedList(new ArrayList<>());
-        final CountDownLatch countDownLatch = new CountDownLatch(sensorValues.size());
 
-        final DisruptorBackend backend = new DisruptorBackend(sensorValue -> {
-            consumedValues.add(sensorValue);
-            countDownLatch.countDown();
-        }, 3);
+        final DisruptorBackend backend = new DisruptorBackend(consumedValues::add, 3);
         backend.start();
 
         sensorValues.forEach(backend::store);
 
-        countDownLatch.await();
+        await().until(() -> consumedValues.size() >= 2);
 
         backend.stop();
 
@@ -139,16 +137,12 @@ class TestBackends {
     void testExecutorBackend() throws Exception {
         final List<SensorValue> sensorValues = createSensorValues();
         final List<SensorValue> consumedValues = Collections.synchronizedList(new ArrayList<>());
-        final CountDownLatch countDownLatch = new CountDownLatch(sensorValues.size());
 
-        final ExecutorBackend backend = new ExecutorBackend(sensorValue -> {
-            consumedValues.add(sensorValue);
-            countDownLatch.countDown();
-        }, Executors.newFixedThreadPool(3));
+        final ExecutorBackend backend = new ExecutorBackend(consumedValues::add, Executors.newFixedThreadPool(3));
 
         sensorValues.forEach(backend::store);
 
-        countDownLatch.await();
+        await().until(() -> consumedValues.size() >= 2);
 
         testValues(sensorValues, consumedValues);
     }
@@ -211,13 +205,9 @@ class TestBackends {
     void testRSocketBackend() throws Exception {
         final List<SensorValue> sensorValues = createSensorValues();
         final List<SensorValue> consumedValues = Collections.synchronizedList(new ArrayList<>());
-        final CountDownLatch countDownLatch = new CountDownLatch(sensorValues.size());
 
         // RSocket-Server starten.
-        final JSensorRSocketServer rSocketServer = new JSensorRSocketServer(sensorValue -> {
-            consumedValues.add(sensorValue);
-            countDownLatch.countDown();
-        }, 7000, 2);
+        final JSensorRSocketServer rSocketServer = new JSensorRSocketServer(consumedValues::add, 7000, 2);
         rSocketServer.start();
 
         final RSocketBackend backend = new RSocketBackend(URI.create("rsocket://localhost:" + 7000), 2);
@@ -225,7 +215,7 @@ class TestBackends {
 
         sensorValues.forEach(backend::store);
 
-        countDownLatch.await();
+        await().until(() -> consumedValues.size() >= 2);
 
         backend.stop();
         rSocketServer.stop();
@@ -254,17 +244,13 @@ class TestBackends {
     void testWorkerBackend() throws Exception {
         final List<SensorValue> sensorValues = createSensorValues();
         final List<SensorValue> consumedValues = Collections.synchronizedList(new ArrayList<>());
-        final CountDownLatch countDownLatch = new CountDownLatch(sensorValues.size());
 
-        final WorkerBackend backend = new WorkerBackend(sensorValue -> {
-            consumedValues.add(sensorValue);
-            countDownLatch.countDown();
-        });
+        final WorkerBackend backend = new WorkerBackend(consumedValues::add);
         backend.start();
 
         sensorValues.forEach(backend::store);
 
-        countDownLatch.await();
+        await().until(() -> consumedValues.size() >= 2);
 
         backend.stop();
 

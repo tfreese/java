@@ -25,7 +25,7 @@ class TestVendingMaschine {
         maschine.selectItem(0);
 
         // Sicherstellen, dass Methoden mit diesen Parametern einmal aufgerufen wurden.
-        Mockito.verify(cashBox).withdraw(ArgumentMatchers.eq(42));
+        Mockito.verify(cashBox).withdraw(42);
         Mockito.verify(box, Mockito.times(1)).releaseItem();
     }
 }
