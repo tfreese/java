@@ -91,6 +91,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
+import java.util.function.LongPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -131,39 +132,40 @@ public final class MiscMain {
         // System.out.println("args = " + Arrays.deepToString(args));
         // System.out.printf("%s: %s.%s%n", Thread.currentThread().getName(), "de.freese.sonstiges.MiscMain", "main");
 
-        //        System.out.println(generatePW(new SecureRandom(), "lllll_UUUUU_dddddd."));
+        // System.out.println(generatePW(new SecureRandom(), "lllll_UUUUU_dddddd."));
 
         bitShift();
-        //        byteBuffer();
-        //        collator();
-        //        copyPipedStreamsInToOut();
-        //        copyPipedStreamsOutToIn();
-        //        dateTime();
-        //        fileWalker();
-        //        fileSystems();
-        //        hostName();
-        //        httpRedirect();
-        //        introspector();
-        //        javaVersion();
-        //        jndi();
-        //        listDirectories();
-        //        nioPipeChannels();
-        //        processBuilder();
-        //        reactor();
-        //        reactorParallel();
-        //        reactorStream();
-        //        reactorSinks();
-        //        reflection();
-        //        securityProviders();
-        //        streamParallelCustomThreadPool();
-        //        showMemory();
-        //        showWindowsNotification();
-        //        splitList();
-        //        systemMXBean();
-        //        textBlocks();
-        //        utilLogging();
-        //        virtualThreads();
-        //        zip();
+        bitValue();
+        // byteBuffer();
+        // collator();
+        // copyPipedStreamsInToOut();
+        // copyPipedStreamsOutToIn();
+        // dateTime();
+        // fileWalker();
+        // fileSystems();
+        // hostName();
+        // httpRedirect();
+        // introspector();
+        // javaVersion();
+        // jndi();
+        // listDirectories();
+        // nioPipeChannels();
+        // processBuilder();
+        // reactor();
+        // reactorParallel();
+        // reactorStream();
+        // reactorSinks();
+        // reflection();
+        // securityProviders();
+        // streamParallelCustomThreadPool();
+        // showMemory();
+        // showWindowsNotification();
+        // splitList();
+        // systemMXBean();
+        // textBlocks();
+        // utilLogging();
+        // virtualThreads();
+        // zip();
 
         Schedulers.shutdownNow();
         EXECUTOR_SERVICE.shutdown();
@@ -226,6 +228,31 @@ public final class MiscMain {
         for (int parallelism : List.of(32, 24, 16, 8, 4, 2)) {
             System.out.printf("highestOneBit: %2d << 4 = %3d%n", parallelism, Integer.highestOneBit(parallelism) << 4);
         }
+    }
+
+    static void bitValue() {
+        final int enabled = 1;
+        final int disabled = 2;
+        final int visible = 4;
+
+        final LongPredicate isEnabled = i -> (i & enabled) == enabled;
+        final LongPredicate isDisabled = i -> (i & disabled) == disabled;
+        final LongPredicate isVisible = i -> (i & visible) == visible;
+
+        long value = enabled;
+        System.out.printf("%d: isEnabled=%b, isDisabled=%b, isVisible=%b%n", value, isEnabled.test(value), isDisabled.test(value), isVisible.test(value));
+
+        value = enabled | visible;
+        System.out.printf("%d: isEnabled=%b, isDisabled=%b, isVisible=%b%n", value, isEnabled.test(value), isDisabled.test(value), isVisible.test(value));
+
+        value = disabled | visible;
+        System.out.printf("%d: isEnabled=%b, isDisabled=%b, isVisible=%b%n", value, isEnabled.test(value), isDisabled.test(value), isVisible.test(value));
+
+        value = visible;
+        System.out.printf("%d: isEnabled=%b, isDisabled=%b, isVisible=%b%n", value, isEnabled.test(value), isDisabled.test(value), isVisible.test(value));
+
+        value = enabled | disabled | visible;
+        System.out.printf("%d: isEnabled=%b, isDisabled=%b, isVisible=%b%n", value, isEnabled.test(value), isDisabled.test(value), isVisible.test(value));
     }
 
     static void byteBuffer() throws Exception {
