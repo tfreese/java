@@ -2,7 +2,7 @@ plugins {
     id "java"
 }
 
-description = "Genetic Algorythms"
+description = "Genetic Algorithms"
 
 dependencies {
 }
