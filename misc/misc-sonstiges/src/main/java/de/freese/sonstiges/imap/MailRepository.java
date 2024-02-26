@@ -1,7 +1,6 @@
 package de.freese.sonstiges.imap;
 
 import java.io.BufferedReader;
-import java.io.Closeable;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -104,9 +103,6 @@ public class MailRepository implements AutoCloseable {
         }
         else if (this.dataSource instanceof AutoCloseable ac) {
             ac.close();
-        }
-        else if (this.dataSource instanceof Closeable c) {
-            c.close();
         }
         else if (this.dataSource instanceof DisposableBean db) {
             db.destroy();
