@@ -93,11 +93,16 @@
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <!-- runtime scope -->
         <!-- provided scope -->
+
         <!-- test scope -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java-util</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option java_package = "de.freese.protobuf.model.test";
+option java_multiple_files = true;
+option optimize_for = SPEED;
+
+message Test1 {
+    string name = 1;
+}
+
+message Test2 {
+    string name = 1;
+    int32 age = 2;
+}

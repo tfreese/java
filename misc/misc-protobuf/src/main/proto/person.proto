@@ -11,6 +11,11 @@ import "phone.proto";
 import "google/protobuf/timestamp.proto";
 
 message Person {
+    // Mark deleted Field-Numbers and -Names to avoid reuse.
+    // https://protobuf.dev/programming-guides/proto3/#consequences
+    // reserved 2, 15, 9 to 11;
+    // reserved "foo", "bar";
+
     int64 id = 1;
     string name = 2;
     optional string email = 3;
