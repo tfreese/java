@@ -2,8 +2,14 @@
 package de.freese.protobuf;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Timestamp;
@@ -15,6 +21,8 @@ import de.freese.protobuf.model.addressbook.AddressBook;
 import de.freese.protobuf.model.person.Person;
 import de.freese.protobuf.model.phone.PhoneNumber;
 import de.freese.protobuf.model.phone.PhoneType;
+import de.freese.protobuf.model.test.ListOfTest1;
+import de.freese.protobuf.model.test.ListOfTest2;
 import de.freese.protobuf.model.test.Test1;
 import de.freese.protobuf.model.test.Test2;
 
@@ -83,9 +91,84 @@ class TestProtobuf {
         assertEquals(0, test2.getAge());
     }
 
+    /**
+     * The Protocol Buffer wire format is not self-delimiting.<br>
+     * For multiple Objects use a Wrapper-Object with "repeated" tag.<br>
+     * Otherwise, write the Object-Size before the Object itself and parse it programmatically.
+     * <a href="https://protobuf.dev/programming-guides/techniques">programming-guides</a>
+     */
+    @Test
+    void testMultipleObjects() throws Exception {
+        byte[] bytes;
+
+        // Wrapper-Object
+        final ListOfTest1 listOfTest1Origin = ListOfTest1.newBuilder().addTest(Test1.newBuilder().setName("Name11")).addTest(Test1.newBuilder().setName("Name2")).build();
+
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            listOfTest1Origin.writeTo(baos);
+
+            baos.flush();
+            bytes = baos.toByteArray();
+        }
+
+        final ListOfTest1 listOfTest1Copy = ListOfTest1.parseFrom(bytes);
+        assertNotNull(listOfTest1Copy);
+        assertEquals(listOfTest1Origin, listOfTest1Copy);
+
+        final ListOfTest2 listOfTest2Copy = ListOfTest2.parseFrom(bytes);
+        assertNotNull(listOfTest2Copy);
+        assertEquals(listOfTest1Origin.getTestCount(), listOfTest2Copy.getTestCount());
+
+        // Object-Size before the Object
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            for (int i = 1; i <= 2; i++) {
+                final Test1 test = Test1.newBuilder().setName("Name" + i).build();
+                final int serializedSize = test.getSerializedSize();
+
+                bytes = new byte[4];
+                bytes[0] = (byte) (0xFF & (serializedSize >> 24));
+                bytes[1] = (byte) (0xFF & (serializedSize >> 16));
+                bytes[2] = (byte) (0xFF & (serializedSize >> 8));
+                bytes[3] = (byte) (0xFF & serializedSize);
+
+                baos.write(bytes);
+                test.writeTo(baos);
+            }
+
+            baos.flush();
+
+            bytes = baos.toByteArray();
+        }
+
+        final List<Test1> list1 = new ArrayList<>();
+        final List<Test2> list2 = new ArrayList<>();
+
+        try (InputStream inputStream = new ByteArrayInputStream(bytes)) {
+            while (inputStream.available() > 0) {
+                // Hole Stream is read, but only the last Object is returned.
+                // list1.add(Test1.parseFrom(inputStream));
+                // list1.add(Test1.newBuilder().mergeFrom(inputStream).build());
+                bytes = new byte[4];
+                inputStream.read(bytes);
+
+                final int serializedSize = ((bytes[0] & 0xFF) << 24) + ((bytes[1] & 0xFF) << 16) + ((bytes[2] & 0xFF) << 8) + (bytes[3] & 0xFF);
+                bytes = new byte[serializedSize];
+                inputStream.read(bytes);
+
+                list1.add(Test1.parseFrom(bytes));
+                list2.add(Test2.parseFrom(bytes));
+            }
+        }
+
+        assertFalse(list1.isEmpty());
+        assertEquals(2, list1.size());
+
+        assertFalse(list2.isEmpty());
+        assertEquals(2, list2.size());
+    }
+
     @Test
     void testSerialisation() throws Exception {
-        // Serialize
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             addressBook.writeTo(baos);
             baos.flush();

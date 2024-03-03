@@ -21,7 +21,10 @@ import de.freese.jsensors.utils.Utils;
  * @author Thomas Freese
  */
 public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
-    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+    /**
+     * System.getProperty("line.separator")
+     */
+    private static final String LINE_SEPARATOR = System.lineSeparator();
 
     private final Path path;
 

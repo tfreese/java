@@ -25,7 +25,7 @@ public interface SensorValue {
 
     String getValue();
 
-    default <T> T getValueAs(Function<String, T> function) {
+    default <T> T getValueAs(final Function<String, T> function) {
         return function.apply(getValue());
     }
 
