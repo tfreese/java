@@ -46,8 +46,8 @@ subprojects {
             dependency("org.jsoup:jsoup:$version_jsoup")
 
             dependency("org.jfree:jfreechart:$version_jfreechart") {
-                exclude "com.lowagie:itext"
-                exclude "xml-apis:xml-apis"
+                // exclude "com.lowagie:itext"
+                // exclude "xml-apis:xml-apis"
             }
 
             dependency("org.apache.velocity:velocity-engine-core:$version_velocity")
