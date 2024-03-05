@@ -62,7 +62,7 @@
                 </executions>
                 <configuration>
                     <!--                    <protocExecutable>/usr/bin/protoc</protocExecutable>-->
-                    <protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
+                    <protocArtifact>com.google.protobuf:protoc:${version_protobuf}:exe:${os.detected.classifier}</protocArtifact>
 
                     <!-- Compiler in toolchains.xml -->
                     <!--                    <toolchain>-->
@@ -88,7 +88,7 @@
         <!--        <dependency>-->
         <!--            <groupId>com.google.protobuf</groupId>-->
         <!--            <artifactId>protobuf</artifactId>-->
-        <!--            <version>${protobuf.version}</version>-->
+        <!--            <version>${version_protobuf}</version>-->
         <!--        </dependency>-->
         <dependency>
             <groupId>com.google.protobuf</groupId>

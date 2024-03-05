@@ -40,8 +40,6 @@ subprojects {
                 entry "batik-swing"
             }
 
-            dependency("org.codehaus.plexus:plexus-cipher:$version_plexusCipher")
-            dependency("org.codehaus.plexus:plexus-container-default:$version_plexus")
             dependency("org:jaudiotagger:$version_jaudiotagger")
             dependency("org.jsoup:jsoup:$version_jsoup")
 

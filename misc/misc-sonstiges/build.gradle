@@ -42,8 +42,6 @@ dependencies {
     implementation("org.apache.xmlgraphics:batik-swing")
     implementation("org.apache.xmlgraphics:batik-transcoder")
     implementation("org.apache.velocity:velocity-engine-core")
-    implementation("org.codehaus.plexus:plexus-cipher")
-    implementation("org.codehaus.plexus:plexus-container-default")
     implementation("org.freemarker:freemarker")
     implementation("org:jaudiotagger")
     implementation("org.hsqldb:hsqldb")
