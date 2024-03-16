@@ -70,7 +70,8 @@ public class ExecutorServiceMetrics implements SensorBinder {
 
     private List<String> bindTo(final SensorRegistry registry, final ForkJoinPool forkJoinPool, final Function<String, Backend> backendProvider) {
         Sensor.builder("executor.steals." + this.serviceName, forkJoinPool, pool -> Long.toString(pool.getStealCount())).description(
-                        "Estimate of the total number of tasks stolen from one thread's work queue by another. The reported value " + "underestimates the actual total number of steals when the pool is not quiescent")
+                        "Estimate of the total number of tasks stolen from one thread's work queue by another. The reported value "
+                                + "underestimates the actual total number of steals when the pool is not quiescent")
                 .register(registry, backendProvider);
 
         Sensor.builder("executor.queued." + this.serviceName, forkJoinPool, pool -> Long.toString(pool.getQueuedTaskCount()))

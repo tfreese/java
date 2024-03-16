@@ -26,7 +26,8 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
      * "[ ]" = "\\s+" = Whitespace: einer oder mehrere
      */
     protected static final Pattern SPACE_PATTERN = Pattern.compile("\\s+", Pattern.UNICODE_CHARACTER_CLASS);
-    private static final com.sun.management.OperatingSystemMXBean OPERATING_SYSTEM_MX_BEAN = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+    private static final com.sun.management.OperatingSystemMXBean OPERATING_SYSTEM_MX_BEAN =
+            (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

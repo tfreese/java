@@ -248,7 +248,8 @@ public class Matrix {
      * Liefert die Invers-Matrix der Transformationsmatrix.
      */
     public Matrix invers() {
-        final double myDet = ((this.m11 * this.m22 * this.m33) + (this.m12 * this.m23 * this.m31) + (this.m13 * this.m21 * this.m32)) - (this.m11 * this.m23 * this.m32) - (this.m12 * this.m21 * this.m33) - (this.m13 * this.m22 * this.m31);
+        final double myDet = ((this.m11 * this.m22 * this.m33) + (this.m12 * this.m23 * this.m31) + (this.m13 * this.m21 * this.m32))
+                - (this.m11 * this.m23 * this.m32) - (this.m12 * this.m21 * this.m33) - (this.m13 * this.m22 * this.m31);
 
         final Matrix retval = new Matrix();
         retval.m11 = (this.m22 * this.m33) - (this.m32 * this.m23);

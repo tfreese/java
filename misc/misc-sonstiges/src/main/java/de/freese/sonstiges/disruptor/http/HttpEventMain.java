@@ -19,7 +19,9 @@ import com.lmax.disruptor.util.DaemonThreadFactory;
 import org.apache.commons.lang3.RandomStringUtils;
 
 /**
- * <a href="https://stackoverflow.com/questions/55827411/how-to-make-a-java-nio-non-blocking-io-based-tcp-server-using-disruptor">how-to-make-a-java-nio-non-blocking-io-based-tcp-server-using-disruptor</a>
+ * <a href="https://stackoverflow.com/questions/55827411/how-to-make-a-java-nio-non-blocking-io-based-tcp-server-using-disruptor">
+ * how-to-make-a-java-nio-non-blocking-io-based-tcp-server-using-disruptor
+ * </a>
  *
  * @author Thomas Freese
  */

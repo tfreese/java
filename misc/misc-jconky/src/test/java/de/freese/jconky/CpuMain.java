@@ -17,7 +17,8 @@ import de.freese.jconky.model.CpuTimes;
  * @author Thomas Freese
  */
 public final class CpuMain {
-    private static final com.sun.management.OperatingSystemMXBean OPERATING_SYSTEM_MX_BEAN = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+    private static final com.sun.management.OperatingSystemMXBean OPERATING_SYSTEM_MX_BEAN =
+            (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
     private static CpuTimes prev = new CpuTimes();
 
     public static void main(final String[] args) {
