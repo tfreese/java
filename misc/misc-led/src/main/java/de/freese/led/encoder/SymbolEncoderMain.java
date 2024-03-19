@@ -26,7 +26,7 @@ import javax.swing.WindowConstants;
 
 /**
  * Helper to encode Symbols for a LED-Matrix.
- * Each LED-Row is encoded in an int bitwise.
+ * Each LED-Row is encoded as an int bitwise.
  *
  * @author Thomas Freese
  */

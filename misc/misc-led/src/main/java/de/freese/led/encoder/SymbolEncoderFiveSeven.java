@@ -101,7 +101,6 @@ public class SymbolEncoderFiveSeven implements SymbolEncoder {
         MAP.put('}', new int[]{6, 8, 8, 16, 8, 8, 6});
 
         MAP.put('ß', new int[]{14, 17, 17, 13, 17, 17, 13});
-        MAP.put('?', new int[]{14, 17, 8, 4, 4, 0, 4});
         MAP.put('\\', new int[]{0, 1, 2, 4, 8, 16, 0});
 
         MAP.put('+', new int[]{4, 4, 4, 31, 4, 4, 4});

@@ -132,10 +132,19 @@ public final class MiscMain {
         // System.out.println("args = " + Arrays.deepToString(args));
         // System.out.printf("%s: %s.%s%n", Thread.currentThread().getName(), "de.freese.sonstiges.MiscMain", "main");
 
-        // System.out.println(generatePW(new SecureRandom(), "lllll_UUUUU_dddddd."));
+        // System.out.println(generatePW(SecureRandom.getInstanceStrong(), "lllll_UUUUU_dddddd."));
 
-        bitShift();
-        bitValue();
+        // SecureRandom.getInstanceStrong()
+        //         .ints(1000, 0, 10)
+        //         .boxed()
+        //         .collect(Collectors.groupingBy(Function.identity(), TreeMap::new, Collectors.toList()))
+        //         .forEach((key, value) -> {
+        //                     System.out.println(key + " - " + value.size());
+        //                 }
+        //         );
+
+        // bitShift();
+        // bitValue();
         // byteBuffer();
         // collator();
         // copyPipedStreamsInToOut();
