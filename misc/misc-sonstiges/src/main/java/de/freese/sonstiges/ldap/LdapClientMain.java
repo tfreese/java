@@ -64,7 +64,7 @@ public final class LdapClientMain {
                 final String givenName = getValue(searchResult, "givenName");
 
                 // Prüfen, ob cn aus Vor- und Nachname besteht.
-                if ((cn != null) && cn.contains(" ")) {
+                if (cn != null && cn.contains(" ")) {
                     pw.printf("dn: cn=%s,ou=addressbook,dc=freese,dc=de%n", cn);
                 }
                 else if (StringUtils.isNotBlank(givenName)) {

@@ -21,7 +21,7 @@ public class Gene implements Comparable<Gene> {
 
     @Override
     public int compareTo(final Gene o) {
-        if ((o == null) || (o == this) || (getClass() != o.getClass())) {
+        if (o == null || o == this || getClass() != o.getClass()) {
             return 0;
         }
 

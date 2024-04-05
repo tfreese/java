@@ -34,7 +34,7 @@ public final class DiscordMain {
         embed.setColor(Color.RED);
         embed.setAuthor(new DiscordAuthor().setName("Author Name").setNameUrl("https://discord.com/developers/docs/resources/webhook").setIconUrl(iconUrl));
         embed.setTitle("Title").setTitleDescription("Title description").setTitleUrl("https://google.de");
-        embed.setThumbnail(new DiscordThumbnail(iconUrl));// Kleines Bild oben Rechts
+        embed.setThumbnail(new DiscordThumbnail(iconUrl)); // Kleines Bild oben Rechts
         embed.addField(new DiscordField().setName("1st Field").setValue("Inline - [Google](https://www.google.de)").setInline(true));
         embed.addField(new DiscordField().setName("2nd Field").setValue("Inline - Text").setInline(true));
         embed.addField(new DiscordField().setName("3nd Field").setValue("Not Inline - Text"));

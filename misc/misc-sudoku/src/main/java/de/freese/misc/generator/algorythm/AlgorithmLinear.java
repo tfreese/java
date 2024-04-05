@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Deprecated
 public class AlgorithmLinear implements SudokuAlgorithm {
-    private int blockSize = 0;
+    private int blockSize;
     private int[][] grid;
     private List<Integer> numberList;
 

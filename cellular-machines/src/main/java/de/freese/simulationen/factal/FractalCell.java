@@ -13,7 +13,7 @@ public class FractalCell extends AbstractCell {
     private static final double EPSILON = 0.0001D;
 
     private static boolean equal(final double xi, final double x, final double yi, final double y) {
-        return (fabs(x - y) < EPSILON) && (fabs(xi - yi) < EPSILON);
+        return fabs(x - y) < EPSILON && fabs(xi - yi) < EPSILON;
     }
 
     private static double fabs(final double a) {

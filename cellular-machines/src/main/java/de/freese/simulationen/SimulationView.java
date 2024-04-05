@@ -127,7 +127,7 @@ public class SimulationView<S extends Simulation> {
     }
 
     protected void stop() {
-        if ((this.scheduledFuture != null)) {
+        if (this.scheduledFuture != null) {
             this.scheduledFuture.cancel(false);
             this.scheduledFuture = null;
         }

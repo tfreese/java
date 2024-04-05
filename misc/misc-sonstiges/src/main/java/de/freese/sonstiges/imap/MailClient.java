@@ -250,7 +250,7 @@ public class MailClient implements AutoCloseable {
         }
         finally {
             try {
-                if ((folder != null) && folder.isOpen()) {
+                if (folder != null && folder.isOpen()) {
                     folder.close(false);
                 }
             }

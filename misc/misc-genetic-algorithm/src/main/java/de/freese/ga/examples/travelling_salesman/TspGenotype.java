@@ -38,11 +38,11 @@ public class TspGenotype extends Genotype {
         // Loop and add the sub tour from parent1 to our child
         for (int i = 0; i < childChromosome.size(); i++) {
             // If our start position is less than the end position
-            if ((startPos < endPos) && (i > startPos) && (i < endPos)) {
+            if (startPos < endPos && i > startPos && i < endPos) {
                 childChromosome.setGene(i, parent1.getGene(i));
             } // If our start position is larger
             else if (startPos > endPos) {
-                if (!((i < startPos) && (i > endPos))) {
+                if (!(i < startPos && i > endPos)) {
                     childChromosome.setGene(i, parent1.getGene(i));
                 }
             }

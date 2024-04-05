@@ -57,7 +57,7 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment> {
         final char[] endOfHeader = new char[4];
         httpHeader.getChars(length - 4, length, endOfHeader, 0);
 
-        if ((endOfHeader[0] == '\r') && (endOfHeader[1] == '\n') && (endOfHeader[2] == '\r') && (endOfHeader[3] == '\n')) {
+        if (endOfHeader[0] == '\r' && endOfHeader[1] == '\n' && endOfHeader[2] == '\r' && endOfHeader[3] == '\n') {
             // Leerzeile = Ende des HttpHeaders.
             write(channel);
         }

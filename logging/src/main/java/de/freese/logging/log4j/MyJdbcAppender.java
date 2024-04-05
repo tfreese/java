@@ -46,7 +46,7 @@ public class MyJdbcAppender extends AbstractAppender implements Flushable {
      */
     public static class Builder<B extends Builder<B>> extends AbstractAppender.Builder<B> implements org.apache.logging.log4j.core.util.Builder<MyJdbcAppender> {
         @PluginBuilderAttribute
-        private int bufferSize = 0;
+        private int bufferSize;
 
         @PluginElement("ColumnConfigs")
         private ColumnConfig[] columnConfigs;
@@ -61,7 +61,7 @@ public class MyJdbcAppender extends AbstractAppender implements Flushable {
 
         @Override
         public MyJdbcAppender build() {
-            if ((this.columnConfigs == null) || (this.columnConfigs.length == 0)) {
+            if (this.columnConfigs == null || this.columnConfigs.length == 0) {
                 AbstractLifeCycle.LOGGER.error("Cannot create JdbcAppender without any columns.");
                 return null;
             }
@@ -139,7 +139,7 @@ public class MyJdbcAppender extends AbstractAppender implements Flushable {
             if (this.bufferSize > 0) {
                 this.buffer.add(event.toImmutable());
 
-                if ((this.buffer.size() >= this.bufferSize) || event.isEndOfBatch()) {
+                if (this.buffer.size() >= this.bufferSize || event.isEndOfBatch()) {
                     flush();
                 }
             }
@@ -204,7 +204,7 @@ public class MyJdbcAppender extends AbstractAppender implements Flushable {
         setStopping();
         final boolean stopped = super.stop(timeout, timeUnit, false);
 
-        if ((this.connection != null) || (this.statement != null)) {
+        if (this.connection != null || this.statement != null) {
             commitAndClose();
         }
 
@@ -224,7 +224,7 @@ public class MyJdbcAppender extends AbstractAppender implements Flushable {
      */
     protected void commitAndClose() {
         try {
-            if ((this.connection != null) && !this.connection.isClosed()) {
+            if (this.connection != null && !this.connection.isClosed()) {
                 if (this.isBatchSupported) {
                     AbstractLifeCycle.LOGGER.debug("Executing batch PreparedStatement {}", this.statement);
                     this.statement.executeBatch();
@@ -284,7 +284,7 @@ public class MyJdbcAppender extends AbstractAppender implements Flushable {
         StringReader reader = null;
 
         try {
-            if ((this.connection == null) || this.connection.isClosed() || (this.statement == null) || this.statement.isClosed()) {
+            if (this.connection == null || this.connection.isClosed() || this.statement == null || this.statement.isClosed()) {
                 throw new AppenderLoggingException("Cannot write logging event; JDBC manager not connected to the database");
             }
 

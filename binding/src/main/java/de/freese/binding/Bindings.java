@@ -37,13 +37,13 @@ public final class Bindings {
     public static NumberBinding<? extends Number> add(final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2) {
         final NumberBinding<? extends Number> binding;
 
-        if ((ov1 instanceof ObservableDoubleValue) || (ov2 instanceof ObservableDoubleValue)) {
+        if (ov1 instanceof ObservableDoubleValue || ov2 instanceof ObservableDoubleValue) {
             binding = createDoubleBinding(Double::sum, ov1, ov2);
         }
-        else if ((ov1 instanceof ObservableFloatValue) || (ov2 instanceof ObservableFloatValue)) {
+        else if (ov1 instanceof ObservableFloatValue || ov2 instanceof ObservableFloatValue) {
             binding = createFloatBinding(Float::sum, ov1, ov2);
         }
-        else if ((ov1 instanceof ObservableLongValue) || (ov2 instanceof ObservableLongValue)) {
+        else if (ov1 instanceof ObservableLongValue || ov2 instanceof ObservableLongValue) {
             binding = createLongBinding(Long::sum, ov1, ov2);
         }
         else {
@@ -71,7 +71,7 @@ public final class Bindings {
 
     public static StringBinding concat(final ObservableStringValue ov1, final ObservableStringValue ov2) {
         return createStringBinding((v1, v2) -> {
-            if ((v1 == null) && (v2 == null)) {
+            if (v1 == null && v2 == null) {
                 return null;
             }
 
@@ -181,13 +181,13 @@ public final class Bindings {
     public static NumberBinding<? extends Number> divide(final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2) {
         final NumberBinding<? extends Number> binding;
 
-        if ((ov1 instanceof ObservableDoubleValue) || (ov2 instanceof ObservableDoubleValue)) {
+        if (ov1 instanceof ObservableDoubleValue || ov2 instanceof ObservableDoubleValue) {
             binding = createDoubleBinding((v1, v2) -> v1 / v2, ov1, ov2);
         }
-        else if ((ov1 instanceof ObservableFloatValue) || (ov2 instanceof ObservableFloatValue)) {
+        else if (ov1 instanceof ObservableFloatValue || ov2 instanceof ObservableFloatValue) {
             binding = createFloatBinding((v1, v2) -> v1 / v2, ov1, ov2);
         }
-        else if ((ov1 instanceof ObservableLongValue) || (ov2 instanceof ObservableLongValue)) {
+        else if (ov1 instanceof ObservableLongValue || ov2 instanceof ObservableLongValue) {
             binding = createLongBinding((v1, v2) -> v1 / v2, ov1, ov2);
         }
         else {
@@ -239,13 +239,13 @@ public final class Bindings {
     public static NumberBinding<? extends Number> multiply(final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2) {
         final NumberBinding<? extends Number> binding;
 
-        if ((ov1 instanceof ObservableDoubleValue) || (ov2 instanceof ObservableDoubleValue)) {
+        if (ov1 instanceof ObservableDoubleValue || ov2 instanceof ObservableDoubleValue) {
             binding = createDoubleBinding((v1, v2) -> v1 * v2, ov1, ov2);
         }
-        else if ((ov1 instanceof ObservableFloatValue) || (ov2 instanceof ObservableFloatValue)) {
+        else if (ov1 instanceof ObservableFloatValue || ov2 instanceof ObservableFloatValue) {
             binding = createFloatBinding((v1, v2) -> v1 * v2, ov1, ov2);
         }
-        else if ((ov1 instanceof ObservableLongValue) || (ov2 instanceof ObservableLongValue)) {
+        else if (ov1 instanceof ObservableLongValue || ov2 instanceof ObservableLongValue) {
             binding = createLongBinding((v1, v2) -> v1 * v2, ov1, ov2);
         }
         else {
@@ -289,13 +289,13 @@ public final class Bindings {
     public static NumberBinding<? extends Number> subtract(final ObservableNumberValue<? extends Number> ov1, final ObservableNumberValue<? extends Number> ov2) {
         final NumberBinding<? extends Number> binding;
 
-        if ((ov1 instanceof ObservableDoubleValue) || (ov2 instanceof ObservableDoubleValue)) {
+        if (ov1 instanceof ObservableDoubleValue || ov2 instanceof ObservableDoubleValue) {
             binding = createDoubleBinding((v1, v2) -> v1 - v2, ov1, ov2);
         }
-        else if ((ov1 instanceof ObservableFloatValue) || (ov2 instanceof ObservableFloatValue)) {
+        else if (ov1 instanceof ObservableFloatValue || ov2 instanceof ObservableFloatValue) {
             binding = createFloatBinding((v1, v2) -> v1 - v2, ov1, ov2);
         }
-        else if ((ov1 instanceof ObservableLongValue) || (ov2 instanceof ObservableLongValue)) {
+        else if (ov1 instanceof ObservableLongValue || ov2 instanceof ObservableLongValue) {
             binding = createLongBinding((v1, v2) -> v1 - v2, ov1, ov2);
         }
         else {

@@ -28,10 +28,10 @@ public class FunctionNormalizeGerman implements UnaryOperator<String> {
 
         final int index = t.indexOf("ue");
 
-        if ((index > 0) && ((index + 2) < t.length())) {
+        if (index > 0 && (index + 2) < t.length()) {
             final char c = t.charAt(index + 2);
 
-            if ((c == 'a') || (c == 'e') || (c == 'i') || (c == 'o') || (c == 'u') || (c == 'q')) {
+            if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'q') {
                 // Empty
             }
             else {

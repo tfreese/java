@@ -42,7 +42,6 @@ public final class CaffeineMain {
                 return key.toUpperCase();
             };
 
-            // @formatter:off
             final LoadingCache<String, String> cache = Caffeine.newBuilder()
                     .expireAfterWrite(3, TimeUnit.SECONDS)
                     .refreshAfterWrite(1, TimeUnit.SECONDS)
@@ -52,11 +51,9 @@ public final class CaffeineMain {
                     .recordStats()
                     .executor(executorService)
                     .scheduler(Scheduler.forScheduledExecutorService(scheduledExecutorService))
-                    .evictionListener((key,  value,  cause) -> LOGGER.info("Eviction: {} - {} - {}",  cause, key,  value))
-                    .removalListener((key,  value,  cause) -> LOGGER.info("Removal: {} - {} - {}",  cause, key,  value))
-                    .build(cacheLoader)
-                    ;
-            // @formatter:on
+                    .evictionListener((key, value, cause) -> LOGGER.info("Eviction: {} - {} - {}", cause, key, value))
+                    .removalListener((key, value, cause) -> LOGGER.info("Removal: {} - {} - {}", cause, key, value))
+                    .build(cacheLoader);
 
             cache.get("a");
             cache.get("a");

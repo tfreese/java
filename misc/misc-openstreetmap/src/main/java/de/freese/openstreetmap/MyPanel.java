@@ -53,7 +53,7 @@ public class MyPanel extends JPanel {
 
     @Override
     public void paint(final Graphics g) {
-        if (this.model.getWayMap().isEmpty() || (this.myZTFMatrix == null)) {
+        if (this.model.getWayMap().isEmpty() || this.myZTFMatrix == null) {
             return;
         }
 

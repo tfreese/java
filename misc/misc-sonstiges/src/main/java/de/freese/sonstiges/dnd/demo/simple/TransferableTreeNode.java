@@ -37,6 +37,6 @@ class TransferableTreeNode implements Transferable {
 
     @Override
     public boolean isDataFlavorSupported(final DataFlavor flavor) {
-        return (flavor.getRepresentationClass() == TreePath.class);
+        return flavor.getRepresentationClass() == TreePath.class;
     }
 }

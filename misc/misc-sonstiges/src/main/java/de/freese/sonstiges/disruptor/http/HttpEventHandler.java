@@ -55,7 +55,7 @@ public class HttpEventHandler extends AbstractLoadBalancedEventHandler<HttpEvent
         final String response = serverResponse(sequence);
 
         buffer.clear();
-        buffer.put((response).getBytes(StandardCharsets.UTF_8));
+        buffer.put(response.getBytes(StandardCharsets.UTF_8));
 
         return buffer;
     }

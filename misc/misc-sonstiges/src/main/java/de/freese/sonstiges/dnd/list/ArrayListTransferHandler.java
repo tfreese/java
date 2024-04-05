@@ -130,7 +130,7 @@ class ArrayListTransferHandler extends TransferHandler {
         // This is interpreted as dropping the same data on itself
         // and has no effect.
         if (this.source.equals(target)) {
-            if ((this.indices != null) && (index >= (this.indices[0] - 1)) && (index <= this.indices[this.indices.length - 1])) {
+            if (this.indices != null && index >= (this.indices[0] - 1) && index <= this.indices[this.indices.length - 1]) {
                 this.indices = null;
 
                 return true;
@@ -170,7 +170,7 @@ class ArrayListTransferHandler extends TransferHandler {
 
             final List<?> values = this.source.getSelectedValuesList();
 
-            if ((values == null) || (values.isEmpty())) {
+            if (values == null || values.isEmpty()) {
                 return null;
             }
 
@@ -194,7 +194,7 @@ class ArrayListTransferHandler extends TransferHandler {
 
     @Override
     protected void exportDone(final JComponent c, final Transferable data, final int action) {
-        if ((action == MOVE) && (this.indices != null)) {
+        if (action == MOVE && this.indices != null) {
             final DefaultListModel<?> model = (DefaultListModel<?>) this.source.getModel();
 
             // If we are moving items around in the same list, we

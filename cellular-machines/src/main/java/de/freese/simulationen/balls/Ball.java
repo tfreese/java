@@ -215,18 +215,18 @@ public class Ball {
 
         // Bei Rand-Berührung Geschwindigkeit durch Dämpfung verringern.
         if (touchX) {
-            this.vx *= (-1.0D + this.daempfung); // Umkehren
-            this.vy *= (1.0D - (this.daempfung / 2.0D));
+            this.vx *= -1.0D + this.daempfung; // Umkehren
+            this.vy *= 1.0D - (this.daempfung / 2.0D);
         }
 
         if (touchY) {
-            this.vy *= (-1.0D + this.daempfung); // Umkehren
-            this.vx *= (1.0D - (this.daempfung / 2.0D));
+            this.vy *= -1.0D + this.daempfung; // Umkehren
+            this.vx *= 1.0D - (this.daempfung / 2.0D);
         }
 
         // Abbruch, wenn sich die kinetischen Energien kaum noch ändern.
         // Nutzung des Durchmessers durch Erfahrungswerte.
-        if ((getEKin() <= (getDurchmesser() / 15.0D)) && (getEPot() <= (getDurchmesser() * 5.0D))) {
+        if (getEKin() <= (getDurchmesser() / 15.0D) && getEPot() <= (getDurchmesser() * 5.0D)) {
             this.finished = true;
         }
     }

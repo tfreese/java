@@ -82,7 +82,7 @@ public class FunctionStripStopWords implements UnaryOperator<String> {
      * @return {@link Locale}; null oder {@link Locale#GERMAN} oder {@link Locale#ENGLISH}
      */
     public Locale guessLocale(final Collection<String> texte) {
-        if ((texte == null) || texte.isEmpty()) {
+        if (texte == null || texte.isEmpty()) {
             return null;
         }
 

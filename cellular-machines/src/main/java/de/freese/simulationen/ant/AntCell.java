@@ -177,14 +177,12 @@ public class AntCell extends AbstractCell {
      * @param orientation int; 0 - 3
      */
     public void setDirection(final int orientation) {
-        switch (orientation) {
-            case 0 -> this.direction = Direction.NORTH;
-            case 1 -> this.direction = Direction.EAST;
-            case 2 -> this.direction = Direction.SOUTH;
-            case 3 -> this.direction = Direction.WEST;
-            default -> {
-            }
-        }
+        this.direction = switch (orientation) {
+            case 1 -> Direction.EAST;
+            case 2 -> Direction.SOUTH;
+            case 3 -> Direction.WEST;
+            default -> Direction.NORTH;
+        };
     }
 
     @Override

@@ -214,8 +214,7 @@ public class Matrix {
         // 4 - move to recenter
         final Matrix translateStep2 = translate(win.getCenterX(), win.getCenterY());
 
-        return translateStep2.multiply(mirrorByX.multiply((scaleBy.multiply(translateStep1))));
-
+        return translateStep2.multiply(mirrorByX.multiply(scaleBy.multiply(translateStep1)));
     }
 
     private double m11;
@@ -264,17 +263,17 @@ public class Matrix {
         retval.m32 = (this.m12 * this.m31) - (this.m32 * this.m11);
         retval.m33 = (this.m11 * this.m22) - (this.m21 * this.m12);
 
-        retval.m11 *= (1 / myDet);
-        retval.m12 *= (1 / myDet);
-        retval.m13 *= (1 / myDet);
+        retval.m11 *= 1 / myDet;
+        retval.m12 *= 1 / myDet;
+        retval.m13 *= 1 / myDet;
 
-        retval.m21 *= (1 / myDet);
-        retval.m22 *= (1 / myDet);
-        retval.m23 *= (1 / myDet);
+        retval.m21 *= 1 / myDet;
+        retval.m22 *= 1 / myDet;
+        retval.m23 *= 1 / myDet;
 
-        retval.m31 *= (1 / myDet);
-        retval.m32 *= (1 / myDet);
-        retval.m33 *= (1 / myDet);
+        retval.m31 *= 1 / myDet;
+        retval.m32 *= 1 / myDet;
+        retval.m33 *= 1 / myDet;
 
         return retval;
     }

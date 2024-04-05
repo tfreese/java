@@ -20,7 +20,7 @@ public class ReverseThread extends Thread {
 
     @Override
     public void run() {
-        if ((this.out != null) && (this.in != null)) {
+        if (this.out != null && this.in != null) {
             try {
                 String input = null;
 
@@ -42,7 +42,7 @@ public class ReverseThread extends Thread {
         final int len = source.length();
         final StringBuilder sb = new StringBuilder(len);
 
-        for (i = (len - 1); i >= 0; i--) {
+        for (i = len - 1; i >= 0; i--) {
             sb.append(source.charAt(i));
         }
 

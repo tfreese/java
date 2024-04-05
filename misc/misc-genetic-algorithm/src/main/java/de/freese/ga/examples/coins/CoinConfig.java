@@ -48,7 +48,7 @@ public class CoinConfig extends Config {
     }
 
     public void setTargetCents(final int cents) {
-        if ((cents <= 0) || (cents > getMaximumCents())) {
+        if (cents <= 0 || cents > getMaximumCents()) {
             throw new IllegalArgumentException("cents must be between 0 - " + getMaximumCents() + ": " + cents);
         }
 

@@ -64,21 +64,19 @@ public abstract class Chromosome {
             }
         }
 
-        // @formatter:off
-//        IntStream.range(0, chromosome.size())
-//            .parallel()
-//            .forEach(i -> {
-//                if (getRandom().nextDouble() < getMutationRate()) {
-//                    final int j = getRandom().nextInt(chromosome.size());
-//
-//                    final G gene1 = chromosome.getGene(i);
-//                   final  G gene2 = chromosome.getGene(j);
-//
-//                    chromosome.setGene(j, gene1);
-//                    chromosome.setGene(i, gene2);
-//                }
-//            });
-        // @formatter:on
+        // IntStream.range(0, chromosome.size())
+        //         .parallel()
+        //         .forEach(i -> {
+        //             if (getRandom().nextDouble() < getMutationRate()) {
+        //                 final int j = getRandom().nextInt(chromosome.size());
+        //
+        //                 final G gene1 = chromosome.getGene(i);
+        //                 final G gene2 = chromosome.getGene(j);
+        //
+        //                 chromosome.setGene(j, gene1);
+        //                 chromosome.setGene(i, gene2);
+        //             }
+        //         });
     }
 
     /**

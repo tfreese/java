@@ -58,7 +58,7 @@ public class JpaModelGenerator extends PojoModelGenerator {
             for (UniqueConstraint uc : table.getUniqueConstraints()) {
                 sb.append("@UniqueConstraint(name = \"").append(uc.getName()).append("\", columnNames = {");
 
-                for (Iterator<Column> iterator = uc.getColumnsOrdered().iterator(); iterator.hasNext(); ) {
+                for (final Iterator<Column> iterator = uc.getColumnsOrdered().iterator(); iterator.hasNext(); ) {
                     sb.append("\"").append(iterator.next().getName()).append("\"");
 
                     if (iterator.hasNext()) {
@@ -95,7 +95,7 @@ public class JpaModelGenerator extends PojoModelGenerator {
     protected void transformClassJavaDoc(final Table table, final ClassModel classModel) {
         final String comment = table.getComment();
 
-        if ((comment != null) && !comment.isBlank()) {
+        if (comment != null && !comment.isBlank()) {
             classModel.addComment(comment);
         }
 
@@ -107,7 +107,7 @@ public class JpaModelGenerator extends PojoModelGenerator {
         final ForeignKey fk = column.getForeignKey();
         final List<Column> reverseFKs = column.getReverseForeignKeys();
 
-        if (column.isPrimaryKey() || (reverseFKs.isEmpty() && (fk == null))) {
+        if (column.isPrimaryKey() || reverseFKs.isEmpty() && fk == null) {
             final String fieldName = getNamingStrategy().getFieldName(column.getName());
             final ClassType type = (ClassType) getTypeMapping().getType(column.getJdbcType(), column.isNullable());
 

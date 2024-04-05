@@ -38,7 +38,7 @@ public final class JFreeChartMain {
 
         final TimeSeries timeSeriesCpuUsage = new TimeSeries("cpu.usage");
         new CpuMetrics().bindTo(registry, name -> sensorValue -> {
-            if ((sensorValue.getValue() == null) || sensorValue.getValue().isBlank()) {
+            if (sensorValue.getValue() == null || sensorValue.getValue().isBlank()) {
                 return;
             }
 
@@ -49,7 +49,7 @@ public final class JFreeChartMain {
 
         final TimeSeries timeSeriesMemoryUsage = new TimeSeries("memory.usage");
         new MemoryMetrics().bindTo(registry, name -> sensorValue -> {
-            if ((sensorValue.getValue() == null) || sensorValue.getValue().isBlank()) {
+            if (sensorValue.getValue() == null || sensorValue.getValue().isBlank()) {
                 return;
             }
 

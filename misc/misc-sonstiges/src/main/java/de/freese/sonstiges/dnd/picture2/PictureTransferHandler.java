@@ -110,7 +110,7 @@ class PictureTransferHandler extends TransferHandler {
 
     @Override
     protected void exportDone(final JComponent c, final Transferable data, final int action) {
-        if (this.shouldRemove && (action == MOVE)) {
+        if (this.shouldRemove && action == MOVE) {
             this.sourcePic.setImage(null);
         }
 

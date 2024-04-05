@@ -99,7 +99,7 @@ public final class ValidateMp3TagsMain {
         final Tag tag = audioFile.getTag();
         final List<Artwork> artworks = tag.getArtworkList();
 
-        if ((artworks == null) || artworks.isEmpty()) {
+        if (artworks == null || artworks.isEmpty()) {
             return;
         }
 
@@ -136,7 +136,7 @@ public final class ValidateMp3TagsMain {
                     // Ignore
                 }
 
-                if ((value == null) || value.isBlank() || (FieldKey.ENCODER.equals(key) && audioFile.getFile().getName().toLowerCase().endsWith("flac"))) {
+                if (value == null || value.isBlank() || FieldKey.ENCODER.equals(key) && audioFile.getFile().getName().toLowerCase().endsWith("flac")) {
                     // Bei FLAC steht immer die Bibliothek drin.
                     continue;
                 }
@@ -157,7 +157,7 @@ public final class ValidateMp3TagsMain {
 
                 final String value = ((TagTextField) tagField).getContent();
 
-                if ((value == null) || value.isEmpty()) {
+                if (value == null || value.isEmpty()) {
                     continue;
                 }
 
@@ -191,7 +191,7 @@ public final class ValidateMp3TagsMain {
 
                 String value = textField.getContent();
 
-                if ((value == null) || value.isBlank()) {
+                if (value == null || value.isBlank()) {
                     continue;
                 }
 
@@ -216,7 +216,7 @@ public final class ValidateMp3TagsMain {
                 final String[] splits = value.split(" ");
 
                 for (String split : splits) {
-                    if ((split == null) || split.isBlank()) {
+                    if (split == null || split.isBlank()) {
                         continue;
                     }
 
@@ -238,7 +238,6 @@ public final class ValidateMp3TagsMain {
 
     private static void walk(final Path directory, final Consumer<AudioFile> consumer) throws Exception {
         try (Stream<Path> stream = Files.walk(directory)) {
-            //@formatter:off
             stream
                     .filter(path -> !Files.isDirectory(path))
                     .filter(p -> !p.toString().toLowerCase().endsWith(".gif"))
@@ -251,7 +250,7 @@ public final class ValidateMp3TagsMain {
                         System.out.println(path);
 
                         try {
-                            final  AudioFile audioFile = AudioFileIO.read(path.toFile());
+                            final AudioFile audioFile = AudioFileIO.read(path.toFile());
 
                             consumer.accept(audioFile);
                         }
@@ -265,8 +264,7 @@ public final class ValidateMp3TagsMain {
                             throw rex;
                         }
                     })
-                    ;
-            //@formatter:on
+            ;
         }
     }
 

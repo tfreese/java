@@ -53,16 +53,14 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation {
 
     @Override
     public void reset() {
-        // @formatter:off
         IntStream.range(0, getHeight())
-            .parallel()
-            .forEach(y -> {
-                for (int x = 0; x < getWidth(); x++) {
-                    reset(x, y);
-                }
-            })
-            ;
-        // @formatter:on
+                .parallel()
+                .forEach(y -> {
+                    for (int x = 0; x < getWidth(); x++) {
+                        reset(x, y);
+                    }
+                })
+        ;
 
         fireCompleted();
     }
@@ -70,24 +68,22 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation {
     protected final void fillRaster(final Supplier<Cell> cellSupplier) {
         final Set<Cell> set = Collections.synchronizedSet(new HashSet<>());
 
-        // @formatter:off
         IntStream.range(0, getHeight())
-            .parallel()
-            .forEach(y -> {
-                for (int x = 0; x < getWidth(); x++) {
-                    final Cell cell = cellSupplier.get();
+                .parallel()
+                .forEach(y -> {
+                    for (int x = 0; x < getWidth(); x++) {
+                        final Cell cell = cellSupplier.get();
 
-                    if(cell instanceof AbstractCell c) {
-                        c.setXY(x, y);
+                        if (cell instanceof AbstractCell c) {
+                            c.setXY(x, y);
+                        }
+
+                        this.raster[x][y] = cell;
+
+                        set.add(cell);
                     }
-
-                    this.raster[x][y] = cell;
-
-                    set.add(cell);
-                }
-            })
-            ;
-        // @formatter:on
+                })
+        ;
 
         this.cells = Set.copyOf(set);
     }

@@ -43,35 +43,30 @@ public final class MicrometerMain {
         initPrometheusRegistry();
         initLoggingRegistry();
 
-        // @formatter:off
         Metrics.globalRegistry.config()
-//            .meterFilter(MeterFilter.denyNameStartsWith("executor.pool.max"))
-//            .meterFilter(MeterFilter.denyNameStartsWith("executor.queue.remaining"))
-            .meterFilter(new MeterFilter()
-            {
-                @Override
-                public MeterFilterReply accept(final Id id)
-                {
-                    if("scheduledExecutorService".equals(id.getTag("name"))) {
-                        if ("executor.pool.max".equals(id.getName()) || "executor.queue.remaining".equals(id.getName())) {
-                            // Ist bei ScheduledExecutorService immer Integer.MAX_VALUE;
-                            return MeterFilterReply.DENY;
+                // .meterFilter(MeterFilter.denyNameStartsWith("executor.pool.max"))
+                // .meterFilter(MeterFilter.denyNameStartsWith("executor.queue.remaining"))
+                .meterFilter(new MeterFilter() {
+                    @Override
+                    public MeterFilterReply accept(final Id id) {
+                        if ("scheduledExecutorService".equals(id.getTag("name"))) {
+                            if ("executor.pool.max".equals(id.getName()) || "executor.queue.remaining".equals(id.getName())) {
+                                // Ist bei ScheduledExecutorService immer Integer.MAX_VALUE;
+                                return MeterFilterReply.DENY;
+                            }
+
+                            return MeterFilterReply.ACCEPT;
                         }
 
-                        return MeterFilterReply.ACCEPT;
+                        return MeterFilterReply.NEUTRAL;
                     }
-
-
-                    return MeterFilterReply.NEUTRAL;
-                }
-            })
-            ;
-        // @formatter:on
+                })
+        ;
 
         startMetrics();
 
         // Avoid Terminating
-        //        System.in.read();
+        // System.in.read();
     }
 
     static void initLoggingRegistry() {

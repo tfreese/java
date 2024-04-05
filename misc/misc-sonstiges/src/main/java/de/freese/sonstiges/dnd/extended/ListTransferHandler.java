@@ -26,7 +26,7 @@ class ListTransferHandler extends StringTransferHandler {
 
     @Override
     protected void cleanup(final JComponent c, final boolean remove) {
-        if (remove && (this.indices != null)) {
+        if (remove && this.indices != null) {
             final JList<?> source = (JList<?>) c;
             final DefaultListModel<?> model = (DefaultListModel<?>) source.getModel();
 
@@ -83,7 +83,7 @@ class ListTransferHandler extends StringTransferHandler {
         // attempts to insert the items after item #5, this would
         // be problematic when removing the original items.
         // So this is not allowed.
-        if ((this.indices != null) && (index >= (this.indices[0] - 1)) && (index <= this.indices[this.indices.length - 1])) {
+        if (this.indices != null && index >= (this.indices[0] - 1) && index <= this.indices[this.indices.length - 1]) {
             this.indices = null;
 
             return;

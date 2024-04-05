@@ -39,7 +39,7 @@ class TreeDragSource implements DragSourceListener, DragGestureListener {
         // to support move or copy, we have to check which occurred:
         System.out.println("Drop Action: " + event.getDropAction());
 
-        if (event.getDropSuccess() && (event.getDropAction() == DnDConstants.ACTION_MOVE)) {
+        if (event.getDropSuccess() && event.getDropAction() == DnDConstants.ACTION_MOVE) {
             ((DefaultTreeModel) this.sourceTree.getModel()).removeNodeFromParent(this.oldNode);
         }
 
@@ -60,7 +60,7 @@ class TreeDragSource implements DragSourceListener, DragGestureListener {
     public void dragGestureRecognized(final DragGestureEvent event) {
         final TreePath path = this.sourceTree.getSelectionPath();
 
-        if ((path == null) || (path.getPathCount() <= 1)) {
+        if (path == null || path.getPathCount() <= 1) {
             // We can't move the root node or an empty selection
             return;
         }

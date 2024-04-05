@@ -89,7 +89,7 @@ public abstract class AbstractSimulation implements Simulation {
      * @param offSet int, Positionsänderung
      */
     private int getTorusKoord(final int size, final int pos, final int offSet) {
-        if ((pos == 0) && (offSet < 0)) {
+        if (pos == 0 && offSet < 0) {
             return size + offSet;
         }
 

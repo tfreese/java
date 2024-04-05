@@ -169,7 +169,7 @@ public final class SymbolEncoderMain {
 
             if (toggleButton.isSelected()) {
                 //                bitSet.set(x);
-                encoded += (1 << x);
+                encoded += 1 << x;
             }
         }
 

@@ -207,7 +207,7 @@ public class MyAsyncAppender extends AbstractAppender {
             }
         }
 
-        if (!success && (this.errorAppender != null)) {
+        if (!success && this.errorAppender != null) {
             try {
                 this.errorAppender.callAppender(logEvent);
             }

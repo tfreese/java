@@ -21,7 +21,7 @@ public class PatternChromosome extends Chromosome {
 
         final boolean[] solution = getConfig().getSolution();
 
-        for (int i = 0; (i < size()) && (i < solution.length); i++) {
+        for (int i = 0; i < size() && i < solution.length; i++) {
             if (getGene(i).getValue().equals(solution[i])) {
                 fitness++;
             }
@@ -40,13 +40,11 @@ public class PatternChromosome extends Chromosome {
 
     @Override
     public String toString() {
-        // @formatter:off
         return Stream.of(getGenes())
-                 .map(Gene::getValue)
-                 .map(v -> Boolean.TRUE.equals(v) ? '1': '0')
-                 .map(Object::toString)
-                 .collect(Collectors.joining());
-        // @formatter:on
+                .map(Gene::getValue)
+                .map(v -> Boolean.TRUE.equals(v) ? '1' : '0')
+                .map(Object::toString)
+                .collect(Collectors.joining());
     }
 
     @Override

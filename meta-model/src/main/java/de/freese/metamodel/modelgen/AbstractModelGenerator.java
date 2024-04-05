@@ -97,28 +97,24 @@ public abstract class AbstractModelGenerator {
             columns = table.getPrimaryKey().getColumnsOrdered();
         }
 
-        if ((columns == null) || columns.isEmpty()) {
+        if (columns == null || columns.isEmpty()) {
             // Finde alle Columns mit UniqueConstraints.
-            // @formatter:off
             columns = table.getUniqueConstraints().stream()
                     .flatMap(uc -> uc.getColumnsOrdered().stream())
                     .sorted(Comparator.comparing(Column::getTableIndex))
                     .toList();
-            // @formatter:on
         }
 
-        if ((columns == null) || columns.isEmpty()) {
+        if (columns == null || columns.isEmpty()) {
             // Finde alle Columns mit ForeignKeys.
-            // @formatter:off
             columns = table.getColumnsOrdered().stream()
                     .filter(c -> c.getForeignKey() != null)
                     .map(c -> c.getForeignKey().getColumn())
                     .sorted(Comparator.comparing(Column::getTableIndex))
                     .toList();
-            // @formatter:on
         }
 
-        if ((columns == null) || columns.isEmpty()) {
+        if (columns == null || columns.isEmpty()) {
             // Alle Columns.
             columns = table.getColumnsOrdered();
         }
@@ -203,7 +199,7 @@ public abstract class AbstractModelGenerator {
     protected void transformFieldComments(final Column column, final FieldModel fieldModel) {
         final String comment = column.getComment();
 
-        if ((comment != null) && !comment.isBlank()) {
+        if (comment != null && !comment.isBlank()) {
             fieldModel.addComment(comment);
         }
     }

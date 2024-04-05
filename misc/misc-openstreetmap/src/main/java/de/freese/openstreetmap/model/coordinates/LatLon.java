@@ -153,14 +153,14 @@ public class LatLon extends Coordinate {
     public boolean equalsEpsilon(final LatLon other) {
         final double p = 1 / Projection.MAX_SERVER_PRECISION;
 
-        return (Math.abs(lat() - other.lat()) <= p) && (Math.abs(lon() - other.lon()) <= p);
+        return Math.abs(lat() - other.lat()) <= p && Math.abs(lon() - other.lon()) <= p;
     }
 
     /**
      * @return <code>true</code>, if the coordinate is outside the world, compared by using lat/lon.
      */
     public boolean isOutSideWorld() {
-        return (lat() < -Projection.MAX_LAT) || (lat() > Projection.MAX_LAT) || (lon() < -Projection.MAX_LON) || (lon() > Projection.MAX_LON);
+        return lat() < -Projection.MAX_LAT || lat() > Projection.MAX_LAT || lon() < -Projection.MAX_LON || lon() > Projection.MAX_LON;
     }
 
     /**
@@ -169,7 +169,7 @@ public class LatLon extends Coordinate {
      * @return <code>true</code> if this is within the given bounding box.
      */
     public boolean isWithin(final Bounds b) {
-        return (lat() >= b.getMin().lat()) && (lat() <= b.getMax().lat()) && (lon() > b.getMin().lon()) && (lon() < b.getMax().lon());
+        return lat() >= b.getMin().lat() && lat() <= b.getMax().lat() && lon() > b.getMin().lon() && lon() < b.getMax().lon();
     }
 
     /**

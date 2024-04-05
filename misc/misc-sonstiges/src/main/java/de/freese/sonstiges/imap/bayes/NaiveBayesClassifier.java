@@ -53,10 +53,10 @@ public class NaiveBayesClassifier {
             // Je nach Häufigkeit/Wichtigkeit des Wortes entsprechend dazu multiplizieren.
             for (int i = 0; i < merkmal.getWeight(); i++) {
                 // Spam-Likelihood berechnen (Produkt der Wahrscheinlichkeiten)
-                spamLikelihood *= (merkmal.getSpamProbability() * DEFAULT_FACTOR);
+                spamLikelihood *= merkmal.getSpamProbability() * DEFAULT_FACTOR;
 
                 // Ham-Likelihood berechnen (Produkt der Wahrscheinlichkeiten)
-                hamLikelihood *= (merkmal.getHamProbability() * DEFAULT_FACTOR);
+                hamLikelihood *= merkmal.getHamProbability() * DEFAULT_FACTOR;
             }
         }
 

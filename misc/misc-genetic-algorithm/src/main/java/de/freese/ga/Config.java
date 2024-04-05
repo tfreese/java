@@ -14,13 +14,13 @@ public class Config {
      */
     private double crossoverRate = 0.5D;
     private boolean elitism = true;
-    private double maxFitness = 0.0D;
+    private double maxFitness;
     /**
      * 1,5%
      */
     private double mutationRate = 0.015D;
-    private int sizeChromosome = 0;
-    private int sizeGenotype = 0;
+    private int sizeChromosome;
+    private int sizeGenotype;
     private int tournamentSize = 5;
 
     public Config() {

@@ -83,7 +83,7 @@ class SimulationConsole {
             for (int cycle = 0; cycle < cycles; cycle++) {
                 simulation.nextGeneration();
 
-                if ((simulation instanceof BallSimulation bs) && bs.isFinished()) {
+                if (simulation instanceof BallSimulation bs && bs.isFinished()) {
                     break;
                 }
 

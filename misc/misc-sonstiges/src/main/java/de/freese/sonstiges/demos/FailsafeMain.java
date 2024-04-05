@@ -27,7 +27,6 @@ public final class FailsafeMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(FailsafeMain.class);
 
     public static void main(final String[] args) throws Exception {
-        // @formatter:off
         final CircuitBreaker<Object> circuitBreaker = CircuitBreaker.builder()
                 //.handle(SQLException.class) // Alle Exceptions von diesem Typ werden als Fehler behandelt.
                 //.withFailureThreshold(3, 5) // Öffnen, wenn 3 von 5 Ausführungen Fehler erzeugen.
@@ -39,64 +38,50 @@ public final class FailsafeMain {
                 .onOpen(event -> LOGGER.info("Open after {}", event.getPreviousState()))
                 .onFailure(event -> LOGGER.error("onFailure: {}", event.getException().getMessage()))
                 //.onSuccess(event -> LOGGER.info("Success: {}", event.getResult()))
-                .build()
-                ;
-        // @formatter:on
+                .build();
 
         fallback(circuitBreaker);
         System.out.println();
 
         circuitBreaker.close();
-        //        ipBlock(circuitBreaker);
+        // ipBlock(circuitBreaker);
     }
 
     private static void fallback(final CircuitBreaker<Object> circuitBreaker) throws Exception {
-        // @formatter:off
         final RetryPolicy<Object> retryPolicy = RetryPolicy.builder()
                 .withMaxRetries(2)
                 .withDelay(Duration.ofSeconds(1L))
                 .onRetry(event -> {
-//                    if(event.getExecutionCount() == 0) {
-//                        return;
-//                    }
+                    // if (event.getExecutionCount() == 0) {
+                    //     return;
+                    // }
 
                     LOGGER.info("RetryPolicy onRetry {}", event.getExecutionCount());
                 })
-                .build()
-                ;
-        // @formatter:on
+                .build();
 
         // Restrict concurrent executions on a resource.
-        // @formatter:off
         final Bulkhead<Object> bulkhead = Bulkhead.builder(10)
                 .withMaxWaitTime(Duration.ofMillis(500))
                 //.onFailure(event -> LOGGER.error("Bulkhead onFailure: {} ms", event.getElapsedTime().toMillis()))
-                .build()
-                ;
-        // @formatter:on
+                .build();
 
         // Permits 100 executions per second.
         // final RateLimiter<Object> rateLimiter = RateLimiter.smoothBuilder(100, Duration.ofSeconds(1)).withMaxWaitTime(Duration.ofSeconds(1)).build();
         // Permits an execution every 10 millis.
         // final RateLimiter<Object> rateLimiter = RateLimiter.smoothBuilder(Duration.ofMillis(10)).withMaxWaitTime(Duration.ofSeconds(1)).build();
 
-        // @formatter:off
         final Timeout<Object> timeout = Timeout.builder(Duration.ofMillis(50))
                 .onFailure(event -> LOGGER.error("Timeout onFailure: {} ms", event.getElapsedTime().toMillis()))
-                .build()
-                ;
-        // @formatter:on
+                .build();
 
         final Fallback<Object> fallback = Fallback.of("fallback");
 
         final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(3, new NamedThreadFactory("scheduler-%d"));
 
         // Ausführung in umgekehrter Reihenfolge: Timeout -> Bulkhead/RateLimiter -> CircuitBreaker -> RetryPolicy -> Fallback
-        // @formatter:off
         final FailsafeExecutor<Object> failsafeExecutor = Failsafe.with(fallback, retryPolicy, circuitBreaker, bulkhead, timeout)
-                .with(scheduledExecutorService)
-                ;
-        // @formatter:on
+                .with(scheduledExecutorService);
 
         final CheckedSupplier<String> checkedSupplier = () -> {
             if (System.currentTimeMillis() % 3 == 0) {
@@ -151,13 +136,14 @@ public final class FailsafeMain {
                 LOGGER.error(ex.getMessage());
             }
 
-            //            if (circuitBreaker.isClosed()) {
-            //                if (System.currentTimeMillis() % 3 == 0) {
-            //                    circuitBreaker.recordFailure();
-            //                }
-            //            } else {
-            //                circuitBreaker.recordSuccess();
-            //            }
+            // if (circuitBreaker.isClosed()) {
+            //     if (System.currentTimeMillis() % 3 == 0) {
+            //         circuitBreaker.recordFailure();
+            //     }
+            // }
+            // else {
+            //     circuitBreaker.recordSuccess();
+            // }
 
             if (circuitBreaker.isOpen()) {
                 LOGGER.info("IP is blocked");

@@ -287,12 +287,12 @@ public final class ClassUtils {
         if (lhsType.isPrimitive()) {
             final Class<?> resolvedPrimitive = PRIMITIVE_WRAPPER_TYPE_MAP.get(rhsType);
 
-            return (lhsType == resolvedPrimitive);
+            return lhsType == resolvedPrimitive;
         }
 
         final Class<?> resolvedWrapper = PRIMITIVE_TYPE_TO_WRAPPER_MAP.get(rhsType);
 
-        return ((resolvedWrapper != null) && lhsType.isAssignableFrom(resolvedWrapper));
+        return resolvedWrapper != null && lhsType.isAssignableFrom(resolvedWrapper);
     }
 
     /**
@@ -303,7 +303,7 @@ public final class ClassUtils {
      * @see Class#isMemberClass()
      */
     public static boolean isInnerClass(final Class<?> clazz) {
-        return (clazz.isMemberClass() && !Modifier.isStatic(clazz.getModifiers()));
+        return clazz.isMemberClass() && !Modifier.isStatic(clazz.getModifiers());
     }
 
     /**
@@ -331,7 +331,7 @@ public final class ClassUtils {
 
         // Most class names will be quite long, considering that they
         // SHOULD sit in a package, so a length check is worthwhile.
-        if ((name != null) && (name.length() <= 7)) {
+        if (name != null && name.length() <= 7) {
             // Could be a primitive - likely.
             result = PRIMITIVE_TYPE_NAME_MAP.get(name);
         }

@@ -139,11 +139,11 @@ public final class TestUtil {
      * Die Breite pro Spalte orientiert sich am ersten Wert (Header) der Spalte.<br>
      */
     private static <T extends CharSequence> void addHeaderSeparator(final List<T[]> rows, final String separator) {
-        if ((rows == null) || rows.isEmpty()) {
+        if (rows == null || rows.isEmpty()) {
             return;
         }
 
-        final String sep = (separator == null) || separator.isBlank() ? "-" : separator;
+        final String sep = separator == null || separator.isBlank() ? "-" : separator;
 
         final int columnCount = rows.get(0).length;
 
@@ -167,7 +167,7 @@ public final class TestUtil {
      * Beim Padding werden die CharSequences durch Strings ersetzt.
      */
     private static <T extends CharSequence> void padding(final List<T[]> rows, final String padding) {
-        if ((rows == null) || rows.isEmpty()) {
+        if (rows == null || rows.isEmpty()) {
             return;
         }
 
@@ -188,7 +188,7 @@ public final class TestUtil {
         // @formatter:on
 
         // Strings pro Spalte formatieren und schreiben.
-        final String pad = (padding == null) || padding.isBlank() ? " " : padding;
+        final String pad = padding == null || padding.isBlank() ? " " : padding;
 
         rows.stream().parallel().forEach(r -> {
             for (int column = 0; column < columnCount; column++) {

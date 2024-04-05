@@ -33,7 +33,7 @@ class Particle {
     }
 
     public synchronized void move() {
-        this.x += (this.random.nextInt(10) - 5);
-        this.y += (this.random.nextInt(10) - 5);
+        this.x += this.random.nextInt(10) - 5;
+        this.y += this.random.nextInt(10) - 5;
     }
 }

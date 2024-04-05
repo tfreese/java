@@ -35,19 +35,19 @@ public class GoFCell extends AbstractCell {
     public void nextGeneration() {
         final int lebendNachbarn = this.lebendeNachbarn.intValue();
 
-        if (!isAlive() && (lebendNachbarn == 3)) {
+        if (!isAlive() && lebendNachbarn == 3) {
             // 1.
             setAlive(true);
         }
-        else if (isAlive() && (lebendNachbarn < 2)) {
+        else if (isAlive() && lebendNachbarn < 2) {
             // 2.
             setAlive(false);
         }
-        else if (isAlive() && ((lebendNachbarn == 2) || (lebendNachbarn == 3))) {
+        else if (isAlive() && (lebendNachbarn == 2 || lebendNachbarn == 3)) {
             // 3.
             setAlive(true);
         }
-        else if (isAlive() && ((lebendNachbarn) > 3)) {
+        else if (isAlive() && lebendNachbarn > 3) {
             // 4.
             setAlive(false);
         }
@@ -63,7 +63,7 @@ public class GoFCell extends AbstractCell {
         visitNeighboursAll((x, y) -> {
             final GoFCell cell = getSimulation().getCell(x, y);
 
-            if ((cell != null) && cell.isAlive()) {
+            if (cell != null && cell.isAlive()) {
                 this.lebendeNachbarn.increment();
             }
         });

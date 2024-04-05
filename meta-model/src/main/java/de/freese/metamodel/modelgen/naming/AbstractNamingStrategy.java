@@ -38,7 +38,7 @@ public abstract class AbstractNamingStrategy implements NamingStrategy {
             if (i == 0) {
                 builder.append(Character.toUpperCase(str.charAt(i)));
             }
-            else if ((i < (str.length() - 1)) && ((str.charAt(i) == '_') || (str.charAt(i) == '-') || (str.charAt(i) == ' '))) {
+            else if (i < (str.length() - 1) && (str.charAt(i) == '_' || str.charAt(i) == '-' || str.charAt(i) == ' ')) {
                 i += 1;
 
                 if (i < str.length()) {

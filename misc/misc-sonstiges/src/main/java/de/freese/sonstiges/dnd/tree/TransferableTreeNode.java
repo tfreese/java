@@ -21,6 +21,8 @@ class TransferableTreeNode implements Transferable {
     private final TreePath path;
 
     TransferableTreeNode(final TreePath tp) {
+        super();
+
         this.path = tp;
     }
 
@@ -40,6 +42,6 @@ class TransferableTreeNode implements Transferable {
 
     @Override
     public boolean isDataFlavorSupported(final DataFlavor flavor) {
-        return (flavor.getRepresentationClass() == TreePath.class);
+        return flavor.getRepresentationClass() == TreePath.class;
     }
 }

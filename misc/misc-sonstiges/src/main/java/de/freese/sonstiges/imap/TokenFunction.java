@@ -94,13 +94,12 @@ public class TokenFunction implements Function<MessageWrapper, Map<String, Integ
 
             final List<AbstractTextPart> textParts = message.getTextParts();
 
-            if ((textParts == null) || textParts.isEmpty()) {
+            if (textParts == null || textParts.isEmpty()) {
                 LOGGER.warn("no text for: {} - {} - {}", message.getDate(), message.getSubject(), message.getFrom());
                 return null;
             }
 
-            // @formatter:off
-             List<String> token = textParts.stream()
+            List<String> token = textParts.stream()
                     .map(AbstractTextPart::getText)
                     .map(t -> Jsoup.parse(t).text()) // HTML-Text extrahieren
                     .map(t -> t.split(" "))
@@ -108,9 +107,7 @@ public class TokenFunction implements Function<MessageWrapper, Map<String, Integ
                     .filter(Objects::nonNull)
                     .filter(t -> !t.isBlank())
                     // peek(System.out::println)
-                    .toList()
-                    ;
-            // @formatter:on
+                    .toList();
 
             if (token.isEmpty()) {
                 LOGGER.warn("no token for: {} - {} - {}", message.getDate(), message.getSubject(), message.getFrom());

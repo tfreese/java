@@ -24,9 +24,9 @@ class TreeDropTargetListener implements DropTargetListener {
 
         this.expandTimer = new Timer(1000, event -> {
             // Nicht den RootKnoten
-            if ((TreeDropTargetListener.this.tree == null)
-                    || (TreeDropTargetListener.this.lastPath == null)
-                    || (TreeDropTargetListener.this.tree.isRootVisible() && (TreeDropTargetListener.this.tree.getRowForPath(TreeDropTargetListener.this.lastPath) == 0))) {
+            if (TreeDropTargetListener.this.tree == null
+                    || TreeDropTargetListener.this.lastPath == null
+                    || TreeDropTargetListener.this.tree.isRootVisible() && TreeDropTargetListener.this.tree.getRowForPath(TreeDropTargetListener.this.lastPath) == 0) {
                 return;
             }
 

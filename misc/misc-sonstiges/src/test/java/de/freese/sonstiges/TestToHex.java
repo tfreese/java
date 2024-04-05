@@ -37,7 +37,7 @@ class TestToHex {
             final int byteValue = element & 0xFF;
 
             sb.append(HEX_CODE[(byteValue >> 4) & 0xF]);
-            sb.append(HEX_CODE[(byteValue & 0xF)]);
+            sb.append(HEX_CODE[byteValue & 0xF]);
         }
 
         // System.out.println(sb);

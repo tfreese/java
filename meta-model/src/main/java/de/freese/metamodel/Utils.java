@@ -6,7 +6,7 @@ package de.freese.metamodel;
  */
 public final class Utils {
     public static String capitalize(final String value) {
-        if ((value == null) || value.isBlank()) {
+        if (value == null || value.isBlank()) {
             return value;
         }
 
@@ -14,7 +14,7 @@ public final class Utils {
     }
 
     public static String unCapitalize(final String value) {
-        if ((value == null) || value.isBlank()) {
+        if (value == null || value.isBlank()) {
             return value;
         }
 

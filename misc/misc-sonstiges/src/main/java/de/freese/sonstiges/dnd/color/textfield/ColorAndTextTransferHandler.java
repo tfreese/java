@@ -51,7 +51,7 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
             return false;
         }
 
-        if (tc.equals(this.source) && (tc.getCaretPosition() >= this.p0.getOffset()) && (tc.getCaretPosition() <= this.p1.getOffset())) {
+        if (tc.equals(this.source) && tc.getCaretPosition() >= this.p0.getOffset() && tc.getCaretPosition() <= this.p1.getOffset()) {
             this.shouldRemove = false;
 
             return true;
@@ -105,8 +105,8 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
 
     @Override
     protected void exportDone(final JComponent c, final Transferable data, final int action) {
-        if (this.shouldRemove && (action == MOVE)) {
-            if ((this.p0 != null) && (this.p1 != null) && (this.p0.getOffset() != this.p1.getOffset())) {
+        if (this.shouldRemove && action == MOVE) {
+            if (this.p0 != null && this.p1 != null && this.p0.getOffset() != this.p1.getOffset()) {
                 try {
                     final JTextComponent tc = (JTextComponent) c;
                     tc.getDocument().remove(this.p0.getOffset(), this.p1.getOffset() - this.p0.getOffset());

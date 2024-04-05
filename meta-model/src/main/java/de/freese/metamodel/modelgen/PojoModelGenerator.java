@@ -12,7 +12,7 @@ public class PojoModelGenerator extends AbstractModelGenerator {
     protected void transformClassJavaDoc(final Table table, final ClassModel classModel) {
         final String comment = table.getComment();
 
-        if ((comment != null) && !comment.isBlank()) {
+        if (comment != null && !comment.isBlank()) {
             classModel.addComment(comment);
         }
 

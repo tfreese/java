@@ -428,7 +428,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
                 final String[] splits = SPACE_PATTERN.split(line);
                 tcpConnections = Integer.parseInt(splits[0]);
             }
-            else if ((line.contains("segments received") || line.contains("Segmente empfangen")) && (tcpIn == 0)) {
+            else if ((line.contains("segments received") || line.contains("Segmente empfangen")) && tcpIn == 0) {
                 // 45825 segments received
                 // 0 bad segments received
                 final String[] splits = SPACE_PATTERN.split(line);

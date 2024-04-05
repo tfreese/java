@@ -55,7 +55,7 @@ class TreeTransferHandler extends TransferHandler {
      */
     @Override
     public boolean importData(final JComponent comp, final Transferable t) {
-        if (canImport(comp, t.getTransferDataFlavors()) && (comp instanceof JTree targetTree)) {
+        if (canImport(comp, t.getTransferDataFlavors()) && comp instanceof JTree targetTree) {
             // Wird in exportDone gegen den sourcePath geprüft
             this.targetPath = targetTree.getSelectionPath();
 
@@ -99,7 +99,7 @@ class TreeTransferHandler extends TransferHandler {
     protected void exportDone(final JComponent source, final Transferable data, final int action) {
         final TreePath sourcePath = getSourcePath(data);
 
-        if ((action == MOVE) && (source instanceof JTree sourceTree) && (sourcePath != null)) {
+        if (action == MOVE && source instanceof JTree sourceTree && sourcePath != null) {
             final DefaultTreeModel sourceModell = (DefaultTreeModel) sourceTree.getModel();
 
             // Nur Löschen, wenn Source != Target ist.
@@ -117,7 +117,7 @@ class TreeTransferHandler extends TransferHandler {
         TreePath sourcePath = null;
 
         try {
-            if ((t == null) || !(t.getTransferData(TransferableTreeNode.TREE_PATH_FLAVOR) instanceof TreePath)) {
+            if (t == null || !(t.getTransferData(TransferableTreeNode.TREE_PATH_FLAVOR) instanceof TreePath)) {
                 return null;
             }
 

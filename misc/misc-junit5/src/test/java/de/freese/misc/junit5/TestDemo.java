@@ -135,11 +135,12 @@ class TestDemo {
     @DisplayName("Test @MethodSource")
     @Tag("myTest")
     @EnabledOnOs({OS.WINDOWS, OS.LINUX})
+    void testMethodSource(final MyObject obj) {
         // @EnabledOnJre(JRE.JAVA_11)
         // @DisabledOnJre(JRE.JAVA_8)
         // @EnabledIfSystemProperty(named = "os.arch", matches = ".*64.*")
         // @EnabledIfEnvironmentVariable(named = "ENV", matches = "staging-server")
-    void testMethodSource(final MyObject obj) {
+
         assertNotNull(obj);
         assertTrue(obj.getX() < 2);
         assertTrue(obj.getY() < 2);

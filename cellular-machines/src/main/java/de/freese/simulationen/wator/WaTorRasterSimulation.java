@@ -41,7 +41,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
     /**
      * Start-Energie der Haie.
      */
-    private int sharkStarveEnergy = 0;
+    private int sharkStarveEnergy;
 
     public WaTorRasterSimulation(final int width, final int height) {
         super(width, height);

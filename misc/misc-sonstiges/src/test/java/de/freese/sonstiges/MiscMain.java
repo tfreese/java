@@ -184,25 +184,23 @@ public final class MiscMain {
         final Path basePath = Paths.get(System.getProperty("user.home"), "mediathek", "musik");
 
         try (Stream<Path> stream = Files.list(basePath)) {
-            //@formatter:off
             stream.filter(Files::isDirectory)
-                .filter(p -> {
-                    long subFolder = 0 ;
+                    .filter(p -> {
+                        long subFolder = 0;
 
-                    try(Stream<Path> subStream = Files.list(p)) {
-                        subFolder = subStream
-                                .filter(Files::isDirectory)
-                                .count();
-                    }
-                    catch (Exception ex) {
-                        // Ignore
-                    }
+                        try (Stream<Path> subStream = Files.list(p)) {
+                            subFolder = subStream
+                                    .filter(Files::isDirectory)
+                                    .count();
+                        }
+                        catch (Exception ex) {
+                            // Ignore
+                        }
 
-                    return subFolder == 1;
-                })
-            .sorted()
-            .forEach(path -> LOGGER.info("{}", path));
-            //@formatter:on
+                        return subFolder == 1;
+                    })
+                    .sorted()
+                    .forEach(path -> LOGGER.info("{}", path));
         }
     }
 
@@ -695,7 +693,7 @@ public final class MiscMain {
                 while (addresses.hasMoreElements()) {
                     final InetAddress address = addresses.nextElement();
 
-                    if (!address.isLoopbackAddress() && (address instanceof Inet4Address)) {
+                    if (!address.isLoopbackAddress() && address instanceof Inet4Address) {
                         hostName = address.getHostName();
                         System.out.printf("NetworkInterface IPv4: %s%n", hostName);
                     }
@@ -738,7 +736,9 @@ public final class MiscMain {
 
         final int status = conn.getResponseCode();
 
-        if ((status == HttpURLConnection.HTTP_MOVED_TEMP) || (status == HttpURLConnection.HTTP_MOVED_PERM) || (status == HttpURLConnection.HTTP_SEE_OTHER)) {
+        if (status == HttpURLConnection.HTTP_MOVED_TEMP
+                || status == HttpURLConnection.HTTP_MOVED_PERM
+                || status == HttpURLConnection.HTTP_SEE_OTHER) {
             redirect = true;
         }
 
@@ -796,7 +796,7 @@ public final class MiscMain {
             versionString += "." + String.format("%03d", Integer.parseInt(splits[2]));
         }
 
-        if ((splits.length > 3) && !splits[3].startsWith("ea")) {
+        if (splits.length > 3 && !splits[3].startsWith("ea")) {
             // Update
             try {
                 versionString += "." + String.format("%03d", Integer.parseInt(splits[3]));
@@ -837,7 +837,7 @@ public final class MiscMain {
 
         // Liefert alles im Verzeichnis, nicht rekursiv.
         System.out.println();
-        final DirectoryStream.Filter<Path> filter = path -> (Files.isDirectory(path) && !path.getFileName().toString().startsWith("."));
+        final DirectoryStream.Filter<Path> filter = path -> Files.isDirectory(path) && !path.getFileName().toString().startsWith(".");
 
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(base, filter)) {
             for (Path path : stream) {

@@ -28,7 +28,7 @@ public class CoinChromosome extends Chromosome {
         final int changeDifference = Math.abs(targetCent - cents);
 
         // 99 Cent ist maximum.
-        double fitness = (getConfig().getMaximumCents() - changeDifference);
+        double fitness = getConfig().getMaximumCents() - changeDifference;
 
         // Zielbetrag erreicht.
         if (cents == targetCent) {

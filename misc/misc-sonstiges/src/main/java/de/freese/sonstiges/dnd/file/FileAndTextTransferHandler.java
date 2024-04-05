@@ -96,7 +96,9 @@ class FileAndTextTransferHandler extends TransferHandler {
             else if (hasStringFlavor(t.getTransferDataFlavors())) {
                 textArea = (JTextArea) c;
 
-                if (textArea.equals(this.source) && (textArea.getCaretPosition() >= this.p0.getOffset()) && (textArea.getCaretPosition() <= this.p1.getOffset())) {
+                if (textArea.equals(this.source)
+                        && textArea.getCaretPosition() >= this.p0.getOffset()
+                        && textArea.getCaretPosition() <= this.p1.getOffset()) {
                     this.shouldRemove = false;
 
                     return true;
@@ -147,8 +149,8 @@ class FileAndTextTransferHandler extends TransferHandler {
 
     @Override
     protected void exportDone(final JComponent c, final Transferable data, final int action) {
-        if (this.shouldRemove && (action == MOVE)) {
-            if ((this.p0 != null) && (this.p1 != null) && (this.p0.getOffset() != this.p1.getOffset())) {
+        if (this.shouldRemove && action == MOVE) {
+            if (this.p0 != null && this.p1 != null && this.p0.getOffset() != this.p1.getOffset()) {
                 try {
                     final JTextComponent tc = (JTextComponent) c;
                     tc.getDocument().remove(this.p0.getOffset(), this.p1.getOffset() - this.p0.getOffset());

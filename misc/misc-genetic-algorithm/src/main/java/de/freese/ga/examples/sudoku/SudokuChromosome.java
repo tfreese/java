@@ -62,27 +62,25 @@ public class SudokuChromosome extends Chromosome {
             }
         }
 
-        // @formatter:off
-//        IntStream.range(0, chromosome.size())
-//            .parallel()
-//            .forEach(i -> {
-//                if (getConfig().getRandom().nextDouble() < getConfig().getMutationRate()) {
-//                    final int j = getRandom().nextInt(chromosome.size());
-//
-//                    final SudokuGene geneI = chromosome.getGene(i);
-//                    final SudokuGene geneJ = chromosome.getGene(j);
-//
-//                    // Nur veränderbare.
-//                    if (geneI.isMutable()) {
-//                        chromosome.setGene(i, new SudokuGene(geneJ.getValue(), true));
-//                    }
-//
-//                    if (geneJ.isMutable()) {
-//                        chromosome.setGene(j, new SudokuGene(geneI.getValue(), true));
-//                    }
-//                }
-//            });
-        // @formatter:on
+        // IntStream.range(0, chromosome.size())
+        //         .parallel()
+        //         .forEach(i -> {
+        //             if (getConfig().getRandom().nextDouble() < getConfig().getMutationRate()) {
+        //                 final int j = getRandom().nextInt(chromosome.size());
+        //
+        //                 final SudokuGene geneI = chromosome.getGene(i);
+        //                 final SudokuGene geneJ = chromosome.getGene(j);
+        //
+        //                 // Nur veränderbare.
+        //                 if (geneI.isMutable()) {
+        //                     chromosome.setGene(i, new SudokuGene(geneJ.getValue(), true));
+        //                 }
+        //
+        //                 if (geneJ.isMutable()) {
+        //                     chromosome.setGene(j, new SudokuGene(geneI.getValue(), true));
+        //                 }
+        //             }
+        //         });
     }
 
     @Override
@@ -107,23 +105,21 @@ public class SudokuChromosome extends Chromosome {
             setGene(i, gene);
         }
 
-        // @formatter:off
-//        IntStream.range(0, chromosome.size())
-//            .parallel()
-//            .forEach(i -> {
-//              // Erst nach fest vorgegeben Zahlen suchen.
-//              SudokuGene gene = this.fixNumbers.get(i);
-//
-//              if (gene == null) {
-//                  // Dann welche generieren.
-//                  final int n = getConfig().getRandom().nextInt(9) + 1;
-//
-//                  gene = new SudokuGene(n, true);
-//              }
-//
-//              genes[i] = gene;
-//            });
-        // @formatter:on
+        // IntStream.range(0, chromosome.size())
+        //         .parallel()
+        //         .forEach(i -> {
+        //             // Erst nach fest vorgegeben Zahlen suchen.
+        //             SudokuGene gene = this.fixNumbers.get(i);
+        //
+        //             if (gene == null) {
+        //                 // Dann welche generieren.
+        //                 final int n = getConfig().getRandom().nextInt(9) + 1;
+        //
+        //                 gene = new SudokuGene(n, true);
+        //             }
+        //
+        //             genes[i] = gene;
+        //         });
     }
 
     @Override
@@ -147,7 +143,7 @@ public class SudokuChromosome extends Chromosome {
                     sb.append(String.format("(%d)", gene.getInteger()));
                 }
 
-                if ((((col + 1) % puzzleBlockSize) == 0) && (col < (puzzleSize - 1))) {
+                if (((col + 1) % puzzleBlockSize) == 0 && col < (puzzleSize - 1)) {
                     sb.append("|");
                 }
                 else {
@@ -157,7 +153,7 @@ public class SudokuChromosome extends Chromosome {
 
             sb.append("\n");
 
-            if ((((row + 1) % puzzleBlockSize) == 0) && (row < (puzzleSize - 1))) {
+            if (((row + 1) % puzzleBlockSize) == 0 && row < (puzzleSize - 1)) {
                 final char[] chars = new char[(puzzleBlockSize * 3) + 2];
                 Arrays.fill(chars, '-');
                 final String separator = new String(chars);
@@ -175,7 +171,7 @@ public class SudokuChromosome extends Chromosome {
      */
     double calcBlockFitness(final int block, final int puzzleBlockSize) {
         int start = switch (block) {
-            case 0, 1, 2 -> start = block * puzzleBlockSize;
+            case 0, 1, 2 -> block * puzzleBlockSize;
             case 3 -> 27;
             case 4 -> 30;
             case 5 -> 33;

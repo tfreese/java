@@ -55,7 +55,7 @@ public final class MeterExporter {
             final HistogramSnapshot snapshot = timer.takeSnapshot();
             final long count = snapshot.count();
 
-            if (count == 0) {
+            if (count == 0L) {
                 final String text = id(timer) + ": throughput=0";
                 list.add(text);
                 return;
@@ -68,7 +68,7 @@ public final class MeterExporter {
             final HistogramSnapshot snapshot = summary.takeSnapshot();
             final long count = snapshot.count();
 
-            if (count == 0) {
+            if (count == 0L) {
                 final String text = id(summary) + ": throughput=0";
                 list.add(text);
                 return;
@@ -92,7 +92,7 @@ public final class MeterExporter {
         }, timeGauge -> {
             final double value = timeGauge.value(baseTimeUnit);
 
-            if ((value == 0)) {
+            if (Double.compare(value, 0D) == 0) {
                 final String text = id(timeGauge) + ": value=0";
                 list.add(text);
                 return;
@@ -103,7 +103,7 @@ public final class MeterExporter {
         }, functionCounter -> {
             final double count = functionCounter.count();
 
-            if (count == 0) {
+            if (Double.compare(count, 0D) == 0) {
                 final String text = id(functionCounter) + ": throughput=0";
                 list.add(text);
                 return;
@@ -114,7 +114,7 @@ public final class MeterExporter {
         }, functionTimer -> {
             final double count = functionTimer.count();
 
-            if (count == 0) {
+            if (Double.compare(count, 0D) == 0) {
                 final String text = id(functionTimer) + ": throughput=0";
                 list.add(text);
                 return;
@@ -147,7 +147,7 @@ public final class MeterExporter {
     private static String humanReadableByteCount(final double bytes) {
         final int unit = 1024;
 
-        if ((bytes < unit) || Double.isNaN(bytes)) {
+        if (bytes < unit || Double.isNaN(bytes)) {
             return DoubleFormat.decimalOrNan(bytes) + " B";
         }
 

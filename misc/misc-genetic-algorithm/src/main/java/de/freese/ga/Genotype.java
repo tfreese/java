@@ -107,35 +107,33 @@ public abstract class Genotype {
         // child.mutate();
         // }
 
-        // @formatter:off
         IntStream.range(elitismOffset, size())
-            .parallel()
-            .map(i -> {
-                // Loop over the population size and create new individuals with crossover.
-                // Select parents
-                final Chromosome parent1 = tournamentSelection();
-                final Chromosome parent2 = tournamentSelection();
+                .parallel()
+                .map(i -> {
+                    // Loop over the population size and create new individuals with crossover.
+                    // Select parents
+                    final Chromosome parent1 = tournamentSelection();
+                    final Chromosome parent2 = tournamentSelection();
 
-                // Kann bei einigen Beispielen zur Endlos-Schleife führen.
-//                while(parent1.calcFitnessValue() == parent2.calcFitnessValue())  {
-//                    parent2 = tournamentSelection();
-//                }
+                    // Kann bei einigen Beispielen zur Endlos-Schleife führen.
+                    // while(parent1.calcFitnessValue() == parent2.calcFitnessValue())  {
+                    //     parent2 = tournamentSelection();
+                    // }
 
-                // Crossover parents
-                final Chromosome child = crossover(parent1, parent2);
+                    // Crossover parents
+                    final Chromosome child = crossover(parent1, parent2);
 
-                // Add child to new population
-                newPopulation.setChromosome(i, child);
+                    // Add child to new population
+                    newPopulation.setChromosome(i, child);
 
-                return i;
-            })
-            .forEach(i -> {
-                // Mutate population
-                newPopulation.getChromosome(i).mutate();
-                }
-            )
-            ;
-        // @formatter:on
+                    return i;
+                })
+                .forEach(i -> {
+                            // Mutate population
+                            newPopulation.getChromosome(i).mutate();
+                        }
+                )
+        ;
 
         return newPopulation;
     }

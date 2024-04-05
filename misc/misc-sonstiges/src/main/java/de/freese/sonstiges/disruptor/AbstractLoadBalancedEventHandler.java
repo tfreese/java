@@ -29,7 +29,7 @@ public abstract class AbstractLoadBalancedEventHandler<T> implements EventHandle
 
     @Override
     public final void onEvent(final T event, final long sequence, final boolean endOfBatch) throws Exception {
-        if ((this.ordinal == -1) || (this.ordinal == (sequence % this.parallelism))) {
+        if (this.ordinal == -1 || this.ordinal == (sequence % this.parallelism)) {
             doOnEvent(event, sequence, endOfBatch);
         }
     }

@@ -75,7 +75,7 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
 
     @Override
     protected void storeValues(final List<SensorValue> values) {
-        if ((values == null) || values.isEmpty()) {
+        if (values == null || values.isEmpty()) {
             return;
         }
 

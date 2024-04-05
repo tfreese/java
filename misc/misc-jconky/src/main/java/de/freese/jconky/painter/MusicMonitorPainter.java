@@ -77,7 +77,7 @@ public class MusicMonitorPainter extends AbstractMonitorPainter {
             final String urlString = url.toString();
             getLogger().debug("URL: {}", url);
 
-            if ((this.image == null) || !this.image.getUrl().equals(urlString)) {
+            if (this.image == null || !this.image.getUrl().equals(urlString)) {
                 this.image = new Image(urlString);
 
                 getLogger().debug("Image-URL: {}", this.image.getUrl());

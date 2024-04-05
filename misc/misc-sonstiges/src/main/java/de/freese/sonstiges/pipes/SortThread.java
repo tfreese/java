@@ -21,11 +21,11 @@ public class SortThread extends Thread {
         final String mid = a[(lo + hi) / 2];
 
         while (lo < hi) {
-            while ((lo < hi) && (a[lo].compareTo(mid) < 0)) {
+            while (lo < hi && a[lo].compareTo(mid) < 0) {
                 lo++;
             }
 
-            while ((lo < hi) && (a[hi].compareTo(mid) > 0)) {
+            while (lo < hi && a[hi].compareTo(mid) > 0) {
                 hi--;
             }
 
@@ -60,7 +60,7 @@ public class SortThread extends Thread {
 
     @Override
     public void run() {
-        if ((this.out != null) && (this.in != null)) {
+        if (this.out != null && this.in != null) {
             try {
                 final String[] listOfWords = new String[MAXWORDS];
                 int numWords = 0;

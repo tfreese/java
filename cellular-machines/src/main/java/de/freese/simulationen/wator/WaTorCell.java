@@ -222,7 +222,7 @@ public class WaTorCell extends AbstractCell {
         final WaTorCell fisch = getFischNachbar();
         final int[] frei = getFreierNachbar();
 
-        if ((fisch != null) || (frei != null)) {
+        if (fisch != null || frei != null) {
             if (fisch != null) {
                 shark = fisch;
 

@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 class TableTransferHandler extends StringTransferHandler {
     @Serial
     private static final long serialVersionUID = 8631829448750837938L;
+
     /**
      * Number of items added.
      */
@@ -26,7 +27,7 @@ class TableTransferHandler extends StringTransferHandler {
     protected void cleanup(final JComponent c, final boolean remove) {
         final JTable source = (JTable) c;
 
-        if (remove && (this.rows != null)) {
+        if (remove && this.rows != null) {
             final DefaultTableModel model = (DefaultTableModel) source.getModel();
 
             // If we are moving items around in the same table, we
@@ -88,7 +89,7 @@ class TableTransferHandler extends StringTransferHandler {
         // attempts to insert the rows after row #5, this would
         // be problematic when removing the original rows.
         // So this is not allowed.
-        if ((this.rows != null) && (index >= (this.rows[0] - 1)) && (index <= this.rows[this.rows.length - 1])) {
+        if (this.rows != null && index >= (this.rows[0] - 1) && index <= this.rows[this.rows.length - 1]) {
             this.rows = null;
 
             return;
@@ -114,7 +115,7 @@ class TableTransferHandler extends StringTransferHandler {
 
         final int colCount = target.getColumnCount();
 
-        for (int i = 0; (i < values.length) && (i < colCount); i++) {
+        for (int i = 0; i < values.length && i < colCount; i++) {
             model.insertRow(index++, values[i].split(","));
         }
     }

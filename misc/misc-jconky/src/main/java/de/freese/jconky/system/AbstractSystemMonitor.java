@@ -92,7 +92,7 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
             throw new UncheckedIOException(ex);
         }
 
-        if ((errors != null) && !errors.isEmpty()) {
+        if (errors != null && !errors.isEmpty()) {
             if (getLogger().isErrorEnabled()) {
                 getLogger().error("'{}': {}", processBuilder.command(), String.join("\n", errors));
             }

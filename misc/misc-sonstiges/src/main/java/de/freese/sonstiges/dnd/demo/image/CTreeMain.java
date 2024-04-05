@@ -162,7 +162,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
             // Try to determine whether the user is flicking the cursor right or left
             final int nDeltaLeftRight = pt.x - this.pointLast.x;
 
-            if (((this.leftRight > 0) && (nDeltaLeftRight < 0)) || ((this.leftRight < 0) && (nDeltaLeftRight > 0))) {
+            if (this.leftRight > 0 && nDeltaLeftRight < 0 || this.leftRight < 0 && nDeltaLeftRight > 0) {
                 this.leftRight = 0;
             }
 
@@ -317,7 +317,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         public boolean isDragAcceptable(final DropTargetDragEvent event) {
             // Only accept COPY or MOVE gestures (ie LINK is not supported)
             // Only accept this particular flavor
-            return ((event.getDropAction() & DnDConstants.ACTION_COPY_OR_MOVE) != 0) && event.isDataFlavorSupported(CTransferableTreePath.FLAVOR_TREE_PATH);
+            return (event.getDropAction() & DnDConstants.ACTION_COPY_OR_MOVE) != 0 && event.isDataFlavorSupported(CTransferableTreePath.FLAVOR_TREE_PATH);
 
             /*
              * // Do this if you want to prohibit dropping onto the drag source... Point pt = event.getLocation(); TreePath path = getClosestPathForLocation(pt.x,
@@ -332,7 +332,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         public boolean isDropAcceptable(final DropTargetDropEvent event) {
             // Only accept COPY or MOVE gestures (ie LINK is not supported)
             // Only accept this particular flavor
-            return ((event.getDropAction() & DnDConstants.ACTION_COPY_OR_MOVE) != 0) && event.isDataFlavorSupported(CTransferableTreePath.FLAVOR_TREE_PATH);
+            return (event.getDropAction() & DnDConstants.ACTION_COPY_OR_MOVE) != 0 && event.isDataFlavorSupported(CTransferableTreePath.FLAVOR_TREE_PATH);
 
             /*
              * // Do this if you want to prohibit dropping onto the drag source... Point pt = event.getLocation(); TreePath path = getClosestPathForLocation(pt.x,
@@ -434,7 +434,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         final Point ptDragOrigin = event.getDragOrigin();
         final TreePath path = getPathForLocation(ptDragOrigin.x, ptDragOrigin.y);
 
-        if ((path == null) || isRootPath(path)) {
+        if (path == null || isRootPath(path)) {
             return; // Ignore user trying to drag the root node
         }
 
@@ -548,7 +548,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
     }
 
     private boolean isRootPath(final TreePath path) {
-        return isRootVisible() && (getRowForPath(path) == 0);
+        return isRootVisible() && getRowForPath(path) == 0;
     }
 
     private void sayWhat(final TreeModelEvent event) {

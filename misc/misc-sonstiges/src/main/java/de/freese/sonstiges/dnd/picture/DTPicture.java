@@ -22,8 +22,8 @@ class DTPicture extends Picture implements MouseMotionListener {
 
     private static boolean installInputMapBindings = true;
 
-    public static boolean hasInstallInputMapBindings() { // for completeness
-
+    public static boolean hasInstallInputMapBindings() {
+        // for completeness
         return installInputMapBindings;
     }
 
@@ -90,7 +90,7 @@ class DTPicture extends Picture implements MouseMotionListener {
 
             // Arbitrarily define a 5-pixel shift as the
             // official beginning of a drag.
-            if ((dx > 5) || (dy > 5)) {
+            if (dx > 5 || dy > 5) {
                 // This is a drag, not a click.
                 final JComponent c = (JComponent) event.getSource();
                 final TransferHandler handler = c.getTransferHandler();

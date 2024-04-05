@@ -71,7 +71,7 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel {
 
     @Override
     public String getColumnName(final int column) {
-        if ((getColumnNames() == null) || getColumnNames().isEmpty()) {
+        if (getColumnNames() == null || getColumnNames().isEmpty()) {
             return super.getColumnName(column);
         }
 

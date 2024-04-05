@@ -23,13 +23,12 @@ import org.tartarus.snowball.ext.GermanStemmer;
  * @author Thomas Freese
  */
 class TestStemmer {
-    // @formatter:off
     private static final List<Arguments> STEMMER = List.of(
-            Arguments.of("Tartarus German",  wrap(new GermanStemmer()))
-            , Arguments.of("Tartarus German2", wrap(new German2Stemmer()))
-            //, Arguments.of("Lucene German Minimal", wrap(new GermanMinimalStemmer()))
-            , Arguments.of("Lucene German Light", wrap(new GermanLightStemmer()))
-            );
+            Arguments.of("Tartarus German", wrap(new GermanStemmer())),
+            Arguments.of("Tartarus German2", wrap(new German2Stemmer())),
+            //, Arguments.of("Lucene German Minimal", wrap(new GermanMinimalStemmer())),
+            Arguments.of("Lucene German Light", wrap(new GermanLightStemmer()))
+    );
 
     /**
      * Interface für verschiedene Stemmer Implementierungen.
@@ -37,11 +36,9 @@ class TestStemmer {
      * @author Thomas Freese
      */
     @FunctionalInterface
-    private interface Stemmer
-    {
+    private interface Stemmer {
         String stem(String charSequence);
     }
-    // @formatter:on
 
     private static Stemmer wrap(final Object stemmerImpl) {
         return switch (stemmerImpl) {

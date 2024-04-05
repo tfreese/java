@@ -206,64 +206,62 @@ public final class ProxyBlacklistMain {
         LOGGER.info("Filter BlackList");
 
         // Alles raus was nicht reinsoll.
-        // @formatter:off
         return blackList.stream()
-            .parallel()
-            .filter(Objects::nonNull)
-            .map(String::strip)
-            .filter(value -> !value.isBlank())
-            .map(String::toLowerCase)
-            .filter(value -> !value.startsWith("#"))
-            .filter(value -> !value.startsWith("&"))
-            .filter(value -> !value.startsWith("-"))
-            .filter(value -> !value.contains("localhost"))
-            .filter(value -> !value.contains("htpc"))
-            .filter(value -> !value.contains("zbox"))
-            .filter(value -> !value.contains("raspi"))
-            .filter(value -> !value.contains("255.255.255.255"))
-            .map(value -> value.replace("0.0.0.0", ""))
-            .map(value -> value.replace("127.0.0.1",""))
-            .map(value -> value.replace("www.",""))
-            .map(value -> value.replace("\\.", "."))
-            .map(value -> {
-                // 0.0.0.0 undertonenetworks.com #[zedo.com]
-                final int lastIndex = value.lastIndexOf("#");
+                .parallel()
+                .filter(Objects::nonNull)
+                .map(String::strip)
+                .filter(value -> !value.isBlank())
+                .map(String::toLowerCase)
+                .filter(value -> !value.startsWith("#"))
+                .filter(value -> !value.startsWith("&"))
+                .filter(value -> !value.startsWith("-"))
+                .filter(value -> !value.contains("localhost"))
+                .filter(value -> !value.contains("htpc"))
+                .filter(value -> !value.contains("zbox"))
+                .filter(value -> !value.contains("raspi"))
+                .filter(value -> !value.contains("255.255.255.255"))
+                .map(value -> value.replace("0.0.0.0", ""))
+                .map(value -> value.replace("127.0.0.1", ""))
+                .map(value -> value.replace("www.", ""))
+                .map(value -> value.replace("\\.", "."))
+                .map(value -> {
+                    // 0.0.0.0 undertonenetworks.com #[zedo.com]
+                    final int lastIndex = value.lastIndexOf("#");
 
-                if(lastIndex >= 0) {
-                   return value.substring(0, lastIndex).strip();
-                }
+                    if (lastIndex >= 0) {
+                        return value.substring(0, lastIndex).strip();
+                    }
 
-                return value;
-            })
-            .map(value -> {
-                // 0.0.0.0 undertonenetworks.com/something
-                final int lastIndex = value.lastIndexOf("/");
+                    return value;
+                })
+                .map(value -> {
+                    // 0.0.0.0 undertonenetworks.com/something
+                    final int lastIndex = value.lastIndexOf("/");
 
-                if(lastIndex >= 0) {
-                   return value.substring(0, lastIndex).strip();
-                }
+                    if (lastIndex >= 0) {
+                        return value.substring(0, lastIndex).strip();
+                    }
 
-                return value;
-            })
-            .map(value -> {
-                if(value.startsWith(".")) {
-                    return value.substring(1).strip();
-                }
+                    return value;
+                })
+                .map(value -> {
+                    if (value.startsWith(".")) {
+                        return value.substring(1).strip();
+                    }
 
-                return value;
-            })
-            .map(value -> {
-                if(value.endsWith(".") || value.endsWith(",")) {
-                    return value.substring(0, value.length() - 1).strip();
-                }
+                    return value;
+                })
+                .map(value -> {
+                    if (value.endsWith(".") || value.endsWith(",")) {
+                        return value.substring(0, value.length() - 1).strip();
+                    }
 
-                return value;
-            })
-            .map(String::strip) // Nochmal Abschliessend filtern
-            .filter(value -> !value.isBlank())
-            .collect(Collectors.toSet())
-            ;
-        // @formatter:on
+                    return value;
+                })
+                .map(String::strip) // Nochmal Abschliessend filtern
+                .filter(value -> !value.isBlank())
+                .collect(Collectors.toSet())
+                ;
     }
 
     /**
@@ -289,52 +287,50 @@ public final class ProxyBlacklistMain {
 
         final Map<String, String> cache = new HashMap<>();
 
-        // @formatter:off
         return hosts.stream()
-            .parallel()
-            .filter(Objects::nonNull)
-            .map(host -> {
-                if(StringUtils.containsOnly(host, ".0123456789")) {
-                    String hostName = cache.get(host);
+                .parallel()
+                .filter(Objects::nonNull)
+                .map(host -> {
+                    if (StringUtils.containsOnly(host, ".0123456789")) {
+                        String hostName = cache.get(host);
 
-                    if("null".equals(hostName)) {
-                        return null;
+                        if ("null".equals(hostName)) {
+                            return null;
+                        }
+
+                        if (hostName != null) {
+                            return hostName;
+                        }
+
+                        try {
+                            hostName = InetAddress.getByName(host).getHostName();
+                        }
+                        catch (UnknownHostException ex) {
+                            // Ignore
+                            cache.put(host, "null");
+
+                            return null;
+                        }
+
+                        if (StringUtils.containsOnly(hostName, ".0123456789")) {
+                            // IP -> Keine Namensauflösung möglich.
+                            cache.put(host, "null");
+
+                            return null;
+                        }
+
+                        LOGGER.info("{} -> {}", host, hostName);
+
+                        cache.put(host, hostName.strip());
+
+                        return hostName.strip();
                     }
 
-                    if(hostName != null) {
-                        return hostName;
-                    }
-
-                    try {
-                        hostName = InetAddress.getByName(host).getHostName();
-                    }
-                    catch (UnknownHostException ex) {
-                        // Ignore
-                        cache.put(host, "null");
-
-                        return null;
-                    }
-
-                    if (StringUtils.containsOnly(hostName, ".0123456789")) {
-                        // IP -> Keine Namensauflösung möglich.
-                        cache.put(host, "null");
-
-                        return null;
-                    }
-
-                    LOGGER.info("{} -> {}", host, hostName);
-
-                    cache.put(host, hostName.strip());
-
-                    return hostName.strip();
-                }
-
-                return host;
-            })
-            .filter(Objects::nonNull)
-            .collect(Collectors.toSet())
-            ;
-        // @formatter:on
+                    return host;
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet())
+                ;
     }
 
     /**
