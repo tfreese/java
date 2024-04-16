@@ -1104,7 +1104,7 @@ public final class MiscMain {
         try {
             final Field field = String.class.getDeclaredField("value");
             field.setAccessible(true);
-            System.out.printf("Old Relection-Api: %s%n", Arrays.toString((byte[]) field.get(string)));
+            System.out.printf("Old Reflection-Api: %s%n", Arrays.toString((byte[]) field.get(string)));
         }
         catch (Exception ex) {
             ex.printStackTrace();
@@ -1113,8 +1113,8 @@ public final class MiscMain {
         try {
             final MethodHandles.Lookup methodLookup = MethodHandles.privateLookupIn(String.class, MethodHandles.lookup());
             // final MethodHandles.Lookup methodLookup = MethodHandles.lookup();
-            final VarHandle handle = methodLookup.findVarHandle(String.class, "value", byte[].class);
-            System.out.printf("New MethodHandles: %s%n", Arrays.toString((byte[]) handle.get(string)));
+            final VarHandle varHandle = methodLookup.findVarHandle(String.class, "value", byte[].class);
+            System.out.printf("New MethodHandles: %s%n", Arrays.toString((byte[]) varHandle.get(string)));
         }
         catch (Exception ex) {
             ex.printStackTrace();
