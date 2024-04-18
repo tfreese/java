@@ -59,13 +59,11 @@ public class CoinChromosome extends Chromosome {
 
     @Override
     public String toString() {
-        // @formatter:off
         return Stream.of(getGenes())
-                 .map(Gene::getInteger)
-                 .filter(coin -> coin > 0)
-                 .map(Object::toString)
-                 .collect(Collectors.joining(" + "));
-        // @formatter:on
+                .map(Gene::getInteger)
+                .filter(coin -> coin > 0)
+                .map(Object::toString)
+                .collect(Collectors.joining(" + "));
     }
 
     @Override

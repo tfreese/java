@@ -57,13 +57,11 @@ public class ClassModel extends AbstractModel {
     public Set<String> getImports() {
         final Set<String> set = new TreeSet<>(this.imports);
 
-        // @formatter:off
         getFields().stream()
-            .filter(field -> !field.isFieldClassPrimitive())
-            .filter(field -> !field.isFieldClassArray())
-            .forEach(field -> set.add(field.getFieldClazzName()))
-            ;
-        // @formatter:on
+                .filter(field -> !field.isFieldClassPrimitive())
+                .filter(field -> !field.isFieldClassArray())
+                .forEach(field -> set.add(field.getFieldClazzName()))
+        ;
 
         return set;
     }

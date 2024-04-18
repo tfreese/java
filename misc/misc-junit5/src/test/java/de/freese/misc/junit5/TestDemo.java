@@ -78,56 +78,45 @@ class TestDemo {
     }
 
     static Stream<Arguments> createObjectsArgumented() {
-        // @formatter:off
         return Stream.of(
                 Arguments.of("Obj. 1", MY_OBJECTS[0]),
                 Arguments.of("Obj. 2", MY_OBJECTS[1]),
                 Arguments.of("Obj. 3", MY_OBJECTS[2]),
                 Arguments.of("Obj. 4", MY_OBJECTS[3])
-                );
-        // @formatter:on
+        );
     }
 
     @TestFactory
     Stream<DynamicTest> testDynamic() {
-        // @formatter:off
         return Stream.of(MY_OBJECTS)
                 .map(obj -> dynamicTest("Test for: " + obj, () -> assertNotNull(obj))
-                )
-                ;
-        // @formatter:on
+                );
     }
 
     @TestFactory
     Stream<DynamicTest> testDynamic2() {
-        // @formatter:off
         return Stream.of(MY_OBJECTS)
                 .flatMap(obj -> Stream.of(
-                        dynamicTest("NotNull-Test for: " + obj, () -> assertNotNull(obj)),
-                        dynamicTest("X-Test", () -> assertTrue(obj.getX() < 2)),
-                        dynamicTest("Y-Test", () -> assertTrue(obj.getY() < 2))
-                    )
-                )
-                ;
-        // @formatter:on
+                                dynamicTest("NotNull-Test for: " + obj, () -> assertNotNull(obj)),
+                                dynamicTest("X-Test", () -> assertTrue(obj.getX() < 2)),
+                                dynamicTest("Y-Test", () -> assertTrue(obj.getY() < 2))
+                        )
+                );
     }
 
     @TestFactory
     Stream<DynamicNode> testDynamic3() {
-        // @formatter:off
         return Stream.of(MY_OBJECTS)
                 .map(obj -> dynamicContainer(obj.toString(),
-                        Stream.of(dynamicTest("NotNull-Test", () -> assertNotNull(obj)),
-                                dynamicContainer("Coordinates",
-                                        Stream.of(dynamicTest("X-Test", () -> assertTrue(obj.getX() < 2)),
-                                                dynamicTest("Y-Test", () -> assertTrue(obj.getY() < 2))
+                                Stream.of(dynamicTest("NotNull-Test", () -> assertNotNull(obj)),
+                                        dynamicContainer("Coordinates",
+                                                Stream.of(dynamicTest("X-Test", () -> assertTrue(obj.getX() < 2)),
+                                                        dynamicTest("Y-Test", () -> assertTrue(obj.getY() < 2))
+                                                )
                                         )
                                 )
                         )
-                    )
-                )
-                ;
-        // @formatter:on
+                );
     }
 
     @ParameterizedTest(name = "{index} -> {0}")

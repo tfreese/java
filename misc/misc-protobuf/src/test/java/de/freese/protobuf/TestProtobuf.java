@@ -39,25 +39,20 @@ class TestProtobuf {
         final String name = "Test";
         final String email = "test@example.org";
 
-        // @formatter:off
         final PhoneNumber.Builder phoneNumberBuilder = PhoneNumber.newBuilder()
                 .setType(PhoneType.PHONE_TYPE_HOME)
-                .setNumber("007")
-                ;
+                .setNumber("007");
 
         final Person.Builder personBuilder = Person.newBuilder()
                 .setId(id)
                 .setName(name)
                 .setEmail(email)
                 .setBirthDay(Timestamp.newBuilder().setSeconds(System.currentTimeMillis() / 1000L).setNanos(1)) // Timestamps.fromMillis(System.currentTimeMillis())
-                .addPhones(phoneNumberBuilder)
-                ;
+                .addPhones(phoneNumberBuilder);
 
         addressBook = AddressBook.newBuilder()
                 .addPersons(personBuilder)
-                .build()
-                ;
-        // @formatter:on
+                .build();
 
         System.out.printf("toString():%n%s%n", addressBook);
 

@@ -138,7 +138,6 @@ final class Log4jDemo {
             }
         };
 
-        // @formatter:off
         final JdbcAppender jdbcAppender = JdbcAppender.newBuilder()
                 .setName("DATABASE_APPENDER")
                 .setBufferSize(3)
@@ -157,9 +156,7 @@ final class Log4jDemo {
                         new ColumnConfig.Builder().setName("MESSAGE").setPattern("%maxLen{%message}{1997}").build(),
                         new ColumnConfig.Builder().setName("THROWABLE").setPattern("%maxLen{%exception{full}}{3997}").build()
                 )
-                .build()
-                ;
-        // @formatter:on
+                .build();
 
         jdbcAppender.start();
 

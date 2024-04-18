@@ -176,7 +176,6 @@ public final class TestUtil {
         // Breite pro Spalte herausfinden.
         final int[] columnWidth = new int[columnCount];
 
-        // @formatter:off
         IntStream.range(0, columnCount).forEach(column ->
                 columnWidth[column] = rows.stream()
                         .parallel()
@@ -185,7 +184,6 @@ public final class TestUtil {
                         .max()
                         .orElse(0)
         );
-        // @formatter:on
 
         // Strings pro Spalte formatieren und schreiben.
         final String pad = padding == null || padding.isBlank() ? " " : padding;

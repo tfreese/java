@@ -559,9 +559,8 @@ public final class MiscMain {
         LOGGER.info("Files.walk");
 
         try (Stream<Path> stream = Files.walk(path)) {
-            //@formatter:off
             stream
-                    //                .filter(p -> !Files.isDirectory(p))
+                    // .filter(p -> !Files.isDirectory(p))
                     .filter(p -> !p.toString().toLowerCase().endsWith(".jpg"))
                     .filter(p -> !p.toString().toLowerCase().endsWith(".m4b"))
                     .sorted()
@@ -569,7 +568,6 @@ public final class MiscMain {
                     .limit(100)
                     .forEach(p -> LOGGER.info("{}", p))
             ;
-            //@formatter:on
             // .filter(p -> !p.endsWith(".m4b"))
         }
 
@@ -988,40 +986,34 @@ public final class MiscMain {
         final Scheduler scheduler = Schedulers.fromExecutor(EXECUTOR_SERVICE);
         // subscribeOn(Scheduler scheduler)
 
-        // @formatter:off
         Flux.just("Test1", "Test2", "Test3", "Test4")
-            .parallel() // In wie viele Zweige soll der Stream gesplittet werden: Default Schedulers.DEFAULT_POOL_SIZE
-            .runOn(scheduler) // ThreadPool für die parallele Verarbeitung definieren.
-            .map(s -> s + s)
-            .subscribe(v -> System.out.println(Thread.currentThread().getName() + ": " + v))
-            ;
-        // @formatter:on
+                .parallel() // In wie viele Zweige soll der Stream gesplittet werden: Default Schedulers.DEFAULT_POOL_SIZE
+                .runOn(scheduler) // ThreadPool für die parallele Verarbeitung definieren.
+                .map(s -> s + s)
+                .subscribe(v -> System.out.println(Thread.currentThread().getName() + ": " + v))
+        ;
 
         System.out.println();
 
-        // @formatter:off
         Flux.just("Test1", "Test2", "Test3")
-            .parallel(2)
-            .runOn(scheduler)
-            .map(v -> v.endsWith("1") ? null : v)
-            .map(s -> s + s)
-            .subscribe(v -> System.out.println(Thread.currentThread().getName() + ": " + v), th -> System.out.println("Exception: " + th))
-            ;
-        // @formatter:on
+                .parallel(2)
+                .runOn(scheduler)
+                .map(v -> v.endsWith("1") ? null : v)
+                .map(s -> s + s)
+                .subscribe(v -> System.out.println(Thread.currentThread().getName() + ": " + v), th -> System.out.println("Exception: " + th))
+        ;
 
         System.out.println();
 
         // Hooks.onOperatorDebug();
-        // @formatter:off
         Flux.just("Test1", "Test2", "Test3", null)
-            .parallel()
-            .runOn(scheduler)
-            .filter(StringUtils::isNotBlank)
-            .map(s -> s + s)
-            .doOnError(th -> System.out.println("Exception: " + th))
-            .subscribe(v -> System.out.println(Thread.currentThread().getName() + ": " + v))
-            ;
-        // @formatter:on
+                .parallel()
+                .runOn(scheduler)
+                .filter(StringUtils::isNotBlank)
+                .map(s -> s + s)
+                .doOnError(th -> System.out.println("Exception: " + th))
+                .subscribe(v -> System.out.println(Thread.currentThread().getName() + ": " + v))
+        ;
 
         System.out.println();
 
@@ -1029,14 +1021,12 @@ public final class MiscMain {
         Flux<String> source = Flux.just("foo", "bar");
         source = source.concatWith(Mono.error(new IllegalArgumentException("boom")));
 
-        // @formatter:off
         StepVerifier.create(source)
-            .expectNext("foo")
-            .expectNext("bar")
-            .expectErrorMessage("boom")
-            .verify()
-            ;
-        // @formatter:on
+                .expectNext("foo")
+                .expectNext("bar")
+                .expectErrorMessage("boom")
+                .verify()
+        ;
 
         // Irgendein Thread hängt hier noch ...
         System.exit(0);

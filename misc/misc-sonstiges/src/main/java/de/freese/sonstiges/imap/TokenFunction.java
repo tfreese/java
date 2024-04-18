@@ -34,7 +34,6 @@ public class TokenFunction implements Function<MessageWrapper, Map<String, Integ
         final String linkRegEx = "^((http[s]?|ftp|file):.*)|(^(www.).*)";
         final String mailRegEx = "^(.+)@(.+).(.+)$"; // ^[A-Za-z0-9+_.-]+@(.+)$
 
-        // @formatter:off
         return token.stream()
                 .map(t -> t.replace("\n", " ").replace("\r", " ")) // Remove LineBreaks
                 // .peek(System.out::println)
@@ -61,15 +60,12 @@ public class TokenFunction implements Function<MessageWrapper, Map<String, Integ
                 .map(FunctionStripSameChar.INSTANCE)
                 .filter(t -> t.length() > 2)
                 .sorted()
-                .toList()
-                ;
-        // @formatter:on
+                .toList();
     };
 
     public static final BiFunction<List<String>, Locale, Map<String, Integer>> STEMMER_FILTER = (token, locale) -> {
         final Function<String, String> functionStemmer = FunctionStemmer.get(locale);
 
-        // @formatter:off
         return token.stream()
                 .map(t -> Locale.GERMAN.equals(locale) ? FunctionNormalizeGerman.INSTANCE.apply(t) : t)
                 .map(FunctionStripStopWords.getInstance())
@@ -79,7 +75,6 @@ public class TokenFunction implements Function<MessageWrapper, Map<String, Integ
                 // .collect(Collectors.groupingBy(Function.identity(), TreeMap::new, Collectors.counting())); // long
                 .collect(Collectors.groupingBy(Function.identity(), TreeMap::new, Collectors.summingInt(e -> 1)))
                 ;
-        // @formatter:on
     };
     private static final Logger LOGGER = LoggerFactory.getLogger(TokenFunction.class);
 

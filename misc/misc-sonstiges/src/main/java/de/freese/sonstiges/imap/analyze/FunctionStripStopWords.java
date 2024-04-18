@@ -63,14 +63,11 @@ public class FunctionStripStopWords implements UnaryOperator<String> {
 
     @Override
     public String apply(final String text) {
-        // @formatter:off
         if (CACHE.get(Locale.ROOT).contains(text)
-            || CACHE.get(Locale.GERMAN).contains(text)
-            || CACHE.get(Locale.ENGLISH).contains(text))
-        {
+                || CACHE.get(Locale.GERMAN).contains(text)
+                || CACHE.get(Locale.ENGLISH).contains(text)) {
             return "";
         }
-        // @formatter:off
 
         return text;
     }

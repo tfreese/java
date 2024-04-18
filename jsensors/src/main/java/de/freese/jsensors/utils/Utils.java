@@ -23,12 +23,10 @@ public final class Utils {
         List<String> list = null;
 
         try {
-            // @formatter:off
             final Process process = new ProcessBuilder()
                     .command(command)
                     .redirectErrorStream(true)
                     .start();
-            // @formatter:on
 
             final Charset charset = StandardCharsets.UTF_8;
 

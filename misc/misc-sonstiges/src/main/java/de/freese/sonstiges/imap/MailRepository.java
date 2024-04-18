@@ -177,7 +177,6 @@ public class MailRepository implements AutoCloseable {
              Connection connection = this.dataSource.getConnection();
              Statement statement = connection.createStatement()) {
 
-            // @formatter:off
             final String script = bufferedReader.lines()
                     .filter(Objects::nonNull)
                     .filter(line -> !line.isEmpty())
@@ -185,9 +184,7 @@ public class MailRepository implements AutoCloseable {
                     .filter(line -> !line.startsWith("--"))
                     .map(String::strip)
                     .filter(l -> !l.isEmpty())
-                    .collect(Collectors.joining(" "))
-                    ;
-            // @formatter:on
+                    .collect(Collectors.joining(" "));
 
             // SQLs ending with ';'.
             try (Scanner scanner = new Scanner(script)) {
@@ -202,16 +199,13 @@ public class MailRepository implements AutoCloseable {
     }
 
     public Set<Token> getToken(final Collection<String> values) throws SQLException {
-        // @formatter:off
         final String inClause = values.stream()
                 .filter(Objects::nonNull)
                 .map(String::strip)
                 .filter(v -> v.length() > 0)
                 .distinct()
                 .map(v -> "'" + v + "'")
-                .collect(Collectors.joining(",", "(", ")"))
-                ;
-        // @formatter:on
+                .collect(Collectors.joining(",", "(", ")"));
 
         if (inClause.length() <= 2) {
             // in ()

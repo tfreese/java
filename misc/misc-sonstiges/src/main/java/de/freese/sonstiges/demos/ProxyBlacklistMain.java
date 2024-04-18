@@ -451,29 +451,26 @@ public final class ProxyBlacklistMain {
     Set<String> validateRegex(final Set<String> blackList, final Set<String> regexList) {
         LOGGER.info("Validate Regex");
 
-        // @formatter:off
         return blackList.stream()
-            .parallel()
-            .filter(Objects::nonNull)
-            .filter(host -> {
-                boolean match = false;
+                .parallel()
+                .filter(Objects::nonNull)
+                .filter(host -> {
+                    boolean match = false;
 
-                for (String regex : regexList) {
-                    if (!StringUtils.startsWith(host, ".*")) {
-                        regex = ".*" + regex;
+                    for (String regex : regexList) {
+                        if (!StringUtils.startsWith(host, ".*")) {
+                            regex = ".*" + regex;
+                        }
+
+                        if (host.matches(regex)) {
+                            match = true;
+                            break;
+                        }
                     }
 
-                    if (host.matches(regex)) {
-                        match = true;
-                        break;
-                    }
-                }
-
-                return !match;
-            })
-            .collect(Collectors.toSet())
-            ;
-        // @formatter:on
+                    return !match;
+                })
+                .collect(Collectors.toSet());
     }
 
     /**

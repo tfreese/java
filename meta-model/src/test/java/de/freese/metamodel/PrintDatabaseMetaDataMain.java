@@ -21,13 +21,11 @@ public final class PrintDatabaseMetaDataMain {
         try (Connection connection = dataSource.getConnection()) {
             final DatabaseMetaData metaData = connection.getMetaData();
 
-            // @formatter:off
             System.out.printf("%n%s: %d/%d, %s%n",
-                              metaData.getDatabaseProductName(),
-                              metaData.getDatabaseMajorVersion(),
-                              metaData.getDatabaseMinorVersion(),
-                              metaData.getDatabaseProductVersion());
-            // @formatter:on
+                    metaData.getDatabaseProductName(),
+                    metaData.getDatabaseMajorVersion(),
+                    metaData.getDatabaseMinorVersion(),
+                    metaData.getDatabaseProductVersion());
 
             // "PUBLIC"
             final String schema = "PUBLIC";

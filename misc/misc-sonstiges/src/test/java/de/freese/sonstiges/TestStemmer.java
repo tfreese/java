@@ -84,7 +84,6 @@ class TestStemmer {
 
     @TestFactory
     Stream<DynamicNode> testFactory() {
-        // @formatter:off
         return STEMMER.stream()
                 .map(arg -> dynamicContainer((String) arg.get()[0],
                                 Stream.of(dynamicTest("testBaeume", () -> testBaeume((Stemmer) arg.get()[1])),
@@ -99,10 +98,8 @@ class TestStemmer {
                                         dynamicTest("testWald", () -> testWald((Stemmer) arg.get()[1])),
                                         dynamicTest("testWeiße", () -> testWeisse((Stemmer) arg.get()[1]))
                                 )
-                            )
-                    )
-                ;
-        // @formatter:on
+                        )
+                );
     }
 
     void testHuehner(final Stemmer stemmer) throws Exception {

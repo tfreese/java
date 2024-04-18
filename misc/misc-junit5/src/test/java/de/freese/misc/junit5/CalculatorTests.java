@@ -88,12 +88,10 @@ class CalculatorTests {
 
     @ParameterizedTest(name = "sqrt({0}) = {1}")
     @CsvSource({
-            // @formatter:off
             "1, 1.0000000000000000",
             "2, 1.4142135623730951",
             "3, 1.7320508075688772",
             "4, 2.0000000000000000"
-            // @formatter:on
     })
     @Tag("sqrt")
     void testSqrt(final long input, final double expectedResult) {

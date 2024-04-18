@@ -149,7 +149,6 @@ public final class ConnectionFactory {
                  InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                  BufferedReader reader = new BufferedReader(inputStreamReader)) {
 
-                // @formatter:off
                 final String sql = reader.lines()
                         .filter(Objects::nonNull)
                         .map(String::strip)
@@ -157,9 +156,7 @@ public final class ConnectionFactory {
                         .filter(line -> !line.startsWith("#"))
                         .filter(line -> !line.startsWith("--"))
                         .map(line -> line.replace("\n", " ").replace("\r", " "))
-                        .collect(Collectors.joining(" "))
-                        ;
-                // @formatter:on
+                        .collect(Collectors.joining(" "));
 
                 statement.execute(sql);
             }

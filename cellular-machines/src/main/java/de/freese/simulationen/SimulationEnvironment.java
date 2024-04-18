@@ -52,13 +52,11 @@ public class SimulationEnvironment {
                 logger.warn("Timed out while waiting for ExecutorService");
 
                 // Cancel currently executing tasks.
-                // @formatter:off
                 executorService.shutdownNow().stream()
                         .filter(Future.class::isInstance)
                         .map(Future.class::cast)
                         .forEach(future -> future.cancel(true))
                 ;
-                // @formatter:on
 
                 // Wait a while for tasks to respond to being cancelled.
                 if (!executorService.awaitTermination(5, TimeUnit.SECONDS)) {

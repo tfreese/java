@@ -178,13 +178,10 @@ public final class MicrometerMain {
      * &lt;dependency&gt;io.prometheus:simpleclient_httpserver&lt;/dependency&gt;<br>
      */
     private static void startServerForPrometheus() throws Exception {
-        // @formatter:off
         final Optional<PrometheusMeterRegistry> prometheusMeterRegistryOptional = Metrics.globalRegistry.getRegistries().stream()
                 .filter(PrometheusMeterRegistry.class::isInstance)
                 .map(PrometheusMeterRegistry.class::cast)
-                .findFirst()
-                ;
-        // @formatter:on
+                .findFirst();
 
         if (prometheusMeterRegistryOptional.isEmpty()) {
             return;

@@ -137,14 +137,11 @@ class TestMail {
         printStream.println();
         printStream.println("========================================================================================================");
 
-        // @formatter:off
         List<String> token = Stream.of(text)
                 .map(t -> t.split(" "))
                 .flatMap(Arrays::stream)
                 // peek(System.out::println)
-                .toList()
-                ;
-        // @formatter:on
+                .toList();
 
         final Locale locale = FunctionStripStopWords.getInstance().guessLocale(token);
 

@@ -221,64 +221,56 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
      */
     void nextGenerationStreams() {
         if (this.direction == 0) {
-            // @formatter:off
             IntStream.range(0, getWidth())
-                .parallel()
-                .forEach(x -> {
-                    for (int y = 0; y < getHeight(); y++) {
-                        final WaTorCell cell = getCell(x, y);
+                    .parallel()
+                    .forEach(x -> {
+                        for (int y = 0; y < getHeight(); y++) {
+                            final WaTorCell cell = getCell(x, y);
 
-                        if (cell != null) {
-                            cell.nextGeneration();
+                            if (cell != null) {
+                                cell.nextGeneration();
+                            }
                         }
-                    }
-                });
-            // @formatter:on
+                    });
         }
         else if (this.direction == 1) {
-            // @formatter:off
             IntStream.rangeClosed(getWidth() - 1, 0)
-                .parallel()
-                .forEach(x -> {
-                    for (int y = 0; y < getHeight(); y++) {
-                        final WaTorCell cell = getCell(x, y);
+                    .parallel()
+                    .forEach(x -> {
+                        for (int y = 0; y < getHeight(); y++) {
+                            final WaTorCell cell = getCell(x, y);
 
-                        if (cell != null) {
-                            cell.nextGeneration();
+                            if (cell != null) {
+                                cell.nextGeneration();
+                            }
                         }
-                    }
-                });
-            // @formatter:on
+                    });
         }
         else if (this.direction == 2) {
-            // @formatter:off
             IntStream.rangeClosed(getWidth() - 1, 0)
-                .parallel()
-                .forEach(x -> {
-                    for (int y = getHeight() - 1; y >= 0; y--) {
-                        final WaTorCell cell = getCell(x, y);
+                    .parallel()
+                    .forEach(x -> {
+                        for (int y = getHeight() - 1; y >= 0; y--) {
+                            final WaTorCell cell = getCell(x, y);
 
-                        if (cell != null) {
-                            cell.nextGeneration();
+                            if (cell != null) {
+                                cell.nextGeneration();
+                            }
                         }
-                    }
-                });
-            // @formatter:on
+                    });
         }
         else if (this.direction == 3) {
-            // @formatter:off
             IntStream.range(0, getWidth())
-                .parallel()
-                .forEach(x -> {
-                    for (int y = getHeight() - 1; y >= 0; y--) {
-                        final WaTorCell cell = getCell(x, y);
+                    .parallel()
+                    .forEach(x -> {
+                        for (int y = getHeight() - 1; y >= 0; y--) {
+                            final WaTorCell cell = getCell(x, y);
 
-                        if (cell != null) {
-                            cell.nextGeneration();
+                            if (cell != null) {
+                                cell.nextGeneration();
+                            }
                         }
-                    }
-                });
-            // @formatter:on
+                    });
         }
 
         this.direction++;

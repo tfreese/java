@@ -74,12 +74,10 @@ public class TspChromosome extends Chromosome {
 
     @Override
     public String toString() {
-        // @formatter:off
         return Stream.of(getGenes())
-               .map(g -> (City) g.getValue())
-               .map(City::name)
-               .collect(Collectors.joining());
-        // @formatter:on
+                .map(g -> (City) g.getValue())
+                .map(City::name)
+                .collect(Collectors.joining());
     }
 
     @Override

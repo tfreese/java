@@ -149,8 +149,7 @@ public abstract class Genotype {
         // Chromosome fittest = getChromosome(0);
         // double fittestFitness = fittest.calcFitnessValue();
         //
-        // for (int i = 1; i < size(); i++)
-        // {
+        // for (int i = 1; i < size(); i++) {
         // final Chromosome chromosome = getChromosome(i);
         //
         // if (fittestFitness <= chromosome.calcFitnessValue()) {
@@ -164,12 +163,9 @@ public abstract class Genotype {
         // Parallelisierung
         // final Supplier<NavigableMap<Double, Chromosome>> mapSupplier = () -> Collections.synchronizedNavigableMap(new TreeMap<>());
 
-        // @formatter:off
         final NavigableMap<Double, Chromosome> map = Stream.of(getChromosomes())
                 .parallel()
-                .collect(Collectors.toMap(Chromosome::calcFitnessValue, Function.identity(), (a, b) -> a, TreeMap::new))
-                ;
-        // @formatter:on
+                .collect(Collectors.toMap(Chromosome::calcFitnessValue, Function.identity(), (a, b) -> a, TreeMap::new));
 
         final Entry<Double, Chromosome> entry = map.lastEntry();
 

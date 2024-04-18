@@ -29,14 +29,12 @@ class TestSudoku {
 
             chromosome = new SudokuChromosome(CONFIG);
 
-            // @formatter:off
             final List<SudokuGene> genes = puzzle.stream()
-                .flatMap(Stream::of)
-                .map(Integer::parseInt)
-                .map(index -> index + 1) // Im Sudoku gib's keine 0
-                .map(index -> new SudokuGene(index, false))
-                .toList();
-            // @formatter:on
+                    .flatMap(Stream::of)
+                    .map(Integer::parseInt)
+                    .map(index -> index + 1) // Im Sudoku gib's keine 0
+                    .map(index -> new SudokuGene(index, false))
+                    .toList();
 
             for (int i = 0; i < genes.size(); i++) {
                 chromosome.setGene(i, genes.get(i));

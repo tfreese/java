@@ -62,18 +62,14 @@ class NetworkInterface {
         List<String> list = Collections.emptyList();
 
         try {
-            // @formatter:off
             final Process process = new ProcessBuilder()
                     .command(command)
                     .redirectErrorStream(true)
-                    .start()
-                    ;
-            // @formatter:on
+                    .start();
 
             final Charset charset = StandardCharsets.UTF_8;
 
-            // try (InputStreamReader isr = new InputStreamReader(process.getInputStream()))
-            // {
+            // try (InputStreamReader isr = new InputStreamReader(process.getInputStream())) {
             // System.out.println(isr.getEncoding());
             // }
             try (BufferedReader readerIn = new BufferedReader(new InputStreamReader(process.getInputStream(), charset))) {

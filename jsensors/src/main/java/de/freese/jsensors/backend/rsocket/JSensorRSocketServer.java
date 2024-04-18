@@ -70,35 +70,27 @@ public class JSensorRSocketServer implements LifeCycle {
             // Empty
         });
 
-        // @formatter:off
         final Resume resume = new Resume()
                 .sessionDuration(Duration.ofMinutes(5))
                 .retry(
                         Retry
-                            .fixedDelay(10, Duration.ofSeconds(1))
-                            .doBeforeRetry(s -> LOGGER.debug("Disconnected. Trying to resume..."))
-                )
-                ;
-        // @formatter:on
+                                .fixedDelay(10, Duration.ofSeconds(1))
+                                .doBeforeRetry(s -> LOGGER.debug("Disconnected. Trying to resume..."))
+                );
 
-        // @formatter:off
         final TcpServer tcpServer = TcpServer.create()
                 .host("localhost")
                 .port(this.port)
-                .runOn(LoopResources.create("jSensor-server-", this.parallelism, false))
-                ;
-        // @formatter:on
+                .runOn(LoopResources.create("jSensor-server-", this.parallelism, false));
 
         final SocketAcceptor socketAcceptor = SocketAcceptor.forFireAndForget(this::forFireAndForget);
 
-        // @formatter:off
         this.server = RSocketServer.create()
                 .acceptor(socketAcceptor)
                 .resume(resume)
                 .payloadDecoder(PayloadDecoder.DEFAULT)
                 .bindNow(TcpServerTransport.create(tcpServer))
-                ;
-        // @formatter:on
+        ;
     }
 
     @Override

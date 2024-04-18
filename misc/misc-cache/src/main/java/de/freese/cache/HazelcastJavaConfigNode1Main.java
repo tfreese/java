@@ -79,7 +79,6 @@ public final class HazelcastJavaConfigNode1Main {
         final Config config = new Config();
         config.addMapConfig(mapConfig);
 
-        // @formatter:off
         config.setNetworkConfig(new NetworkConfig()
                 .setPort(5801)
                 .setPortAutoIncrement(false)
@@ -87,7 +86,7 @@ public final class HazelcastJavaConfigNode1Main {
                 .setInterfaces(new InterfacesConfig()
                         .setEnabled(true)
                         .addInterface("192.168.155.100")
-                        )
+                )
                 .setJoin(new JoinConfig()
                         .setMulticastConfig(new MulticastConfig()
                                 .setEnabled(true)
@@ -96,13 +95,12 @@ public final class HazelcastJavaConfigNode1Main {
                                 .setMulticastTimeToLive(32)
                                 .setMulticastTimeoutSeconds(3)
                                 .setTrustedInterfaces(Set.of("192.168.155.100"))
-                                )
+                        )
                         .setTcpIpConfig(new TcpIpConfig()
                                 .setEnabled(false) // Entweder Multicast oder TCP
-                                )
                         )
-                );
-        // @formatter:on
+                )
+        );
 
         // Enable back pressure.
         // Verhindert Überlastung des Clusters

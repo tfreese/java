@@ -44,7 +44,6 @@ public abstract class AbstractModelGenerator {
 
             final List<Column> toStringColumns = getColumnsForToString(table);
 
-            // @formatter:off
             classModel.getFields().stream()
                     .filter(field -> {
                         field.setUseForToString(false);
@@ -53,8 +52,7 @@ public abstract class AbstractModelGenerator {
                         return toStringColumns.contains(column);
                     })
                     .forEach(field -> field.setUseForToString(true))
-                    ;
-            // @formatter:on
+            ;
 
             classModels.add(classModel);
         }

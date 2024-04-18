@@ -57,23 +57,21 @@ public class SudokuConfig extends Config {
         final List<String[]> puzzle = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
-            // @formatter:off
             reader.lines()
-                .filter(l -> !l.startsWith("-"))
-                .map(l -> l.replace("|", " "))
-                .map(l -> l.replace("_", "0"))
-                .map(l -> l.replace("x", "0"))
-                .map(l -> l.replace("X", "0"))
-                //.peek(System.out::println)
-                .map(l -> l.replace("  ", " "))
-                .map(l -> l.replace("  ", " "))
-                .map(String::strip)
-                //.peek(System.out::println)
-                .map(l -> l.split(" "))
-                //.peek(array -> System.out.println(Arrays.toString(array)))
-                .forEach(puzzle::add)
-                ;
-            // @formatter:on
+                    .filter(l -> !l.startsWith("-"))
+                    .map(l -> l.replace("|", " "))
+                    .map(l -> l.replace("_", "0"))
+                    .map(l -> l.replace("x", "0"))
+                    .map(l -> l.replace("X", "0"))
+                    //.peek(System.out::println)
+                    .map(l -> l.replace("  ", " "))
+                    .map(l -> l.replace("  ", " "))
+                    .map(String::strip)
+                    //.peek(System.out::println)
+                    .map(l -> l.split(" "))
+                    //.peek(array -> System.out.println(Arrays.toString(array)))
+                    .forEach(puzzle::add)
+            ;
         }
 
         return puzzle;

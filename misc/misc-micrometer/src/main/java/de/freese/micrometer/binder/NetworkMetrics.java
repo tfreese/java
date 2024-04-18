@@ -54,19 +54,17 @@ public class NetworkMetrics implements MeterBinder {
         this.activeInterfaces.forEach(iface -> {
             final NetworkInterface networkInterface = new NetworkInterface(iface);
 
-            // @formatter:off
             FunctionCounter.builder("network.in", networkInterface, NetworkInterface::getInput)
-                .tags(this.tags).tag("interface", iface)
-                .description("Network Input for " + iface)
-                .baseUnit(BaseUnits.BYTES)
-                .register(registry);
+                    .tags(this.tags).tag("interface", iface)
+                    .description("Network Input for " + iface)
+                    .baseUnit(BaseUnits.BYTES)
+                    .register(registry);
 
             FunctionCounter.builder("network.out", networkInterface, NetworkInterface::getOutput)
-                .tags(this.tags).tag("interface", iface)
-                .description("Network Output for " + iface)
-                .baseUnit(BaseUnits.BYTES)
-                .register(registry);
-            // @formatter:on
+                    .tags(this.tags).tag("interface", iface)
+                    .description("Network Output for " + iface)
+                    .baseUnit(BaseUnits.BYTES)
+                    .register(registry);
         });
     }
 
@@ -94,8 +92,7 @@ public class NetworkMetrics implements MeterBinder {
 
     // private void update() {
     // for (String iface : this.activeInterfaces) {
-    // try
-    // {
+    // try {
     // final List<String> lines = executeCommand("ifconfig", iface);
     //
     // // lines.stream().forEach(System.out::println);

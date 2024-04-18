@@ -211,13 +211,10 @@ public class JpaModelGenerator extends PojoModelGenerator {
 
         // Versuchen Sequence für Entity zu finden.
         if (column.isPrimaryKey()) {
-            // @formatter:off
             final List<Sequence> sequences = column.getTable().getSchema().getSequences().stream()
-                   .filter(seq -> seq.getName().toLowerCase().contains(fieldModel.getClassModel().getName().toLowerCase()))
-                   .sorted(Comparator.comparing(seq -> seq.getName().length()))
-                   .toList()
-                   ;
-            // @formatter:on
+                    .filter(seq -> seq.getName().toLowerCase().contains(fieldModel.getClassModel().getName().toLowerCase()))
+                    .sorted(Comparator.comparing(seq -> seq.getName().length()))
+                    .toList();
 
             Sequence sequence = null;
 
