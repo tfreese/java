@@ -9,8 +9,6 @@ import java.awt.event.ActionListener;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
@@ -81,7 +79,6 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 import java.util.TimeZone;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -111,6 +108,7 @@ import javax.swing.filechooser.FileSystemView;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.function.ThrowingConsumer;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Hooks;
 import reactor.core.publisher.Mono;
@@ -147,8 +145,6 @@ public final class MiscMain {
         // bitValue();
         // byteBuffer();
         // collator();
-        // copyPipedStreamsInToOut();
-        // copyPipedStreamsOutToIn();
         // dateTime();
         // fileWalker();
         // fileSystems();
@@ -158,7 +154,8 @@ public final class MiscMain {
         // javaVersion();
         // jndi();
         // listDirectories();
-        // nioPipeChannels();
+        pipedChannels();
+        pipedStreams();
         // processBuilder();
         // reactor();
         // reactorParallel();
@@ -314,136 +311,6 @@ public final class MiscMain {
 
         System.out.println("compare: " + collator.compare("4.9", "4.11"));
         System.out.println((int) '■');
-    }
-
-    static long copy(final InputStream source, final OutputStream sink, final int bufferSize) throws IOException {
-        final byte[] buffer = new byte[bufferSize];
-        long readTotal = 0;
-
-        int read = 0;
-
-        while ((read = source.read(buffer)) > 0) {
-            sink.write(buffer, 0, read);
-            readTotal += read;
-        }
-
-        // for (int read = 0; read >= 0; read = source.read(buffer)) {
-        // sink.write(buffer, 0, read);
-        // readTotal += read;
-        // }
-
-        return readTotal;
-    }
-
-    @SuppressWarnings("try")
-    static void copyPipedStreamsInToOut() throws Throwable {
-        // 1 MB
-        final int chunk = 1024 * 1024;
-
-        final String fileName = "archlinux-2019.11.01-x86_64.iso";
-        final Path pathSource = Paths.get(System.getProperty("user.home"), "downloads", "iso", fileName);
-        final Path pathTarget = Paths.get(System.getProperty("user.dir"), "target", fileName);
-
-        Files.deleteIfExists(pathTarget);
-
-        if (Files.notExists(pathSource)) {
-            LOGGER.info("File not exist: {}", pathSource);
-
-            return;
-        }
-
-        try (PipedInputStream pipeIn = new PipedInputStream(chunk);
-             PipedOutputStream pipeOut = new PipedOutputStream(pipeIn)) {
-            final AtomicReference<Throwable> referenceThrowable = new AtomicReference<>(null);
-
-            final Runnable writeTask = () -> {
-                LOGGER.info("start target copy: {}", Thread.currentThread().getName());
-
-                try (OutputStream fileOutput = new BufferedOutputStream(Files.newOutputStream(pathTarget), chunk)) {
-                    copy(pipeIn, fileOutput, chunk);
-                }
-                catch (Throwable th) {
-                    referenceThrowable.set(th);
-                }
-
-                LOGGER.info("target copy finished: {}", Thread.currentThread().getName());
-            };
-
-            EXECUTOR_SERVICE.execute(writeTask);
-
-            // readTask
-            LOGGER.info("start source copy: {}", Thread.currentThread().getName());
-
-            try (InputStream fileInput = new BufferedInputStream(Files.newInputStream(pathSource), chunk)) {
-                copy(fileInput, pipeOut, chunk);
-
-                pipeOut.flush();
-
-                // Ohne dieses close würde der PipedOutputStream nicht beendet werden.
-                pipeOut.close();
-            }
-
-            LOGGER.info("source copy finished: {}", Thread.currentThread().getName());
-
-            final Throwable th = referenceThrowable.get();
-
-            if (th != null) {
-                throw th;
-            }
-
-            // Direktes kopieren auf File-Ebene, ist am schnellsten.
-            // Files.copy(pathSource, pathTarget);
-
-            // Kopieren mit Temp-Datei (java.io.tmpdir), doppelter Daten-Transfer, ist am langsamsten.
-            // final Path pathTemp = Files.createTempFile("copyDocuments_" + System.nanoTime(), ".tmp");
-            //
-            // try {
-            // try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(pathTemp), chunk)) {
-            // Files.copy(pathSource, outputStream);
-            // }
-            //
-            // try (InputStream inputStream = new BufferedInputStream(Files.newInputStream(pathTemp), chunk)) {
-            // Files.copy(inputStream, pathTarget);
-            // }
-            // }
-            // finally {
-            // Files.deleteIfExists(pathTemp);
-            // }
-
-            LOGGER.info("copy ... finished: {}", Thread.currentThread().getName());
-        }
-    }
-
-    static void copyPipedStreamsOutToIn() throws Throwable {
-        // 1 MB
-        final int chunk = 1024 * 1024;
-
-        try (PipedOutputStream pipeOut = new PipedOutputStream();
-             PipedInputStream pipeIn = new PipedInputStream(pipeOut, chunk)) {
-            final Runnable readTask = () -> {
-                LOGGER.info("start readTask: {}", Thread.currentThread().getName());
-
-                try {
-                    final byte[] bytes = pipeIn.readAllBytes();
-
-                    LOGGER.info("readTask finished with: {}; {}", new String(bytes, StandardCharsets.UTF_8), Thread.currentThread().getName());
-                }
-                catch (Exception ex) {
-                    LOGGER.error(ex.getMessage(), ex);
-                }
-            };
-
-            EXECUTOR_SERVICE.execute(readTask);
-
-            // writeTask
-            LOGGER.info("start writeTask: {}", Thread.currentThread().getName());
-
-            pipeOut.write("Hello World!".getBytes(StandardCharsets.UTF_8));
-            pipeOut.flush();
-
-            LOGGER.info("writeTask finished: {}", Thread.currentThread().getName());
-            LOGGER.info("copy ... finished: {}", Thread.currentThread().getName());
-        }
     }
 
     static void dateTime() {
@@ -863,57 +730,128 @@ public final class MiscMain {
         // Files.walk(path).sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
     }
 
-    static void nioPipeChannels() throws Exception {
-        final Pipe pipe = Pipe.open();
+    static void pipedChannels() throws Exception {
 
-        final Callable<Void> writeCallable = () -> {
-            // Schreiben
-            final Pipe.SinkChannel sinkChannel = pipe.sink();
+        final ThrowingConsumer<Pipe.SinkChannel> writer = sinkChannel -> {
+            final ByteBuffer buffer = ByteBuffer.allocateDirect(24);
 
-            final ByteBuffer buf = ByteBuffer.allocateDirect(24);
+            LOGGER.info("Write to Buffer: {}", Thread.currentThread().getName());
 
-            for (int i = 1; i <= 3; i++) {
-                System.out.printf("%s-%s: write %d%n", Thread.currentThread().getName(), "MiscMain.nioPipe", i);
-                buf.putInt(i);
+            final byte[] data = "Hello World".getBytes(StandardCharsets.UTF_8);
+            buffer.putInt(data.length);
+            buffer.put(data);
+
+            buffer.flip();
+
+            while (buffer.hasRemaining()) {
+                sinkChannel.write(buffer);
             }
-
-            buf.flip();
-
-            while (buf.hasRemaining()) {
-                sinkChannel.write(buf);
-            }
-
-            return null;
         };
 
-        final Callable<Void> readCallable = () -> {
-            // Lesen
-            final Pipe.SourceChannel sourceChannel = pipe.source();
+        final ThrowingConsumer<Pipe.SourceChannel> reader = sourceChannel -> {
+            final ByteBuffer buffer = ByteBuffer.allocate(24);
 
-            final ByteBuffer buf = ByteBuffer.allocate(24);
+            sourceChannel.read(buffer);
+            buffer.flip();
 
-            final int bytesRead = sourceChannel.read(buf);
-            buf.flip();
+            final int length = buffer.getInt();
+            final byte[] data = new byte[length];
+            buffer.get(data);
 
-            System.out.printf("%s-%s: bytesRead=%d%n", Thread.currentThread().getName(), "MiscMain.nioPipe", bytesRead);
-
-            while (buf.hasRemaining()) {
-                System.out.printf("%s-%s: read %d%n", Thread.currentThread().getName(), "MiscMain.nioPipe", buf.getInt());
-            }
-
-            return null;
+            LOGGER.info("Read from Buffer: {}", new String(data, StandardCharsets.UTF_8));
         };
 
-        writeCallable.call();
-        readCallable.call();
+        Pipe pipe = Pipe.open();
 
-        System.out.println();
+        try (Pipe.SinkChannel sinkChannel = pipe.sink();
+             Pipe.SourceChannel sourceChannel = pipe.source()) {
 
-        // Reihenfolge absichtlich vertauscht,
-        final Future<Void> readFuture = ForkJoinPool.commonPool().submit(readCallable);
-        ForkJoinPool.commonPool().submit(writeCallable);
+            writer.accept(sinkChannel);
+            reader.accept(sourceChannel);
+        }
+        catch (Throwable ex) {
+            LOGGER.error(ex.getMessage(), ex);
+        }
 
-        readFuture.get();
+        pipe = Pipe.open();
+
+        try (Pipe.SinkChannel sinkChannel = pipe.sink();
+             Pipe.SourceChannel sourceChannel = pipe.source()) {
+
+            // Switched order.
+            final Future<Void> readFuture = EXECUTOR_SERVICE.submit(() -> {
+                writer.accept(sinkChannel);
+                return null;
+            });
+            EXECUTOR_SERVICE.submit(() -> {
+                reader.accept(sourceChannel);
+                return null;
+            });
+
+            readFuture.get();
+        }
+        catch (Throwable ex) {
+            LOGGER.error(ex.getMessage(), ex);
+        }
+
+    }
+
+    @SuppressWarnings("try")
+    static void pipedStreams() throws Throwable {
+        // 1 MB
+        final int chunk = 1024 * 1024;
+
+        final AtomicReference<IOException> referenceThrowable = new AtomicReference<>(null);
+
+        // One MUST run in a separate Thread !
+        //
+        // final PipedOutputStream pipeOut = new PipedOutputStream();
+        // final PipedInputStream pipeIn = new PipedInputStream(pipeOut, chunk);
+
+        try (PipedInputStream pipeIn = new PipedInputStream(chunk);
+             PipedOutputStream pipeOut = new PipedOutputStream(pipeIn)) {
+            final Runnable runnable = () -> {
+                LOGGER.info("Start write to PipedOutputStream");
+
+                try (pipeOut) {
+                    pipeOut.write("Hello World".getBytes(StandardCharsets.UTF_8));
+
+                    pipeOut.flush();
+                }
+                catch (IOException ex) {
+                    referenceThrowable.set(ex);
+                }
+            };
+
+            EXECUTOR_SERVICE.execute(runnable);
+
+            LOGGER.info("Read from PipedInputStream: {}", new String(pipeIn.readAllBytes(), StandardCharsets.UTF_8));
+
+            final IOException ex = referenceThrowable.get();
+
+            if (ex != null) {
+                throw ex;
+            }
+        }
+
+        // Direktes kopieren auf File-Ebene, ist am schnellsten.
+        // Files.copy(pathSource, pathTarget);
+
+        // Kopieren mit Temp-Datei (java.io.tmpdir), doppelter Daten-Transfer, ist am langsamsten.
+        // final Path pathTemp = Files.createTempFile("copyDocuments_" + System.nanoTime(), ".tmp");
+        //
+        // try {
+        // try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(pathTemp), chunk)) {
+        // Files.copy(pathSource, outputStream);
+        // }
+        //
+        // try (InputStream inputStream = new BufferedInputStream(Files.newInputStream(pathTemp), chunk)) {
+        // Files.copy(inputStream, pathTarget);
+        // }
+        // }
+        // finally {
+        // Files.deleteIfExists(pathTemp);
+        // }
     }
 
     static void printCharsets() {
@@ -1413,6 +1351,33 @@ public final class MiscMain {
                 """.formatted("column");
 
         System.out.println(sql);
+    }
+
+    static long transferTo(final InputStream inputStream, final OutputStream outputStream, final int bufferSize) throws IOException {
+        if (bufferSize == 16384) {
+            final long transferred = inputStream.transferTo(outputStream);
+
+            outputStream.flush();
+
+            return transferred;
+        }
+
+        final byte[] buffer = new byte[bufferSize];
+        long transferred = 0;
+
+        int read = 0;
+
+        while ((read = inputStream.read(buffer)) > 0) {
+            outputStream.write(buffer, 0, read);
+            transferred += read;
+        }
+
+        // for (int read = 0; read >= 0; read = source.read(buffer)) {
+        // sink.write(buffer, 0, read);
+        // transferred += read;
+        // }
+
+        return transferred;
     }
 
     static void utilLogging() {
