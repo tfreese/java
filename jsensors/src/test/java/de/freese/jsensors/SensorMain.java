@@ -26,7 +26,7 @@ public final class SensorMain {
     public static void main(final String[] args) throws Exception {
         final Path logPath = Paths.get(System.getProperty("user.home"), ".java-apps", "jSensors");
 
-        final ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("scheduler"), 4);
+        final ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("scheduler-%d"), 4);
         registry.start();
 
         final ConsoleBackend consoleBackend = new ConsoleBackend();

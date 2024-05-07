@@ -49,7 +49,7 @@ public class RSocketBackend extends AbstractBackend implements LifeCycle {
         final TcpClient tcpClient = TcpClient.create()
                 .host(this.uri.getHost())
                 .port(this.uri.getPort())
-                .runOn(LoopResources.create("jSensor-rSocket-" + this.uri.getPort(), this.parallelism, true));
+                .runOn(LoopResources.create("jSensor-client-" + this.uri.getPort(), this.parallelism, true));
 
         final RSocketConnector connector = RSocketConnector.create()
                 .payloadDecoder(PayloadDecoder.DEFAULT)

@@ -63,31 +63,57 @@ dependencies {
     testImplementation("org.apache.tomcat:tomcat-juli")
 }
 
-tasks.register("xslt") {
-    group = "My Tasks"
+static def xsltTask(Task task, RegularFile xslfile, RegularFile xmlFile, RegularFile outputfile) {
+    task.inputs.files(xslfile, xmlFile)
+    task.outputs.file outputfile
 
-//    dependsOn("compileJava")
+    task.doLast {
+        ant.lifecycleLogLevel = "INFO"
 
-    def srcFolder = layout.projectDirectory.dir("src").dir("xslt")
-    def style = srcFolder.file("article.xsl")
-    def xml = srcFolder.file("article.xml")
-    inputs.files(style, xml)
+        // mkdir outputfile.getAsFile().getParent()
 
-    def destFolder = layout.buildDirectory.get().dir("classes").dir("java").dir("main").dir("xslt")
-    outputs.dir destFolder
-
-    doLast {
-        mkdir destFolder
-
-        ant.xslt(style: style,
-                in: xml,
-                out: destFolder.file("article.html")
+        ant.xslt(style: xslfile,
+                in: xmlFile,
+                out: outputfile
         )
     }
 }
 
+tasks.register("xslt") {
+    group = "MyTasks"
+
+//    dependsOn("compileJava")
+
+    Directory srcFolder = layout.projectDirectory.dir("src").dir("xslt")
+    Directory destFolder = layout.buildDirectory.get().dir("classes").dir("java").dir("main").dir("xslt")
+
+    RegularFile xslFile = srcFolder.file("article.xsl")
+    RegularFile xmlFile = srcFolder.file("article.xml")
+    RegularFile outputFile = destFolder.file("article.html")
+
+    xsltTask(it, xslFile, xmlFile, outputFile)
+
+    // inputs.files(xslFile, xmlFile)
+    // outputs.file outputFile
+    //
+    // doLast {
+    //     mkdir destFolder
+    //
+    //     ant.xslt(style: xslFile,
+    //             in: xmlFile,
+    //             out: outputFile
+    //     )
+    // }
+}
+
+// class MyTask extends DefaultTask {
+//     @TaskAction
+//     void runTask() {
+//         project.ant.taskdef(..., classpath: projects.configurations.myConfig.asPath)
+//     }
+// }
 tasks.register("genJaxb") {
-    group = "My Tasks"
+    group = "MyTasks"
 
     def resourcesDir = layout.projectDirectory.dir("schemas")
     inputs.dir resourcesDir
@@ -147,3 +173,4 @@ tasks.register("genJaxb") {
     }
 }
 compileJava.dependsOn("xslt", "genJaxb")
+// compileJava.finalizedBy("xslt", "genJaxb")

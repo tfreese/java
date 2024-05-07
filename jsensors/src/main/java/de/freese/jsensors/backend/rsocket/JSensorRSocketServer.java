@@ -62,7 +62,7 @@ public class JSensorRSocketServer implements LifeCycle {
 
     @Override
     public void start() {
-        getLogger().info("starting jSensor-rSocket server on port: {}", this.port);
+        getLogger().info("starting jSensor-rSocket server on port: {}", port);
 
         // Error message, if the Client closes the Connection.
         // Hooks.onErrorDropped(th -> LOGGER.error(th.getMessage()));
@@ -80,8 +80,8 @@ public class JSensorRSocketServer implements LifeCycle {
 
         final TcpServer tcpServer = TcpServer.create()
                 .host("localhost")
-                .port(this.port)
-                .runOn(LoopResources.create("jSensor-server-", this.parallelism, false));
+                .port(port)
+                .runOn(LoopResources.create("jSensor-server-" + port, this.parallelism, false));
 
         final SocketAcceptor socketAcceptor = SocketAcceptor.forFireAndForget(this::forFireAndForget);
 

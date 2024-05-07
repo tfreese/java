@@ -14,7 +14,6 @@ import java.util.concurrent.TimeoutException;
  */
 public class SyncFuture<T> implements Future<T> {
     private final CountDownLatch latch = new CountDownLatch(1);
-    private final long startTime = System.currentTimeMillis();
 
     private T response;
 
@@ -37,10 +36,6 @@ public class SyncFuture<T> implements Future<T> {
         }
 
         return null;
-    }
-
-    public long getStartTime() {
-        return this.startTime;
     }
 
     @Override

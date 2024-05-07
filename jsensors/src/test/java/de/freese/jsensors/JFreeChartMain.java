@@ -33,7 +33,7 @@ import de.freese.jsensors.utils.JSensorThreadFactory;
  */
 public final class JFreeChartMain {
     public static void main(final String[] args) throws Exception {
-        final ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("scheduler"), 2);
+        final ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("scheduler-%d"), 2);
         registry.start();
 
         final TimeSeries timeSeriesCpuUsage = new TimeSeries("cpu.usage");

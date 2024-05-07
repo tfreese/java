@@ -14,8 +14,6 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Freese
  */
 public final class Utils {
-    public static final String[] EMPTY_STRING_ARRAY = {};
-
     private static final Logger LOGGER = LoggerFactory.getLogger(Utils.class);
     private static final String OS = System.getProperty("os.name").toLowerCase();
 

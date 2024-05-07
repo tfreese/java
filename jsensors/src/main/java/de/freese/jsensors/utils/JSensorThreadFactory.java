@@ -12,17 +12,28 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class JSensorThreadFactory implements ThreadFactory {
     private final boolean daemon;
     private final ThreadFactory defaultThreadFactory = Executors.defaultThreadFactory();
-    private final String namePrefix;
+    private final String namePattern;
     private final AtomicInteger threadNumber = new AtomicInteger(1);
 
-    public JSensorThreadFactory(final String namePrefix) {
-        this(namePrefix, true);
+    /**
+     * <pre>
+     * Defaults:
+     * - daemon = true
+     * </pre>
+     *
+     * @param namePattern String; Example: "thread-%d"
+     */
+    public JSensorThreadFactory(final String namePattern) {
+        this(namePattern, true);
     }
 
-    public JSensorThreadFactory(final String namePrefix, final boolean daemon) {
+    /**
+     * @param namePattern String; Example: "thread-%d"
+     */
+    public JSensorThreadFactory(final String namePattern, final boolean daemon) {
         super();
 
-        this.namePrefix = Objects.requireNonNull(namePrefix, "namePrefix required") + "-";
+        this.namePattern = Objects.requireNonNull(namePattern, "namePattern required") + "-";
         this.daemon = daemon;
     }
 
@@ -30,7 +41,9 @@ public class JSensorThreadFactory implements ThreadFactory {
     public Thread newThread(final Runnable r) {
         final Thread thread = this.defaultThreadFactory.newThread(r);
 
-        thread.setName(this.namePrefix + this.threadNumber.getAndIncrement());
+        final String threadName = String.format(this.namePattern, this.threadNumber.getAndIncrement());
+        thread.setName(threadName);
+
         thread.setDaemon(this.daemon);
 
         return thread;

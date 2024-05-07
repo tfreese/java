@@ -49,7 +49,7 @@ class TestRegistries {
 
     @Test
     void testScheduledSensorRegistry() throws Exception {
-        final ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("test"), 2);
+        final ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("test-%d"), 2);
 
         final SyncFuture<SensorValue> syncFuture = new SyncFuture<>();
         Sensor.builder("test", "obj", Function.identity()).register(registry, syncFuture::setResponse);
