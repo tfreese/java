@@ -53,15 +53,15 @@ class TestHsqlPersonDb {
 
         assertNotNull(schemas);
         assertEquals(1, schemas.size());
-        assertEquals(SCHEMA_NAME, schemas.get(0).getName());
+        assertEquals(SCHEMA_NAME, schemas.getFirst().getName());
 
-        final List<Table> tables = schemas.get(0).getTables();
+        final List<Table> tables = schemas.getFirst().getTables();
         assertNotNull(tables);
         assertEquals(1, tables.size());
 
-        assertEquals("T_PERSON", tables.get(0).getName());
+        assertEquals("T_PERSON", tables.getFirst().getName());
 
-        final List<Column> columns = tables.get(0).getColumnsOrdered();
+        final List<Column> columns = tables.getFirst().getColumnsOrdered();
         assertNotNull(columns);
         assertEquals(3, columns.size());
 
@@ -80,9 +80,9 @@ class TestHsqlPersonDb {
 
         assertNotNull(schemas);
         assertEquals(1, schemas.size());
-        assertEquals(SCHEMA_NAME, schemas.get(0).getName());
+        assertEquals(SCHEMA_NAME, schemas.getFirst().getName());
 
-        final Table table = schemas.get(0).getTable("T_ADDRESS");
+        final Table table = schemas.getFirst().getTable("T_ADDRESS");
         assertNotNull(table);
 
         final Column column = table.getColumn("PERSON_ID");
@@ -110,9 +110,9 @@ class TestHsqlPersonDb {
 
         assertNotNull(schemas);
         assertEquals(1, schemas.size());
-        assertEquals(SCHEMA_NAME, schemas.get(0).getName());
+        assertEquals(SCHEMA_NAME, schemas.getFirst().getName());
 
-        final Table table = schemas.get(0).getTable("T_PERSON");
+        final Table table = schemas.getFirst().getTable("T_PERSON");
         assertNotNull(table);
 
         // UniqueConstraint
@@ -120,7 +120,7 @@ class TestHsqlPersonDb {
         assertNotNull(uniqueConstraints);
         assertEquals(1, uniqueConstraints.size());
 
-        final UniqueConstraint uniqueConstraint = uniqueConstraints.get(0);
+        final UniqueConstraint uniqueConstraint = uniqueConstraints.getFirst();
         assertEquals("PERSON_UNQ", uniqueConstraint.getName());
 
         List<Column> columns = uniqueConstraint.getColumnsOrdered();
@@ -134,13 +134,13 @@ class TestHsqlPersonDb {
         assertNotNull(indices);
         assertEquals(1, indices.size());
 
-        final Index index = indices.get(0);
+        final Index index = indices.getFirst();
         assertEquals("PERSON_IDX", index.getName());
 
         columns = index.getColumnsOrdered();
         assertNotNull(columns);
         assertEquals(1, columns.size());
-        assertEquals("NAME", columns.get(0).getName());
+        assertEquals("NAME", columns.getFirst().getName());
     }
 
     @Test
@@ -150,9 +150,9 @@ class TestHsqlPersonDb {
 
         assertNotNull(schemas);
         assertEquals(1, schemas.size());
-        assertEquals(SCHEMA_NAME, schemas.get(0).getName());
+        assertEquals(SCHEMA_NAME, schemas.getFirst().getName());
 
-        final Table table = schemas.get(0).getTable("T_PERSON");
+        final Table table = schemas.getFirst().getTable("T_PERSON");
         assertNotNull(table);
 
         final PrimaryKey primaryKey = table.getPrimaryKey();
@@ -161,7 +161,7 @@ class TestHsqlPersonDb {
 
         final List<Column> columns = primaryKey.getColumnsOrdered();
         assertEquals(1, columns.size());
-        assertEquals("ID", columns.get(0).getName());
+        assertEquals("ID", columns.getFirst().getName());
     }
 
     @Test
@@ -180,9 +180,9 @@ class TestHsqlPersonDb {
 
         assertNotNull(schemas);
         assertEquals(1, schemas.size());
-        assertEquals(SCHEMA_NAME, schemas.get(0).getName());
+        assertEquals(SCHEMA_NAME, schemas.getFirst().getName());
 
-        final List<Sequence> sequences = schemas.get(0).getSequences();
+        final List<Sequence> sequences = schemas.getFirst().getSequences();
         assertNotNull(sequences);
         assertEquals(2, sequences.size());
 
@@ -198,9 +198,9 @@ class TestHsqlPersonDb {
 
         assertNotNull(schemas);
         assertEquals(1, schemas.size());
-        assertEquals(SCHEMA_NAME, schemas.get(0).getName());
+        assertEquals(SCHEMA_NAME, schemas.getFirst().getName());
 
-        final List<Table> tables = schemas.get(0).getTables();
+        final List<Table> tables = schemas.getFirst().getTables();
         assertNotNull(tables);
         assertEquals(2, tables.size());
 

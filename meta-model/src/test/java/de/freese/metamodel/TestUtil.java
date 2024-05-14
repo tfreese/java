@@ -32,8 +32,7 @@ public final class TestUtil {
         else if (dataSource instanceof JDBCPool p) {
             p.close(1);
         }
-        // else if (dataSource instanceof DisposableBean db)
-        // {
+        // else if (dataSource instanceof DisposableBean db) {
         // db.destroy();
         // }
     }
@@ -89,17 +88,17 @@ public final class TestUtil {
         // poolDataSource.setUser("SYSTEM");
         // poolDataSource.setPassword("****");
 
-        //        final HikariConfig config = new HikariConfig();
-        //        config.setDriverClassName("oracle.jdbc.OracleDriver");
-        //        config.setJdbcUrl(url);
-        //        config.setUsername(user);
-        //        config.setPassword(password);
-        //        config.setMinimumIdle(1);
-        //        config.setMaximumPoolSize(4);
-        //        config.setConnectionTimeout(5 * 1000L); // Sekunden
-        //        config.addDataSourceProperty("cachePrepStmts", "true");
-        //        config.addDataSourceProperty("prepStmtCacheSize", "250");
-        //        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+        // final HikariConfig config = new HikariConfig();
+        // config.setDriverClassName("oracle.jdbc.OracleDriver");
+        // config.setJdbcUrl(url);
+        // config.setUsername(user);
+        // config.setPassword(password);
+        // config.setMinimumIdle(1);
+        // config.setMaximumPoolSize(4);
+        // config.setConnectionTimeout(5 * 1000L); // Sekunden
+        // config.addDataSourceProperty("cachePrepStmts", "true");
+        // config.addDataSourceProperty("prepStmtCacheSize", "250");
+        // config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
 
         return dataSource;
     }

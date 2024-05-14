@@ -125,7 +125,7 @@ public class MyAsyncAppender extends AbstractAppender {
         }
 
         final LogEvent memento = Log4jLogEvent.createMemento(event);
-        //        InternalAsyncUtil.makeMessageImmutable(event.getMessage());
+        // InternalAsyncUtil.makeMessageImmutable(event.getMessage());
 
         final Runnable task = () -> appendEvent(memento);
 
@@ -195,7 +195,10 @@ public class MyAsyncAppender extends AbstractAppender {
         boolean success = false;
 
         for (AppenderControl appender : this.appenders) {
-            System.err.printf("%s - %s - %s - %s%n", getClass().getSimpleName(), Thread.currentThread().getName(), appender.getAppenderName(),
+            System.err.printf("%s - %s - %s - %s%n",
+                    getClass().getSimpleName(),
+                    Thread.currentThread().getName(),
+                    appender.getAppenderName(),
                     logEvent.getMessage().getFormattedMessage());
 
             try {

@@ -30,8 +30,7 @@ public class MariaDbMetaExporter extends AbstractMetaExporter {
     // stmt.setString(2, table.getName());
     //
     // try (ResultSet rs = stmt.executeQuery()) {
-    // while (rs.next())
-    // {
+    // while (rs.next()) {
     // // final String name = rs.getString("INDEX_NAME");
     // // final String column = rs.getString("COLUMN_NAME");
     //

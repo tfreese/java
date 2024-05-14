@@ -102,8 +102,7 @@ public abstract class AbstractMetaExporter implements MetaExporter {
         // final Charset charset = StandardCharsets.UTF_8;
         // column.setComment(new String(comment.getBytes(charset), charset));
         // }
-        // catch (Exception ex)
-        // {
+        // catch (Exception ex) {
         // getLogger().warn(ex.getMessage());
         // }
     }

@@ -31,12 +31,10 @@ public abstract class AbstractCodeWriter implements CodeWriter {
             classModel.addInterface(Serializable.class);
         }
 
-        //        if (classModel.isAddFullConstructor())
-        //        {
-        // // Für Validierung.
-        //            // classModel.addImport(Objects.class);
-        //            // Empty
-        //        }
+        // if (classModel.isAddFullConstructor()) {
+        //     // Für Validierung.
+        //     // classModel.addImport(Objects.class);
+        // }
 
         // Für hashCode und equals.
         classModel.addImport(Objects.class);
@@ -116,7 +114,7 @@ public abstract class AbstractCodeWriter implements CodeWriter {
 
             output.print(TAB + "public " + classModel.getName() + "(");
 
-            for (Iterator<FieldModel> iterator = classModel.getFields().iterator(); iterator.hasNext(); ) {
+            for (final Iterator<FieldModel> iterator = classModel.getFields().iterator(); iterator.hasNext(); ) {
                 final FieldModel fieldModel = iterator.next();
 
                 if (fieldModel.isCollection()) {
@@ -174,7 +172,7 @@ public abstract class AbstractCodeWriter implements CodeWriter {
         output.print(TAB + TAB + "return");
         output.println();
 
-        for (Iterator<FieldModel> iterator = classModel.getFields().iterator(); iterator.hasNext(); ) {
+        for (final Iterator<FieldModel> iterator = classModel.getFields().iterator(); iterator.hasNext(); ) {
             final FieldModel fieldModel = iterator.next();
             final String fieldName = fieldModel.getName();
 
@@ -263,7 +261,7 @@ public abstract class AbstractCodeWriter implements CodeWriter {
             output.println();
         }
 
-        for (Iterator<FieldModel> iterator = classModel.getFields().iterator(); iterator.hasNext(); ) {
+        for (final Iterator<FieldModel> iterator = classModel.getFields().iterator(); iterator.hasNext(); ) {
             final FieldModel fieldModel = iterator.next();
 
             writeJavaDoc(output, fieldModel.getComments(), TAB);
@@ -293,7 +291,7 @@ public abstract class AbstractCodeWriter implements CodeWriter {
         output.println(TAB + "{");
         output.println(TAB + TAB + "return Objects.hash(");
 
-        for (Iterator<FieldModel> iterator = classModel.getFields().iterator(); iterator.hasNext(); ) {
+        for (final Iterator<FieldModel> iterator = classModel.getFields().iterator(); iterator.hasNext(); ) {
             final FieldModel fieldModel = iterator.next();
             final String fieldName = fieldModel.getName();
 
@@ -373,7 +371,7 @@ public abstract class AbstractCodeWriter implements CodeWriter {
         output.println(indent + "/**");
 
         if (comments != null && !comments.isEmpty()) {
-            for (Iterator<String> iterator = comments.iterator(); iterator.hasNext(); ) {
+            for (final Iterator<String> iterator = comments.iterator(); iterator.hasNext(); ) {
                 final String comment = iterator.next();
 
                 output.print(indent + " * " + comment);
@@ -453,7 +451,7 @@ public abstract class AbstractCodeWriter implements CodeWriter {
         output.println(TAB + TAB + "sb.append(getClass().getSimpleName());");
         output.println(TAB + TAB + "sb.append(\" [\");");
 
-        for (Iterator<FieldModel> iterator = fields.iterator(); iterator.hasNext(); ) {
+        for (final Iterator<FieldModel> iterator = fields.iterator(); iterator.hasNext(); ) {
             final FieldModel fieldModel = iterator.next();
             final String fieldName = fieldModel.getName();
 

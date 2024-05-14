@@ -88,7 +88,7 @@ public final class ClassUtils {
             registerCommonClasses(entry.getKey());
         }
 
-        final Set<Class<?>> primitiveTypes = new HashSet<>(32);
+        final Set<Class<?>> primitiveTypes = HashSet.newHashSet(32);
         primitiveTypes.addAll(PRIMITIVE_WRAPPER_TYPE_MAP.values());
         Collections.addAll(primitiveTypes, boolean[].class, byte[].class, char[].class, double[].class, float[].class, int[].class, long[].class, short[].class);
         primitiveTypes.add(void.class);

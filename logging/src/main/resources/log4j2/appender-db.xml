@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 	Parameter:
-	- DB_DRIVER -> Datenbank Treiber
-	- DB_URL -> Host
-	- DB_USER -> User
-	- DB_PSW -> Passwort
+	- DB_DRIVER
+	- DB_URL
+	- DB_USER
+	- DB_PSW
 -->
 <Appenders>
     <Jdbc name="DB_SYNC" tableName="LOGGING" bufferSize="3">

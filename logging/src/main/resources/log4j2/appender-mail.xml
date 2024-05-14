@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 	Parameter:
-	- MAIL_FROM		-> Absender
-	- MAIL_TO		-> Empfänger
-	- MAIL_SUBJECT	-> Betreff
-	- MAIL_HOST 	-> Server
-	- MAIL_PORT 	-> Port
+	- MAIL_FROM
+	- MAIL_TO
+	- MAIL_SUBJECT
+	- MAIL_HOST
+	- MAIL_PORT
 -->
 <Appenders>
     <SMTP name="MAIL_SYNC" subject="${MAIL_SUBJECT:-Error Log}" from="${MAIL_FROM}" to="${MAIL_TO}"

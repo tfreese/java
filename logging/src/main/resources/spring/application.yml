@@ -4,7 +4,7 @@
 # ===================================================================
 #
 # "LOGBACK: No context given for c.q.l.core.rolling.SizeAndTimeBasedRollingPolicy"
-# hat seine Ursache in der Methode TimeBasedRollingPolicy#setTotalSizeCap -> ignorieren !
+# caused by TimeBasedRollingPolicy#setTotalSizeCap -> ignore !
 
 pattern:
     logback:
@@ -21,7 +21,7 @@ logging:
         root: INFO
         org.springframework: INFO
     path: ${user.home}/.java-apps/logs # -> logging.path
-    #file: ${logging.path}/application.log # ist nicht zulässig in YAML, siehe Workaround im Profile.
+    #file: ${logging.path}/application.log # not allowed in YAML, see Workaround in Profile.
     file:
         max-history: 30
         max-size: 10MB

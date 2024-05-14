@@ -6,8 +6,8 @@
         >
 <Configuration xmlns:xi="http://www.w3.org/2001/XInclude" name="Default" status="WARN" shutdownHook="enable">
 
-    <!-- Globaler Filter -->
-    <BurstFilter level="DEBUG" rate="2" maxBurst="3" />
+    <!-- Global Filter -->
+    <BurstFilter level="ALL" rate="10" maxBurst="20" />
 
     <xi:include href="appender-console.xml" />
     <xi:include href="appender-db.xml" />

@@ -10,8 +10,9 @@
         <xi:include href="pattern.xml" />
     </Properties>
 
-    <!-- Globaler Filter -->
-    <BurstFilter level="DEBUG" rate="2" maxBurst="3" />
+    <!-- Global Filter -->
+    <BurstFilter level="ALL" rate="10" maxBurst="20" />
+
     <xi:include href="appender-file.xml" />
 
     <Loggers>
