@@ -45,6 +45,12 @@ public final class HazelcastNode1Main {
                 try {
                     TimeUnit.MILLISECONDS.sleep(1000);
                 }
+                catch (InterruptedException ex) {
+                    LOGGER.error(ex.getMessage(), ex);
+
+                    // Restore interrupted state.
+                    Thread.currentThread().interrupt();
+                }
                 catch (Exception ex) {
                     LOGGER.error(ex.getMessage(), ex);
                 }

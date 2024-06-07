@@ -33,7 +33,7 @@ public class ServerMultiThread extends AbstractServer {
         this(port, numOfDispatcher, numOfWorker, SelectorProvider.provider());
     }
 
-    public ServerMultiThread(final int port, final int numOfDispatcher, final int numOfWorker, final SelectorProvider selectorProvider) throws IOException {
+    public ServerMultiThread(final int port, final int numOfDispatcher, final int numOfWorker, final SelectorProvider selectorProvider) {
         super(port);
 
         this.dispatcherPool = new DispatcherPool(numOfDispatcher, numOfWorker);

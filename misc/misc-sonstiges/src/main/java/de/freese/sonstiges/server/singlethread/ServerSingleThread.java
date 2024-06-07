@@ -38,7 +38,7 @@ public class ServerSingleThread extends AbstractServer {
         this(port, SelectorProvider.provider());
     }
 
-    public ServerSingleThread(final int port, final SelectorProvider selectorProvider) throws IOException {
+    public ServerSingleThread(final int port, final SelectorProvider selectorProvider) {
         super(port);
 
         this.selectorProvider = Objects.requireNonNull(selectorProvider, "selectorProvider required");

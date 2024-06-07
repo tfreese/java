@@ -14,6 +14,8 @@ import javax.swing.TransferHandler;
  * @author Thomas Freese
  */
 class PictureTransferHandler extends TransferHandler {
+    private static final DataFlavor PICTURE_FLAVOR = DataFlavor.imageFlavor;
+
     @Serial
     private static final long serialVersionUID = 8896193065899268221L;
 
@@ -24,6 +26,8 @@ class PictureTransferHandler extends TransferHandler {
         private final Image image;
 
         PictureTransferable(final DTPicture pic) {
+            super();
+
             this.image = pic.getImage();
         }
 
@@ -38,23 +42,22 @@ class PictureTransferHandler extends TransferHandler {
 
         @Override
         public DataFlavor[] getTransferDataFlavors() {
-            return new DataFlavor[]{PictureTransferHandler.this.pictureFlavor};
+            return new DataFlavor[]{PICTURE_FLAVOR};
         }
 
         @Override
         public boolean isDataFlavorSupported(final DataFlavor flavor) {
-            return PictureTransferHandler.this.pictureFlavor.equals(flavor);
+            return PICTURE_FLAVOR.equals(flavor);
         }
     }
 
-    private final DataFlavor pictureFlavor = DataFlavor.imageFlavor;
     private boolean shouldRemove;
     private DTPicture sourcePic;
 
     @Override
     public boolean canImport(final JComponent c, final DataFlavor[] flavors) {
         for (DataFlavor flavor : flavors) {
-            if (this.pictureFlavor.equals(flavor)) {
+            if (PICTURE_FLAVOR.equals(flavor)) {
                 return true;
             }
         }
@@ -82,7 +85,7 @@ class PictureTransferHandler extends TransferHandler {
             }
 
             try {
-                image = (Image) t.getTransferData(this.pictureFlavor);
+                image = (Image) t.getTransferData(PICTURE_FLAVOR);
 
                 // Set the component to the new picture.
                 pic.setImage(image);

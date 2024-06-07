@@ -2,8 +2,6 @@
 package de.freese.sonstiges.disruptor.example;
 
 import java.nio.ByteBuffer;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
@@ -55,7 +53,7 @@ public final class LongEventMain {
         // This wait strategy should only be used if the number of Event Handler threads is smaller than the number of physical cores on the box.
         //        waitStrategy = new BusySpinWaitStrategy();
 
-        final ExecutorService executorService = Executors.newFixedThreadPool(8);
+        // try (ExecutorService executorService = Executors.newFixedThreadPool(8)) {
         // final Disruptor<LongEvent> disruptor = new Disruptor<>(LongEvent::new, ringBufferSize, executorService, producerType, waitStrategy);
         // final Disruptor<LongEvent> disruptor = new Disruptor<>(LongEvent::new, ringBufferSize, threadFactory, producerType, waitStrategy);
         final Disruptor<LongEvent> disruptor = new Disruptor<>(LongEvent::new, ringBufferSize, threadFactory);
@@ -95,8 +93,7 @@ public final class LongEventMain {
         // Nur notwendig, wenn die Event-Publizierung noch nicht abgeschlossen ist.
         disruptor.halt();
         disruptor.shutdown(5, TimeUnit.SECONDS);
-
-        executorService.shutdown();
+        // }
     }
 
     private LongEventMain() {

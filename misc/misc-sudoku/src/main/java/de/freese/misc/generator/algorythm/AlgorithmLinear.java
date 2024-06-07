@@ -12,7 +12,7 @@ import java.util.List;
  * @author Thomas Freese
  * @deprecated Liefert fehlerhafte Rätsel
  */
-@Deprecated
+@Deprecated(since = "now")
 public class AlgorithmLinear implements SudokuAlgorithm {
     private int blockSize;
     private int[][] grid;

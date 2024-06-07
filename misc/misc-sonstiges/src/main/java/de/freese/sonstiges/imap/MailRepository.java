@@ -192,8 +192,11 @@ public class MailRepository implements AutoCloseable {
 
                 while (scanner.hasNext()) {
                     final String sql = scanner.next().strip();
-                    statement.execute(sql);
+                    // statement.execute(sql);
+                    statement.addBatch(sql);
                 }
+
+                statement.executeBatch();
             }
         }
     }
@@ -202,7 +205,7 @@ public class MailRepository implements AutoCloseable {
         final String inClause = values.stream()
                 .filter(Objects::nonNull)
                 .map(String::strip)
-                .filter(v -> v.length() > 0)
+                .filter(v -> !v.isEmpty())
                 .distinct()
                 .map(v -> "'" + v + "'")
                 .collect(Collectors.joining(",", "(", ")"));

@@ -36,7 +36,7 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
                 }
                 catch (InterruptedException ex) {
                     // Restore interrupted state.
-                    interrupt();
+                    Thread.currentThread().interrupt();
                     break;
                 }
 
@@ -90,6 +90,9 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
             }
             catch (InterruptedException ex) {
                 getLogger().error(ex.getMessage(), ex);
+
+                // Restore interrupted state.
+                Thread.currentThread().interrupt();
             }
         }
 

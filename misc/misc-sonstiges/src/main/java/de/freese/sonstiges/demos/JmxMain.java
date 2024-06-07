@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -29,6 +30,8 @@ import org.springframework.boot.jdbc.DatabaseDriver;
 public final class JmxMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(JmxMain.class);
 
+    private static final Random RANDOM = new Random();
+
     /**
      * The model MXBean class MUST implement an interface with the following name: "model class name" plus MXBean.<br>
      * Das Interface muss public sein.
@@ -43,92 +46,93 @@ public final class JmxMain {
     public static void main(final String[] args) throws Exception {
         // Siehe auch org.springframework.jmx.support.JmxUtils
 
-        final MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
+        try (ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5)) {
 
-        // Eigene MBean registrieren.
-        mBeanServer.registerMBean((DateMXBean) () -> LocalDateTime.now().toString(), new ObjectName("bean:name=dateBean"));
-        //        DateMXBean dateBeanProxy = JMX.newMBeanProxy(mBeanServer, new ObjectName("bean:name=dateBean"), DateMXBean.class);
+            final MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
 
-        final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
+            // Eigene MBean registrieren.
+            mBeanServer.registerMBean((DateMXBean) () -> LocalDateTime.now().toString(), new ObjectName("bean:name=dateBean"));
+            //        DateMXBean dateBeanProxy = JMX.newMBeanProxy(mBeanServer, new ObjectName("bean:name=dateBean"), DateMXBean.class);
 
-        final HikariConfig config = new HikariConfig();
-        config.setDriverClassName(DatabaseDriver.H2.getDriverClassName());
-        config.setJdbcUrl("jdbc:h2:mem:jmx");
-        config.setUsername("sa");
-        config.setPassword("");
-        config.setMaximumPoolSize(3);
-        config.setMinimumIdle(1);
-        config.setScheduledExecutor(scheduledExecutorService);
-        config.setPoolName("HikariConnectionPool");
-        config.setRegisterMbeans(true);
+            final HikariConfig config = new HikariConfig();
+            config.setDriverClassName(DatabaseDriver.H2.getDriverClassName());
+            config.setJdbcUrl("jdbc:h2:mem:jmx");
+            config.setUsername("sa");
+            config.setPassword("");
+            config.setMaximumPoolSize(3);
+            config.setMinimumIdle(1);
+            config.setScheduledExecutor(scheduledExecutorService);
+            config.setPoolName("HikariConnectionPool");
+            config.setRegisterMbeans(true);
 
-        final HikariDataSource dataSource = new HikariDataSource(config);
-        final ObjectName poolName = new ObjectName("com.zaxxer.hikari:type=Pool (" + config.getPoolName() + ")");
-        final HikariPoolMXBean poolProxy = JMX.newMXBeanProxy(mBeanServer, poolName, HikariPoolMXBean.class);
+            final HikariDataSource dataSource = new HikariDataSource(config);
+            final ObjectName poolName = new ObjectName("com.zaxxer.hikari:type=Pool (" + config.getPoolName() + ")");
+            final HikariPoolMXBean poolProxy = JMX.newMXBeanProxy(mBeanServer, poolName, HikariPoolMXBean.class);
 
-        scheduledExecutorService.scheduleWithFixedDelay(() -> {
-            try {
-                if (poolProxy == null) {
-                    LOGGER.info("Hikari not initialized, please wait...");
-                }
-                else {
-                    LOGGER.info("HikariPoolState: Active={}; Idle={}, Wait={}, Total={}", poolProxy.getActiveConnections(), poolProxy.getIdleConnections(),
-                            poolProxy.getThreadsAwaitingConnection(), poolProxy.getTotalConnections());
-                }
-            }
-            catch (Throwable ex) {
-                LOGGER.error(ex.getMessage());
-            }
-        }, 100, 1000, TimeUnit.MILLISECONDS);
-        scheduledExecutorService.scheduleWithFixedDelay(() -> {
-            try {
-                final ObjectName on = ObjectName.getInstance("com.zaxxer.hikari:type=Pool (HikariConnectionPool)");
-                final MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-
-                LOGGER.info("ActiveConnections = {}", mbs.getAttribute(on, "ActiveConnections"));
-                LOGGER.info("IdleConnections = {}", mbs.getAttribute(on, "IdleConnections"));
-
-                //                LOGGER.info("DateBean: {}", mBeanServer.invoke(ObjectName.getInstance("bean:name=dateBean"), "getCurrentTime", null, null));
-                LOGGER.info("DateBean: {}", mBeanServer.getAttribute(ObjectName.getInstance("bean:name=dateBean"), "CurrentTime"));
-            }
-            catch (Exception ex) {
-                LOGGER.error(ex.getMessage());
-            }
-        }, 1L, 3L, TimeUnit.SECONDS);
-
-        final Callable<Void> job = () -> {
-            final String query = "VALUES (NOW())";
-            // final String query = DatabaseDriver.H2.getValidationQuery();
-
-            for (int i = 0; i < 10; i++) {
-                try (Connection connection = dataSource.getConnection();
-                     Statement statement = connection.createStatement()) {
-                    try (ResultSet resultSet = statement.executeQuery(query)) {
-                        resultSet.next();
-
-                        LOGGER.info("Query: {}", resultSet.getObject(1));
-                        TimeUnit.MILLISECONDS.sleep((long) (Math.random() * 1500));
+            scheduledExecutorService.scheduleWithFixedDelay(() -> {
+                try {
+                    if (poolProxy == null) {
+                        LOGGER.info("Hikari not initialized, please wait...");
+                    }
+                    else {
+                        LOGGER.info("HikariPoolState: Active={}; Idle={}, Wait={}, Total={}", poolProxy.getActiveConnections(), poolProxy.getIdleConnections(),
+                                poolProxy.getThreadsAwaitingConnection(), poolProxy.getTotalConnections());
                     }
                 }
+                catch (Throwable ex) {
+                    LOGGER.error(ex.getMessage());
+                }
+            }, 100, 1000, TimeUnit.MILLISECONDS);
+            scheduledExecutorService.scheduleWithFixedDelay(() -> {
+                try {
+                    final ObjectName on = ObjectName.getInstance("com.zaxxer.hikari:type=Pool (HikariConnectionPool)");
+                    final MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 
-                TimeUnit.MILLISECONDS.sleep(1000);
-            }
+                    LOGGER.info("ActiveConnections = {}", mbs.getAttribute(on, "ActiveConnections"));
+                    LOGGER.info("IdleConnections = {}", mbs.getAttribute(on, "IdleConnections"));
 
-            return null;
-        };
+                    //                LOGGER.info("DateBean: {}", mBeanServer.invoke(ObjectName.getInstance("bean:name=dateBean"), "getCurrentTime", null, null));
+                    LOGGER.info("DateBean: {}", mBeanServer.getAttribute(ObjectName.getInstance("bean:name=dateBean"), "CurrentTime"));
+                }
+                catch (Exception ex) {
+                    LOGGER.error(ex.getMessage());
+                }
+            }, 1L, 3L, TimeUnit.SECONDS);
 
-        final Future<Void> future1 = scheduledExecutorService.submit(job);
-        final Future<Void> future2 = scheduledExecutorService.submit(job);
+            final Callable<Void> job = () -> {
+                final String query = "VALUES (NOW())";
+                // final String query = DatabaseDriver.H2.getValidationQuery();
 
-        // Avoid Terminating
-        //        System.in.read();
-        future1.get();
-        future2.get();
+                for (int i = 0; i < 10; i++) {
+                    try (Connection connection = dataSource.getConnection();
+                         Statement statement = connection.createStatement()) {
+                        try (ResultSet resultSet = statement.executeQuery(query)) {
+                            resultSet.next();
 
-        scheduledExecutorService.shutdown();
-        dataSource.close();
+                            LOGGER.info("Query: {}", resultSet.getObject(1));
+                            TimeUnit.MILLISECONDS.sleep(RANDOM.nextLong(100, 1500));
+                        }
+                    }
 
-        System.exit(0);
+                    TimeUnit.MILLISECONDS.sleep(1000);
+                }
+
+                return null;
+            };
+
+            final Future<Void> future1 = scheduledExecutorService.submit(job);
+            final Future<Void> future2 = scheduledExecutorService.submit(job);
+
+            // Avoid Terminating
+            //        System.in.read();
+            future1.get();
+            future2.get();
+
+            scheduledExecutorService.shutdown();
+            dataSource.close();
+
+            System.exit(0);
+        }
     }
 
     private JmxMain() {

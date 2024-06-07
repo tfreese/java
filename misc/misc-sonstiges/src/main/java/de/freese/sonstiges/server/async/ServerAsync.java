@@ -43,7 +43,7 @@ public class ServerAsync extends AbstractServer {
         this(port, 3);
     }
 
-    public ServerAsync(final int port, final AsynchronousChannelGroup channelGroup) throws IOException {
+    public ServerAsync(final int port, final AsynchronousChannelGroup channelGroup) {
         super(port);
 
         this.channelGroup = Objects.requireNonNull(channelGroup, "channelGroup required");

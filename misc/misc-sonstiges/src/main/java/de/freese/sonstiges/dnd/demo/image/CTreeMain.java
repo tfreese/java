@@ -178,7 +178,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
                 paintImmediately(this.rectangleGhost.getBounds());
 
                 // And remember where we are about to draw the new ghost image
-                this.rectangleGhost.setRect(pt.x - CTreeMain.this.pointOffset.x, pt.y - CTreeMain.this.pointOffset.y, CTreeMain.this.imageGhost.getWidth(),
+                this.rectangleGhost.setRect((double) pt.x - CTreeMain.this.pointOffset.x, pt.y - CTreeMain.this.pointOffset.y, CTreeMain.this.imageGhost.getWidth(),
                         CTreeMain.this.imageGhost.getHeight());
                 g2.drawImage(CTreeMain.this.imageGhost, AffineTransform.getTranslateInstance(this.rectangleGhost.getX(), this.rectangleGhost.getY()), null);
             }
@@ -205,11 +205,11 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
 
             // Now superimpose the left/right movement indicator if necessary
             if (this.leftRight > 20) {
-                g2.drawImage(IMAGE_RIGHT, AffineTransform.getTranslateInstance(pt.x - CTreeMain.this.pointOffset.x, pt.y - CTreeMain.this.pointOffset.y), null);
+                g2.drawImage(IMAGE_RIGHT, AffineTransform.getTranslateInstance((double) pt.x - CTreeMain.this.pointOffset.x, pt.y - CTreeMain.this.pointOffset.y), null);
                 this.shift += 1;
             }
             else if (this.leftRight < -20) {
-                g2.drawImage(IMAGE_LEFT, AffineTransform.getTranslateInstance(pt.x - CTreeMain.this.pointOffset.x, pt.y - CTreeMain.this.pointOffset.y), null);
+                g2.drawImage(IMAGE_LEFT, AffineTransform.getTranslateInstance((double) pt.x - CTreeMain.this.pointOffset.x, pt.y - CTreeMain.this.pointOffset.y), null);
                 this.shift -= 1;
             }
             else {

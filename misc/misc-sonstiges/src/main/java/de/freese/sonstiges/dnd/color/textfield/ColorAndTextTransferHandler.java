@@ -18,10 +18,11 @@ import javax.swing.text.Position;
  * Dropping a dnd color on a component having this TransferHandler changes the foreground of the component to the imported dnd color.
  */
 class ColorAndTextTransferHandler extends ColorTransferHandler {
+    private static final DataFlavor STRING_FLAVOR = DataFlavor.stringFlavor;
+    
     @Serial
     private static final long serialVersionUID = -2099117900708234471L;
 
-    private final transient DataFlavor stringFlavor = DataFlavor.stringFlavor;
     private transient Position p0;
     private transient Position p1;
 
@@ -59,7 +60,7 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
 
         if (hasStringFlavor(t.getTransferDataFlavors())) {
             try {
-                final String str = (String) t.getTransferData(this.stringFlavor);
+                final String str = (String) t.getTransferData(STRING_FLAVOR);
                 tc.replaceSelection(str);
 
                 return true;
@@ -125,7 +126,7 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
      */
     protected boolean hasStringFlavor(final DataFlavor[] flavors) {
         for (DataFlavor flavor : flavors) {
-            if (this.stringFlavor.equals(flavor)) {
+            if (STRING_FLAVOR.equals(flavor)) {
                 return true;
             }
         }

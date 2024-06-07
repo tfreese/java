@@ -267,7 +267,7 @@ public final class ProxyBlacklistMain {
     /**
      * BlackList mit Regex ausdünnen.
      */
-    Set<String> filterByRegEx(final Path privoxySkriptPath, final Set<String> blackList) throws Exception {
+    Set<String> filterByRegEx(final Path privoxySkriptPath, final Set<String> blackList) {
         final Path path = privoxySkriptPath.resolve("blacklist-regex.txt");
 
         final Set<String> regexList = load(path.toUri());

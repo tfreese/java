@@ -30,6 +30,12 @@ public final class SingleNoteChannelMain {
 
             channel.noteOff(note, 70);
         }
+        catch (InterruptedException ex) {
+            ex.printStackTrace();
+
+            // Restore interrupted state.
+            Thread.currentThread().interrupt();
+        }
         catch (Exception ex) {
             ex.printStackTrace();
         }

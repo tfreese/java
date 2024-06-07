@@ -25,20 +25,16 @@
 ///**
 // * @author Thomas Freese
 // */
-// public final class MediaPlayerMain extends JFrame
-//{
+// public final class MediaPlayerMain extends JFrame {
 //    @Serial
 //    private static final long serialVersionUID = 5487817007951030101L;
 //
-//    public static void main(final String[] args)
-//    {
+//    public static void main(final String[] args) {
 //        MediaPlayerMain app = new MediaPlayerMain();
 //
-//        app.addWindowListener(new WindowAdapter()
-//        {
+//        app.addWindowListener(new WindowAdapter() {
 //            @Override
-//            public void windowClosing(final WindowEvent e)
-//            {
+//            public void windowClosing(final WindowEvent event) {
 //                System.exit(0);
 //            }
 //        });
@@ -49,30 +45,24 @@
 //     *
 //     * @author Thomas Freese
 //     */
-//    private class EventHandler implements ControllerListener
-//    {
+//    private class EventHandler implements ControllerListener {
 //        @Override
-//        public void controllerUpdate(final ControllerEvent e)
-//        {
-//            if (e instanceof RealizeCompleteEvent)
-//            {
+//        public void controllerUpdate(final ControllerEvent event) {
+//            if (event instanceof RealizeCompleteEvent) {
 //                Container c = getContentPane();
 //                c.setBackground(new Color(255, 255, 204));
 //
 //                // load Visual and Control components if they exist
 //                Component visualComponent = MediaPlayerMain.this.player.getVisualComponent();
 //
-//                if (visualComponent != null)
-//                {
+//                if (visualComponent != null) {
 //                    c.add(visualComponent, BorderLayout.CENTER);
 //                }
 //
 //                c.setBackground(new Color(255, 255, 204));
-//                Component controlsComponent
-//                        = MediaPlayerMain.this.player.getControlPanelComponent();
+//                Component controlsComponent = MediaPlayerMain.this.player.getControlPanelComponent();
 //
-//                if (controlsComponent != null)
-//                {
+//                if (controlsComponent != null) {
 //                    c.add(controlsComponent, BorderLayout.SOUTH);
 //                }
 //
@@ -85,16 +75,13 @@
 //
 //    private Player player;
 //
-//    private MediaPlayerMain()
-//    {
+//    private MediaPlayerMain() {
 //        super("Demonstrating the Java Media Player");
 //
 //        JButton openFile = new JButton("Open file to play");
-//        openFile.addActionListener(new ActionListener()
-//        {
+//        openFile.addActionListener(new ActionListener() {
 //            @Override
-//            public void actionPerformed(final ActionEvent e)
-//            {
+//            public void actionPerformed(final ActionEvent event) {
 //                openFile();
 //                createPlayer();
 //            }
@@ -106,52 +93,42 @@
 //        setVisible(true);
 //    }
 //
-//    private void createPlayer()
-//    {
-//        if (this.file == null)
-//        {
+//    private void createPlayer() {
+//        if (this.file == null) {
 //            return;
 //        }
 //
 //        removePreviousPlayer();
 //
-//        try
-//        {
+//        try {
 //            // create a new player and add listener
 //            this.player = Manager.createPlayer(this.file.toURI().toURL());
 //            this.player.addControllerListener(new EventHandler());
 //            this.player.realize();
 //            this.player.start(); // start player
 //        }
-//        catch (Exception e)
-//        {
-//            JOptionPane.showMessageDialog(this, "Invalid file or location", "Error loading file",
-//                    JOptionPane.ERROR_MESSAGE);
+//        catch (Exception ex) {
+//            JOptionPane.showMessageDialog(this, "Invalid file or location", "Error loading file", JOptionPane.ERROR_MESSAGE);
 //        }
 //    }
 //
-//    private void openFile()
-//    {
+//    private void openFile() {
 //        JFileChooser fileChooser = new JFileChooser();
 //
 //        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 //        int result = fileChooser.showOpenDialog(this);
 //
 //        // user clicked Cancel button on dialog
-//        if (result == JFileChooser.CANCEL_OPTION)
-//        {
+//        if (result == JFileChooser.CANCEL_OPTION) {
 //            this.file = null;
 //        }
-//        else
-//        {
+//        else {
 //            this.file = fileChooser.getSelectedFile();
 //        }
 //    }
 //
-//    private void removePreviousPlayer()
-//    {
-//        if (this.player == null)
-//        {
+//    private void removePreviousPlayer() {
+//        if (this.player == null) {
 //            return;
 //        }
 //
@@ -162,13 +139,11 @@
 //
 //        Container c = getContentPane();
 //
-//        if (visual != null)
-//        {
+//        if (visual != null) {
 //            c.remove(visual);
 //        }
 //
-//        if (control != null)
-//        {
+//        if (control != null) {
 //            c.remove(control);
 //        }
 //    }

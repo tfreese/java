@@ -47,7 +47,7 @@ public final class FailsafeMain {
         // ipBlock(circuitBreaker);
     }
 
-    private static void fallback(final CircuitBreaker<Object> circuitBreaker) throws Exception {
+    static void fallback(final CircuitBreaker<Object> circuitBreaker) throws Exception {
         final RetryPolicy<Object> retryPolicy = RetryPolicy.builder()
                 .withMaxRetries(2)
                 .withDelay(Duration.ofSeconds(1L))
@@ -105,7 +105,7 @@ public final class FailsafeMain {
         printMetrics(circuitBreaker);
     }
 
-    private static void ipBlock(final CircuitBreaker<Object> circuitBreaker) throws Exception {
+    static void ipBlock(final CircuitBreaker<Object> circuitBreaker) throws Exception {
         final Fallback<Object> fallback = Fallback.ofException(event -> new Exception("ERROR: Your IP is blocked !", event.getLastException()));
 
         // Ausführung in umgekehrter Reihenfolge: CircuitBreaker -> Fallback

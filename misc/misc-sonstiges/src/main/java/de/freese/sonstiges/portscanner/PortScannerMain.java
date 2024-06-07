@@ -74,31 +74,32 @@ public final class PortScannerMain {
             LOGGER.info(String.format("host: %s, ports: %d-%d, threads: %d", host, firstPort, lastPort, threads));
         }
 
-        final ExecutorService executor = Executors.newFixedThreadPool(threads);
-        // new ThreadPoolExecutor(1, threads, 5L, TimeUnit.SECONDS,
-        // new SynchronousQueue<Runnable>(), new ThreadPoolExecutor.CallerRunsPolicy());
+        try (ExecutorService executor = Executors.newFixedThreadPool(threads)) {
+            // new ThreadPoolExecutor(1, threads, 5L, TimeUnit.SECONDS,
+            // new SynchronousQueue<Runnable>(), new ThreadPoolExecutor.CallerRunsPolicy());
 
-        final Map<Integer, Port> openPorts = Collections.synchronizedMap(new TreeMap<>());
+            final Map<Integer, Port> openPorts = Collections.synchronizedMap(new TreeMap<>());
 
-        for (int port = firstPort; port < (lastPort + 1); port++) {
-            executor.execute(new Port(openPorts, host, port));
-        }
-
-        executor.execute(() -> {
-            LOGGER.info("ThreadPool (Active): {}", ((ThreadPoolExecutor) executor).getActiveCount());
-            LOGGER.info("ThreadPool (Tasks): {}", ((ThreadPoolExecutor) executor).getTaskCount());
-            LOGGER.info("ThreadPool (Queue): {}", ((ThreadPoolExecutor) executor).getQueue().size());
-
-            executor.shutdown();
-
-            LOGGER.info("");
-
-            for (Port port : openPorts.values()) {
-                LOGGER.info("Open Port on {}", port);
+            for (int port = firstPort; port < (lastPort + 1); port++) {
+                executor.execute(new Port(openPorts, host, port));
             }
 
-            openPorts.clear();
-        });
+            executor.execute(() -> {
+                LOGGER.info("ThreadPool (Active): {}", ((ThreadPoolExecutor) executor).getActiveCount());
+                LOGGER.info("ThreadPool (Tasks): {}", ((ThreadPoolExecutor) executor).getTaskCount());
+                LOGGER.info("ThreadPool (Queue): {}", ((ThreadPoolExecutor) executor).getQueue().size());
+
+                executor.shutdown();
+
+                LOGGER.info("");
+
+                for (Port port : openPorts.values()) {
+                    LOGGER.info("Open Port on {}", port);
+                }
+
+                openPorts.clear();
+            });
+        }
     }
 
     private static void badArg(final String param) {

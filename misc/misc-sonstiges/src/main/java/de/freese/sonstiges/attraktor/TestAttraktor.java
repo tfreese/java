@@ -30,27 +30,27 @@ public class TestAttraktor extends JComponent implements Runnable {
     private static final long serialVersionUID = 1852796219960955003L;
 
     public static void main(final String[] args) {
-        final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(3);
+        try (ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(3)) {
+            final JFrame frame = new JFrame();
+            frame.setTitle("TestFrame");
+            frame.setLayout(new BorderLayout());
+            frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            frame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(final WindowEvent e) {
+                    scheduledExecutorService.shutdownNow();
+                }
+            });
 
-        final JFrame frame = new JFrame();
-        frame.setTitle("TestFrame");
-        frame.setLayout(new BorderLayout());
-        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(final WindowEvent e) {
-                scheduledExecutorService.shutdownNow();
-            }
-        });
+            final TestAttraktor canvas = new TestAttraktor();
+            // canvas.run();
+            scheduledExecutorService.scheduleWithFixedDelay(canvas, 1000, 500, TimeUnit.MILLISECONDS);
 
-        final TestAttraktor canvas = new TestAttraktor();
-        frame.add(canvas);
-        frame.setSize(800, 800);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-
-        // canvas.run();
-        scheduledExecutorService.scheduleWithFixedDelay(canvas, 1000, 500, TimeUnit.MILLISECONDS);
+            frame.add(canvas);
+            frame.setSize(800, 800);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        }
     }
 
     private final transient Image image;

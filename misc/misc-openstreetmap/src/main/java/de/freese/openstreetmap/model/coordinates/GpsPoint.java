@@ -19,7 +19,6 @@ import de.freese.openstreetmap.model.projection.Projection;
  * @author Thomas Freese
  */
 public class GpsPoint {
-    private static final SimpleDateFormat SDF_TO_DATE = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
     /**
      * The actual coordinates.
      */
@@ -52,7 +51,7 @@ public class GpsPoint {
         super();
 
         this.latLon = ll;
-        this.time = SDF_TO_DATE.parse(timestamp);
+        this.time = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(timestamp);
     }
 
     /**

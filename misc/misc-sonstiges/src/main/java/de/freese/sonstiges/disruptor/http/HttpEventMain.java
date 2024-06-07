@@ -72,7 +72,7 @@ public final class HttpEventMain {
     private HttpEventProducer producer;
     private Selector selector;
 
-    private HttpEventMain(final InetAddress address, final int port) throws IOException {
+    private HttpEventMain(final InetAddress address, final int port) {
         super();
 
         this.address = address;

@@ -29,7 +29,9 @@ public class LongHandler extends AbstractLoadBalancedEventHandler<LongEvent> {
         }
         catch (InterruptedException ex) {
             getLogger().error(ex.getMessage(), ex);
+
+            // Restore interrupted state.
+            Thread.currentThread().interrupt();
         }
     }
-
 }

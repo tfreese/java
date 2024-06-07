@@ -1,7 +1,7 @@
 package de.freese.sonstiges.producerconsumer;
 
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -90,18 +90,18 @@ public final class ProducerConsumerBlockingQueue {
         final BlockingQueue<Integer> queue = new LinkedBlockingQueue<>(5);
         // final BlockingQueue<Integer> queue = new SynchronousQueue<>();
 
-        final Executor executor = Executors.newCachedThreadPool();
+        try (ExecutorService executorService = Executors.newCachedThreadPool()) {
+            // Producer starten
+            for (int i = 0; i < 1; i++) {
+                executorService.execute(new Producer(queue, i + 1));
+            }
 
-        // Producer starten
-        for (int i = 0; i < 1; i++) {
-            executor.execute(new Producer(queue, i + 1));
-        }
+            TimeUnit.MILLISECONDS.sleep(500);
 
-        TimeUnit.MILLISECONDS.sleep(500);
-
-        // Consumer starten
-        for (int i = 0; i < 2; i++) {
-            executor.execute(new Consumer(queue, i + 1));
+            // Consumer starten
+            for (int i = 0; i < 2; i++) {
+                executorService.execute(new Consumer(queue, i + 1));
+            }
         }
     }
 

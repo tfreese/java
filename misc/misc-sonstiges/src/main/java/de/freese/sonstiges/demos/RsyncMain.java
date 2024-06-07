@@ -75,6 +75,12 @@ public final class RsyncMain {
             final int exitVal = process.waitFor();
             System.out.println("Exit value: " + exitVal);
         }
+        catch (InterruptedException ex) {
+            ex.printStackTrace();
+
+            // Restore interrupted state.
+            Thread.currentThread().interrupt();
+        }
         catch (Exception ex) {
             ex.printStackTrace();
         }

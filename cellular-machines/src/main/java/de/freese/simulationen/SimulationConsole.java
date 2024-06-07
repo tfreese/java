@@ -41,10 +41,8 @@ class SimulationConsole {
         final int cpus = Runtime.getRuntime().availableProcessors();
 
         // Jeder CPU-Kern soll ausgelastet werden, wenn die Queue voll ist, wird die Grafik im Caller verarbeitet.
-        final ExecutorService executorService = new ThreadPoolExecutor(cpus, cpus, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(cpus),
-                new ThreadPoolExecutor.CallerRunsPolicy());
-
-        try {
+        try (ExecutorService executorService = new ThreadPoolExecutor(cpus, cpus, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(cpus),
+                new ThreadPoolExecutor.CallerRunsPolicy())) {
             final Simulation simulation = switch (type) {
                 case ANTS -> new AntRasterSimulation(width, height);
                 case GAME_OF_LIFE -> new GoFRasterSimulation(width, height);
@@ -94,9 +92,6 @@ class SimulationConsole {
             LOGGER.error(ex.getMessage(), ex);
 
             System.exit(-1);
-        }
-        finally {
-            SimulationEnvironment.shutdown(executorService, LOGGER);
         }
 
         System.exit(0);

@@ -27,17 +27,14 @@ public final class CaffeineMain {
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
 
-        final ExecutorService executorService = Executors.newFixedThreadPool(3);
-        final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(3);
-
-        try {
+        try (ExecutorService executorService = Executors.newFixedThreadPool(3);
+             ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(3)) {
             final CacheLoader<String, String> cacheLoader = key -> {
                 LOGGER.info("CacheLoader: {}", key);
 
-                //                if (System.currentTimeMillis() % 2 == 0)
-                //                {
-                //                    throw new Exception("CacheLoader Exception");
-                //                }
+                // if (System.currentTimeMillis() % 2 == 0) {
+                //     throw new Exception("CacheLoader Exception");
+                // }
 
                 return key.toUpperCase();
             };
@@ -79,12 +76,14 @@ public final class CaffeineMain {
             // Time for cleanup.
             TimeUnit.SECONDS.sleep(1);
         }
+        catch (InterruptedException ex) {
+            LOGGER.error(ex.getMessage(), ex);
+
+            // Restore interrupted state.
+            Thread.currentThread().interrupt();
+        }
         catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
-        }
-        finally {
-            executorService.shutdown();
-            scheduledExecutorService.shutdown();
         }
     }
 
