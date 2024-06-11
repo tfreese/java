@@ -36,11 +36,11 @@ public final class CaffeineMain {
                 //     throw new Exception("CacheLoader Exception");
                 // }
 
-                return key.toUpperCase();
+                return key.toLowerCase() + "Value";
             };
 
             final LoadingCache<String, String> cache = Caffeine.newBuilder()
-                    .expireAfterWrite(3, TimeUnit.SECONDS)
+                    .expireAfterAccess(3, TimeUnit.SECONDS)
                     .refreshAfterWrite(1, TimeUnit.SECONDS)
                     .maximumSize(100)
                     .weakKeys()
@@ -48,8 +48,8 @@ public final class CaffeineMain {
                     .recordStats()
                     .executor(executorService)
                     .scheduler(Scheduler.forScheduledExecutorService(scheduledExecutorService))
-                    .evictionListener((key, value, cause) -> LOGGER.info("Eviction: {} - {} - {}", cause, key, value))
-                    .removalListener((key, value, cause) -> LOGGER.info("Removal: {} - {} - {}", cause, key, value))
+                    .evictionListener((key, value, cause) -> LOGGER.info("Eviction: {} - {} = {}", cause, key, value))
+                    .removalListener((key, value, cause) -> LOGGER.info("Removal: {} - {} = {}", cause, key, value))
                     .build(cacheLoader);
 
             cache.get("a");
