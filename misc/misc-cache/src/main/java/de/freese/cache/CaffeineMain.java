@@ -41,7 +41,6 @@ public final class CaffeineMain {
 
             final LoadingCache<String, String> cache = Caffeine.newBuilder()
                     .expireAfterAccess(3, TimeUnit.SECONDS)
-                    .refreshAfterWrite(1, TimeUnit.SECONDS)
                     .maximumSize(100)
                     .weakKeys()
                     .weakValues()
