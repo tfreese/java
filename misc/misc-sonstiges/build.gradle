@@ -135,7 +135,6 @@ tasks.register("genJaxb") {
                     binding: binding,
                     package: "de.freese.xjc.golfcountryclub",
                     encoding: compileJava.options.encoding,
-                    readonly: true,
                     extension: true) {
                 arg(value: "-npa")
             }
@@ -145,7 +144,6 @@ tasks.register("genJaxb") {
                     binding: binding,
                     package: "de.freese.xjc.phonebanking",
                     encoding: compileJava.options.encoding,
-                    readonly: true,
                     extension: true) {
                 arg(value: "-npa")
             }
@@ -165,7 +163,6 @@ tasks.register("genJaxb") {
                     binding: binding,
                     package: "de.freese.xjc.spacewargame",
                     encoding: compileJava.options.encoding,
-                    readonly: true,
                     extension: true) {
                 arg(value: "-npa")
             }
