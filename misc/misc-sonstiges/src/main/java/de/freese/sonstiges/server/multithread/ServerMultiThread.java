@@ -8,7 +8,6 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.spi.SelectorProvider;
 import java.util.Objects;
 
-import de.freese.sonstiges.NamedThreadFactory;
 import de.freese.sonstiges.server.AbstractServer;
 import de.freese.sonstiges.server.handler.IoHandler;
 import de.freese.sonstiges.server.multithread.dispatcher.Dispatcher;
@@ -88,7 +87,8 @@ public class ServerMultiThread extends AbstractServer {
             // Create Acceptor.
             this.acceptor = new Acceptor(this.selectorProvider.openSelector(), this.serverSocketChannel, this.dispatcherPool);
 
-            final Thread thread = new NamedThreadFactory(getName() + "-acceptor-%d").newThread(this.acceptor);
+            // final Thread thread = new NamedThreadFactory(getName() + "-acceptor-%d").newThread(this.acceptor);
+            final Thread thread = Thread.ofPlatform().daemon().name(getName() + "-acceptor-", 1).factory().newThread(this.acceptor);
             getLogger().debug("start {}", thread.getName());
             thread.start();
 

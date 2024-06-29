@@ -404,7 +404,7 @@ public final class MiscMain {
 
         System.out.println();
 
-        for (Path path : List.of(Paths.get("pom.xml"), Paths.get(System.getProperty("user.home"), ".xinitrc"), Paths.get(System.getProperty("user.home"), ".m2", "settings.xml"),
+        for (Path path : List.of(Paths.get("build.gradle"), Paths.get(System.getProperty("user.home"), ".xinitrc"),
                 Paths.get(System.getProperty("java.io.tmpdir")))) {
             System.out.println("Path: " + path + ", Size=" + Files.size(path));
             System.out.println("Path Root: " + path.getRoot());
@@ -1438,8 +1438,8 @@ public final class MiscMain {
     static void zip() throws Exception {
         // De-/Compress a Stream with GZIPOutputStream, GZIPInputStream.
 
-        final Path source = Paths.get(System.getProperty("user.dir"), "pom.xml");
-        final Path target = Paths.get(System.getProperty("java.io.tmpdir"), "pom.zip");
+        final Path source = Paths.get(System.getProperty("user.dir"), "build.gradle");
+        final Path target = Paths.get(System.getProperty("java.io.tmpdir"), "build.zip");
 
         // Create Zip Archive.
         try (InputStream inputStream = Files.newInputStream(source);
@@ -1474,8 +1474,8 @@ public final class MiscMain {
             while ((zipEntry = zipInputStream.getNextEntry()) != null) {
                 System.out.println("zipEntry = " + zipEntry);
 
-                if ("folder/pom.xml".equals(zipEntry.getName())) {
-                    try (OutputStream outputStream = Files.newOutputStream(target.getParent().resolve("my-pom-1.xml"), StandardOpenOption.CREATE,
+                if ("folder/build.gradle".equals(zipEntry.getName())) {
+                    try (OutputStream outputStream = Files.newOutputStream(target.getParent().resolve("build-1.gradle"), StandardOpenOption.CREATE,
                             StandardOpenOption.TRUNCATE_EXISTING)) {
                         zipInputStream.transferTo(outputStream);
                     }
@@ -1488,8 +1488,8 @@ public final class MiscMain {
         // Alternative
         try (ZipFile zipFile = new ZipFile(target.toFile(), StandardCharsets.UTF_8)) {
 
-            //            ZipEntry zipEntry = zipFile.getEntry("folder/pom.xml");
-            //            Stream<? extends ZipEntry> entries = zipFile.stream();
+            // final ZipEntry zipEntry = zipFile.getEntry("folder/build.gradle");
+            // final Stream<? extends ZipEntry> entries = zipFile.stream();
 
             final Enumeration<? extends ZipEntry> entries = zipFile.entries();
 
@@ -1497,8 +1497,8 @@ public final class MiscMain {
                 final ZipEntry zipEntry = entries.nextElement();
                 System.out.println("zipEntry = " + zipEntry);
 
-                if ("folder/pom.xml".equals(zipEntry.getName())) {
-                    try (OutputStream outputStream = Files.newOutputStream(target.getParent().resolve("my-pom-2.xml"), StandardOpenOption.CREATE,
+                if ("folder/build.gradle".equals(zipEntry.getName())) {
+                    try (OutputStream outputStream = Files.newOutputStream(target.getParent().resolve("build-2.gradle"), StandardOpenOption.CREATE,
                             StandardOpenOption.TRUNCATE_EXISTING);
                          InputStream inputStream = zipFile.getInputStream(zipEntry)) {
                         inputStream.transferTo(outputStream);

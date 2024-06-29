@@ -14,7 +14,6 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.sonstiges.NamedThreadFactory;
 import de.freese.sonstiges.server.handler.IoHandler;
 
 /**
@@ -61,8 +60,10 @@ public class DispatcherPool implements Dispatcher {
     }
 
     public void start(final IoHandler<SelectionKey> ioHandler, final SelectorProvider selectorProvider, final String serverName) throws Exception {
-        final ThreadFactory threadFactoryDispatcher = new NamedThreadFactory(serverName + "-dispatcher-%d");
-        final ThreadFactory threadFactoryWorker = new NamedThreadFactory(serverName + "-worker-%d");
+        // final ThreadFactory threadFactoryDispatcher = new NamedThreadFactory(serverName + "-dispatcher-%d");
+        // final ThreadFactory threadFactoryWorker = new NamedThreadFactory(serverName + "-worker-%d");
+        final ThreadFactory threadFactoryDispatcher = Thread.ofPlatform().daemon().name(serverName + "-dispatcher-", 1).factory();
+        final ThreadFactory threadFactoryWorker = Thread.ofPlatform().daemon().name(serverName + "-worker-", 1).factory();
 
         // this.executorServiceWorker = new ThreadPoolExecutor(1, this.numOfWorker, 60L, TimeUnit.SECONDS, new SynchronousQueue<>(), threadFactoryWorker);
         this.executorServiceWorker = Executors.newFixedThreadPool(this.numOfWorker, threadFactoryWorker);

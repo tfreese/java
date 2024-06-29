@@ -26,16 +26,8 @@ public final class ShowDevicesMain {
         System.out.println();
         System.out.println("ShowDevicesMain.showFileStoreFromPath()");
 
-        Path path = Paths.get("pom.xml");
-        FileStore fileStore = Files.getFileStore(path);
-        System.out.printf("FileStore from %s: %s, %s%n", path, fileStore.name(), fileStore.type());
-
-        path = Paths.get(System.getProperty("user.home"), ".m2", "settings.xml");
-        fileStore = Files.getFileStore(path);
-        System.out.printf("FileStore from %s: %s, %s%n", path, fileStore.name(), fileStore.type());
-
-        path = Paths.get(System.getProperty("user.home"), "dokumente", "Ausgaben.pdf");
-        fileStore = Files.getFileStore(path);
+        final Path path = Paths.get("build.gradle");
+        final FileStore fileStore = Files.getFileStore(path);
         System.out.printf("FileStore from %s: %s, %s%n", path, fileStore.name(), fileStore.type());
     }
 
