@@ -8,3 +8,5 @@ description = "An alternative for Swing like the Binding in JavaFX."
 dependencies {
     api("org.slf4j:slf4j-api")
 }
+
+build.finalizedBy("publishToMavenLocal")
