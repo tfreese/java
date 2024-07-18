@@ -1,6 +1,8 @@
 // Created: 07.08.2003
 package de.freese.sonstiges.sound.midi;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiSystem;
@@ -14,8 +16,12 @@ import javax.sound.midi.Track;
  * @author Thomas Freese
  */
 public final class SequencerSoundMain {
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws Exception {
         new SequencerSoundMain();
+
+        TimeUnit.MILLISECONDS.sleep(8000);
+
+        System.exit(0);
     }
 
     private Sequence sequence;
