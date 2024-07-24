@@ -47,12 +47,11 @@ public final class JmxMain {
         // Siehe auch org.springframework.jmx.support.JmxUtils
 
         try (ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5)) {
-
             final MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
 
             // Eigene MBean registrieren.
             mBeanServer.registerMBean((DateMXBean) () -> LocalDateTime.now().toString(), new ObjectName("bean:name=dateBean"));
-            //        DateMXBean dateBeanProxy = JMX.newMBeanProxy(mBeanServer, new ObjectName("bean:name=dateBean"), DateMXBean.class);
+            // final DateMXBean dateBeanProxy = JMX.newMBeanProxy(mBeanServer, new ObjectName("bean:name=dateBean"), DateMXBean.class);
 
             final HikariConfig config = new HikariConfig();
             config.setDriverClassName(DatabaseDriver.H2.getDriverClassName());
@@ -66,6 +65,10 @@ public final class JmxMain {
             config.setRegisterMbeans(true);
 
             final HikariDataSource dataSource = new HikariDataSource(config);
+
+            // Trigger Hikari initialisation.
+            dataSource.getConnection().close();
+
             final ObjectName poolName = new ObjectName("com.zaxxer.hikari:type=Pool (" + config.getPoolName() + ")");
             final HikariPoolMXBean poolProxy = JMX.newMXBeanProxy(mBeanServer, poolName, HikariPoolMXBean.class);
 
@@ -75,8 +78,11 @@ public final class JmxMain {
                         LOGGER.info("Hikari not initialized, please wait...");
                     }
                     else {
-                        LOGGER.info("HikariPoolState: Active={}; Idle={}, Wait={}, Total={}", poolProxy.getActiveConnections(), poolProxy.getIdleConnections(),
-                                poolProxy.getThreadsAwaitingConnection(), poolProxy.getTotalConnections());
+                        LOGGER.info("HikariPoolState: Active={}; Idle={}, Total={}, WaitingThreads={}",
+                                poolProxy.getActiveConnections(),
+                                poolProxy.getIdleConnections(),
+                                poolProxy.getTotalConnections(),
+                                poolProxy.getThreadsAwaitingConnection());
                     }
                 }
                 catch (Throwable ex) {
@@ -91,8 +97,11 @@ public final class JmxMain {
                     LOGGER.info("ActiveConnections = {}", mbs.getAttribute(on, "ActiveConnections"));
                     LOGGER.info("IdleConnections = {}", mbs.getAttribute(on, "IdleConnections"));
 
-                    //                LOGGER.info("DateBean: {}", mBeanServer.invoke(ObjectName.getInstance("bean:name=dateBean"), "getCurrentTime", null, null));
+                    final DateMXBean dateMXBeanProxy = JMX.newMXBeanProxy(mbs, new ObjectName("bean:name=dateBean"), DateMXBean.class);
+                    LOGGER.info("DateBean: {}", dateMXBeanProxy.getCurrentTime());
                     LOGGER.info("DateBean: {}", mBeanServer.getAttribute(ObjectName.getInstance("bean:name=dateBean"), "CurrentTime"));
+                    // LOGGER.info("DateBean: {}", mBeanServer.invoke(ObjectName.getInstance("bean:name=dateBean"), "getCurrentTime", null, null));
+
                 }
                 catch (Exception ex) {
                     LOGGER.error(ex.getMessage());
@@ -100,7 +109,7 @@ public final class JmxMain {
             }, 1L, 3L, TimeUnit.SECONDS);
 
             final Callable<Void> job = () -> {
-                final String query = "VALUES (NOW())";
+                final String query = "VALUES NOW()";
                 // final String query = DatabaseDriver.H2.getValidationQuery();
 
                 for (int i = 0; i < 10; i++) {
@@ -124,11 +133,10 @@ public final class JmxMain {
             final Future<Void> future2 = scheduledExecutorService.submit(job);
 
             // Avoid Terminating
-            //        System.in.read();
+            // System.in.read();
             future1.get();
             future2.get();
 
-            scheduledExecutorService.shutdown();
             dataSource.close();
 
             System.exit(0);

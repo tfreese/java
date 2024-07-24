@@ -27,7 +27,14 @@ subprojects {
             dependency("com.lmax:disruptor:$version_disruptor")
             dependency("dev.failsafe:failsafe:$version_failsafe")
             dependency("org.apache.commons:commons-compress:$version_commonsCompress")
-            dependency("org.apache.lucene:lucene-analyzers-common:$version_lucene")
+
+            dependency("org.apache.lucene:lucene-queryparser:$version_lucene")
+            // dependency("org.apache.lucene:version_luceneAnalysisCommon:$version_luceneAnalysisCommon")
+
+            dependencySet(group: "org.apache.lucene", version: "$version_lucene") {
+                entry "lucene-analysis-common"
+                entry "lucene-queryparser"
+            }
 
             dependencySet(group: "org.apache.maven", version: "$version_maven") {
                 entry "maven-model-builder"

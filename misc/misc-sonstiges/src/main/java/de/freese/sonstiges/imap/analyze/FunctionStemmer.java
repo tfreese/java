@@ -7,7 +7,6 @@ import java.util.function.UnaryOperator;
 
 import org.apache.lucene.analysis.de.GermanLightStemmer;
 import org.apache.lucene.analysis.en.EnglishMinimalStemmer;
-import org.tartarus.snowball.SnowballProgram;
 import org.tartarus.snowball.ext.EnglishStemmer;
 import org.tartarus.snowball.ext.German2Stemmer;
 
@@ -33,8 +32,12 @@ public class FunctionStemmer implements UnaryOperator<String> {
      *
      * @author Thomas Freese
      */
-    @FunctionalInterface
-    private interface Stemmer {
+    private interface Stemmer extends UnaryOperator<String> {
+        @Override
+        default String apply(final String s) {
+            return stem(s);
+        }
+
         String stem(String token);
     }
 
@@ -42,7 +45,6 @@ public class FunctionStemmer implements UnaryOperator<String> {
      * @author Thomas Freese
      */
     static class LuceneEnglishMinimalStemmer implements Stemmer {
-
         /**
          * org.apache.lucene.analysis.en.PorterStemmer
          */
@@ -61,7 +63,6 @@ public class FunctionStemmer implements UnaryOperator<String> {
      * @author Thomas Freese
      */
     static class LuceneGermanLightStemmer implements Stemmer {
-
         private final GermanLightStemmer impl = new GermanLightStemmer();
 
         @Override
@@ -77,8 +78,7 @@ public class FunctionStemmer implements UnaryOperator<String> {
      * @author Thomas Freese
      */
     static class SnowballEnglishStemmer implements Stemmer {
-
-        private final SnowballProgram impl = new EnglishStemmer();
+        private final EnglishStemmer impl = new EnglishStemmer();
 
         @Override
         public String stem(final String token) {
@@ -93,8 +93,7 @@ public class FunctionStemmer implements UnaryOperator<String> {
      * @author Thomas Freese
      */
     static class SnowballGerman2Stemmer implements Stemmer {
-
-        private final SnowballProgram impl = new German2Stemmer();
+        private final German2Stemmer impl = new German2Stemmer();
 
         @Override
         public String stem(final String token) {
