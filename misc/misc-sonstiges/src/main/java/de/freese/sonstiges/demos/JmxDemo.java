@@ -27,8 +27,8 @@ import org.springframework.boot.jdbc.DatabaseDriver;
 /**
  * @author Thomas Freese
  */
-public final class JmxMain {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JmxMain.class);
+public final class JmxDemo {
+    private static final Logger LOGGER = LoggerFactory.getLogger(JmxDemo.class);
 
     private static final Random RANDOM = new Random();
 
@@ -143,7 +143,7 @@ public final class JmxMain {
         }
     }
 
-    private JmxMain() {
+    private JmxDemo() {
         super();
     }
 }

@@ -3,7 +3,7 @@ package de.freese.sonstiges.demos;
 /**
  * @author Thomas Freese
  */
-public final class SlidingWindowMain {
+public final class SlidingWindowDemo {
     public static void main(final String[] args) {
         int[] arr = new int[]{2, 3};
         int windowSize = 3;
@@ -48,7 +48,7 @@ public final class SlidingWindowMain {
         return maxSum;
     }
 
-    private SlidingWindowMain() {
+    private SlidingWindowDemo() {
         super();
     }
 }

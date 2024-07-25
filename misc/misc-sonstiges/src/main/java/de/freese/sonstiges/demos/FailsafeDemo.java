@@ -23,8 +23,8 @@ import de.freese.sonstiges.NamedThreadFactory;
 /**
  * @author Thomas Freese
  */
-public final class FailsafeMain {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FailsafeMain.class);
+public final class FailsafeDemo {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FailsafeDemo.class);
 
     public static void main(final String[] args) throws Exception {
         final CircuitBreaker<Object> circuitBreaker = CircuitBreaker.builder()
@@ -166,7 +166,7 @@ public final class FailsafeMain {
         System.out.println("SuccessRate = " + circuitBreaker.getSuccessRate());
     }
 
-    private FailsafeMain() {
+    private FailsafeDemo() {
         super();
     }
 }

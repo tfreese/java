@@ -14,7 +14,7 @@ import javax.swing.filechooser.FileSystemView;
 /**
  * @author Thomas Freese
  */
-public final class ShowDevicesMain {
+public final class ShowDevicesDemo {
     public static void main(final String[] args) throws Exception {
         showFileStores();
         showRootDirectories();
@@ -24,7 +24,7 @@ public final class ShowDevicesMain {
 
     private static void showFileStoreFromPath() throws Exception {
         System.out.println();
-        System.out.println("ShowDevicesMain.showFileStoreFromPath()");
+        System.out.println("ShowDevicesDemo.showFileStoreFromPath()");
 
         final Path path = Paths.get("build.gradle");
         final FileStore fileStore = Files.getFileStore(path);
@@ -33,7 +33,7 @@ public final class ShowDevicesMain {
 
     private static void showFileStores() {
         System.out.println();
-        System.out.println("ShowDevicesMain.showFileStores()");
+        System.out.println("ShowDevicesDemo.showFileStores()");
 
         for (FileStore store : FileSystems.getDefault().getFileStores()) {
             System.out.printf("%s: %s%n", store.name(), store.type());
@@ -42,7 +42,7 @@ public final class ShowDevicesMain {
 
     private static void showRootDirectories() throws Exception {
         System.out.println();
-        System.out.println("ShowDevicesMain.showRootDirectories()");
+        System.out.println("ShowDevicesDemo.showRootDirectories()");
 
         for (Path root : FileSystems.getDefault().getRootDirectories()) {
             final FileStore fileStore = Files.getFileStore(root);
@@ -53,7 +53,7 @@ public final class ShowDevicesMain {
 
     private static void showRootsFromFileSystemView() {
         System.out.println();
-        System.out.println("ShowDevicesMain.showRootsFromFileSystemView()");
+        System.out.println("ShowDevicesDemo.showRootsFromFileSystemView()");
 
         final FileSystemView fsv = FileSystemView.getFileSystemView();
 
@@ -74,7 +74,7 @@ public final class ShowDevicesMain {
         }
     }
 
-    private ShowDevicesMain() {
+    private ShowDevicesDemo() {
         super();
     }
 }

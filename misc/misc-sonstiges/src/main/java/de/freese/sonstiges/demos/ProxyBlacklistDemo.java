@@ -44,9 +44,9 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public final class ProxyBlacklistMain {
+public final class ProxyBlacklistDemo {
     private static final CompletionService<Set<String>> COMPLETION_SERVICE = new ExecutorCompletionService<>(ForkJoinPool.commonPool());
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProxyBlacklistMain.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProxyBlacklistDemo.class);
 
     private static final class HostComparator implements Comparator<String> {
         @Override
@@ -59,7 +59,7 @@ public final class ProxyBlacklistMain {
     }
 
     public static void main(final String[] args) throws Exception {
-        final ProxyBlacklistMain bl = new ProxyBlacklistMain();
+        final ProxyBlacklistDemo bl = new ProxyBlacklistDemo();
 
         final Path tempDirPath = Paths.get(System.getProperty("java.io.tmpdir"));
         final Path blackListRaw = tempDirPath.resolve("blackList.txt");
@@ -105,7 +105,7 @@ public final class ProxyBlacklistMain {
         // bl.createPrivoxyBlacklist(privoxySkriptPath, tempDirPath);
     }
 
-    private ProxyBlacklistMain() {
+    private ProxyBlacklistDemo() {
         super();
     }
 

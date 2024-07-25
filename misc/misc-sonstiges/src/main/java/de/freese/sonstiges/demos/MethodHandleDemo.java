@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
 /**
  * @author Thomas Freese
  */
-public final class MethodHandleMain {
+public final class MethodHandleDemo {
     /**
      * @author Thomas Freese
      */
@@ -103,7 +103,7 @@ public final class MethodHandleMain {
         System.out.printf("2^10 = %f%n", mh.invoke(2.0D));
     }
 
-    private MethodHandleMain() {
+    private MethodHandleDemo() {
         super();
     }
 }
