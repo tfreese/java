@@ -14,6 +14,7 @@ import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.params.provider.Arguments;
 import org.tartarus.snowball.SnowballProgram;
+import org.tartarus.snowball.SnowballStemmer;
 import org.tartarus.snowball.ext.German2Stemmer;
 import org.tartarus.snowball.ext.GermanStemmer;
 
@@ -42,9 +43,9 @@ class TestStemmer {
 
     private static Stemmer wrap(final Object stemmerImpl) {
         return switch (stemmerImpl) {
-            case SnowballProgram snowballProgram -> value -> {
-                ((SnowballProgram) stemmerImpl).setCurrent(value);
-                ((SnowballProgram) stemmerImpl).stem();
+            case SnowballStemmer snowballStemmer -> value -> {
+                ((SnowballStemmer) stemmerImpl).setCurrent(value);
+                ((SnowballStemmer) stemmerImpl).stem();
 
                 return ((SnowballProgram) stemmerImpl).getCurrent();
             };
@@ -64,17 +65,17 @@ class TestStemmer {
         };
     }
 
-    void testBaeume(final Stemmer stemmer) throws Exception {
+    void testBaeume(final Stemmer stemmer) {
         final String stem = stemmer.stem("bäume");
         assertEquals("baum", stem);
     }
 
-    void testBaum(final Stemmer stemmer) throws Exception {
+    void testBaum(final Stemmer stemmer) {
         final String stem = stemmer.stem("baum");
         assertEquals("baum", stem);
     }
 
-    void testBewaldet(final Stemmer stemmer) throws Exception {
+    void testBewaldet(final Stemmer stemmer) {
         String stem = stemmer.stem("bewaldet");
         assertEquals("bewaldet", stem);
 
@@ -102,42 +103,42 @@ class TestStemmer {
                 );
     }
 
-    void testHuehner(final Stemmer stemmer) throws Exception {
+    void testHuehner(final Stemmer stemmer) {
         final String stem = stemmer.stem("hühner");
         assertEquals("huhn", stem);
     }
 
-    void testHuhn(final Stemmer stemmer) throws Exception {
+    void testHuhn(final Stemmer stemmer) {
         final String stem = stemmer.stem("huhn");
         assertEquals("huhn", stem);
     }
 
-    void testTaegig(final Stemmer stemmer) throws Exception {
+    void testTaegig(final Stemmer stemmer) {
         final String stem = stemmer.stem("tägig");
         assertEquals("tagig", stem);
     }
 
-    void testTage(final Stemmer stemmer) throws Exception {
+    void testTage(final Stemmer stemmer) {
         final String stem = stemmer.stem("tage");
         assertEquals("tag", stem);
     }
 
-    void testTagung(final Stemmer stemmer) throws Exception {
+    void testTagung(final Stemmer stemmer) {
         final String stem = stemmer.stem("tagung");
         assertEquals("tagung", stem);
     }
 
-    void testWaelder(final Stemmer stemmer) throws Exception {
+    void testWaelder(final Stemmer stemmer) {
         final String stem = stemmer.stem("wälder");
         assertEquals("wald", stem);
     }
 
-    void testWald(final Stemmer stemmer) throws Exception {
+    void testWald(final Stemmer stemmer) {
         final String stem = stemmer.stem("wald");
         assertEquals("wald", stem);
     }
 
-    void testWeisse(final Stemmer stemmer) throws Exception {
+    void testWeisse(final Stemmer stemmer) {
         final String stem = stemmer.stem("weisse");
         assertEquals("weiss", stem);
     }
