@@ -124,6 +124,7 @@ import javax.swing.filechooser.FileSystemView;
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
 import jakarta.mail.MessagingException;
@@ -138,8 +139,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.util.function.ThrowingConsumer;
-import org.xml.sax.SAXNotRecognizedException;
-import org.xml.sax.SAXNotSupportedException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Hooks;
 import reactor.core.publisher.Mono;
@@ -764,7 +763,7 @@ public final class MiscDemo {
         }
     }
 
-    static void jarFileSystem() throws IOException, SAXNotSupportedException, SAXNotRecognizedException {
+    static void jarFileSystem() throws Exception {
         final Class<?> clazz = Logger.class;
 
         final String typeClassFilePath = clazz.getResource('/' + clazz.getName().replace('.', '/') + ".class").getFile();
@@ -792,11 +791,13 @@ public final class MiscDemo {
             final SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             schemaFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
             schemaFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-            // Schema schema = schemaFactory.newSchema(schemas);
+            final Schema schema = schemaFactory.newSchema(schemas);
 
             try (Stream<Path> paths = Files.walk(fileSystem.getPath("/META-INF"), 1)) {
                 paths.forEach(p -> LOGGER.info("{}", p));
             }
+
+            System.out.println("Schema: " + schema);
         }
     }
 
