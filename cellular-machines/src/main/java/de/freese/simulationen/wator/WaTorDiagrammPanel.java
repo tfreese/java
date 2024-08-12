@@ -61,23 +61,25 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
 
         final Font font = new Font("Arial", Font.BOLD, 12);
 
-        final ValueAxis timeAxis = new DateAxis("Zeitachse");
-        timeAxis.setLowerMargin(0.02D);
-        timeAxis.setUpperMargin(0.02D);
-        timeAxis.setAutoRange(true);
-        timeAxis.setFixedAutoRange(60 * 1000D); // 1 Minute
-        timeAxis.setTickLabelsVisible(true);
-        timeAxis.setTickLabelFont(font);
-        timeAxis.setLabelFont(font);
+        // DomainAxis
+        final ValueAxis xAxis = new DateAxis("Zeitachse");
+        xAxis.setLowerMargin(0.02D);
+        xAxis.setUpperMargin(0.02D);
+        xAxis.setAutoRange(true);
+        xAxis.setFixedAutoRange(60 * 1000D); // 1 Minute
+        xAxis.setTickLabelsVisible(true);
+        xAxis.setTickLabelFont(font);
+        xAxis.setLabelFont(font);
 
-        final NumberAxis valueAxis = new NumberAxis("Anzahl");
-        valueAxis.setAutoRangeIncludesZero(false);
-        valueAxis.setTickLabelFont(font);
-        valueAxis.setLabelFont(font);
-        // valueAxis.setAutoRange(true);
-        // valueAxis.setFixedAutoRange(10000D);
-        // valueAxis.setAutoTickUnitSelection(true);
-        // valueAxis.setRange(0.0D, 20000D);
+        // RangeAxis
+        final NumberAxis yAxis = new NumberAxis("Anzahl");
+        yAxis.setAutoRangeIncludesZero(false);
+        yAxis.setTickLabelFont(font);
+        yAxis.setLabelFont(font);
+        // yAxis.setAutoRange(true);
+        // yAxis.setFixedAutoRange(10000D);
+        // yAxis.setAutoTickUnitSelection(true);
+        // yAxis.setRange(0.0D, 20000D);
 
         final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer(true, false);
         renderer.setSeriesPaint(0, Color.GREEN);
@@ -85,7 +87,10 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
         renderer.setSeriesPaint(1, Color.BLUE);
         renderer.setSeriesStroke(1, new BasicStroke(2.5F));
 
-        final XYPlot xyplot = new XYPlot(dataset, timeAxis, valueAxis, renderer);
+        // final JFreeChart chart = ChartFactory.createXYLineChart("", "Zeitachse", "Anzahl", data, PlotOrientation.VERTICAL, true, true, false);
+        // final XYPlot plot = (XYPlot) chart.getPlot();
+
+        final XYPlot xyplot = new XYPlot(dataset, xAxis, yAxis, renderer);
 
         final JFreeChart chart = new JFreeChart(null, null, xyplot, true);
         final LegendTitle legend = chart.getLegend();
