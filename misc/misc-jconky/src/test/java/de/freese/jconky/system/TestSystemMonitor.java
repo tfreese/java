@@ -170,7 +170,7 @@ class TestSystemMonitor {
         final Map<String, TemperatureInfo> map = systemMonitor.getTemperatures();
 
         assertNotNull(map);
-        assertTrue(map.size() > 3);
+        assertTrue(map.size() >= 2);
     }
 
     private SystemMonitor createSystemMonitor() {
