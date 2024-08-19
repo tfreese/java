@@ -21,11 +21,6 @@ dependencies {
     jaxb "com.sun.xml.bind:jaxb-xjc"
     jaxb "com.sun.xml.bind:jaxb-impl"
 
-    javafx {
-        version = "$version_javafx"
-        modules = ["javafx.controls"]
-    }
-
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
     implementation("com.fasterxml.jackson.module:jackson-module-jaxb-annotations")
     implementation("com.h2database:h2")
@@ -41,7 +36,6 @@ dependencies {
     implementation("org.apache.lucene:lucene-queryparser")
     implementation("org.apache.xmlgraphics:batik-codec")
     implementation("org.apache.xmlgraphics:batik-swing")
-    implementation("org.apache.xmlgraphics:batik-transcoder")
     implementation("org.apache.velocity:velocity-engine-core")
     implementation("org.freemarker:freemarker")
     implementation("org:jaudiotagger")

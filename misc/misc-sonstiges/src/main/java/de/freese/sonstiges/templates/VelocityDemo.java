@@ -17,8 +17,8 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public final class Velocity {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Velocity.class);
+public final class VelocityDemo {
+    private static final Logger LOGGER = LoggerFactory.getLogger(VelocityDemo.class);
 
     public static void main(final String[] args) {
         final String templateFile = Paths.get("templates", "velocity", "example.vtl").toString();
@@ -26,7 +26,7 @@ public final class Velocity {
         try {
             final Properties properties = new Properties();
             properties.put("resource.loaders", "classpath");
-            properties.put("resource.loader.classpath.description", "Velocity Classpath Resource Loader");
+            properties.put("resource.loader.classpath.description", "VelocityDemo Classpath Resource Loader");
             properties.put("resource.loader.classpath.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
             properties.put("resource.loader.classpath.path", ".");
             properties.put("resource.loader.classpath.cache", "false");
@@ -36,7 +36,7 @@ public final class Velocity {
             final VelocityEngine ve = new VelocityEngine(properties);
             ve.init();
 
-            // Make a context object and populate with the data. This is where the Velocity engine gets the data to resolve the references (ex. $list) in the
+            // Make a context object and populate with the data. This is where the VelocityDemo engine gets the data to resolve the references (ex. $list) in the
             // template.
 
             final VelocityContext context = new VelocityContext();
@@ -45,7 +45,7 @@ public final class Velocity {
             context.put("PI", Math.PI);
 
             // Direkter Aufruf, wenn Template als String bereits vorliegt.
-            // Velocity.evaluate(context, stringWriter, logTag, template);
+            // VelocityDemo.evaluate(context, stringWriter, logTag, template);
 
             // get the Template object. This is the parsed version of your template input file. Note that getTemplate() can throw ResourceNotFoundException : if
             // it doesn't find the template ParseErrorException : if there is something wrong with the VTL Exception : if something else goes wrong (this is
@@ -79,7 +79,7 @@ public final class Velocity {
         }
     }
 
-    private Velocity() {
+    private VelocityDemo() {
         super();
     }
 }

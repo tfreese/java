@@ -15,8 +15,8 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public final class FreeMarker {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FreeMarker.class);
+public final class FreeMarkerDemo {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FreeMarkerDemo.class);
 
     public static void main(final String[] args) {
         final String templateFile = "example.ftl";
@@ -25,7 +25,7 @@ public final class FreeMarker {
 
             final Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
             // cfg.setTemplateLoader(new FileTemplateLoader(new File(".")));
-            // cfg.setTemplateLoader(new ClassTemplateLoader(FreeMarker.class, ""));
+            // cfg.setTemplateLoader(new ClassTemplateLoader(FreeMarkerDemo.class, ""));
             cfg.setDirectoryForTemplateLoading(Paths.get("src", "main", "resources", "templates", "freemarker").toFile());
             cfg.setNumberFormat("0.#######");
             // cfg.setObjectWrapper(ObjectWrapper.BEANS_WRAPPER);
@@ -49,7 +49,7 @@ public final class FreeMarker {
         }
     }
 
-    private FreeMarker() {
+    private FreeMarkerDemo() {
         super();
     }
 }

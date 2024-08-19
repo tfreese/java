@@ -5,8 +5,10 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serial;
 import java.net.URL;
@@ -39,12 +41,12 @@ import org.w3c.dom.svg.SVGDocument;
  * @author Thomas Freese
  * @see SVGGraphics2D
  */
-public final class SvgMain extends JFrame {
+public final class SvgDemo extends JFrame {
     @Serial
     private static final long serialVersionUID = 8384522285700890883L;
 
     public static void main(final String[] args) {
-        final SvgMain application = new SvgMain();
+        final SvgDemo application = new SvgDemo();
         application.initAndShowGUI();
 
         application.addWindowListener(new WindowAdapter() {
@@ -54,6 +56,17 @@ public final class SvgMain extends JFrame {
                 System.exit(0);
             }
         });
+    }
+
+    private static BufferedImage loadSvgImage(final InputStream inputStream, final float width, final float height) throws Exception {
+        final BufferedImageTranscoder transcoder = new BufferedImageTranscoder();
+        transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, width);
+        transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, height);
+
+        final TranscoderInput input = new TranscoderInput(inputStream);
+        transcoder.transcode(input, null);
+
+        return transcoder.getBufferedImage();
     }
 
     // private static void saveImageAsPng(final InputStream inputStream, final OutputStream outputStream, final float width, final float height)
@@ -81,7 +94,7 @@ public final class SvgMain extends JFrame {
         }
     }
 
-    private SvgMain() {
+    private SvgDemo() {
         super();
 
         setTitle("Batik");

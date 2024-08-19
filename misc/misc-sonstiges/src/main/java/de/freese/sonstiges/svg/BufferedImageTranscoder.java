@@ -10,7 +10,7 @@ import org.apache.batik.transcoder.image.ImageTranscoder;
 /**
  * @author Thomas Freese
  */
-public class BufferedImageTranscoder extends ImageTranscoder {
+public final class BufferedImageTranscoder extends ImageTranscoder {
     private BufferedImage image;
 
     @Override
