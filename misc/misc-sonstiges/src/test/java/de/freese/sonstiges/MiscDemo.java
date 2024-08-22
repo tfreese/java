@@ -89,6 +89,7 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -97,15 +98,19 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.regex.Pattern;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
@@ -135,6 +140,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -183,6 +189,7 @@ public final class MiscDemo {
         // bitValue();
         // byteBuffer();
         // collator();
+        collector();
         // dateTime();
         // displayInterfaceInformation();
         // fileWalker();
@@ -212,7 +219,7 @@ public final class MiscDemo {
         // splitList();
         // textBlocks();
         // utilLogging();
-        verifyJar();
+        // verifyJar();
         // virtualThreads();
         // zip();
 
@@ -368,6 +375,74 @@ public final class MiscDemo {
 
         System.out.println("compare: " + collator.compare("4.9", "4.11"));
         System.out.println((int) '■');
+    }
+
+    static void collector() {
+        final Collector<Pair<Double, Double>, Map<Integer, double[]>, Map<Integer, Double>> collector = new Collector<>() {
+            @Override
+            public BiConsumer<Map<Integer, double[]>, Pair<Double, Double>> accumulator() {
+                return (map, pair) -> {
+                    final int band = (int) (pair.getKey() / 250D);
+                    final double[] values = map.computeIfAbsent(band, key -> new double[2]);
+                    values[0] += pair.getValue();
+                    values[1]++;
+                };
+            }
+
+            @Override
+            public Set<Collector.Characteristics> characteristics() {
+                return Set.of();
+            }
+
+            @Override
+            public BinaryOperator<Map<Integer, double[]>> combiner() {
+                return (a, b) -> {
+                    a.forEach((key, value) -> {
+                        final double[] bValue = b.remove(key);
+
+                        if (bValue != null) {
+                            a.merge(key, bValue, (oldValue, newValue) -> {
+                                oldValue[0] += newValue[0];
+                                oldValue[1] += newValue[1];
+
+                                return oldValue;
+                            });
+                        }
+                    });
+
+                    a.putAll(b);
+
+                    return a;
+                };
+            }
+
+            @Override
+            public Function<Map<Integer, double[]>, Map<Integer, Double>> finisher() {
+                return map -> {
+                    final Map<Integer, Double> finish = new TreeMap<>();
+
+                    map.forEach((key, value) -> {
+                        final double avg = value[0] / value[1];
+                        finish.put(key, avg);
+                    });
+
+                    return finish;
+                };
+            }
+
+            @Override
+            public Supplier<Map<Integer, double[]>> supplier() {
+                return HashMap::new;
+            }
+        };
+
+        final List<Pair<Double, Double>> frequencies = List.of(Pair.of(100D, 0.2D), Pair.of(200D, 0.4D), Pair.of(300D, 0.6D), Pair.of(400D, 0.8D));
+        final Map<Integer, Double> result = frequencies.stream().parallel().collect(collector);
+
+        result.forEach((key, value) -> {
+            LOGGER.info("Band = {}", key);
+            LOGGER.info("Amp. = %.3f".formatted(value));
+        });
     }
 
     // static void datePicker() {
@@ -1608,9 +1683,9 @@ public final class MiscDemo {
                 *
                 from \
                 "table"
-
+                
                 where
-
+                
                 \t1 = 1
                     order by %s asc;
                 """.formatted("column");
