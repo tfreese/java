@@ -63,8 +63,8 @@ public final class SvgDemo extends JFrame {
         transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, width);
         transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, height);
 
-        final TranscoderInput input = new TranscoderInput(inputStream);
-        transcoder.transcode(input, null);
+        final TranscoderInput transcoderInput = new TranscoderInput(inputStream);
+        transcoder.transcode(transcoderInput, null);
 
         return transcoder.getBufferedImage();
     }
@@ -79,13 +79,13 @@ public final class SvgDemo extends JFrame {
         transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, height);
         // transcoder.addTranscodingHint(ImageTranscoder.KEY_FORCE_TRANSPARENT_WHITE, true);
 
-        // final TranscoderInput input = new TranscoderInput(inputStream);
-        final TranscoderInput input = new TranscoderInput(svgDocument);
+        // final TranscoderInput transcoderInput = new TranscoderInput(inputStream);
+        final TranscoderInput transcoderInput = new TranscoderInput(svgDocument);
 
         try {
-            final TranscoderOutput output = new TranscoderOutput(outputStream);
+            final TranscoderOutput transcoderOutput = new TranscoderOutput(outputStream);
 
-            transcoder.transcode(input, output);
+            transcoder.transcode(transcoderInput, transcoderOutput);
 
             outputStream.flush();
         }
