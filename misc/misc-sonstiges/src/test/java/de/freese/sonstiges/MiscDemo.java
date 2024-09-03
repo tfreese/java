@@ -841,8 +841,8 @@ public final class MiscDemo {
     static void jarFileSystem() throws Exception {
         final Class<?> clazz = Logger.class;
 
-        final String typeClassFilePath = clazz.getResource('/' + clazz.getName().replace('.', '/') + ".class").getFile();
-        final URI jarFileURI = URI.create(typeClassFilePath.substring(0, typeClassFilePath.indexOf(".jar!") + 4));
+        final String classFilePath = clazz.getResource('/' + clazz.getName().replace('.', '/') + ".class").getFile();
+        final URI jarFileUri = URI.create(classFilePath.substring(0, classFilePath.indexOf(".jar!") + 4));
 
         final Function<Path, Source> toSchema = (final Path path) -> {
             try {
@@ -856,7 +856,7 @@ public final class MiscDemo {
             }
         };
 
-        try (FileSystem fileSystem = FileSystems.newFileSystem(Paths.get(jarFileURI), clazz.getClassLoader())) {
+        try (FileSystem fileSystem = FileSystems.newFileSystem(Paths.get(jarFileUri), clazz.getClassLoader())) {
             Source[] schemas = null;
 
             try (Stream<Path> paths = Files.walk(fileSystem.getPath("/META-INF"), 1)) {
