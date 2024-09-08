@@ -57,7 +57,7 @@ public class MailRepository implements AutoCloseable {
         // config.setPassword("testpw");
         // config.setMinimumIdle(1);
         // config.setMaximumPoolSize(3);
-        // config.setConnectionTimeout(5 * 1000L); // Sekunden
+        // config.setConnectionTimeout(5 * 1000L); // Seconds
         // config.addDataSourceProperty("cachePrepStmts", "true");
         // config.addDataSourceProperty("prepStmtCacheSize", "250");
         // config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
