@@ -37,9 +37,11 @@ public final class XsltDemo {
     public static void main(final String[] args) {
         Path basePath = Path.of(System.getProperty("user.dir"));
 
-        if (!basePath.endsWith("misc-sonstiges")) {
-            basePath = basePath.resolve("misc").resolve("misc-sonstiges");
+        while (basePath != null && !basePath.endsWith("java")) {
+            basePath = basePath.getParent();
         }
+
+        basePath = basePath.resolve("misc").resolve("misc-sonstiges");
 
         try (InputStream inputData = Files.newInputStream(basePath.resolve("src").resolve("xslt").resolve("article.xml"));
              InputStream inputStyle = Files.newInputStream(basePath.resolve("src").resolve("xslt").resolve("article.xsl"))) {
