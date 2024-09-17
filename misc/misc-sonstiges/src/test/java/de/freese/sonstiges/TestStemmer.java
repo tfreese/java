@@ -19,7 +19,7 @@ import org.tartarus.snowball.ext.German2Stemmer;
 import org.tartarus.snowball.ext.GermanStemmer;
 
 /**
- * TestKlasse für Stemmerfilter.
+ * TestKlasse für Stemmer filter.
  *
  * @author Thomas Freese
  */

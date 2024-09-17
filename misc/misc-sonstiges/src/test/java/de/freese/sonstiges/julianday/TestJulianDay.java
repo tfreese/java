@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
  */
 class TestJulianDay {
     @Test
-    void fristBerechnungMonat() {
+    void testBerechnungMonat() {
         final Day d1 = new Day(2011, 19, 8); // 08.07.2012
         final int jd = JulianDayConverter.calculateJD(d1);
         assertEquals(2456117, jd);
@@ -26,7 +26,7 @@ class TestJulianDay {
     }
 
     @Test
-    void fristBerechnungTag() {
+    void testBerechnungTag() {
         final Day d1 = new Day(2012, 7, -2); // 28.06.2012
         final int jd = JulianDayConverter.calculateJD(d1);
         assertEquals(2456107, jd);
@@ -37,7 +37,7 @@ class TestJulianDay {
     }
 
     @Test
-    void konvertierungJavaUtilDate() {
+    void testKonvertierungJavaUtilDate() {
         final Date date = new Date(1344925513600L); // Tue Aug 14 08:25:13 CEST 2012
         final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Berlin"));
         calendar.setTime(date);
@@ -51,7 +51,7 @@ class TestJulianDay {
     }
 
     @Test
-    void readable() {
+    void testReadable() {
         final Day d1 = new Day(2011, 19, 8); // 08.07.2012
         final int readable1 = JulianDayConverter.calculateReadable(d1);
         final int jd = JulianDayConverter.calculateJD(d1);
@@ -67,7 +67,7 @@ class TestJulianDay {
     }
 
     @Test
-    void vergleich() {
+    void testVergleich() {
         final Day d1 = new Day(1990, 1, 1);
         final int jd = JulianDayConverter.calculateJD(d1);
         assertEquals(2447893, jd);
@@ -79,7 +79,7 @@ class TestJulianDay {
     }
 
     @Test
-    void wochentagsErmittlung() {
+    void testWochentagsErmittlung() {
         final Day d1 = new Day(2012, 8, 6);
         final int jd = JulianDayConverter.calculateJD(d1);
         assertEquals(0, jd % 7); // Montag == 0

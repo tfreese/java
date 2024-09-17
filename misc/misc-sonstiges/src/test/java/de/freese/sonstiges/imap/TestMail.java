@@ -71,7 +71,7 @@ class TestMail {
     }
 
     @Test
-    void testFunctionStemmer() throws Exception {
+    void testFunctionStemmer() {
         String ref = "wald";
         assertEquals(ref, FunctionStemmer.DE.apply(ref));
         assertEquals(ref, FunctionStemmer.DE.apply("wälder"));
@@ -82,7 +82,7 @@ class TestMail {
     }
 
     @Test
-    void testFunctionStripNotLetter() throws Exception {
+    void testFunctionStripNotLetter() {
         String text = "abcdefghijklmnopqrstuvwxyz";
         assertEquals(text, FunctionStripNotLetter.INSTANCE.apply(text));
 
@@ -100,7 +100,7 @@ class TestMail {
     }
 
     @Test
-    void testHtml1ToText() throws Exception {
+    void testHtml1ToText() {
         final String text = Jsoup.parse(textHtml1).text();
         printStream.println(text);
 
@@ -110,7 +110,7 @@ class TestMail {
     }
 
     @Test
-    void testHtml2ToText() throws Exception {
+    void testHtml2ToText() {
         final String text = Jsoup.parse(textHtml2).text();
         printStream.println(text);
 
@@ -120,7 +120,7 @@ class TestMail {
     }
 
     @Test
-    void testTextPlain() throws Exception {
+    void testTextPlain() {
         // String text = new Html2Text().parse(TEXT_PLAIN).getText();
         final String text = textPlain;
         printStream.println(text);
