@@ -937,8 +937,8 @@ public final class MiscDemo {
     static void json() throws IOException {
         final ObjectMapper objectMapper = new ObjectMapper()
                 .configure(SerializationFeature.INDENT_OUTPUT, true)
-                .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true)
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                .enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS)
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
         final Map<String, Map<String, String>> map = new HashMap<>();
 
@@ -961,6 +961,34 @@ public final class MiscDemo {
         // MyClass myObject = objectMapper.readValue(path.toFile(), MyClass.class);
         // MyClass[] myObjects = objectMapper.readValue(path.toFile(), MyClass[].class);
         // List<MyClass> myList = objectMapper.readValue(path.toFile(), new TypeReference<List<MyClass>>(){});
+
+        // implementation("jakarta.platform:jakarta.jakartaee-api")
+        // runtimeOnly("org.eclipse.parsson:jakarta.json")
+        // JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder()
+        //         .add("bla", "BLUB");
+        //
+        // for (String sprache : List.of("DE", "EN")) {
+        //     jsonObjectBuilder.add("name_" + sprache, "NAME_" + sprache);
+        // }
+        //
+        // JsonObject jsonObject = jsonObjectBuilder.build();
+        // // System.out.println(jsonObject.toString());
+        // Json.createWriter(System.out).writeObject(jsonObject);
+        //
+        // System.out.println();
+        //
+        // JsonWriterFactory writerFactory = Json.createWriterFactory(Map.of(JsonGenerator.PRETTY_PRINTING, true));
+        //
+        // try (StringWriter stringWriter = new StringWriter();
+        //      JsonWriter jsonWriter = writerFactory.createWriter(stringWriter)) {
+        //     jsonWriter.write(jsonObject);
+        //     stringWriter.flush();
+        //
+        //     System.out.println(stringWriter);
+        // }
+        //
+        // // WRONG: Jackson ObjectMapper <-> JAXB !!!
+        // objectMapper.writer().writeValue(System.out, jsonObject);
     }
 
     static void listDirectories() throws Exception {
