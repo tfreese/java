@@ -114,13 +114,12 @@ public final class JmxDemo {
 
                 for (int i = 0; i < 10; i++) {
                     try (Connection connection = dataSource.getConnection();
-                         Statement statement = connection.createStatement()) {
-                        try (ResultSet resultSet = statement.executeQuery(query)) {
-                            resultSet.next();
+                         Statement statement = connection.createStatement();
+                         ResultSet resultSet = statement.executeQuery(query)) {
+                        resultSet.next();
 
-                            LOGGER.info("Query: {}", resultSet.getObject(1));
-                            TimeUnit.MILLISECONDS.sleep(RANDOM.nextLong(100, 1500));
-                        }
+                        LOGGER.info("Query: {}", resultSet.getObject(1));
+                        TimeUnit.MILLISECONDS.sleep(RANDOM.nextLong(100, 1500));
                     }
 
                     TimeUnit.MILLISECONDS.sleep(1000);
