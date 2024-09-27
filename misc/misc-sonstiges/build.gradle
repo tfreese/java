@@ -119,49 +119,49 @@ tasks.register("genJaxb") {
     def destdir = layout.buildDirectory.get().dir("generated-sources").dir("xjc")
     outputs.dir destdir
 
-    doLast {
-        mkdir destdir
+    // doLast {
+    mkdir destdir
 
-        ant {
-            taskdef name: "xjc", classname: "com.sun.tools.xjc.XJCTask", classpath: configurations.jaxb.asPath
+    ant {
+        taskdef name: "xjc", classname: "com.sun.tools.xjc.XJCTask", classpath: configurations.jaxb.asPath
 
-            xjc(destdir: destdir,
-                    schema: resourcesDir.dir("GolfCountryClub").file("GolfCountryClub.xsd"),
-                    binding: binding,
-                    package: "de.freese.xjc.golfcountryclub",
-                    encoding: compileJava.options.encoding,
-                    extension: true) {
-                arg(value: "-npa")
-            }
-
-            xjc(destdir: destdir,
-                    schema: resourcesDir.dir("PhoneBanking").file("PhoneBanking.xsd"),
-                    binding: binding,
-                    package: "de.freese.xjc.phonebanking",
-                    encoding: compileJava.options.encoding,
-                    extension: true) {
-                arg(value: "-npa")
-            }
-
-            xjc(destdir: destdir,
-                    schema: resourcesDir.dir("PublicationCatalogue").file("Catalogue.xsd"),
-                    binding: binding,
-                    package: "de.freese.xjc.catalogue",
-                    encoding: compileJava.options.encoding,
-                    readonly: true,
-                    extension: true) {
-                arg(value: "-npa")
-            }
-
-            xjc(destdir: destdir,
-                    schema: resourcesDir.dir("SpaceWarGame").file("SpaceWarGame.xsd"),
-                    binding: binding,
-                    package: "de.freese.xjc.spacewargame",
-                    encoding: compileJava.options.encoding,
-                    extension: true) {
-                arg(value: "-npa")
-            }
+        xjc(destdir: destdir,
+                schema: resourcesDir.dir("GolfCountryClub").file("GolfCountryClub.xsd"),
+                binding: binding,
+                package: "de.freese.xjc.golfcountryclub",
+                encoding: compileJava.options.encoding,
+                extension: true) {
+            arg(value: "-npa")
         }
+
+        xjc(destdir: destdir,
+                schema: resourcesDir.dir("PhoneBanking").file("PhoneBanking.xsd"),
+                binding: binding,
+                package: "de.freese.xjc.phonebanking",
+                encoding: compileJava.options.encoding,
+                extension: true) {
+            arg(value: "-npa")
+        }
+
+        xjc(destdir: destdir,
+                schema: resourcesDir.dir("PublicationCatalogue").file("Catalogue.xsd"),
+                binding: binding,
+                package: "de.freese.xjc.catalogue",
+                encoding: compileJava.options.encoding,
+                readonly: true,
+                extension: true) {
+            arg(value: "-npa")
+        }
+
+        xjc(destdir: destdir,
+                schema: resourcesDir.dir("SpaceWarGame").file("SpaceWarGame.xsd"),
+                binding: binding,
+                package: "de.freese.xjc.spacewargame",
+                encoding: compileJava.options.encoding,
+                extension: true) {
+            arg(value: "-npa")
+        }
+        // }
     }
 }
 compileJava.dependsOn("xslt", "genJaxb")
