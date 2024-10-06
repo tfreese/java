@@ -4,7 +4,7 @@ package de.freese.led;
 import java.awt.Graphics;
 import java.io.Serial;
 
-import javax.swing.JPanel;
+import javax.swing.JComponent;
 
 import de.freese.led.model.element.LedElement;
 import de.freese.led.painter.LedPainter;
@@ -12,7 +12,7 @@ import de.freese.led.painter.LedPainter;
 /**
  * @author Thomas Freese
  */
-class LedPanel extends JPanel {
+class LedPanel extends JComponent {
     @Serial
     private static final long serialVersionUID = 9187009021303433483L;
 
@@ -24,12 +24,22 @@ class LedPanel extends JPanel {
         super();
 
         this.ledPainter = ledPainter;
+
+        setBackground(null);
+        setLayout(null);
+        setDoubleBuffered(true);
     }
 
-    //    @Override
-    //    public void paint(final Graphics g) {
-    //        super.paint(g);
-    //    }
+    // @Override
+    // public void paint(final Graphics g) {
+    //     super.paint(g);
+    //
+    //     ledPainter.paintOfflineDots(g, getWidth(), getHeight());
+    //
+    //     if (ledElement != null) {
+    //         ledPainter.paintElement(g, ledElement, getWidth(), getHeight());
+    //     }
+    // }
 
     public void setLedElement(final LedElement ledElement) {
         this.ledElement = ledElement;
@@ -43,7 +53,7 @@ class LedPanel extends JPanel {
 
     @Override
     protected void paintComponent(final Graphics g) {
-        super.paintComponent(g);
+        // super.paintComponent(g);
 
         ledPainter.paintOfflineDots(g, getWidth(), getHeight());
 

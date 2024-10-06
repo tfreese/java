@@ -2,9 +2,8 @@
 package de.freese.led;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.util.Objects;
-
-import javax.swing.JComponent;
 
 import de.freese.led.encoder.SymbolEncoderFiveSeven;
 import de.freese.led.model.element.LedElement;
@@ -39,12 +38,9 @@ public final class LedDisplay {
         this.ledPainter = Objects.requireNonNull(ledPainter, "ledPainter required");
 
         this.ledPanel = new LedPanel(ledPainter);
-        this.ledPanel.setBackground(null);
-        this.ledPanel.setLayout(null);
-        this.ledPanel.setDoubleBuffered(true);
     }
 
-    public JComponent getComponent() {
+    public Component getComponent() {
         return ledPanel;
     }
 
