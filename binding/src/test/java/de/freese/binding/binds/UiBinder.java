@@ -10,4 +10,6 @@ public interface UiBinder<C, T> {
     void addConsumer(Consumer<T> consumer);
 
     C getComponent();
+
+    // Provider<T> provider(Callable<? extends T> value);
 }

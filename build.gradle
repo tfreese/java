@@ -63,19 +63,16 @@ subprojects {
         }
     }
 
-    afterEvaluate { project ->
-        if (project.plugins.hasPlugin("java")
-                || project.plugins.hasPlugin("java-library")
-                || project.plugins.hasPlugin("application")) {
-            dependencies {
-                //implementation(platform("org.springframework.boot:spring-boot-dependencies:$version_springBoot"))
+    pluginManager.withPlugin("java") {
+        dependencies {
+            //implementation(platform("org.springframework.boot:spring-boot-dependencies:$version_springBoot"))
 
-                testImplementation("org.assertj:assertj-core")
-                testImplementation("org.awaitility:awaitility")
-                testImplementation("org.junit.jupiter:junit-jupiter")
-                testImplementation("org.mockito:mockito-junit-jupiter")
-                testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-            }
+            testImplementation("org.assertj:assertj-core")
+            testImplementation("org.awaitility:awaitility")
+            testImplementation("org.junit.jupiter:junit-jupiter")
+            testImplementation("org.mockito:mockito-junit-jupiter")
+
+            testRuntimeOnly("org.junit.platform:junit-platform-launcher")
         }
     }
 }
