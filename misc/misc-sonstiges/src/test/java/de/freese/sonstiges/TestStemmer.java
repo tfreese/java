@@ -8,14 +8,11 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.apache.lucene.analysis.de.GermanLightStemmer;
-import org.apache.lucene.analysis.de.GermanMinimalStemmer;
 import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.params.provider.Arguments;
 import org.tartarus.snowball.SnowballProgram;
 import org.tartarus.snowball.SnowballStemmer;
-import org.tartarus.snowball.ext.German2Stemmer;
 import org.tartarus.snowball.ext.GermanStemmer;
 
 /**
@@ -24,11 +21,10 @@ import org.tartarus.snowball.ext.GermanStemmer;
  * @author Thomas Freese
  */
 class TestStemmer {
+    //, Arguments.of("Lucene German Minimal", wrap(new GermanMinimalStemmer()))
+    //, Arguments.of("Lucene German Light", wrap(new GermanLightStemmer()))
     private static final List<Arguments> STEMMER = List.of(
-            Arguments.of("Tartarus German", wrap(new GermanStemmer())),
-            Arguments.of("Tartarus German2", wrap(new German2Stemmer())),
-            //, Arguments.of("Lucene German Minimal", wrap(new GermanMinimalStemmer())),
-            Arguments.of("Lucene German Light", wrap(new GermanLightStemmer()))
+            Arguments.of("Tartarus German", wrap(new GermanStemmer()))
     );
 
     /**
@@ -49,18 +45,18 @@ class TestStemmer {
 
                 return ((SnowballProgram) stemmerImpl).getCurrent();
             };
-            case GermanMinimalStemmer germanMinimalStemmer -> value -> {
-                final char[] ca = value.toCharArray();
-                final int length = ((GermanMinimalStemmer) stemmerImpl).stem(ca, ca.length);
-
-                return new String(ca, 0, length);
-            };
-            case GermanLightStemmer germanLightStemmer -> value -> {
-                final char[] ca = value.toCharArray();
-                final int length = ((GermanLightStemmer) stemmerImpl).stem(ca, ca.length);
-
-                return new String(ca, 0, length);
-            };
+            // case GermanMinimalStemmer germanMinimalStemmer -> value -> {
+            //     final char[] ca = value.toCharArray();
+            //     final int length = ((GermanMinimalStemmer) stemmerImpl).stem(ca, ca.length);
+            //
+            //     return new String(ca, 0, length);
+            // };
+            // case GermanLightStemmer germanLightStemmer -> value -> {
+            //     final char[] ca = value.toCharArray();
+            //     final int length = ((GermanLightStemmer) stemmerImpl).stem(ca, ca.length);
+            //
+            //     return new String(ca, 0, length);
+            // };
             case null, default -> throw new IllegalArgumentException("stemmerImpl");
         };
     }

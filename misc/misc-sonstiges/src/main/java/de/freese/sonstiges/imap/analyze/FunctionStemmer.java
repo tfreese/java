@@ -5,10 +5,8 @@ import java.util.Locale;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
-import org.apache.lucene.analysis.de.GermanLightStemmer;
-import org.apache.lucene.analysis.en.EnglishMinimalStemmer;
 import org.tartarus.snowball.ext.EnglishStemmer;
-import org.tartarus.snowball.ext.German2Stemmer;
+import org.tartarus.snowball.ext.GermanStemmer;
 
 /**
  * Diese {@link Function} führt das Stemming des Strings durch.<br>
@@ -41,38 +39,38 @@ public class FunctionStemmer implements UnaryOperator<String> {
         String stem(String token);
     }
 
-    /**
-     * @author Thomas Freese
-     */
-    static class LuceneEnglishMinimalStemmer implements Stemmer {
-        /**
-         * org.apache.lucene.analysis.en.PorterStemmer
-         */
-        private final EnglishMinimalStemmer impl = new EnglishMinimalStemmer();
+    // /**
+    //  * @author Thomas Freese
+    //  */
+    // static class LuceneEnglishMinimalStemmer implements Stemmer {
+    //     /**
+    //      * org.apache.lucene.analysis.en.PorterStemmer
+    //      */
+    //     private final EnglishMinimalStemmer impl = new EnglishMinimalStemmer();
+    //
+    //     @Override
+    //     public String stem(final String token) {
+    //         final char[] ca = token.toCharArray();
+    //         final int length = this.impl.stem(ca, ca.length);
+    //
+    //         return new String(ca, 0, length);
+    //     }
+    // }
 
-        @Override
-        public String stem(final String token) {
-            final char[] ca = token.toCharArray();
-            final int length = this.impl.stem(ca, ca.length);
-
-            return new String(ca, 0, length);
-        }
-    }
-
-    /**
-     * @author Thomas Freese
-     */
-    static class LuceneGermanLightStemmer implements Stemmer {
-        private final GermanLightStemmer impl = new GermanLightStemmer();
-
-        @Override
-        public String stem(final String token) {
-            final char[] ca = token.toCharArray();
-            final int length = this.impl.stem(ca, ca.length);
-
-            return new String(ca, 0, length);
-        }
-    }
+    // /**
+    //  * @author Thomas Freese
+    //  */
+    // static class LuceneGermanLightStemmer implements Stemmer {
+    //     private final GermanLightStemmer impl = new GermanLightStemmer();
+    //
+    //     @Override
+    //     public String stem(final String token) {
+    //         final char[] ca = token.toCharArray();
+    //         final int length = this.impl.stem(ca, ca.length);
+    //
+    //         return new String(ca, 0, length);
+    //     }
+    // }
 
     /**
      * @author Thomas Freese
@@ -92,8 +90,8 @@ public class FunctionStemmer implements UnaryOperator<String> {
     /**
      * @author Thomas Freese
      */
-    static class SnowballGerman2Stemmer implements Stemmer {
-        private final German2Stemmer impl = new German2Stemmer();
+    static class SnowballGermanStemmer implements Stemmer {
+        private final GermanStemmer impl = new GermanStemmer();
 
         @Override
         public String stem(final String token) {
@@ -125,7 +123,7 @@ public class FunctionStemmer implements UnaryOperator<String> {
         super();
 
         if (Locale.GERMAN.equals(locale)) {
-            this.stemmer = new SnowballGerman2Stemmer();
+            this.stemmer = new SnowballGermanStemmer();
             // this.stemmer = new LuceneGermanLightStemmer();
         }
         else if (Locale.ENGLISH.equals(locale)) {

@@ -123,7 +123,7 @@ public final class LuceneDemo {
             //     System.out.println(document.get("isbn") + "\t" + document.get("title"));
             // }
 
-            for (int i = 0; i < topDocs.totalHits.value; ++i) {
+            for (int i = 0; i < topDocs.totalHits.value(); ++i) {
                 final ScoreDoc scoreDoc = topDocs.scoreDocs[i];
                 final Document document = searcher.storedFields().document(scoreDoc.doc);
                 System.out.println((i + 1) + ". " + document.get("isbn") + "\t" + document.get("title"));
