@@ -5,6 +5,8 @@ plugins {
 
 description = "Alles zum ausprobieren"
 
+// ant.lifecycleLogLevel = "INFO"
+
 configurations {
     jaxb
 }
@@ -110,8 +112,8 @@ tasks.register("xslt") {
 tasks.register("genJaxb") {
     group = "MyTasks"
 
-    def resourcesDir = layout.projectDirectory.dir("schemas")
-    inputs.dir resourcesDir
+    def schemaDir = layout.projectDirectory.dir("schemas")
+    inputs.dir schemaDir
 
     def binding = layout.projectDirectory.file("schema.xjb")
     inputs.file binding
@@ -126,16 +128,28 @@ tasks.register("genJaxb") {
         taskdef name: "xjc", classname: "com.sun.tools.xjc.XJCTask", classpath: configurations.jaxb.asPath
 
         xjc(destdir: destdir,
-                schema: resourcesDir.dir("GolfCountryClub").file("GolfCountryClub.xsd"),
+                schema: schemaDir.dir("GolfCountryClub").file("GolfCountryClub.xsd"),
                 binding: binding,
                 package: "de.freese.xjc.golfcountryclub",
                 encoding: compileJava.options.encoding,
-                extension: true) {
+                extension: true,
+                removeOldOutput: true) {
             arg(value: "-npa")
+
+            // XJC hat eingebauten Build-Cache.
+            // Files specified as the schema files and binding files are automatically added to the "depends" set as well,
+            // but if those schemas are including/importing other schemas, you have to use a nested <depends> elements.
+
+            // Verhindert Meldung: Consider using <depends>/<produces> so that XJC won't do unnecessary compilation
+
+            //depends(file: binding)
+            //depends(dir: schemaDir.dir("GolfCountryClub"), includes: "**/*.xsd")
+            // produces(dir: destdir, includes: "**/*.java")
+            produces(dir: destdir, includes: "de/freese/xjc/golfcountryclub/**/*.java")
         }
 
         xjc(destdir: destdir,
-                schema: resourcesDir.dir("PhoneBanking").file("PhoneBanking.xsd"),
+                schema: schemaDir.dir("PhoneBanking").file("PhoneBanking.xsd"),
                 binding: binding,
                 package: "de.freese.xjc.phonebanking",
                 encoding: compileJava.options.encoding,
@@ -144,7 +158,7 @@ tasks.register("genJaxb") {
         }
 
         xjc(destdir: destdir,
-                schema: resourcesDir.dir("PublicationCatalogue").file("Catalogue.xsd"),
+                schema: schemaDir.dir("PublicationCatalogue").file("Catalogue.xsd"),
                 binding: binding,
                 package: "de.freese.xjc.catalogue",
                 encoding: compileJava.options.encoding,
@@ -154,7 +168,7 @@ tasks.register("genJaxb") {
         }
 
         xjc(destdir: destdir,
-                schema: resourcesDir.dir("SpaceWarGame").file("SpaceWarGame.xsd"),
+                schema: schemaDir.dir("SpaceWarGame").file("SpaceWarGame.xsd"),
                 binding: binding,
                 package: "de.freese.xjc.spacewargame",
                 encoding: compileJava.options.encoding,
