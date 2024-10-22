@@ -1,11 +1,10 @@
 plugins {
     id "java"
     id "org.openjfx.javafxplugin"
+    id "maven-publish"
 }
 
 description = "Alles zum ausprobieren"
-
-// ant.lifecycleLogLevel = "INFO"
 
 configurations {
     jaxb
@@ -65,8 +64,6 @@ static def xsltTask(Task task, RegularFile xslfile, RegularFile xmlFile, Regular
     task.outputs.file outputfile
 
     task.doLast {
-        ant.lifecycleLogLevel = "INFO"
-
         // mkdir outputfile.getAsFile().getParent()
 
         ant.xslt(style: xslfile,
@@ -155,6 +152,7 @@ tasks.register("genJaxb") {
                 encoding: compileJava.options.encoding,
                 extension: true) {
             arg(value: "-npa")
+            produces(dir: destdir, includes: "de/freese/xjc/phonebanking/**/*.java")
         }
 
         xjc(destdir: destdir,
@@ -165,6 +163,7 @@ tasks.register("genJaxb") {
                 readonly: true,
                 extension: true) {
             arg(value: "-npa")
+            produces(dir: destdir, includes: "de/freese/xjc/catalogue/**/*.java")
         }
 
         xjc(destdir: destdir,
@@ -174,6 +173,7 @@ tasks.register("genJaxb") {
                 encoding: compileJava.options.encoding,
                 extension: true) {
             arg(value: "-npa")
+            produces(dir: destdir, includes: "de/freese/xjc/spacewargame/**/*.java")
         }
         // }
     }
