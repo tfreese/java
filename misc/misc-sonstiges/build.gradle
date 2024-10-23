@@ -115,16 +115,16 @@ tasks.register("genJaxb") {
     def binding = layout.projectDirectory.file("schema.xjb")
     inputs.file binding
 
-    def destdir = layout.buildDirectory.get().dir("generated-sources").dir("xjc")
-    outputs.dir destdir
+    def destDir = layout.buildDirectory.get().dir("generated-sources").dir("xjc")
+    outputs.dir destDir
 
     // doLast {
-    mkdir destdir
+    mkdir destDir
 
     ant {
         taskdef name: "xjc", classname: "com.sun.tools.xjc.XJCTask", classpath: configurations.jaxb.asPath
 
-        xjc(destdir: destdir,
+        xjc(destdir: destDir,
                 schema: schemaDir.dir("GolfCountryClub").file("GolfCountryClub.xsd"),
                 binding: binding,
                 package: "de.freese.xjc.golfcountryclub",
@@ -142,20 +142,20 @@ tasks.register("genJaxb") {
             //depends(file: binding)
             //depends(dir: schemaDir.dir("GolfCountryClub"), includes: "**/*.xsd")
             // produces(dir: destdir, includes: "**/*.java")
-            produces(dir: destdir, includes: "de/freese/xjc/golfcountryclub/**/*.java")
+            produces(dir: destDir, includes: "de/freese/xjc/golfcountryclub/**/*.java")
         }
 
-        xjc(destdir: destdir,
+        xjc(destdir: destDir,
                 schema: schemaDir.dir("PhoneBanking").file("PhoneBanking.xsd"),
                 binding: binding,
                 package: "de.freese.xjc.phonebanking",
                 encoding: compileJava.options.encoding,
                 extension: true) {
             arg(value: "-npa")
-            produces(dir: destdir, includes: "de/freese/xjc/phonebanking/**/*.java")
+            produces(dir: destDir, includes: "de/freese/xjc/phonebanking/**/*.java")
         }
 
-        xjc(destdir: destdir,
+        xjc(destdir: destDir,
                 schema: schemaDir.dir("PublicationCatalogue").file("Catalogue.xsd"),
                 binding: binding,
                 package: "de.freese.xjc.catalogue",
@@ -163,17 +163,17 @@ tasks.register("genJaxb") {
                 readonly: true,
                 extension: true) {
             arg(value: "-npa")
-            produces(dir: destdir, includes: "de/freese/xjc/catalogue/**/*.java")
+            produces(dir: destDir, includes: "de/freese/xjc/catalogue/**/*.java")
         }
 
-        xjc(destdir: destdir,
+        xjc(destdir: destDir,
                 schema: schemaDir.dir("SpaceWarGame").file("SpaceWarGame.xsd"),
                 binding: binding,
                 package: "de.freese.xjc.spacewargame",
                 encoding: compileJava.options.encoding,
                 extension: true) {
             arg(value: "-npa")
-            produces(dir: destdir, includes: "de/freese/xjc/spacewargame/**/*.java")
+            produces(dir: destDir, includes: "de/freese/xjc/spacewargame/**/*.java")
         }
         // }
     }
