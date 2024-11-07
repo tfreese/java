@@ -27,6 +27,24 @@ public final class HazelcastMain {
 
         final URL configUrl = ClassLoader.getSystemResource("hazelcast.xml");
 
+        // By default, the delegating caching provider chooses the client-side implementation.
+        //// System.setProperty("hazelcast.jcache.provider.type", "member");
+
+        // try (CachingProvider cachingProvider = Caching.getCachingProvider("com.hazelcast.cache.HazelcastMemberCachingProvider");
+        //      CacheManager cacheManager = cachingProvider.getCacheManager(configUrl.toURI(), null)
+        // ) {
+        //     final Cache<String, String> cache = cacheManager.getCache("test", String.class, String.class);
+        //
+        //     final String value = cache.get("key");
+        //     LOGGER.info("{}: cache value = {}", Thread.currentThread().getName(), value);
+        //
+        //     if (value == null) {
+        //         cache.put("key", "value");
+        //     }
+        //
+        //     LOGGER.info("{}: cache value = {}", Thread.currentThread().getName(), cache.get("key"));
+        // }
+
         final Config config = new XmlConfigBuilder(configUrl).build();
         // config.setProperty("hazelcast.partition.count", "271");
 
