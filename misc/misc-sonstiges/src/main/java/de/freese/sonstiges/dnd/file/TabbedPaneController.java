@@ -2,6 +2,7 @@ package de.freese.sonstiges.dnd.file;
 
 import java.awt.BorderLayout;
 import java.awt.Insets;
+import java.nio.file.FileSystems;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,10 +27,13 @@ class TabbedPaneController {
     private boolean noFiles = true;
 
     TabbedPaneController(final JTabbedPane tb, final JPanel tp) {
+        super();
+        
         this.tabbedPane = tb;
         this.tabbedPanel = tp;
         this.transferHandler = new FileAndTextTransferHandler(this);
-        this.fileSeparator = System.getProperty("file.separator");
+        // this.fileSeparator = System.getProperty("file.separator");
+        this.fileSeparator = FileSystems.getDefault().getSeparator();
 
         // The split method in the String class uses
         // regular expressions to define the text used for
@@ -79,7 +83,6 @@ class TabbedPaneController {
     }
 
     private void init() {
-        final String defaultText = "Select one or more files from the file chooser and drop here...";
         this.noFiles = true;
 
         if (this.emptyFilePanel == null) {
@@ -96,6 +99,6 @@ class TabbedPaneController {
 
         this.tabbedPanel.add(this.emptyFilePanel, BorderLayout.CENTER);
         this.tabbedPanel.repaint();
-        this.emptyFileArea.setText(defaultText);
+        this.emptyFileArea.setText("Select one or more files from the file chooser and drop here...");
     }
 }

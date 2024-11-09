@@ -7,19 +7,20 @@ import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Synthesizer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 public final class SingleNoteChannelMain {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SingleNoteChannelMain.class);
+
     public static void main(final String[] args) {
-        new SingleNoteChannelMain().playNote(60);
+        playNote(60);
     }
 
-    private SingleNoteChannelMain() {
-        super();
-    }
-
-    public void playNote(final int note) {
+    public static void playNote(final int note) {
         try (Synthesizer synth = MidiSystem.getSynthesizer()) {
             synth.open();
 
@@ -31,15 +32,19 @@ public final class SingleNoteChannelMain {
             channel.noteOff(note, 70);
         }
         catch (InterruptedException ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
 
             // Restore interrupted state.
             Thread.currentThread().interrupt();
         }
         catch (Exception ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
         }
 
         System.exit(0);
+    }
+
+    private SingleNoteChannelMain() {
+        super();
     }
 }

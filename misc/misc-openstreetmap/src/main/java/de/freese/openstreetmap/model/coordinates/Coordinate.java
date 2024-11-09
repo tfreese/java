@@ -93,10 +93,10 @@ public abstract class Coordinate {
         int result = 1;
 
         long temp = Double.doubleToLongBits(this.myXCoord);
-        result = (prime * result) + (int) (temp ^ (temp >>> 32));
+        result = (prime * result) + Long.hashCode(temp);
 
         temp = Double.doubleToLongBits(this.myYCoord);
-        result = (prime * result) + (int) (temp ^ (temp >>> 32));
+        result = (prime * result) + Long.hashCode(temp);
 
         return result;
     }

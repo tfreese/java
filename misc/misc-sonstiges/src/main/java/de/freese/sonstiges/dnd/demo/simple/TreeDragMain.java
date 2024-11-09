@@ -20,11 +20,6 @@ public final class TreeDragMain extends JFrame {
         new TreeDragMain();
     }
 
-    private final transient TreeDragSource ds;
-    private final transient TreeDropTarget dt;
-
-    private final JTree tree;
-
     private TreeDragMain() {
         super("Rearrange able Tree");
 
@@ -33,16 +28,17 @@ public final class TreeDragMain extends JFrame {
 
         // If you want AutoScrolling, use this line:
         // this.tree = new de.freese.base.swing.components.tree.ExtTree();
-        this.tree = new JTree();
+        final JTree tree = new JTree();
 
         // Otherwise, use this line:
         // tree = new JTree();
-        getContentPane().add(new JScrollPane(this.tree), BorderLayout.CENTER);
+        getContentPane().add(new JScrollPane(tree), BorderLayout.CENTER);
 
         // If we only support move operations...
-        // ds = new TreeDragSource(tree, DnDConstants.ACTION_MOVE);
-        this.ds = new TreeDragSource(this.tree, DnDConstants.ACTION_COPY_OR_MOVE);
-        this.dt = new TreeDropTarget(this.tree);
+        // new TreeDragSource(tree, DnDConstants.ACTION_MOVE);
+        new TreeDragSource(tree, DnDConstants.ACTION_COPY_OR_MOVE);
+        new TreeDropTarget(tree);
+
         setVisible(true);
     }
 }

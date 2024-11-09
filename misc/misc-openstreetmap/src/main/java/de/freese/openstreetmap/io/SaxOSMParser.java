@@ -10,7 +10,7 @@ import javax.xml.parsers.SAXParserFactory;
 import de.freese.openstreetmap.model.OsmModel;
 
 /**
- * Parser zum Auslesen der XML Kartendaten von <a href="http://www.openstreetmap.org">openstreetmap</a>.<br>
+ * Parser zum Auslesen der XML-Kartendaten von <a href="http://www.openstreetmap.org">openstreetmap</a>.<br>
  * Beste Variante, da nur das aktuelle Element im Speicher gehalten wird.
  *
  * @author Thomas Freese

@@ -119,8 +119,8 @@ public class AntCell extends AbstractCell {
         }
 
         final int[] frontOffsets = this.direction.getFrontOffsets();
-        final int newX = getSimulation().getXTorusKoord(getX(), frontOffsets[0]);
-        final int newY = getSimulation().getYTorusKoord(getY(), frontOffsets[1]);
+        final int newX = getSimulation().getXTorusCoord(getX(), frontOffsets[0]);
+        final int newY = getSimulation().getYTorusCoord(getY(), frontOffsets[1]);
 
         final AntCell frontCell = getSimulation().getCell(newX, newY);
 

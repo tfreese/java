@@ -10,19 +10,22 @@ import java.io.Serial;
 import javax.swing.JComponent;
 import javax.swing.TransferHandler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 class PictureTransferHandler extends TransferHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PictureTransferHandler.class);
     private static final DataFlavor PICTURE_FLAVOR = DataFlavor.imageFlavor;
-
     @Serial
     private static final long serialVersionUID = 8896193065899268221L;
 
     /**
      * @author Thomas Freese
      */
-    class PictureTransferable implements Transferable {
+    static class PictureTransferable implements Transferable {
         private final Image image;
 
         PictureTransferable(final DTPicture pic) {
@@ -92,11 +95,11 @@ class PictureTransferHandler extends TransferHandler {
 
                 return true;
             }
-            catch (UnsupportedFlavorException ufe) {
-                System.out.println("importData: unsupported data flavor");
+            catch (UnsupportedFlavorException ex) {
+                LOGGER.error("importData: unsupported data flavor", ex);
             }
-            catch (IOException ioe) {
-                System.out.println("importData: I/O exception");
+            catch (IOException ex) {
+                LOGGER.error("importData: I/O exception", ex);
             }
         }
 

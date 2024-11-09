@@ -12,6 +12,21 @@ import java.util.Random;
  * @author Thomas Freese
  */
 public abstract class AbstractSimulation implements Simulation {
+    /**
+     * Liefert die entsprechende Torus-Koordinate.
+     *
+     * @param size int, Grösse des Simulationsfeldes
+     * @param pos int, Aktuelle Position
+     * @param offSet int, Positionsänderung
+     */
+    private static int getTorusCoord(final int size, final int pos, final int offSet) {
+        if (pos == 0 && offSet < 0) {
+            return size + offSet;
+        }
+
+        return ((size + 1) * (pos + offSet)) % size;
+    }
+    
     private final int height;
     private final Random random;
     private final List<SimulationListener> simulationListeners;
@@ -51,16 +66,16 @@ public abstract class AbstractSimulation implements Simulation {
      * @param pos int, Aktuelle Position
      * @param offSet int, Positionsänderung
      */
-    public int getXTorusKoord(final int pos, final int offSet) {
-        return getTorusKoord(getWidth(), pos, offSet);
+    public int getXTorusCoord(final int pos, final int offSet) {
+        return getTorusCoord(getWidth(), pos, offSet);
     }
 
     /**
      * @param pos int, Aktuelle Position
      * @param offSet int, Positionsänderung
      */
-    public int getYTorusKoord(final int pos, final int offSet) {
-        return getTorusKoord(getHeight(), pos, offSet);
+    public int getYTorusCoord(final int pos, final int offSet) {
+        return getTorusCoord(getHeight(), pos, offSet);
     }
 
     /**
@@ -80,19 +95,4 @@ public abstract class AbstractSimulation implements Simulation {
      * Wird in der Methode {@link #fireCompleted()} aufgerufen.
      */
     protected abstract void updateImage();
-
-    /**
-     * Liefert die entsprechende Torus-Koordinate.
-     *
-     * @param size int, Grösse des Simulationsfeldes
-     * @param pos int, Aktuelle Position
-     * @param offSet int, Positionsänderung
-     */
-    private int getTorusKoord(final int size, final int pos, final int offSet) {
-        if (pos == 0 && offSet < 0) {
-            return size + offSet;
-        }
-
-        return ((size + 1) * (pos + offSet)) % size;
-    }
 }

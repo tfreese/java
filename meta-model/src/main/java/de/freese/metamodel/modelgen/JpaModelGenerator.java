@@ -220,7 +220,7 @@ public class JpaModelGenerator extends PojoModelGenerator {
 
             if (!sequences.isEmpty()) {
                 // Wir nehmen die Sequence mit dem kürzesten Namen.
-                sequence = sequences.get(0);
+                sequence = sequences.getFirst();
             }
 
             if (sequence != null) {

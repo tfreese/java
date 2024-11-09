@@ -129,7 +129,7 @@ public class Table {
                     continue;
                 }
 
-                if (pkColumns.contains(uc.getColumnsOrdered().get(0).getName())) {
+                if (pkColumns.contains(uc.getColumnsOrdered().getFirst().getName())) {
                     getLogger().info("remove redundant UniqueConstraint {}; Cause: matches PrimaryKey", uc.getName());
                     this.uniqueConstraints.remove(uc.getName());
                 }
@@ -141,7 +141,7 @@ public class Table {
                     continue;
                 }
 
-                if (pkColumns.contains(idx.getColumnsOrdered().get(0).getName())) {
+                if (pkColumns.contains(idx.getColumnsOrdered().getFirst().getName())) {
                     getLogger().info("remove redundant Index {}; Cause: matches PrimaryKey", idx.getName());
                     this.indices.remove(idx.getName());
                 }

@@ -15,7 +15,7 @@ import de.freese.openstreetmap.model.OsmRelation;
 import de.freese.openstreetmap.model.OsmWay;
 
 /**
- * Parser zum Auslesen der XML Kartendaten von <a href="http://www.openstreetmap.org">openstreetmap</a>.<br>
+ * Parser zum Auslesen der XML-Kartendaten von <a href="http://www.openstreetmap.org">openstreetmap</a>.<br>
  * Beste Variante, da nur das aktuelle Element im Speicher gehalten wird.
  *
  * @author Thomas Freese
@@ -64,6 +64,8 @@ public class XMLStreamOSMParser implements OSMParser {
         while (reader.hasNext()) {
             final int event = reader.next();
 
+            String localName = null;
+
             // for (int i = 0; i < reader.getAttributeCount(); i++) {
             // System.out.printf("%d: AttributeLocalName=%s, AttributeValue=%s%n", Integer.valueOf(i), reader.getAttributeLocalName(i),
             // reader.getAttributeValue(i));
@@ -71,7 +73,7 @@ public class XMLStreamOSMParser implements OSMParser {
 
             switch (event) {
                 case XMLStreamConstants.START_ELEMENT:
-                    String localName = reader.getLocalName();
+                    localName = reader.getLocalName();
 
                     if (NODE_NAME_TAG.equals(localName)) {
                         final String key = reader.getAttributeValue(null, ATTR_NAME_KEY);

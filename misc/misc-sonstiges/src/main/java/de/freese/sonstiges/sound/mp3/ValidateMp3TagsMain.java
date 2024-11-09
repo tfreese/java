@@ -23,11 +23,15 @@ import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.TagField;
 import org.jaudiotagger.tag.TagTextField;
 import org.jaudiotagger.tag.datatype.Artwork;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
  */
 public final class ValidateMp3TagsMain {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ValidateMp3TagsMain.class);
+
     public static void main(final String[] args) {
         // JUL-Logger ausschalten.
         LogManager.getLogManager().reset();
@@ -78,15 +82,14 @@ public final class ValidateMp3TagsMain {
             });
         }
         catch (Exception ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
         }
-
-        System.out.println();
 
         int i = 1;
 
         for (Report report : new TreeSet<>(reports.values())) {
-            System.out.printf("%03d: %s%n", i++, report.toString(rootDirectory));
+            final String message = "%03d: %s".formatted(i++, report.toString(rootDirectory));
+            LOGGER.info(message);
         }
     }
     // private static final List<FieldKey> KEYS_UNUSED = Arrays.asList(FieldKey.COMMENT, FieldKey.COMPOSER, FieldKey.ORIGINAL_ARTIST,
@@ -247,7 +250,7 @@ public final class ValidateMp3TagsMain {
                     // .filter(p -> !p.toString().toLowerCase().endsWith(".m4b"))
                     .sorted()
                     .forEach(path -> {
-                        System.out.println(path);
+                        LOGGER.info("{}", path);
 
                         try {
                             final AudioFile audioFile = AudioFileIO.read(path.toFile());

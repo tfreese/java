@@ -10,10 +10,15 @@ import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Synthesizer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 public final class SingleNoteSynthesizer2Main {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SingleNoteSynthesizer2Main.class);
+
     public static void main(final String[] args) {
         final SingleNoteSynthesizer2Main synth = new SingleNoteSynthesizer2Main();
         synth.setInstrument(19);
@@ -34,7 +39,7 @@ public final class SingleNoteSynthesizer2Main {
             this.receiver = this.synth.getReceiver();
         }
         catch (MidiUnavailableException ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
         }
     }
 
@@ -56,7 +61,7 @@ public final class SingleNoteSynthesizer2Main {
             TimeUnit.MILLISECONDS.sleep(duration);
         }
         catch (InterruptedException ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
 
             Thread.currentThread().interrupt();
         }
@@ -83,7 +88,7 @@ public final class SingleNoteSynthesizer2Main {
             this.message.setMessage(onOrOff, 0, note, 70);
         }
         catch (InvalidMidiDataException ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
         }
     }
 }

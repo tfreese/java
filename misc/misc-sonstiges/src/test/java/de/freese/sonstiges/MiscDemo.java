@@ -266,15 +266,15 @@ public final class MiscDemo {
     }
 
     static void bitShift() {
-        //        MAP.put("A", new byte[]{126, 9, 9, 9, 126});
-
-        //        for (byte b : new byte[]{126, 9, 9, 9, 126}) {
-        //            for (int j = 0; j < 7; j++) {
-        //                if ((b & (1 << j)) != 0) {
-        //                    System.out.println("b & (1 << j) = " + (b & (1 << j)));
-        //                }
-        //            }
-        //        }
+        // MAP.put("A", new byte[]{126, 9, 9, 9, 126});
+        //
+        // for (byte b : new byte[]{126, 9, 9, 9, 126}) {
+        //     for (int j = 0; j < 7; j++) {
+        //         if ((b & (1 << j)) != 0) {
+        //             System.out.println("b & (1 << j) = " + (b & (1 << j)));
+        //         }
+        //     }
+        // }
 
         for (int n = 0; n < 40; n++) {
             System.out.printf("n = %d%n", n);
@@ -441,7 +441,7 @@ public final class MiscDemo {
 
         result.forEach((key, value) -> {
             LOGGER.info("Band = {}", key);
-            LOGGER.info("Amp. = %.3f".formatted(value));
+            LOGGER.info("Amp. = {}", "%.3f".formatted(value));
         });
     }
 
@@ -1132,7 +1132,6 @@ public final class MiscDemo {
     }
 
     static void pipedChannels() throws Exception {
-
         final ThrowingConsumer<Pipe.SinkChannel> writer = sinkChannel -> {
             final ByteBuffer buffer = ByteBuffer.allocateDirect(24);
 
@@ -1194,7 +1193,6 @@ public final class MiscDemo {
         catch (Throwable ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
-
     }
 
     @SuppressWarnings("try")
@@ -1610,21 +1608,21 @@ public final class MiscDemo {
 
     static void showWindowsNotification() throws Exception {
         // javafx
-        //        Notifications notificationTest=Notifications.create();
-        //        notificationTest.position(Pos.BASELINE_RIGHT);
-        //        notificationTest.title(title);
-        //        notificationTest.text(text);
-        //        notificationTest.show();//for error noti notificationTest.showError();
+        // final Notifications notificationTest = Notifications.create();
+        // notificationTest.position(Pos.BASELINE_RIGHT);
+        // notificationTest.title(title);
+        // notificationTest.text(text);
+        // notificationTest.show();// for error noti notificationTest.showError();
 
         if (SystemTray.isSupported()) {
             final SystemTray systemTray = SystemTray.getSystemTray();
 
             Image image = null;
-            //            image = Toolkit.getDefaultToolkit().createImage("images/duke.png");
-            //            image = Toolkit.getDefaultToolkit().getImage("images/duke.png");
-
-            //            URL url = URI.create("https://cr.openjdk.java.net/~jeff/Duke/png/Hips.png").toURL();
-            //            image = ImageIO.read(url);
+            // image = Toolkit.getDefaultToolkit().createImage("images/duke.png");
+            // image = Toolkit.getDefaultToolkit().getImage("images/duke.png");
+            //
+            // final URL url = URI.create("https://cr.openjdk.java.net/~jeff/Duke/png/Hips.png").toURL();
+            // image = ImageIO.read(url);
 
             try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("images/duke.png")) {
                 image = ImageIO.read(inputStream);
@@ -1633,7 +1631,7 @@ public final class MiscDemo {
             final PopupMenu popupMenu = new PopupMenu();
             final TrayIcon trayIcon = new TrayIcon(image, "Tray Demo", popupMenu);
 
-            // create a action listener to listen for default action executed on the tray icon
+            // Create an action listener to listen for default action executed on the tray icon.
             final ActionListener listener = event -> {
                 System.out.println(event);
 

@@ -6,10 +6,15 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 public final class ProducerConsumerBlockingQueue {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProducerConsumerBlockingQueue.class);
+
     /**
      * @author Thomas Freese
      */
@@ -36,12 +41,12 @@ public final class ProducerConsumerBlockingQueue {
                         break;
                     }
 
-                    System.out.printf("%s: Consumer-%d got: %d%n", Thread.currentThread().getName(), this.number, value);
+                    LOGGER.info("{}: Consumer-{} got: {}", Thread.currentThread().getName(), this.number, value);
 
                     TimeUnit.MILLISECONDS.sleep(3000);
                 }
                 catch (InterruptedException ex) {
-                    ex.printStackTrace();
+                    LOGGER.error(ex.getMessage(), ex);
 
                     // Restore interrupted state.
                     Thread.currentThread().interrupt();
@@ -71,12 +76,12 @@ public final class ProducerConsumerBlockingQueue {
                     this.queue.put(i);
                     // this.queue.offer(Integer.valueOf(i)); // Funktioniert bei SynchronousQueue nicht.
 
-                    System.out.printf("%s: Producer-%d put: %d%n", Thread.currentThread().getName(), this.number, i);
+                    LOGGER.info("{}: Producer-{} put: {}", Thread.currentThread().getName(), this.number, i);
 
                     TimeUnit.MILLISECONDS.sleep(300);
                 }
                 catch (InterruptedException ex) {
-                    ex.printStackTrace();
+                    LOGGER.error(ex.getMessage(), ex);
 
                     // Restore interrupted state.
                     Thread.currentThread().interrupt();

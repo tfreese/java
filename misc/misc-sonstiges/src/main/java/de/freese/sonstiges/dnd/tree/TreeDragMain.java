@@ -10,12 +10,16 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Testklasse für DnD von JTree - JTree.
  *
  * @author Thomas Freese
  */
 public final class TreeDragMain extends JFrame {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TreeDragMain.class);
     @Serial
     private static final long serialVersionUID = 1197758766045157541L;
 
@@ -38,7 +42,7 @@ public final class TreeDragMain extends JFrame {
             treeLeft.getDropTarget().addDropTargetListener(new TreeDropTargetListener());
         }
         catch (TooManyListenersException ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
         }
 
         final JScrollPane spLeft = new JScrollPane(treeLeft);

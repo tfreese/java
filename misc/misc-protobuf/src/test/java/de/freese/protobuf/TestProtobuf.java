@@ -140,7 +140,7 @@ class TestProtobuf {
 
         try (InputStream inputStream = new ByteArrayInputStream(bytes)) {
             while (inputStream.available() > 0) {
-                // Hole Stream is read, but only the last Object is returned.
+                // Stream is read, but only the last Object is returned.
                 // list1.add(Test1.parseFrom(inputStream));
                 // list1.add(Test1.newBuilder().mergeFrom(inputStream).build());
                 bytes = new byte[4];

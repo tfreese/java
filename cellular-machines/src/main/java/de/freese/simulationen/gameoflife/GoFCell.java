@@ -71,11 +71,11 @@ public class GoFCell extends AbstractCell {
         // int anzahlLebendeNachbarn = 0;
         //
         // // Startpunkt unten links.
-        // final int startX = getSimulation().getXTorusKoord(getX(), -1);
-        // final int startY = getSimulation().getYTorusKoord(getY(), -1);
+        // final int startX = getSimulation().getXTorusCoord(getX(), -1);
+        // final int startY = getSimulation().getYTorusCoord(getY(), -1);
         //
         // for (int offsetX = 0; offsetX < 3; offsetX++) {
-        // int x = getSimulation().getXTorusKoord(startX, offsetX);
+        // int x = getSimulation().getXTorusCoord(startX, offsetX);
         //
         // for (int offsetY = 0; offsetY < 3; offsetY++) {
         // // Diese Zelle (this) ausnehmen.
@@ -84,7 +84,7 @@ public class GoFCell extends AbstractCell {
         // continue;
         // }
         //
-        // final int y = getSimulation().getYTorusKoord(startY, offsetY);
+        // final int y = getSimulation().getYTorusCoord(startY, offsetY);
         // final GofRasterCell cell = getSimulation().getCell(x, y);
         //
         // if ((cell != null) && cell.isAlive()) {

@@ -19,6 +19,8 @@ class TransferActionListener implements ActionListener, PropertyChangeListener {
     private JComponent focusOwner;
 
     TransferActionListener() {
+        super();
+        
         final KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         manager.addPropertyChangeListener("permanentFocusOwner", this);
     }

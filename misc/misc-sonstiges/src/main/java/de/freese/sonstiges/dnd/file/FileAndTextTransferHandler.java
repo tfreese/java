@@ -20,10 +20,15 @@ import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.Position;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 class FileAndTextTransferHandler extends TransferHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileAndTextTransferHandler.class);
+
     private static final String NEW_LINE = "\n";
     @Serial
     private static final long serialVersionUID = 6906658392318378092L;
@@ -87,7 +92,7 @@ class FileAndTextTransferHandler extends TransferHandler {
                         }
                     }
                     catch (IOException ex) {
-                        System.out.println("importData: Unable to read from file " + file);
+                        LOGGER.error("importData: Unable to read from file %s".formatted(file), ex);
                     }
                 }
 
@@ -111,10 +116,10 @@ class FileAndTextTransferHandler extends TransferHandler {
             }
         }
         catch (UnsupportedFlavorException ex) {
-            System.out.println("importData: unsupported data flavor");
+            LOGGER.error("importData: unsupported data flavor", ex);
         }
         catch (IOException ex) {
-            System.out.println("importData: I/O exception");
+            LOGGER.error("importData: I/O exception", ex);
         }
 
         return false;
@@ -137,7 +142,7 @@ class FileAndTextTransferHandler extends TransferHandler {
             this.p1 = doc.createPosition(end);
         }
         catch (BadLocationException ex) {
-            System.out.println("Can't create position - unable to remove text from source.");
+            LOGGER.error("Can't create position - unable to remove text from source.", ex);
         }
 
         this.shouldRemove = true;
@@ -156,7 +161,7 @@ class FileAndTextTransferHandler extends TransferHandler {
                     tc.getDocument().remove(this.p0.getOffset(), this.p1.getOffset() - this.p0.getOffset());
                 }
                 catch (BadLocationException ex) {
-                    System.out.println("Can't remove text from source.");
+                    LOGGER.error("Can't remove text from source.", ex);
                 }
             }
         }

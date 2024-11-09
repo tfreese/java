@@ -88,18 +88,12 @@ public final class ProxyBlacklistDemo {
         blackList = bl.filter(blackList);
         LOGGER.info("after filter Size: {}", blackList.size());
 
-        System.out.println();
-        blackList.stream().filter(line -> line.contains("cloudflare")).map("127.0.0.1 "::concat).sorted().forEach(System.out::println);
-        // System.out.println();
-        // blackList.stream().filter(line -> line.contains("facebook")).map("127.0.0.1 "::concat).sorted().forEach(System.out::println);
-        System.out.println();
-        blackList.stream().filter(line -> line.contains("google")).map("127.0.0.1 "::concat).sorted().forEach(System.out::println);
-        System.out.println();
-        blackList.stream().filter(line -> line.contains("tiqcdn")).map("127.0.0.1 "::concat).sorted().forEach(System.out::println);
-        System.out.println();
-        blackList.stream().filter(line -> line.contains("twitter")).map("127.0.0.1 "::concat).sorted().forEach(System.out::println);
-        System.out.println();
-        blackList.stream().filter(line -> line.contains("yahoo")).map("127.0.0.1 "::concat).sorted().forEach(System.out::println);
+        blackList.stream().filter(line -> line.contains("cloudflare")).map("127.0.0.1 "::concat).sorted().forEach(LOGGER::info);
+        // blackList.stream().filter(line -> line.contains("facebook")).map("127.0.0.1 "::concat).sorted().forEach(LOGGER::info);
+        blackList.stream().filter(line -> line.contains("google")).map("127.0.0.1 "::concat).sorted().forEach(LOGGER::info);
+        blackList.stream().filter(line -> line.contains("tiqcdn")).map("127.0.0.1 "::concat).sorted().forEach(LOGGER::info);
+        blackList.stream().filter(line -> line.contains("twitter")).map("127.0.0.1 "::concat).sorted().forEach(LOGGER::info);
+        blackList.stream().filter(line -> line.contains("yahoo")).map("127.0.0.1 "::concat).sorted().forEach(LOGGER::info);
 
         // Path privoxySkriptPath = Paths.get(System.getProperty("user.home"), "dokumente", "linux", "proxy");
         // bl.createPrivoxyBlacklist(privoxySkriptPath, tempDirPath);
@@ -118,15 +112,15 @@ public final class ProxyBlacklistDemo {
         final Set<String> easyList = new TreeSet<>(new HostComparator());
 
         final List<URI> uris = new ArrayList<>();
-        uris.add(new URI("https://easylist-downloads.adblockplus.org/easylist.txt"));
-        uris.add(new URI("https://easylist-downloads.adblockplus.org/easylistgermany.txt"));
-        uris.add(new URI("https://easylist-downloads.adblockplus.org/easyprivacy.txt"));
-        uris.add(new URI("https://easylist-downloads.adblockplus.org/antiadblockfilters.txt"));
-        uris.add(new URI("https://easylist-downloads.adblockplus.org/easyprivacy_nointernational.txt"));
-        uris.add(new URI("https://easylist-downloads.adblockplus.org/easyprivacy.txt"));
-        // uris.add(new URI("https://easylist-downloads.adblockplus.org/malwaredomains_full.txt"));
-        uris.add(new URI("https://easylist-downloads.adblockplus.org/fanboy-social.txt"));
-        // uris.add(new URI("https://easylist-downloads.adblockplus.org/fanboy-annoyance.txt"));
+        uris.add(URI.create("https://easylist-downloads.adblockplus.org/easylist.txt"));
+        uris.add(URI.create("https://easylist-downloads.adblockplus.org/easylistgermany.txt"));
+        uris.add(URI.create("https://easylist-downloads.adblockplus.org/easyprivacy.txt"));
+        uris.add(URI.create("https://easylist-downloads.adblockplus.org/antiadblockfilters.txt"));
+        uris.add(URI.create("https://easylist-downloads.adblockplus.org/easyprivacy_nointernational.txt"));
+        uris.add(URI.create("https://easylist-downloads.adblockplus.org/easyprivacy.txt"));
+        // uris.add(URI.create("https://easylist-downloads.adblockplus.org/malwaredomains_full.txt"));
+        uris.add(URI.create("https://easylist-downloads.adblockplus.org/fanboy-social.txt"));
+        // uris.add(URI.create("https://easylist-downloads.adblockplus.org/fanboy-annoyance.txt"));
 
         final int tasks = uris.size();
 
@@ -155,11 +149,11 @@ public final class ProxyBlacklistDemo {
 
         // Whitelist Domain
         final Set<String> whiteListDomain = new TreeSet<>();
-        blackListElements.addAll(load(targetDirectory.resolve("privoxy-whitelist-domain.txt").toUri()));
+        whiteListDomain.addAll(load(targetDirectory.resolve("privoxy-whitelist-domain.txt").toUri()));
 
         // Whitelist Images
         final Set<String> whiteListImages = new TreeSet<>();
-        blackListElements.addAll(load(targetDirectory.resolve("privoxy-whitelist-images.txt").toUri()));
+        whiteListImages.addAll(load(targetDirectory.resolve("privoxy-whitelist-images.txt").toUri()));
 
         final Charset charset = StandardCharsets.UTF_8;
 
@@ -205,7 +199,7 @@ public final class ProxyBlacklistDemo {
     Set<String> filter(final Set<String> blackList) {
         LOGGER.info("Filter BlackList");
 
-        // Alles raus was nicht reinsoll.
+        // Alles raus was nicht rein soll.
         return blackList.stream()
                 .parallel()
                 .filter(Objects::nonNull)
@@ -351,10 +345,9 @@ public final class ProxyBlacklistDemo {
                 final URLConnection connection = uri.toURL().openConnection();
 
                 try (InputStream is = connection.getInputStream();
-                     BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
-                    try (Stream<String> lines = br.lines()) {
-                        lines.forEach(set::add);
-                    }
+                     BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+                     Stream<String> lines = br.lines()) {
+                    lines.forEach(set::add);
                 }
             }
         }
@@ -370,18 +363,18 @@ public final class ProxyBlacklistDemo {
      */
     Set<String> loadHostBlacklist() throws Exception {
         final List<URI> uris = new ArrayList<>();
-        uris.add(new URI("https://someonewhocares.org/hosts/hosts"));
-        uris.add(new URI("https://winhelp2002.mvps.org/hosts.txt"));
-        uris.add(new URI("https://pgl.yoyo.org/adservers/serverlist.php?hostformat=nohtml&showintro=0"));
+        uris.add(URI.create("https://someonewhocares.org/hosts/hosts"));
+        uris.add(URI.create("https://winhelp2002.mvps.org/hosts.txt"));
+        uris.add(URI.create("https://pgl.yoyo.org/adservers/serverlist.php?hostformat=nohtml&showintro=0"));
 
         int tasks = uris.size();
 
         uris.forEach(uri -> COMPLETION_SERVICE.submit(() -> load(uri)));
 
-        // Mit diesen wächst die Blacklist auf über 1,5 Mio. !!!
+        // Mit diesen wächst die Blacklist auf über 1,5 Mio.!
         final List<URI> uriTars = new ArrayList<>();
-        // uriTars.add(new URI("https://www.shallalist.de/Downloads/shallalist.tar.gz"));
-        // uriTars.add(new URI("https://urlblacklist.com/cgi-bin/commercialdownload.pl?type=download&file=bigblacklist"));
+        // uriTars.add(URI.create("https://www.shallalist.de/Downloads/shallalist.tar.gz"));
+        // uriTars.add(nURI.create("https://urlblacklist.com/cgi-bin/commercialdownload.pl?type=download&file=bigblacklist"));
 
         uriTars.forEach(uri -> COMPLETION_SERVICE.submit(() -> loadTGZ(uri)));
 
@@ -401,7 +394,7 @@ public final class ProxyBlacklistDemo {
      */
     Set<String> loadIpBlacklist() throws Exception {
         final List<URI> uris = new ArrayList<>();
-        uris.add(new URI("https://myip.ms/files/blacklist/general/latest_blacklist.txt"));
+        uris.add(URI.create("https://myip.ms/files/blacklist/general/latest_blacklist.txt"));
 
         final int tasks = uris.size();
 
@@ -430,16 +423,14 @@ public final class ProxyBlacklistDemo {
              BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(tarIs, StandardCharsets.UTF_8))) {
             TarArchiveEntry entry = null;
 
-            try {
-                while ((entry = tarIs.getNextEntry()) != null) {
-                    if (entry.isFile() && tarIs.canReadEntryData(entry) && entry.getName().endsWith("domains")) {
-                        bufferedReader.lines().forEach(set::add);
-                    }
+            while ((entry = tarIs.getNextEntry()) != null) {
+                if (entry.isFile() && tarIs.canReadEntryData(entry) && entry.getName().endsWith("domains")) {
+                    bufferedReader.lines().forEach(set::add);
                 }
             }
-            catch (EOFException ex) {
-                LOGGER.error(ex.getMessage());
-            }
+        }
+        catch (EOFException ex) {
+            LOGGER.error(ex.getMessage());
         }
 
         return set;

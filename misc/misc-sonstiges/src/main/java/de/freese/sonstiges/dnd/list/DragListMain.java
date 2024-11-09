@@ -54,10 +54,10 @@ public final class DragListMain extends JPanel {
         frame.setVisible(true);
     }
 
-    private final ArrayListTransferHandler arrayListHandler;
-
     private DragListMain() throws ClassNotFoundException {
-        this.arrayListHandler = new ArrayListTransferHandler();
+        super();
+
+        final ArrayListTransferHandler arrayListHandler = new ArrayListTransferHandler();
 
         final JList<String> list1;
         final JList<String> list2;
@@ -72,7 +72,7 @@ public final class DragListMain extends JPanel {
         list1Model.addElement("6 (list 1)");
         list1 = new JList<>(list1Model);
         list1.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        list1.setTransferHandler(this.arrayListHandler);
+        list1.setTransferHandler(arrayListHandler);
         list1.setDragEnabled(true);
 
         final JScrollPane list1View = new JScrollPane(list1);
@@ -93,7 +93,7 @@ public final class DragListMain extends JPanel {
         list2Model.addElement("6 (list 2)");
         list2 = new JList<>(list2Model);
         list2.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        list2.setTransferHandler(this.arrayListHandler);
+        list2.setTransferHandler(arrayListHandler);
         list2.setDragEnabled(true);
 
         final JScrollPane list2View = new JScrollPane(list2);

@@ -13,6 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
@@ -22,6 +25,7 @@ public final class DragPictureMain extends JPanel {
     private static final String ANYA = "Anya";
     private static final String COSMO = "Cosmo";
     private static final String LAINE = "Laine";
+    private static final Logger LOGGER = LoggerFactory.getLogger(DragPictureMain.class);
     private static final String MAYA = "Maya";
 
     @Serial
@@ -61,7 +65,7 @@ public final class DragPictureMain extends JPanel {
         final URL imageURL = DragPictureMain.class.getResource(path);
 
         if (imageURL == null) {
-            System.err.println("Resource not found: " + path);
+            LOGGER.error("Resource not found: {}", path);
 
             return null;
         }

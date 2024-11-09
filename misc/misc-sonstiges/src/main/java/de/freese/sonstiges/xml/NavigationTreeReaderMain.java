@@ -15,12 +15,16 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXParseException;
 
 /**
  * @author Thomas Freese
  */
 public final class NavigationTreeReaderMain {
+    private static final Logger LOGGER = LoggerFactory.getLogger(NavigationTreeReaderMain.class);
+
     public static void main(final String[] args) throws Exception {
         try {
             URL url = ClassLoader.getSystemResource("navigationTree.xsd");
@@ -52,21 +56,20 @@ public final class NavigationTreeReaderMain {
             reader.close();
         }
         catch (SAXParseException ex) {
-            System.err.println("SAXParseException at Line: " + ex.getLineNumber());
+            LOGGER.error("SAXParseException at Line: {}", ex.getLineNumber());
         }
         catch (Exception ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
         }
     }
 
     private static void parseDocument(final XMLStreamReader reader) throws XMLStreamException {
-        System.out.println("Version: " + reader.getVersion());
-        System.out.println("Is Standalone: " + reader.isStandalone());
-        System.out.println("Standalone Set: " + reader.standaloneSet());
-        System.out.println("Encoding: " + reader.getEncoding());
-        System.out.println("CharacterEncodingScheme: " + reader.getCharacterEncodingScheme());
+        LOGGER.info("Version: {}", reader.getVersion());
+        LOGGER.info("Is Standalone: {}", reader.isStandalone());
+        LOGGER.info("Standalone Set: {}", reader.standaloneSet());
+        LOGGER.info("Encoding: {}", reader.getEncoding());
+        LOGGER.info("CharacterEncodingScheme: {}", reader.getCharacterEncodingScheme());
 
-        System.out.println();
         parseRestOfDocument(reader);
     }
 
@@ -76,22 +79,22 @@ public final class NavigationTreeReaderMain {
 
             switch (type) {
                 case XMLStreamConstants.START_ELEMENT -> {
-                    System.out.println("NamespaceURI: " + reader.getNamespaceURI());
-                    System.out.println("START_ELEMENT: " + reader.getLocalName());
-                    System.out.println("Prefix: " + reader.getPrefix());
-                    System.out.println("AttributeCount: " + reader.getAttributeCount());
+                    LOGGER.info("NamespaceURI: {}", reader.getNamespaceURI());
+                    LOGGER.info("START_ELEMENT: {}", reader.getLocalName());
+                    LOGGER.info("Prefix: {}", reader.getPrefix());
+                    LOGGER.info("AttributeCount: {}", reader.getAttributeCount());
 
                     for (int i = 0; i < reader.getAttributeCount(); i++) {
-                        System.out.printf("%d: AttributeLocalName=%s, AttributeValue=%s, AttributePrefix=%s%n", i, reader.getAttributeLocalName(i), reader.getAttributeValue(i),
+                        LOGGER.info("{}: AttributeLocalName={}, AttributeValue={}, AttributePrefix={}", i, reader.getAttributeLocalName(i), reader.getAttributeValue(i),
                                 reader.getAttributePrefix(i));
                     }
                 }
 
-                case XMLStreamConstants.END_ELEMENT -> System.out.println("END_ELEMENT");
-                case XMLStreamConstants.CHARACTERS -> System.out.println("CHARACTERS=" + (reader.isWhiteSpace() ? "" : reader.getText()));
-                case XMLStreamConstants.SPACE -> System.out.println("SPACE");
-                case XMLStreamConstants.COMMENT -> System.out.println("COMMENT=" + reader.getText());
-                case XMLStreamConstants.END_DOCUMENT -> System.out.println("END_DOCUMENT");
+                case XMLStreamConstants.END_ELEMENT -> LOGGER.info("END_ELEMENT");
+                case XMLStreamConstants.CHARACTERS -> LOGGER.info("CHARACTERS={}", reader.isWhiteSpace() ? "" : reader.getText());
+                case XMLStreamConstants.SPACE -> LOGGER.info("SPACE");
+                case XMLStreamConstants.COMMENT -> LOGGER.info("COMMENT={}", reader.getText());
+                case XMLStreamConstants.END_DOCUMENT -> LOGGER.info("END_DOCUMENT");
                 default -> throw new IllegalStateException("unsupported stax type:" + type);
             }
         }

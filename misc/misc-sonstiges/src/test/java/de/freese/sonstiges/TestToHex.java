@@ -11,6 +11,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -19,6 +21,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 class TestToHex {
     private static final byte[] BYTES = new byte[1000000];
     private static final char[] HEX_CODE = "0123456789ABCDEF".toCharArray();
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestToHex.class);
     private static final String RESULT = "";
 
     @BeforeAll
@@ -40,8 +43,8 @@ class TestToHex {
             sb.append(HEX_CODE[byteValue & 0xF]);
         }
 
-        // System.out.println(sb);
-        System.out.printf("testBitShift: %d ms%n", System.currentTimeMillis() - start);
+        // LOGGER.info(sb);
+        LOGGER.info("testBitShift: {} ms", System.currentTimeMillis() - start);
 
         assertTrue(true);
     }
@@ -52,8 +55,8 @@ class TestToHex {
         final StringBuilder sb = new StringBuilder(BYTES.length * 2);
         sb.append(DatatypeConverter.printHexBinary(BYTES));
 
-        // System.out.println(sb);
-        System.out.printf("testDatatypeConverter: %d ms%n", System.currentTimeMillis() - start);
+        // LOGGER.info(sb);
+        LOGGER.info("testDatatypeConverter: {} ms", System.currentTimeMillis() - start);
 
         assertTrue(true);
     }
@@ -73,8 +76,8 @@ class TestToHex {
             sb.append(hex);
         }
 
-        // System.out.println(sb);
-        System.out.printf("testIntegerToHexString: %d ms%n", System.currentTimeMillis() - start);
+        // LOGGER.info(sb);
+        LOGGER.info("testIntegerToHexString: {} ms", System.currentTimeMillis() - start);
 
         assertTrue(true);
     }
@@ -88,8 +91,8 @@ class TestToHex {
             sb.append(Integer.toString((element & 0xFF) + 0x100, 16).substring(1).toUpperCase());
         }
 
-        // System.out.println(sb);
-        System.out.printf("testIntegerToString: %d ms%n", System.currentTimeMillis() - start);
+        // LOGGER.info(sb);
+        LOGGER.info("testIntegerToString: {} ms", System.currentTimeMillis() - start);
 
         assertTrue(true);
     }
@@ -103,8 +106,8 @@ class TestToHex {
             sb.append(String.format("%02X", element));
         }
 
-        // System.out.println(sb);
-        System.out.printf("testStringFormat: %d ms%n", System.currentTimeMillis() - start);
+        // LOGGER.info(sb);
+        LOGGER.info("testStringFormat: {} ms", System.currentTimeMillis() - start);
 
         assertTrue(true);
     }

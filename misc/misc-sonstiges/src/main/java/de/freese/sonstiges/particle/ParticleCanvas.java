@@ -32,6 +32,8 @@ class ParticleCanvas extends Canvas {
     }
 
     ParticleCanvas(final int size) {
+        super();
+
         setSize(new Dimension(size, size));
 
         this.scheduledExecutorService = Executors.newScheduledThreadPool(2);

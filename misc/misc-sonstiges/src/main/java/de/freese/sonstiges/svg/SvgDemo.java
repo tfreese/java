@@ -35,6 +35,8 @@ import org.apache.batik.transcoder.SVGAbstractTranscoder;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.svg.SVGDocument;
 
 /**
@@ -42,6 +44,7 @@ import org.w3c.dom.svg.SVGDocument;
  * @see SVGGraphics2D
  */
 public final class SvgDemo extends JFrame {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SvgDemo.class);
     @Serial
     private static final long serialVersionUID = 8384522285700890883L;
 
@@ -90,7 +93,7 @@ public final class SvgDemo extends JFrame {
             outputStream.flush();
         }
         catch (Exception ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
         }
     }
 
@@ -151,10 +154,10 @@ public final class SvgDemo extends JFrame {
                     outputStream.flush();
                 }
 
-                System.out.println("PNG written to: " + path);
+                LOGGER.info("PNG written to: {}", path);
             }
             catch (Exception ex) {
-                ex.printStackTrace();
+                LOGGER.error(ex.getMessage(), ex);
             }
         });
 
@@ -164,20 +167,20 @@ public final class SvgDemo extends JFrame {
                 svgCanvas.setURI(url.toURI().toString());
             }
             catch (Exception ex) {
-                ex.printStackTrace();
+                LOGGER.error(ex.getMessage(), ex);
             }
         });
 
         svgCanvas.addSVGDocumentLoaderListener(new SVGDocumentLoaderAdapter() {
             @Override
             public void documentLoadingCompleted(final SVGDocumentLoaderEvent e) {
-                System.out.println("Document Loaded.");
+                LOGGER.info("Document Loaded.");
                 label.setText("Document Loaded.");
             }
 
             @Override
             public void documentLoadingStarted(final SVGDocumentLoaderEvent e) {
-                System.out.println("Document Loading...");
+                LOGGER.info("Document Loading...");
                 label.setText("Document Loading...");
             }
         });
@@ -185,14 +188,14 @@ public final class SvgDemo extends JFrame {
         svgCanvas.addGVTTreeBuilderListener(new GVTTreeBuilderAdapter() {
             @Override
             public void gvtBuildCompleted(final GVTTreeBuilderEvent e) {
-                System.out.println("Build Done.");
+                LOGGER.info("Build Done.");
                 label.setText("Build Done.");
                 pack();
             }
 
             @Override
             public void gvtBuildStarted(final GVTTreeBuilderEvent e) {
-                System.out.println("Build Started...");
+                LOGGER.info("Build Started...");
                 label.setText("Build Started...");
             }
         });
@@ -205,7 +208,7 @@ public final class SvgDemo extends JFrame {
 
             @Override
             public void gvtRenderingPrepare(final GVTTreeRendererEvent e) {
-                System.out.println("Rendering Started...");
+                LOGGER.info("Rendering Started...");
                 label.setText("Rendering Started...");
             }
         });

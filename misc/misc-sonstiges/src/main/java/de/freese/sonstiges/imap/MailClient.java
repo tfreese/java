@@ -167,7 +167,7 @@ public class MailClient implements AutoCloseable {
         hostField.setCaretPosition(0);
         hostField.requestFocus();
 
-        final int choice = JOptionPane.showConfirmDialog(null, panel, "Mail Account", JOptionPane.PLAIN_MESSAGE);
+        final int choice = JOptionPane.showConfirmDialog(null, panel, "Mail Account", JOptionPane.DEFAULT_OPTION);
 
         if (choice != JOptionPane.OK_OPTION) {
             return;
@@ -205,17 +205,15 @@ public class MailClient implements AutoCloseable {
 
         final Folder folder;
 
-        //        folder = store.getDefaultFolder();
-        //        LOGGER.info("Getting the default folder: {}", folder.getFullName());
+        // folder = store.getDefaultFolder();
+        // LOGGER.info("Getting the default folder: {}", folder.getFullName());
         //
-        //        // Show all Folders.
-        //        for (Folder f : folder.list("*"))
-        //        {
-        //            if ((f.getType() & Folder.HOLDS_MESSAGES) != 0)
-        //            {
-        //                LOGGER.info("{}: {}", f.getFullName(), f.getMessageCount());
-        //            }
-        //        }
+        // // Show all Folders.
+        // for (Folder f : folder.list("*")) {
+        //     if ((f.getType() & Folder.HOLDS_MESSAGES) != 0) {
+        //         LOGGER.info("{}: {}", f.getFullName(), f.getMessageCount());
+        //     }
+        // }
 
         folder = store.getFolder(folderName);
 
@@ -250,7 +248,7 @@ public class MailClient implements AutoCloseable {
         }
         finally {
             try {
-                if (folder != null && folder.isOpen()) {
+                if (folder.isOpen()) {
                     folder.close(false);
                 }
             }

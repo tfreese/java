@@ -85,7 +85,7 @@ public class SudokuConfig extends Config {
     public void setPuzzle(final List<String[]> puzzle) {
         Objects.requireNonNull(puzzle, "puzzle required");
 
-        if (puzzle.size() > 9 || puzzle.get(0).length > 9) {
+        if (puzzle.size() > 9 || puzzle.getFirst().length > 9) {
             throw new IllegalArgumentException("only puzzle with 9x9 format supported");
         }
 

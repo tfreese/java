@@ -156,7 +156,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         final Map<Integer, CpuInfo> cpuInfoMap = new HashMap<>();
 
         // Total Jiffies
-        String line = lines.get(0);
+        String line = lines.getFirst();
         CpuTimes cpuTimes = parseCpuTimes(line);
         CpuInfo cpuInfo = new CpuInfo(-1, temperatures.getOrDefault(-1, 0D), 0, cpuTimes);
         cpuInfoMap.put(cpuInfo.getCore(), cpuInfo);
@@ -185,7 +185,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     @Override
     public CpuLoadAvg getCpuLoadAvg() {
         final List<String> lines = readContent("/proc/loadavg");
-        final String line = lines.get(0);
+        final String line = lines.getFirst();
 
         // ArchLinux
         // 0.40 0.91 1.09 1/999 73841
@@ -251,7 +251,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     @Override
     public HostInfo getHostInfo() {
         final List<String> lines = readContent(this.processBuilderUname);
-        final String line = lines.get(0);
+        final String line = lines.getFirst();
 
         // ArchLinux
         // Linux mainah 5.9.11-arch2-1 #1 SMP PREEMPT Sat, 28 Nov 2020 02:07:22 +0000 x86_64 GNU/Linux
@@ -309,7 +309,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         }
 
         lines = readContent(this.processBuilderPlayerctlPosition);
-        position = Double.valueOf(lines.get(0)).intValue();
+        position = Double.valueOf(lines.getFirst()).intValue();
 
         final MusicInfo musicInfo = new MusicInfo(artist, album, title, length, position, bitRate, imageUri);
 
@@ -534,7 +534,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         }
 
         lines = readContent(this.processBuilderNvidiaSmi);
-        final String line = lines.get(0);
+        final String line = lines.getFirst();
 
         final String[] splits = SPACE_PATTERN.split(line);
 
@@ -564,7 +564,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     @Override
     public double getUptimeInSeconds() {
         final List<String> lines = readContent("/proc/uptime");
-        final String line = lines.get(0);
+        final String line = lines.getFirst();
 
         // ArchLinux
         // 1147.04 8069.99
@@ -597,7 +597,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
                 continue;
             }
 
-            final String lineStat = stat.get(0);
+            final String lineStat = stat.getFirst();
 
             final String[] splitsStat = SPACE_PATTERN.split(lineStat);
 
@@ -620,7 +620,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
             String command = null;
 
             if (!cmdLine.isEmpty()) {
-                command = cmdLine.get(0);
+                command = cmdLine.getFirst();
             }
             else {
                 command = splitsStat[1];
@@ -735,7 +735,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
             final List<String> lines = readContent(file);
 
             // Nur eine Zeile erwartet.
-            final String line = lines.get(0);
+            final String line = lines.getFirst();
 
             final int frequency = Integer.parseInt(line);
 

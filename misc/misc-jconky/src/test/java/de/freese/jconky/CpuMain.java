@@ -11,12 +11,17 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.jconky.model.CpuTimes;
 
 /**
  * @author Thomas Freese
  */
 public final class CpuMain {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CpuMain.class);
+
     private static final com.sun.management.OperatingSystemMXBean OPERATING_SYSTEM_MX_BEAN =
             (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
     private static CpuTimes prev = new CpuTimes();
@@ -81,13 +86,11 @@ public final class CpuMain {
     }
 
     private static void showCpuLoad() {
-        System.out.println("CPU-Load [%] - OperatingSystemMXBean: " + (OPERATING_SYSTEM_MX_BEAN.getCpuLoad() * 100D));
+        LOGGER.info("CPU-Load [%] - OperatingSystemMXBean: {}", OPERATING_SYSTEM_MX_BEAN.getCpuLoad() * 100D);
 
         final CpuTimes cpuTimes = getCpuTimes();
-        System.out.println("CPU-Load [%] - Vorgänger-Rechnung: " + (cpuTimes.getCpuUsage(prev) * 100D));
+        LOGGER.info("CPU-Load [%] - Vorgänger-Rechnung: {}", cpuTimes.getCpuUsage(prev) * 100D);
         prev = cpuTimes;
-
-        System.out.println();
     }
 
     private CpuMain() {

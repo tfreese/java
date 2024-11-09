@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.sql.DataSource;
 
@@ -147,9 +148,10 @@ public final class ConnectionFactory {
              Statement statement = connection.createStatement()) {
             try (InputStream inputStream = ClassLoader.getSystemResourceAsStream("ch/qos/logback/classic/db/script/hsqldb.sql");
                  InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                 BufferedReader reader = new BufferedReader(inputStreamReader)) {
+                 BufferedReader reader = new BufferedReader(inputStreamReader);
+                 Stream<String> lines = reader.lines()) {
 
-                final String sql = reader.lines()
+                final String sql = lines
                         .filter(Objects::nonNull)
                         .map(String::strip)
                         .filter(line -> !line.isEmpty())

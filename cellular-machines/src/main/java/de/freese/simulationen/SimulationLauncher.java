@@ -13,6 +13,9 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.simulationen.model.SimulationType;
 
 /**
@@ -22,29 +25,36 @@ import de.freese.simulationen.model.SimulationType;
  * @author Thomas Freese
  */
 public final class SimulationLauncher {
-    public static void main(final String[] args) throws Exception {
-        SimulationEnvironment.getInstance().init();
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimulationLauncher.class);
 
-        if (args.length == 0) {
-            throw new IllegalArgumentException("parameter required: -swing or -console");
+    public static void main(final String[] args) {
+        try {
+            SimulationEnvironment.getInstance().init();
+
+            if (args.length == 0) {
+                throw new IllegalArgumentException("parameter required: -swing or -console");
+            }
+
+            final List<String> parameter = new ArrayList<>(List.of(args));
+
+            if ("-swing".equals(parameter.getFirst())) {
+                launchSwing();
+
+                return;
+            }
+            else if ("-console".equals(parameter.getFirst())) {
+                parameter.removeFirst();
+
+                launchConsole(parameter);
+
+                return;
+            }
+
+            throw new IllegalArgumentException("parameter not supported");
         }
-
-        final List<String> parameter = new ArrayList<>(List.of(args));
-
-        if ("-swing".equals(parameter.get(0))) {
-            launchSwing();
-
-            return;
+        catch (Exception ex) {
+            LOGGER.error(ex.getMessage(), ex);
         }
-        else if ("-console".equals(parameter.get(0))) {
-            parameter.remove(0);
-
-            launchConsole(parameter);
-
-            return;
-        }
-
-        throw new IllegalArgumentException("parameter not supported");
     }
 
     /**
@@ -58,26 +68,26 @@ public final class SimulationLauncher {
         Path path = null;
 
         while (!parameter.isEmpty()) {
-            if ("-type".equals(parameter.get(0))) {
-                parameter.remove(0);
+            if ("-type".equals(parameter.getFirst())) {
+                parameter.removeFirst();
 
-                type = SimulationType.findByNameShort(parameter.remove(0));
+                type = SimulationType.findByNameShort(parameter.removeFirst());
             }
-            else if ("-cycles".equals(parameter.get(0))) {
-                parameter.remove(0);
+            else if ("-cycles".equals(parameter.getFirst())) {
+                parameter.removeFirst();
 
-                cycles = Integer.parseInt(parameter.remove(0));
+                cycles = Integer.parseInt(parameter.removeFirst());
             }
-            else if ("-size".equals(parameter.get(0))) {
-                parameter.remove(0);
+            else if ("-size".equals(parameter.getFirst())) {
+                parameter.removeFirst();
 
-                width = Integer.parseInt(parameter.remove(0));
-                height = Integer.parseInt(parameter.remove(0));
+                width = Integer.parseInt(parameter.removeFirst());
+                height = Integer.parseInt(parameter.removeFirst());
             }
-            else if ("-dir".equals(parameter.get(0))) {
-                parameter.remove(0);
+            else if ("-dir".equals(parameter.getFirst())) {
+                parameter.removeFirst();
 
-                path = Paths.get(parameter.remove(0));
+                path = Paths.get(parameter.removeFirst());
             }
         }
 
@@ -90,7 +100,7 @@ public final class SimulationLauncher {
     private static void launchSwing() {
         Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
             if (throwable != null) {
-                throwable.printStackTrace();
+                LOGGER.error(throwable.getMessage(), throwable);
             }
 
             System.exit(-1);

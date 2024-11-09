@@ -18,6 +18,8 @@ class TransferableTreeNode implements Transferable {
     private final TreePath path;
 
     TransferableTreeNode(final TreePath tp) {
+        super();
+        
         this.path = tp;
     }
 

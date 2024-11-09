@@ -12,16 +12,16 @@ public class FractalCell extends AbstractCell {
     static final int ITERATIONEN = 50;
     private static final double EPSILON = 0.0001D;
 
-    private static boolean equal(final double xi, final double x, final double yi, final double y) {
-        return fabs(x - y) < EPSILON && fabs(xi - yi) < EPSILON;
-    }
-
     private static double fabs(final double a) {
         if (a < 0) {
             return -a;
         }
 
         return a;
+    }
+
+    private static boolean isEqual(final double xi, final double x, final double yi, final double y) {
+        return fabs(x - y) < EPSILON && fabs(xi - yi) < EPSILON;
     }
 
     public FractalCell(final FractalRasterSimulation simulation) {
@@ -37,7 +37,7 @@ public class FractalCell extends AbstractCell {
         double zLast = 999D;
 
         for (int i = 0; i < ITERATIONEN; i++) {
-            if (equal(zi, z, ziLast, zLast)) {
+            if (isEqual(zi, z, ziLast, zLast)) {
                 return i;
             }
 

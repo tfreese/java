@@ -211,9 +211,9 @@ public final class SymbolEncoderMain {
 
         final JButton clearButton = new JButton("Clear");
         clearButton.addActionListener(action -> {
-            for (int y = 0; y < toggleButtons.length; y++) {
-                for (int x = 0; x < toggleButtons[y].length; x++) {
-                    toggleButtons[y][x].setSelected(false);
+            for (final JToggleButton[] toggleButton : toggleButtons) {
+                for (final JToggleButton jToggleButton : toggleButton) {
+                    jToggleButton.setSelected(false);
                 }
             }
 

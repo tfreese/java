@@ -11,6 +11,9 @@ import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.sonstiges.server.handler.HttpIoHandler;
 import de.freese.sonstiges.server.handler.IoHandler;
 import de.freese.sonstiges.server.multithread.ServerMultiThread;
@@ -20,6 +23,8 @@ import de.freese.sonstiges.server.singlethread.ServerSingleThread;
  * @author Thomas Freese
  */
 public final class ServerMain {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServerMain.class);
+
     public static String getRemoteAddress(final SelectionKey selectionKey) throws IOException {
         final SelectableChannel selectableChannel = selectionKey.channel();
 
@@ -45,13 +50,9 @@ public final class ServerMain {
         server.start();
         // ForkJoinPool.commonPool().execute(server);
 
-        System.out.println();
-        System.out.println();
-        System.out.println("******************************************************************************************************************");
-        System.out.println("You're using an IDE, click in this console and press ENTER to call System.exit() and trigger the shutdown routine.");
-        System.out.println("******************************************************************************************************************");
-        System.out.println();
-        System.out.println();
+        LOGGER.info("******************************************************************************************************************");
+        LOGGER.info("You're using an IDE, click in this console and press ENTER to call System.exit() and trigger the shutdown routine.");
+        LOGGER.info("******************************************************************************************************************");
 
         // Console für programmatische Eingabe simulieren.
         // final PipedOutputStream pos = new PipedOutputStream();
@@ -59,7 +60,7 @@ public final class ServerMain {
         // System.setIn(pis);
 
         while (!server.isStarted()) {
-            System.out.println("check started");
+            LOGGER.info("check started");
             TimeUnit.MILLISECONDS.sleep(100);
         }
 
@@ -90,7 +91,7 @@ public final class ServerMain {
             System.in.read();
         }
         catch (Exception ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
         }
 
         server.stop();
@@ -124,8 +125,7 @@ public final class ServerMain {
 
             final CharBuffer charBuffer = charset.decode(buffer);
 
-            System.out.println();
-            System.out.println(charBuffer.toString().strip());
+            LOGGER.info(charBuffer.toString().strip());
 
             buffer.clear();
         }

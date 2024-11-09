@@ -25,6 +25,7 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
         super();
 
         this.image = image;
+        
         setFocusable(true);
         addMouseListener(this);
         addFocusListener(this);

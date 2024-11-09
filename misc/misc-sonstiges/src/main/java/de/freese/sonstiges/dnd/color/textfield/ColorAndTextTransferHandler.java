@@ -13,13 +13,18 @@ import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.Position;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * An implementation of TransferHandler that adds support for the import of dnd color and the import and export of text.<br>
  * Dropping a dnd color on a component having this TransferHandler changes the foreground of the component to the imported dnd color.
  */
 class ColorAndTextTransferHandler extends ColorTransferHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ColorAndTextTransferHandler.class);
+
     private static final DataFlavor STRING_FLAVOR = DataFlavor.stringFlavor;
-    
+
     @Serial
     private static final long serialVersionUID = -2099117900708234471L;
 
@@ -66,10 +71,10 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
                 return true;
             }
             catch (UnsupportedFlavorException ex) {
-                System.out.println("importData: unsupported data flavor");
+                LOGGER.error("importData: unsupported data flavor", ex);
             }
             catch (IOException ex) {
-                System.out.println("importData: I/O exception");
+                LOGGER.error("importData: I/O exception", ex);
             }
         }
 
@@ -94,7 +99,7 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
             this.p1 = doc.createPosition(end);
         }
         catch (BadLocationException ex) {
-            System.out.println("Can't create position - unable to remove text from source.");
+            LOGGER.error("Can't create position - unable to remove text from source.", ex);
         }
 
         this.shouldRemove = true;
@@ -113,7 +118,7 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
                     tc.getDocument().remove(this.p0.getOffset(), this.p1.getOffset() - this.p0.getOffset());
                 }
                 catch (BadLocationException ex) {
-                    System.out.println("Can't remove text from source.");
+                    LOGGER.error("Can't remove text from source.", ex);
                 }
             }
         }

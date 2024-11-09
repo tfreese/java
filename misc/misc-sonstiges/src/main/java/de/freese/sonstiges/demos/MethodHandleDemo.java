@@ -6,10 +6,15 @@ import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 public final class MethodHandleDemo {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandleDemo.class);
+
     /**
      * @author Thomas Freese
      */
@@ -66,11 +71,11 @@ public final class MethodHandleDemo {
         // Get the field values.
         mh = lookup.findGetter(MyPoint.class, "x", int.class);
         final int x = (int) mh.invoke(point);
-        System.out.printf("x = %d%n", x);
+        LOGGER.info("x = {}", x);
 
         mh = lookup.findGetter(MyPoint.class, "y", int.class);
         final int y = (int) mh.invoke(point);
-        System.out.printf("y = %d%n", y);
+        LOGGER.info("y = {}", y);
     }
 
     private static void accessPrivateFields() throws Throwable {
@@ -89,18 +94,18 @@ public final class MethodHandleDemo {
         final MethodHandle mhGetter = lookup.unreflectGetter(field);
         final int z = (int) mhGetter.invoke(point);
 
-        System.out.printf("z = %d%n", z);
+        LOGGER.info("z = {}", z);
     }
 
     private static void insertArguments() throws Throwable {
         final MethodHandles.Lookup lookup = MethodHandles.lookup();
 
         MethodHandle mh = lookup.findStatic(Math.class, "pow", MethodType.methodType(double.class, double.class, double.class));
-        System.out.printf("2^10 = %f%n", mh.invoke(2.0, 10.0D));
+        LOGGER.info("2^10 = {}", (double) mh.invoke(2.0, 10.0D));
 
         // Vordefinition des 2. Parameters.
         mh = MethodHandles.insertArguments(mh, 1, 10);
-        System.out.printf("2^10 = %f%n", mh.invoke(2.0D));
+        LOGGER.info("2^10 = {}", (double) mh.invoke(2.0D));
     }
 
     private MethodHandleDemo() {

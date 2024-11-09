@@ -28,6 +28,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Beispielklasse für Druck und Druckvorschau
  *
@@ -46,6 +49,7 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
     private static final String LABEL_MENU_PRINTER = "Drucker einrichten";
     private static final String LABEL_MENU_ZOOM_IN = "Vergrössern";
     private static final String LABEL_MENU_ZOOM_OUT = "Verkleinern";
+    private static final Logger LOGGER = LoggerFactory.getLogger(PrintPreviewMain.class);
     @Serial
     private static final long serialVersionUID = -2189370102458478566L;
 
@@ -248,7 +252,7 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
             this.printerJob.print();
         }
         catch (Exception ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
         }
     }
 

@@ -11,10 +11,15 @@ import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Synthesizer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 public final class SingleNoteSynthesizerMain {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SingleNoteSynthesizerMain.class);
+
     public static void main(final String[] args) {
         new SingleNoteSynthesizerMain().playNote(60);
     }
@@ -33,7 +38,7 @@ public final class SingleNoteSynthesizerMain {
             this.receiver = this.synth.getReceiver();
         }
         catch (MidiUnavailableException ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
         }
     }
 
@@ -41,7 +46,7 @@ public final class SingleNoteSynthesizerMain {
         final Instrument[] instrument = this.synth.getAvailableInstruments();
 
         for (int i = 0; i < instrument.length; i++) {
-            System.out.println(i + "   " + instrument[i].getName());
+            LOGGER.info("{}   {}", i, instrument[i].getName());
         }
     }
 
@@ -53,8 +58,9 @@ public final class SingleNoteSynthesizerMain {
             TimeUnit.MILLISECONDS.sleep(1000);
         }
         catch (InterruptedException ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
 
+            // Restore interrupted state.
             Thread.currentThread().interrupt();
         }
 
@@ -67,7 +73,7 @@ public final class SingleNoteSynthesizerMain {
             this.message.setMessage(onOrOff, 0, note, 70);
         }
         catch (InvalidMidiDataException ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
         }
     }
 }

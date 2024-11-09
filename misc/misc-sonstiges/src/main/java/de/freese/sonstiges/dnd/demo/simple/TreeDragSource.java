@@ -4,7 +4,6 @@ package de.freese.sonstiges.dnd.demo.simple;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragGestureEvent;
 import java.awt.dnd.DragGestureListener;
-import java.awt.dnd.DragGestureRecognizer;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DragSourceDragEvent;
 import java.awt.dnd.DragSourceDropEvent;
@@ -16,11 +15,16 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 class TreeDragSource implements DragSourceListener, DragGestureListener {
-    private final DragGestureRecognizer recognizer;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TreeDragSource.class);
+
+    // private final DragGestureRecognizer recognizer;
     private final DragSource source;
     private final JTree sourceTree;
 
@@ -31,13 +35,13 @@ class TreeDragSource implements DragSourceListener, DragGestureListener {
 
         this.sourceTree = tree;
         this.source = new DragSource();
-        this.recognizer = this.source.createDefaultDragGestureRecognizer(this.sourceTree, actions, this);
+        // this.recognizer = this.source.createDefaultDragGestureRecognizer(this.sourceTree, actions, this);
     }
 
     @Override
     public void dragDropEnd(final DragSourceDropEvent event) {
         // to support move or copy, we have to check which occurred:
-        System.out.println("Drop Action: " + event.getDropAction());
+        LOGGER.info("Drop Action: {}", event.getDropAction());
 
         if (event.getDropSuccess() && event.getDropAction() == DnDConstants.ACTION_MOVE) {
             ((DefaultTreeModel) this.sourceTree.getModel()).removeNodeFromParent(this.oldNode);
@@ -81,8 +85,8 @@ class TreeDragSource implements DragSourceListener, DragGestureListener {
 
     @Override
     public void dropActionChanged(final DragSourceDragEvent event) {
-        System.out.println("Action: " + event.getDropAction());
-        System.out.println("Target Action: " + event.getTargetActions());
-        System.out.println("User Action: " + event.getUserAction());
+        LOGGER.info("Action: {}", event.getDropAction());
+        LOGGER.info("Target Action: {}", event.getTargetActions());
+        LOGGER.info("User Action: {}", event.getUserAction());
     }
 }

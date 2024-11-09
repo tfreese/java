@@ -2,8 +2,6 @@ package de.freese.sonstiges.dnd.file;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.Serial;
 
 import javax.swing.BorderFactory;
@@ -13,19 +11,20 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 /**
  * @author Thomas Freese
  */
-public final class DragFileMain extends JPanel implements ActionListener {
+public final class DragFileMain extends JPanel {
     @Serial
     private static final long serialVersionUID = 605490039316371414L;
 
     public static void main(final String[] args) {
         // Schedule a job for the event-dispatching thread:
         // creating and showing this application's GUI.
-        javax.swing.SwingUtilities.invokeLater(DragFileMain::createAndShowGUI);
+        SwingUtilities.invokeLater(DragFileMain::createAndShowGUI);
     }
 
     /**
@@ -67,7 +66,6 @@ public final class DragFileMain extends JPanel implements ActionListener {
         fcPanel.add(fc, BorderLayout.CENTER);
 
         this.clear = new JButton("Clear All");
-        this.clear.addActionListener(this);
 
         final JPanel buttonPanel = new JPanel(new BorderLayout());
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -88,17 +86,16 @@ public final class DragFileMain extends JPanel implements ActionListener {
         tabPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         this.tpc = new TabbedPaneController(tabbedPane, tabPanel);
 
+        this.clear.addActionListener(event -> {
+            if (event.getSource() == this.clear) {
+                tpc.clearAll();
+            }
+        });
+
         final JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel, tabPanel);
         splitPane.setDividerLocation(400);
         splitPane.setPreferredSize(new Dimension(530, 650));
         add(splitPane, BorderLayout.CENTER);
-    }
-
-    @Override
-    public void actionPerformed(final ActionEvent event) {
-        if (event.getSource() == this.clear) {
-            this.tpc.clearAll();
-        }
     }
 
     public void setDefaultButton() {

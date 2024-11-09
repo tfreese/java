@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import java.io.Serial;
 
 import javax.swing.BorderFactory;
-import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -24,70 +23,7 @@ public final class DragColorTextFieldMain extends JPanel {
     @Serial
     private static final long serialVersionUID = 5524244374564444890L;
 
-    public static void main(final String[] args) {
-        // Schedule a job for the event-dispatching thread:
-        // creating and showing this application's GUI.
-        javax.swing.SwingUtilities.invokeLater(DragColorTextFieldMain::createAndShowGUI);
-    }
-
-    /**
-     * Create the GUI and show it. For thread safety, this method should be invoked from the event-dispatching thread.
-     */
-    private static void createAndShowGUI() {
-        // Make sure we have nice window decorations.
-        JFrame.setDefaultLookAndFeelDecorated(true);
-
-        // Create and set up the window.
-        final JFrame frame = new JFrame("DragColorTextFieldMain");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        // Create and set up the menu bar and content pane.
-        final DragColorTextFieldMain demo = new DragColorTextFieldMain();
-        frame.setJMenuBar(demo.createMenuBar());
-        demo.setOpaque(true); // content panes must be opaque
-        frame.setContentPane(demo);
-
-        // Display the window.
-        frame.pack();
-        frame.setVisible(true);
-    }
-
-    private final ColorAndTextTransferHandler colorHandler;
-
-    private JCheckBox toggleForeground;
-
-    private DragColorTextFieldMain() {
-        super(new BorderLayout());
-
-        JTextField textField;
-
-        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-        final JColorChooser chooser = new JColorChooser();
-        chooser.setDragEnabled(true);
-        add(chooser, BorderLayout.PAGE_START);
-
-        // Create the dnd.color transfer handler.
-        this.colorHandler = new ColorAndTextTransferHandler();
-
-        // Create some text fields.
-        final JPanel buttonPanel = new JPanel(new GridLayout(3, 1));
-        textField = new JTextField("I can accept dnd.color/text and drag text.");
-        textField.setTransferHandler(this.colorHandler);
-        textField.setDragEnabled(true);
-        buttonPanel.add(textField);
-        textField = new JTextField("Me too!");
-        textField.setTransferHandler(this.colorHandler);
-        textField.setDragEnabled(true);
-        buttonPanel.add(textField);
-        textField = new JTextField("Me three!");
-        textField.setTransferHandler(this.colorHandler);
-        textField.setDragEnabled(true);
-        buttonPanel.add(textField);
-        add(buttonPanel, BorderLayout.CENTER);
-    }
-
-    public JMenuBar createMenuBar() {
+    public static JMenuBar createMenuBar() {
         JMenuItem menuItem;
         final JMenuBar menuBar = new JMenuBar();
         final JMenu mainMenu = new JMenu("Edit");
@@ -109,5 +45,64 @@ public final class DragColorTextFieldMain extends JPanel {
         menuBar.add(mainMenu);
 
         return menuBar;
+    }
+
+    public static void main(final String[] args) {
+        // Schedule a job for the event-dispatching thread:
+        // creating and showing this application's GUI.
+        javax.swing.SwingUtilities.invokeLater(DragColorTextFieldMain::createAndShowGUI);
+    }
+
+    /**
+     * Create the GUI and show it. For thread safety, this method should be invoked from the event-dispatching thread.
+     */
+    private static void createAndShowGUI() {
+        // Make sure we have nice window decorations.
+        JFrame.setDefaultLookAndFeelDecorated(true);
+
+        // Create and set up the window.
+        final JFrame frame = new JFrame("DragColorTextFieldMain");
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        // Create and set up the menu bar and content pane.
+        final DragColorTextFieldMain demo = new DragColorTextFieldMain();
+        frame.setJMenuBar(createMenuBar());
+        demo.setOpaque(true); // content panes must be opaque
+        frame.setContentPane(demo);
+
+        // Display the window.
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    private DragColorTextFieldMain() {
+        super(new BorderLayout());
+
+        JTextField textField;
+
+        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        final JColorChooser chooser = new JColorChooser();
+        chooser.setDragEnabled(true);
+        add(chooser, BorderLayout.PAGE_START);
+
+        // Create the dnd.color transfer handler.
+        final ColorAndTextTransferHandler colorHandler = new ColorAndTextTransferHandler();
+
+        // Create some text fields.
+        final JPanel buttonPanel = new JPanel(new GridLayout(3, 1));
+        textField = new JTextField("I can accept dnd.color/text and drag text.");
+        textField.setTransferHandler(colorHandler);
+        textField.setDragEnabled(true);
+        buttonPanel.add(textField);
+        textField = new JTextField("Me too!");
+        textField.setTransferHandler(colorHandler);
+        textField.setDragEnabled(true);
+        buttonPanel.add(textField);
+        textField = new JTextField("Me three!");
+        textField.setTransferHandler(colorHandler);
+        textField.setDragEnabled(true);
+        buttonPanel.add(textField);
+        add(buttonPanel, BorderLayout.CENTER);
     }
 }

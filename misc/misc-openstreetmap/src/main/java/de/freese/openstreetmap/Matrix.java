@@ -36,7 +36,7 @@ public class Matrix {
     }
 
     /**
-     * Liefert eine Spiegelungsmatrix (X-Achse).
+     * Liefert eine Spiegelungsmatrix (x-Achse).
      *
      * @return Die Spiegelungsmatrix
      */
@@ -58,7 +58,7 @@ public class Matrix {
     }
 
     /**
-     * Liefert eine Spiegelungsmatrix (Y-Achse).
+     * Liefert eine Spiegelungsmatrix (y-Achse).
      *
      * @return Die Spiegelungsmatrix
      */

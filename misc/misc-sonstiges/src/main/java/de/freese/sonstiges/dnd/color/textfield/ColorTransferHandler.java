@@ -16,10 +16,10 @@ import javax.swing.TransferHandler;
  * foreground or the background of the component to the dropped dnd color, according to the value of the changesForegroundColor property.
  */
 class ColorTransferHandler extends TransferHandler {
+    private static final String MIME_TYPE = DataFlavor.javaJVMLocalObjectMimeType + ";class=java.awt.Color";
+    
     @Serial
     private static final long serialVersionUID = -8161007208324025782L;
-
-    private final String mimeType = DataFlavor.javaJVMLocalObjectMimeType + ";class=java.awt.Color";
 
     private boolean changesForegroundColor = true;
 
@@ -33,7 +33,7 @@ class ColorTransferHandler extends TransferHandler {
 
         // Try to create a DataFlavor for dnd.color.
         try {
-            this.colorFlavor = new DataFlavor(this.mimeType);
+            this.colorFlavor = new DataFlavor(MIME_TYPE);
         }
         catch (ClassNotFoundException ex) {
             // Empty

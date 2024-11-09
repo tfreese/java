@@ -144,7 +144,7 @@ public final class TestUtil {
 
         final String sep = separator == null || separator.isBlank() ? "-" : separator;
 
-        final int columnCount = rows.get(0).length;
+        final int columnCount = rows.getFirst().length;
 
         // Trenner zwischen Header und Daten.
         // final T[] row = (T[]) Array.newInstance(String.class, columnCount);
@@ -154,7 +154,7 @@ public final class TestUtil {
 
         for (int column = 0; column < columnCount; column++) {
             // row[column] = String.join("", Collections.nCopies(rows.get(0)[column].length(), sep));
-            row[column] = sep.repeat(rows.get(0)[column].length());
+            row[column] = sep.repeat(rows.getFirst()[column].length());
         }
 
         rows.add(1, (T[]) row);
@@ -170,7 +170,7 @@ public final class TestUtil {
             return;
         }
 
-        final int columnCount = rows.get(0).length;
+        final int columnCount = rows.getFirst().length;
 
         // Breite pro Spalte herausfinden.
         final int[] columnWidth = new int[columnCount];

@@ -51,14 +51,17 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
- * Demonstrates how to display a 'drag image' when using drag and drop on those platforms whose JVMs do not support it natively (eg Win32).
+ * Demonstrates how to display a 'drag image' when using drag and drop on those platforms whose JVMs do not support it natively (e.g. Win32).
  */
 public final class CTreeMain extends JTree implements DragSourceListener, DragGestureListener, Autoscroll, TreeModelListener {
     private static final int AUTOSCROLL_MARGIN = 12;
     private static final BufferedImage IMAGE_LEFT = new CArrowImage(15, 15, CArrowImage.ARROW_LEFT);
     private static final BufferedImage IMAGE_RIGHT = new CArrowImage(15, 15, CArrowImage.ARROW_RIGHT);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(CTreeMain.class);
     @Serial
     private static final long serialVersionUID = 10821500746764517L;
 
@@ -108,6 +111,8 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         private int shift;
 
         CDropTargetListener() {
+            super();
+
             this.colorCueLine = new Color(SystemColor.controlShadow.getRed(), SystemColor.controlShadow.getGreen(), SystemColor.controlShadow.getBlue(), 64);
 
             // Set up a hover timer, so that a node will be automatically expanded or collapsed
@@ -249,15 +254,13 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
                         // final TreePath pathTarget = getClosestPathForLocation(pt.x, pt.y);
                         final TreePath treePath = (TreePath) transferable.getTransferData(flavor);
 
-                        System.out.println("DROPPING: " + treePath.getLastPathComponent());
+                        LOGGER.info("DROPPING: {}", treePath.getLastPathComponent());
 
                         final DefaultTreeModel model = (DefaultTreeModel) getModel();
                         final TreePath pathNewChild;
 
-                        // .
-                        // .. Add your code here to ask your TreeModel to copy the node and act on
-                        // the mouse gestures...
-                        // .
+                        // Add your code here to ask your TreeModel to copy the node and act on the mouse gestures.
+                        //
                         // For example:
                         // If pathTarget is an expanded BRANCH,
                         // then insert source UNDER it (before the first child if any)
@@ -293,7 +296,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
                         break;
                     }
                     catch (UnsupportedFlavorException | IOException ex) {
-                        System.out.println(ex);
+                        LOGGER.error(ex.getMessage(), ex);
                         event.dropComplete(false);
 
                         return;
@@ -363,6 +366,8 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
      * Use the default JTree constructor so that we get a sample TreeModel built for us.
      */
     private CTreeMain() {
+        super();
+
         putClientProperty("JTree.lineStyle", "Angled");
 
         // Make this JTree a drag source
@@ -405,11 +410,9 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
             if (nAction == DnDConstants.ACTION_MOVE) { // The dragged item (_pathSource) has been inserted at the target selected by the
                 // user.
                 // Now it is time to delete it from its original location.
-                System.out.println("REMOVING: " + this.pathSource.getLastPathComponent());
+                LOGGER.info("REMOVING: {}", this.pathSource.getLastPathComponent());
 
-                // .
                 // .. ask your TreeModel to delete the node
-                // .
 
                 // Alten Knoten löschen
                 ((DefaultTreeModel) getModel()).removeNodeFromParent((MutableTreeNode) this.pathSource.getLastPathComponent());
@@ -478,7 +481,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
 
         setSelectionPath(path); // Select this path in the tree
 
-        System.out.println("DRAGGING: " + path.getLastPathComponent());
+        LOGGER.info("DRAGGING: {}", path.getLastPathComponent());
 
         // Wrap the path being transferred into a Transferable object
         final Transferable transferable = new CTransferableTreePath(path);
@@ -512,7 +515,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
 
     @Override
     public void treeNodesChanged(final TreeModelEvent event) {
-        System.out.println("treeNodesChanged");
+        LOGGER.info("treeNodesChanged");
         sayWhat(event);
 
         // We don't need to reset the selection path, since it has not moved
@@ -520,7 +523,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
 
     @Override
     public void treeNodesInserted(final TreeModelEvent event) {
-        System.out.println("treeNodesInserted ");
+        LOGGER.info("treeNodesInserted ");
         sayWhat(event);
 
         // We need to reset the selection path to the node just inserted
@@ -531,13 +534,13 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
 
     @Override
     public void treeNodesRemoved(final TreeModelEvent event) {
-        System.out.println("treeNodesRemoved ");
+        LOGGER.info("treeNodesRemoved ");
         sayWhat(event);
     }
 
     @Override
     public void treeStructureChanged(final TreeModelEvent event) {
-        System.out.println("treeStructureChanged ");
+        LOGGER.info("treeStructureChanged ");
         sayWhat(event);
     }
 
@@ -552,12 +555,12 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
     }
 
     private void sayWhat(final TreeModelEvent event) {
-        System.out.println(event.getTreePath().getLastPathComponent());
+        LOGGER.info("{}", event.getTreePath().getLastPathComponent());
 
         final int[] nIndex = event.getChildIndices();
 
         for (int i = 0; i < nIndex.length; i++) {
-            System.out.println(i + ". " + nIndex[i]);
+            LOGGER.info("{}. {}", i, nIndex[i]);
         }
     }
 }

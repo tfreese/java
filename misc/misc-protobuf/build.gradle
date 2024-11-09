@@ -15,7 +15,7 @@ description = "Google Protobuf Demo"
 
 protobuf {
     protoc {
-//        path = "/usr/local/bin/protoc"
+//        path = "/usr/bin/protoc"
         artifact = "com.google.protobuf:protoc:$version_protobufProtoc"
     }
 }

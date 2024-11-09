@@ -60,12 +60,11 @@ class DefaultDispatcher extends AbstractNioProcessor implements Dispatcher {
     @Override
     protected void afterSelectorWhile() {
         // Close new Channels.
-        for (Iterator<SocketChannel> iterator = getNewSessions().iterator(); iterator.hasNext(); ) {
+        for (final Iterator<SocketChannel> iterator = getNewSessions().iterator(); iterator.hasNext(); ) {
             final SocketChannel socketChannel = iterator.next();
             iterator.remove();
 
             try {
-
                 socketChannel.close();
             }
             catch (Exception ex) {
@@ -129,7 +128,7 @@ class DefaultDispatcher extends AbstractNioProcessor implements Dispatcher {
 
                 getLogger().debug("{}: register channel on selector", socketChannel.getRemoteAddress());
 
-                //                final SelectionKey selectionKey =
+                // final SelectionKey selectionKey =
                 socketChannel.register(getSelector(), SelectionKey.OP_READ);
                 // selectionKey.attach(obj)
             }

@@ -71,7 +71,8 @@ public final class PortScannerMain {
         }
 
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info(String.format("host: %s, ports: %d-%d, threads: %d", host, firstPort, lastPort, threads));
+            final String message = String.format("host: %s, ports: %d-%d, threads: %d", host, firstPort, lastPort, threads);
+            LOGGER.info(message);
         }
 
         try (ExecutorService executor = Executors.newFixedThreadPool(threads)) {

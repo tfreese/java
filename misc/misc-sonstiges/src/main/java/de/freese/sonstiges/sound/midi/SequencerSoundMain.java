@@ -12,10 +12,15 @@ import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 public final class SequencerSoundMain {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SequencerSoundMain.class);
+
     public static void main(final String[] args) throws Exception {
         new SequencerSoundMain();
 
@@ -36,7 +41,7 @@ public final class SequencerSoundMain {
             this.sequencer.open();
         }
         catch (MidiUnavailableException ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
         }
 
         createTrack();
@@ -66,7 +71,7 @@ public final class SequencerSoundMain {
             this.sequence = new Sequence(Sequence.PPQ, 4);
         }
         catch (InvalidMidiDataException ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
         }
 
         this.track = this.sequence.createTrack();
@@ -82,7 +87,7 @@ public final class SequencerSoundMain {
             this.track.add(event);
         }
         catch (InvalidMidiDataException ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
         }
     }
 
@@ -91,7 +96,7 @@ public final class SequencerSoundMain {
             this.sequencer.setSequence(this.sequence);
         }
         catch (InvalidMidiDataException ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
         }
 
         this.sequencer.start();

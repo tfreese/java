@@ -18,6 +18,8 @@ public class Calculator {
     }
 
     public Calculator(final long value) {
+        super();
+
         set(BigDecimal.valueOf(value));
     }
 

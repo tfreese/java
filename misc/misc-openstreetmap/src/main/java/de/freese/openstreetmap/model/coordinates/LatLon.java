@@ -84,7 +84,7 @@ public class LatLon extends Coordinate {
     /**
      * Computes the distance between this lat/lon and another point on the earth.<br>
      * Uses spherical law of cosines formula, not Haversine.<br>
-     * Earth is ellipsoid..
+     * Earth is ellipsoid.
      *
      * @param point1 the first point.
      * @param point2 the second point.

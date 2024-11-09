@@ -57,6 +57,8 @@ class TestMicrometer {
     void testCounter() {
         final class CountedObject {
             private CountedObject() {
+                super();
+
                 Metrics.counter("objects.instance").increment(1.0D);
             }
         }
@@ -117,7 +119,7 @@ class TestMicrometer {
 
         Metrics.globalRegistry.getRegistries().forEach(registry -> {
             // Hier können Duplikate durch verschiedene Registries entstehen.
-            MeterExporter.export(registry, Duration.ofSeconds(1L), TimeUnit.MILLISECONDS).forEach(meterExport::add);
+            meterExport.addAll(MeterExporter.export(registry, Duration.ofSeconds(1L), TimeUnit.MILLISECONDS));
         });
 
         meterExport.forEach(System.out::println);

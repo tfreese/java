@@ -4,7 +4,6 @@ package de.freese.sonstiges.dnd.demo.simple;
 import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetContext;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
@@ -17,16 +16,23 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 class TreeDropTarget implements DropTargetListener {
-    private final DropTarget target;
-    private final JTree targetTree;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TreeDropTarget.class);
+
+    // private final DropTarget target;
+    // private final JTree targetTree;
 
     TreeDropTarget(final JTree tree) {
-        this.targetTree = tree;
-        this.target = new DropTarget(this.targetTree, this);
+        super();
+
+        // this.targetTree = tree;
+        // this.target = new DropTarget(this.targetTree, this);
     }
 
     @Override
@@ -97,7 +103,7 @@ class TreeDropTarget implements DropTargetListener {
             event.rejectDrop();
         }
         catch (Exception ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
             event.rejectDrop();
         }
     }

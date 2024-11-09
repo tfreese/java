@@ -87,20 +87,20 @@ public class HopAlongRasterSimulation extends AbstractRasterSimulation {
         int newY = (int) this.y;
 
         if (newX < 0) {
-            newX = getXTorusKoord(0, newX);
+            newX = getXTorusCoord(0, newX);
             // return;
         }
         else if (newX >= getWidth()) {
-            newX = getXTorusKoord(getWidth(), getWidth() - newX);
+            newX = getXTorusCoord(getWidth(), getWidth() - newX);
             // return;
         }
 
         if (newY < 0) {
-            newY = getYTorusKoord(0, newY);
+            newY = getYTorusCoord(0, newY);
             // return;
         }
         else if (newX >= getWidth()) {
-            newY = getYTorusKoord(getHeight(), getHeight() - newY);
+            newY = getYTorusCoord(getHeight(), getHeight() - newY);
             // return;
         }
 

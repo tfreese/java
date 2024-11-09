@@ -13,7 +13,7 @@ configurations {
 sourceSets {
     main {
         java {
-            srcDir(layout.buildDirectory.get().dir("generated-sources").dir("xjc"))
+            srcDir(layout.buildDirectory.get().dir("generated").dir("xjc"))
         }
     }
 }
@@ -115,7 +115,7 @@ tasks.register("genJaxb") {
     def binding = layout.projectDirectory.file("schema.xjb")
     inputs.file binding
 
-    def destDir = layout.buildDirectory.get().dir("generated-sources").dir("xjc")
+    def destDir = layout.buildDirectory.get().dir("generated").dir("xjc")
     outputs.dir destDir
 
     // doLast {
