@@ -31,7 +31,7 @@ public final class SudokuGeneratorMain {
             if ((x % blockSize) == 0) {
                 sb.append("-".repeat((grid.length * 3) + blockSize + 1));
 
-                sb.append("\n");
+                sb.append(System.lineSeparator());
             }
 
             for (int y = 0; y < grid[0].length; y++) {
@@ -42,12 +42,12 @@ public final class SudokuGeneratorMain {
                 sb.append(String.format("%2d ", grid[x][y]));
             }
 
-            sb.append("|\n");
+            sb.append("|").append(System.lineSeparator());
         }
 
         sb.append("-".repeat((grid.length * 3) + blockSize + 1));
 
-        sb.append("\n");
+        sb.append(System.lineSeparator());
 
         System.out.println(sb);
     }

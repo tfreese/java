@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 class FileAndTextTransferHandler extends TransferHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileAndTextTransferHandler.class);
 
-    private static final String NEW_LINE = "\n";
+    private static final String NEW_LINE = System.lineSeparator();
     @Serial
     private static final long serialVersionUID = 6906658392318378092L;
 

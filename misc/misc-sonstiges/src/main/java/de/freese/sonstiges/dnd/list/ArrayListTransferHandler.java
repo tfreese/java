@@ -13,13 +13,16 @@ import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.TransferHandler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 @SuppressWarnings("unchecked")
 class ArrayListTransferHandler extends TransferHandler {
     private static final String LOCAL_ARRAY_LIST_TYPE = DataFlavor.javaJVMLocalObjectMimeType + ";class=java.util.ArrayList";
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(ArrayListTransferHandler.class);
     @Serial
     private static final long serialVersionUID = -5057942587610930744L;
 
@@ -57,6 +60,7 @@ class ArrayListTransferHandler extends TransferHandler {
 
     private final DataFlavor localArrayListFlavor;
     private final DataFlavor serialArrayListFlavor;
+
     /**
      * Number of items added
      */
@@ -108,12 +112,12 @@ class ArrayListTransferHandler extends TransferHandler {
             }
         }
         catch (UnsupportedFlavorException ex) {
-            System.out.println("importData: unsupported data flavor");
+            LOGGER.error("importData: unsupported data flavor");
 
             return false;
         }
         catch (IOException ex) {
-            System.out.println("importData: I/O exception");
+            LOGGER.error("importData: I/O exception");
 
             return false;
         }

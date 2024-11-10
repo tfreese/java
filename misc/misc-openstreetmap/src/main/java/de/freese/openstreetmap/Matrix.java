@@ -375,7 +375,7 @@ public class Matrix {
         sb.append(";");
         sb.append("|");
         sb.append(this.m13);
-        sb.append("|\n");
+        sb.append("|").append(System.lineSeparator());
         sb.append("|");
         sb.append(this.m21);
         sb.append(";");
@@ -384,7 +384,7 @@ public class Matrix {
         sb.append(";");
         sb.append("|");
         sb.append(this.m23);
-        sb.append("|\n");
+        sb.append("|").append(System.lineSeparator());
         sb.append("|");
         sb.append(this.m31);
         sb.append(";");
@@ -393,7 +393,7 @@ public class Matrix {
         sb.append(";");
         sb.append("|");
         sb.append(this.m33);
-        sb.append("|\n");
+        sb.append("|").append(System.lineSeparator());
 
         return sb.toString();
     }

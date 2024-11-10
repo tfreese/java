@@ -65,7 +65,7 @@ class ListTransferHandler extends StringTransferHandler {
             sb.append((val == null) ? "" : val.toString());
 
             if (i != (values.size() - 1)) {
-                sb.append("\n");
+                sb.append(System.lineSeparator());
             }
         }
 
@@ -104,7 +104,7 @@ class ListTransferHandler extends StringTransferHandler {
 
         this.addIndex = index;
 
-        final String[] values = str.split("\n");
+        final String[] values = str.split(System.lineSeparator());
         this.addCount = values.length;
 
         for (String value : values) {

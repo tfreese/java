@@ -71,7 +71,7 @@ class TableTransferHandler extends StringTransferHandler {
             }
 
             if (i != (this.rows.length - 1)) {
-                sb.append("\n");
+                sb.append(System.lineSeparator());
             }
         }
 
@@ -110,7 +110,7 @@ class TableTransferHandler extends StringTransferHandler {
 
         this.addIndex = index;
 
-        final String[] values = str.split("\n");
+        final String[] values = str.split(System.lineSeparator());
         this.addCount = values.length;
 
         final int colCount = target.getColumnCount();

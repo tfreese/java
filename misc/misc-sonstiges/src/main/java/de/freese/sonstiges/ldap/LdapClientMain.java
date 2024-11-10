@@ -15,11 +15,15 @@ import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
  */
 public final class LdapClientMain {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LdapClientMain.class);
+
     public static void main(final String[] args) throws Exception {
         final Properties env = new Properties();
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
@@ -47,7 +51,7 @@ public final class LdapClientMain {
 
         while (search.hasMoreElements()) {
             final SearchResult searchResult = search.nextElement();
-            System.out.println(searchResult.toString());
+            LOGGER.info(searchResult.toString());
             results.add(searchResult);
         }
 
@@ -124,7 +128,7 @@ public final class LdapClientMain {
             }
         }
         catch (Exception ex) {
-            System.err.println(ex);
+            LOGGER.error(ex.getMessage(), ex);
         }
 
         context.close();

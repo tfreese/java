@@ -49,7 +49,7 @@ public final class XsltDemo {
             transform(inputData, inputStyle, System.out);
         }
         catch (TransformerConfigurationException ex) {
-            System.out.println("\n** Transformer Factory error");
+            System.out.println(System.lineSeparator() + "** Transformer Factory error");
             System.out.println("   " + ex.getMessage());
 
             Throwable cause = ex;
@@ -61,7 +61,7 @@ public final class XsltDemo {
             LOGGER.error(cause.getMessage(), cause);
         }
         catch (TransformerException ex) {
-            System.out.println("\n** Transformation error");
+            System.out.println(System.lineSeparator() + "** Transformation error");
             System.out.println("   " + ex.getMessage());
 
             Throwable cause = ex;

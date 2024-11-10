@@ -56,10 +56,9 @@ public final class JConkyLauncher {
         JConky.getLogger().info("Allocated memory: {}", format.format(allocatedMemory / divider) + unit);
         JConky.getLogger().info("Max memory: {}", format.format(maxMemory / divider) + unit);
         JConky.getLogger().info("Total free memory: {}", format.format((freeMemory + (maxMemory - allocatedMemory)) / divider) + unit);
-        JConky.getLogger().info("=================================================================\n");
+        JConky.getLogger().info("=================================================================");
 
-        // try (PrintWriter pw = new PrintWriter(new FileOutputStream("/jconky/logs/application.log", true), true, StandardCharsets.UTF_8))
-        // {
+        // try (PrintWriter pw = new PrintWriter(new FileOutputStream("/jconky/logs/application.log", true), true, StandardCharsets.UTF_8)) {
         // pw.println();
         // pw.print("Test");
         // }

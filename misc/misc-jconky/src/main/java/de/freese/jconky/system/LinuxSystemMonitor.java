@@ -628,7 +628,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
 
             command = command.replace("(", "").replace(")", "").replace("\\r", "").replace("\\n", "");
 
-            final String statusOutput = String.join("\n", status);
+            final String statusOutput = String.join(System.lineSeparator(), status);
 
             Matcher matcher = STATUS_NAME_PATTERN.matcher(statusOutput);
             String name = null;
@@ -748,7 +748,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     private Map<Integer, Double> getCpuTemperatures() {
         final Map<Integer, Double> temperatures = new HashMap<>();
 
-        final String output = String.join("\n", readContent(this.processBuilderSensors));
+        final String output = String.join(System.lineSeparator(), readContent(this.processBuilderSensors));
 
         // Package
         final Matcher matcher = SENSORS_PACKAGE_PATTERN.matcher(output);

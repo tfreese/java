@@ -128,7 +128,7 @@ public class SudokuChromosome extends Chromosome {
         final int puzzleBlockSize = getConfig().getPuzzleBlockSize();
 
         final StringBuilder sb = new StringBuilder();
-        sb.append("\n");
+        sb.append(System.lineSeparator());
 
         for (int row = 0; row < puzzleSize; row++) {
             for (int col = 0; col < puzzleSize; col++) {
@@ -151,7 +151,7 @@ public class SudokuChromosome extends Chromosome {
                 }
             }
 
-            sb.append("\n");
+            sb.append(System.lineSeparator());
 
             if (((row + 1) % puzzleBlockSize) == 0 && row < (puzzleSize - 1)) {
                 final char[] chars = new char[(puzzleBlockSize * 3) + 2];

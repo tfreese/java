@@ -5,10 +5,15 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.zip.Adler32;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 public final class CheckedIoMain {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CheckedIoMain.class);
+
     public static void main(final String[] args) throws Exception {
         final Adler32 inChecker = new Adler32();
         final Adler32 outChecker = new Adler32();
@@ -21,12 +26,12 @@ public final class CheckedIoMain {
                     out.write(c);
                 }
 
-                System.out.println("Input stream check sum: " + inChecker.getValue());
-                System.out.println("Output stream check sum: " + outChecker.getValue());
+                LOGGER.info("Input stream check sum: {}", inChecker.getValue());
+                LOGGER.info("Output stream check sum: {}", outChecker.getValue());
             }
         }
         catch (FileNotFoundException ex) {
-            System.err.println("CheckedIoMain: " + ex);
+            LOGGER.error(ex.getMessage(), ex);
             System.exit(-1);
         }
     }

@@ -62,22 +62,22 @@ public class HttpEventHandler extends AbstractLoadBalancedEventHandler<HttpEvent
 
     private String serverResponse(final long sequence) {
         final StringBuilder body = new StringBuilder();
-        body.append("<html lang=\"de\">").append("\r\n");
-        body.append(" <head>").append("\r\n");
-        body.append("     <meta charset=\"UTF-8\">").append("\r\n");
-        body.append("     <title>Disruptor-Demo</title>").append("\r\n");
-        body.append(" </head>").append("\r\n");
-        body.append(" <body>").append("\r\n");
-        body.append("     Sample Response: ").append(LocalDateTime.now()).append("<br>\r\n");
-        body.append("     Sequence: ").append(sequence).append("<br>\r\n");
-        body.append(" </body>").append("\r\n");
-        body.append("</html>").append("\r\n");
+        body.append("<html lang=\"de\">").append(System.lineSeparator());
+        body.append(" <head>").append(System.lineSeparator());
+        body.append("     <meta charset=\"UTF-8\">").append(System.lineSeparator());
+        body.append("     <title>Disruptor-Demo</title>").append(System.lineSeparator());
+        body.append(" </head>").append(System.lineSeparator());
+        body.append(" <body>").append(System.lineSeparator());
+        body.append("     Sample Response: ").append(LocalDateTime.now()).append("<br>").append(System.lineSeparator());
+        body.append("     Sequence: ").append(sequence).append("<br>").append(System.lineSeparator());
+        body.append(" </body>").append(System.lineSeparator());
+        body.append("</html>").append(System.lineSeparator());
 
         final StringBuilder sb = new StringBuilder();
-        sb.append("HTTP/1.1 200 OK").append("\r\n");
-        sb.append("Server: disruptor").append("\r\n");
-        sb.append("Content-type: text/html").append("\r\n");
-        sb.append("\r\n");
+        sb.append("HTTP/1.1 200 OK").append(System.lineSeparator());
+        sb.append("Server: disruptor").append(System.lineSeparator());
+        sb.append("Content-type: text/html").append(System.lineSeparator());
+        sb.append(System.lineSeparator());
         sb.append(body);
 
         return sb.toString();

@@ -17,6 +17,8 @@ import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.util.DaemonThreadFactory;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <a href="https://stackoverflow.com/questions/55827411/how-to-make-a-java-nio-non-blocking-io-based-tcp-server-using-disruptor">
@@ -30,9 +32,10 @@ public final class HttpEventMain {
      * -2 damit noch Platz für den CleaningEventHandler und sonstige Ressourcen bleibt.
      */
     public static final int THREAD_COUNT = Math.max(2, Runtime.getRuntime().availableProcessors() - 2);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HttpEventMain.class);
 
     public static void main(final String[] args) throws Exception {
-        System.out.println("----- Running the server on machine with " + Runtime.getRuntime().availableProcessors() + " cores -----");
+        LOGGER.info("----- Running the server on machine with {} cores -----", Runtime.getRuntime().availableProcessors());
 
         final HttpEventMain server = new HttpEventMain(null, 4333);
 
@@ -52,14 +55,14 @@ public final class HttpEventMain {
 
         server.setProducer(new HttpEventProducer(ringBuffer, server.getMapResponseReady()));
 
-        System.out.println("\n==================== Details ====================");
-        System.out.println("Server: " + InetAddress.getLocalHost().getCanonicalHostName() + ":" + server.getPort());
+        LOGGER.info("==================== Details ====================");
+        LOGGER.info("Server: {}:{}", InetAddress.getLocalHost().getCanonicalHostName(), server.getPort());
 
         try {
             server.start();
         }
         catch (IOException ex) {
-            System.err.println("Error occurred in HttpEventMain:" + ex.getMessage());
+            LOGGER.error(ex.getMessage(), ex);
             System.exit(0);
         }
     }
@@ -158,7 +161,7 @@ public final class HttpEventMain {
         serverChannel.socket().bind(listenAddress);
         serverChannel.register(this.selector, SelectionKey.OP_ACCEPT);
 
-        System.out.println("Server ready. Ctrl-C to stop.");
+        LOGGER.info("Server ready. Ctrl-C to stop.");
 
         while (!Thread.interrupted()) {
             final int readyChannels = this.selector.select();

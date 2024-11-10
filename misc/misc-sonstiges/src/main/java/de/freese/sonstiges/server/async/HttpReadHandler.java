@@ -46,7 +46,7 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment> {
         final CharBuffer charBuffer = charset.decode(byteBuffer);
 
         final String request = charBuffer.toString();
-        LOGGER.debug("\n{}", request);
+        LOGGER.debug("{}", request);
 
         httpHeader.append(request);
 
@@ -82,22 +82,22 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment> {
         final Charset charset = IoHandler.DEFAULT_CHARSET;
 
         final CharBuffer charBufferBody = CharBuffer.allocate(256);
-        charBufferBody.put("<html>").put("\r\n");
-        charBufferBody.put("<head>").put("\r\n");
-        charBufferBody.put("<title>NIO Test</title>").put("\r\n");
-        charBufferBody.put("<meta charset=\"UTF-8\">").put("\r\n");
-        charBufferBody.put("</head>").put("\r\n");
-        charBufferBody.put("<body>").put("\r\n");
-        charBufferBody.put("Date: " + LocalDateTime.now() + "<br>").put("\r\n");
-        charBufferBody.put("</body>").put("\r\n");
-        charBufferBody.put("</html>").put("\r\n");
+        charBufferBody.put("<html>").put(System.lineSeparator());
+        charBufferBody.put("<head>").put(System.lineSeparator());
+        charBufferBody.put("<title>NIO Test</title>").put(System.lineSeparator());
+        charBufferBody.put("<meta charset=\"UTF-8\">").put(System.lineSeparator());
+        charBufferBody.put("</head>").put(System.lineSeparator());
+        charBufferBody.put("<body>").put(System.lineSeparator());
+        charBufferBody.put("Date: " + LocalDateTime.now() + "<br>").put(System.lineSeparator());
+        charBufferBody.put("</body>").put(System.lineSeparator());
+        charBufferBody.put("</html>").put(System.lineSeparator());
 
         final CharBuffer charBuffer = CharBuffer.allocate(1024);
-        charBuffer.put("HTTP/1.1 200 OK").put("\r\n");
-        charBuffer.put("Server: nio").put("\r\n");
-        charBuffer.put("Content-type: text/html").put("\r\n");
-        charBuffer.put("Content-length: " + (charBufferBody.position() * 2)).put("\r\n");
-        charBuffer.put("\r\n");
+        charBuffer.put("HTTP/1.1 200 OK").put(System.lineSeparator());
+        charBuffer.put("Server: nio").put(System.lineSeparator());
+        charBuffer.put("Content-type: text/html").put(System.lineSeparator());
+        charBuffer.put("Content-length: " + (charBufferBody.position() * 2)).put(System.lineSeparator());
+        charBuffer.put(System.lineSeparator());
 
         charBufferBody.flip();
         charBuffer.put(charBufferBody);

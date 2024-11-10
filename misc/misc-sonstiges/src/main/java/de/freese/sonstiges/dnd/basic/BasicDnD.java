@@ -99,12 +99,12 @@ public final class BasicDnD extends JPanel implements ActionListener {
         // RIGHT COLUMN
         // Create a TextField.
         this.textField = new JTextField(30);
-        this.textField.setText("Favorite foods:\nPizza, Moussaka, Pot roast");
+        this.textField.setText("Favorite foods: Pizza, Moussaka, Pot roast");
         rightPanel.add(createPanelForComponent(this.textField, "JTextField"));
 
         // Create a scrolled text area.
         this.textArea = new JTextArea(5, 30);
-        this.textArea.setText("Favorite shows:\nBuffy, Alias, Angel");
+        this.textArea.setText("Favorite shows:" + System.lineSeparator() + "Buffy, Alias, Angel");
 
         final JScrollPane scrollPane = new JScrollPane(this.textArea);
         rightPanel.add(createPanelForComponent(scrollPane, "JTextArea"));

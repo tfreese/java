@@ -1,9 +1,14 @@
 package de.freese.sonstiges.xml.jaxb.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 public final class ClubFactory {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClubFactory.class);
+
     public static Club createClub() {
         // 1
         final Club club = new Club();
@@ -25,13 +30,13 @@ public final class ClubFactory {
     }
 
     public static void toString(final Club club) {
-        System.out.println("Club-Employees:" + club.getEmployees());
-        System.out.println("Club-Opening:" + club.getOpening());
-        System.out.println("Club-Guests:" + club.getGuests());
+        LOGGER.info("Club-Employees: {}", club.getEmployees());
+        LOGGER.info("Club-Opening: {}", club.getOpening());
+        LOGGER.info("Club-Guests: {}", club.getGuests());
 
         for (DJ dj : club.getDJs()) {
-            System.out.println("\tDJ-Firstname:" + dj.getFirstName());
-            System.out.println("\tDJ-Lastname:" + dj.getLastName());
+            LOGGER.info("\tDJ-Firstname: {}", dj.getFirstName());
+            LOGGER.info("\tDJ-Lastname: {}", dj.getLastName());
         }
     }
 

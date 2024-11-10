@@ -101,14 +101,14 @@ public final class ServerMain {
     private static void requestResponse(final SocketChannel client, final Charset charset) throws Exception {
         // Request
         final CharBuffer charBufferHeader = CharBuffer.allocate(256);
-        charBufferHeader.put("GET / HTTP/1.1").put("\r\n");
-        charBufferHeader.put("Host: localhost:8001").put("\r\n");
-        charBufferHeader.put("User-Agent: " + ServerSingleThread.class.getSimpleName()).put("\r\n");
-        charBufferHeader.put("Accept: text/html").put("\r\n");
-        charBufferHeader.put("Accept-Language: de").put("\r\n");
-        charBufferHeader.put("Accept-Encoding: gzip, deflate").put("\r\n");
-        charBufferHeader.put("Connection: keep-alive").put("\r\n");
-        charBufferHeader.put("").put("\r\n");
+        charBufferHeader.put("GET / HTTP/1.1").put(System.lineSeparator());
+        charBufferHeader.put("Host: localhost:8001").put(System.lineSeparator());
+        charBufferHeader.put("User-Agent: " + ServerSingleThread.class.getSimpleName()).put(System.lineSeparator());
+        charBufferHeader.put("Accept: text/html").put(System.lineSeparator());
+        charBufferHeader.put("Accept-Language: de").put(System.lineSeparator());
+        charBufferHeader.put("Accept-Encoding: gzip, deflate").put(System.lineSeparator());
+        charBufferHeader.put("Connection: keep-alive").put(System.lineSeparator());
+        charBufferHeader.put("").put(System.lineSeparator());
         charBufferHeader.flip();
 
         ByteBuffer buffer = charset.encode(charBufferHeader);
