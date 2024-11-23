@@ -139,10 +139,10 @@ public final class HttpEventMain {
         }
 
         final String remoteAddress = channel.getRemoteAddress().toString();
-        String requestID = remoteAddress + "_" + RandomStringUtils.randomNumeric(4);
+        String requestID = remoteAddress + "_" + RandomStringUtils.secure().nextNumeric(4);
 
         while (this.mapKey.containsValue(requestID) || this.mapResponseReady.containsKey(requestID)) {
-            requestID = remoteAddress + "_" + RandomStringUtils.randomNumeric(4);
+            requestID = remoteAddress + "_" + RandomStringUtils.secure().nextNumeric(4);
         }
 
         this.mapKey.put(key, requestID);
