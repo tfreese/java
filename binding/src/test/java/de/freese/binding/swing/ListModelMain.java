@@ -1,12 +1,14 @@
 // Created: 10.08.2018
 package de.freese.binding.swing;
 
+import static org.awaitility.Awaitility.await;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -44,7 +46,7 @@ public final class ListModelMain {
 
         // Add Rows
         for (int i = 0; i < 7; i++) {
-            TimeUnit.MILLISECONDS.sleep(2000);
+            await().pollDelay(Duration.ofMillis(2000L)).until(() -> true);
 
             final Map<Integer, String> row = new HashMap<>();
             row.put(0, i + "-0");
@@ -56,12 +58,13 @@ public final class ListModelMain {
         }
 
         // Delete Rows
-        TimeUnit.MILLISECONDS.sleep(2000);
+        await().pollDelay(Duration.ofMillis(2000L)).until(() -> true);
         observableList.remove(0);
-        TimeUnit.MILLISECONDS.sleep(2000);
+
+        await().pollDelay(Duration.ofMillis(2000L)).until(() -> true);
         observableList.remove(2);
 
-        TimeUnit.MILLISECONDS.sleep(2000);
+        await().pollDelay(Duration.ofMillis(2000L)).until(() -> true);
         observableList.clear();
     }
 

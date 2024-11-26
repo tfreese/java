@@ -35,7 +35,7 @@ public class SimulationView<S extends Simulation> {
     /**
      * 40 ms = 25 Bilder/Sekunde
      */
-    private Duration delay = Duration.ofMillis(40);
+    private Duration delay = Duration.ofMillis(40L);
     private JPanel mainPanel;
     private ScheduledFuture<?> scheduledFuture;
     private S simulation;

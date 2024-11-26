@@ -1,6 +1,7 @@
 // Created: 02.09.2021
 package de.freese.jsensors;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -9,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +31,7 @@ import de.freese.jsensors.sensor.SensorValue;
  */
 class TestMetricBinder {
     @Test
-    void testCpuMetrics() throws Exception {
+    void testCpuMetrics() {
         final DefaultSensorRegistry registry = new DefaultSensorRegistry();
         final MapBackend mapBackend = new MapBackend(3);
 
@@ -41,7 +42,7 @@ class TestMetricBinder {
         assertNotNull(sensorValue1);
         assertEquals("0", sensorValue1.getValue());
 
-        TimeUnit.MILLISECONDS.sleep(300L);
+        await().pollDelay(Duration.ofMillis(300L)).until(() -> true);
 
         registry.measureAll();
         final SensorValue sensorValue2 = mapBackend.getLastValue("cpu.usage");
@@ -53,7 +54,7 @@ class TestMetricBinder {
     }
 
     @Test
-    void testDiscMetrics() throws Exception {
+    void testDiscMetrics() {
         final DefaultSensorRegistry registry = new DefaultSensorRegistry();
         final MapBackend mapBackend = new MapBackend(3);
 
@@ -80,7 +81,7 @@ class TestMetricBinder {
     }
 
     @Test
-    void testExecutorServiceMetrics() throws Exception {
+    void testExecutorServiceMetrics() {
         final DefaultSensorRegistry registry = new DefaultSensorRegistry();
         final MapBackend mapBackend = new MapBackend(3);
 
@@ -122,7 +123,7 @@ class TestMetricBinder {
     }
 
     @Test
-    void testMemoryMetrics() throws Exception {
+    void testMemoryMetrics() {
         final DefaultSensorRegistry registry = new DefaultSensorRegistry();
         final MapBackend mapBackend = new MapBackend(3);
 
@@ -152,7 +153,7 @@ class TestMetricBinder {
     }
 
     @Test
-    void testSwapMetrics() throws Exception {
+    void testSwapMetrics() {
         final DefaultSensorRegistry registry = new DefaultSensorRegistry();
         final MapBackend mapBackend = new MapBackend(3);
 

@@ -1,5 +1,7 @@
 package de.freese.sonstiges;
 
+import static org.awaitility.Awaitility.await;
+
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
@@ -1398,18 +1400,20 @@ public final class MiscDemo {
         final Sinks.Many<String> latestChange = Sinks.many().replay().latest();
 
         // Analog AccumulativeRunnable
-        latestChange.asFlux().buffer(Duration.ofMillis(250), Schedulers.boundedElastic()).subscribe(list -> LOGGER.info(list.toString()));
+        latestChange.asFlux().buffer(Duration.ofMillis(250L), Schedulers.boundedElastic()).subscribe(list -> LOGGER.info(list.toString()));
 
         // Nur das letzte Element innerhalb des Zeitraums.
-        latestChange.asFlux().sample(Duration.ofMillis(250)).subscribe(LOGGER::info);
+        latestChange.asFlux().sample(Duration.ofMillis(250L)).subscribe(LOGGER::info);
 
         for (int i = 0; i < 100; i++) {
             // latestChange.emitNext(Integer.toString(i), EmitFailureHandler.FAIL_FAST);
             latestChange.tryEmitNext(Integer.toString(i));
-            TimeUnit.MILLISECONDS.sleep(25);
+            // TimeUnit.MILLISECONDS.sleep(25);
+            await().pollDelay(Duration.ofMillis(25L)).until(() -> true);
         }
 
-        TimeUnit.MILLISECONDS.sleep(25);
+        // TimeUnit.MILLISECONDS.sleep(25);
+        await().pollDelay(Duration.ofMillis(25L)).until(() -> true);
 
         LOGGER.info("Stop");
     }

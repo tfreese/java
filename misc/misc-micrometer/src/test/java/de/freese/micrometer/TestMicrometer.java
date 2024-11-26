@@ -2,6 +2,7 @@
 package de.freese.micrometer;
 
 import static java.util.stream.Collectors.joining;
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -102,13 +103,13 @@ class TestMicrometer {
      */
     @Test
     @Order(10)
-    void testIterateMeters() throws Exception {
+    void testIterateMeters() {
         Counter.builder("test.counter").register(Metrics.globalRegistry).increment(1.0D);
         Gauge.builder("test.gauge", Math::random).register(Metrics.globalRegistry).value();
         Timer.builder("test.timer").register(Metrics.globalRegistry).record(Duration.ofMillis(100L));
 
         final Sample sample = LongTaskTimer.builder("test.longTaskTimer").register(Metrics.globalRegistry).start();
-        TimeUnit.SECONDS.sleep(1L);
+        await().pollDelay(Duration.ofMillis(1000L)).until(() -> true);
         sample.stop();
 
         Metrics.globalRegistry.forEachMeter(meter -> System.out.println(writeMeter(meter)));
@@ -129,7 +130,7 @@ class TestMicrometer {
 
     @Test
     @Order(3)
-    void testPushMetrics() throws Exception {
+    void testPushMetrics() {
         final Logger logger = LoggerFactory.getLogger("LoggingRegistry");
 
         // PushRegistryConfig
@@ -148,17 +149,17 @@ class TestMicrometer {
         final PushMeterRegistry pushMeterRegistry = new LoggingMeterRegistry(loggingRegistryConfig, Clock.SYSTEM, logger::info);
         Metrics.addRegistry(pushMeterRegistry);
 
-        //        pushMeterRegistry.start(Executors.defaultThreadFactory());
+        // pushMeterRegistry.start(Executors.defaultThreadFactory());
 
         Counter.builder("test.counter").register(pushMeterRegistry).increment(1.0D);
         Gauge.builder("test.gauge", Math::random).register(pushMeterRegistry).value();
         Timer.builder("test.timer").register(pushMeterRegistry).record(Duration.ofMillis(100L));
 
         final Sample sample = LongTaskTimer.builder("test.longTaskTimer").register(pushMeterRegistry).start();
-        TimeUnit.SECONDS.sleep(1L);
+        await().pollDelay(Duration.ofSeconds(1L)).until(() -> true);
         sample.stop();
 
-        TimeUnit.SECONDS.sleep(1L);
+        await().pollDelay(Duration.ofSeconds(1L)).until(() -> true);
 
         pushMeterRegistry.stop();
         Metrics.removeRegistry(pushMeterRegistry);
@@ -173,7 +174,7 @@ class TestMicrometer {
         final Timer timer = Metrics.timer("app.event");
 
         final Callable<Void> callable = () -> {
-            TimeUnit.MILLISECONDS.sleep(100L);
+            await().pollDelay(Duration.ofMillis(100L)).until(() -> true);
             return null;
         };
 
@@ -189,7 +190,7 @@ class TestMicrometer {
 
         final Sample sample = longTaskTimer.start();
 
-        TimeUnit.SECONDS.sleep(1L);
+        await().pollDelay(Duration.ofMillis(1000L)).until(() -> true);
 
         final long durationInNanos = sample.stop();
 

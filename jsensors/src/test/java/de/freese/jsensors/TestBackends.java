@@ -117,7 +117,7 @@ class TestBackends {
     }
 
     @Test
-    void testDisruptorBackend() throws Exception {
+    void testDisruptorBackend() {
         final List<SensorValue> sensorValues = createSensorValues();
         final List<SensorValue> consumedValues = Collections.synchronizedList(new ArrayList<>());
 
@@ -134,7 +134,7 @@ class TestBackends {
     }
 
     @Test
-    void testExecutorBackend() throws Exception {
+    void testExecutorBackend() {
         final List<SensorValue> sensorValues = createSensorValues();
         final List<SensorValue> consumedValues = Collections.synchronizedList(new ArrayList<>());
 
@@ -202,7 +202,7 @@ class TestBackends {
     }
 
     @Test
-    void testRSocketBackend() throws Exception {
+    void testRSocketBackend() {
         final List<SensorValue> sensorValues = createSensorValues();
         final List<SensorValue> consumedValues = Collections.synchronizedList(new ArrayList<>());
 
@@ -241,7 +241,7 @@ class TestBackends {
     }
 
     @Test
-    void testWorkerBackend() throws Exception {
+    void testWorkerBackend() {
         final List<SensorValue> sensorValues = createSensorValues();
         final List<SensorValue> consumedValues = Collections.synchronizedList(new ArrayList<>());
 

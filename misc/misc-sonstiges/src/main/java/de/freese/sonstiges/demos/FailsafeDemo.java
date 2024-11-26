@@ -62,7 +62,7 @@ public final class FailsafeDemo {
 
         // Restrict concurrent executions on a resource.
         final Bulkhead<Object> bulkhead = Bulkhead.builder(10)
-                .withMaxWaitTime(Duration.ofMillis(500))
+                .withMaxWaitTime(Duration.ofMillis(500L))
                 //.onFailure(event -> LOGGER.error("Bulkhead onFailure: {} ms", event.getElapsedTime().toMillis()))
                 .build();
 
@@ -71,7 +71,7 @@ public final class FailsafeDemo {
         // Permits an execution every 10 millis.
         // final RateLimiter<Object> rateLimiter = RateLimiter.smoothBuilder(Duration.ofMillis(10)).withMaxWaitTime(Duration.ofSeconds(1)).build();
 
-        final Timeout<Object> timeout = Timeout.builder(Duration.ofMillis(50))
+        final Timeout<Object> timeout = Timeout.builder(Duration.ofMillis(50L))
                 .onFailure(event -> LOGGER.error("Timeout onFailure: {} ms", event.getElapsedTime().toMillis()))
                 .build();
 
