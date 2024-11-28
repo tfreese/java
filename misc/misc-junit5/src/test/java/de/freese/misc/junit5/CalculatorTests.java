@@ -24,6 +24,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings("java:S4144")
 class CalculatorTests {
     private Calculator calculator;
 

@@ -1,8 +1,11 @@
 // Created: 31.10.2020
 package de.freese.jsensors;
 
+import static org.awaitility.Awaitility.await;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
@@ -23,7 +26,7 @@ import de.freese.jsensors.utils.JSensorThreadFactory;
 public final class SensorMain {
     static final Logger LOGGER = LoggerFactory.getLogger(SensorMain.class);
 
-    public static void main(final String[] args) throws Exception {
+    public static void main(final String[] args) {
         final Path logPath = Paths.get(System.getProperty("user.home"), ".java-apps", "jSensors");
 
         final ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("scheduler-%d"), 4);
@@ -53,7 +56,8 @@ public final class SensorMain {
         registry.scheduleSensor("memory.total", 1, 1, TimeUnit.SECONDS);
         registry.scheduleSensor("memory.usage", 1, 1, TimeUnit.SECONDS);
 
-        TimeUnit.SECONDS.sleep(10L);
+        // TimeUnit.SECONDS.sleep(10L);
+        await().pollDelay(Duration.ofSeconds(10L)).timeout(Duration.ofSeconds(11L)).until(() -> true);
 
         csvBackendMemory.stop(); // Trigger submit/commit
         csvBackendCpuUsage.stop(); // Trigger submit/commit

@@ -84,9 +84,9 @@ public class WaTorCell extends AbstractCell {
 
         while (!this.fischNachbarnList.isEmpty()) {
             final int size = this.fischNachbarnList.size();
-            final int[] koords = this.fischNachbarnList.remove(getSimulation().getRandom().nextInt(size));
+            final int[] coords = this.fischNachbarnList.remove(getSimulation().getRandom().nextInt(size));
 
-            final WaTorCell cell = getSimulation().getCell(koords[0], koords[1]);
+            final WaTorCell cell = getSimulation().getCell(coords[0], coords[1]);
 
             // Ist das wirklich noch ein Fisch ?
             if (cell.isFish()) {

@@ -12,4 +12,5 @@ dependencies {
 
     testImplementation("org.hsqldb:hsqldb")
     testImplementation("org.jfree:jfreechart")
+    testImplementation("org.slf4j:slf4j-simple")
 }

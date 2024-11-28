@@ -128,10 +128,9 @@ public abstract class Genotype {
 
                     return i;
                 })
-                .forEach(i -> {
-                            // Mutate population
-                            newPopulation.getChromosome(i).mutate();
-                        }
+                .forEach(i ->
+                        // Mutate population
+                        newPopulation.getChromosome(i).mutate()
                 )
         ;
 

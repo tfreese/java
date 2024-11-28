@@ -65,28 +65,12 @@ public class FieldModel extends AbstractModel {
     public boolean isFieldClassPrimitive() {
         // return getFieldClazz().isPrimitive();
 
-        boolean isPrimitive = false;
-
-        if (getFieldClazzName().startsWith("int")) {
-            isPrimitive = true;
-        }
-        else if (getFieldClazzName().startsWith("long")) {
-            isPrimitive = true;
-        }
-        else if (getFieldClazzName().startsWith("float")) {
-            isPrimitive = true;
-        }
-        else if (getFieldClazzName().startsWith("double")) {
-            isPrimitive = true;
-        }
-        else if (getFieldClazzName().startsWith("byte")) {
-            isPrimitive = true;
-        }
-        else if (getFieldClazzName().startsWith("short")) {
-            isPrimitive = true;
-        }
-
-        return isPrimitive;
+        return getFieldClazzName().startsWith("int")
+                || getFieldClazzName().startsWith("long")
+                || getFieldClazzName().startsWith("float")
+                || getFieldClazzName().startsWith("double")
+                || getFieldClazzName().startsWith("byte")
+                || getFieldClazzName().startsWith("short");
     }
 
     public boolean isUseForToStringMethod() {

@@ -22,9 +22,10 @@ import de.freese.jsensors.utils.SyncFuture;
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings("java:S5778")
 class TestRegistries {
     @Test
-    void testDefaultSensorRegistry() throws Exception {
+    void testDefaultSensorRegistry() {
         final DefaultSensorRegistry registry = new DefaultSensorRegistry();
 
         final MapBackend mapBackend = new MapBackend(3);

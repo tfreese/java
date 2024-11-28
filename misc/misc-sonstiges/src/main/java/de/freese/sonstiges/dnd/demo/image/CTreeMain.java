@@ -108,7 +108,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         private TreePath pathLast;
         private Point pointLast = new Point();
         private Rectangle2D rectangleGhost = new Rectangle2D.Float();
-        private int shift;
+        // private int shift;
 
         CDropTargetListener() {
             super();
@@ -211,14 +211,14 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
             // Now superimpose the left/right movement indicator if necessary
             if (this.leftRight > 20) {
                 g2.drawImage(IMAGE_RIGHT, AffineTransform.getTranslateInstance((double) pt.x - CTreeMain.this.pointOffset.x, pt.y - CTreeMain.this.pointOffset.y), null);
-                this.shift += 1;
+                // this.shift += 1;
             }
             else if (this.leftRight < -20) {
                 g2.drawImage(IMAGE_LEFT, AffineTransform.getTranslateInstance((double) pt.x - CTreeMain.this.pointOffset.x, pt.y - CTreeMain.this.pointOffset.y), null);
-                this.shift -= 1;
+                // this.shift -= 1;
             }
             else {
-                this.shift = 0;
+                // this.shift = 0;
             }
 
             // And include the cue line in the area to be rubbed out next time

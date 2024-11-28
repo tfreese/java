@@ -39,6 +39,7 @@ import org.apache.logging.log4j.core.impl.Log4jLogEvent;
  * @author Thomas Freese
  */
 @Plugin(name = "MyAsync", category = Core.CATEGORY_NAME, elementType = Appender.ELEMENT_TYPE, printObject = true)
+@SuppressWarnings("java:S2093")
 public class MyAsyncAppender extends AbstractAppender {
     /**
      * @author Thomas Freese

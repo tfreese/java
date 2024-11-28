@@ -705,12 +705,13 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
                 // jConky wollen wir nicht.
                 continue;
             }
-            else if ("top".equals(name)) {
+
+            if ("top".equals(name)) {
                 // top wollen wir nicht.
                 continue;
             }
-            // else if ("java".equals(name))
-            // {
+            
+            // if ("java".equals(name)) {
             // // java wollen wir nicht.
             // continue;
             // }

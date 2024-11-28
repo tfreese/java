@@ -197,18 +197,7 @@ public final class TestUtil {
     }
 
     private static String rightPad(final String value, final int size, final String padding) {
-        final String newValue = String.format("%-" + size + "s", value).replace(" ", padding);
-
-        // if (value == null || value.trim().isEmpty()) {
-        // return newValue;
-        // }
-        //
-        // String val = value;
-        //
-        // // String.format("%-10s", "bar").replace(' ', '*');
-        // newValue = String.format("%-" + size + "s", val);
-        //
-        return newValue;
+        return padding.repeat(size) + value;
     }
 
     /**

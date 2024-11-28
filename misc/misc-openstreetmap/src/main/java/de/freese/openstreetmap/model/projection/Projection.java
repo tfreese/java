@@ -5,16 +5,16 @@ import de.freese.openstreetmap.model.coordinates.EastNorth;
 import de.freese.openstreetmap.model.coordinates.LatLon;
 
 /**
- * Classes subclass are able to convert lat/lon values to planear screen coordinates.
+ * Classes subclass are able to convert lat/lon values to planer screen coordinates.
  *
  * @author imi
  * @author Thomas Freese
  */
 public interface Projection {
-    /**
-     * List of all available Projections.
-     */
-    Projection[] ALL_PRJECTIONS = {new Epsg4326(), new Mercator()};
+    // /**
+    //  * List of all available Projections.
+    //  */
+    // Projection[] ALL_PRJECTIONS = {new Epsg4326(), new Mercator()};
 
     /**
      * circumference of the earth in meter.

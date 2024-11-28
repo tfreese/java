@@ -22,6 +22,7 @@ import de.freese.metamodel.modelgen.model.FieldModel;
  *
  * @author Thomas Freese
  */
+@SuppressWarnings("java:S1172")
 public abstract class AbstractCodeWriter implements CodeWriter {
     protected static final String TAB = "    ";
 

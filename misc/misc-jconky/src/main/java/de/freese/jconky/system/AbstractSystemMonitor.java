@@ -113,7 +113,7 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
         }
 
         try {
-            final List<String> lines = Files.readAllLines(path, charset);
+            return Files.readAllLines(path, charset);
 
             // lines = Files.lines(path, charset).collect(Collectors.toList());
 
@@ -130,8 +130,8 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
             // lines.add(line);
             // }
             // }
-
-            return lines;
+            //
+            // return lines;
         }
         catch (IOException ex) {
             throw new UncheckedIOException(ex);

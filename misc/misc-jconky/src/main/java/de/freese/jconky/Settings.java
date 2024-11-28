@@ -12,6 +12,8 @@ import de.freese.jconky.system.SystemMonitor;
  * @author Thomas Freese
  */
 public final class Settings {
+    private static final boolean DEBUG = false;
+
     /**
      * ThreadSafe Singleton-Pattern.
      *
@@ -117,6 +119,6 @@ public final class Settings {
     }
 
     public boolean isDebug() {
-        return false;
+        return DEBUG;
     }
 }

@@ -29,6 +29,7 @@ import de.freese.jsensors.sensor.SensorValue;
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings("java:S5778")
 class TestMetricBinder {
     @Test
     void testCpuMetrics() {

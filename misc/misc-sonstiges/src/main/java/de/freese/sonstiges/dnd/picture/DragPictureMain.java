@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings("java:S2259")
 public final class DragPictureMain extends JPanel {
     private static final String ADELE = "Adele";
     private static final String ALEXI = "Alexi";

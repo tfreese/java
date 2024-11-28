@@ -64,79 +64,77 @@ public final class JmxDemo {
             config.setPoolName("HikariConnectionPool");
             config.setRegisterMbeans(true);
 
-            final HikariDataSource dataSource = new HikariDataSource(config);
+            try (HikariDataSource dataSource = new HikariDataSource(config)) {
+                // Trigger Hikari initialisation.
+                dataSource.getConnection().close();
 
-            // Trigger Hikari initialisation.
-            dataSource.getConnection().close();
+                final ObjectName poolName = new ObjectName("com.zaxxer.hikari:type=Pool (" + config.getPoolName() + ")");
+                final HikariPoolMXBean poolProxy = JMX.newMXBeanProxy(mBeanServer, poolName, HikariPoolMXBean.class);
 
-            final ObjectName poolName = new ObjectName("com.zaxxer.hikari:type=Pool (" + config.getPoolName() + ")");
-            final HikariPoolMXBean poolProxy = JMX.newMXBeanProxy(mBeanServer, poolName, HikariPoolMXBean.class);
-
-            scheduledExecutorService.scheduleWithFixedDelay(() -> {
-                try {
-                    if (poolProxy == null) {
-                        LOGGER.info("Hikari not initialized, please wait...");
+                scheduledExecutorService.scheduleWithFixedDelay(() -> {
+                    try {
+                        if (poolProxy == null) {
+                            LOGGER.info("Hikari not initialized, please wait...");
+                        }
+                        else {
+                            LOGGER.info("HikariPoolState: Active={}; Idle={}, Total={}, WaitingThreads={}",
+                                    poolProxy.getActiveConnections(),
+                                    poolProxy.getIdleConnections(),
+                                    poolProxy.getTotalConnections(),
+                                    poolProxy.getThreadsAwaitingConnection());
+                        }
                     }
-                    else {
-                        LOGGER.info("HikariPoolState: Active={}; Idle={}, Total={}, WaitingThreads={}",
-                                poolProxy.getActiveConnections(),
-                                poolProxy.getIdleConnections(),
-                                poolProxy.getTotalConnections(),
-                                poolProxy.getThreadsAwaitingConnection());
+                    catch (Throwable ex) {
+                        LOGGER.error(ex.getMessage());
                     }
-                }
-                catch (Throwable ex) {
-                    LOGGER.error(ex.getMessage());
-                }
-            }, 100, 1000, TimeUnit.MILLISECONDS);
-            scheduledExecutorService.scheduleWithFixedDelay(() -> {
-                try {
-                    final ObjectName on = ObjectName.getInstance("com.zaxxer.hikari:type=Pool (HikariConnectionPool)");
-                    final MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+                }, 100, 1000, TimeUnit.MILLISECONDS);
+                scheduledExecutorService.scheduleWithFixedDelay(() -> {
+                    try {
+                        final ObjectName on = ObjectName.getInstance("com.zaxxer.hikari:type=Pool (HikariConnectionPool)");
+                        final MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 
-                    LOGGER.info("ActiveConnections = {}", mbs.getAttribute(on, "ActiveConnections"));
-                    LOGGER.info("IdleConnections = {}", mbs.getAttribute(on, "IdleConnections"));
+                        LOGGER.info("ActiveConnections = {}", mbs.getAttribute(on, "ActiveConnections"));
+                        LOGGER.info("IdleConnections = {}", mbs.getAttribute(on, "IdleConnections"));
 
-                    final DateMXBean dateMXBeanProxy = JMX.newMXBeanProxy(mbs, new ObjectName("bean:name=dateBean"), DateMXBean.class);
-                    LOGGER.info("DateBean: {}", dateMXBeanProxy.getCurrentTime());
-                    LOGGER.info("DateBean: {}", mBeanServer.getAttribute(ObjectName.getInstance("bean:name=dateBean"), "CurrentTime"));
-                    // LOGGER.info("DateBean: {}", mBeanServer.invoke(ObjectName.getInstance("bean:name=dateBean"), "getCurrentTime", null, null));
+                        final DateMXBean dateMXBeanProxy = JMX.newMXBeanProxy(mbs, new ObjectName("bean:name=dateBean"), DateMXBean.class);
+                        LOGGER.info("DateBean: {}", dateMXBeanProxy.getCurrentTime());
+                        LOGGER.info("DateBean: {}", mBeanServer.getAttribute(ObjectName.getInstance("bean:name=dateBean"), "CurrentTime"));
+                        // LOGGER.info("DateBean: {}", mBeanServer.invoke(ObjectName.getInstance("bean:name=dateBean"), "getCurrentTime", null, null));
 
-                }
-                catch (Exception ex) {
-                    LOGGER.error(ex.getMessage());
-                }
-            }, 1L, 3L, TimeUnit.SECONDS);
+                    }
+                    catch (Exception ex) {
+                        LOGGER.error(ex.getMessage());
+                    }
+                }, 1L, 3L, TimeUnit.SECONDS);
 
-            final Callable<Void> job = () -> {
-                final String query = "VALUES NOW()";
-                // final String query = DatabaseDriver.H2.getValidationQuery();
+                final Callable<Void> job = () -> {
+                    final String query = "VALUES NOW()";
+                    // final String query = DatabaseDriver.H2.getValidationQuery();
 
-                for (int i = 0; i < 10; i++) {
-                    try (Connection connection = dataSource.getConnection();
-                         Statement statement = connection.createStatement();
-                         ResultSet resultSet = statement.executeQuery(query)) {
-                        resultSet.next();
+                    for (int i = 0; i < 10; i++) {
+                        try (Connection connection = dataSource.getConnection();
+                             Statement statement = connection.createStatement();
+                             ResultSet resultSet = statement.executeQuery(query)) {
+                            resultSet.next();
 
-                        LOGGER.info("Query: {}", resultSet.getObject(1));
-                        TimeUnit.MILLISECONDS.sleep(RANDOM.nextLong(100, 1500));
+                            LOGGER.info("Query: {}", resultSet.getObject(1));
+                            TimeUnit.MILLISECONDS.sleep(RANDOM.nextLong(100, 1500));
+                        }
+
+                        TimeUnit.MILLISECONDS.sleep(1000);
                     }
 
-                    TimeUnit.MILLISECONDS.sleep(1000);
-                }
+                    return null;
+                };
 
-                return null;
-            };
+                final Future<Void> future1 = scheduledExecutorService.submit(job);
+                final Future<Void> future2 = scheduledExecutorService.submit(job);
 
-            final Future<Void> future1 = scheduledExecutorService.submit(job);
-            final Future<Void> future2 = scheduledExecutorService.submit(job);
-
-            // Avoid Terminating
-            // System.in.read();
-            future1.get();
-            future2.get();
-
-            dataSource.close();
+                // Avoid Terminating
+                // System.in.read();
+                future1.get();
+                future2.get();
+            }
 
             System.exit(0);
         }

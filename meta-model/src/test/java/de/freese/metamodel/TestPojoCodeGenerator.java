@@ -43,7 +43,7 @@ class TestPojoCodeGenerator {
     }
 
     @BeforeAll
-    static void beforeAll() throws Exception {
+    static void beforeAll() {
         dataSource = TestUtil.createHsqlDBDataSource("jdbc:hsqldb:res:hsqldb/person;create=false;readonly=true");
     }
 

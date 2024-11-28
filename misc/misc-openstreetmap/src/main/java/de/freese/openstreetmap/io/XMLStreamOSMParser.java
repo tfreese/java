@@ -20,6 +20,7 @@ import de.freese.openstreetmap.model.OsmWay;
  *
  * @author Thomas Freese
  */
+@SuppressWarnings("java:S2259")
 public class XMLStreamOSMParser implements OSMParser {
     private static final String ATTR_NAME_ID = "id";
     private static final String ATTR_NAME_KEY = "k";

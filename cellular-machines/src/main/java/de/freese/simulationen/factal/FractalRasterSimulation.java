@@ -25,14 +25,14 @@ public class FractalRasterSimulation extends AbstractRasterSimulation {
         // fireCompleted();
 
         final double zelle = 0.00625D; // Ein Pixel = 0.00625
-        double reC = zelle;
+        // double reC = zelle;
 
         final Color colAppleman = new Color(0, 0, 180); // Farbe Apfelmännchen
 
         double imC = -1.35D; // oberer Rand
 
         for (int y = 0; y < getHeight(); y++) {
-            reC = -2; // linker Rand
+            double reC = -2; // linker Rand
 
             for (int x = 0; x < getWidth(); x++) {
                 final FractalCell cell = getCell(x, y);

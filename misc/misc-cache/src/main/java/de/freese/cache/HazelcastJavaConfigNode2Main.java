@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
+@SuppressWarnings("java:S1313")
 public final class HazelcastJavaConfigNode2Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastJavaConfigNode2Main.class);
 

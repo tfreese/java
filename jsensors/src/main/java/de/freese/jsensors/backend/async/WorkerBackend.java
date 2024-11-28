@@ -107,6 +107,9 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
             this.worker.join(200);
         }
         catch (InterruptedException ex) {
+            // Restore interrupted state.
+            Thread.currentThread().interrupt();
+            
             getLogger().error(ex.getMessage(), ex);
         }
 

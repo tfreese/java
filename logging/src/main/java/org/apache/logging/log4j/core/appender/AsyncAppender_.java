@@ -17,7 +17,7 @@ import de.freese.logging.log4j.MyAsyncAppender;
  * @author Thomas Freese
  */
 //@Plugin(name = "Async", category = Core.CATEGORY_NAME, elementType = Appender.ELEMENT_TYPE, printObject = true)
-@SuppressWarnings("checkstyle:TypeName")
+@SuppressWarnings({"checkstyle:TypeName", "java:S1144"})
 public final class AsyncAppender_ extends MyAsyncAppender {
     @PluginBuilderFactory
     public static Builder newBuilder() {
