@@ -45,6 +45,7 @@ import org.w3c.dom.svg.SVGDocument;
  */
 public final class SvgDemo extends JFrame {
     private static final Logger LOGGER = LoggerFactory.getLogger(SvgDemo.class);
+
     @Serial
     private static final long serialVersionUID = 8384522285700890883L;
 
@@ -61,7 +62,7 @@ public final class SvgDemo extends JFrame {
         });
     }
 
-    private static BufferedImage loadSvgImage(final InputStream inputStream, final float width, final float height) throws Exception {
+    static BufferedImage loadSvgImage(final InputStream inputStream, final float width, final float height) throws Exception {
         final BufferedImageTranscoder transcoder = new BufferedImageTranscoder();
         transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, width);
         transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, height);

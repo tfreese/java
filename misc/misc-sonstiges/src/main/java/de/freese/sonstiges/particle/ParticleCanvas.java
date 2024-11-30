@@ -5,6 +5,7 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.Serial;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +22,7 @@ class ParticleCanvas extends Canvas {
     @Serial
     private static final long serialVersionUID = -7875942028557880029L;
 
-    private final Random random = new Random();
+    private final Random random = new SecureRandom();
     private final transient ScheduledExecutorService scheduledExecutorService;
 
     private transient ScheduledFuture<?> future;

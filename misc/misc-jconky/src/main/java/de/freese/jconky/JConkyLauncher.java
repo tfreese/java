@@ -62,8 +62,7 @@ public final class JConkyLauncher {
         // pw.println();
         // pw.print("Test");
         // }
-        // catch (FileNotFoundException ex)
-        // {
+        // catch (FileNotFoundException ex) {
         // ex.printStackTrace();
         // }
     }

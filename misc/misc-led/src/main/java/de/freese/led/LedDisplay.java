@@ -37,7 +37,7 @@ public final class LedDisplay {
 
         this.ledPainter = Objects.requireNonNull(ledPainter, "ledPainter required");
 
-        this.ledPanel = new LedPanel(ledPainter);
+        this.ledPanel = LedPanel.of(ledPainter);
     }
 
     public Component getComponent() {

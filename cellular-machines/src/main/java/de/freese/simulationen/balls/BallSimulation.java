@@ -55,33 +55,33 @@ public class BallSimulation extends AbstractSimulation {
 
         this.numberOfBalls = numberOfBalls;
 
-        this.bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
         reset();
     }
 
     @Override
     public BufferedImage getImage() {
-        return this.bufferedImage;
+        return bufferedImage;
     }
 
     public boolean isFinished() {
-        return this.balls.stream().allMatch(Ball::isFinished);
+        return balls.stream().allMatch(Ball::isFinished);
     }
 
     @Override
     public void nextGeneration() {
         // Bälle bewegen.
-        this.balls.forEach(b -> b.move(this.delay));
+        balls.forEach(b -> b.move(delay));
 
         fireCompleted();
     }
 
     @Override
     public void reset() {
-        this.balls.clear();
+        balls.clear();
 
-        for (int i = 0; i < this.numberOfBalls; i++) {
+        for (int i = 0; i < numberOfBalls; i++) {
             final int x = getRandom().nextInt(getWidth() - DURCHMESSER) + DURCHMESSER;
             final int y = getRandom().nextInt(getHeight() - DURCHMESSER) + DURCHMESSER;
             int vx = getRandom().nextInt(160) + 20;
@@ -119,7 +119,7 @@ public class BallSimulation extends AbstractSimulation {
         gitter(g);
 
         // An neuer Stelle malen.
-        this.balls.forEach(b -> paint(g, b, Color.BLUE));
+        balls.forEach(b -> paint(g, b, Color.BLUE));
     }
 
     /**
@@ -131,8 +131,8 @@ public class BallSimulation extends AbstractSimulation {
     private void addBall(final double x, final double y, final double vx, final double vy) {
         final Ball ball = new Ball(getWidth(), getHeight(), x, y, vx, vy, DURCHMESSER, DAEMPFUNG);
 
-        if (!this.balls.contains(ball)) {
-            this.balls.add(ball);
+        if (!balls.contains(ball)) {
+            balls.add(ball);
         }
     }
 

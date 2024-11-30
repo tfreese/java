@@ -32,23 +32,23 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation {
     protected AbstractRasterSimulation(final int width, final int height) {
         super(width, height);
 
-        this.pixelsRGB = new int[width * height];
-        this.raster = new Cell[width][height];
+        pixelsRGB = new int[width * height];
+        raster = new Cell[width][height];
 
-        // Arrays.fill(this.pixelsRGB, getNullCellColor().getRGB());
-        // Arrays.parallelSetAll(this.pixelsRGB, i -> getNullCellColor().getRGB());
+        // Arrays.fill(pixelsRGB, getNullCellColor().getRGB());
+        // Arrays.parallelSetAll(pixelsRGB, i -> getNullCellColor().getRGB());
 
-        this.imageSource = new MemoryImageSource(width, height, this.pixelsRGB, 0, width);
-        this.imageSource.setAnimated(true);
-        this.imageSource.setFullBufferUpdates(false);
+        imageSource = new MemoryImageSource(width, height, pixelsRGB, 0, width);
+        imageSource.setAnimated(true);
+        imageSource.setFullBufferUpdates(false);
 
-        this.image = Toolkit.getDefaultToolkit().createImage(this.imageSource);
-        // java.awt.Component.createImage(this.imageSource);
+        image = Toolkit.getDefaultToolkit().createImage(imageSource);
+        // java.awt.Component.createImage(imageSource);
     }
 
     @Override
     public Image getImage() {
-        return this.image;
+        return image;
     }
 
     @Override
@@ -78,25 +78,25 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation {
                             c.setXY(x, y);
                         }
 
-                        this.raster[x][y] = cell;
+                        raster[x][y] = cell;
 
                         set.add(cell);
                     }
                 })
         ;
 
-        this.cells = Set.copyOf(set);
+        cells = Set.copyOf(set);
     }
 
     protected Cell getCell(final int x, final int y) {
-        return this.raster[x][y];
+        return raster[x][y];
     }
 
     protected Stream<Cell> getCellStream() {
         // The Raster-Stream creates wave fronts, because the calculating starts in the upper left corner.
-        // return Stream.of(this.raster).flatMap(Stream::of);
+        // return Stream.of(raster).flatMap(Stream::of);
 
-        return this.cells.stream().parallel();
+        return cells.stream().parallel();
     }
 
     protected void reset(final int x, final int y) {
@@ -104,12 +104,12 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation {
     }
 
     protected void setCellColor(final int x, final int y, final Color color) {
-        this.pixelsRGB[x + (y * getWidth())] = color.getRGB();
+        pixelsRGB[x + (y * getWidth())] = color.getRGB();
     }
 
     @Override
     protected void updateImage() {
-        this.imageSource.newPixels();
-        // this.imageSource.newPixels(0, 0, getWidth(), getHeight());
+        imageSource.newPixels();
+        // imageSource.newPixels(0, 0, getWidth(), getHeight());
     }
 }

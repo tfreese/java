@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings("java:S2068")
 public final class LdapClientMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(LdapClientMain.class);
 

@@ -4,11 +4,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 public class SortThread extends Thread {
-    private static final int MAXWORDS = 50;
+    private static final Logger LOGGER = LoggerFactory.getLogger(SortThread.class);
+
+    private static final int MAX_WORDS = 50;
 
     private static void quicksort(final String[] a, final int lo0, final int hi0) {
         int lo = lo0;
@@ -39,9 +44,10 @@ public class SortThread extends Thread {
         }
 
         if (hi < lo) {
-            final int t = hi;
-            hi = lo;
-            lo = t;
+            // final int t = hi;
+            // hi = lo;
+            // lo = t;
+            lo = hi;
         }
 
         quicksort(a, lo0, lo);
@@ -62,13 +68,13 @@ public class SortThread extends Thread {
     public void run() {
         if (this.out != null && this.in != null) {
             try {
-                final String[] listOfWords = new String[MAXWORDS];
+                final String[] listOfWords = new String[MAX_WORDS];
                 int numWords = 0;
 
                 while ((listOfWords[numWords] = this.in.readLine()) != null) {
                     numWords++;
 
-                    if (numWords == (MAXWORDS - 1)) {
+                    if (numWords == (MAX_WORDS - 1)) {
                         break;
                     }
                 }
@@ -82,7 +88,7 @@ public class SortThread extends Thread {
                 this.out.close();
             }
             catch (IOException ex) {
-                System.err.println("SortThread run: " + ex);
+                LOGGER.error(ex.getMessage(), ex);
             }
         }
     }

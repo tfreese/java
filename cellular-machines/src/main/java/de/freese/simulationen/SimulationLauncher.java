@@ -107,28 +107,28 @@ public final class SimulationLauncher {
         });
 
         // final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // Single-Monitor
-        // int width = (int) screenSize.getWidth() - 75;
-        // int height = (int) screenSize.getHeight() - 75;
+        // int width = (int) (screenSize.getWidth() * 0.75D);
+        // int height = (int) 8screenSize.getHeight() * 0.75D);
 
         final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment(); // Multi-Monitor
-        // final GraphicsDevice gd = ge.getDefaultScreenDevice(); // Haupt-Monitor
-        final GraphicsDevice[] gds = ge.getScreenDevices();
+        final GraphicsDevice gd = ge.getDefaultScreenDevice(); // Haupt-Monitor
+        // final GraphicsDevice[] gds = ge.getScreenDevices();
 
         int maxWidth = 0;
         int maxHeight = 0;
 
-        for (GraphicsDevice gd : gds) {
-            final Rectangle r = gd.getDefaultConfiguration().getBounds();
-            maxWidth = Math.max(maxWidth, (int) r.getWidth());
-            maxHeight = Math.max(maxHeight, (int) r.getHeight());
+        // for (GraphicsDevice gd : gds) {
+        final Rectangle r = gd.getDefaultConfiguration().getBounds();
+        maxWidth = Math.max(maxWidth, (int) r.getWidth());
+        maxHeight = Math.max(maxHeight, (int) r.getHeight());
 
-            // final DisplayMode displayMode = gd.getDisplayMode();
-            // maxWidth = Math.max(maxWidth, displayMode.getWidth());
-            // maxHeight = Math.max(maxHeight, displayMode.getHeight());
-        }
+        // final DisplayMode displayMode = gd.getDisplayMode();
+        // maxWidth = Math.max(maxWidth, displayMode.getWidth());
+        // maxHeight = Math.max(maxHeight, displayMode.getHeight());
+        // }
 
-        final int width = maxWidth - 75;
-        final int height = maxHeight - 75;
+        final int width = (int) (maxWidth * 0.75D);
+        final int height = (int) (maxHeight * 0.75D);
 
         final SimulationSwing demo = new SimulationSwing();
         demo.addWindowListener(new WindowAdapter() {
@@ -140,6 +140,11 @@ public final class SimulationLauncher {
         });
 
         SwingUtilities.invokeLater(() -> {
+            // gd.setFullScreenWindow(demo);
+
+            // 2nd Monitor.
+            // demo.setLocation(gds[1].getDefaultConfiguration().getBounds().x, demo.getY());
+
             demo.setSize(width, height);
             // demo.setPreferredSize(new Dimension(width, height));
             demo.setResizable(true);

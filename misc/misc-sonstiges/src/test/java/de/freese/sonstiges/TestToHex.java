@@ -1,8 +1,9 @@
 // Created: 04.11.2016
 package de.freese.sonstiges;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 import jakarta.xml.bind.DatatypeConverter;
@@ -19,14 +20,13 @@ import org.slf4j.LoggerFactory;
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestToHex {
-    private static final byte[] BYTES = new byte[1000000];
+    private static final byte[] BYTES = new byte[20];
     private static final char[] HEX_CODE = "0123456789ABCDEF".toCharArray();
     private static final Logger LOGGER = LoggerFactory.getLogger(TestToHex.class);
-    private static final String RESULT = "";
 
     @BeforeAll
     static void beforeAll() {
-        final Random random = new Random(System.currentTimeMillis());
+        final Random random = new SecureRandom();
 
         random.nextBytes(BYTES);
     }
@@ -43,10 +43,10 @@ class TestToHex {
             sb.append(HEX_CODE[byteValue & 0xF]);
         }
 
-        // LOGGER.info(sb);
-        LOGGER.info("testBitShift: {} ms", System.currentTimeMillis() - start);
+        assertFalse(sb.isEmpty());
 
-        assertTrue(true);
+        LOGGER.info(sb.toString());
+        LOGGER.info("testBitShift: {} ms", System.currentTimeMillis() - start);
     }
 
     @Test
@@ -55,10 +55,10 @@ class TestToHex {
         final StringBuilder sb = new StringBuilder(BYTES.length * 2);
         sb.append(DatatypeConverter.printHexBinary(BYTES));
 
-        // LOGGER.info(sb);
-        LOGGER.info("testDatatypeConverter: {} ms", System.currentTimeMillis() - start);
+        assertFalse(sb.isEmpty());
 
-        assertTrue(true);
+        LOGGER.info(sb.toString());
+        LOGGER.info("testDatatypeConverter: {} ms", System.currentTimeMillis() - start);
     }
 
     @Test
@@ -76,10 +76,10 @@ class TestToHex {
             sb.append(hex);
         }
 
-        // LOGGER.info(sb);
-        LOGGER.info("testIntegerToHexString: {} ms", System.currentTimeMillis() - start);
+        assertFalse(sb.isEmpty());
 
-        assertTrue(true);
+        LOGGER.info(sb.toString());
+        LOGGER.info("testIntegerToHexString: {} ms", System.currentTimeMillis() - start);
     }
 
     @Test
@@ -91,10 +91,10 @@ class TestToHex {
             sb.append(Integer.toString((element & 0xFF) + 0x100, 16).substring(1).toUpperCase());
         }
 
-        // LOGGER.info(sb);
-        LOGGER.info("testIntegerToString: {} ms", System.currentTimeMillis() - start);
+        assertFalse(sb.isEmpty());
 
-        assertTrue(true);
+        LOGGER.info(sb.toString());
+        LOGGER.info("testIntegerToString: {} ms", System.currentTimeMillis() - start);
     }
 
     @Test
@@ -106,9 +106,9 @@ class TestToHex {
             sb.append(String.format("%02X", element));
         }
 
-        // LOGGER.info(sb);
-        LOGGER.info("testStringFormat: {} ms", System.currentTimeMillis() - start);
+        assertFalse(sb.isEmpty());
 
-        assertTrue(true);
+        LOGGER.info(sb.toString());
+        LOGGER.info("testStringFormat: {} ms", System.currentTimeMillis() - start);
     }
 }

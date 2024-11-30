@@ -4,10 +4,27 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 public class ReverseThread extends Thread {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReverseThread.class);
+
+    private static String reverseIt(final String source) {
+        int i = 0;
+        final int len = source.length();
+        final StringBuilder sb = new StringBuilder(len);
+
+        for (i = len - 1; i >= 0; i--) {
+            sb.append(source.charAt(i));
+        }
+
+        return sb.toString();
+    }
+
     private final BufferedReader in;
     private final PrintWriter out;
 
@@ -32,20 +49,8 @@ public class ReverseThread extends Thread {
                 this.out.close();
             }
             catch (IOException ex) {
-                System.err.println("ReverseThread run: " + ex);
+                LOGGER.error(ex.getMessage(), ex);
             }
         }
-    }
-
-    private String reverseIt(final String source) {
-        int i = 0;
-        final int len = source.length();
-        final StringBuilder sb = new StringBuilder(len);
-
-        for (i = len - 1; i >= 0; i--) {
-            sb.append(source.charAt(i));
-        }
-
-        return sb.toString();
     }
 }

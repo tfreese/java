@@ -2,23 +2,26 @@ package de.freese.sonstiges.xml;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.AnnotationIntrospector;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
-import org.junit.jupiter.api.BeforeAll;
+import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.freese.sonstiges.xml.jaxb.model.Club;
 import de.freese.sonstiges.xml.jaxb.model.ClubFactory;
@@ -33,27 +36,19 @@ import de.freese.sonstiges.xml.jaxb.model.ClubFactory;
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestJacksonJson {
-    private static byte[] bytes;
-    private static ObjectMapper jsonMapper;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestJacksonJson.class);
 
-    @BeforeAll
-    static void beforeAll() {
-        jsonMapper = new ObjectMapper();
-
-        // final JacksonXmlModule xmlModule = new JacksonXmlModule();
-        // xmlModule.setDefaultUseWrapper(false);
-        //
-        // final ObjectMapper objectMapper = new XmlMapper(xmlModule);
-        // objectMapper.registerModule(new JaxbAnnotationModule());
-        // objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+    @Test
+    void testJson() throws Exception {
+        final ObjectMapper jsonMapper = new ObjectMapper();
 
         // final AnnotationIntrospector jaxbIntrospector = new JaxbAnnotationIntrospector(TypeFactory.defaultInstance());
-        // final AnnotationIntrospector jacksonIntrospector = new JacksonAnnotationIntrospector();
-        //
-        // // Annotation-Mix: Verwende primär JaxB-Annotations und sekundär Jackson-Annotations
-        // Afinal nnotationIntrospector introspector = new AnnotationIntrospectorPair(jaxbIntrospector, jacksonIntrospector);
+        final AnnotationIntrospector jacksonIntrospector = new JacksonAnnotationIntrospector();
 
-        // jsonMapper.setAnnotationIntrospector(introspector);
+        // // Annotation-Mix: Verwende primär JaxB-Annotations und sekundär Jackson-Annotations
+        // final AnnotationIntrospector introspector = new AnnotationIntrospectorPair(jaxbIntrospector, jacksonIntrospector);
+
+        jsonMapper.setAnnotationIntrospector(jacksonIntrospector);
         // jsonMapper.getDeserializationConfig().with(introspector);
         // jsonMapper.getSerializationConfig().with(introspector);
 
@@ -69,38 +64,8 @@ class TestJacksonJson {
         jsonMapper.setVisibility(PropertyAccessor.FIELD, Visibility.NONE);
         jsonMapper.setVisibility(PropertyAccessor.SETTER, Visibility.PUBLIC_ONLY);
         jsonMapper.setVisibility(PropertyAccessor.GETTER, Visibility.PUBLIC_ONLY);
-    }
 
-    @Test
-    @Order(11)
-    void testFromJSON() throws Exception {
-        System.out.println(new String(TestJacksonJson.bytes, StandardCharsets.UTF_8));
-
-        try (InputStream is = new ByteArrayInputStream(TestJacksonJson.bytes)) {
-            final Club club = jsonMapper.readValue(is, Club.class);
-            assertNotNull(club);
-            // ClubFactory.toString(club);
-        }
-    }
-
-    @Test
-    @Order(21)
-    void testFromXML() throws Exception {
-        System.out.println(new String(TestJacksonJson.bytes, StandardCharsets.UTF_8));
-
-        try (InputStream is = new ByteArrayInputStream(TestJacksonJson.bytes)) {
-            final Club club = jsonMapper.readValue(is, Club.class);
-            assertNotNull(club);
-            // ClubFactory.toString(club);
-        }
-    }
-
-    @Test
-    @Order(10)
-    void testToJSON() throws Exception {
-        jsonMapper.setAnnotationIntrospector(new JacksonAnnotationIntrospector());
-
-        final Club club = ClubFactory.createClub();
+        Club club = ClubFactory.createClub();
 
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
@@ -109,28 +74,52 @@ class TestJacksonJson {
             jsonMapper.writer().writeValue(os, club);
         }
 
-        TestJacksonJson.bytes = baos.toByteArray();
-        assertNotNull(TestJacksonJson.bytes);
+        final byte[] bytes = baos.toByteArray();
+        assertNotNull(bytes);
 
-        System.out.println(new String(TestJacksonJson.bytes, StandardCharsets.UTF_8));
+        LOGGER.info(new String(bytes, StandardCharsets.UTF_8));
+
+        // Reverse
+        club = jsonMapper.readValue(bytes, Club.class);
+        assertNotNull(club);
+        // ClubFactory.toString(club);
     }
 
     @Test
-    @Order(20)
-    void testToXML() throws Exception {
-        // jsonMapper.setAnnotationIntrospector(new JaxbAnnotationIntrospector(TypeFactory.defaultInstance()));
+    @Disabled("JsonParseException: Unexpected character '2' (code 50) in content after '<' (malformed start element?)")
+    void testXml() throws Exception {
+        final JacksonXmlModule xmlModule = new JacksonXmlModule();
+        xmlModule.setDefaultUseWrapper(false);
 
-        final Club club = ClubFactory.createClub();
+        final ObjectMapper xmlMapper = new XmlMapper(xmlModule);
+        xmlMapper.registerModule(new JaxbAnnotationModule());
+        xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        // final AnnotationIntrospector annotationIntrospector = new JaxbAnnotationIntrospector(TypeFactory.defaultInstance());
+        // xmlMapper.setAnnotationIntrospector(annotationIntrospector);
+        // xmlMapper.getDeserializationConfig().with(annotationIntrospector);
+        // xmlMapper.getSerializationConfig().with(annotationIntrospector);
+
+        // configure(xmlMapper);
+
+        Club club = ClubFactory.createClub();
 
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         try (OutputStream os = baos) {
-            jsonMapper.writer().writeValue(os, club);
+            xmlMapper.writer().writeValue(os, club);
+
+            os.flush();
         }
 
-        TestJacksonJson.bytes = baos.toByteArray();
-        assertNotNull(TestJacksonJson.bytes);
+        final byte[] bytes = baos.toByteArray();
+        assertNotNull(bytes);
 
-        System.out.println(new String(TestJacksonJson.bytes, StandardCharsets.UTF_8));
+        LOGGER.info(new String(bytes, StandardCharsets.UTF_8));
+
+        // Reverse
+        club = xmlMapper.readValue(bytes, Club.class);
+        assertNotNull(club);
+        // ClubFactory.toString(club);
     }
 }

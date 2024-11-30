@@ -18,12 +18,12 @@ public class FunctionStemmer implements UnaryOperator<String> {
     /**
      * Deutscher Stemmer
      */
-    public static final Function<String, String> DE = new FunctionStemmer(Locale.GERMAN);
+    public static final UnaryOperator<String> DE = new FunctionStemmer(Locale.GERMAN);
 
     /**
      * Englischer Stemmer
      */
-    public static final Function<String, String> EN = new FunctionStemmer(Locale.ENGLISH);
+    public static final UnaryOperator<String> EN = new FunctionStemmer(Locale.ENGLISH);
 
     /**
      * Interface für verschiedene Stemmer Implementierungen.
@@ -105,7 +105,7 @@ public class FunctionStemmer implements UnaryOperator<String> {
     /**
      * Liefert die Stemmer-{@link Function} des entsprechenden Locales.
      */
-    public static Function<String, String> get(final Locale locale) {
+    public static UnaryOperator<String> get(final Locale locale) {
         if (Locale.GERMAN.equals(locale)) {
             return DE;
         }

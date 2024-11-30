@@ -2,6 +2,7 @@
 package de.freese.sonstiges.demos;
 
 import java.lang.management.ManagementFactory;
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -30,7 +31,7 @@ import org.springframework.boot.jdbc.DatabaseDriver;
 public final class JmxDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(JmxDemo.class);
 
-    private static final Random RANDOM = new Random();
+    private static final Random RANDOM = new SecureRandom();
 
     /**
      * The model MXBean class MUST implement an interface with the following name: "model class name" plus MXBean.<br>

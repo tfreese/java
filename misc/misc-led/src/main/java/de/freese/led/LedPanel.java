@@ -16,18 +16,22 @@ class LedPanel extends JComponent {
     @Serial
     private static final long serialVersionUID = 9187009021303433483L;
 
-    private final transient LedPainter ledPainter;
+    static LedPanel of(final LedPainter ledPainter) {
+        final LedPanel ledPanel = new LedPanel(ledPainter);
+        ledPanel.setBackground(null);
+        ledPanel.setLayout(null);
+        ledPanel.setDoubleBuffered(true);
 
+        return ledPanel;
+    }
+
+    private final transient LedPainter ledPainter;
     private transient LedElement ledElement;
 
-    LedPanel(final LedPainter ledPainter) {
+    private LedPanel(final LedPainter ledPainter) {
         super();
 
         this.ledPainter = ledPainter;
-
-        setBackground(null);
-        setLayout(null);
-        setDoubleBuffered(true);
     }
 
     // @Override

@@ -92,22 +92,7 @@ public final class MailClassifierDemo {
         }
     }
 
-    private static double classifyMessage(final Map<String, Integer> tokenCount, final MailRepository mailRepository) throws Exception {
-        final Set<Token> tokens = mailRepository.getToken(tokenCount.keySet());
-
-        final Set<Merkmal> merkmalVector = tokens.stream().map(token -> {
-            final int weight = tokenCount.getOrDefault(token.getValue(), 1);
-
-            return new Merkmal(token.getValue(), token.getHamCount(), token.getSpamCount(), weight);
-        }).collect(Collectors.toSet());
-
-        final NaiveBayesClassifier classifier = new NaiveBayesClassifier();
-        final double spamProbability = classifier.classify(merkmalVector);
-
-        return BigDecimal.valueOf(spamProbability * 100D).setScale(3, RoundingMode.HALF_UP).doubleValue();
-    }
-
-    private static List<Message> selectMessages(final Folder folder, final MailRepository mailRepository) {
+    static List<Message> selectMessages(final Folder folder, final MailRepository mailRepository) {
         try {
             Message[] messages = null;
 
@@ -157,6 +142,21 @@ public final class MailClassifierDemo {
         catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    private static double classifyMessage(final Map<String, Integer> tokenCount, final MailRepository mailRepository) throws Exception {
+        final Set<Token> tokens = mailRepository.getToken(tokenCount.keySet());
+
+        final Set<Merkmal> merkmalVector = tokens.stream().map(token -> {
+            final int weight = tokenCount.getOrDefault(token.getValue(), 1);
+
+            return new Merkmal(token.getValue(), token.getHamCount(), token.getSpamCount(), weight);
+        }).collect(Collectors.toSet());
+
+        final NaiveBayesClassifier classifier = new NaiveBayesClassifier();
+        final double spamProbability = classifier.classify(merkmalVector);
+
+        return BigDecimal.valueOf(spamProbability * 100D).setScale(3, RoundingMode.HALF_UP).doubleValue();
     }
 
     private MailClassifierDemo() {

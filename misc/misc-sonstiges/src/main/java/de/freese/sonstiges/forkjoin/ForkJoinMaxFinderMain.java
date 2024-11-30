@@ -1,6 +1,7 @@
 // Created: 04.04.2012
 package de.freese.sonstiges.forkjoin;
 
+import java.security.SecureRandom;
 import java.util.Random;
 import java.util.concurrent.ForkJoinPool;
 
@@ -19,7 +20,7 @@ public final class ForkJoinMaxFinderMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ForkJoinMaxFinderMain.class);
 
     public static void main(final String[] args) {
-        final Random random = new Random();
+        final Random random = new SecureRandom();
 
         // Zufallsarray erstellen.
         final int[] array = new int[100_000_000];

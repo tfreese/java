@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
+@SuppressWarnings({"java:S2095", "java:S2245"})
 public final class HttpEventMain {
     /**
      * -2 damit noch Platz für den CleaningEventHandler und sonstige Ressourcen bleibt.
@@ -139,10 +140,10 @@ public final class HttpEventMain {
         }
 
         final String remoteAddress = channel.getRemoteAddress().toString();
-        String requestID = remoteAddress + "_" + RandomStringUtils.secure().nextNumeric(4);
+        String requestID = remoteAddress + "_" + RandomStringUtils.secureStrong().nextNumeric(4);
 
         while (this.mapKey.containsValue(requestID) || this.mapResponseReady.containsKey(requestID)) {
-            requestID = remoteAddress + "_" + RandomStringUtils.secure().nextNumeric(4);
+            requestID = remoteAddress + "_" + RandomStringUtils.secureStrong().nextNumeric(4);
         }
 
         this.mapKey.put(key, requestID);

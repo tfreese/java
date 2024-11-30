@@ -51,13 +51,13 @@ public final class FailsafeDemo {
         final RetryPolicy<Object> retryPolicy = RetryPolicy.builder()
                 .withMaxRetries(2)
                 .withDelay(Duration.ofSeconds(1L))
-                .onRetry(event -> {
-                    // if (event.getExecutionCount() == 0) {
-                    //     return;
-                    // }
+                .onRetry(event ->
+                        // if (event.getExecutionCount() == 0) {
+                        //     return;
+                        // }
 
-                    LOGGER.info("RetryPolicy onRetry {}", event.getExecutionCount());
-                })
+                        LOGGER.info("RetryPolicy onRetry {}", event.getExecutionCount())
+                )
                 .build();
 
         // Restrict concurrent executions on a resource.

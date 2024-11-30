@@ -98,7 +98,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
@@ -1055,7 +1054,7 @@ public final class MiscDemo {
         mimeMessage.writeTo(System.out);
     }
 
-    static void monitoringMxBeans() throws Exception {
+    static void monitoringMxBeans() {
         System.out.println("OperatingSystemMXBean");
 
         final Runtime runtime = Runtime.getRuntime();
@@ -1101,7 +1100,8 @@ public final class MiscDemo {
         lastSystemTime = systemTime;
         lastProcessCpuTime = processCpuTime;
 
-        TimeUnit.MILLISECONDS.sleep(3000);
+        // TimeUnit.MILLISECONDS.sleep(3000L);
+        await().pollDelay(Duration.ofMillis(3000L)).until(() -> true);
 
         systemTime = System.nanoTime();
         processCpuTime = os.getProcessCpuTime();
@@ -1129,7 +1129,8 @@ public final class MiscDemo {
 
             System.out.println();
 
-            TimeUnit.SECONDS.sleep(1);
+            // TimeUnit.SECONDS.sleep(1L);
+            await().pollDelay(Duration.ofMillis(1000L)).until(() -> true);
         }
     }
 
@@ -1391,7 +1392,7 @@ public final class MiscDemo {
         Schedulers.shutdownNow();
     }
 
-    static void reactorSinks() throws Exception {
+    static void reactorSinks() {
         // Debug einschalten.
         Hooks.onOperatorDebug();
 
@@ -1863,7 +1864,8 @@ public final class MiscDemo {
             IntStream.range(0, 20).forEach(i -> {
                 executorService.submit(() -> {
                     printThreadInfos.accept(Thread.currentThread());
-                    TimeUnit.MILLISECONDS.sleep(500L);
+                    // TimeUnit.MILLISECONDS.sleep(500L);
+                    await().pollDelay(Duration.ofMillis(500L)).until(() -> true);
                     return i;
                 });
             });
@@ -1877,7 +1879,8 @@ public final class MiscDemo {
             IntStream.range(0, 20).forEach(i -> {
                 executorService.submit(() -> {
                     printThreadInfos.accept(Thread.currentThread());
-                    TimeUnit.MILLISECONDS.sleep(500L);
+                    // TimeUnit.MILLISECONDS.sleep(500L);
+                    await().pollDelay(Duration.ofMillis(500L)).until(() -> true);
                     return i;
                 });
             });

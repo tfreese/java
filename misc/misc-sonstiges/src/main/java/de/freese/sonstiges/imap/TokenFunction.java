@@ -64,7 +64,7 @@ public class TokenFunction implements Function<MessageWrapper, Map<String, Integ
     };
 
     public static final BiFunction<List<String>, Locale, Map<String, Integer>> STEMMER_FILTER = (token, locale) -> {
-        final Function<String, String> functionStemmer = FunctionStemmer.get(locale);
+        final UnaryOperator<String> functionStemmer = FunctionStemmer.get(locale);
 
         return token.stream()
                 .map(t -> Locale.GERMAN.equals(locale) ? FunctionNormalizeGerman.INSTANCE.apply(t) : t)
@@ -81,7 +81,7 @@ public class TokenFunction implements Function<MessageWrapper, Map<String, Integ
     @Override
     public Map<String, Integer> apply(final MessageWrapper message) {
         if (message == null) {
-            return null;
+            return Map.of();
         }
 
         try {
@@ -91,7 +91,7 @@ public class TokenFunction implements Function<MessageWrapper, Map<String, Integ
 
             if (textParts == null || textParts.isEmpty()) {
                 LOGGER.warn("no text for: {} - {} - {}", message.getDate(), message.getSubject(), message.getFrom());
-                return null;
+                return Map.of();
             }
 
             List<String> token = textParts.stream()
@@ -106,7 +106,7 @@ public class TokenFunction implements Function<MessageWrapper, Map<String, Integ
 
             if (token.isEmpty()) {
                 LOGGER.warn("no token for: {} - {} - {}", message.getDate(), message.getSubject(), message.getFrom());
-                return null;
+                return Map.of();
             }
 
             final Locale locale = FunctionStripStopWords.getInstance().guessLocale(token);
@@ -119,6 +119,6 @@ public class TokenFunction implements Function<MessageWrapper, Map<String, Integ
             LOGGER.error(ex.getMessage(), ex);
         }
 
-        return null;
+        return Map.of();
     }
 }

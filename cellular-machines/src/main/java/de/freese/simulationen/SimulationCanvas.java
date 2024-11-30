@@ -58,7 +58,7 @@ public class SimulationCanvas extends JComponent implements SimulationListener {
 
     @Override
     public void completed(final Simulation simulation) {
-        this.image = simulation.getImage();
+        image = simulation.getImage();
 
         if (SwingUtilities.isEventDispatchThread()) {
             repaint();
@@ -74,7 +74,7 @@ public class SimulationCanvas extends JComponent implements SimulationListener {
         final int y = 0;
 
         if (!this.useVolatileImage) {
-            g.drawImage(this.image, x, y, getWidth(), getHeight(), null);
+            g.drawImage(image, x, y, getWidth(), getHeight(), null);
 
             return;
         }
@@ -82,8 +82,8 @@ public class SimulationCanvas extends JComponent implements SimulationListener {
         // Main rendering loop. Volatile images may lose their contents.
         // This loop will continually render to (and produce if necessary) volatile images
         // until the rendering was completed successfully.
-        if (this.volatileImage == null) {
-            this.volatileImage = createVolatileImage();
+        if (volatileImage == null) {
+            volatileImage = createVolatileImage();
         }
 
         do {
@@ -94,25 +94,37 @@ public class SimulationCanvas extends JComponent implements SimulationListener {
             final GraphicsConfiguration gc = getGraphicsConfiguration();
 
             // This means the device doesn't match up to this hardware accelerated image.
-            if (this.volatileImage.validate(gc) == VolatileImage.IMAGE_INCOMPATIBLE) {
-                this.volatileImage = null;
+            if (volatileImage.validate(gc) == VolatileImage.IMAGE_INCOMPATIBLE) {
+                volatileImage = null;
                 // createBackBuffer(); // recreate the hardware accelerated image.
 
-                g.drawImage(this.image, x, y, getWidth(), getHeight(), null);
+                g.drawImage(image, x, y, getWidth(), getHeight(), null);
 
                 return;
             }
 
-            final Graphics offscreenGraphics = this.volatileImage.getGraphics();
-            offscreenGraphics.drawImage(this.image, x, y, getWidth(), getHeight(), null);
+            final Graphics offscreenGraphics = volatileImage.getGraphics();
+            offscreenGraphics.drawImage(image, x, y, getWidth(), getHeight(), null);
 
             // paint back buffer to main graphics
-            g.drawImage(this.volatileImage, x, y, getWidth(), getHeight(), this);
+            g.drawImage(volatileImage, x, y, getWidth(), getHeight(), this);
             // g.dispose();
         }
-        while (this.volatileImage.contentsLost()); // Test if content is lost
+        while (volatileImage.contentsLost()); // Test if content is lost
 
         // g.dispose(); // Dispose nur wenn man es selbst erzeugt hat.
+    }
+
+    @Override
+    protected void paintChildren(final Graphics g) {
+        // There are no Children.
+        // super.paintChildren(g);
+    }
+
+    @Override
+    protected void paintComponent(final Graphics g) {
+        // Ignore
+        // super.paintComponent(g);
     }
 
     /**

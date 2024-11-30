@@ -8,15 +8,23 @@ import java.io.PipedReader;
 import java.io.PipedWriter;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings("java:S2095")
 public final class RhymingWordsMain {
-    public static void main(final String[] args) throws IOException {
-        final File file = new File("src/main/resources/stopwords_de.txt");
-        System.out.println(file.getAbsolutePath());
+    private static final Logger LOGGER = LoggerFactory.getLogger(RhymingWordsMain.class);
+
+    public static void main(final String[] args) throws IOException, URISyntaxException {
+        final URL url = Thread.currentThread().getContextClassLoader().getResource("stopwords_de.txt");
+        final File file = new File(url.toURI());
 
         // do the reversing and sorting
 
@@ -26,7 +34,7 @@ public final class RhymingWordsMain {
             String input;
 
             while ((input = in.readLine()) != null) {
-                System.out.println(input);
+                LOGGER.info(input);
             }
         }
     }

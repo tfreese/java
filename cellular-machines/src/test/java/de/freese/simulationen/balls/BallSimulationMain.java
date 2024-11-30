@@ -86,8 +86,8 @@ public final class BallSimulationMain extends JComponent {
 
         // GraphicsConfiguration gfxConf =
         // GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
-        // this.image = gfxConf.createCompatibleImage(width, height, Transparency.TRANSLUCENT);
-        this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        // image = gfxConf.createCompatibleImage(width, height, Transparency.TRANSLUCENT);
+        image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
         // setDoubleBuffered(true);
     }
@@ -104,23 +104,17 @@ public final class BallSimulationMain extends JComponent {
     public void addBall(final double x, final double y, final double vx, final double vy, final double durchmesser) {
         final Ball ball = new Ball(getImageWidth(), getImageHeight(), x, y, vx, vy, durchmesser, 0.1D);
 
-        if (!this.balls.contains(ball)) {
-            this.balls.add(ball);
+        if (!balls.contains(ball)) {
+            balls.add(ball);
         }
     }
 
-    /**
-     * Liefert true, wenn alle Bälle zum stillstand gekommen sind.
-     */
     public boolean isFinished() {
-        return this.balls.stream().allMatch(Ball::isFinished);
+        return balls.stream().allMatch(Ball::isFinished);
     }
 
-    /**
-     * Bewegen der Bälle und neu zeichnen.
-     */
     public void moveAndPaintBalls() {
-        final Graphics2D g = this.image.createGraphics();
+        final Graphics2D g = image.createGraphics();
 
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -133,18 +127,29 @@ public final class BallSimulationMain extends JComponent {
         gitter(g);
 
         // Bälle bewegen.
-        this.balls.forEach(b -> b.move(DELAY * 5));
+        balls.forEach(b -> b.move(DELAY * 5D));
 
         // An neuer Stelle malen.
-        this.balls.forEach(b -> paint(g, b, Color.BLUE));
+        balls.forEach(b -> paint(g, b, Color.BLUE));
 
         SwingUtilities.invokeLater(this::repaint);
     }
 
     @Override
     public void paint(final Graphics g) {
-        // g.drawImage(this.image, 0, 0, this);
-        g.drawImage(this.image, 0, 0, getWidth(), getHeight(), null);
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+    }
+
+    @Override
+    protected void paintChildren(final Graphics g) {
+        // There are no Children.
+        // super.paintChildren(g);
+    }
+
+    @Override
+    protected void paintComponent(final Graphics g) {
+        // Ignore
+        // super.paintComponent(g);
     }
 
     /**

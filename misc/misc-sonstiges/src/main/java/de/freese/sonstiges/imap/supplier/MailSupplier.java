@@ -8,8 +8,8 @@ import de.freese.sonstiges.imap.model.MessageWrapper;
 /**
  * @author Thomas Freese
  */
+@FunctionalInterface
 public interface MailSupplier {
-
     /**
      * String: Folder name
      */

@@ -28,7 +28,7 @@ public class ServerMultiThread extends AbstractServer {
     private Acceptor acceptor;
     private ServerSocketChannel serverSocketChannel;
 
-    public ServerMultiThread(final int port, final int numOfDispatcher, final int numOfWorker) throws IOException {
+    public ServerMultiThread(final int port, final int numOfDispatcher, final int numOfWorker) {
         this(port, numOfDispatcher, numOfWorker, SelectorProvider.provider());
     }
 

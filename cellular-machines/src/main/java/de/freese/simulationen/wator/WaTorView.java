@@ -20,6 +20,21 @@ import de.freese.simulationen.SimulationView;
  * @author Thomas Freese
  */
 public class WaTorView extends SimulationView<WaTorRasterSimulation> {
+    private static JSlider createSlider(final String title, final int value, final Color titleColor) {
+        final JSlider slider = new JSlider(SwingConstants.VERTICAL, 0, 20, value);
+        final TitledBorder border = new TitledBorder(title);
+        border.setTitleColor(titleColor);
+        slider.setBorder(border);
+        slider.setPaintLabels(true);
+        slider.setPaintTrack(true);
+        slider.setPaintTicks(true);
+        // slider.setSnapToTicks(true);
+        slider.setMajorTickSpacing(10);
+        slider.setMinorTickSpacing(1);
+
+        return slider;
+    }
+
     @Override
     public void initialize(final WaTorRasterSimulation simulation, final Duration delay) {
         super.initialize(simulation, delay);
@@ -31,7 +46,7 @@ public class WaTorView extends SimulationView<WaTorRasterSimulation> {
         // Startenergie
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(1, 2));
-        panel.setBorder(new TitledBorder("Startenergie -> Reset"));
+        panel.setBorder(new TitledBorder("Start-Energie -> Reset"));
 
         JSlider slider = createSlider("Fische", getSimulation().getFishStartEnergy(), Color.GREEN);
         slider.addChangeListener(event -> {
@@ -62,7 +77,7 @@ public class WaTorView extends SimulationView<WaTorRasterSimulation> {
         // Brutenergie
         panel = new JPanel();
         panel.setLayout(new GridLayout(1, 2));
-        panel.setBorder(new TitledBorder("Brutenergie"));
+        panel.setBorder(new TitledBorder("Brut-Energie"));
 
         slider = createSlider("Fische", getSimulation().getFishBreedEnergy(), Color.GREEN);
         slider.addChangeListener(event -> {
@@ -93,7 +108,7 @@ public class WaTorView extends SimulationView<WaTorRasterSimulation> {
         // Sterbeenergie
         panel = new JPanel();
         panel.setLayout(new GridLayout(1, 2));
-        panel.setBorder(new TitledBorder("Sterbeenergie"));
+        panel.setBorder(new TitledBorder("Sterbe-Energie"));
 
         panel.add(Box.createGlue());
 
@@ -112,20 +127,5 @@ public class WaTorView extends SimulationView<WaTorRasterSimulation> {
         sliderPanel.add(panel);
 
         getControlPanel().add(sliderPanel, BorderLayout.CENTER);
-    }
-
-    private JSlider createSlider(final String title, final int value, final Color titleColor) {
-        final JSlider slider = new JSlider(SwingConstants.VERTICAL, 0, 20, value);
-        final TitledBorder border = new TitledBorder(title);
-        border.setTitleColor(titleColor);
-        slider.setBorder(border);
-        slider.setPaintLabels(true);
-        slider.setPaintTrack(true);
-        slider.setPaintTicks(true);
-        // slider.setSnapToTicks(true);
-        slider.setMajorTickSpacing(10);
-        slider.setMinorTickSpacing(1);
-
-        return slider;
     }
 }

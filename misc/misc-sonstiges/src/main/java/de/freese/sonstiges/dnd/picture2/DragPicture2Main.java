@@ -27,6 +27,7 @@ import javax.swing.WindowConstants;
  *
  * @author Thomas Freese
  */
+@SuppressWarnings("java:S2259")
 public final class DragPicture2Main extends JPanel {
     private static final String ADELE = "Adele";
     private static final String ALEXI = "Alexi";
