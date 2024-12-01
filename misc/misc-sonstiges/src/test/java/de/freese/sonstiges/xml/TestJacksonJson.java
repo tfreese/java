@@ -13,10 +13,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
-import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -42,7 +38,18 @@ class TestJacksonJson {
     void testJson() throws Exception {
         final ObjectMapper jsonMapper = new ObjectMapper();
 
+        // final JacksonXmlModule xmlModule = new JacksonXmlModule();
+        // xmlModule.setDefaultUseWrapper(false);
+        //
+        // final ObjectMapper xmlMapper = new XmlMapper(xmlModule);
+        // xmlMapper.registerModule(new JaxbAnnotationModule());
+        // xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
+
         // final AnnotationIntrospector jaxbIntrospector = new JaxbAnnotationIntrospector(TypeFactory.defaultInstance());
+        // xmlMapper.setAnnotationIntrospector(jaxbIntrospector);
+        // xmlMapper.getDeserializationConfig().with(jaxbIntrospector);
+        // xmlMapper.getSerializationConfig().with(jaxbIntrospector);
+
         final AnnotationIntrospector jacksonIntrospector = new JacksonAnnotationIntrospector();
 
         // // Annotation-Mix: Verwende primär JaxB-Annotations und sekundär Jackson-Annotations
@@ -81,44 +88,6 @@ class TestJacksonJson {
 
         // Reverse
         club = jsonMapper.readValue(bytes, Club.class);
-        assertNotNull(club);
-        // ClubFactory.toString(club);
-    }
-
-    @Test
-    @Disabled("JsonParseException: Unexpected character '2' (code 50) in content after '<' (malformed start element?)")
-    void testXml() throws Exception {
-        final JacksonXmlModule xmlModule = new JacksonXmlModule();
-        xmlModule.setDefaultUseWrapper(false);
-
-        final ObjectMapper xmlMapper = new XmlMapper(xmlModule);
-        xmlMapper.registerModule(new JaxbAnnotationModule());
-        xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-        // final AnnotationIntrospector annotationIntrospector = new JaxbAnnotationIntrospector(TypeFactory.defaultInstance());
-        // xmlMapper.setAnnotationIntrospector(annotationIntrospector);
-        // xmlMapper.getDeserializationConfig().with(annotationIntrospector);
-        // xmlMapper.getSerializationConfig().with(annotationIntrospector);
-
-        // configure(xmlMapper);
-
-        Club club = ClubFactory.createClub();
-
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-        try (OutputStream os = baos) {
-            xmlMapper.writer().writeValue(os, club);
-
-            os.flush();
-        }
-
-        final byte[] bytes = baos.toByteArray();
-        assertNotNull(bytes);
-
-        LOGGER.info(new String(bytes, StandardCharsets.UTF_8));
-
-        // Reverse
-        club = xmlMapper.readValue(bytes, Club.class);
         assertNotNull(club);
         // ClubFactory.toString(club);
     }
