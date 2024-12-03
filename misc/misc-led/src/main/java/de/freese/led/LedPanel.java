@@ -12,7 +12,7 @@ import de.freese.led.painter.LedPainter;
 /**
  * @author Thomas Freese
  */
-class LedPanel extends JComponent {
+final class LedPanel extends JComponent {
     @Serial
     private static final long serialVersionUID = 9187009021303433483L;
 

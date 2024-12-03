@@ -58,7 +58,7 @@ public class Bounds {
      */
     public boolean contains(final double latitude, final double longitude) {
         // return !(latitude < this.myMin.lat()) && !(latitude > this.myMax.lat()) && !(longitude < this.myMin.lon()) && !(longitude > this.myMax.lon());
-        return (latitude >= this.myMin.lat()) && (latitude <= this.myMax.lat()) && (longitude >= this.myMin.lon()) && (longitude <= this.myMax.lon());
+        return latitude >= this.myMin.lat() && latitude <= this.myMax.lat() && longitude >= this.myMin.lon() && longitude <= this.myMax.lon();
     }
 
     // /**
