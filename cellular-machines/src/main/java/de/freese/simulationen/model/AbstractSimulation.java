@@ -1,6 +1,7 @@
 // Created: 18.09.2009
 package de.freese.simulationen.model;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +27,7 @@ public abstract class AbstractSimulation implements Simulation {
 
         return ((size + 1) * (pos + offSet)) % size;
     }
-    
+
     private final int height;
     private final Random random;
     private final List<SimulationListener> simulationListeners;
@@ -37,29 +38,29 @@ public abstract class AbstractSimulation implements Simulation {
 
         this.width = width;
         this.height = height;
-        this.random = new Random();
+        this.random = new SecureRandom();
         this.simulationListeners = Collections.synchronizedList(new ArrayList<>());
     }
 
     @Override
     public void addWorldListener(final SimulationListener simulationListener) {
-        if (!this.simulationListeners.contains(simulationListener)) {
-            this.simulationListeners.add(simulationListener);
+        if (!simulationListeners.contains(simulationListener)) {
+            simulationListeners.add(simulationListener);
         }
     }
 
     @Override
     public int getHeight() {
-        return this.height;
+        return height;
     }
 
     public Random getRandom() {
-        return this.random;
+        return random;
     }
 
     @Override
     public int getWidth() {
-        return this.width;
+        return width;
     }
 
     /**
@@ -84,7 +85,7 @@ public abstract class AbstractSimulation implements Simulation {
     protected void fireCompleted() {
         updateImage();
 
-        for (SimulationListener listener : this.simulationListeners) {
+        for (SimulationListener listener : simulationListeners) {
             listener.completed(this);
         }
     }

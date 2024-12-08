@@ -55,13 +55,8 @@ public final class VelocityDemo {
             try {
                 template = ve.getTemplate(templateFile);
             }
-            catch (ResourceNotFoundException ex) {
+            catch (ResourceNotFoundException | ParseErrorException ex) {
                 LOGGER.error(ex.getMessage(), ex);
-                //                System.err.println("Example : error : cannot find template " + templateFile);
-            }
-            catch (ParseErrorException ex) {
-                LOGGER.error(ex.getMessage(), ex);
-                //                System.err.println("Example : Syntax error in template " + templateFile + ":" + ex);
             }
 
             // Now have the template engine process your template using the data placed into the context. Think of it as a 'merge' of the template and the data

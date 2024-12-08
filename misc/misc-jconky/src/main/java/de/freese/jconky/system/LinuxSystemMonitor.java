@@ -48,7 +48,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
      * Bei AMD gib's keine Temperatur pro Core.<br>
      * sensors: Core\\s{1}\\d+:.*
      */
-    static final Pattern SENSORS_CORE_PATTERN = Pattern.compile("Core\\s{1}\\d+:.*", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
+    static final Pattern SENSORS_CORE_PATTERN = Pattern.compile("Core\\s\\d+:.*", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
     /**
      * /proc/stat: cpu\\d+
      */
@@ -84,17 +84,34 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     // */
     // private static final Pattern STATUS_VM_SIZE_MATCHER = Pattern.compile("VmSize:\\s+(\\d+) kB", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
 
+    private static CpuTimes parseCpuTimes(final String line) {
+        final String[] splits = SPACE_PATTERN.split(line);
+
+        final long user = Long.parseLong(splits[1]);
+        final long nice = Long.parseLong(splits[2]);
+        final long system = Long.parseLong(splits[3]);
+        final long idle = Long.parseLong(splits[4]);
+        final long ioWait = Long.parseLong(splits[5]);
+        final long irq = Long.parseLong(splits[6]);
+        final long softIrq = Long.parseLong(splits[7]);
+        final long steal = Long.parseLong(splits[8]);
+        final long guest = Long.parseLong(splits[9]);
+        final long guestNice = Long.parseLong(splits[10]);
+
+        return new CpuTimes(user, nice, system, idle, ioWait, irq, softIrq, steal, guest, guestNice);
+    }
+
     private final ProcessBuilder processBuilderCheckUpdates;
     private final ProcessBuilder processBuilderDf;
     private final ProcessBuilder processBuilderFree;
-    private final ProcessBuilder processBuilderHddtemp;
-    private final ProcessBuilder processBuilderIfconfig;
+    private final ProcessBuilder processBuilderHddTemp;
+    private final ProcessBuilder processBuilderIfConfig;
     private final ProcessBuilder processBuilderNetstat;
     private final ProcessBuilder processBuilderNvidiaSmi;
-    private final ProcessBuilder processBuilderPlayerctlMetaData;
-    private final ProcessBuilder processBuilderPlayerctlPosition;
+    private final ProcessBuilder processBuilderPlayerCtlMetaData;
+    private final ProcessBuilder processBuilderPlayerCtlPosition;
     private final ProcessBuilder processBuilderSensors;
-    private final ProcessBuilder processBuilderSmartctl;
+    private final ProcessBuilder processBuilderSmartCtl;
     private final ProcessBuilder processBuilderTop;
     private final ProcessBuilder processBuilderUname;
 
@@ -109,15 +126,15 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         // -u tommy
         this.processBuilderTop = new ProcessBuilder().command("/bin/sh", "-c", "top -b -n 1");
 
-        this.processBuilderIfconfig = new ProcessBuilder().command("/bin/sh", "-c", "ifconfig");
+        this.processBuilderIfConfig = new ProcessBuilder().command("/bin/sh", "-c", "ifconfig");
         this.processBuilderNetstat = new ProcessBuilder().command("/bin/sh", "-c", "netstat --statistics ");
         this.processBuilderDf = new ProcessBuilder().command("/bin/sh", "-c", "df --block-size=1K");
         this.processBuilderFree = new ProcessBuilder().command("/bin/sh", "-c", "free --bytes");
         this.processBuilderCheckUpdates = new ProcessBuilder().command("/bin/sh", "-c", "checkupdates");
-        this.processBuilderPlayerctlMetaData = new ProcessBuilder().command("/bin/sh", "-c", "playerctl -s metadata");
-        this.processBuilderPlayerctlPosition = new ProcessBuilder().command("/bin/sh", "-c", "playerctl -s position");
-        this.processBuilderHddtemp = new ProcessBuilder().command("/bin/sh", "-c", "sudo hddtemp /dev/sda /dev/sdb");
-        this.processBuilderSmartctl = new ProcessBuilder().command("/bin/sh", "-c", "sudo smartctl -A /dev/nvme0n1");
+        this.processBuilderPlayerCtlMetaData = new ProcessBuilder().command("/bin/sh", "-c", "playerctl -s metadata");
+        this.processBuilderPlayerCtlPosition = new ProcessBuilder().command("/bin/sh", "-c", "playerctl -s position");
+        this.processBuilderHddTemp = new ProcessBuilder().command("/bin/sh", "-c", "sudo hddtemp /dev/sda /dev/sdb");
+        this.processBuilderSmartCtl = new ProcessBuilder().command("/bin/sh", "-c", "sudo smartctl -A /dev/nvme0n1");
         this.processBuilderNvidiaSmi = new ProcessBuilder().command("/bin/sh", "-c",
                 "nvidia-smi --format=csv,noheader,nounits --query-gpu=temperature.gpu,power.draw,fan.speed,utilization.gpu");
     }
@@ -270,7 +287,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
 
     @Override
     public MusicInfo getMusicInfo() {
-        List<String> lines = readContent(this.processBuilderPlayerctlMetaData);
+        List<String> lines = readContent(this.processBuilderPlayerCtlMetaData);
         // String output = lines.stream().collect(Collectors.joining("\n"));
 
         String artist = null;
@@ -308,7 +325,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
             }
         }
 
-        lines = readContent(this.processBuilderPlayerctlPosition);
+        lines = readContent(this.processBuilderPlayerCtlPosition);
         position = Double.valueOf(lines.getFirst()).intValue();
 
         final MusicInfo musicInfo = new MusicInfo(artist, album, title, length, position, bitRate, imageUri);
@@ -325,7 +342,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         // ifconfig
         // cat /sys/class/net/
         // cat /proc/net/dev
-        List<String> lines = readContent(this.processBuilderIfconfig);
+        List<String> lines = readContent(this.processBuilderIfConfig);
 
         // Trennung der Interfaces durch leere Zeile.
         final Map<Integer, List<String>> map = new HashMap<>();
@@ -511,7 +528,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     public Map<String, TemperatureInfo> getTemperatures() {
         final Map<String, TemperatureInfo> map = new HashMap<>();
 
-        List<String> lines = readContent(this.processBuilderHddtemp);
+        List<String> lines = readContent(this.processBuilderHddTemp);
         // final String output = lines.stream().collect(Collectors.joining("\n"))
 
         for (String line : lines) {
@@ -522,7 +539,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
             map.put(device, new TemperatureInfo(device, temperature));
         }
 
-        lines = readContent(this.processBuilderSmartctl);
+        lines = readContent(this.processBuilderSmartCtl);
 
         for (String line : lines) {
             if (line.startsWith("Temperature Sensor 2:")) {
@@ -658,9 +675,8 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
             matcher = STATUS_UID_PATTERN.matcher(statusOutput);
             matcher.find();
             final String uid = matcher.group(1);
-            final String owner = uid;
 
-            final ProcessInfo processInfo = new ProcessInfo(Integer.parseInt(pid), state, name, owner, cpuUsage, (double) residentBytes / totalSystemMemory);
+            final ProcessInfo processInfo = new ProcessInfo(Integer.parseInt(pid), state, name, uid, cpuUsage, (double) residentBytes / totalSystemMemory);
             infos.add(processInfo);
 
             // TODO /etc/passwd auslesen für UIDs.
@@ -710,7 +726,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
                 // top wollen wir nicht.
                 continue;
             }
-            
+
             // if ("java".equals(name)) {
             // // java wollen wir nicht.
             // continue;
@@ -787,22 +803,5 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         // }
 
         return temperatures;
-    }
-
-    private CpuTimes parseCpuTimes(final String line) {
-        final String[] splits = SPACE_PATTERN.split(line);
-
-        final long user = Long.parseLong(splits[1]);
-        final long nice = Long.parseLong(splits[2]);
-        final long system = Long.parseLong(splits[3]);
-        final long idle = Long.parseLong(splits[4]);
-        final long ioWait = Long.parseLong(splits[5]);
-        final long irq = Long.parseLong(splits[6]);
-        final long softIrq = Long.parseLong(splits[7]);
-        final long steal = Long.parseLong(splits[8]);
-        final long guest = Long.parseLong(splits[9]);
-        final long guestNice = Long.parseLong(splits[10]);
-
-        return new CpuTimes(user, nice, system, idle, ioWait, irq, softIrq, steal, guest, guestNice);
     }
 }

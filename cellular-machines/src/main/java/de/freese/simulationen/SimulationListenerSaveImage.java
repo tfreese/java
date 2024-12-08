@@ -34,20 +34,32 @@ public class SimulationListenerSaveImage implements SimulationListener {
     /**
      * @author Thomas Freese
      */
-    private final class WriteImageTask implements Runnable {
+    private static final class WriteImageTask implements Runnable {
         private final BufferedImage bufferedImage;
         private final Path file;
+        private final String format;
 
-        WriteImageTask(final BufferedImage bufferedImage, final Path file) {
+        WriteImageTask(final BufferedImage bufferedImage, final String format, final Path file) {
             super();
 
             this.bufferedImage = Objects.requireNonNull(bufferedImage, "bufferedImage required");
+            this.format = Objects.requireNonNull(format, "format required");
             this.file = Objects.requireNonNull(file, "file required");
         }
 
         @Override
         public void run() {
-            write(this.bufferedImage, this.file);
+            LOGGER.info("Write {}", file);
+
+            try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(file))) {
+                // JPEG, PNG, BMP, WBMP, GIF
+                ImageIO.write(bufferedImage, format, outputStream);
+
+                outputStream.flush();
+            }
+            catch (IOException ex) {
+                throw new UncheckedIOException(ex);
+            }
         }
     }
 
@@ -86,22 +98,8 @@ public class SimulationListenerSaveImage implements SimulationListener {
         // Erzeugt ein neues Array.
         // final int[] pixels = bufferedImage.getRaster().getPixels(0, 0, width, height, (int[]) null);
 
-        final Path file = this.directory.resolve(String.format("%s-%05d.%s", this.type.getNameShort(), this.counter.incrementAndGet(), this.format));
+        final Path file = directory.resolve(String.format("%s-%05d.%s", type.getNameShort(), counter.incrementAndGet(), format));
 
-        this.executor.execute(new WriteImageTask(bufferedImage, file));
-    }
-
-    private void write(final BufferedImage bufferedImage, final Path file) {
-        LOGGER.info("Write {}", file);
-
-        try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(file))) {
-            // JPEG, PNG, BMP, WBMP, GIF
-            ImageIO.write(bufferedImage, this.format, outputStream);
-
-            outputStream.flush();
-        }
-        catch (IOException ex) {
-            throw new UncheckedIOException(ex);
-        }
+        executor.execute(new WriteImageTask(bufferedImage, format, file));
     }
 }

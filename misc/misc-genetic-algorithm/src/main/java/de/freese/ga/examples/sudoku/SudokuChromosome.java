@@ -97,7 +97,7 @@ public class SudokuChromosome extends Chromosome {
 
             if (gene == null) {
                 // Dann welche generieren.
-                final int n = getConfig().getRandom().nextInt(9) + 1;
+                final int n = getConfig().getRandom().nextInt(1, 10);
 
                 gene = new SudokuGene(n, true);
             }
