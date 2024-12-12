@@ -32,7 +32,7 @@ import org.springframework.stereotype.Component;
 /**
  * @author Thomas Freese
  */
-@SpringBootApplication(scanBasePackages = {"de.java.demo"}, exclude = {HazelcastAutoConfiguration.class})
+@SpringBootApplication(scanBasePackages = {"de.freese.cache"}, exclude = {HazelcastAutoConfiguration.class})
 @EnableCaching
 public class SpringCacheDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringCacheDemo.class);
@@ -55,6 +55,7 @@ public class SpringCacheDemo {
 
             cache.put("a", "aValue");
             LOGGER.info("a = {}", cache.get("a", String.class));
+            LOGGER.info("a = {}", cache.get("a", String.class));
 
             TimeUnit.SECONDS.sleep(4);
 
@@ -75,7 +76,7 @@ public class SpringCacheDemo {
     }
 
     public static void main(final String[] args) {
-        // Redirect Java-Util-Logger to Slf4J.
+        // Redirect Caffeine JUL to Slf4J.
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
 
@@ -122,7 +123,7 @@ public class SpringCacheDemo {
 
             @Override
             public Collection<String> getCacheNames() {
-                return Set.copyOf(this.cacheMap.keySet());
+                return Set.copyOf(cacheMap.keySet());
             }
         };
     }

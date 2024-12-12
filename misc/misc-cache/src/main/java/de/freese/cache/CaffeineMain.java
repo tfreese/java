@@ -23,7 +23,7 @@ public final class CaffeineMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(CaffeineMain.class);
 
     public static void main(final String[] args) {
-        // Caffeine JUL-Logger auf Slf4J umleiten.
+        // Redirect Caffeine JUL to Slf4J.
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
 
