@@ -1689,18 +1689,20 @@ public final class MiscDemo {
         // Grund für das Verhalten ist folgende Methode: java.util.concurrent.ForkJoinTask.fork
         // "Arranges to asynchronously execute this task in the pool the current task is running in,
         // if applicable, or using the ForkJoinPool.commonPool() if not in ForkJoinPool."
-        final ExecutorService customThreadPool = new ForkJoinPool(2);
+
+        // final ExecutorService customThreadPool = new ForkJoinPool(2);
+
         // Analog
         // ExecutorService customThreadPool = Executors.newWorkStealingPool(2);
 
-        try {
+        try (ExecutorService customThreadPool = new ForkJoinPool(2)) {
             final Runnable runnable = () -> list.stream().parallel().forEach(value -> LOGGER.info("{}", value));
             customThreadPool.submit(runnable).get();
         }
-        finally {
-            // Memory-Leak verhindern.
-            customThreadPool.shutdown();
-        }
+        // finally {
+        //     // Memory-Leak verhindern.
+        //     customThreadPool.shutdown();
+        // }
     }
 
     static void textBlocks() {

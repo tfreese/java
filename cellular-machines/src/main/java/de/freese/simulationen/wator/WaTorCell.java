@@ -31,23 +31,23 @@ public class WaTorCell extends AbstractCell {
     }
 
     public boolean isEmpty() {
-        return CellType.EMPTY.equals(this.cellType);
+        return CellType.EMPTY.equals(cellType);
     }
 
     public boolean isFish() {
-        return CellType.FISH.equals(this.cellType);
+        return CellType.FISH.equals(cellType);
     }
 
     public boolean isShark() {
-        return CellType.SHARK.equals(this.cellType);
+        return CellType.SHARK.equals(cellType);
     }
 
     @Override
     public void nextGeneration() {
-        if (CellType.FISH.equals(this.cellType)) {
+        if (CellType.FISH.equals(cellType)) {
             nextFish();
         }
-        else if (CellType.SHARK.equals(this.cellType)) {
+        else if (CellType.SHARK.equals(cellType)) {
             nextShark();
         }
     }
@@ -71,20 +71,20 @@ public class WaTorCell extends AbstractCell {
      * Erhöht den Energiewert um 1.
      */
     void incrementEnergy() {
-        this.energy++;
+        energy++;
     }
 
     /**
      * Liefert einen Fisch in der Nachbarschaft oder keinen.
      */
     protected WaTorCell getFischNachbar() {
-        if (this.fischNachbarnList.isEmpty()) {
+        if (fischNachbarnList.isEmpty()) {
             return null;
         }
 
-        while (!this.fischNachbarnList.isEmpty()) {
-            final int size = this.fischNachbarnList.size();
-            final int[] coords = this.fischNachbarnList.remove(getSimulation().getRandom().nextInt(size));
+        while (!fischNachbarnList.isEmpty()) {
+            final int size = fischNachbarnList.size();
+            final int[] coords = fischNachbarnList.remove(getSimulation().getRandom().nextInt(size));
 
             final WaTorCell cell = getSimulation().getCell(coords[0], coords[1]);
 
@@ -106,31 +106,31 @@ public class WaTorCell extends AbstractCell {
      * Erniedrigt den Energiewert um 1.
      */
     private void decrementEnergy() {
-        this.energy--;
+        energy--;
     }
 
     /**
      * Erniedrigt den Energiewert.
      */
     private void decrementEnergy(final int delta) {
-        this.energy -= delta;
+        energy -= delta;
     }
 
     /**
      * Ermittelt die Nachbarn dieser Zelle.<br>
      */
     private void ermittleNachbarn() {
-        this.freieNachbarnList.clear();
-        this.fischNachbarnList.clear();
+        freieNachbarnList.clear();
+        fischNachbarnList.clear();
 
         visitNeighbours((x, y) -> {
             final WaTorCell cell = getSimulation().getCell(x, y);
 
             if (cell.isEmpty()) {
-                this.freieNachbarnList.add(new int[]{x, y});
+                freieNachbarnList.add(new int[]{x, y});
             }
             else if (cell.isFish()) {
-                this.fischNachbarnList.add(new int[]{x, y});
+                fischNachbarnList.add(new int[]{x, y});
             }
         });
     }
@@ -139,19 +139,19 @@ public class WaTorCell extends AbstractCell {
      * Liefert die Koordinaten einer freien Zelle in der Nachbarschaft oder keine.
      */
     private int[] getFreierNachbar() {
-        if (this.freieNachbarnList.isEmpty()) {
+        if (freieNachbarnList.isEmpty()) {
             return null;
         }
 
-        while (!this.freieNachbarnList.isEmpty()) {
-            final int size = this.freieNachbarnList.size();
-            final int[] koords = this.freieNachbarnList.remove(getSimulation().getRandom().nextInt(size));
+        while (!freieNachbarnList.isEmpty()) {
+            final int size = freieNachbarnList.size();
+            final int[] coords = freieNachbarnList.remove(getSimulation().getRandom().nextInt(size));
 
-            final WaTorCell cell = getSimulation().getCell(koords[0], koords[1]);
+            final WaTorCell cell = getSimulation().getCell(coords[0], coords[1]);
 
             // Ist die Stelle wirklich noch frei ?
             if (cell.isEmpty()) {
-                return koords;
+                return coords;
             }
         }
 
@@ -162,7 +162,7 @@ public class WaTorCell extends AbstractCell {
      * Erhöht den Energiewert.
      */
     private void incrementEnergy(final int delta) {
-        this.energy += delta;
+        energy += delta;
     }
 
     /**
@@ -187,13 +187,13 @@ public class WaTorCell extends AbstractCell {
             // Fisch "bewegen".
             final WaTorCell cell = getSimulation().getCell(freiX, freiY);
             cell.setCellType(CellType.FISH);
-            cell.setEnergy(this.energy);
+            cell.setEnergy(energy);
 
-            if (this.energy >= getSimulation().getFishBreedEnergy()) {
+            if (energy >= getSimulation().getFishBreedEnergy()) {
                 // Nachwuchs auf diesen Platz setzen.
-                setEnergy(this.energy / 2); // Energie aufteilen
+                setEnergy(energy / 2); // Energie aufteilen
 
-                cell.decrementEnergy(this.energy);
+                cell.decrementEnergy(energy);
             }
             else {
                 // Diese Zelle leeren.
@@ -228,7 +228,7 @@ public class WaTorCell extends AbstractCell {
 
                 // Der Fisch wird zum Hai.
                 shark.setCellType(CellType.SHARK);
-                shark.incrementEnergy(this.energy); // Energy von Fisch und Hai addieren.
+                shark.incrementEnergy(energy); // Energy von Fisch und Hai addieren.
 
                 // Diese Zelle leeren.
                 setCellType(CellType.EMPTY);
@@ -241,7 +241,7 @@ public class WaTorCell extends AbstractCell {
 
                 shark = getSimulation().getCell(freiX, freiY);
                 shark.setCellType(CellType.SHARK);
-                shark.setEnergy(this.energy);
+                shark.setEnergy(energy);
 
                 // Diese Zelle leeren.
                 setCellType(CellType.EMPTY);
@@ -253,7 +253,7 @@ public class WaTorCell extends AbstractCell {
                 setCellType(CellType.SHARK);
                 setEnergy(shark.energy / 2); // Energie aufteilen
 
-                shark.decrementEnergy(this.energy);
+                shark.decrementEnergy(energy);
             }
         }
 

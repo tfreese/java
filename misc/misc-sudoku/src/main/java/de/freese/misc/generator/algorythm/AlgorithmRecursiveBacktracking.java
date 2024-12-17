@@ -90,24 +90,24 @@ public class AlgorithmRecursiveBacktracking implements SudokuAlgorithm {
     public boolean create(final int[][] grid) {
         boolean emptyField = false;
 
-        // Mögliche Zahlen zufällig generieren
+        // Mögliche Zahlen zufällig generieren.
         final int[] shuffledNumbers = shuffleNumbers(grid.length);
 
-        // Durch die Spalten gehen
+        // Durch die Spalten gehen.
         for (int x = 0; x < grid.length; x++) {
-            // Durch die Zeilen gehen
+            // Durch die Zeilen gehen.
             for (int y = 0; y < grid[0].length; y++) {
                 if (grid[x][y] == 0) {
                     emptyField = true;
 
-                    // Für alle möglichen Zahlen
+                    // Für alle möglichen Zahlen.
                     for (int k = 0; k < grid.length; k++) {
                         final int value = shuffledNumbers[k] + 1;
 
                         if (isLegal(grid, x, y, value)) {
                             grid[x][y] = value;
 
-                            // Versuchen den Rest aufzufüllen
+                            // Versuchen den Rest aufzufüllen.
                             if (create(grid)) {
                                 return true;
                             }

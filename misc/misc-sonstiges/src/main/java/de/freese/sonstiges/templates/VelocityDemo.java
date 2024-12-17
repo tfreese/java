@@ -9,8 +9,6 @@ import java.util.Properties;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +19,6 @@ public final class VelocityDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(VelocityDemo.class);
 
     public static void main(final String[] args) {
-        final String templateFile = Paths.get("templates", "velocity", "example.vtl").toString();
 
         try {
             final Properties properties = new Properties();
@@ -33,8 +30,8 @@ public final class VelocityDemo {
             properties.put("resource.loader.classpath.modification_check_interval", "0");
 
             // final VelocityEngine ve = new VelocityEngine("velocity.properties");
-            final VelocityEngine ve = new VelocityEngine(properties);
-            ve.init();
+            final VelocityEngine velocityEngine = new VelocityEngine(properties);
+            velocityEngine.init();
 
             // Make a context object and populate with the data. This is where the VelocityDemo engine gets the data to resolve the references (ex. $list) in the
             // template.
@@ -50,14 +47,7 @@ public final class VelocityDemo {
             // get the Template object. This is the parsed version of your template input file. Note that getTemplate() can throw ResourceNotFoundException : if
             // it doesn't find the template ParseErrorException : if there is something wrong with the VTL Exception : if something else goes wrong (this is
             // generally indicative of as serious problem...)
-            Template template = null;
-
-            try {
-                template = ve.getTemplate(templateFile);
-            }
-            catch (ResourceNotFoundException | ParseErrorException ex) {
-                LOGGER.error(ex.getMessage(), ex);
-            }
+            final Template template = loadTemplate(velocityEngine);
 
             // Now have the template engine process your template using the data placed into the context. Think of it as a 'merge' of the template and the data
             // to produce the output stream.
@@ -72,6 +62,12 @@ public final class VelocityDemo {
         catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
+    }
+
+    private static Template loadTemplate(final VelocityEngine velocityEngine) throws Exception {
+        final String templateFile = Paths.get("templates", "velocity", "example.vtl").toString();
+
+        return velocityEngine.getTemplate(templateFile);
     }
 
     private VelocityDemo() {
