@@ -21,7 +21,7 @@ dependencies {
 }
 
 tasks.register("deleteAppFolder", Delete) {
-    description "Delete app-Folder."
+    description = "Delete app-Folder."
     group = "Maintenance"
 
     logger.lifecycle "delete app-Folder: ${projectDir}/src/test/generated"
