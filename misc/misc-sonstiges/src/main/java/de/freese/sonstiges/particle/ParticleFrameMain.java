@@ -1,6 +1,7 @@
 // Created: 04.10.2018
 package de.freese.sonstiges.particle;
 
+import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.Serial;
@@ -16,23 +17,7 @@ public final class ParticleFrameMain extends JFrame {
     private static final long serialVersionUID = 6280027925982262751L;
 
     public static void main(final String[] args) {
-        final int numOfParticles = 10;
-
-        //        final ParticleFrameMain frame = new ParticleFrameMain();
-        //        frame.initAndShowGUI();
-        //
-        //        frame.addWindowListener(new WindowAdapter() {
-        //            @Override
-        //            public void windowClosing(final WindowEvent event) {
-        //                frame.stop();
-        //                frame.shutdown();
-        //                frame.dispose();
-        //
-        //                System.exit(0);
-        //            }
-        //        });
-
-        SwingUtilities.invokeLater(() -> showGui(numOfParticles));
+        SwingUtilities.invokeLater(() -> showGui(10));
     }
 
     private static void showGui(final int numOfParticles) {
@@ -58,27 +43,28 @@ public final class ParticleFrameMain extends JFrame {
     private ParticleFrameMain() {
         super();
 
-        this.canvas = new ParticleCanvas(800);
+        this.canvas = new ParticleCanvas();
+        this.canvas.setSize(new Dimension(800, 800));
 
         setTitle("Particles");
     }
 
     public void initAndShowGUI() {
-        add(this.canvas);
+        add(canvas);
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
     void shutdown() {
-        this.canvas.shutdown();
+        canvas.shutdown();
     }
 
     void start(final int numOfParticles) {
-        this.canvas.start(numOfParticles);
+        canvas.start(numOfParticles);
     }
 
     void stop() {
-        this.canvas.stop();
+        canvas.stop();
     }
 }

@@ -3,15 +3,20 @@ package de.freese.sonstiges.serviceloader;
 
 import java.util.ServiceLoader;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 public final class ServiceLoaderMain {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceLoaderMain.class);
+
     public static void main(final String[] args) {
         final ServiceLoader<Service> serviceLoader = ServiceLoader.load(Service.class);
 
         for (Service service : serviceLoader) {
-            System.out.println(service.getText());
+            LOGGER.info(service.getText());
         }
     }
 

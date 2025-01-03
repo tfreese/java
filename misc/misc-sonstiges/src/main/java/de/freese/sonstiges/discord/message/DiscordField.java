@@ -15,15 +15,15 @@ public class DiscordField {
     private String value;
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public String getValue() {
-        return this.value;
+        return value;
     }
 
     public boolean isInline() {
-        return this.inline;
+        return inline;
     }
 
     public DiscordField setInline(final boolean inline) {

@@ -3,6 +3,9 @@ package de.freese.sonstiges.discord;
 
 import java.awt.Color;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.sonstiges.discord.message.DiscordAuthor;
 import de.freese.sonstiges.discord.message.DiscordEmbed;
 import de.freese.sonstiges.discord.message.DiscordField;
@@ -15,11 +18,39 @@ import de.freese.sonstiges.discord.message.DiscordWebHookMessage;
  * @author Thomas Freese
  */
 public final class DiscordMain {
-    public static void main(final String[] args) throws Exception {
-        // URL für den WebHook: Servereinstellungen -> Integrationen -> WebHooks anzeigen -> WebHook-URL kopieren
-        //        final String webHookId = args[0];
-        //        final String webHookToken = args[1];
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscordMain.class);
 
+    public static void main(final String[] args) {
+        try {
+            logMessage();
+            // sendMessage(null, null);
+        }
+        catch (Exception ex) {
+            LOGGER.error(ex.getMessage(), ex);
+        }
+    }
+
+    static void logMessage() throws Exception {
+        final DiscordWebHookMessage message = createMessage();
+
+        // Message senden.
+        final DiscordWebHookSender discordWebHookSender = new DefaultDiscordWebHookSender();
+        LOGGER.info(discordWebHookSender.toJson(message));
+    }
+
+    /**
+     * URL für den WebHook: Servereinstellungen -> Integrationen -> WebHooks anzeigen -> WebHook-URL kopieren
+     */
+    static void sendMessage(final String webHookId, final String webHookToken) throws Exception {
+        final DiscordWebHookMessage message = createMessage();
+
+        // Message senden.
+        final DiscordWebHookSender discordWebHookSender = new DefaultDiscordWebHookSender();
+        LOGGER.info(discordWebHookSender.toJson(message));
+        discordWebHookSender.send(message, webHookId, webHookToken);
+    }
+
+    private static DiscordWebHookMessage createMessage() {
         // URL für Demo-Bild.
         final String iconUrl = "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png";
 
@@ -45,10 +76,7 @@ public final class DiscordMain {
         // Minimaler Abschnitt.
         message.addEmbed(new DiscordEmbed().setColor(Color.GREEN).setTitleDescription("Just another added embed object!"));
 
-        // Message senden.
-        final DiscordWebHookSender discordWebHookSender = new DefaultDiscordWebHookSender();
-        System.out.println(discordWebHookSender.toJson(message));
-        //        discordWebHookSender.send(message, webHookId, webHookToken);
+        return message;
     }
 
     private DiscordMain() {

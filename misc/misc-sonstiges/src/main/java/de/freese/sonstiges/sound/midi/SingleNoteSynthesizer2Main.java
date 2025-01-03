@@ -63,6 +63,7 @@ public final class SingleNoteSynthesizer2Main {
         catch (InterruptedException ex) {
             LOGGER.error(ex.getMessage(), ex);
 
+            // Restore interrupted state.
             Thread.currentThread().interrupt();
         }
 

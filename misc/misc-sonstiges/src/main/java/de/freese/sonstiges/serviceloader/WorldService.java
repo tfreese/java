@@ -2,8 +2,6 @@
 package de.freese.sonstiges.serviceloader;
 
 /**
- * BeispielService.
- *
  * @author Thomas Freese
  */
 public class WorldService implements Service {

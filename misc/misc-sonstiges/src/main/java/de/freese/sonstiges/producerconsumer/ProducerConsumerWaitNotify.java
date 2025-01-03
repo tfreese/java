@@ -33,6 +33,7 @@ public final class ProducerConsumerWaitNotify {
                     TimeUnit.MILLISECONDS.sleep(3000);
                 }
                 catch (InterruptedException ex) {
+                    // Restore interrupted state.
                     Thread.currentThread().interrupt();
                 }
             }
@@ -52,6 +53,7 @@ public final class ProducerConsumerWaitNotify {
                     wait(); // wait for Producer to put value
                 }
                 catch (InterruptedException ex) {
+                    // Restore interrupted state.
                     Thread.currentThread().interrupt();
                 }
             }
@@ -68,6 +70,7 @@ public final class ProducerConsumerWaitNotify {
                     wait(); // wait for Consumer to get value
                 }
                 catch (InterruptedException ex) {
+                    // Restore interrupted state.
                     Thread.currentThread().interrupt();
                 }
             }
@@ -104,6 +107,7 @@ public final class ProducerConsumerWaitNotify {
                     TimeUnit.MILLISECONDS.sleep(300);
                 }
                 catch (InterruptedException ex) {
+                    // Restore interrupted state.
                     Thread.currentThread().interrupt();
                 }
             }

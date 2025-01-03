@@ -153,7 +153,7 @@ public class ServerAsync extends AbstractServer {
                 logger.error("AsynchronousChannelGroup did not terminate");
             }
 
-            // Preserve interrupt status.
+            // Restore interrupted state.
             Thread.currentThread().interrupt();
         }
     }

@@ -19,24 +19,24 @@ public class CheckedOutputStream extends FilterOutputStream {
     }
 
     public Checksum getChecksum() {
-        return this.checksum;
+        return checksum;
     }
 
     @Override
     public void write(final byte[] b) throws IOException {
-        this.out.write(b, 0, b.length);
-        this.checksum.update(b, 0, b.length);
+        out.write(b, 0, b.length);
+        checksum.update(b, 0, b.length);
     }
 
     @Override
     public void write(final byte[] b, final int off, final int len) throws IOException {
-        this.out.write(b, off, len);
-        this.checksum.update(b, off, len);
+        out.write(b, off, len);
+        checksum.update(b, off, len);
     }
 
     @Override
     public void write(final int b) throws IOException {
-        this.out.write(b);
-        this.checksum.update(b);
+        out.write(b);
+        checksum.update(b);
     }
 }

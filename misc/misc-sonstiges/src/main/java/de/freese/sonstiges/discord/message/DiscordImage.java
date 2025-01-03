@@ -19,6 +19,6 @@ public class DiscordImage {
     }
 
     public String getUrl() {
-        return this.url;
+        return url;
     }
 }

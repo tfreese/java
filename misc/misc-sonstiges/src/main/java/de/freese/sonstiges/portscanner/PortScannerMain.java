@@ -3,7 +3,10 @@ package de.freese.sonstiges.portscanner;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -31,21 +34,21 @@ public final class PortScannerMain {
         int threads = 8;
         InetAddress host = null;
 
-        int nextArg = 0;
+        final ListIterator<String> listIterator = List.of(args).listIterator();
 
-        while (nextArg < args.length) {
-            final String arg = args[nextArg++];
+        while (listIterator.hasNext()) {
+            final String arg = listIterator.next();
 
             try {
-                if ("-threads".equalsIgnoreCase(arg)) {
-                    threads = Integer.parseInt(args[nextArg++]);
+                if ("-host".equalsIgnoreCase(arg)) {
+                    host = InetAddress.getByName(listIterator.next());
                 }
-                else if ("-host".equalsIgnoreCase(arg)) {
-                    host = InetAddress.getByName(args[nextArg++]);
+                else if ("-threads".equalsIgnoreCase(arg)) {
+                    threads = Integer.parseInt(listIterator.next());
                 }
                 else if ("-ports".equalsIgnoreCase(arg)) {
-                    firstPort = Integer.parseInt(args[nextArg++]);
-                    lastPort = Integer.parseInt(args[nextArg++]);
+                    firstPort = Integer.parseInt(listIterator.next());
+                    lastPort = Integer.parseInt(listIterator.next());
                 }
                 else if ("-?".equalsIgnoreCase(arg) || "-h".equalsIgnoreCase(arg) || "-help".equalsIgnoreCase(arg)) {
                     LOGGER.error("Syntax: java [-jar] PortScannerMain[.class/.jar] -host ip -threads num -ports firstPort lastPort");
@@ -55,14 +58,14 @@ public final class PortScannerMain {
                     badArg("Unknown command-line argument: " + arg);
                 }
             }
-            catch (ArrayIndexOutOfBoundsException ex) {
+            catch (NoSuchElementException ex) {
                 badArg("missing item after " + arg);
             }
             catch (NumberFormatException ex) {
-                badArg("bad number format for " + arg + ": " + args[nextArg - 1]);
+                badArg("bad number format for " + arg + ": " + listIterator.previous());
             }
             catch (UnknownHostException ex) {
-                badArg(args[nextArg - 1] + " is not a valid host name.");
+                badArg(listIterator.previous() + " is not a valid host name.");
             }
         }
 

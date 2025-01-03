@@ -16,16 +16,16 @@ public class DiscordAuthor {
     private String nameUrl;
 
     public String getIconUrl() {
-        return this.iconUrl;
+        return iconUrl;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     @JsonGetter("url")
     public String getNameUrl() {
-        return this.nameUrl;
+        return nameUrl;
     }
 
     public DiscordAuthor setIconUrl(final String iconUrl) {

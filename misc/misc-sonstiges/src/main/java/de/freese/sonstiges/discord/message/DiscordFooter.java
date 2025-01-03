@@ -14,11 +14,11 @@ public class DiscordFooter {
     private String text;
 
     public String getIconUrl() {
-        return this.iconUrl;
+        return iconUrl;
     }
 
     public String getText() {
-        return this.text;
+        return text;
     }
 
     public DiscordFooter setIconUrl(final String iconUrl) {

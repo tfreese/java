@@ -19,6 +19,6 @@ public class DiscordThumbnail {
     }
 
     public String getUrl() {
-        return this.url;
+        return url;
     }
 }

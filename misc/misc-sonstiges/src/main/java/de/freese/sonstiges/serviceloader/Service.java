@@ -2,8 +2,6 @@
 package de.freese.sonstiges.serviceloader;
 
 /**
- * Beispielservice.
- *
  * @author Thomas Freese
  */
 @FunctionalInterface

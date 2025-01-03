@@ -16,8 +16,6 @@ public class Day implements Serializable {
     private final int month;
     private final int year;
 
-    private transient String asString;
-
     public Day(final int year, final int month, final int day) {
         super();
 
@@ -36,27 +34,27 @@ public class Day implements Serializable {
             return false;
         }
 
-        if (this.dayOfMonth != other.dayOfMonth) {
+        if (dayOfMonth != other.dayOfMonth) {
             return false;
         }
 
-        if (this.month != other.month) {
+        if (month != other.month) {
             return false;
         }
 
-        return this.year == other.year;
+        return year == other.year;
     }
 
     public int getDayOfMonth() {
-        return this.dayOfMonth;
+        return dayOfMonth;
     }
 
     public int getMonth() {
-        return this.month;
+        return month;
     }
 
     public int getYear() {
-        return this.year;
+        return year;
     }
 
     @Override
@@ -69,15 +67,11 @@ public class Day implements Serializable {
         //
         // return result;
 
-        return (this.year * 400) + (this.month * 31) + this.dayOfMonth;
+        return (year * 400) + (month * 31) + dayOfMonth;
     }
 
     @Override
     public String toString() {
-        if (this.asString == null) {
-            this.asString = String.format("%d-%02d-%02d", this.year, this.month, this.dayOfMonth);
-        }
-
-        return this.asString;
+        return String.format("%d-%02d-%02d", year, month, dayOfMonth);
     }
 }

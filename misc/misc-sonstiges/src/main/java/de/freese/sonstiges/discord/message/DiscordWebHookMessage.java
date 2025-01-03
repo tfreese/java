@@ -23,35 +23,35 @@ public class DiscordWebHookMessage {
     private boolean tts;
 
     public DiscordWebHookMessage addEmbed(final DiscordEmbed embed) {
-        this.embeds.add(embed);
+        embeds.add(embed);
 
         return this;
     }
 
     @JsonGetter("content")
     public String getAvatarContent() {
-        return this.avatarContent;
+        return avatarContent;
     }
 
     @JsonGetter("avatar_url")
     public String getAvatarUrl() {
-        return this.avatarUrl;
+        return avatarUrl;
     }
 
     @JsonGetter("username")
     public String getAvatarUsername() {
-        return this.avatarUsername;
+        return avatarUsername;
     }
 
     public List<DiscordEmbed> getEmbeds() {
-        return this.embeds;
+        return embeds;
     }
 
     /**
      * Text-To-Speech
      */
     public boolean isTts() {
-        return this.tts;
+        return tts;
     }
 
     public DiscordWebHookMessage setAvatarContent(final String avatarContent) {

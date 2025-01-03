@@ -40,48 +40,48 @@ public class DiscordEmbed {
     }
 
     public DiscordAuthor getAuthor() {
-        return this.author;
+        return author;
     }
 
     @JsonSerialize(using = DiscordColorSerializer.class)
     public Color getColor() {
-        return this.color;
+        return color;
     }
 
     public List<DiscordField> getFields() {
-        return this.fields;
+        return fields;
     }
 
     public DiscordFooter getFooter() {
-        return this.footer;
+        return footer;
     }
 
     /**
      * Großes Bild
      */
     public DiscordImage getImage() {
-        return this.image;
+        return image;
     }
 
     /**
      * Kleines Bild oben rechts
      */
     public DiscordThumbnail getThumbnail() {
-        return this.thumbnail;
+        return thumbnail;
     }
 
     public String getTitle() {
-        return this.title;
+        return title;
     }
 
     @JsonGetter("description")
     public String getTitleDescription() {
-        return this.titleDescription;
+        return titleDescription;
     }
 
     @JsonGetter("url")
     public String getTitleUrl() {
-        return this.titleUrl;
+        return titleUrl;
     }
 
     public DiscordEmbed setAuthor(final DiscordAuthor author) {

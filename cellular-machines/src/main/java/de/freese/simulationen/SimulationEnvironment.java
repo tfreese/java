@@ -76,7 +76,7 @@ public class SimulationEnvironment {
             // (Re-)Cancel if current thread also interrupted.
             executorService.shutdownNow();
 
-            // Preserve interrupt status.
+            // Restore interrupted state.
             Thread.currentThread().interrupt();
         }
     }

@@ -1,6 +1,7 @@
 package de.freese.sonstiges.discord;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
@@ -23,12 +24,15 @@ public class DefaultDiscordWebHookSender implements DiscordWebHookSender {
         connection.setDoOutput(true);
         connection.setRequestMethod("POST");
 
-        try (OutputStream stream = connection.getOutputStream()) {
-            stream.write(json.getBytes(StandardCharsets.UTF_8));
-            stream.flush();
+        try (OutputStream outputStream = connection.getOutputStream()) {
+            outputStream.write(json.getBytes(StandardCharsets.UTF_8));
+            outputStream.flush();
         }
 
-        connection.getInputStream().close(); // Wenn Fehler kommen, dann hier.
+        try (InputStream inputStream = connection.getInputStream()) {
+            inputStream.transferTo(OutputStream.nullOutputStream());
+        }
+
         connection.disconnect();
     }
 }
