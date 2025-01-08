@@ -30,6 +30,7 @@ subprojects {
         dependencies {
             dependency("ch.qos.logback.db:logback-classic-db:$version_logbackClassicDb")
             dependency("com.danielflower.apprunner:javasysmon:$version_javasysmon")
+            dependency("com.github.spotbugs:spotbugs-annotations:$version_spotbugs")
             dependency("com.lmax:disruptor:$version_disruptor")
             dependency("dev.failsafe:failsafe:$version_failsafe")
             dependency("org.apache.commons:commons-compress:$version_commonsCompress")
@@ -77,6 +78,9 @@ subprojects {
             testImplementation("org.awaitility:awaitility")
             testImplementation("org.junit.jupiter:junit-jupiter")
             testImplementation("org.mockito:mockito-junit-jupiter")
+
+            // To avoid compiler warnings about @API annotations in Log4j Code.
+            // testCompileOnly("com.github.spotbugs:spotbugs-annotations")
 
             testRuntimeOnly("org.junit.platform:junit-platform-launcher")
         }

@@ -16,4 +16,7 @@ dependencies {
         exclude group: "ch.qos.logback", module: "logback-core"
     }
     testImplementation("org.hsqldb:hsqldb")
+
+    // To avoid compiler warnings about @API annotations in Log4j Code.
+    testCompileOnly("com.github.spotbugs:spotbugs-annotations")
 }
