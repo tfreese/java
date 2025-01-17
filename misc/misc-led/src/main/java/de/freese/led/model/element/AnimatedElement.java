@@ -24,7 +24,7 @@ public class AnimatedElement implements LedElement {
         for (int i = 0; i < value.length(); i++) {
             final char c = value.charAt(i);
 
-            addToken(new TextToken(String.valueOf(c)));
+            tokens.add(new TextToken(String.valueOf(c)));
         }
     }
 

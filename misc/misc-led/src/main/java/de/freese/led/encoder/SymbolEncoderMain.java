@@ -161,21 +161,21 @@ public final class SymbolEncoderMain {
     }
 
     private void encodeRow(final int row) {
-        //        final BitSet bitSet = new BitSet(toggleButtons[row].length);
+        // final BitSet bitSet = new BitSet(toggleButtons[row].length);
         int encoded = 0;
 
         for (int x = 0; x < toggleButtons[row].length; x++) {
             final JToggleButton toggleButton = toggleButtons[row][x];
 
             if (toggleButton.isSelected()) {
-                //                bitSet.set(x);
+                // bitSet.set(x);
                 encoded += 1 << x;
             }
         }
 
-        //        final byte[] bytes = bitSet.toByteArray();
-        //        final int encoded = IntStream.range(0, bytes.length).map(idx -> bytes[idx]).sum();
-        //        System.out.println("bitSet = " + encoded);
+        // final byte[] bytes = bitSet.toByteArray();
+        // final int encoded = IntStream.range(0, bytes.length).map(idx -> bytes[idx]).sum();
+        // System.out.println("bitSet = " + encoded);
 
         textFields[row].setText(Integer.toString(encoded));
 
@@ -232,7 +232,7 @@ public final class SymbolEncoderMain {
         frame.add(clearButton, gbc);
 
         frame.pack();
-        //        frame.setSize(800, 600);
+        // frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 

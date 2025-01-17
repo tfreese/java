@@ -1,6 +1,7 @@
 // Created: 20.12.23
 package de.freese.led.model.token;
 
+import java.awt.Color;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -25,15 +26,19 @@ public class NumberToken extends AbstractLedToken {
     }
 
     public NumberToken(final Number number) {
-        this(number, getDefaultNumberFormat());
+        this(number, getDefaultNumberFormat(), null);
+    }
+
+    public NumberToken(final Number number, final Color color) {
+        this(number, getDefaultNumberFormat(), color);
     }
 
     public NumberToken(final NumberFormat numberFormat) {
-        this(null, numberFormat);
+        this(null, numberFormat, null);
     }
 
-    public NumberToken(final Number number, final NumberFormat numberFormat) {
-        super();
+    public NumberToken(final Number number, final NumberFormat numberFormat, final Color color) {
+        super(color);
 
         this.numberFormat = numberFormat;
 

@@ -34,55 +34,69 @@ subprojects {
             dependency("com.lmax:disruptor:$version_disruptor")
             dependency("dev.failsafe:failsafe:$version_failsafe")
             dependency("org.apache.commons:commons-compress:$version_commonsCompress")
-
             dependency("org.apache.lucene:lucene-queryparser:$version_lucene")
             // dependency("org.apache.lucene:version_luceneAnalysisCommon:$version_luceneAnalysisCommon")
-
             dependencySet(group: "org.apache.lucene", version: "$version_lucene") {
                 entry "lucene-analysis-common"
                 entry "lucene-queryparser"
             }
-
             dependencySet(group: "org.apache.maven", version: "$version_maven") {
                 entry "maven-model-builder"
                 entry "maven-settings-builder"
             }
-
             dependencySet(group: "org.apache.tomcat", version: dependencyManagement.importedProperties["tomcat.version"]) {
                 entry "tomcat-catalina"
                 entry "tomcat-juli"
             }
-
             dependencySet(group: "org.apache.xmlgraphics", version: "$version_batik") {
                 entry "batik-codec"
                 entry "batik-swing"
             }
-
+            dependency("org.apiguardian:apiguardian-api:$version_apiGuardian")
             dependency("org:jaudiotagger:$version_jaudiotagger")
             dependency("org.jsoup:jsoup:$version_jsoup")
-
             dependency("org.jfree:jfreechart:$version_jfreechart") {
                 // exclude "com.lowagie:itext"
                 // exclude "xml-apis:xml-apis"
             }
-
             dependency("org.apache.velocity:velocity-engine-core:$version_velocity")
         }
     }
 
     pluginManager.withPlugin("java") {
+        configurations {
+            mockitoAgent
+        }
+
         dependencies {
             //implementation(platform("org.springframework.boot:spring-boot-dependencies:$version_springBoot"))
 
             testImplementation("org.assertj:assertj-core")
             testImplementation("org.awaitility:awaitility")
             testImplementation("org.junit.jupiter:junit-jupiter")
+
             testImplementation("org.mockito:mockito-junit-jupiter")
+            mockitoAgent("org.mockito:mockito-core") {
+                transitive = false
+            }
 
             // To avoid compiler warnings about @API annotations in Log4j Code.
-            // testCompileOnly("com.github.spotbugs:spotbugs-annotations")
+            testCompileOnly("com.github.spotbugs:spotbugs-annotations")
+
+            // To avoid compiler warnings about @API annotations in JUnit Code.
+            // testCompileOnly("org.apiguardian:apiguardian-api")
 
             testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+        }
+
+        // tasks.withType<Test> {
+        //     jvmArgs("-XX:+EnableDynamicAgentLoading")
+        // }
+        test {
+            doFirst {
+                jvmArgs += "-javaagent:${configurations.mockitoAgent.asPath}"
+                // jvmArgs += "-XX:+EnableDynamicAgentLoading"
+            }
         }
     }
 }

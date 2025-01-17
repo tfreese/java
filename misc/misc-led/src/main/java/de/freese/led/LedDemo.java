@@ -17,6 +17,7 @@ import javax.swing.WindowConstants;
 import de.freese.led.model.element.AnimatedElement;
 import de.freese.led.model.token.ArrowToken;
 import de.freese.led.model.token.LedToken;
+import de.freese.led.model.token.NumberToken;
 import de.freese.led.model.token.TextToken;
 
 /**
@@ -27,7 +28,7 @@ public final class LedDemo {
         SwingUtilities.invokeLater(() -> {
             final JFrame frame = init();
             //        frame.pack();
-            frame.setSize(2000, 400);
+            frame.setSize(800, 100);
             frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,15 +49,21 @@ public final class LedDemo {
 
             final AnimatedElement animatedElement = new AnimatedElement(text);
 
-            return animatedElement.addToken(arrowTokenIncreasing).addToken(arrowTokenDecreasing).addToken(arrowTokenLeft).addToken(arrowTokenRight).addToken(arrowTokenUnchanged)
+            return animatedElement
+                    .addToken(arrowTokenIncreasing)
+                    .addToken(arrowTokenDecreasing)
+                    .addToken(arrowTokenLeft)
+                    .addToken(arrowTokenRight)
+                    .addToken(arrowTokenUnchanged)
+                    .addToken(new NumberToken(1.9D, Color.MAGENTA))
                     .addToken(new TextToken("     "));
         };
 
         final Consumer<LedDisplay> configurer = display -> {
-            display.setDotHeight(12);
-            display.setDotWidth(12);
-            display.sethGap(4);
-            display.setvGap(4);
+            display.setDotHeight(2);
+            display.setDotWidth(2);
+            display.sethGap(1);
+            display.setvGap(1);
         };
 
         final AnimatedElement ledElementRect = elementSupplier.get();
@@ -84,7 +91,7 @@ public final class LedDemo {
                 ledDisplayRect.update();
                 ledDisplayCircle.update();
             });
-        }, 1000, 400, TimeUnit.MILLISECONDS);
+        }, 1000, 100, TimeUnit.MILLISECONDS);
 
         return frame;
     }
