@@ -3,6 +3,9 @@ package de.freese.binding;
 
 import java.util.Objects;
 import java.util.function.BinaryOperator;
+import java.util.function.DoubleBinaryOperator;
+import java.util.function.IntBinaryOperator;
+import java.util.function.LongBinaryOperator;
 import java.util.function.Predicate;
 
 import de.freese.binding.binds.AbstractBooleanBinding;
@@ -94,12 +97,12 @@ public final class Bindings {
         return binding;
     }
 
-    public static DoubleBinding createDoubleBinding(final BinaryOperator<Double> function, final ObservableNumberValue<? extends Number> ov1,
+    public static DoubleBinding createDoubleBinding(final DoubleBinaryOperator function, final ObservableNumberValue<? extends Number> ov1,
                                                     final ObservableNumberValue<? extends Number> ov2) {
         final DoubleBinding binding = new AbstractDoubleBinding() {
             @Override
             protected double computeValue() {
-                return function.apply(ov1.doubleValue(), ov2.doubleValue());
+                return function.applyAsDouble(ov1.doubleValue(), ov2.doubleValue());
             }
         };
 
@@ -128,12 +131,12 @@ public final class Bindings {
         return binding;
     }
 
-    public static IntegerBinding createIntegerBinding(final BinaryOperator<Integer> function, final ObservableNumberValue<? extends Number> ov1,
+    public static IntegerBinding createIntegerBinding(final IntBinaryOperator function, final ObservableNumberValue<? extends Number> ov1,
                                                       final ObservableNumberValue<? extends Number> ov2) {
         final IntegerBinding binding = new AbstractIntegerBinding() {
             @Override
             protected int computeValue() {
-                return function.apply(ov1.intValue(), ov2.intValue());
+                return function.applyAsInt(ov1.intValue(), ov2.intValue());
             }
         };
 
@@ -145,12 +148,12 @@ public final class Bindings {
         return binding;
     }
 
-    public static LongBinding createLongBinding(final BinaryOperator<Long> function, final ObservableNumberValue<? extends Number> ov1,
+    public static LongBinding createLongBinding(final LongBinaryOperator function, final ObservableNumberValue<? extends Number> ov1,
                                                 final ObservableNumberValue<? extends Number> ov2) {
         final LongBinding binding = new AbstractLongBinding() {
             @Override
             protected long computeValue() {
-                return function.apply(ov1.longValue(), ov2.longValue());
+                return function.applyAsLong(ov1.longValue(), ov2.longValue());
             }
         };
 
