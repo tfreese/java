@@ -2,8 +2,14 @@
 package de.freese.cache;
 
 import java.net.URL;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.cache.Cache;
+import javax.cache.CacheManager;
+import javax.cache.Caching;
+import javax.cache.spi.CachingProvider;
 
 import com.hazelcast.config.Config;
 import com.hazelcast.config.XmlConfigBuilder;
@@ -28,57 +34,73 @@ public final class HazelcastMain {
         final URL configUrl = ClassLoader.getSystemResource("hazelcast.xml");
 
         // By default, the delegating caching provider chooses the client-side implementation.
-        //// System.setProperty("hazelcast.jcache.provider.type", "member");
+        System.setProperty("hazelcast.jcache.provider.type", "member");
 
-        // try (CachingProvider cachingProvider = Caching.getCachingProvider("com.hazelcast.cache.HazelcastMemberCachingProvider");
-        //      CacheManager cacheManager = cachingProvider.getCacheManager(configUrl.toURI(), null)
-        // ) {
-        //     final Cache<String, String> cache = cacheManager.getCache("test", String.class, String.class);
-        //
-        //     final String value = cache.get("key");
-        //     LOGGER.info("{}: cache value = {}", Thread.currentThread().getName(), value);
-        //
-        //     if (value == null) {
-        //         cache.put("key", "value");
-        //     }
-        //
-        //     LOGGER.info("{}: cache value = {}", Thread.currentThread().getName(), cache.get("key"));
-        // }
+        // com.hazelcast.client.cache.HazelcastClientCachingProvider
+        try (CachingProvider cachingProvider = Caching.getCachingProvider("com.hazelcast.cache.HazelcastMemberCachingProvider");
+             CacheManager cacheManager = cachingProvider.getCacheManager(configUrl.toURI(), null)
+             // CacheManager cacheManager = cachingProvider.getCacheManager()
+        ) {
+            // final CompleteConfiguration<String, String> config =
+            //         new MutableConfiguration<String, String>()
+            //                 .setTypes(String.class, String.class);
+            // final Cache<String, String> cache = cacheManager.createCache("test", config);
+            final Cache<String, String> cache = cacheManager.getCache("test", String.class, String.class);
+
+            for (int i = 0; i < 10; i++) {
+                final String value = cache.get("key");
+                LOGGER.info("{}: cache value = {}", Thread.currentThread().getName(), value);
+
+                if (value == null) {
+                    cache.put("key", "value");
+                }
+
+                LOGGER.info("{}: cache value = {}", Thread.currentThread().getName(), cache.get("key"));
+
+                CacheConfigurer.sleep(1000L);
+            }
+        }
 
         final Config config = new XmlConfigBuilder(configUrl).build();
-        // config.setProperty("hazelcast.partition.count", "271");
 
         final HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance(config);
 
         // Map ist niemals null.
         final IMap<String, String> map = hazelcastInstance.getMap("test");
 
-        ForkJoinPool.commonPool().execute(() -> {
-            while (true) {
-                final String value = map.get("key");
-                LOGGER.info("{}: cache value = {}", Thread.currentThread().getName(), value);
+        final AtomicBoolean runner = new AtomicBoolean(true);
 
-                if (value == null) {
-                    map.put("key", "value");
-                }
+        try (ExecutorService executor = Executors.newSingleThreadExecutor()) {
+            executor.execute(() -> {
+                int counter = 0;
 
-                try {
-                    TimeUnit.MILLISECONDS.sleep(1000);
-                }
-                catch (InterruptedException ex) {
-                    LOGGER.error(ex.getMessage(), ex);
+                while (runner.get()) {
+                    final String value = map.get("key");
+                    LOGGER.info("{}: cache value = {}", Thread.currentThread().getName(), value);
 
-                    // Restore interrupted state.
-                    Thread.currentThread().interrupt();
-                }
-                catch (Exception ex) {
-                    LOGGER.error(ex.getMessage(), ex);
-                }
-            }
-        });
+                    if (value == null) {
+                        map.put("key", "value" + counter);
+                        counter++;
+                    }
 
-        // main-Thread blockieren.
-        System.in.read();
+                    if (counter == 1) {
+                        map.put("key1", "value1");
+                        map.put("key2", "value2");
+                        map.put("key3", "value3");
+                        map.remove("key2");
+                    }
+
+                    CacheConfigurer.sleep(1000L);
+                }
+            });
+
+            // main-Thread blockieren.
+            System.console().readLine();
+
+            runner.set(false);
+
+            CacheConfigurer.sleep(1500L);
+        }
 
         hazelcastInstance.shutdown();
         Hazelcast.shutdownAll();
