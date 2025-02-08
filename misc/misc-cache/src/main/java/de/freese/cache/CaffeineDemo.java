@@ -19,8 +19,8 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 /**
  * @author Thomas Freese
  */
-public final class CaffeineMain {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CaffeineMain.class);
+public final class CaffeineDemo {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CaffeineDemo.class);
 
     public static void main(final String[] args) {
         // Redirect Caffeine JUL to Slf4J.
@@ -86,7 +86,7 @@ public final class CaffeineMain {
         }
     }
 
-    private CaffeineMain() {
+    private CaffeineDemo() {
         super();
     }
 }

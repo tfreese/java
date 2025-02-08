@@ -17,9 +17,8 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-// @SuppressWarnings("java:S1313")
-public final class HazelcastJavaConfigNode1Main {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastJavaConfigNode1Main.class);
+public final class HazelcastJavaConfigNode2Demo {
+    private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastJavaConfigNode2Demo.class);
 
     public static void main(final String[] args) {
         final HazelcastInstance hazelcastInstance = getHazelcastInstance();
@@ -30,8 +29,8 @@ public final class HazelcastJavaConfigNode1Main {
 
         final AtomicBoolean runner = new AtomicBoolean(true);
 
-        try (ExecutorService executor = Executors.newSingleThreadExecutor()) {
-            executor.execute(() -> {
+        try (ExecutorService executorService = Executors.newSingleThreadExecutor()) {
+            executorService.execute(() -> {
                 int counter = 0;
 
                 while (runner.get()) {
@@ -54,7 +53,7 @@ public final class HazelcastJavaConfigNode1Main {
                 }
             });
 
-            // main-Thread blockieren.
+            // Block main-Thread.
             System.console().readLine();
 
             runner.set(false);
@@ -67,12 +66,12 @@ public final class HazelcastJavaConfigNode1Main {
     }
 
     private static HazelcastInstance getHazelcastInstance() {
-        final Config config = CacheConfigurer.configureHazelCastWithNetwork(5801);
+        final Config config = CacheConfigurer.configureHazelCastWithNetwork(5802);
 
         return Hazelcast.newHazelcastInstance(config);
     }
 
-    private HazelcastJavaConfigNode1Main() {
+    private HazelcastJavaConfigNode2Demo() {
         super();
     }
 }

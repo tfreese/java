@@ -181,6 +181,7 @@ public final class CacheConfigurer {
         return configureHazelCastParameter(new Config()
                 .addMapConfig(mapConfig))
                 .setClusterName("my-test")
+                .setInstanceName("my-test-instance")
                 // .setPartitionGroupConfig(new PartitionGroupConfig().setEnabled(false))
                 .setJetConfig(new JetConfig().setEnabled(true))
                 ;

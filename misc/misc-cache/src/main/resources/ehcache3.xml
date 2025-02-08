@@ -20,13 +20,13 @@
         <value-type>java.io.Serializable</value-type>
 
         <expiry>
-            <!--ttl unit="seconds">3</ttl-->
-            <!--tti unit="seconds">3</tti-->
-            <none />
+            <ttl unit="seconds">3</ttl>
+            <!-- <tti unit="seconds">3</tti> -->
+            <!-- <none /> -->
         </expiry>
 
         <resources>
-            <heap unit="entries">20</heap>
+            <heap unit="entries">3</heap>
             <offheap unit="MB">10</offheap>
             <!--            <disk persistent="true" unit="MB">20</disk>-->
         </resources>

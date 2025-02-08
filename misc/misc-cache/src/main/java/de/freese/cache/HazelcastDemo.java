@@ -1,11 +1,14 @@
-// Created: 27.05.2018
+// Created: 28.05.2018
 package de.freese.cache;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.hazelcast.config.Config;
+import com.hazelcast.config.XmlConfigBuilder;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
@@ -13,24 +16,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * <a href="https://reflectoring.io/spring-boot-hazelcast">spring-boot-hazelcast</a>
+ * <a href="https://github.com/hazelcast/hazelcast-code-samples">hazelcast-code-samples</a><br>
+ * <a href="http://docs.hazelcast.org/docs/latest-dev/manual/html-single/index.html">latest-dev</a>
  *
  * @author Thomas Freese
  */
-public final class HazelcastJavaConfigNode2Main {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastJavaConfigNode2Main.class);
+public final class HazelcastDemo {
+    private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastDemo.class);
 
-    public static void main(final String[] args) {
-        final HazelcastInstance hazelcastInstance = getHazelcastInstance();
+    public static void main(final String[] args) throws IOException {
+        System.setProperty("hazelcast.map.partition.count", "1");
 
-        // Map ist niemals null.
+        final URL configUrl = ClassLoader.getSystemResource("hazelcast.xml");
+
+        final Config config = new XmlConfigBuilder(configUrl).build();
+
+        final HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance(config);
+
         final IMap<String, String> map = hazelcastInstance.getMap("test");
-        // ReplicatedMap<String, String> map = hazelcastInstance.getReplicatedMap("test2");
 
         final AtomicBoolean runner = new AtomicBoolean(true);
 
-        try (ExecutorService executor = Executors.newSingleThreadExecutor()) {
-            executor.execute(() -> {
+        try (ExecutorService executorService = Executors.newSingleThreadExecutor()) {
+            executorService.execute(() -> {
                 int counter = 0;
 
                 while (runner.get()) {
@@ -53,7 +61,7 @@ public final class HazelcastJavaConfigNode2Main {
                 }
             });
 
-            // main-Thread blockieren.
+            // Block main-Thread.
             System.console().readLine();
 
             runner.set(false);
@@ -65,13 +73,7 @@ public final class HazelcastJavaConfigNode2Main {
         Hazelcast.shutdownAll();
     }
 
-    private static HazelcastInstance getHazelcastInstance() {
-        final Config config = CacheConfigurer.configureHazelCastWithNetwork(5802);
-
-        return Hazelcast.newHazelcastInstance(config);
-    }
-
-    private HazelcastJavaConfigNode2Main() {
+    private HazelcastDemo() {
         super();
     }
 }

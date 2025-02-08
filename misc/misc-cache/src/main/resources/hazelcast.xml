@@ -8,6 +8,7 @@
            http://www.hazelcast.com/schema/config/hazelcast-config-5.5.xsd">
 
     <cluster-name>my-test</cluster-name>
+    <instance-name>my-test-instance</instance-name>
 
     <!--import resource="hazelcast-network-config.xml"/ -->
     <!--group>
@@ -68,5 +69,14 @@
         <merge-policy>com.hazelcast.spi.merge.PutIfAbsentMergePolicy</merge-policy>
         <cache-deserialized-values>INDEX-ONLY</cache-deserialized-values>
     </map>
+
+    <!-- ... default cache configuration goes here  -->
+    <cache name="*">
+        <!-- <cache name="test-cache"> -->
+        <in-memory-format>OBJECT</in-memory-format>
+        <backup-count>0</backup-count>
+        <async-backup-count>0</async-backup-count>
+        <eviction size="3" max-size-policy="ENTRY_COUNT" eviction-policy="LRU" />
+    </cache>
 
 </hazelcast>

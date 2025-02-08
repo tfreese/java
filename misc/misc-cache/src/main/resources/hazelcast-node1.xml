@@ -8,6 +8,7 @@
            http://www.hazelcast.com/schema/config/hazelcast-config-5.5.xsd">
 
     <cluster-name>my-test</cluster-name>
+    <instance-name>my-test-instance</instance-name>
 
     <!--import resource="hazelcast-network-config.xml"/ -->
     <!--group>
@@ -43,6 +44,8 @@
             <serializer type-class="Employee" class-name="EmployeeSerializer" />
         </serializers>
     </serialization-->
+
+    <jet enabled="true" />
 
     <network>
         <port auto-increment="false">5801</port>
