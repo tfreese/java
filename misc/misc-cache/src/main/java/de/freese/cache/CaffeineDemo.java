@@ -39,6 +39,7 @@ public final class CaffeineDemo {
                 return key.toLowerCase() + "Value";
             };
 
+            // Caffeine.from("maximumSize=10,expireAfterAccess=3s,recordStats")
             final LoadingCache<String, String> cache = Caffeine.newBuilder()
                     .expireAfterAccess(3, TimeUnit.SECONDS)
                     .maximumSize(100)

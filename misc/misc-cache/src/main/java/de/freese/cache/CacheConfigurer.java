@@ -143,7 +143,7 @@ public final class CacheConfigurer {
                 .setProperty("hazelcast.operation.thread.count", "2")
 
                 // Total partition count, Default 271.
-                .setProperty("hazelcast.partition.count", "3")
+                .setProperty("hazelcast.partition.count", "1")
 
                 // When this is enabled, this thread terminates the Hazelcast instance without waiting to shut down gracefully.
                 .setProperty("hazelcast.shutdownhook.enabled", Boolean.FALSE.toString())
@@ -156,7 +156,7 @@ public final class CacheConfigurer {
         final HazelcastMapStore<String, String> mapStore = new HazelcastMapStore<>();
         final HazelcastEntityListener<String, String> entryListener = new HazelcastEntityListener<>(mapStore);
 
-        final MapConfig mapConfig = new MapConfig("test")
+        final MapConfig mapConfig = new MapConfig("default")
                 .setTimeToLiveSeconds(5)
                 .setMaxIdleSeconds(3)
                 .setEvictionConfig(new EvictionConfig()
