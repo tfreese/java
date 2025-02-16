@@ -3,6 +3,7 @@ package de.freese.cache;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Duration;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -108,11 +109,13 @@ public class SpringCacheDemo {
                         caffeine = Caffeine.from("maximumSize=10,expireAfterAccess=3s,recordStats");
                     }
                     else {
-                        caffeine = Caffeine.from("maximumSize=1000,expireAfterAccess=12h");
+                        caffeine = Caffeine.newBuilder()
+                                .maximumSize(1000)
+                                .expireAfterAccess(Duration.ofHours(12))
+                        ;
                     }
 
                     final com.github.benmanes.caffeine.cache.Cache<Object, Object> caffeineCache = caffeine
-                            // .executor(Executors.newFixedThreadPool(3, new NamedThreadFactory("caffeine-executor-%d", true)))
                             .evictionListener((key, value, cause) -> LOGGER.info("Eviction: {} - {} = {}", cause, key, value))
                             .removalListener((key, value, cause) -> LOGGER.info("Removal: {} - {} = {}", cause, key, value))
                             .build();
