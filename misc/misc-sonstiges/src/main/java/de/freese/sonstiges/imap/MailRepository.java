@@ -23,8 +23,8 @@ import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
-import org.h2.jdbcx.JdbcConnectionPool;
-import org.hsqldb.jdbc.JDBCPool;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.DisposableBean;
 
 import de.freese.sonstiges.imap.model.MessageWrapper;
@@ -33,38 +33,41 @@ import de.freese.sonstiges.imap.model.Token;
 /**
  * @author Thomas Freese
  */
-@SuppressWarnings({"try", "java:S6909"})
+@SuppressWarnings({"try", "java:S6909", "java:S6437"})
 public class MailRepository implements AutoCloseable {
 
     private static DataSource toDataSource(final Path dbPath) {
         // H2
-        // final JdbcConnectionPool pool = JdbcConnectionPool.create("jdbc:h2:file:" + dbPath.resolve("h2"), "sa", "sa");
-        //        pool.setMaxConnections(3);
+        // final JdbcConnectionPool pool = JdbcConnectionPool.create("jdbc:h2:file:" + dbPath.resolve("h2"), "...", "...");
+        // pool.setMaxConnections(3);
 
         // Hsqldb
-        final JDBCPool pool = new JDBCPool(3);
-        pool.setUrl("jdbc:hsqldb:file:" + dbPath.resolve("hsqldb") + ";shutdown=true");
-        pool.setUser("sa");
-        pool.setPassword("sa");
+        // final JDBCPool pool = new JDBCPool(3);
+        // pool.setUrl("jdbc:hsqldb:file:" + dbPath.resolve("hsqldb") + ";shutdown=true");
+        // pool.setUser("...");
+        // pool.setPassword("...");
 
-        // final MariaDbPoolDataSource pool = new MariaDbPoolDataSource("jdbc:mariadb://localhost:3306/testdb?user=root&password=rootpw&maxPoolSize=3");
+        // final MariaDbPoolDataSource pool = new MariaDbPoolDataSource("jdbc:mariadb://localhost:3306/testdb?user=...&password=...&maxPoolSize=3");
 
-        // Oracle
-        // final HikariConfig config = new HikariConfig();
-        // config.setDriverClassName("oracle.jdbc.OracleDriver");
-        // config.setJdbcUrl("jdbc:oracle:thin:@//localhost:1521/XEPDB1");
-        // config.setUsername("testuser");
-        // config.setPassword("testpw");
-        // config.setMinimumIdle(1);
-        // config.setMaximumPoolSize(3);
-        // config.setConnectionTimeout(5 * 1000L); // Seconds
-        // config.addDataSourceProperty("cachePrepStmts", "true");
-        // config.addDataSourceProperty("prepStmtCacheSize", "250");
-        // config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-        //
-        // final HikariDataSource pool = new HikariDataSource(config);
+        final HikariConfig hikariConfig = new HikariConfig();
+        hikariConfig.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
+        hikariConfig.setJdbcUrl("jdbc:hsqldb:file:" + dbPath.resolve("hsqldb") + ";shutdown=true");
+        // hikariConfig.setDriverClassName("org.h2.Driver");
+        // hikariConfig.setJdbcUrl("jdbc:h2:file:" + dbPath.resolve("h2"));
+        // hikariConfig.setDriverClassName("oracle.jdbc.OracleDriver");
+        // hikariConfig.setJdbcUrl("jdbc:oracle:thin:@//localhost:1521/XEPDB1");
+        // hikariConfig.setDriverClassName("org.mariadb.jdbc.Driver");
+        // hikariConfig.setJdbcUrl("jdbc:mariadb://localhost:3306/testdb");
+        hikariConfig.setUsername("sa");
+        hikariConfig.setPassword("");
+        hikariConfig.setMinimumIdle(1);
+        hikariConfig.setMaximumPoolSize(3);
+        hikariConfig.setConnectionTimeout(5 * 1000L); // Seconds
+        // hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
+        // hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
+        // hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
 
-        return pool;
+        return new HikariDataSource(hikariConfig);
     }
 
     private DataSource dataSource;
@@ -95,13 +98,14 @@ public class MailRepository implements AutoCloseable {
             // Ignore
         }
 
-        if (this.dataSource instanceof JDBCPool p) {
-            p.close(1);
-        }
-        else if (this.dataSource instanceof JdbcConnectionPool p) {
-            p.dispose();
-        }
-        else if (this.dataSource instanceof AutoCloseable ac) {
+        // if (this.dataSource instanceof JDBCPool p) {
+        //     p.close(1);
+        // }
+        // else if (this.dataSource instanceof JdbcConnectionPool p) {
+        //     p.dispose();
+        // }
+        // else
+        if (this.dataSource instanceof AutoCloseable ac) {
             ac.close();
         }
         else if (this.dataSource instanceof DisposableBean db) {
