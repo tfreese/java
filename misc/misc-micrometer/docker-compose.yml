@@ -11,7 +11,7 @@
 #
 # multi-stage builds: https://docs.docker.com/develop/develop-images/multistage-build/
 
-version: '3'
+#version: '3'
 services:
 
     # docker run -d --name=prometheus -p 9090:9090 -v prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml
@@ -34,16 +34,16 @@ services:
             resources:
                 limits:
                     #cpus: "0.001"
-                    memory: 64M
+                    memory: 128M
                 reservations:
                     #cpus: "0.0001"
-                    memory: 20M
+                    memory: 64M
 
     # docker run -d --name=grafana -p 3000:3000 grafana/grafana
     # docker start/stop grafana
     # admin:admin
     # Add Datasource
-    # prometheus:9090
+    # prometheus http://192.168.155.100:9090
     # docker inspect misc-micrometer_prometheus_1 | grep IPAddress
     grafana:
         image: grafana/grafana:latest
@@ -65,7 +65,7 @@ services:
             resources:
                 limits:
                     #cpus: "0.001"
-                    memory: 64M
+                    memory: 128M
                 reservations:
                     #cpus: "0.0001"
-                    memory: 20M                                                       
+                    memory: 64M

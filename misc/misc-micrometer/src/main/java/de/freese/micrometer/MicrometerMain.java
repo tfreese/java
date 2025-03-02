@@ -2,6 +2,7 @@
 package de.freese.micrometer;
 
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -41,7 +42,7 @@ public final class MicrometerMain {
     public static void main(final String[] args) throws Exception {
         // initSimpleRegistry();
         initPrometheusRegistry();
-        initLoggingRegistry();
+        // initLoggingRegistry();
 
         Metrics.globalRegistry.config()
                 // .meterFilter(MeterFilter.denyNameStartsWith("executor.pool.max"))
@@ -199,7 +200,7 @@ public final class MicrometerMain {
 
             final byte[] bytes = response.getBytes(StandardCharsets.UTF_8);
 
-            httpExchange.sendResponseHeaders(200, bytes.length);
+            httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, bytes.length);
 
             try (OutputStream os = httpExchange.getResponseBody()) {
                 os.write(bytes);
@@ -216,7 +217,7 @@ public final class MicrometerMain {
 
             final byte[] bytes = response.getBytes(StandardCharsets.UTF_8);
 
-            httpExchange.sendResponseHeaders(200, bytes.length);
+            httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, bytes.length);
 
             try (OutputStream os = httpExchange.getResponseBody()) {
                 os.write(bytes);
