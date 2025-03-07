@@ -40,7 +40,7 @@ class TestMail {
     private static String textPlain;
 
     @BeforeAll
-    public static void beforeAll() throws Exception {
+    static void beforeAll() throws Exception {
         if (!Boolean.parseBoolean(System.getProperty("run_in_ide", "false"))) {
             printStream = new PrintStream(OutputStream.nullOutputStream(), false);
         }
@@ -61,12 +61,12 @@ class TestMail {
     }
 
     @AfterEach
-    public void afterEach() {
+    void afterEach() {
         // Empty
     }
 
     @BeforeEach
-    public void beforeEach() {
+    void beforeEach() {
         // Empty
     }
 

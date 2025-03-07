@@ -1,12 +1,17 @@
 // Created: 22.07.2018
 package de.freese.metamodel.modelgen.naming;
 
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
 /**
  * Basis-Implementierung der Namenskonvertierung.
  *
  * @author Thomas Freese
  */
 public abstract class AbstractNamingStrategy implements NamingStrategy {
+    private static final Pattern PATTERN_SPLIT = Pattern.compile("[-_ ]");
+
     /**
      * Ersetzt folgende Zeichen durch Leerzeichen:<br>
      * - \r<br>
@@ -32,24 +37,8 @@ public abstract class AbstractNamingStrategy implements NamingStrategy {
             return "";
         }
 
-        final StringBuilder builder = new StringBuilder(str.length());
-
-        for (int i = 0; i < str.length(); i++) {
-            if (i == 0) {
-                builder.append(Character.toUpperCase(str.charAt(i)));
-            }
-            else if (i < (str.length() - 1) && (str.charAt(i) == '_' || str.charAt(i) == '-' || str.charAt(i) == ' ')) {
-                i += 1;
-
-                if (i < str.length()) {
-                    builder.append(Character.toUpperCase(str.charAt(i)));
-                }
-            }
-            else {
-                builder.append(str.charAt(i));
-            }
-        }
-
-        return builder.toString();
+        return PATTERN_SPLIT.splitAsStream(value)
+                .map(split -> split.substring(0, 1).toUpperCase() + split.substring(1))
+                .collect(Collectors.joining());
     }
 }
