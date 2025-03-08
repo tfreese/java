@@ -82,8 +82,7 @@ public abstract class AbstractCodeWriter implements CodeWriter {
             output.print(joiner);
         }
 
-        output.println();
-        output.println("{");
+        output.println(" {");
 
         if (classModel.isSerializeable()) {
             // final UUID uuid = UUID.randomUUID();
@@ -101,8 +100,7 @@ public abstract class AbstractCodeWriter implements CodeWriter {
             output.println();
             writeJavaDoc(output, Arrays.asList("Default Constructor"), TAB);
 
-            output.println(TAB + "public " + classModel.getName() + "()");
-            output.println(TAB + "{");
+            output.println(TAB + "public " + classModel.getName() + "() {");
             output.println(TAB + TAB + "super();");
             output.println(TAB + "}");
 
@@ -130,8 +128,7 @@ public abstract class AbstractCodeWriter implements CodeWriter {
                 }
             }
 
-            output.println(")");
-            output.println(TAB + "{");
+            output.println(") {");
             output.println(TAB + TAB + "super();");
             output.println();
 
@@ -152,17 +149,14 @@ public abstract class AbstractCodeWriter implements CodeWriter {
         output.println();
         writeJavaDoc(output, Arrays.asList("@see java.lang.Object#equals(java.lang.Object)"), TAB);
         output.println(TAB + "@Override");
-        output.println(TAB + "public boolean equals(final Object obj)");
-        output.println(TAB + "{");
+        output.println(TAB + "public boolean equals(final Object obj) {");
 
-        output.println(TAB + TAB + "if (this == obj)");
-        output.println(TAB + TAB + "{");
+        output.println(TAB + TAB + "if (this == obj) {");
         output.println(TAB + TAB + TAB + "return true;");
         output.println(TAB + TAB + "}");
 
         output.println();
-        output.printf(TAB + TAB + "if (!(obj instanceof %s))%n", className);
-        output.println(TAB + TAB + "{");
+        output.printf(TAB + TAB + "if (!(obj instanceof %s)) {%n", className);
         output.println(TAB + TAB + TAB + "return false;");
         output.println(TAB + TAB + "}");
 
@@ -203,23 +197,19 @@ public abstract class AbstractCodeWriter implements CodeWriter {
         output.println();
         writeJavaDoc(output, Arrays.asList("@see java.lang.Object#equals(java.lang.Object)"), TAB);
         output.println(TAB + "@Override");
-        output.println(TAB + "public boolean equals(final Object obj)");
-        output.println(TAB + "{");
+        output.println(TAB + "public boolean equals(final Object obj) {");
 
-        output.println(TAB + TAB + "if (this == obj)");
-        output.println(TAB + TAB + "{");
+        output.println(TAB + TAB + "if (this == obj) {");
         output.println(TAB + TAB + TAB + "return true;");
         output.println(TAB + TAB + "}");
 
         output.println();
-        output.println(TAB + TAB + "if (obj == null)");
-        output.println(TAB + TAB + "{");
+        output.println(TAB + TAB + "if (obj == null) {");
         output.println(TAB + TAB + TAB + "return false;");
         output.println(TAB + TAB + "}");
 
         output.println();
-        output.println(TAB + TAB + "if (getClass() != obj.getClass())");
-        output.println(TAB + TAB + "{");
+        output.println(TAB + TAB + "if (getClass() != obj.getClass()) {");
         output.println(TAB + TAB + TAB + "return false;");
         output.println(TAB + TAB + "}");
 
@@ -232,21 +222,17 @@ public abstract class AbstractCodeWriter implements CodeWriter {
             output.println();
 
             if (fieldModel.isFieldClassPrimitive()) {
-                output.printf(TAB + TAB + "if (this.%1$s != other.%1$s)%n", fieldName);
-                output.println(TAB + TAB + "{");
+                output.printf(TAB + TAB + "if (this.%1$s != other.%1$s) {%n", fieldName);
                 output.println(TAB + TAB + TAB + "return false;");
                 output.println(TAB + TAB + "}");
             }
             else {
-                output.printf(TAB + TAB + "if (this.%s == null)%n", fieldName);
-                output.println(TAB + TAB + "{");
-                output.printf(TAB + TAB + TAB + "if (other.%s == null)%n", fieldName);
-                output.println(TAB + TAB + TAB + "{");
+                output.printf(TAB + TAB + "if (this.%s == null) {%n", fieldName);
+                output.printf(TAB + TAB + TAB + "if (other.%s == null) {%n", fieldName);
                 output.println(TAB + TAB + TAB + TAB + "return false;");
                 output.println(TAB + TAB + TAB + "}");
                 output.println(TAB + TAB + "}");
-                output.printf(TAB + TAB + "else if(!this.%1$s.equals(other.%1$s))%n", fieldName);
-                output.println(TAB + TAB + "{");
+                output.printf(TAB + TAB + "else if(!this.%1$s.equals(other.%1$s)) {%n", fieldName);
                 output.println(TAB + TAB + TAB + "return false;");
                 output.println(TAB + TAB + "}");
             }
@@ -288,8 +274,7 @@ public abstract class AbstractCodeWriter implements CodeWriter {
         output.println();
         writeJavaDoc(output, Arrays.asList("@see java.lang.Object#hashCode()"), TAB);
         output.println(TAB + "@Override");
-        output.println(TAB + "public int hashCode()");
-        output.println(TAB + "{");
+        output.println(TAB + "public int hashCode() {");
         output.println(TAB + TAB + "return Objects.hash(");
 
         for (final Iterator<FieldModel> iterator = classModel.getFields().iterator(); iterator.hasNext(); ) {
@@ -317,8 +302,7 @@ public abstract class AbstractCodeWriter implements CodeWriter {
         output.println();
         writeJavaDoc(output, Arrays.asList("@see java.lang.Object#hashCode()"), TAB);
         output.println(TAB + "@Override");
-        output.println(TAB + "public int hashCode()");
-        output.println(TAB + "{");
+        output.println(TAB + "public int hashCode() {");
 
         output.println(TAB + TAB + "final int prime = 31;");
         output.println(TAB + TAB + "int result = 1;");
@@ -406,14 +390,13 @@ public abstract class AbstractCodeWriter implements CodeWriter {
 
             if (fieldModel.isCollection()) {
                 writeJavaDoc(output, fieldModel.getComments(), TAB, w -> w.println(TAB + " * @param " + name + " List<" + typeName + ">"));
-                output.println(TAB + "public void set" + Utils.capitalize(name) + "(List<" + typeName + "> " + name + ")");
+                output.println(TAB + "public void set" + Utils.capitalize(name) + "(List<" + typeName + "> " + name + ") {");
             }
             else {
                 writeJavaDoc(output, fieldModel.getComments(), TAB, w -> w.println(TAB + " * @param " + name + " " + typeName));
-                output.println(TAB + "public void set" + Utils.capitalize(name) + "(" + typeName + " " + name + ")");
+                output.println(TAB + "public void set" + Utils.capitalize(name) + "(" + typeName + " " + name + ") {");
             }
 
-            output.println(TAB + "{");
             output.printf(TAB + TAB + "this.%1$s = %1$s;%n", name);
             output.println(TAB + "}");
 
@@ -429,7 +412,7 @@ public abstract class AbstractCodeWriter implements CodeWriter {
                 output.println(TAB + "public " + typeName + " get" + Utils.capitalize(name) + "()");
             }
 
-            output.println(TAB + "{");
+            output.print(" {");
             output.println(TAB + TAB + "return this." + name + ";");
             output.println(TAB + "}");
         }
@@ -444,8 +427,7 @@ public abstract class AbstractCodeWriter implements CodeWriter {
         output.println();
         writeJavaDoc(output, Arrays.asList("@see java.lang.Object#toString()"), TAB);
         output.println(TAB + "@Override");
-        output.println(TAB + "public String toString()");
-        output.println(TAB + "{");
+        output.println(TAB + "public String toString() {");
 
         output.println(TAB + TAB + "StringBuilder sb = new StringBuilder();");
         // output.printf(TAB + TAB + "sb.append(\"%s\");%n", classModel.getName());
