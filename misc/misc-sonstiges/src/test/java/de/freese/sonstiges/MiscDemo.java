@@ -154,6 +154,7 @@ import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 import reactor.test.StepVerifier;
 
+import de.freese.sonstiges.xml.jaxb.model.Club;
 import de.freese.sonstiges.xml.jaxb.model.DJ;
 
 /**
@@ -190,7 +191,7 @@ public final class MiscDemo {
         // bitValue();
         // byteBuffer();
         // collator();
-        collector();
+        // collector();
         // dateTime();
         // displayInterfaceInformation();
         // fileWalker();
@@ -212,6 +213,7 @@ public final class MiscDemo {
         // reactorParallel();
         // reactorStream();
         // reactorSinks();
+        // regEx();
         // reflection();
         // securityProviders();
         // streamParallelCustomThreadPool();
@@ -941,6 +943,12 @@ public final class MiscDemo {
                 .enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS)
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
+        final Club club = new Club();
+        club.setEmployees(3);
+        club.addDJ(new DJ("a", "b"));
+
+        objectMapper.writer().writeValue(System.out, club);
+
         final Map<String, Map<String, String>> map = new HashMap<>();
 
         List.of("a", "b").forEach(s ->
@@ -963,8 +971,10 @@ public final class MiscDemo {
         // MyClass[] myObjects = objectMapper.readValue(path.toFile(), MyClass[].class);
         // List<MyClass> myList = objectMapper.readValue(path.toFile(), new TypeReference<List<MyClass>>(){});
 
-        // implementation("jakarta.platform:jakarta.jakartaee-api")
+        // // implementation("jakarta.platform:jakarta.jakartaee-api")
+        // implementation("jakarta.json:jakarta.json-api")
         // runtimeOnly("org.eclipse.parsson:jakarta.json")
+        //
         // JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder()
         //         .add("bla", "BLUB");
         //
@@ -1481,8 +1491,8 @@ public final class MiscDemo {
         System.out.printf("negated look ahead: %s matches %s%n", b, pattern.matcher(b).matches());
 
         System.out.printf("102.112.207.net: %s%n", "102.112.207.net".matches(".*2[0oO]7\\.net"));
-        System.out.printf("102.112.2o7.net: %s%n", "102.112.2o7.net".matches(".*2(0|o|O)7\\.net"));
-        System.out.printf("102.122.2O7.net: %s%n", "102.122.2O7.net".matches(".*2(0|o|O)7\\.net"));
+        System.out.printf("102.112.2o7.net: %s%n", "102.112.2o7.net".matches(".*2[0oO]7\\.net"));
+        System.out.printf("102.122.2O7.net: %s%n", "102.122.2O7.net".matches(".*2[0oO]7\\.net"));
     }
 
     static void rrd() throws Exception {

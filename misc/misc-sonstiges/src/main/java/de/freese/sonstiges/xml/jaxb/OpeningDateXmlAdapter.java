@@ -12,7 +12,7 @@ import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 /**
  * @author Thomas Freese
  */
-public class OpeningDateAdapter extends XmlAdapter<String, Date> {
+public class OpeningDateXmlAdapter extends XmlAdapter<String, Date> {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     // /**
     // * Ist nicht Thread-Safe !

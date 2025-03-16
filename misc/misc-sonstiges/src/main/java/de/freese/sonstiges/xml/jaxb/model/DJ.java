@@ -13,6 +13,17 @@ public class DJ {
     private String firstName;
     private String lastName;
 
+    public DJ() {
+        super();
+    }
+
+    public DJ(final String firstName, final String lastName) {
+        super();
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public String getFirstName() {
         return this.firstName;
     }
