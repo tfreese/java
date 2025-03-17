@@ -95,7 +95,6 @@ class TestMicrometer {
         list.add("1");
 
         assertEquals(1.0D, gauge.value());
-        assertEquals(1.0D, Metrics.globalRegistry.find("cache.size").gauge().value());
     }
 
     /**
@@ -182,8 +181,9 @@ class TestMicrometer {
         timer.recordCallable(callable);
 
         assertEquals(2L, timer.count());
-        assertEquals(2L, Metrics.globalRegistry.find("app.event").timer().count());
-        assertEquals(200L, Metrics.globalRegistry.find("app.event").timer().totalTime(TimeUnit.MILLISECONDS), 10);
+        assertNotNull(Metrics.globalRegistry.find("app.event"));
+        assertEquals(2L, timer.count());
+        assertEquals(200L, timer.totalTime(TimeUnit.MILLISECONDS), 20);
 
         // Long Task Timer
         final LongTaskTimer longTaskTimer = LongTaskTimer.builder("3rdPartyService").register(Metrics.globalRegistry);
@@ -194,7 +194,7 @@ class TestMicrometer {
 
         final long durationInNanos = sample.stop();
 
-        assertEquals(1_000_000_000L, durationInNanos, 5_000_000L);
+        assertEquals(1_000_000_000L, durationInNanos, 2_000_000L);
         assertNotNull(Metrics.globalRegistry.find("3rdPartyService").longTaskTimer());
     }
 

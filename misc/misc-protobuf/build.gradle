@@ -1,6 +1,6 @@
 plugins {
     id "java"
-    id "com.google.protobuf" version "$version_protobufPlugin"
+    id "com.google.protobuf" version "$version_protobufGradlePlugin"
 }
 
 description = "Google Protobuf Demo"
