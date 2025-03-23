@@ -114,7 +114,7 @@ class TestProtobuf {
         assertNotNull(listOfTest2Copy);
         assertEquals(listOfTest1Origin.getTestCount(), listOfTest2Copy.getTestCount());
 
-        // Object-Size before the Object
+        // Object-Size before the Object.
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             for (int i = 1; i <= 2; i++) {
                 final Test1 test = Test1.newBuilder().setName("Name" + i).build();
