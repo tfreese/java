@@ -54,6 +54,7 @@ public final class JmxDemo {
             mBeanServer.registerMBean((DateMXBean) () -> LocalDateTime.now().toString(), new ObjectName("bean:name=dateBean"));
             // final DateMXBean dateBeanProxy = JMX.newMBeanProxy(mBeanServer, new ObjectName("bean:name=dateBean"), DateMXBean.class);
 
+            // jdbc:h2:~/test;MODE=Oracle;DEFAULT_NULL_ORDERING=HIGH
             final HikariConfig config = new HikariConfig();
             config.setDriverClassName(DatabaseDriver.H2.getDriverClassName());
             config.setJdbcUrl("jdbc:h2:mem:jmx");

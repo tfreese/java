@@ -28,11 +28,10 @@ import de.freese.sonstiges.imap.textpart.AbstractTextPart;
  * @author Thomas Freese
  */
 public class TokenFunction implements Function<MessageWrapper, Map<String, Integer>> {
-
     public static final UnaryOperator<List<String>> PRE_FILTER = token -> {
-        // final String linkRegEx = "^((http[s]?|ftp|file):\\/)?\\/?([^:\\/\\s]+)(:([^\\/]*))?((\\/\\w+)*\\/)([\\w\\-\\.]+[^#?\\s]+)(\\?([^#]*))?(#(.*))?$";
-        final String linkRegEx = "^((http[s]?|ftp|file):.*)|(^(www.).*)";
-        final String mailRegEx = "^(.+)@(.+).(.+)$"; // ^[A-Za-z0-9+_.-]+@(.+)$
+        // private static final String REGEX_LINK = "^((http[s]?|ftp|file):\\/)?\\/?([^:\\/\\s]+)(:([^\\/]*))?((\\/\\w+)*\\/)([\\w\\-\\.]+[^#?\\s]+)(\\?([^#]*))?(#(.*))?$";
+        final String REGEX_LINK = "^((http|https|ftp|file):.*)|(^(www.).*)";
+        final String REGEX_MAIL = "^(.+)@(.+).(.+)$"; // ^[A-Za-z0-9+_.-]+@(.+)$
 
         return token.stream()
                 .map(t -> t.replace("\n", " ").replace("\r", " ")) // Remove LineBreaks
@@ -44,8 +43,8 @@ public class TokenFunction implements Function<MessageWrapper, Map<String, Integ
                 .filter(t -> !t.isBlank())
                 .map(String::strip)
                 .map(String::toLowerCase)
-                .filter(t -> !t.matches(linkRegEx)) // Remove URLs
-                .filter(t -> !t.matches(mailRegEx)) // Remove Mails
+                .filter(t -> !t.matches(REGEX_LINK)) // Remove URLs
+                .filter(t -> !t.matches(REGEX_MAIL)) // Remove Mails
                 // .filter(t -> !t.startsWith("http:"))
                 // .filter(t -> !t.startsWith("https:"))
                 // .filter(t -> !t.startsWith("ftp:"))
@@ -62,7 +61,7 @@ public class TokenFunction implements Function<MessageWrapper, Map<String, Integ
                 .sorted()
                 .toList();
     };
-
+    
     public static final BiFunction<List<String>, Locale, Map<String, Integer>> STEMMER_FILTER = (token, locale) -> {
         final UnaryOperator<String> functionStemmer = FunctionStemmer.get(locale);
 
@@ -76,6 +75,7 @@ public class TokenFunction implements Function<MessageWrapper, Map<String, Integ
                 .collect(Collectors.groupingBy(Function.identity(), TreeMap::new, Collectors.summingInt(e -> 1)))
                 ;
     };
+
     private static final Logger LOGGER = LoggerFactory.getLogger(TokenFunction.class);
 
     @Override

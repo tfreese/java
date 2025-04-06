@@ -219,9 +219,9 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
                 g2.drawImage(IMAGE_LEFT, AffineTransform.getTranslateInstance((double) pt.x - CTreeMain.this.pointOffset.x, (double) pt.y - CTreeMain.this.pointOffset.y), null);
                 // this.shift -= 1;
             }
-            else {
-                // this.shift = 0;
-            }
+            // else {
+            //     // this.shift = 0;
+            // }
 
             // And include the cue line in the area to be rubbed out next time
             this.rectangleGhost = this.rectangleGhost.createUnion(this.rectangleCueLine);

@@ -50,7 +50,7 @@ dependencies {
         exclude group: "org.apache.logging.log4j", module: "log4j-to-slf4j"
     }
 
-    runtimeOnly("com.h2database:h2")
+    testImplementation("com.h2database:h2")
     runtimeOnly("com.oracle.database.jdbc:ojdbc11")
     runtimeOnly("org.glassfish.jaxb:jaxb-runtime") // Implementation of jakarta.json.bind:jakarta.json.bind-api
     runtimeOnly("org.hsqldb:hsqldb")

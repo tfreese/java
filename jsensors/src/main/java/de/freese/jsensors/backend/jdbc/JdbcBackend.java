@@ -43,11 +43,11 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
     @Override
     public void start() {
         // Create Table if not exist.
-        try (Connection connection = this.dataSource.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             final DatabaseMetaData metaData = connection.getMetaData();
             boolean tableExist = false;
 
-            try (ResultSet tables = metaData.getTables(null, null, this.tableName, new String[]{"TABLE"})) {
+            try (ResultSet tables = metaData.getTables(null, null, tableName, new String[]{"TABLE"})) {
                 if (tables.next()) {
                     // Table exist.
                     tableExist = true;
@@ -55,16 +55,16 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
             }
 
             if (!tableExist) {
-                getLogger().info("Create table: {}", this.tableName);
+                getLogger().info("Create table: {}", tableName);
 
                 try (Statement statement = connection.createStatement()) {
                     // Create Table.
                     final StringBuilder sql = new StringBuilder();
-                    sql.append("CREATE TABLE ").append(this.tableName);
+                    sql.append("CREATE TABLE ").append(tableName);
 
                     final StringJoiner joiner = new StringJoiner(", ", " (", ")");
 
-                    if (!this.exclusive) {
+                    if (!exclusive) {
                         // With SensorName.
                         joiner.add("NAME VARCHAR(20) NOT NULL");
                     }
@@ -76,16 +76,16 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
 
                     statement.execute(sql.toString());
 
-                    if (this.exclusive) {
+                    if (exclusive) {
                         // Without SensorName.
                         // String index = String.format("ALTER TABLE %s ADD CONSTRAINT TIMESTAMP_PK PRIMARY KEY (TIMESTAMP);", this.tableName);
-                        final String index = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (TIMESTAMP);", this.tableName, this.tableName);
+                        final String index = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (TIMESTAMP);", tableName, tableName);
 
                         statement.execute(index);
                     }
                     else {
                         // With SensorName.
-                        final String index = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (NAME, TIMESTAMP);", this.tableName, this.tableName);
+                        final String index = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (NAME, TIMESTAMP);", tableName, tableName);
 
                         statement.execute(index);
 
@@ -116,9 +116,9 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
         }
 
         final StringBuilder sql = new StringBuilder();
-        sql.append("INSERT INTO ").append(this.tableName);
+        sql.append("INSERT INTO ").append(tableName);
 
-        if (this.exclusive) {
+        if (exclusive) {
             // Without SensorName.
             sql.append(" (VALUE, TIMESTAMP)");
             sql.append(" VALUES (?, ?)");
@@ -129,12 +129,12 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
             sql.append(" VALUES (?, ?, ?)");
         }
 
-        try (Connection con = this.dataSource.getConnection();
+        try (Connection con = dataSource.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql.toString())) {
             con.setAutoCommit(false);
 
             for (SensorValue sensorValue : values) {
-                if (this.exclusive) {
+                if (exclusive) {
                     // Without SensorName.
                     pstmt.setString(1, sensorValue.getValue());
                     pstmt.setLong(2, sensorValue.getTimestamp());
