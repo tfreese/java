@@ -1,10 +1,14 @@
 // Execute Tasks in SubModule: gradle MODUL:clean build
 plugins {
-    id "de.freese.gradle.java.conventions" version "$version_myJavaConventionPlugin" apply false
+    id("de.freese.gradle.java.conventions") version("$version_myJavaConventionPlugin") apply(false)
 
-    // id "io.spring.dependency-management" version "$version_springDependencyManagementPlugin" apply false
-    id "org.openjfx.javafxplugin" version "$version_javafxPlugin" apply false
-    id "org.springframework.boot" version "$version_springBoot" apply false
+    id("com.google.protobuf") version("$version_protobufGradlePlugin") apply(false)
+
+    id("net.ltgt.errorprone") version("$version_errorproneGradlePlugin") apply(false)
+
+    // id ("io.spring.dependency-management") version ("$version_springDependencyManagementPlugin") apply (false)
+    id("org.openjfx.javafxplugin") version("$version_javafxPlugin") apply(false)
+    id("org.springframework.boot") version("$version_springBoot") apply(false)
 }
 
 allprojects {
@@ -37,28 +41,29 @@ subprojects {
             dependency("org.apache.lucene:lucene-queryparser:$version_lucene")
             // dependency("org.apache.lucene:version_luceneAnalysisCommon:$version_luceneAnalysisCommon")
             dependencySet(group: "org.apache.lucene", version: "$version_lucene") {
-                entry "lucene-analysis-common"
-                entry "lucene-queryparser"
+                entry("lucene-analysis-common")
+                entry("lucene-queryparser")
             }
             dependencySet(group: "org.apache.maven", version: "$version_maven") {
-                entry "maven-model-builder"
-                entry "maven-settings-builder"
+                entry("maven-model-builder")
+                entry("maven-settings-builder")
             }
             dependencySet(group: "org.apache.tomcat", version: dependencyManagement.importedProperties["tomcat.version"]) {
-                entry "tomcat-catalina"
-                entry "tomcat-juli"
+                entry("tomcat-catalina")
+                entry("tomcat-juli")
             }
             dependencySet(group: "org.apache.xmlgraphics", version: "$version_batik") {
-                entry "batik-codec"
-                entry "batik-swing"
+                entry("batik-codec")
+                entry("batik-swing")
             }
             dependency("org.apiguardian:apiguardian-api:$version_apiGuardian")
             dependency("org:jaudiotagger:$version_jaudiotagger")
-            dependency("org.jsoup:jsoup:$version_jsoup")
             dependency("org.jfree:jfreechart:$version_jfreechart") {
-                // exclude "com.lowagie:itext"
-                // exclude "xml-apis:xml-apis"
+                // exclude ("com.lowagie:itext")
+                // exclude ("xml-apis:xml-apis")
             }
+            dependency("org.jsoup:jsoup:$version_jsoup")
+            dependency("org.jspecify:jspecify:$versoin_jspecify")
             dependency("org.apache.velocity:velocity-engine-core:$version_velocity")
         }
     }

@@ -1,5 +1,5 @@
 plugins {
-    id "java"
+    id("java")
 }
 
 description = "Micrometer Demo"
@@ -10,6 +10,6 @@ dependencies {
     implementation("org.slf4j:slf4j-api")
 
     runtimeOnly("org.slf4j:slf4j-simple")
-    
+
     testImplementation("org.slf4j:slf4j-simple")
 }

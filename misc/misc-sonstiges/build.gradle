@@ -1,7 +1,7 @@
 plugins {
-    id "java"
-    id "org.openjfx.javafxplugin"
-    id "maven-publish"
+    id("java")
+    id("org.openjfx.javafxplugin")
+    id("maven-publish")
 }
 
 description = "Alles zum ausprobieren"
@@ -21,8 +21,8 @@ sourceSets {
 }
 
 dependencies {
-    jaxb "com.sun.xml.bind:jaxb-xjc"
-    jaxb "com.sun.xml.bind:jaxb-impl"
+    jaxb("com.sun.xml.bind:jaxb-xjc")
+    jaxb("com.sun.xml.bind:jaxb-impl")
 
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
     implementation("com.fasterxml.jackson.module:jackson-module-jaxb-annotations")
@@ -46,8 +46,8 @@ dependencies {
     implementation("org.jsoup:jsoup")
     implementation("org.mariadb.jdbc:mariadb-java-client")
     implementation("org.springframework.boot:spring-boot-starter-mail") {
-        exclude group: "ch.qos.logback", module: "logback-classic"
-        exclude group: "org.apache.logging.log4j", module: "log4j-to-slf4j"
+        exclude(group: "ch.qos.logback", module: "logback-classic")
+        exclude(group: "org.apache.logging.log4j", module: "log4j-to-slf4j")
     }
 
     testImplementation("com.h2database:h2")
@@ -58,7 +58,7 @@ dependencies {
 
     testImplementation("org.apache.tomcat:tomcat-catalina") {
         // tomcat-juli ist in tomcat-catalina enthalten, aber auch viele andere Jars die nicht benötigt werden.
-        exclude group: "org.apache.tomcat"
+        exclude(group: "org.apache.tomcat")
     }
     testImplementation("org.apache.tomcat:tomcat-juli")
 }

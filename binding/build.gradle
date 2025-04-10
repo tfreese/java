@@ -1,6 +1,6 @@
 plugins {
-    id "java-library"
-    id "maven-publish" // Used in jripper-swing
+    id("java-library")
+    id("maven-publish") // Used in jripper-swing
 }
 
 description = "An alternative for Swing like the Binding in JavaFX."

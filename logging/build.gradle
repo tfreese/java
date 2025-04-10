@@ -1,5 +1,5 @@
 plugins {
-    id "java"
+    id("java")
 }
 
 description = "Basis-Projekt für Logging-APIs"

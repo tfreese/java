@@ -9,23 +9,24 @@ pluginManagement {
 // Without rootProject.name the Name of the Projekt-Directory is used.
 rootProject.name = "java"
 
-include "binding"
-include "cellular-machines"
-include "jsensors"
-include "logging"
-include "meta-model"
+include("binding")
+include("cellular-machines")
+include("jsensors")
+include("logging")
+include("meta-model")
 
 //file("${rootDir}/misc").eachDirMatch(~/misc-.*/) {
-//    include "misc:${it.name}"
+//    include("misc:${it.name}")
 //}
 
-include "misc:misc-cache"
-include "misc:misc-genetic-algorithm"
-include "misc:misc-jconky"
-include "misc:misc-junit5"
-include "misc:misc-led"
-include "misc:misc-micrometer"
-include "misc:misc-openstreetmap"
-include "misc:misc-protobuf"
-include "misc:misc-sonstiges"
-include "misc:misc-sudoku"
+include("misc:misc-cache")
+include("misc:misc-genetic-algorithm")
+include("misc:misc-jconky")
+include("misc:misc-jspecify")
+include("misc:misc-junit5")
+include("misc:misc-led")
+include("misc:misc-micrometer")
+include("misc:misc-openstreetmap")
+include("misc:misc-protobuf")
+include("misc:misc-sonstiges")
+include("misc:misc-sudoku")
