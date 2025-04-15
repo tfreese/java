@@ -21,6 +21,7 @@ sourceSets {
 }
 
 dependencies {
+    implementation("com.sun.xml.bind:jaxb-xjc")
     jaxb("com.sun.xml.bind:jaxb-xjc")
     jaxb("com.sun.xml.bind:jaxb-impl")
 
@@ -65,7 +66,7 @@ dependencies {
 
 static def xsltTask(Task task, RegularFile xslfile, RegularFile xmlFile, RegularFile outputfile) {
     task.inputs.files(xslfile, xmlFile)
-    task.outputs.file outputfile
+    task.outputs.file(outputfile)
 
     task.doLast {
         // mkdir outputfile.getAsFile().getParent()
@@ -114,15 +115,15 @@ tasks.register("genJaxb") {
     group = "MyTasks"
 
     def schemaDir = layout.projectDirectory.dir("schemas")
-    inputs.dir schemaDir
+    inputs.dir(schemaDir)
 
     def binding = layout.projectDirectory.file("schema.xjb")
-    inputs.file binding
+    inputs.file(binding)
 
-    outputs.dir destDirXjc
+    outputs.dir(destDirXjc)
 
     // doLast {
-    mkdir destDirXjc
+    mkdir(destDirXjc)
 
     ant {
         taskdef name: "xjc", classname: "com.sun.tools.xjc.XJCTask", classpath: configurations.jaxb.asPath
