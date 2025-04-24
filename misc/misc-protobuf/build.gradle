@@ -23,5 +23,5 @@ protobuf {
 dependencies {
     implementation("com.google.protobuf:protobuf-java:$version_protobufProtoc")
 
-    testImplementation("com.google.protobuf:protobuf-java-util:$version_protobufProtoc") // JsonFormat
+    testImplementation("com.google.protobuf:protobuf-java-util:$version_protobufProtoc")
 }

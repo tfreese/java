@@ -30,7 +30,6 @@ import de.freese.protobuf.model.test.Test2;
  * @author Thomas Freese
  */
 class TestProtobuf {
-
     private static AddressBook addressBook;
 
     @BeforeAll
@@ -57,7 +56,7 @@ class TestProtobuf {
         System.out.printf("toString():%n%s%n", addressBook);
 
         try {
-            System.out.printf("JsonFormat:%n%s%n", JsonFormat.printer().print(addressBook));
+            System.out.printf("JsonFormat:%n%s%n", JsonFormat.printer().sortingMapKeys().print(addressBook));
         }
         catch (InvalidProtocolBufferException ex) {
             throw new RuntimeException(ex);
@@ -88,9 +87,9 @@ class TestProtobuf {
 
     /**
      * The Protocol Buffer wire format is not self-delimiting.<br>
-     * For multiple Objects use a Wrapper-Object with "repeated" tag.<br>
+     * For multiple Objects, use a Wrapper-Object with "repeated" tag.<br>
      * Otherwise, write the Object-Size before the Object itself and parse it programmatically.
-     * <a href="https://protobuf.dev/programming-guides/techniques">programming-guides</a>
+     * <a href="https://protobuf.dev/programming-guides/techniques">Programming-Guides</a>
      */
     @Test
     void testMultipleObjects() throws Exception {

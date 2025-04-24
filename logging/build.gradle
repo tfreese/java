@@ -13,7 +13,7 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-core")
 
     testImplementation("ch.qos.logback.db:logback-classic-db") {
-        exclude group: "ch.qos.logback", module: "logback-core"
+        exclude(group: "ch.qos.logback", module: "logback-core")
     }
     testImplementation("org.hsqldb:hsqldb")
 }

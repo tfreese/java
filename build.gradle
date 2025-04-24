@@ -59,8 +59,8 @@ subprojects {
             dependency("org.apiguardian:apiguardian-api:$version_apiGuardian")
             dependency("org:jaudiotagger:$version_jaudiotagger")
             dependency("org.jfree:jfreechart:$version_jfreechart") {
-                // exclude ("com.lowagie:itext")
-                // exclude ("xml-apis:xml-apis")
+                // exclude("com.lowagie:itext")
+                // exclude("xml-apis:xml-apis")
             }
             dependency("org.jsoup:jsoup:$version_jsoup")
             dependency("org.jspecify:jspecify:$versoin_jspecify")

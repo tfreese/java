@@ -69,7 +69,7 @@ static def xsltTask(Task task, RegularFile xslfile, RegularFile xmlFile, Regular
     task.outputs.file(outputfile)
 
     task.doLast {
-        // mkdir outputfile.getAsFile().getParent()
+        // mkdir(outputfile.getAsFile().getParent())
 
         ant.xslt(style: xslfile,
                 in: xmlFile,
@@ -93,7 +93,7 @@ tasks.register("xslt") {
     xsltTask(it, xslFile, xmlFile, outputFile)
 
     // inputs.files(xslFile, xmlFile)
-    // outputs.file outputFile
+    // outputs.file(outputFile)
     //
     // doLast {
     //     mkdir destFolder
@@ -126,7 +126,7 @@ tasks.register("genJaxb") {
     mkdir(destDirXjc)
 
     ant {
-        taskdef name: "xjc", classname: "com.sun.tools.xjc.XJCTask", classpath: configurations.jaxb.asPath
+        taskdef(name: "xjc", classname: "com.sun.tools.xjc.XJCTask", classpath: configurations.jaxb.asPath)
 
         xjc(destdir: destDirXjc,
                 schema: schemaDir.dir("GolfCountryClub").file("GolfCountryClub.xsd"),
@@ -137,11 +137,11 @@ tasks.register("genJaxb") {
                 removeOldOutput: true) {
             arg(value: "-npa")
 
-            // XJC hat eingebauten Build-Cache.
+            // XJC has embedded Build-Cache.
             // Files specified as the schema files and binding files are automatically added to the "depends" set as well,
             // but if those schemas are including/importing other schemas, you have to use a nested <depends> elements.
 
-            // Verhindert Meldung: Consider using <depends>/<produces> so that XJC won't do unnecessary compilation
+            // Avoid Message: Consider using <depends>/<produces> so that XJC won't do unnecessary compilation.
 
             //depends(file: binding)
             //depends(dir: schemaDir.dir("GolfCountryClub"), includes: "**/*.xsd")
