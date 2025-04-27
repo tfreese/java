@@ -21,7 +21,7 @@ sourceSets {
 }
 
 dependencies {
-    implementation("com.sun.xml.bind:jaxb-xjc")
+    // implementation("com.sun.xml.bind:jaxb-xjc")
     jaxb("com.sun.xml.bind:jaxb-xjc")
     jaxb("com.sun.xml.bind:jaxb-impl")
 
@@ -111,6 +111,20 @@ tasks.register("xslt") {
 //         project.ant.taskdef(..., classpath: projects.configurations.myConfig.asPath)
 //     }
 // }
+tasks.register("testXjcTask", de.freese.gradle.java.xjc.XjcTask) {
+    // group = "MyTasks"
+
+    destDir.set(layout.buildDirectory.get().dir("generated").dir("xjcTask"))
+    schema.set(layout.projectDirectory.dir("schemas").dir("GolfCountryClub").file("GolfCountryClub.xsd"))
+    binding.set(layout.projectDirectory.file("schema.xjb"))
+    packageName.set("de.freese.xjc.golfcountryclub")
+    encoding.set(compileJava.options.encoding)
+    extension.set(true)
+    npa.set(true)
+    removeOldOutput.set(true)
+    verbose.set(true)
+}
+
 tasks.register("genJaxb") {
     group = "MyTasks"
 
