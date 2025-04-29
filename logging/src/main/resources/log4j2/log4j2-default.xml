@@ -6,6 +6,9 @@
         >
 <!-- shutdownHook="disable" verhindert, das der DB-Appender versucht was zu schreiben, obwohl die Datasource bereits geschlossen ist. -->
 <Configuration name="Default" status="WARN" shutdownHook="disable">
+    <!-- <Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Default" status="WARN" shutdownHook="disable" strict="true" -->
+    <!--                xmlns="https://logging.apache.org/xml/ns" -->
+    <!--                xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-config-2.xsd"> -->
 
     <Properties>
         <!-- Levels are ordered: TRACE < DEBUG < INFO < WARN < ERROR -->
