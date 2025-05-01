@@ -5,7 +5,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.concurrent.Executors;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -30,10 +29,14 @@ final class Log4jDemo {
 
         //        System.setProperty("HOSTNAME", "localhost");
 
+        System.setProperty("log4j2.enableJndiJdbc", "true");
+        // System.setProperty("log4j.jndi.enableLookup", "true"); // log4j3
+        // System.setProperty("log4j.jndi.enableJdbc", "true"); // log4j3
+
         MapInitialContext.init();
 
         final Context initialContext = new InitialContext();
-        initialContext.bind("java:comp/env/executor/logging", Executors.newCachedThreadPool());
+        initialContext.bind("java:comp/env/jdbc/logging", ConnectionFactory.getInstance().getDataSource());
 
         try {
             // System.setProperty("log4j2.debug", "true");
@@ -42,7 +45,9 @@ final class Log4jDemo {
             // HSQLDB automatic use Log4J as Logging-Backend -> org.hsqldb.lib.FrameworkLogger#reconfigure
             System.setProperty("hsqldb.reconfig_logging", "false");
 
+            // System.setProperty("log4j.configuration.location", "log4j2/log4j2-default.xml"); // log4j3
             System.setProperty("log4j2.configurationFile", "log4j2/log4j2-default.xml");
+            // System.setProperty("log4j2.configurationFile", "log4j2/log4j2-default-no-schema.xml");
             doLog(LogManager.getLogger(Log4jDemo.class));
 
             // ThreadContext.clearAll();
@@ -88,7 +93,7 @@ final class Log4jDemo {
         logger.error("error-msg", new Exception("Test"));
 
         for (int i = 0; i < 5; i++) {
-            logger.info("info-msg");
+            logger.info("info-msg-{}", i);
         }
     }
 

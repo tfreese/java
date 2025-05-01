@@ -46,7 +46,7 @@ final class LogbackDemo {
         logger.error("error-msg", new Exception("Test"));
 
         for (int i = 0; i < 5; i++) {
-            logger.info("info-msg");
+            logger.info("info-msg-{}", i);
         }
     }
 

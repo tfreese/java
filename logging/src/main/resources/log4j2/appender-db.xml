@@ -25,7 +25,7 @@
         <Column name="USER_ID" pattern="%equals{%X{USERID}}{}{SYSTEM}" />
         <Column name="MARKER" pattern="%marker" />
         <Column name="LOGGER" pattern="%logger" />
-        <Column name="MESSAGE" pattern="%maxLen{%message}{1997}" /> <!-- log4j2 schneidet zu lange Strings ab und hängt '...' dran -->
+        <Column name="MESSAGE" pattern="%maxLen{%message}{1997}" /> <!-- log4j2 cutting Strings > 2000 chars and adds '...'-->
         <Column name="THROWABLE" pattern="%maxLen{%exception{full}}{3997}" />
     </Jdbc>
 

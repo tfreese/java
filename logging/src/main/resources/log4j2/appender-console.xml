@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 	Parameter:
-	- PATTERN_CONSOLE -> Pattern-Format für die Console
+	- PATTERN_CONSOLE -> Pattern-Format for Console
 -->
 <Appenders>
     <Console name="CONSOLE_STD" target="SYSTEM_OUT">

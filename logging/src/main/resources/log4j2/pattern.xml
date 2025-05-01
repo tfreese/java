@@ -4,4 +4,4 @@
 <!-- %date{yyyy-MM-dd HH:mm:ss.SSS}; [%-7X{user}]; [%method:%line] -->
 <!-- Default if empty: %equals{%X{USER}}{}{STAR}; %X{USER:-STAR} funktioniert nicht mehr ? -->
 <!-- Postfix if not empty: %notEmpty{%X{USER} -} -->
-<Property name="PATTERN" value="%date{yyyy-MM-dd HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace{%-40.-40logger{0}}{ }{.} - %message%n" />
+<Property name="PATTERN" value="%date{yyyy-MM-dd HH:mm:ss.SSS} - %5level - [%30.-30thread] - %replace{%-40.-40logger{0}}{ }{.} - %message%n" />

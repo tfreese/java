@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 	Parameter:
-	- PATTERN_FILE			-> Pattern-Format für die Log-Datei
-	- LOG_DIR				-> Verzeichnis der Log-Datei, z.B. ${user.dir}/logs, ${user.home}/logs, ${java.io.tmpdir}/logs
-	- LOG_FILE_NAME			-> Name der Log-Datei ohne Extension, z.B. 'myApplication'
-	- LOG_FILE_MAX_SIZE		-> max. Größe der Log-Datei (SizeBased Rolling), Dateien werden durchnummeriert
-	- LOG_FILE_MAX_AGE		-> max. Alter einer Log-Datei (30d)
-	- LOG_FILE_MAX_HISTORY	-> Anzahl der vorzuhaltenden Log-Dateien
+	- PATTERN_FILE			-> Pattern-Format for Log-File
+	- LOG_DIR				-> Directory for Log-File, ${user.dir}/logs, ${user.home}/logs, ${java.io.tmpdir}/logs
+	- LOG_FILE_NAME			-> Name of Log-File without Extension, 'myApplication'
+	- LOG_FILE_MAX_SIZE		-> max. Size of Log-File (SizeBased Rolling), Files are numerated
+	- LOG_FILE_MAX_HISTORY	-> Number of archived Log-Files
+	- LOG_FILE_MAX_AGE		-> max. Age of Log-File (30d)
 -->
 <Appenders>
     <!-- /${date:yyyy-MM}/ -->

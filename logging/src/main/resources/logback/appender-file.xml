@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <included>
 
-    <!-- Conditions brauchen org.codehaus.janino:janino -->
+    <!-- Conditions needs org.codehaus.janino:janino -->
     <!--if condition='isNull("LOG_DIR")'>
         <then>
             <property name="LOG_DIR" value="${user.dir}/logs" />
@@ -12,12 +12,12 @@
 
     <!--
         Parameter:
-        - PATTERN_FILE			-> Pattern-Format für die Log-Datei
-        - LOG_DIR				-> Verzeichnis der Log-Datei, z.B. ${user.dir}/logs, ${user.home}/logs, ${java.io.tmpdir}/logs
-        - LOG_FILE_NAME			-> Name der Log-Datei ohne Extension, z.B. 'myApplication'
-        - LOG_FILE_MAX_SIZE		-> max. Größe der Log-Datei (SizeBased Rolling), Dateien werden durchnummeriert
-        - LOG_FILE_MAX_HISTORY	-> Anzahl der vorzuhaltenden Log-Dateien
-        - LOG_FILE_SIZE_CAP		-> Gesamte Größe an Log-Dateien
+        - PATTERN_FILE			-> Pattern-Format for Log-File
+        - LOG_DIR				-> Directory for Log-File, ${user.dir}/logs, ${user.home}/logs, ${java.io.tmpdir}/logs
+        - LOG_FILE_NAME			-> Name of Log-File without Extension, 'myApplication'
+        - LOG_FILE_MAX_SIZE		-> max. Size of Log-File (SizeBased Rolling), Files are numerated
+        - LOG_FILE_MAX_HISTORY	-> Number of archived Log-Files
+        - LOG_FILE_SIZE_CAP		-> max. Size for all Log-Files
     -->
     <appender name="FILE_SYNC" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_DIR:-${user.home}/.java-apps/logs}/${LOG_FILE_NAME:-application}.log</file>

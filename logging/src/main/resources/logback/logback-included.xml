@@ -10,15 +10,17 @@
 
     <include resource="logback/pattern.xml" />
     <include resource="logback/appender-console.xml" />
-
-    <logger name="de.freese" additivity="false" level="&level_APPLICATION;">
-        <appender-ref ref="CONSOLE_STD" />
-        <appender-ref ref="CONSOLE_ERR" />
-    </logger>
+    <include resource="logback/appender-file.xml" />
+    <include resource="logback/appender-db.xml" />
 
     <root level="&level_ROOT;">
         <appender-ref ref="CONSOLE_STD" />
         <appender-ref ref="CONSOLE_ERR" />
+        <appender-ref ref="FILE" />
+        <appender-ref ref="DB" />
     </root>
+
+    <logger name="de.freese" additivity="false" level="&level_APPLICATION;">
+    </logger>
 
 </configuration>

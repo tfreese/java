@@ -2,7 +2,7 @@
 <included>
 
     <!--
-        Skripte sind im Package 'ch.qos.logback.classic.db.script' enthalten.
+        Scripts located in Package 'ch.qos.logback.classic.db.script'.
 
         Parameter:
         - DB_DRIVER	-> Datenbank Treiber

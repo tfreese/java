@@ -3,7 +3,7 @@
 
     <!--
         Parameter:
-        - PATTERN_CONSOLE -> Pattern-Format für die Console
+        - PATTERN_CONSOLE -> Pattern-Format for Console
     -->
     <appender name="CONSOLE_STD" class="ch.qos.logback.core.ConsoleAppender">
         <target>System.out</target>
