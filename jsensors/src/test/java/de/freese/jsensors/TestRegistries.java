@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import de.freese.jsensors.backend.MapBackend;
@@ -30,6 +31,11 @@ class TestRegistries {
 
         final MapBackend mapBackend = new MapBackend(3);
         Sensor.builder("test", "obj", Function.identity()).register(registry, mapBackend);
+
+        Assertions.assertThatExceptionOfType(IllegalStateException.class)
+                .isThrownBy(() -> registry.registerSensor("test", "", Function.identity(), "", NoOpBackend.getInstance()))
+                .isNotNull()
+                .withMessage("sensor already exist: 'test'");
 
         final Exception exception = assertThrows(IllegalStateException.class, () -> registry.registerSensor("test", "", Function.identity(), "", NoOpBackend.getInstance()));
         assertNotNull(exception);
@@ -54,6 +60,11 @@ class TestRegistries {
 
         final SyncFuture<SensorValue> syncFuture = new SyncFuture<>();
         Sensor.builder("test", "obj", Function.identity()).register(registry, syncFuture::setResponse);
+
+        Assertions.assertThatExceptionOfType(IllegalStateException.class)
+                .isThrownBy(() -> registry.registerSensor("test", "", Function.identity(), "", NoOpBackend.getInstance()))
+                .isNotNull()
+                .withMessage("sensor already exist: 'test'");
 
         Exception exception = assertThrows(IllegalStateException.class, () -> registry.registerSensor("test", "", Function.identity(), "", NoOpBackend.getInstance()));
         assertNotNull(exception);

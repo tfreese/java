@@ -14,6 +14,7 @@ import java.time.Duration;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import de.freese.jsensors.backend.MapBackend;
@@ -39,6 +40,14 @@ class TestMetricBinder {
         new CpuMetrics().bindTo(registry, name -> mapBackend);
 
         registry.measureAll();
+
+        Assertions.assertThat(mapBackend.getLastValue("cpu.usage"))
+                .isNotNull()
+                // .matches(sensorValue -> "0".equals(sensorValue.getValue()))
+                // .hasFieldOrPropertyWithValue("value", "0")
+                .extracting("value").isEqualTo("0")
+        ;
+
         final SensorValue sensorValue1 = mapBackend.getLastValue("cpu.usage");
         assertNotNull(sensorValue1);
         assertEquals("0", sensorValue1.getValue());
@@ -46,11 +55,10 @@ class TestMetricBinder {
         await().pollDelay(Duration.ofMillis(300L)).until(() -> true);
 
         registry.measureAll();
+
         final SensorValue sensorValue2 = mapBackend.getLastValue("cpu.usage");
         assertNotNull(sensorValue2);
-
         assertNotEquals(sensorValue1.getTimestamp(), sensorValue2.getTimestamp());
-
         assertTrue(sensorValue2.getValueAsDouble() > 0D);
     }
 
@@ -62,6 +70,7 @@ class TestMetricBinder {
         new DiscMetrics("tmp1", Path.of(System.getProperty("java.io.tmpdir"))).bindTo(registry, name -> mapBackend);
 
         registry.measureAll();
+
         final SensorValue sensorValuePathFree = mapBackend.getLastValue("disk.free.tmp1");
         final SensorValue sensorValuePathUsage = mapBackend.getLastValue("disk.usage.tmp1");
         assertNotNull(sensorValuePathFree);
@@ -70,13 +79,14 @@ class TestMetricBinder {
         new DiscMetrics("tmp2", new File(System.getProperty("java.io.tmpdir"))).bindTo(registry, name -> mapBackend);
 
         registry.measureAll();
+
         final SensorValue sensorValueFileFree = mapBackend.getLastValue("disk.free.tmp2");
         final SensorValue sensorValueFileUsage = mapBackend.getLastValue("disk.usage.tmp2");
         assertNotNull(sensorValueFileFree);
         assertNotNull(sensorValueFileUsage);
 
         // Max. Difference: 4kb
-        final long delta = 1024L * 4;
+        final long delta = 1024L * 4L;
         assertEquals(sensorValuePathFree.getValueAsLong(), sensorValueFileFree.getValueAsLong(), delta, "'free' sensor values not equal");
         assertEquals(sensorValuePathUsage.getValueAsDouble(), sensorValueFileUsage.getValueAsDouble(), delta, "'usage' sensor values not equal");
     }
@@ -168,6 +178,6 @@ class TestMetricBinder {
         assertNotNull(sensorValueFree);
         assertNotNull(sensorValueUsage);
 
-        assertTrue(sensorValueFree.getValueAsLong() > 0D);
+        assertTrue(sensorValueFree.getValueAsLong() > 0L);
     }
 }

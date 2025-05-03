@@ -67,7 +67,7 @@ final class Log4jDemo {
             //        System.out.println();
 
             // Programmatic ShutdownHook for Async-Appender, see xml#shutdownHook
-            // For this 'shutdownHook="disable"' must configure in the xml!
+            // For this 'shutdownHook="disable"' must configure in the XML!
             LogManager.shutdown();
         }
         finally {

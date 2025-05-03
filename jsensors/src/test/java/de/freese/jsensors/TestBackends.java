@@ -93,7 +93,7 @@ class TestBackends {
 
         final List<String> lines = Files.readAllLines(path);
         assertEquals(3, lines.size());
-        assertEquals(3, lines.getFirst().chars().filter(c -> ((char) c) == ',').count());
+        assertEquals(3L, lines.getFirst().chars().filter(c -> ((char) c) == ',').count());
     }
 
     @Test
@@ -112,7 +112,7 @@ class TestBackends {
 
             final List<String> lines = Files.readAllLines(path);
             assertEquals(2, lines.size());
-            assertEquals(2, lines.getFirst().chars().filter(c -> ((char) c) == ',').count());
+            assertEquals(2L, lines.getFirst().chars().filter(c -> ((char) c) == ',').count());
         }
     }
 
@@ -154,9 +154,7 @@ class TestBackends {
         final JdbcBackend backend = new JdbcBackend(5, dataSource, "SENSORS", false);
 
         backend.start();
-
         sensorValues.forEach(backend::store);
-
         backend.stop(); // Trigger submit/commit
 
         final List<SensorValue> dbValues = new ArrayList<>();
