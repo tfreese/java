@@ -86,11 +86,11 @@ public final class HttpEventMain {
     }
 
     public Map<String, Boolean> getMapResponseReady() {
-        return this.mapResponseReady;
+        return mapResponseReady;
     }
 
     public int getPort() {
-        return this.port;
+        return port;
     }
 
     public void setProducer(final HttpEventProducer producer) {
@@ -105,19 +105,19 @@ public final class HttpEventMain {
         // Socket socket = channel.socket();
         // SocketAddress remoteAddress = socket.getRemoteSocketAddress();
 
-        channel.register(this.selector, SelectionKey.OP_READ);
+        channel.register(selector, SelectionKey.OP_READ);
     }
 
     private boolean isResponseReady(final SelectionKey key) {
-        final String requestId = this.mapKey.get(key);
-        final boolean responseReady = this.mapResponseReady.getOrDefault(requestId, false);
+        final String requestId = mapKey.get(key);
+        final boolean responseReady = mapResponseReady.getOrDefault(requestId, false);
 
         if (!responseReady) {
             return false;
         }
 
-        this.mapKey.remove(key);
-        this.mapResponseReady.remove(requestId);
+        mapKey.remove(key);
+        mapResponseReady.remove(requestId);
 
         return true;
     }
@@ -142,36 +142,36 @@ public final class HttpEventMain {
         final String remoteAddress = channel.getRemoteAddress().toString();
         String requestID = remoteAddress + "_" + RandomStringUtils.secureStrong().nextNumeric(4);
 
-        while (this.mapKey.containsValue(requestID) || this.mapResponseReady.containsKey(requestID)) {
+        while (mapKey.containsValue(requestID) || mapResponseReady.containsKey(requestID)) {
             requestID = remoteAddress + "_" + RandomStringUtils.secureStrong().nextNumeric(4);
         }
 
-        this.mapKey.put(key, requestID);
+        mapKey.put(key, requestID);
 
-        this.producer.onData(requestID, buffer, numRead);
+        producer.onData(requestID, buffer, numRead);
 
-        channel.register(this.selector, SelectionKey.OP_WRITE, buffer);
+        channel.register(selector, SelectionKey.OP_WRITE, buffer);
     }
 
     private void start() throws IOException {
-        this.selector = Selector.open();
+        selector = Selector.open();
         final ServerSocketChannel serverChannel = ServerSocketChannel.open();
         serverChannel.configureBlocking(false);
 
-        final InetSocketAddress listenAddress = new InetSocketAddress(this.address, this.port);
+        final InetSocketAddress listenAddress = new InetSocketAddress(address, port);
         serverChannel.socket().bind(listenAddress);
-        serverChannel.register(this.selector, SelectionKey.OP_ACCEPT);
+        serverChannel.register(selector, SelectionKey.OP_ACCEPT);
 
         LOGGER.info("Server ready. Ctrl-C to stop.");
 
         while (!Thread.interrupted()) {
-            final int readyChannels = this.selector.select();
+            final int readyChannels = selector.select();
 
             if (readyChannels == 0) {
                 continue;
             }
 
-            final Iterator<SelectionKey> keys = this.selector.selectedKeys().iterator();
+            final Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
 
             while (keys.hasNext()) {
                 final SelectionKey key = keys.next();

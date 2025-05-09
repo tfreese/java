@@ -18,15 +18,15 @@ public class HttpEvent {
     }
 
     public ByteBuffer getBuffer() {
-        return this.buffer;
+        return buffer;
     }
 
     public int getNumRead() {
-        return this.numRead;
+        return numRead;
     }
 
     public String getRequestId() {
-        return this.requestId;
+        return requestId;
     }
 
     public void setBuffer(final ByteBuffer buffer) {

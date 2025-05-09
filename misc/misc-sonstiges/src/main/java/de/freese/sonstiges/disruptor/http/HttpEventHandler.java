@@ -35,7 +35,7 @@ public class HttpEventHandler extends AbstractLoadBalancedEventHandler<HttpEvent
             return;
         }
 
-        this.mapResponseReady.put(requestId, Boolean.TRUE);
+        mapResponseReady.put(requestId, Boolean.TRUE);
     }
 
     private ByteBuffer handleRequest(final ByteBuffer buffer, final int numRead, final long sequence) {

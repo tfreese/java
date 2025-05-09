@@ -12,6 +12,8 @@
         <!-- %date{yyyy-MM-dd HH:mm:ss.SSS}; [%-7X{USER}]; [%method:%line] -->
         <!-- Default if empty: %equals{%X{USER}}{}{SYSTEM}; %X{USER:-SYSTEM} funktioniert nicht mehr ? -->
         <!-- Postfix if not empty: %notEmpty{%X{USER} -} -->
+        <!-- %equals{%X{USER}}{}{SYSTEM}: %X{USER:-SYSTEM} doesn't work -->
+        <!-- %notEmpty{%marker -} -->
         <Property name="PATTERN" value="%date{HH:mm:ss.SSS} - %5level - [%30.-30thread] - %replace{%-40.-40logger{0}}{ }{.} - %message%n" />
 
         <Property name="LOG_DIRECTORY" value="${LOG_DIR:-${sys:user.home}/.java-apps/logs}" />

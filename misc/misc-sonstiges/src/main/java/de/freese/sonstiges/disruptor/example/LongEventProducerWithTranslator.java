@@ -21,6 +21,6 @@ public class LongEventProducerWithTranslator {
     }
 
     public void onData(final ByteBuffer bb) {
-        this.ringBuffer.publishEvent(TRANSLATOR, bb);
+        ringBuffer.publishEvent(TRANSLATOR, bb);
     }
 }

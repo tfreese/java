@@ -21,18 +21,18 @@ public class HttpEventProducer {
     }
 
     public void onData(final String requestId, final ByteBuffer buffer, final int numRead) {
-        final long sequence = this.ringBuffer.next();
+        final long sequence = ringBuffer.next();
 
         try {
-            final HttpEvent event = this.ringBuffer.get(sequence);
+            final HttpEvent event = ringBuffer.get(sequence);
 
             event.setBuffer(buffer);
             event.setRequestId(requestId);
             event.setNumRead(numRead);
         }
         finally {
-            this.mapResponseReady.put(requestId, Boolean.FALSE);
-            this.ringBuffer.publish(sequence);
+            mapResponseReady.put(requestId, Boolean.FALSE);
+            ringBuffer.publish(sequence);
         }
     }
 }

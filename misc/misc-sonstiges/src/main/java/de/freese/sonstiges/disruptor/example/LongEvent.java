@@ -8,7 +8,7 @@ public class LongEvent {
     private long value;
 
     public void clear() {
-        this.value = 0;
+        value = 0;
     }
 
     public void setValue(final long value) {
@@ -19,7 +19,7 @@ public class LongEvent {
     public String toString() {
         final StringBuilder sb = new StringBuilder(getClass().getSimpleName());
         sb.append(" [");
-        sb.append("value=").append(this.value);
+        sb.append("value=").append(value);
         sb.append(']');
 
         return sb.toString();
