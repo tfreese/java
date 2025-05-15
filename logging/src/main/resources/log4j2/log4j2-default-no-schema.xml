@@ -19,9 +19,9 @@
         <Property name="LOG_DIRECTORY" value="${LOG_DIR:-${sys:user.home}/.java-apps/logs}" />
         <Property name="LOG_FILE_NAME" value="${LOG_FILE:-application}" />
 
-        <Property name="fileRollover">${LOG_FILE_MAX_HISTORY:-30}</Property>
-        <Property name="fileMaxSize">${LOG_FILE_MAX_SIZE:-10MB}</Property>
-        <Property name="fileMaxAge">${LOG_FILE_MAX_AGE:-30d}</Property>
+        <Property name="fileRollover" value="${LOG_FILE_MAX_HISTORY:-30}" />
+        <Property name="fileMaxSize" value="${LOG_FILE_MAX_SIZE:-10MB}" />
+        <Property name="fileMaxAge" value="${LOG_FILE_MAX_AGE:-30d}" />
 
     </Properties>
 
@@ -33,14 +33,22 @@
     <!-- ######################################################################################################################################## -->
 
     <Appenders>
-        <Console name="CONSOLE_STD" target="SYSTEM_OUT">
+        <!-- <Null name="ConsoleAppender"/> -->
+
+        <!-- <SystemPropertyArbiter propertyName="local.developing" propertyValue="true"> -->
+        <!--     <Console name="ConsoleAppender" target="SYSTEM_OUT"> -->
+        <!--         <PatternLayout pattern="${pattern}"/> -->
+        <!--     </Console> -->
+        <!-- </SystemPropertyArbiter> -->
+
+        <Console name="ConsoleAppenderOut" target="SYSTEM_OUT">
             <PatternLayout pattern="${PATTERN_CONSOLE:-${PATTERN}}" />
             <Filters>
                 <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="ACCEPT" />
             </Filters>
         </Console>
 
-        <Console name="CONSOLE_ERR" target="SYSTEM_ERR">
+        <Console name="ConsoleAppenderErr" target="SYSTEM_ERR">
             <PatternLayout pattern="${PATTERN_CONSOLE:-${PATTERN}}" />
             <Filters>
                 <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
@@ -48,7 +56,7 @@
         </Console>
 
         <!-- /${date:yyyy-MM}/ -->
-        <RollingFile name="FILE" fileName="${LOG_DIRECTORY}/${LOG_FILE_NAME}.log"
+        <RollingFile name="FileAppender" fileName="${LOG_DIRECTORY}/${LOG_FILE_NAME}.log"
                      filePattern="${LOG_DIRECTORY}/archiv/${LOG_FILE_NAME}_%d{yyyy-MM-dd}_%i.log.gz">
             <append>true</append>
             <immediateFlush>false</immediateFlush>
@@ -69,11 +77,11 @@
             </DefaultRolloverStrategy>
         </RollingFile>
 
-        <Async name="FILE_ASYNC">
-            <AppenderRef ref="FILE" />
+        <Async name="FileAppenderAsync">
+            <AppenderRef ref="FileAppender" />
         </Async>
 
-        <JDBC name="DATABASE_APPENDER" tableName="LOGGING" bufferSize="3">
+        <JDBC name="DatabaseAppender" tableName="LOGGING" bufferSize="3">
             <DataSource jndiName="java:comp/env/jdbc/logging" />
             <!-- <ConnectionFactory class="de.freese.logging.ConnectionFactory" method="getDatabaseConnection" /> -->
             <Column name="ID" literal="next value for LOGGING_SEQUENCE" />
@@ -90,15 +98,16 @@
         </JDBC>
 
         <!-- The modul Property is required by JdbcAppender. -->
-        <Rewrite name="DATABASE_APPENDER_MY_MODULE">
-            <AppenderRef ref="DATABASE_APPENDER" />
+        <Rewrite name="DatabaseAppenderMyModule">
             <PropertiesRewritePolicy>
                 <Property name="modul">MY_MODULE</Property>
             </PropertiesRewritePolicy>
+
+            <AppenderRef ref="DatabaseAppender" />
         </Rewrite>
 
-        <Async name="DATABASE_APPENDER_MY_MODULE_ASYNC">
-            <AppenderRef ref="DATABASE_APPENDER_MY_MODULE" />
+        <Async name="DatabaseAppenderMyModuleAsync">
+            <AppenderRef ref="DatabaseAppenderMyModule" />
         </Async>
     </Appenders>
 
@@ -106,16 +115,16 @@
 
     <Loggers>
         <Root level="&level_ROOT;">
-            <AppenderRef ref="CONSOLE_STD" />
-            <AppenderRef ref="CONSOLE_ERR" />
-            <AppenderRef ref="FILE_ASYNC" />
+            <AppenderRef ref="ConsoleAppenderOut" />
+            <AppenderRef ref="ConsoleAppenderErr" />
+            <AppenderRef ref="FileAppenderAsync" />
         </Root>
 
         <Logger name="de.freese" additivity="false" level="&level_APPLICATION;">
-            <AppenderRef ref="CONSOLE_STD" />
-            <AppenderRef ref="CONSOLE_ERR" />
-            <AppenderRef ref="FILE_ASYNC" />
-            <AppenderRef ref="DATABASE_APPENDER_MY_MODULE_ASYNC" />
+            <AppenderRef ref="ConsoleAppenderOut" />
+            <AppenderRef ref="ConsoleAppenderErr" />
+            <AppenderRef ref="FileAppenderAsync" />
+            <AppenderRef ref="DatabaseAppenderMyModuleAsync" />
         </Logger>
     </Loggers>
 
