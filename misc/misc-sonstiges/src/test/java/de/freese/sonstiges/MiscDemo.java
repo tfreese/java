@@ -119,6 +119,7 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -167,7 +168,8 @@ import de.freese.sonstiges.xml.jaxb.model.DJ;
         "CommentedOutCode",
         "JNDIResourceOpenedButNotSafelyClosed",
         "CodeBlock2Expr",
-        "ResultOfMethodCallIgnored"})
+        "ResultOfMethodCallIgnored",
+        "java:S1162"})
 public final class MiscDemo {
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool();
     private static final Logger LOGGER = LoggerFactory.getLogger(MiscDemo.class);
@@ -222,7 +224,7 @@ public final class MiscDemo {
         // splitList();
         // textBlocks();
         // utilLogging();
-        // verifyJar();
+        verifyJar();
         // virtualThreads();
         // zip();
 
@@ -243,7 +245,7 @@ public final class MiscDemo {
                                     .filter(Files::isDirectory)
                                     .count();
                         }
-                        catch (Exception ex) {
+                        catch (Exception _) {
                             // Ignore
                         }
 
@@ -772,7 +774,7 @@ public final class MiscDemo {
                 }
             }
         }
-        catch (Exception ex) {
+        catch (Exception _) {
             // Ignore
         }
     }
@@ -780,7 +782,7 @@ public final class MiscDemo {
     static void httpRedirect() throws Exception {
         final URI uri = URI.create("http://gmail.com");
 
-        // Ausgabe verfügbarer Proxies für eine URL.
+        // Output available Proxies for a URL.
         final List<Proxy> proxies = ProxySelector.getDefault().select(uri);
         proxies.forEach(System.out::println);
 
@@ -809,13 +811,13 @@ public final class MiscDemo {
         System.out.println("Response Code: " + status);
 
         if (redirect) {
-            // get redirect url from "location" header field
+            // Get to redirect url from "location" header field.
             final String newUrl = conn.getHeaderField("Location");
 
-            // get the cookie if we need, for login
+            // Get the cookie if we need, for login.
             final String cookies = conn.getHeaderField("Set-Cookie");
 
-            // open the new connection again
+            // Open the new connection again.
             conn = (HttpURLConnection) URI.create(newUrl).toURL().openConnection(proxy);
             conn.setRequestProperty("Cookie", cookies);
             conn.addRequestProperty("Accept-Language", "de-DE,de;q=0.8");
@@ -880,7 +882,7 @@ public final class MiscDemo {
     }
 
     static void javaVersion() {
-        //        Runtime.version()
+        // Runtime.version()
         // String javaVersion = SystemUtils.JAVA_VERSION;
         final String javaVersion = System.getProperty("java.version");
         final String javaVersionDate = System.getProperty("java.version.date");
@@ -1215,7 +1217,7 @@ public final class MiscDemo {
 
         final AtomicReference<IOException> referenceThrowable = new AtomicReference<>(null);
 
-        // One MUST run in a separate Thread !
+        // One MUST run in a separate Thread!
         //
         // final PipedOutputStream pipeOut = new PipedOutputStream();
         // final PipedInputStream pipeIn = new PipedInputStream(pipeOut, chunk);
@@ -1246,10 +1248,10 @@ public final class MiscDemo {
             }
         }
 
-        // Direktes kopieren auf File-Ebene, ist am schnellsten.
+        // Direct copy is the fastest.
         // Files.copy(pathSource, pathTarget);
 
-        // Kopieren mit Temp-Datei (java.io.tmpdir), doppelter Daten-Transfer, ist am langsamsten.
+        // Copy with Temp-File (java.io.tmpdir), 2 times data transfer -> slow.
         // final Path pathTemp = Files.createTempFile("copyDocuments_" + System.nanoTime(), ".tmp");
         //
         // try {
@@ -1288,8 +1290,7 @@ public final class MiscDemo {
 
     static void processBuilder() {
         try {
-            // run the Unix "ps -ef" command
-            // using the Runtime exec method:
+            // Run the Unix "ps -ef" command using the Runtime exec method:
             // final Process process = Runtime.getRuntime().exec("ps -ef");
             // final Process process = Runtime.getRuntime().exec("ping -c5 weg.de");
             // final Process process = new ProcessBuilder().command("df -hT").start();
@@ -1302,11 +1303,11 @@ public final class MiscDemo {
 
                 try (BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8));
                      BufferedReader stdError = new BufferedReader(new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8))) {
-                    // read the output from the command
+                    // Read the output from the command.
                     System.out.println("Here is the standard output of the command:");
                     stdInput.lines().forEach(System.out::println);
 
-                    // read any errors from the attempted command
+                    // Read any errors from the attempted command.
                     System.out.println("Here is the standard error of the command (if any):");
                     stdError.lines().forEach(System.out::println);
                 }
@@ -1337,8 +1338,8 @@ public final class MiscDemo {
         // subscribeOn(Scheduler scheduler)
 
         Flux.just("Test1", "Test2", "Test3", "Test4")
-                .parallel() // In wie viele Zweige soll der Stream gesplittet werden: Default Schedulers.DEFAULT_POOL_SIZE
-                .runOn(scheduler) // ThreadPool für die parallele Verarbeitung definieren.
+                .parallel(4) // Default Schedulers.DEFAULT_POOL_SIZE
+                .runOn(scheduler)
                 .map(s -> s + s)
                 .subscribe(v -> System.out.println(Thread.currentThread().getName() + ": " + v))
         ;
@@ -1367,7 +1368,7 @@ public final class MiscDemo {
 
         System.out.println();
 
-        // Test mit StepVerifier (io.projectreactor:reactor-test)
+        // Test with StepVerifier (io.projectreactor:reactor-test)
         Flux<String> source = Flux.just("foo", "bar");
         source = source.concatWith(Mono.error(new IllegalArgumentException("boom")));
 
@@ -1378,7 +1379,7 @@ public final class MiscDemo {
                 .verify()
         ;
 
-        // Irgendein Thread hängt hier noch ...
+        // Some Thread is still hanging.
         System.exit(0);
     }
 
@@ -1499,8 +1500,8 @@ public final class MiscDemo {
         final Path path = Paths.get(System.getProperty("user.dir"), "target", "mapped.dat");
 
         // try (RandomAccessFile raf = new RandomAccessFile(path.toFile(), "rw")) {
-        // // Erstellt leere Datei fester Größe.
-        // raf.setLength(8 * 1024);
+        // // Create a file with a fix size.
+        // raf.setLength(8L * 1024L);
         // }
 
         // final FileChannel fileChannel = raf.getChannel())
@@ -1516,8 +1517,7 @@ public final class MiscDemo {
 
             buffer.position(0); // An den Anfang setzen
 
-            // while (buffer.hasRemaining())
-            // {
+            // while (buffer.hasRemaining()) {
             // // Würde den kompletten Buffer (8 kB) auslesen.
             // System.out.println(buffer.getInt());
             // }
@@ -1627,7 +1627,7 @@ public final class MiscDemo {
         // notificationTest.position(Pos.BASELINE_RIGHT);
         // notificationTest.title(title);
         // notificationTest.text(text);
-        // notificationTest.show();// for error noti notificationTest.showError();
+        // notificationTest.show();// for error notificationTest.showError();
 
         if (SystemTray.isSupported()) {
             final SystemTray systemTray = SystemTray.getSystemTray();
@@ -1694,9 +1694,9 @@ public final class MiscDemo {
 
         System.out.println();
 
-        // Hier sollen nur n Threads verwendet werden.
+        // Only use n Threads.
         //
-        // Grund für das Verhalten ist folgende Methode: java.util.concurrent.ForkJoinTask.fork
+        // The reason for the behavior is the Method: java.util.concurrent.ForkJoinTask.fork
         // "Arranges to asynchronously execute this task in the pool the current task is running in,
         // if applicable, or using the ForkJoinPool.commonPool() if not in ForkJoinPool."
 
@@ -1710,7 +1710,7 @@ public final class MiscDemo {
             customThreadPool.submit(runnable).get();
         }
         // finally {
-        //     // Memory-Leak verhindern.
+        //     // Avoid Memory-Leak.
         //     customThreadPool.shutdown();
         // }
     }
@@ -1788,32 +1788,34 @@ public final class MiscDemo {
 
         final boolean verify = true;
 
-        try (JarFile jar = new JarFile(jarPath.toFile(), verify)) {
-            Enumeration<JarEntry> entries = jar.entries();
+        try (JarFile jarFile = new JarFile(jarPath.toFile(), verify)) {
+            // Check the Jar.
+            validateZip(jarFile);
 
             // Need each entry so that future calls to entry.getCodeSigners will return anything.
-            while (entries.hasMoreElements()) {
+            for (final Enumeration<JarEntry> entries = jarFile.entries(); entries.hasMoreElements(); ) {
                 final JarEntry entry = entries.nextElement();
 
-                try (InputStream inputStream = jar.getInputStream(entry);
+                try (InputStream inputStream = jarFile.getInputStream(entry);
                      OutputStream outputStream = OutputStream.nullOutputStream()) {
                     inputStream.transferTo(outputStream);
                 }
             }
 
-            entries = jar.entries();
-
             // Now check each entry that is not a signature file.
-            while (entries.hasMoreElements()) {
+            for (final Enumeration<JarEntry> entries = jarFile.entries(); entries.hasMoreElements(); ) {
                 final JarEntry entry = entries.nextElement();
                 final String fileName = entry.getName().toUpperCase(Locale.ENGLISH);
 
-                if (!fileName.endsWith(".SF") && !fileName.endsWith(".DSA") && !fileName.endsWith(".EC") && !fileName.endsWith(".RSA")) {
-                    // Now get code signers, inspect certificates etc here.
+                if (!fileName.endsWith(".SF")
+                        && !fileName.endsWith(".DSA")
+                        && !fileName.endsWith(".EC")
+                        && !fileName.endsWith(".RSA")) {
+                    // Now get code signers, inspect certificates, etc. here.
                     final CodeSigner[] codeSigners = entry.getCodeSigners();
 
                     if (codeSigners != null && codeSigners.length > 0) {
-                        System.out.println(Arrays.toString(codeSigners));
+                        LOGGER.info("CodeSigners: {}", Arrays.toString(codeSigners));
                     }
                 }
             }
@@ -1823,7 +1825,7 @@ public final class MiscDemo {
             // Alas, it will proceed without a problem if the JAR file is not signed at all
             final Manifest man;
 
-            try (InputStream is = jar.getInputStream(jar.getEntry("META-INF/MANIFEST.MF"))) {
+            try (InputStream is = jarFile.getInputStream(jarFile.getEntry("META-INF/MANIFEST.MF"))) {
                 man = new Manifest(is);
             }
 
@@ -1839,7 +1841,7 @@ public final class MiscDemo {
 
             final Set<String> entrySet = new HashSet<>();
 
-            for (final Enumeration<JarEntry> entry = jar.entries(); entry.hasMoreElements(); ) {
+            for (final Enumeration<JarEntry> entry = jarFile.entries(); entry.hasMoreElements(); ) {
                 final JarEntry je = entry.nextElement();
 
                 if (!je.isDirectory()) {
@@ -1847,19 +1849,19 @@ public final class MiscDemo {
                 }
             }
 
-            // contains all entries in the Manifest that are not signed.
+            // Contains all entries in the Manifest that are not signed.
             // Usually, this contains:
             // * MANIFEST.MF itself
             // * *.SF files containing the signature of MANIFEST.MF
             // * *.DSA files containing public keys of the signer
             final Set<String> unsignedSet = new HashSet<>(entrySet);
             unsignedSet.removeAll(signedSet);
-            System.out.println(unsignedSet);
+            LOGGER.info("Unsigned: {}", unsignedSet);
 
             // contains all the entries with a signature that are not present in the JAR
             final Set<String> missingSet = new HashSet<>(signedSet);
             missingSet.removeAll(entrySet);
-            System.out.println(missingSet);
+            LOGGER.info("Missing: {}", missingSet);
         }
     }
 
@@ -1974,6 +1976,45 @@ public final class MiscDemo {
                          InputStream inputStream = zipFile.getInputStream(zipEntry)) {
                         inputStream.transferTo(outputStream);
                     }
+                }
+            }
+        }
+    }
+
+    private static void validateZip(final ZipFile zipFile) throws IOException {
+        final int THRESHOLD_ENTRIES = 10_000;
+        final int THRESHOLD_SIZE = 1_000_000_000; // Entry size: 1 GB
+        final double THRESHOLD_RATIO = 10D; // Compression in %
+
+        long totalSizeArchive = 0L;
+        int totalEntryArchive = 0;
+
+        for (final Enumeration<? extends ZipEntry> entries = zipFile.entries(); entries.hasMoreElements(); ) {
+            final ZipEntry zipEntry = entries.nextElement();
+
+            totalEntryArchive++;
+            long totalSizeEntry = 0L;
+
+            try (InputStream inputStream = zipFile.getInputStream(zipEntry);
+                 OutputStream outputStream = OutputStream.nullOutputStream()) {
+                totalSizeEntry = inputStream.transferTo(outputStream);
+                totalSizeArchive += totalSizeEntry;
+            }
+
+            if (totalEntryArchive > THRESHOLD_ENTRIES) {
+                throw new ZipException("Too many entries in this archive, can lead to inodes exhaustion of the filesystem: " + totalEntryArchive);
+            }
+
+            if (totalSizeArchive > THRESHOLD_SIZE) {
+                throw new ZipException("The uncompressed data size is too much for the application resource capacity: " + totalSizeArchive);
+            }
+
+            if (!zipEntry.isDirectory()) {
+                final double compressionRatio = (double) totalSizeEntry / zipEntry.getCompressedSize();
+
+                if (compressionRatio > THRESHOLD_RATIO) {
+                    throw new ZipException("Ratio between compressed and uncompressed data is highly suspicious, looks like a Zip Bomb Attack: "
+                            + compressionRatio + "% - " + zipEntry.getName());
                 }
             }
         }
