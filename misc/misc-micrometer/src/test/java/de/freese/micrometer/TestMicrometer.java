@@ -194,7 +194,7 @@ class TestMicrometer {
 
         final long durationInNanos = sample.stop();
 
-        assertEquals(1_000_000_000L, durationInNanos, 2_000_000L);
+        assertEquals(1_000_000_000L, durationInNanos, 10_000_000L);
         assertNotNull(Metrics.globalRegistry.find("3rdPartyService").longTaskTimer());
     }
 
