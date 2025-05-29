@@ -21,17 +21,15 @@ final class Report implements Comparable<Report> {
     }
 
     public void addMessage(final String text) {
-        this.messages.add(text);
+        messages.add(text);
     }
 
     @Override
     public int compareTo(final Report o) {
-
-        // if (comp == 0)
-        // {
-        // comp = this.messages.toString().compareTo(o.messages.toString());
+        // if (comp == 0) {
+        // comp = messages.toString().compareTo(o.messages.toString());
         // }
-        return this.file.compareTo(o.file);
+        return file.compareTo(o.file);
     }
 
     @Override
@@ -44,29 +42,29 @@ final class Report implements Comparable<Report> {
             return false;
         }
 
-        return Objects.equals(this.file, other.file) && Objects.equals(this.messages, other.messages);
+        return Objects.equals(file, other.file) && Objects.equals(messages, other.messages);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.file, this.messages);
+        return Objects.hash(file, messages);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-        sb.append(this.file.getAbsolutePath());
+        sb.append(file.getAbsolutePath());
         sb.append(": ");
-        sb.append(this.messages);
+        sb.append(messages);
 
         return sb.toString();
     }
 
     public String toString(final Path rootDirectory) {
         final StringBuilder sb = new StringBuilder();
-        sb.append(rootDirectory.relativize(this.file.toPath()));
+        sb.append(rootDirectory.relativize(file.toPath()));
         sb.append(": ");
-        sb.append(this.messages);
+        sb.append(messages);
 
         return sb.toString();
     }

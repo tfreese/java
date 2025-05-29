@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 @SuppressWarnings({"java:S2095", "java:S2245"})
 public final class HttpEventMain {
     /**
-     * -2 damit noch Platz für den CleaningEventHandler und sonstige Ressourcen bleibt.
+     * -2 to keep Space for CleaningEventHandler and other Resources.
      */
     public static final int THREAD_COUNT = Math.max(2, Runtime.getRuntime().availableProcessors() - 2);
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpEventMain.class);

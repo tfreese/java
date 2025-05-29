@@ -102,22 +102,20 @@ public class MailClient implements AutoCloseable {
     public void login() throws Exception {
         // final Console console = System.console();
         //
-        //        if (console != null)
-        //        {
-        //            host = console.readLine("Mail Host: ");
-        //            user = console.readLine("Mail User: ");
-        //            password = String.valueOf(console.readPassword("Mail Password: "));
-        //        }
-        //        else
-        //        {
-        //            Scanner scanner = new Scanner(System.in);
-        //            System.out.print("Mail Host: ");
-        //            host = scanner.nextLine();
+        // if (console != null) {
+        //     host = console.readLine("Mail Host: ");
+        //     user = console.readLine("Mail User: ");
+        //     password = String.valueOf(console.readPassword("Mail Password: "));
+        // }
+        // else {
+        //     final Scanner scanner = new Scanner(System.in);
+        //     System.out.print("Mail Host: ");
+        //     host = scanner.nextLine();
         //
-        //            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        //            System.out.print("Mail Host: ");
-        //            host = br.readLine();
-        //        }
+        //     final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        //     System.out.print("Mail Host: ");
+        //     host = br.readLine();
+        // }
 
         final JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());

@@ -116,11 +116,11 @@ public final class MailClassifierDemo {
             }
             else {
                 if (folder instanceof IMAPFolder iFolder) {
-                    // Alle Mails, älteste zuerst.
+                    // All Mails, oldest first.
                     messages = iFolder.getSortedMessages(new SortTerm[]{SortTerm.ARRIVAL});
                 }
                 else {
-                    // Alle Mails, älteste zuerst.
+                    // All Mails, oldest first.
                     messages = folder.getMessages();
                 }
             }

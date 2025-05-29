@@ -13,7 +13,7 @@ public class MaxFinder {
     private final int[] array;
     private final ForkJoinPool forkJoinPool;
     /**
-     * Schwellenwert, bei dem die Suche sequenziell durchgeführt wird.
+     * THRESHOLD, for sequential calculation.
      */
     private final int intervalThreshold;
 

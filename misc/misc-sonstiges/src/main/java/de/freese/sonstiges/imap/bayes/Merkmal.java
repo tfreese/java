@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Merkmal für einen Classifier.
+ * Characteristic for a {@link NaiveBayesClassifier}.
  *
  * @author Thomas Freese
  */

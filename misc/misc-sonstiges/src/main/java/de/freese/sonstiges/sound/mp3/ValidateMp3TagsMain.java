@@ -33,10 +33,10 @@ public final class ValidateMp3TagsMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ValidateMp3TagsMain.class);
 
     public static void main(final String[] args) {
-        // JUL-Logger ausschalten.
+        // Disable JUL-Logger.
         LogManager.getLogManager().reset();
 
-        // JUL-Logger auf slf4j umleiten.
+        // Redirect JUL-Logger to slf4j.
         // SLF4JBridgeHandler.removeHandlersForRootLogger();
         // SLF4JBridgeHandler.install();
 
@@ -96,7 +96,7 @@ public final class ValidateMp3TagsMain {
     // FieldKey.URL_OFFICIAL_ARTIST_SITE, FieldKey.ENCODER, FieldKey.ORIGINAL_ARTIST);
 
     /**
-     * Prüfen ob Cover vorhanden sind.
+     * Check for Covers.
      */
     static void containsCovers(final Map<File, Report> reports, final AudioFile audioFile) {
         final Tag tag = audioFile.getTag();
@@ -118,21 +118,20 @@ public final class ValidateMp3TagsMain {
     }
 
     /**
-     * Prüfen, ob die Tags Inhalte haben.
+     * Check if Tags have Content.
      */
     static void containsFlag(final Map<File, Report> reports, final AudioFile audioFile, final List<FieldKey> keys) {
         final Tag tag = audioFile.getTag();
 
         for (FieldKey key : keys) {
             for (TagField field : tag.getFields(key)) {
-                if (!(field instanceof TagTextField)) {
+                if (!(field instanceof final TagTextField textField)) {
                     continue;
                 }
 
                 String value = null;
 
                 try {
-                    final TagTextField textField = (TagTextField) field;
                     value = textField.getContent();
                 }
                 catch (NullPointerException ex) {
@@ -175,7 +174,7 @@ public final class ValidateMp3TagsMain {
     }
 
     /**
-     * Prüfen die Schreibweise der Tags.
+     * Check if Tags are writeable.
      */
     static void validateName(final Map<File, Report> reports, final AudioFile audioFile, final List<FieldKey> keys) {
         final Tag tag = audioFile.getTag();
@@ -210,7 +209,7 @@ public final class ValidateMp3TagsMain {
                     addReport(reports, audioFile.getFile(), "schreibweise");
                 }
 
-                // Wörter müssen mit Großbuchstaben beginnen.
+                // Words must begin with an Uppercase Letter.
                 value = value.replace("\\(", "");
                 value = value.replace("\\)", "");
                 value = value.replace("\\.", " ");

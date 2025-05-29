@@ -36,14 +36,14 @@ public final class LdapClientMain {
 
         final InitialDirContext context = new InitialDirContext(env);
 
-        // Specify the attributes to return
+        // Specify the attributes to return.
         final String[] returnedAttributes = {"*"};
 
         final SearchControls searchControls = new SearchControls();
         searchControls.setSearchScope(SearchControls.ONELEVEL_SCOPE);
         searchControls.setReturningAttributes(returnedAttributes);
 
-        // specify the LDAP search filter, just users
+        // Specify the LDAP search filter, just users.
         // String searchFilter = "mail=*THO*";
         final String searchFilter = "(objectclass=*)";
 
@@ -68,7 +68,7 @@ public final class LdapClientMain {
                 final String sn = getValue(searchResult, "sn");
                 final String givenName = getValue(searchResult, "givenName");
 
-                // Prüfen, ob cn aus Vor- und Nachname besteht.
+                // Check if cn contains First- and Lastname.
                 if (cn != null && cn.contains(" ")) {
                     pw.printf("dn: cn=%s,ou=addressbook,dc=freese,dc=de%n", cn);
                 }
@@ -122,7 +122,7 @@ public final class LdapClientMain {
                 writeSingleValue(pw, searchResult, "labeledURI"); // Homepage
                 writeSingleValue(pw, searchResult, "spouseName"); // Ehepartner
 
-                // Passwörter nur mit Admin auslesbar.
+                // Passwords only readable for Admin.
                 writeSingleValue(pw, searchResult, "userPassword");
 
                 pw.println();

@@ -65,12 +65,12 @@ public class DispatcherPool implements Dispatcher {
         final ThreadFactory threadFactoryDispatcher = Thread.ofPlatform().daemon().name(serverName + "-dispatcher-", 1).factory();
         final ThreadFactory threadFactoryWorker = Thread.ofPlatform().daemon().name(serverName + "-worker-", 1).factory();
 
-        // this.executorServiceWorker = new ThreadPoolExecutor(1, this.numOfWorker, 60L, TimeUnit.SECONDS, new SynchronousQueue<>(), threadFactoryWorker);
-        this.executorServiceWorker = Executors.newFixedThreadPool(this.numOfWorker, threadFactoryWorker);
+        // executorServiceWorker = new ThreadPoolExecutor(1, this.numOfWorker, 60L, TimeUnit.SECONDS, new SynchronousQueue<>(), threadFactoryWorker);
+        executorServiceWorker = Executors.newFixedThreadPool(numOfWorker, threadFactoryWorker);
 
-        while (this.dispatchers.size() < this.numOfDispatcher) {
-            final DefaultDispatcher dispatcher = new DefaultDispatcher(selectorProvider.openSelector(), ioHandler, this.executorServiceWorker);
-            this.dispatchers.add(dispatcher);
+        while (dispatchers.size() < numOfDispatcher) {
+            final DefaultDispatcher dispatcher = new DefaultDispatcher(selectorProvider.openSelector(), ioHandler, executorServiceWorker);
+            dispatchers.add(dispatcher);
 
             final Thread thread = threadFactoryDispatcher.newThread(dispatcher);
 
@@ -80,8 +80,8 @@ public class DispatcherPool implements Dispatcher {
     }
 
     public void stop() {
-        this.dispatchers.forEach(DefaultDispatcher::stop);
-        this.executorServiceWorker.shutdown();
+        dispatchers.forEach(DefaultDispatcher::stop);
+        executorServiceWorker.shutdown();
     }
 
     protected Logger getLogger() {
@@ -92,7 +92,7 @@ public class DispatcherPool implements Dispatcher {
      * Returns the next {@link Dispatcher} in a Round-Robin procedure.<br>
      */
     private synchronized Dispatcher nextDispatcher() {
-        final int length = this.dispatchers.size();
+        final int length = dispatchers.size();
 
         final int indexToUse = Math.abs(NEXT_INDEX.getAndIncrement(this) % length);
 

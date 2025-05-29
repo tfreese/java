@@ -43,7 +43,7 @@ public final class SingleNoteSynthesizerMain {
     }
 
     public void listAvailableInstruments() {
-        final Instrument[] instrument = this.synth.getAvailableInstruments();
+        final Instrument[] instrument = synth.getAvailableInstruments();
 
         for (int i = 0; i < instrument.length; i++) {
             LOGGER.info("{}   {}", i, instrument[i].getName());
@@ -52,7 +52,7 @@ public final class SingleNoteSynthesizerMain {
 
     public void playNote(final int note) {
         setShortMessage(note, ShortMessage.NOTE_ON);
-        this.receiver.send(this.message, -1);
+        receiver.send(message, -1);
 
         try {
             TimeUnit.MILLISECONDS.sleep(1000);
@@ -65,12 +65,12 @@ public final class SingleNoteSynthesizerMain {
         }
 
         setShortMessage(note, ShortMessage.NOTE_OFF);
-        this.receiver.send(this.message, -1);
+        receiver.send(message, -1);
     }
 
     private void setShortMessage(final int note, final int onOrOff) {
         try {
-            this.message.setMessage(onOrOff, 0, note, 70);
+            message.setMessage(onOrOff, 0, note, 70);
         }
         catch (InvalidMidiDataException ex) {
             LOGGER.error(ex.getMessage(), ex);

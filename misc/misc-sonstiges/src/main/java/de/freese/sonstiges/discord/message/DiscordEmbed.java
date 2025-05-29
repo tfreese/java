@@ -22,11 +22,11 @@ public class DiscordEmbed {
     private Color color;
     private DiscordFooter footer;
     /**
-     * Großes Bild
+     * Big Picture.
      */
     private DiscordImage image;
     /**
-     * Kleines Bild oben rechts
+     * Little Picture upper right.
      */
     private DiscordThumbnail thumbnail;
     private String title;
@@ -57,14 +57,14 @@ public class DiscordEmbed {
     }
 
     /**
-     * Großes Bild
+     * Big Picture.
      */
     public DiscordImage getImage() {
         return image;
     }
 
     /**
-     * Kleines Bild oben rechts
+     * Little Picture upper right.
      */
     public DiscordThumbnail getThumbnail() {
         return thumbnail;
@@ -103,7 +103,7 @@ public class DiscordEmbed {
     }
 
     /**
-     * Großes Bild
+     * Big Picture.
      */
     public DiscordEmbed setImage(final DiscordImage image) {
         this.image = image;
@@ -112,7 +112,7 @@ public class DiscordEmbed {
     }
 
     /**
-     * Kleines Bild oben rechts
+     * Little Picture upper right.
      */
     public DiscordEmbed setThumbnail(final DiscordThumbnail thumbnail) {
         this.thumbnail = thumbnail;

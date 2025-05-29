@@ -68,13 +68,13 @@ public final class SequencerSoundMain {
 
     private void createTrack() {
         try {
-            this.sequence = new Sequence(Sequence.PPQ, 4);
+            sequence = new Sequence(Sequence.PPQ, 4);
         }
         catch (InvalidMidiDataException ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 
-        this.track = this.sequence.createTrack();
+        track = sequence.createTrack();
     }
 
     private void setShortMessage(final int onOrOff, final int note, final int tick) {
@@ -84,7 +84,7 @@ public final class SequencerSoundMain {
             message.setMessage(onOrOff, 0, note, 90);
 
             final MidiEvent event = new MidiEvent(message, tick);
-            this.track.add(event);
+            track.add(event);
         }
         catch (InvalidMidiDataException ex) {
             LOGGER.error(ex.getMessage(), ex);
@@ -93,13 +93,13 @@ public final class SequencerSoundMain {
 
     private void startSequencer() {
         try {
-            this.sequencer.setSequence(this.sequence);
+            sequencer.setSequence(sequence);
         }
         catch (InvalidMidiDataException ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 
-        this.sequencer.start();
-        this.sequencer.setTempoInBPM(60);
+        sequencer.start();
+        sequencer.setTempoInBPM(60);
     }
 }

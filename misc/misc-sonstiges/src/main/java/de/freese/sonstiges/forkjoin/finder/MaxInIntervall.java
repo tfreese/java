@@ -17,7 +17,7 @@ public class MaxInIntervall extends RecursiveAction {
     private final int[] array;
     private final int end;
     /**
-     * Schwellenwert, bei dem die Suche sequenziell durchgeführt wird.
+     * THRESHOLD, for sequential calculation.
      */
     private final int intervalThreshold;
     private final int start;

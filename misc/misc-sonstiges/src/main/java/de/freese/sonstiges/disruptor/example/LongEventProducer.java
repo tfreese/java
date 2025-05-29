@@ -18,15 +18,15 @@ public class LongEventProducer {
     }
 
     public void onData(final ByteBuffer bb) {
-        // Grab the next sequence
+        // Grab the next sequence.
         final long sequence = ringBuffer.next();
 
         try {
-            // Get the entry in the Disruptor
+            // Get the entry in the Disruptor.
             final LongEvent event = ringBuffer.get(sequence);
 
-            // for the sequence
-            event.setValue(bb.getLong(0));  // Fill with data
+            // For the sequence.
+            event.setValue(bb.getLong(0));  // Fill with data.
         }
         finally {
             ringBuffer.publish(sequence);

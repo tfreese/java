@@ -14,8 +14,8 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 /**
- * Demo für JavaScriptEngine.<br>
- * Benötigt org.openjdk.nashorn:nashorn-core Dependency.
+ * Demo for JavaScriptEngine.<br>
+ * Needs org.openjdk.nashorn:nashorn-core Dependency.
  *
  * @author Thomas Freese
  */
@@ -25,7 +25,7 @@ public final class JavaScriptMain {
 
         manager.getEngineFactories().forEach(System.out::println);
 
-        // Benötigt org.openjdk.nashorn:nashorn-core Dependency.
+        // Needs org.openjdk.nashorn:nashorn-core Dependency.
         ScriptEngine engine = manager.getEngineByExtension("js");
 
         if (engine == null) {

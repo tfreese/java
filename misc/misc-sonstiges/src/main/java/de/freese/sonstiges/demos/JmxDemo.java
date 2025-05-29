@@ -89,7 +89,7 @@ public final class JmxDemo {
                     catch (Throwable ex) {
                         LOGGER.error(ex.getMessage());
                     }
-                }, 100, 1000, TimeUnit.MILLISECONDS);
+                }, 100L, 1000L, TimeUnit.MILLISECONDS);
                 scheduledExecutorService.scheduleWithFixedDelay(() -> {
                     try {
                         final ObjectName on = ObjectName.getInstance("com.zaxxer.hikari:type=Pool (HikariConnectionPool)");
@@ -120,10 +120,10 @@ public final class JmxDemo {
                             resultSet.next();
 
                             LOGGER.info("Query: {}", resultSet.getObject(1));
-                            TimeUnit.MILLISECONDS.sleep(RANDOM.nextLong(100, 1500));
+                            TimeUnit.MILLISECONDS.sleep(RANDOM.nextLong(100L, 1500L));
                         }
 
-                        TimeUnit.MILLISECONDS.sleep(1000);
+                        TimeUnit.MILLISECONDS.sleep(1000L);
                     }
 
                     return null;

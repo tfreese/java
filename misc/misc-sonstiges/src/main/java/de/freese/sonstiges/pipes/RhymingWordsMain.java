@@ -26,9 +26,9 @@ public final class RhymingWordsMain {
         final URL url = Thread.currentThread().getContextClassLoader().getResource("stopwords_de.txt");
         final File file = new File(url.toURI());
 
-        // do the reversing and sorting
+        // Do the reversing and sorting.
 
-        // write new list to standard out
+        // Write the new list to standard out.
         try (FileReader words = new FileReader(file, StandardCharsets.UTF_8);
              BufferedReader in = new BufferedReader(reverse(sort(reverse(words))))) {
             String input;

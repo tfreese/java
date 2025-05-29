@@ -51,37 +51,37 @@ public class ServerSingleThread extends AbstractServer {
         Objects.requireNonNull(getIoHandler(), "ioHandler required");
 
         try {
-            this.selector = this.selectorProvider.openSelector();
+            selector = selectorProvider.openSelector();
 
-            // this.serverSocketChannel = ServerSocketChannel.open();
-            this.serverSocketChannel = this.selectorProvider.openServerSocketChannel();
-            this.serverSocketChannel.configureBlocking(false);
-            this.serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
-            // this.serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEPORT, true); // Wird nicht von jedem OS unterstützt.
-            this.serverSocketChannel.bind(new InetSocketAddress(getPort()), 50);
+            // serverSocketChannel = ServerSocketChannel.open();
+            serverSocketChannel = selectorProvider.openServerSocketChannel();
+            serverSocketChannel.configureBlocking(false);
+            serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
+            // serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEPORT, true); // Wird nicht von jedem OS unterstützt.
+            serverSocketChannel.bind(new InetSocketAddress(getPort()), 50);
 
-            // ServerSocket socket = this.serverSocketChannel.socket();
+            // ServerSocket socket = serverSocketChannel.socket();
             // socket.setReuseAddress(true);
             // socket.bind(new InetSocketAddress(getPort()), 50);
 
             // SelectionKey selectionKey =
-            this.serverSocketChannel.register(this.selector, SelectionKey.OP_ACCEPT);
+            serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
             // selectionKey.attach(this);
 
             getLogger().info("'{}' listening on port: {}", getName(), getPort());
 
-            this.stopLock.acquireUninterruptibly();
+            stopLock.acquireUninterruptibly();
             getStartLock().release();
 
             while (!Thread.interrupted()) {
-                final int readyChannels = this.selector.select();
+                final int readyChannels = selector.select();
 
-                if (this.isShutdown || !this.selector.isOpen()) {
+                if (isShutdown || !selector.isOpen()) {
                     break;
                 }
 
                 if (readyChannels > 0) {
-                    final Set<SelectionKey> selected = this.selector.selectedKeys();
+                    final Set<SelectionKey> selected = selector.selectedKeys();
                     final Iterator<SelectionKey> iterator = selected.iterator();
 
                     try {
@@ -94,17 +94,17 @@ public class ServerSingleThread extends AbstractServer {
                             }
                             else if (selectionKey.isAcceptable()) {
                                 // Verbindung mit Client herstellen.
-                                final SocketChannel socketChannel = this.serverSocketChannel.accept();
+                                final SocketChannel socketChannel = serverSocketChannel.accept();
                                 socketChannel.configureBlocking(false);
-                                socketChannel.register(this.selector, SelectionKey.OP_READ);
+                                socketChannel.register(selector, SelectionKey.OP_READ);
 
                                 getLogger().debug("{}: Connection Accepted", socketChannel.getRemoteAddress());
 
-                                // SelectionKey sk = socketChannel.register(this.selector, SelectionKey.OP_READ);
+                                // SelectionKey sk = socketChannel.register(selector, SelectionKey.OP_READ);
                                 // sk.attach(obj)
 
                                 // Selector aufwecken.
-                                this.selector.wakeup();
+                                selector.wakeup();
                             }
                             else if (selectionKey.isConnectable()) {
                                 getLogger().debug("{}: Client Connected", ServerMain.getRemoteAddress(selectionKey));
@@ -133,7 +133,7 @@ public class ServerSingleThread extends AbstractServer {
             getLogger().error(ex.getMessage(), ex);
         }
         finally {
-            this.stopLock.release();
+            stopLock.release();
         }
 
         getLogger().info("'{}' stopped on port: {}", getName(), getPort());
@@ -145,38 +145,38 @@ public class ServerSingleThread extends AbstractServer {
         thread.start();
 
         // Warten bis fertig.
-        // this.startLock.acquireUninterruptibly();
-        // this.startLock.release();
+        // startLock.acquireUninterruptibly();
+        // startLock.release();
     }
 
     @Override
     public void stop() {
         getLogger().info("stopping '{}' on port: {}", getName(), getPort());
 
-        this.isShutdown = true;
-        this.selector.wakeup();
+        isShutdown = true;
+        selector.wakeup();
 
         // Warten bis Thread beendet.
-        this.stopLock.acquireUninterruptibly();
+        stopLock.acquireUninterruptibly();
 
         try {
-            final SelectionKey selectionKey = this.serverSocketChannel.keyFor(this.selector);
+            final SelectionKey selectionKey = serverSocketChannel.keyFor(selector);
 
             if (selectionKey != null) {
                 selectionKey.cancel();
             }
 
-            if (this.selector.isOpen()) {
-                this.selector.close();
+            if (selector.isOpen()) {
+                selector.close();
             }
 
-            this.serverSocketChannel.close();
+            serverSocketChannel.close();
         }
         catch (IOException ex) {
             getLogger().error(ex.getMessage(), ex);
         }
         finally {
-            this.stopLock.release();
+            stopLock.release();
         }
     }
 }

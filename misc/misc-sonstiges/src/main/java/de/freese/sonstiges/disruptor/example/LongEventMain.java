@@ -17,7 +17,7 @@ import com.lmax.disruptor.util.DaemonThreadFactory;
  */
 public final class LongEventMain {
     /**
-     * -2 damit noch Platz für den CleaningEventHandler und sonstige Ressourcen bleibt.
+     * -2 to keep Space for CleaningEventHandler and other Resources.
      */
     public static final int THREAD_COUNT = Math.max(2, Runtime.getRuntime().availableProcessors() - 2);
 
@@ -26,17 +26,17 @@ public final class LongEventMain {
         // int ringBufferSize = Integer.highestOneBit(31) << 1;
         final int ringBufferSize = 32;
 
-        // Threads werden vom Distributor exklusiv belegt und erst beim Shutdown wieder freigegeben.
-        // Daher ist ein Executor nicht empfohlen, jeder Disruptor braucht seinen eigenen exklusiven ThreadPool.
+        // Threads are allocated exclusive from Distributor and released on Shutdown.
+        // Every Disruptor needs a dedicated ThreadPool.
         final ThreadFactory threadFactory = DaemonThreadFactory.INSTANCE;
         // final ThreadFactory threadFactory = new CustomizableThreadFactory("disruptor-thread-");
         // final ThreadFactory threadFactory = new
         // BasicThreadFactory.Builder().namingPattern("disruptor-thread-%d").daemon(true).priority(Thread.NORM_PRIORITY).build();
 
-        //        ProducerType producerType = ProducerType.SINGLE; // Nur ein exklusiver Thread schreibt Daten in den RingBuffer.
-        // final ProducerType producerType = ProducerType.MULTI; // Verschiedene Threads schreiben Daten in den RingBuffer.
+        // ProducerType producerType = ProducerType.SINGLE; // Only one Thread is writing into the RingBuffer.
+        // final ProducerType producerType = ProducerType.MULTI; // Multiple Threads are written into the RingBuffer.
 
-        //        final WaitStrategy waitStrategy = null;
+        // final WaitStrategy waitStrategy = null;
 
         // The BlockingWaitStrategy is the slowest of the available wait strategies, but is the most conservative with the respect
         // to CPU usage and will give the most consistent behaviour across the widest variety of deployment options.
@@ -46,23 +46,23 @@ public final class LongEventMain {
         // A common use case is for asynchronous logging.
         // waitStrategy = new SleepingWaitStrategy();
 
-        // This is the recommended wait strategy when need very high performance and the number of Event Handler threads is
-        // less than the total number of logical cores, e.g. you have hyper-threading enabled.
+        // This is the recommended wait strategy when need very high performance, and the number of Event Handler threads is
+        // lower than the total number of logical cores, e.g., you have hyper-threading enabled.
         // waitStrategy = new YieldingWaitStrategy();
 
         // This wait strategy should only be used if the number of Event Handler threads is smaller than the number of physical cores on the box.
-        //        waitStrategy = new BusySpinWaitStrategy();
+        // waitStrategy = new BusySpinWaitStrategy();
 
         // try (ExecutorService executorService = Executors.newFixedThreadPool(8)) {
         // final Disruptor<LongEvent> disruptor = new Disruptor<>(LongEvent::new, ringBufferSize, executorService, producerType, waitStrategy);
         // final Disruptor<LongEvent> disruptor = new Disruptor<>(LongEvent::new, ringBufferSize, threadFactory, producerType, waitStrategy);
         final Disruptor<LongEvent> disruptor = new Disruptor<>(LongEvent::new, ringBufferSize, threadFactory);
 
-        // EventHandler verarbeiten alle parallel ein Event -> LoadBalancing notwendig falls nur ein EventHandler arbeiten soll.
-        // Connect a single handler
-        //        disruptor.handleEventsWith(new LongHandler()).then(new CleaningEventHandler());
+        // EventHandler processing an Event in parallel -> LoadBalancing required if only one EventHandler should do this.
+        // Connect a single handler.
+        // disruptor.handleEventsWith(new LongHandler()).then(new CleaningEventHandler());
 
-        // Connect multiple Handlers with load balancing
+        // Connect multiple Handlers with load balancing.
         final EventHandler<LongEvent>[] handlers = new LongHandler[THREAD_COUNT];
 
         for (int ordinal = 0; ordinal < handlers.length; ordinal++) {
@@ -70,9 +70,9 @@ public final class LongEventMain {
         }
 
         disruptor.handleEventsWith(handlers).then(new CleaningEventHandler());
-        //        // disruptor.setDefaultExceptionHandler(...);
+        // disruptor.setDefaultExceptionHandler(...);
 
-        // Start the Disruptor, starts all threads running
+        // Start the Disruptor, starts all threads running.
         disruptor.start();
 
         // Get the ring buffer from the Disruptor to be used for publishing.
@@ -85,12 +85,12 @@ public final class LongEventMain {
 
         for (long l = 0; l < 50; l++) {
             bb.putLong(0, l);
-            producer.onData(bb); // Wartet, wenn der RingBuffer voll ist, ggf. ringBufferSize anpassen
+            producer.onData(bb); // Waits, if the RingBuffer is full, e.g., adjust the ringBufferSize.
         }
 
         TimeUnit.MILLISECONDS.sleep(2000);
 
-        // Nur notwendig, wenn die Event-Publizierung noch nicht abgeschlossen ist.
+        // Only necessary, if the Event-Publishing is not finished.
         disruptor.halt();
         disruptor.shutdown(5, TimeUnit.SECONDS);
         // }

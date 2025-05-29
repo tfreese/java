@@ -25,9 +25,9 @@ public final class ProducerConsumerWaitNotify {
         @Override
         public void run() {
             while (!Thread.interrupted()) {
-                final int value = this.cubbyhole.get();
+                final int value = cubbyhole.get();
 
-                System.out.printf("%s: Consumer-%d got: %d%n", Thread.currentThread().getName(), this.number, value);
+                System.out.printf("%s: Consumer-%d got: %d%n", Thread.currentThread().getName(), number, value);
 
                 try {
                     TimeUnit.MILLISECONDS.sleep(3000);
@@ -48,7 +48,7 @@ public final class ProducerConsumerWaitNotify {
         private int content;
 
         public synchronized int get() {
-            while (!this.available) {
+            while (!available) {
                 try {
                     wait(); // wait for Producer to put value
                 }
@@ -58,14 +58,14 @@ public final class ProducerConsumerWaitNotify {
                 }
             }
 
-            this.available = false;
+            available = false;
             notifyAll(); // notify Producer that value has been retrieved
 
-            return this.content;
+            return content;
         }
 
         public synchronized void put(final int value) {
-            while (this.available) {
+            while (available) {
                 try {
                     wait(); // wait for Consumer to get value
                 }
@@ -75,8 +75,8 @@ public final class ProducerConsumerWaitNotify {
                 }
             }
 
-            this.content = value;
-            this.available = true;
+            content = value;
+            available = true;
 
             notifyAll(); // notify Consumer that value has been set
         }
@@ -99,9 +99,9 @@ public final class ProducerConsumerWaitNotify {
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
-                this.cubbyhole.put(i);
+                cubbyhole.put(i);
 
-                System.out.printf("%s: Producer-%d put: %d%n", Thread.currentThread().getName(), this.number, i);
+                System.out.printf("%s: Producer-%d put: %d%n", Thread.currentThread().getName(), number, i);
 
                 try {
                     TimeUnit.MILLISECONDS.sleep(300);
@@ -120,15 +120,12 @@ public final class ProducerConsumerWaitNotify {
         final CubbyHole cubbyHole = new CubbyHole();
 
         try (ExecutorService executorService = Executors.newCachedThreadPool()) {
-
-            // Producer starten
             for (int i = 0; i < 1; i++) {
                 executorService.execute(new Producer(cubbyHole, i + 1));
             }
 
             TimeUnit.MILLISECONDS.sleep(500);
 
-            // Consumer starten
             for (int i = 0; i < 2; i++) {
                 executorService.execute(new Consumer(cubbyHole, i + 1));
             }

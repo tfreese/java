@@ -33,8 +33,7 @@ public class FibonacciCalculator {
 
         // Long result = CACHE.get(n);
         //
-        // if (result == null)
-        // {
+        // if (result == null) {
         // System.out.println(n);
         //
         // result = fibonacci(n - 1) + fibonacci(n - 2);

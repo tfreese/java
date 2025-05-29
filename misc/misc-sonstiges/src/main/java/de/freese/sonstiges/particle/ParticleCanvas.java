@@ -56,13 +56,13 @@ class ParticleCanvas extends Canvas {
                 // Cancel currently executing tasks.
                 scheduledExecutorService.shutdownNow();
 
-                // Wait a while for tasks to respond to being cancelled.
+                // Wait a while for tasks to respond to being canceled.
                 if (!scheduledExecutorService.awaitTermination(5, TimeUnit.SECONDS)) {
                     LOGGER.error("Pool did not terminate");
                 }
             }
         }
-        catch (InterruptedException iex) {
+        catch (InterruptedException ex) {
             // (Re-)Cancel if current thread also interrupted.
             scheduledExecutorService.shutdownNow();
 
@@ -90,7 +90,7 @@ class ParticleCanvas extends Canvas {
         future = scheduledExecutorService.scheduleWithFixedDelay(() -> {
             particles.forEach(Particle::move);
             repaint();
-        }, 250, 250, TimeUnit.MILLISECONDS);
+        }, 250L, 250L, TimeUnit.MILLISECONDS);
     }
 
     public synchronized void stop() {

@@ -84,7 +84,7 @@ public final class ProxyBlacklistDemo {
 
         LOGGER.info("BlackList Size: {}", blackList.size());
 
-        // Hostnamen filtern und normalisieren.
+        // Normalize Hostnames.
         blackList = bl.filter(blackList);
         LOGGER.info("after filter Size: {}", blackList.size());
 
@@ -103,9 +103,6 @@ public final class ProxyBlacklistDemo {
         super();
     }
 
-    /**
-     * Erstellt die BlackList von AdBlockPlus.
-     */
     void createPrivoxyBlacklist(final Path privoxySkriptPath, final Path targetDirectory) throws Exception {
         Files.createDirectories(targetDirectory);
 
@@ -193,13 +190,9 @@ public final class ProxyBlacklistDemo {
         }
     }
 
-    /**
-     * Filtert die geladene Blacklist.
-     */
     Set<String> filter(final Set<String> blackList) {
         LOGGER.info("Filter BlackList");
 
-        // Alles raus was nicht rein soll.
         return blackList.stream()
                 .parallel()
                 .filter(Objects::nonNull)
@@ -258,9 +251,6 @@ public final class ProxyBlacklistDemo {
                 ;
     }
 
-    /**
-     * BlackList mit Regex ausdünnen.
-     */
     Set<String> filterByRegEx(final Path privoxySkriptPath, final Set<String> blackList) {
         final Path path = privoxySkriptPath.resolve("blacklist-regex.txt");
 
@@ -273,8 +263,7 @@ public final class ProxyBlacklistDemo {
     }
 
     /**
-     * Wandelt IP-Addressen in Hostnamen um.<br>
-     * Falls das fehlschlägt, wird die IP entfernt.
+     * Convert IP-Addresses in Hostnamen.<br>
      */
     Set<String> ipToHostname(final Set<String> hosts) {
         LOGGER.info("IP -> Hostname");
@@ -328,7 +317,7 @@ public final class ProxyBlacklistDemo {
     }
 
     /**
-     * Laden einer Plaintext Liste.
+     * Load Plaintext List.
      */
     Set<String> load(final URI uri) {
         LOGGER.info("Load: {}", uri);
@@ -358,9 +347,6 @@ public final class ProxyBlacklistDemo {
         return set;
     }
 
-    /**
-     * Laden der allgemeinen BlackList.
-     */
     Set<String> loadHostBlacklist() throws Exception {
         final List<URI> uris = new ArrayList<>();
         uris.add(URI.create("https://someonewhocares.org/hosts/hosts"));
@@ -371,8 +357,9 @@ public final class ProxyBlacklistDemo {
 
         uris.forEach(uri -> COMPLETION_SERVICE.submit(() -> load(uri)));
 
-        // Mit diesen wächst die Blacklist auf über 1,5 Mio.!
         final List<URI> uriTars = new ArrayList<>();
+
+        // BlackList grows up to 1,5 Mio!
         // uriTars.add(URI.create("https://www.shallalist.de/Downloads/shallalist.tar.gz"));
         // uriTars.add(nURI.create("https://urlblacklist.com/cgi-bin/commercialdownload.pl?type=download&file=bigblacklist"));
 
@@ -389,9 +376,6 @@ public final class ProxyBlacklistDemo {
         return blackList;
     }
 
-    /**
-     * Laden der IP-BlackList.
-     */
     Set<String> loadIpBlacklist() throws Exception {
         final List<URI> uris = new ArrayList<>();
         uris.add(URI.create("https://myip.ms/files/blacklist/general/latest_blacklist.txt"));
@@ -409,9 +393,6 @@ public final class ProxyBlacklistDemo {
         return blackList;
     }
 
-    /**
-     * Laden einer TGZ komprimierten Datei.
-     */
     Set<String> loadTGZ(final URI uri) throws IOException {
         LOGGER.info("Download: {}", uri);
 
@@ -436,9 +417,6 @@ public final class ProxyBlacklistDemo {
         return set;
     }
 
-    /**
-     * Entfernt Hosts, welche durch die Regex-Liste schon erfasst werden.
-     */
     Set<String> validateRegex(final Set<String> blackList, final Set<String> regexList) {
         LOGGER.info("Validate Regex");
 
@@ -464,9 +442,6 @@ public final class ProxyBlacklistDemo {
                 .collect(Collectors.toSet());
     }
 
-    /**
-     * Speichert die BlackList.
-     */
     void writeBlacklist(final Collection<String> blackList, final Path path) throws IOException {
         LOGGER.info("Write: {}", path);
 

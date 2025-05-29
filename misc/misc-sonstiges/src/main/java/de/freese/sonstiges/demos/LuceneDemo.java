@@ -164,7 +164,7 @@ public final class LuceneDemo {
         final Document doc = new Document();
         doc.add(new TextField("title", title, Field.Store.YES));
 
-        // Use a string field for isbn because we don't want it tokenized
+        // Use a string field for isbn because we don't want it tokenized.
         doc.add(new StringField("isbn", isbn, Field.Store.YES));
 
         indexWriter.addDocument(doc);

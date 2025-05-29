@@ -18,7 +18,7 @@ public class DiscordWebHookMessage {
     private String avatarUrl;
     private String avatarUsername;
     /**
-     * Text-To-Speech
+     * Text-To-Speech.
      */
     private boolean tts;
 
@@ -48,7 +48,7 @@ public class DiscordWebHookMessage {
     }
 
     /**
-     * Text-To-Speech
+     * Text-To-Speech.
      */
     public boolean isTts() {
         return tts;
@@ -73,7 +73,7 @@ public class DiscordWebHookMessage {
     }
 
     /**
-     * Text-To-Speech
+     * Text-To-Speech.
      */
     public DiscordWebHookMessage setTts(final boolean tts) {
         this.tts = tts;

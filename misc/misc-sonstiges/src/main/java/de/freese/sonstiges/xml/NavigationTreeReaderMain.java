@@ -33,7 +33,7 @@ public final class NavigationTreeReaderMain {
             url = ClassLoader.getSystemResource("navigationTree.xml");
             final Source xmlFile = new StreamSource(new File(url.toURI()));
 
-            // Validate gegen Schema.
+            // Validate Schema.
             final SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             schemaFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
             schemaFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");

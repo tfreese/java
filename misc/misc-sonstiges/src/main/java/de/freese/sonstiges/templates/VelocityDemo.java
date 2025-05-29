@@ -33,8 +33,7 @@ public final class VelocityDemo {
             final VelocityEngine velocityEngine = new VelocityEngine(properties);
             velocityEngine.init();
 
-            // Make a context object and populate with the data. This is where the VelocityDemo engine gets the data to resolve the references (ex. $list) in the
-            // template.
+            // Make a context object and populate with the data. This is where the VelocityDemo engine gets the data to resolve the references (ex. $list) in the template.
 
             final VelocityContext context = new VelocityContext();
             context.put("names", List.of("List element 1", "List element 2", "List element 3"));
@@ -45,12 +44,12 @@ public final class VelocityDemo {
             // VelocityDemo.evaluate(context, stringWriter, logTag, template);
 
             // get the Template object. This is the parsed version of your template input file. Note that getTemplate() can throw ResourceNotFoundException : if
-            // it doesn't find the template ParseErrorException : if there is something wrong with the VTL Exception : if something else goes wrong (this is
-            // generally indicative of as serious problem...)
+            // it doesn't find the template ParseErrorException: if there is something wrong with the VTL Exception: if something else goes wrong (this is
+            // generally indicative of as a serious problem.)
             final Template template = loadTemplate(velocityEngine);
 
-            // Now have the template engine process your template using the data placed into the context. Think of it as a 'merge' of the template and the data
-            // to produce the output stream.
+            // Now have the template engine process your template using the data placed into the context.
+            // Think of it as a 'merge' of the template and the data to produce the output stream.
             try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out))) {
                 if (template != null) {
                     template.merge(context, writer);

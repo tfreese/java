@@ -47,48 +47,48 @@ public class ServerMultiThread extends AbstractServer {
 
         try {
             // this.serverSocketChannel = ServerSocketChannel.open();
-            this.serverSocketChannel = this.selectorProvider.openServerSocketChannel();
-            this.serverSocketChannel.configureBlocking(false);
+            serverSocketChannel = selectorProvider.openServerSocketChannel();
+            serverSocketChannel.configureBlocking(false);
 
-            if (this.serverSocketChannel.supportedOptions().contains(StandardSocketOptions.TCP_NODELAY)) {
-                // this.serverSocketChannel.getOption(StandardSocketOptions.TCP_NODELAY);
-                this.serverSocketChannel.setOption(StandardSocketOptions.TCP_NODELAY, true);
+            if (serverSocketChannel.supportedOptions().contains(StandardSocketOptions.TCP_NODELAY)) {
+                // serverSocketChannel.getOption(StandardSocketOptions.TCP_NODELAY);
+                serverSocketChannel.setOption(StandardSocketOptions.TCP_NODELAY, true);
             }
 
-            if (this.serverSocketChannel.supportedOptions().contains(StandardSocketOptions.SO_REUSEADDR)) {
-                // this.serverSocketChannel.getOption(StandardSocketOptions.SO_REUSEADDR);
-                this.serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
+            if (serverSocketChannel.supportedOptions().contains(StandardSocketOptions.SO_REUSEADDR)) {
+                // serverSocketChannel.getOption(StandardSocketOptions.SO_REUSEADDR);
+                serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
             }
 
-            if (this.serverSocketChannel.supportedOptions().contains(StandardSocketOptions.SO_REUSEPORT)) {
-                // this.serverSocketChannel.getOption(StandardSocketOptions.SO_REUSEPORT);
-                this.serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEPORT, true);
+            if (serverSocketChannel.supportedOptions().contains(StandardSocketOptions.SO_REUSEPORT)) {
+                // serverSocketChannel.getOption(StandardSocketOptions.SO_REUSEPORT);
+                serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEPORT, true);
             }
 
-            if (this.serverSocketChannel.supportedOptions().contains(StandardSocketOptions.SO_RCVBUF)) {
-                // this.serverSocketChannel.getOption(StandardSocketOptions.SO_RCVBUF);
-                this.serverSocketChannel.setOption(StandardSocketOptions.SO_RCVBUF, 64 * 1024);
+            if (serverSocketChannel.supportedOptions().contains(StandardSocketOptions.SO_RCVBUF)) {
+                // serverSocketChannel.getOption(StandardSocketOptions.SO_RCVBUF);
+                serverSocketChannel.setOption(StandardSocketOptions.SO_RCVBUF, 64 * 1024);
             }
 
-            if (this.serverSocketChannel.supportedOptions().contains(StandardSocketOptions.SO_SNDBUF)) {
-                // this.serverSocketChannel.getOption(StandardSocketOptions.SO_SNDBUF);
-                this.serverSocketChannel.setOption(StandardSocketOptions.SO_SNDBUF, 64 * 1024);
+            if (serverSocketChannel.supportedOptions().contains(StandardSocketOptions.SO_SNDBUF)) {
+                // serverSocketChannel.getOption(StandardSocketOptions.SO_SNDBUF);
+                serverSocketChannel.setOption(StandardSocketOptions.SO_SNDBUF, 64 * 1024);
             }
 
-            this.serverSocketChannel.bind(new InetSocketAddress(getPort()), 50);
+            serverSocketChannel.bind(new InetSocketAddress(getPort()), 50);
 
-            // ServerSocket socket = this.serverSocketChannel.socket();
+            // ServerSocket socket = serverSocketChannel.socket();
             // socket.setReuseAddress(true);
             // socket.bind(new InetSocketAddress(getPort()), 50);
 
             // Create Dispatcher.
-            this.dispatcherPool.start(getIoHandler(), this.selectorProvider, getName());
+            dispatcherPool.start(getIoHandler(), selectorProvider, getName());
 
             // Create Acceptor.
-            this.acceptor = new Acceptor(this.selectorProvider.openSelector(), this.serverSocketChannel, this.dispatcherPool);
+            acceptor = new Acceptor(selectorProvider.openSelector(), serverSocketChannel, dispatcherPool);
 
-            // final Thread thread = new NamedThreadFactory(getName() + "-acceptor-%d").newThread(this.acceptor);
-            final Thread thread = Thread.ofPlatform().daemon().name(getName() + "-acceptor-", 1).factory().newThread(this.acceptor);
+            // final Thread thread = new NamedThreadFactory(getName() + "-acceptor-%d").newThread(acceptor);
+            final Thread thread = Thread.ofPlatform().daemon().name(getName() + "-acceptor-", 1).factory().newThread(acceptor);
             getLogger().debug("start {}", thread.getName());
             thread.start();
 
@@ -105,25 +105,25 @@ public class ServerMultiThread extends AbstractServer {
         run();
 
         // Wait if ready.
-        // this.startLock.acquireUninterruptibly();
-        // this.startLock.release();
+        // startLock.acquireUninterruptibly();
+        // startLock.release();
     }
 
     @Override
     public void stop() {
         getLogger().info("stopping '{}' on port: {}", getName(), getPort());
 
-        this.acceptor.stop();
-        this.dispatcherPool.stop();
+        acceptor.stop();
+        dispatcherPool.stop();
 
         try {
-            // final SelectionKey selectionKey = this.serverSocketChannel.keyFor(this.selector);
+            // final SelectionKey selectionKey = serverSocketChannel.keyFor(selector);
             //
             // if (selectionKey != null) {
             // selectionKey.cancel();
             // }
 
-            this.serverSocketChannel.close();
+            serverSocketChannel.close();
         }
         catch (IOException ex) {
             getLogger().error(ex.getMessage(), ex);

@@ -37,7 +37,7 @@ public abstract class AbstractServer implements Runnable {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public int getPort() {
@@ -67,14 +67,14 @@ public abstract class AbstractServer implements Runnable {
     public abstract void stop();
 
     protected IoHandler<SelectionKey> getIoHandler() {
-        return this.ioHandler;
+        return ioHandler;
     }
 
     protected Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     protected Semaphore getStartLock() {
-        return this.startLock;
+        return startLock;
     }
 }

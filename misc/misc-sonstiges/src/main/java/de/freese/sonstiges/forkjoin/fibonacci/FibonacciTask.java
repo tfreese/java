@@ -11,7 +11,7 @@ import java.util.concurrent.RecursiveTask;
  */
 public class FibonacciTask extends RecursiveTask<Long> {
     /**
-     * Schwellenwert, bei dem die Berechnung sequenziell durchgeführt wird.
+     * THRESHOLD, for sequential calculation.
      */
     private static final int THRESHOLD = 15;
     @Serial

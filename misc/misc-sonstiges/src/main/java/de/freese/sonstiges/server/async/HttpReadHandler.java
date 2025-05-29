@@ -34,8 +34,8 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment> {
         }
 
         if (bytesRead <= 0) {
-            // Nichts mehr zum Lesen, Request vollständig.
-            // Write Vorgang an anderen Thread übergeben.
+            // Nothing to read, Request complete.
+            // Transfer WRITE-Operation another Thread.
             write(channel);
             return;
         }
@@ -58,14 +58,14 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment> {
         httpHeader.getChars(length - 4, length, endOfHeader, 0);
 
         if (endOfHeader[0] == '\r' && endOfHeader[1] == '\n' && endOfHeader[2] == '\r' && endOfHeader[3] == '\n') {
-            // Leerzeile = Ende des HttpHeaders.
+            // Empty Line = End of the HttpHeader.
             write(channel);
         }
         else {
-            // Nächster Lese Vorgang in diesem Thread,
+            // Next READ-Operation in this Thread.
             channel.read(byteBuffer, attachment, this);
 
-            // Nächster Lese Vorgang im anderen Thread.
+            // Next READ-Operation in another Thread.
             // read(channel, byteBuffer);
         }
     }

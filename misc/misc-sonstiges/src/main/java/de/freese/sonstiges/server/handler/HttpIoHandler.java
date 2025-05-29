@@ -39,7 +39,7 @@ public class HttpIoHandler extends AbstractIoHandler<SelectionKey> {
                 inputBuffer.clear();
             }
 
-            // WRITE-Mode für Channel.
+            // WRITE-Mode for Channel.
             selectionKey.interestOps(SelectionKey.OP_WRITE);
         }
         catch (Exception ex) {
@@ -86,11 +86,11 @@ public class HttpIoHandler extends AbstractIoHandler<SelectionKey> {
                 channel.write(buffer);
             }
 
-            // For HTTP the session is over after the Response.
+            // For HTTP, the session is over after the Response.
             channel.close();
             selectionKey.cancel();
 
-            // Otherwise again READ-Mode:
+            // Otherwise again READ-Mode.
             // selectionKey.interestOps(SelectionKey.OP_READ);
         }
         catch (Exception ex) {

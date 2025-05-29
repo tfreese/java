@@ -71,22 +71,22 @@ public final class SingleNoteSynthesizer2Main {
     }
 
     public void setInstrument(final int instrument) {
-        this.synth.getChannels()[0].programChange(instrument);
+        synth.getChannels()[0].programChange(instrument);
     }
 
     public void startNote(final int note) {
         setShortMessage(ShortMessage.NOTE_ON, note);
-        this.receiver.send(this.message, -1);
+        receiver.send(message, -1);
     }
 
     public void stopNote(final int note) {
         setShortMessage(ShortMessage.NOTE_OFF, note);
-        this.receiver.send(this.message, -1);
+        receiver.send(message, -1);
     }
 
     private void setShortMessage(final int onOrOff, final int note) {
         try {
-            this.message.setMessage(onOrOff, 0, note, 70);
+            message.setMessage(onOrOff, 0, note, 70);
         }
         catch (InvalidMidiDataException ex) {
             LOGGER.error(ex.getMessage(), ex);

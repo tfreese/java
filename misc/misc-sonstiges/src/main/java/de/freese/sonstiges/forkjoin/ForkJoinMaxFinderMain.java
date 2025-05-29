@@ -11,8 +11,8 @@ import org.slf4j.LoggerFactory;
 import de.freese.sonstiges.forkjoin.finder.MaxFinder;
 
 /**
- * Beispiel aus JavaMagazin 05/2012.<br>
- * Suche nach grössten Element im Array.
+ * Example from JavaMagazin 05/2012.<br>
+ * Find the biggest Element in an Array.
  *
  * @author Thomas Freese
  */
@@ -22,7 +22,6 @@ public final class ForkJoinMaxFinderMain {
     public static void main(final String[] args) {
         final Random random = new SecureRandom();
 
-        // Zufallsarray erstellen.
         final int[] array = new int[100_000_000];
 
         for (int i = 0; i < array.length; i++) {

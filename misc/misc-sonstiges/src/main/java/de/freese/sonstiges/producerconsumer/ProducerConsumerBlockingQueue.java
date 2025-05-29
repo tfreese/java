@@ -34,14 +34,14 @@ public final class ProducerConsumerBlockingQueue {
             while (!Thread.interrupted()) {
                 try {
                     final Integer value;
-                    // value = this.queue.take();
-                    value = this.queue.poll(5000, TimeUnit.MILLISECONDS);
+                    // value = queue.take();
+                    value = queue.poll(5000, TimeUnit.MILLISECONDS);
 
                     if (value == null) {
                         break;
                     }
 
-                    LOGGER.info("{}: Consumer-{} got: {}", Thread.currentThread().getName(), this.number, value);
+                    LOGGER.info("{}: Consumer-{} got: {}", Thread.currentThread().getName(), number, value);
 
                     TimeUnit.MILLISECONDS.sleep(3000);
                 }
@@ -73,10 +73,10 @@ public final class ProducerConsumerBlockingQueue {
         public synchronized void run() {
             for (int i = 0; i < 10; i++) {
                 try {
-                    this.queue.put(i);
-                    // this.queue.offer(Integer.valueOf(i)); // Funktioniert bei SynchronousQueue nicht.
+                    queue.put(i);
+                    // queue.offer(Integer.valueOf(i)); // Doesn't work with SynchronousQueue.
 
-                    LOGGER.info("{}: Producer-{} put: {}", Thread.currentThread().getName(), this.number, i);
+                    LOGGER.info("{}: Producer-{} put: {}", Thread.currentThread().getName(), number, i);
 
                     TimeUnit.MILLISECONDS.sleep(300);
                 }
@@ -96,14 +96,12 @@ public final class ProducerConsumerBlockingQueue {
         // final BlockingQueue<Integer> queue = new SynchronousQueue<>();
 
         try (ExecutorService executorService = Executors.newCachedThreadPool()) {
-            // Producer starten
             for (int i = 0; i < 1; i++) {
                 executorService.execute(new Producer(queue, i + 1));
             }
 
             TimeUnit.MILLISECONDS.sleep(500);
 
-            // Consumer starten
             for (int i = 0; i < 2; i++) {
                 executorService.execute(new Consumer(queue, i + 1));
             }

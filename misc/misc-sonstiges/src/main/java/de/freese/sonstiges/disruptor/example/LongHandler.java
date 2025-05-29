@@ -21,7 +21,7 @@ public class LongHandler extends AbstractLoadBalancedEventHandler<LongEvent> {
     protected void doOnEvent(final LongEvent event, final long sequence, final boolean endOfBatch) throws Exception {
         getLogger().info("{}: LongEventHandler.onEvent: Event = {}", Thread.currentThread().getName(), event);
 
-        // Kann auch vom CleaningEventHandler erledigt werden, wenn es mehrere EventHandler sind.
+        // Could be done by CleaningEventHandler if multiple EventHandler existing.
         // event.clear();
 
         try {

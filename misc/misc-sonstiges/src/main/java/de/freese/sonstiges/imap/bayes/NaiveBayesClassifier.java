@@ -16,8 +16,8 @@ public class NaiveBayesClassifier {
             return 0.0D;
         }
 
-        //        return classifyClassic(vector);
-        //        return classifyLog(vector);
+        // return classifyClassic(vector);
+        // return classifyLog(vector);
         return classifyBigDecimal(vector);
     }
 

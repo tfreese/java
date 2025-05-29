@@ -23,7 +23,7 @@ public final class ForkJoinFibonacciCalculatorMain {
         result = FibonacciCalculator.fibonacci(n);
         LOGGER.info("n = {}, Result = {}", n, result);
 
-        // ForkJoin braucht signifikant länger durch das Erzeugen der vielen Tasks, steuerbar über FibonacciTask.THRESHOLD.
+        // ForkJoin needs significant longer  through the creation of the Tasks, configurable with FibonacciTask.THRESHOLD.
         final ForkJoinPool forkJoinPool = new ForkJoinPool();
         final FibonacciCalculator calculator = new FibonacciCalculator(n, forkJoinPool);
         result = calculator.calculate();

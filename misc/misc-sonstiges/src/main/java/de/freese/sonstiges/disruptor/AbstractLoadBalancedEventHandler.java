@@ -16,8 +16,11 @@ public abstract class AbstractLoadBalancedEventHandler<T> implements EventHandle
     private final int ordinal;
     private final int parallelism;
 
+    /**
+     * Disabled LoadBalancing.
+     */
     protected AbstractLoadBalancedEventHandler() {
-        this(-1, -1); // Disable LoadBalancing
+        this(-1, -1);
     }
 
     protected AbstractLoadBalancedEventHandler(final int parallelism, final int ordinal) {

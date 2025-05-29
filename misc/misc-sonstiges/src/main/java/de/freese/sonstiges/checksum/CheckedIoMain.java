@@ -1,7 +1,6 @@
 package de.freese.sonstiges.checksum;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.zip.Adler32;
 
@@ -14,7 +13,7 @@ import org.slf4j.LoggerFactory;
 public final class CheckedIoMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(CheckedIoMain.class);
 
-    public static void main(final String[] args) throws Exception {
+    public static void main(final String[] args) {
         final Adler32 inChecker = new Adler32();
         final Adler32 outChecker = new Adler32();
 
@@ -30,7 +29,7 @@ public final class CheckedIoMain {
                 LOGGER.info("Output stream check sum: {}", outChecker.getValue());
             }
         }
-        catch (FileNotFoundException ex) {
+        catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
             System.exit(-1);
         }

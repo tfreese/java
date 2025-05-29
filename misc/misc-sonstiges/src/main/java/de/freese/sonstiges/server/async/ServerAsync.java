@@ -58,11 +58,11 @@ public class ServerAsync extends AbstractServer {
         getLogger().info("starting '{}' on port: {}", getName(), getPort());
 
         try {
-            // this.serverSocketChannel = ServerSocketChannel.open();
-            this.serverSocketChannel = AsynchronousServerSocketChannel.open(this.channelGroup);
-            this.serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
-            // this.serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEPORT, true); // Wird nicht von jedem OS unterstützt.
-            this.serverSocketChannel.bind(new InetSocketAddress(getPort()), 50);
+            // serverSocketChannel = ServerSocketChannel.open();
+            serverSocketChannel = AsynchronousServerSocketChannel.open(channelGroup);
+            serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
+            // serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEPORT, true); // Wird nicht von jedem OS unterstützt.
+            serverSocketChannel.bind(new InetSocketAddress(getPort()), 50);
 
             getLogger().info("'{}' listening on port: {}", getName(), getPort());
             getStartLock().release();
@@ -78,7 +78,7 @@ public class ServerAsync extends AbstractServer {
     public void start() {
         run();
 
-        // Warten bis fertig.
+        // Wait till finished.
         // this.startLock.acquireUninterruptibly();
         // this.startLock.release();
     }
@@ -87,7 +87,7 @@ public class ServerAsync extends AbstractServer {
     public void stop() {
         getLogger().info("stopping '{}' on port: {}", getName(), getPort());
 
-        shutdown(this.channelGroup, getLogger());
+        shutdown(channelGroup, getLogger());
 
         getLogger().info("'{}' stopped on port: {}", getName(), getPort());
     }
@@ -106,10 +106,10 @@ public class ServerAsync extends AbstractServer {
                     failed(ex, null);
                 }
 
-                // Nächster Request an anderen Thread übergeben.
+                // Transfer next Request to another Tread.
                 accept();
 
-                // Lese-Vorgang an anderen Thread übergeben.
+                // Transfer READ-Operation to another Thread.
                 read(channel, ByteBuffer.allocate(256));
             }
 
@@ -135,10 +135,10 @@ public class ServerAsync extends AbstractServer {
             if (!channelGroup.awaitTermination(10, TimeUnit.SECONDS)) {
                 logger.warn("Timed out while waiting for AsynchronousChannelGroup");
 
-                // Cancel currently executing tasks
+                // Cancel currently executing tasks.
                 channelGroup.shutdownNow();
 
-                // Wait a while for tasks to respond to being cancelled.
+                // Wait a while for tasks to respond to being canceled.
                 if (!channelGroup.awaitTermination(5, TimeUnit.SECONDS)) {
                     logger.error("AsynchronousChannelGroup did not terminate");
                 }

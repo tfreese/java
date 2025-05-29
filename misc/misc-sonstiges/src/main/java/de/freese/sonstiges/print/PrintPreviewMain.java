@@ -32,7 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Beispielklasse für Druck und Druckvorschau
+ * Example for Print and Print-Preview.
  *
  * @author Thomas Freese
  */
@@ -126,18 +126,15 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
     private PrintPreviewMain() throws IOException {
         super();
 
-        // Druckereinstellungen und Seitenlayout initialisieren
+        // Init Printer-Settings and Page-Layout.
         this.printerJob = PrinterJob.getPrinterJob();
         this.pageFormat = this.printerJob.defaultPage();
 
-        // Hintergrundfarbe des Panels einstellen
         setBackground(COLOR_BACKGROUND);
 
-        // "Wunschgrösse" für das Panel berechnen
         setPreferredSize(new Dimension((int) ((this.pageFormat.getWidth() + (2 * BORDER_SIZE)) * this.mdPreviewScale),
                 (int) ((this.pageFormat.getHeight() + (2 * BORDER_SIZE)) * this.mdPreviewScale)));
 
-        // Grafiken laden
         try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("images/duke.png")) {
             this.imgDuke = ImageIO.read(inputStream);
         }
@@ -151,41 +148,34 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
     public void actionPerformed(final ActionEvent event) {
         if (event.getSource() instanceof JMenuItem) {
             if (LABEL_MENU_PRINT.equals(event.getActionCommand())) {
-                // Ausdruck starten
                 print();
             }
             else if (LABEL_MENU_PAGE_LAYOUT.equals(event.getActionCommand())) {
-                // Seitenlayout-Dialog anzeigen
-                this.pageFormat = this.printerJob.pageDialog(this.pageFormat);
+                pageFormat = printerJob.pageDialog(pageFormat);
                 repaint();
             }
             else if (LABEL_MENU_PRINTER.equals(event.getActionCommand())) {
-                // Druckerauswahldialog anzeigen
-                if (this.printerJob.printDialog()) {
-                    this.pageFormat = this.printerJob.validatePage(this.pageFormat);
+                if (printerJob.printDialog()) {
+                    pageFormat = printerJob.validatePage(pageFormat);
                     repaint();
                 }
             }
             else if (LABEL_MENU_ZOOM_IN.equals(event.getActionCommand())) {
-                // neuen Zoomfaktor berechnen
-                if (this.mdPreviewScale < 2) {
-                    this.mdPreviewScale *= 2;
+                if (mdPreviewScale < 2D) {
+                    mdPreviewScale *= 2D;
                     repaint();
                 }
             }
             else if (LABEL_MENU_ZOOM_OUT.equals(event.getActionCommand())) {
-                // neuen Zoomfaktor berechnen
-                if (this.mdPreviewScale > 0.25) {
-                    this.mdPreviewScale /= 2;
+                if (mdPreviewScale > 0.25D) {
+                    mdPreviewScale /= 2D;
                     repaint();
                 }
             }
             else if (LABEL_MENU_ENTER_TEXT.equals(event.getActionCommand())) {
-                // Texteingabe machen
                 enterText();
             }
             else if (LABEL_MENU_EXIT.equals(event.getActionCommand())) {
-                // Programm beenden
                 System.exit(0);
             }
         }
@@ -197,59 +187,47 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
 
         final Graphics2D g2 = (Graphics2D) g;
 
-        // Grafik auf den gewünschten Massstab skalieren
-        g2.scale(this.mdPreviewScale, this.mdPreviewScale);
+        g2.scale(mdPreviewScale, mdPreviewScale);
 
-        // "Papier" zeichnen
         g2.setPaint(COLOR_PAPER);
-        g2.fillRect(BORDER_SIZE, BORDER_SIZE, (int) this.pageFormat.getWidth(), (int) this.pageFormat.getHeight());
+        g2.fillRect(BORDER_SIZE, BORDER_SIZE, (int) pageFormat.getWidth(), (int) pageFormat.getHeight());
 
-        // Ursprung auf die Papierkante legen
         g2.translate(BORDER_SIZE, BORDER_SIZE);
 
-        // Randlinien für den bedruckbaren Bereich einzeichnen
         g2.setPaint(COLOR_FRAME);
 
-        g2.drawLine(0, (int) this.pageFormat.getImageableY() - 1, (int) this.pageFormat.getWidth() - 1, (int) this.pageFormat.getImageableY() - 1);
-        g2.drawLine(0, (int) (this.pageFormat.getImageableY() + this.pageFormat.getImageableHeight()), (int) this.pageFormat.getWidth() - 1,
-                (int) (this.pageFormat.getImageableY() + this.pageFormat.getImageableHeight()));
-        g2.drawLine((int) this.pageFormat.getImageableX() - 1, 0, (int) this.pageFormat.getImageableX() - 1, (int) this.pageFormat.getHeight() - 1);
-        g2.drawLine((int) (this.pageFormat.getImageableX() + this.pageFormat.getImageableWidth()), 0, (int) (this.pageFormat.getImageableX() + this.pageFormat.getImageableWidth()),
-                (int) this.pageFormat.getHeight() - 1);
+        g2.drawLine(0, (int) pageFormat.getImageableY() - 1, (int) pageFormat.getWidth() - 1, (int) pageFormat.getImageableY() - 1);
+        g2.drawLine(0, (int) (pageFormat.getImageableY() + pageFormat.getImageableHeight()), (int) pageFormat.getWidth() - 1,
+                (int) (pageFormat.getImageableY() + pageFormat.getImageableHeight()));
+        g2.drawLine((int) pageFormat.getImageableX() - 1, 0, (int) pageFormat.getImageableX() - 1, (int) pageFormat.getHeight() - 1);
+        g2.drawLine((int) (pageFormat.getImageableX() + pageFormat.getImageableWidth()), 0, (int) (pageFormat.getImageableX() + pageFormat.getImageableWidth()),
+                (int) pageFormat.getHeight() - 1);
 
-        // Ursprung zum 2.mal verschieben. Achtung: translate() arbeitet inkrementell!
-        g2.translate(this.pageFormat.getImageableX(), this.pageFormat.getImageableY());
+        g2.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 
-        // Ausgabebereich auf den druckbaren Bereich einschränken
-        g2.setClip(0, 0, (int) this.pageFormat.getImageableWidth(), (int) this.pageFormat.getImageableHeight());
+        g2.setClip(0, 0, (int) pageFormat.getImageableWidth(), (int) pageFormat.getImageableHeight());
 
-        // Grafik ausgeben die auf dem Drucker und in der Vorschau angezeigt werden soll
         drawMyGraphics(g2);
     }
 
-    /**
-     * Druckausgabe starten
-     */
     public void print() {
-        // Standardseitenformat holen und auf Querformat stellen
-        final PageFormat pfLandscape = this.printerJob.defaultPage();
+        // Get Page-Format and configure for Landscape.
+        final PageFormat pfLandscape = printerJob.defaultPage();
         pfLandscape.setOrientation(PageFormat.LANDSCAPE);
 
-        // Ein Buch erzeugen
         final Book book = new Book();
 
-        // Deckblatt hinzufügen. Feste Seitenanzahl, daher kann die Indexabfrage
-        // in der print(...)-Methode von CoverPage entfallen
+        // Create CoverPage.
+        // Set Page-Count, see CoverPage#print Method.
         book.append(new CoverPage(), pfLandscape, 1);
 
-        // Grafik aus Vorschau hinzufügen
-        book.append(this, this.pageFormat);
+        // Add Graphic from Preview.
+        book.append(this, pageFormat);
 
-        // das Buch dem Druckauftrag übergeben
-        this.printerJob.setPageable(book);
+        printerJob.setPageable(book);
 
         try {
-            this.printerJob.print();
+            printerJob.print();
         }
         catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
@@ -260,15 +238,13 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
     public int print(final Graphics g, final PageFormat pageFormat, final int pageIndex) throws PrinterException {
         int printState = Printable.NO_SUCH_PAGE;
 
-        // PageIndex == 0 ist die CoverPage!
+        // PageIndex == 0 is the CoverPage!
         if (pageIndex == 1) {
             final Graphics2D g2 = (Graphics2D) g;
 
-            // Ursprung verschieben und Ausgabebereich eingrenzen
-            g2.translate((int) this.pageFormat.getImageableX(), (int) this.pageFormat.getImageableY());
-            g2.setClip(0, 0, (int) this.pageFormat.getImageableWidth(), (int) this.pageFormat.getImageableHeight());
+            g2.translate((int) pageFormat.getImageableX(), (int) pageFormat.getImageableY());
+            g2.setClip(0, 0, (int) pageFormat.getImageableWidth(), (int) pageFormat.getImageableHeight());
 
-            // Grafik ausgeben
             drawMyGraphics(g2);
 
             printState = Printable.PAGE_EXISTS;
@@ -278,25 +254,20 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
     }
 
     private void drawMyGraphics(final Graphics2D g2) {
-        // Schriftfarbe einstellen
         g2.setPaint(COLOR_FOREGROUND);
 
-        // Text mit Schriftgrösse 30 ausgeben
         g2.setFont(g2.getFont().deriveFont(30F));
-        g2.drawString(this.text, 20, 40);
+        g2.drawString(text, 20, 40);
 
-        // Bilder zeichnen
-        g2.drawImage(this.imgDuke, 10, 100, 200, 200, this);
-        g2.drawImage(this.imgCup, 10, 350, 200, 200, this);
+        g2.drawImage(imgDuke, 10, 100, 200, 200, this);
+        g2.drawImage(imgCup, 10, 350, 200, 200, this);
     }
 
     private void enterText() {
-        // Eingabedialog erzeugen und starten
-        final Object userInput = JOptionPane.showInputDialog(null, "Bitte einen Text eingeben", "Drucktext", JOptionPane.PLAIN_MESSAGE, null, null, this.text);
+        final Object userInput = JOptionPane.showInputDialog(null, "Bitte einen Text eingeben", "Drucktext", JOptionPane.PLAIN_MESSAGE, null, null, text);
 
-        // wenn Eingabe OK, Text übernehmen
         if (userInput instanceof String t) {
-            this.text = t;
+            text = t;
 
             repaint(); // neu zeichnen
         }

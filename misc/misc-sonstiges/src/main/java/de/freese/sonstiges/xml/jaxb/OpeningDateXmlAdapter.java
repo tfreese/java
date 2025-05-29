@@ -15,7 +15,7 @@ import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 public class OpeningDateXmlAdapter extends XmlAdapter<String, Date> {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     // /**
-    // * Ist nicht Thread-Safe !
+    // * Is not Thread-Safe!
     // */
     // private static final DateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
 
