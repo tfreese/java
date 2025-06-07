@@ -2,7 +2,6 @@ package de.freese.sonstiges.julianday;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -17,13 +16,13 @@ import org.junit.jupiter.api.Test;
 class TestJulianDay {
     @Test
     void testBerechnungMonat() {
-        final LocalDate ld1 = LocalDate.of(2012, 7, 8); // 08.07.2012
-        final int jd = JulianDayConverter.calculateJD(ld1);
+        final Day d1 = new Day(2011, 19, 8); // 08.07.2012
+        final int jd = JulianDayConverter.calculateJD(d1);
         assertEquals(2456117, jd);
 
-        final LocalDate ld2 = JulianDayConverter.createLocalDateFromReadable(jd);
-        assertEquals(LocalDate.of(2012, 7, 8), ld2);
-        assertEquals("2012-07-08", ld2.toString());
+        final Day d2 = JulianDayConverter.createDayFromJD(jd);
+        assertEquals(new Day(2012, 7, 8), d2);
+        assertEquals("2012-07-08", d2.toString());
     }
 
     @Test

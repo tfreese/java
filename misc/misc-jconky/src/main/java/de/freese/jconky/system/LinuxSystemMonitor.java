@@ -245,7 +245,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     public Map<String, UsageInfo> getFilesystems() {
         final Map<String, UsageInfo> map = new HashMap<>();
 
-        final List<String> lines = readContent(this.processBuilderDf);
+        final List<String> lines = readContent(processBuilderDf);
 
         for (String line : lines) {
             if (line.contains("vgdesktop-root") || line.contains("/tmp")) {
@@ -267,7 +267,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
 
     @Override
     public HostInfo getHostInfo() {
-        final List<String> lines = readContent(this.processBuilderUname);
+        final List<String> lines = readContent(processBuilderUname);
         final String line = lines.getFirst();
 
         // ArchLinux
@@ -287,7 +287,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
 
     @Override
     public MusicInfo getMusicInfo() {
-        List<String> lines = readContent(this.processBuilderPlayerCtlMetaData);
+        List<String> lines = readContent(processBuilderPlayerCtlMetaData);
         // String output = lines.stream().collect(Collectors.joining("\n"));
 
         String artist = null;
@@ -325,7 +325,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
             }
         }
 
-        lines = readContent(this.processBuilderPlayerCtlPosition);
+        lines = readContent(processBuilderPlayerCtlPosition);
         position = Double.valueOf(lines.getFirst()).intValue();
 
         final MusicInfo musicInfo = new MusicInfo(artist, album, title, length, position, bitRate, imageUri);
@@ -342,7 +342,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         // ifconfig
         // cat /sys/class/net/
         // cat /proc/net/dev
-        List<String> lines = readContent(this.processBuilderIfConfig);
+        List<String> lines = readContent(processBuilderIfConfig);
 
         // Trennung der Interfaces durch leere Zeile.
         final Map<Integer, List<String>> map = new HashMap<>();
@@ -403,7 +403,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         // netstat -nat
         // netstat -natu | grep 'ESTABLISHED'
         // netstat -s
-        lines = readContent(this.processBuilderNetstat);
+        lines = readContent(processBuilderNetstat);
         // String output = lines.stream().collect(Collectors.joining("\n"));
         // Pattern patternIpIn =
         // Pattern.compile("\\d+\\s+(total packets received|Pakete insgesamt empfangen)", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
@@ -492,28 +492,26 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         // /proc/meminfo
         final Map<String, UsageInfo> map = new HashMap<>();
 
-        final List<String> lines = readContent(this.processBuilderFree);
+        final List<String> lines = readContent(processBuilderFree);
 
         for (int i = 0; i < lines.size(); i++) {
             if (i == 1) {
                 // Speicher
                 final String line = lines.get(i).replace(":", ": ");
                 final String[] splits = SPACE_PATTERN.split(line);
-                final String path = "RAM";
                 final long size = Long.parseLong(splits[1]);
                 final long used = Long.parseLong(splits[2]);
 
-                map.put(path, new UsageInfo(path, size, used));
+                map.put("RAM", new UsageInfo("RAM", size, used));
             }
             else if (i == 2) {
                 // Swap
                 final String line = lines.get(i).replace(":", ": ");
                 final String[] splits = SPACE_PATTERN.split(line);
-                final String path = "SWAP";
                 final long size = Long.parseLong(splits[1]);
                 final long used = Long.parseLong(splits[2]);
 
-                map.put(path, new UsageInfo(path, size, used));
+                map.put("SWAP", new UsageInfo("SWAP", size, used));
             }
         }
 
@@ -528,7 +526,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     public Map<String, TemperatureInfo> getTemperatures() {
         final Map<String, TemperatureInfo> map = new HashMap<>();
 
-        List<String> lines = readContent(this.processBuilderHddTemp);
+        List<String> lines = readContent(processBuilderHddTemp);
         // final String output = lines.stream().collect(Collectors.joining("\n"))
 
         for (String line : lines) {
@@ -539,7 +537,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
             map.put(device, new TemperatureInfo(device, temperature));
         }
 
-        lines = readContent(this.processBuilderSmartCtl);
+        lines = readContent(processBuilderSmartCtl);
 
         for (String line : lines) {
             if (line.startsWith("Temperature Sensor 2:")) {
@@ -550,7 +548,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
             }
         }
 
-        lines = readContent(this.processBuilderNvidiaSmi);
+        lines = readContent(processBuilderNvidiaSmi);
         final String line = lines.getFirst();
 
         final String[] splits = SPACE_PATTERN.split(line);
@@ -571,7 +569,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
 
     @Override
     public int getUpdates() {
-        final long updates = readContent(this.processBuilderCheckUpdates).size();
+        final long updates = readContent(processBuilderCheckUpdates).size();
 
         getLogger().debug("updates = {}", updates);
 
@@ -688,7 +686,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     ProcessInfos getProcessInfosByTop() {
         final List<ProcessInfo> infos = new ArrayList<>(300);
 
-        final List<String> lines = readContent(this.processBuilderTop);
+        final List<String> lines = readContent(processBuilderTop);
         // final String output = lines.stream().collect(Collectors.joining("\n"));
 
         // GiB Spch: 15,6 total, 12,4 free, 2,0 used, 1,1 buff/cache
@@ -765,7 +763,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     private Map<Integer, Double> getCpuTemperatures() {
         final Map<Integer, Double> temperatures = new HashMap<>();
 
-        final String output = String.join(System.lineSeparator(), readContent(this.processBuilderSensors));
+        final String output = String.join(System.lineSeparator(), readContent(processBuilderSensors));
 
         // Package
         final Matcher matcher = SENSORS_PACKAGE_PATTERN.matcher(output);

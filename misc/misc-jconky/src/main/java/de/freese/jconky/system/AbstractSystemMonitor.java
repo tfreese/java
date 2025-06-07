@@ -43,7 +43,7 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
      * Liefert die eigene Process-ID
      */
     public long getMyPid() {
-        return this.myPid;
+        return myPid;
     }
 
     @Override
@@ -61,7 +61,7 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
     }
 
     protected Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     protected List<String> readContent(final ProcessBuilder processBuilder) {
