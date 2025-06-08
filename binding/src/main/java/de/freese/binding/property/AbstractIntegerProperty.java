@@ -12,7 +12,7 @@ public abstract class AbstractIntegerProperty extends AbstractIntegerExpression 
 
     @Override
     public Integer getValue() {
-        return this.value;
+        return value;
     }
 
     @Override

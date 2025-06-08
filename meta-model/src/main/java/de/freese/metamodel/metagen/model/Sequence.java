@@ -23,23 +23,23 @@ public class Sequence {
     }
 
     public long getIncrement() {
-        return this.increment;
+        return increment;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public long getNextValue() {
-        return this.nextValue;
+        return nextValue;
     }
 
     public Schema getSchema() {
-        return this.schema;
+        return schema;
     }
 
     public long getStartWith() {
-        return this.startWith;
+        return startWith;
     }
 
     public void setIncrement(final long increment) {

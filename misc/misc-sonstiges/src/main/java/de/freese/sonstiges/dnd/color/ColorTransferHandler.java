@@ -38,7 +38,7 @@ class ColorTransferHandler extends TransferHandler {
 
         // Try to create a DataFlavor for dnd.color.
         try {
-            this.colorFlavor = new DataFlavor(MIME_TYPE);
+            colorFlavor = new DataFlavor(MIME_TYPE);
         }
         catch (ClassNotFoundException ex) {
             // Empty
@@ -54,7 +54,7 @@ class ColorTransferHandler extends TransferHandler {
     public boolean importData(final JComponent c, final Transferable t) {
         if (hasColorFlavor(t.getTransferDataFlavors())) {
             try {
-                final Color col = (Color) t.getTransferData(this.colorFlavor);
+                final Color col = (Color) t.getTransferData(colorFlavor);
 
                 if (isChangesForegroundColor()) {
                     c.setForeground(col);
@@ -80,12 +80,12 @@ class ColorTransferHandler extends TransferHandler {
      * Does the flavor list have a Color flavor?
      */
     protected boolean hasColorFlavor(final DataFlavor[] flavors) {
-        if (this.colorFlavor == null) {
+        if (colorFlavor == null) {
             return false;
         }
 
         for (DataFlavor flavor : flavors) {
-            if (this.colorFlavor.equals(flavor)) {
+            if (colorFlavor.equals(flavor)) {
                 return true;
             }
         }
@@ -94,10 +94,10 @@ class ColorTransferHandler extends TransferHandler {
     }
 
     protected boolean isChangesForegroundColor() {
-        return this.changesForegroundColor;
+        return changesForegroundColor;
     }
 
     protected void setChangesForegroundColor(final boolean flag) {
-        this.changesForegroundColor = flag;
+        changesForegroundColor = flag;
     }
 }

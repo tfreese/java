@@ -41,7 +41,7 @@ public class SimulationView<S extends Simulation> {
     private S simulation;
 
     public S getSimulation() {
-        return this.simulation;
+        return simulation;
     }
 
     public void initialize(final S simulation, final Duration delay) {
@@ -60,31 +60,31 @@ public class SimulationView<S extends Simulation> {
     }
 
     protected JPanel getControlPanel() {
-        if (this.controlPanel == null) {
-            this.controlPanel = new JPanel();
+        if (controlPanel == null) {
+            controlPanel = new JPanel();
         }
 
-        return this.controlPanel;
+        return controlPanel;
     }
 
     /**
      * Liefert das Delay für das ScheduledFuture zum Berechnen der Simulationen.
      */
     protected Duration getDelay() {
-        return this.delay;
+        return delay;
     }
 
     protected Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     protected JPanel getMainPanel() {
-        if (this.mainPanel == null) {
-            this.mainPanel = new JPanel();
-            this.mainPanel.setDoubleBuffered(true);
+        if (mainPanel == null) {
+            mainPanel = new JPanel();
+            mainPanel.setDoubleBuffered(true);
         }
 
-        return this.mainPanel;
+        return mainPanel;
     }
 
     protected ScheduledExecutorService getScheduledExecutorService() {
@@ -100,9 +100,9 @@ public class SimulationView<S extends Simulation> {
     protected void start() {
         final Runnable runnable = this::step;
 
-        this.scheduledFuture = getScheduledExecutorService().scheduleWithFixedDelay(runnable, 0, getDelay().toMillis(), TimeUnit.MILLISECONDS);
+        scheduledFuture = getScheduledExecutorService().scheduleWithFixedDelay(runnable, 0, getDelay().toMillis(), TimeUnit.MILLISECONDS);
 
-        this.buttonStart.setEnabled(false);
+        buttonStart.setEnabled(false);
     }
 
     protected void step() {
@@ -127,36 +127,36 @@ public class SimulationView<S extends Simulation> {
     }
 
     protected void stop() {
-        if (this.scheduledFuture != null) {
-            this.scheduledFuture.cancel(false);
-            this.scheduledFuture = null;
+        if (scheduledFuture != null) {
+            scheduledFuture.cancel(false);
+            scheduledFuture = null;
         }
 
-        this.buttonStart.setEnabled(true);
+        buttonStart.setEnabled(true);
     }
 
     private JPanel getButtonPanel() {
-        if (this.buttonPanel == null) {
-            this.buttonPanel = new JPanel();
-            this.buttonPanel.setLayout(new BorderLayout());
+        if (buttonPanel == null) {
+            buttonPanel = new JPanel();
+            buttonPanel.setLayout(new BorderLayout());
 
-            this.buttonStart = new JButton("Start");
-            this.buttonStart.addActionListener(event -> start());
-            this.buttonPanel.add(this.buttonStart, BorderLayout.WEST);
+            buttonStart = new JButton("Start");
+            buttonStart.addActionListener(event -> start());
+            buttonPanel.add(buttonStart, BorderLayout.WEST);
 
             final JButton buttonStop = new JButton("Stop");
             buttonStop.addActionListener(event -> stop());
-            this.buttonPanel.add(buttonStop, BorderLayout.EAST);
+            buttonPanel.add(buttonStop, BorderLayout.EAST);
 
             final JButton buttonStep = new JButton("Step");
             buttonStep.addActionListener(event -> step());
-            this.buttonPanel.add(buttonStep, BorderLayout.NORTH);
+            buttonPanel.add(buttonStep, BorderLayout.NORTH);
 
             final JButton buttonReset = new JButton("Reset");
             buttonReset.addActionListener(event -> reset());
-            this.buttonPanel.add(buttonReset, BorderLayout.SOUTH);
+            buttonPanel.add(buttonReset, BorderLayout.SOUTH);
         }
 
-        return this.buttonPanel;
+        return buttonPanel;
     }
 }

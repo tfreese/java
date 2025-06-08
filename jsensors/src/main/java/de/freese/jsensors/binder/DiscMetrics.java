@@ -26,6 +26,15 @@ import de.freese.jsensors.sensor.Sensor;
 public class DiscMetrics implements SensorBinder {
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscMetrics.class);
 
+    private static String sanitizePostfix(final String postfix) {
+        String fix = postfix.replace("-", ".");
+        fix = fix.replace(" ", ".");
+        fix = fix.replace("/", ".");
+        fix = fix.replace("\\", ".");
+
+        return fix;
+    }
+
     private final File file;
     private final Path path;
     private final String sensorPostfix;
@@ -35,7 +44,8 @@ public class DiscMetrics implements SensorBinder {
 
         this.sensorPostfix = Objects.requireNonNull(sensorPostfix, "sensorPostfix required");
         this.file = Objects.requireNonNull(file, "file required");
-        this.path = null;
+
+        path = null;
     }
 
     public DiscMetrics(final String sensorPostfix, final Path path) {
@@ -43,17 +53,18 @@ public class DiscMetrics implements SensorBinder {
 
         this.sensorPostfix = Objects.requireNonNull(sensorPostfix, "sensorPostfix required");
         this.path = Objects.requireNonNull(path, "path required");
-        this.file = null;
+
+        file = null;
     }
 
     @Override
     public List<String> bindTo(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
-        if (this.file != null) {
-            return bindTo(registry, this.file, File::getFreeSpace, File::getTotalSpace, backendProvider);
+        if (file != null) {
+            return bindTo(registry, file, File::getFreeSpace, File::getTotalSpace, backendProvider);
         }
-        else if (this.path != null) {
+        else if (path != null) {
             try {
-                final FileStore fileStore = Files.getFileStore(this.path);
+                final FileStore fileStore = Files.getFileStore(path);
 
                 return bindTo(registry, fileStore, fs -> {
                     try {
@@ -91,7 +102,7 @@ public class DiscMetrics implements SensorBinder {
 
     private <T> List<String> bindTo(final SensorRegistry registry, final T object, final ToLongFunction<T> functionFree, final ToLongFunction<T> functionTotal,
                                     final Function<String, Backend> backendProvider) {
-        final String postfix = sanitizePostfix(this.sensorPostfix);
+        final String postfix = sanitizePostfix(sensorPostfix);
 
         Sensor.builder("disk.free." + postfix, object, obj -> {
             final long free = functionFree.applyAsLong(obj);
@@ -113,14 +124,5 @@ public class DiscMetrics implements SensorBinder {
         }).description("Used Disk-Space in %").register(registry, backendProvider);
 
         return List.of("disk.free." + postfix, "disk.usage." + postfix);
-    }
-
-    private String sanitizePostfix(final String postfix) {
-        String fix = postfix.replace("-", ".");
-        fix = fix.replace(" ", ".");
-        fix = fix.replace("/", ".");
-        fix = fix.replace("\\", ".");
-
-        return fix;
     }
 }

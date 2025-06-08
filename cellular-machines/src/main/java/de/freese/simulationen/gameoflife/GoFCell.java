@@ -33,7 +33,7 @@ public class GoFCell extends AbstractCell {
      */
     @Override
     public void nextGeneration() {
-        final int lebendNachbarn = this.lebendeNachbarn.intValue();
+        final int lebendNachbarn = lebendeNachbarn.intValue();
 
         if (!isAlive() && lebendNachbarn == 3) {
             // 1.
@@ -58,13 +58,13 @@ public class GoFCell extends AbstractCell {
      * Quadrat von 3x3 Zellen prüfen, mit dieser Zelle in der Mitte.
      */
     void ermittleLebendeNachbarn() {
-        this.lebendeNachbarn.reset();
+        lebendeNachbarn.reset();
 
         visitNeighboursAll((x, y) -> {
             final GoFCell cell = getSimulation().getCell(x, y);
 
             if (cell != null && cell.isAlive()) {
-                this.lebendeNachbarn.increment();
+                lebendeNachbarn.increment();
             }
         });
 
@@ -79,8 +79,7 @@ public class GoFCell extends AbstractCell {
         //
         // for (int offsetY = 0; offsetY < 3; offsetY++) {
         // // Diese Zelle (this) ausnehmen.
-        // if ((offsetX == 1) && (offsetY == 1))
-        // {
+        // if ((offsetX == 1) && (offsetY == 1)) {
         // continue;
         // }
         //
@@ -93,17 +92,17 @@ public class GoFCell extends AbstractCell {
         // }
         // }
         //
-        // this.lebendeNachbarn = anzahlLebendeNachbarn;
+        // lebendeNachbarn = anzahlLebendeNachbarn;
     }
 
     boolean isAlive() {
-        return this.alive;
+        return alive;
     }
 
     void setAlive(final boolean alive) {
         this.alive = alive;
 
-        if (this.alive) {
+        if (alive) {
             setColor(Color.BLACK);
         }
         else {

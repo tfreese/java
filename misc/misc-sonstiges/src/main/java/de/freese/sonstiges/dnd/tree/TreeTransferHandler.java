@@ -57,7 +57,7 @@ class TreeTransferHandler extends TransferHandler {
     public boolean importData(final JComponent comp, final Transferable t) {
         if (canImport(comp, t.getTransferDataFlavors()) && comp instanceof JTree targetTree) {
             // Wird in exportDone gegen den sourcePath geprüft
-            this.targetPath = targetTree.getSelectionPath();
+            targetPath = targetTree.getSelectionPath();
 
             final TreePath sourcePath = getSourcePath(t);
 
@@ -66,7 +66,7 @@ class TreeTransferHandler extends TransferHandler {
             }
 
             final DefaultTreeModel targetModell = (DefaultTreeModel) targetTree.getModel();
-            final DefaultMutableTreeNode targetParent = (DefaultMutableTreeNode) this.targetPath.getLastPathComponent();
+            final DefaultMutableTreeNode targetParent = (DefaultMutableTreeNode) targetPath.getLastPathComponent();
 
             // sourcePath in das Target einfügen, bei Move wird in der Methode exportDone gelöscht, wenn sourcePath != _targetPath ist.
             targetModell.insertNodeInto((MutableTreeNode) sourcePath.getLastPathComponent(), targetParent, targetParent.getChildCount());
@@ -103,8 +103,8 @@ class TreeTransferHandler extends TransferHandler {
             final DefaultTreeModel sourceModell = (DefaultTreeModel) sourceTree.getModel();
 
             // Nur Löschen, wenn Source != Target ist.
-            // Kopien auf sich selbst sind erlaubt
-            if (this.targetPath != sourcePath) {
+            // Kopien auf sich selbst sind erlaubt.
+            if (targetPath != sourcePath) {
                 sourceModell.removeNodeFromParent((MutableTreeNode) sourcePath.getLastPathComponent());
             }
         }

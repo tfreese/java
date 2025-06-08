@@ -86,30 +86,30 @@ public class SimulationEnvironment {
     private ScheduledExecutorService scheduledExecutorService;
 
     public boolean getAsBoolean(final String property, final boolean nullDefault) {
-        final String value = this.properties.getProperty(property);
+        final String value = properties.getProperty(property);
 
         return value != null ? Boolean.parseBoolean(value) : nullDefault;
     }
 
     public int getAsInt(final String property, final int nullDefault) {
-        final String value = this.properties.getProperty(property);
+        final String value = properties.getProperty(property);
 
         return value != null ? Integer.parseInt(value) : nullDefault;
     }
 
     public ScheduledExecutorService getScheduledExecutorService() {
-        return this.scheduledExecutorService;
+        return scheduledExecutorService;
     }
 
     public void init() throws Exception {
         try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("simulation.properties")) {
-            this.properties.load(inputStream);
+            properties.load(inputStream);
         }
 
-        this.scheduledExecutorService = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
+        scheduledExecutorService = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
     }
 
     public void shutdown() {
-        shutdown(this.scheduledExecutorService, LOGGER);
+        shutdown(scheduledExecutorService, LOGGER);
     }
 }

@@ -34,38 +34,38 @@ public class NetworkProtocolInfo {
     }
 
     public long getIcmpIn() {
-        return this.icmpIn;
+        return icmpIn;
     }
 
     public long getIcmpOut() {
-        return this.icmpOut;
+        return icmpOut;
     }
 
     public long getIpIn() {
-        return this.ipIn;
+        return ipIn;
     }
 
     public long getIpOut() {
-        return this.ipOut;
+        return ipOut;
     }
 
     public int getTcpConnections() {
-        return this.tcpConnections;
+        return tcpConnections;
     }
 
     public long getTcpIn() {
-        return this.tcpIn;
+        return tcpIn;
     }
 
     public long getTcpOut() {
-        return this.tcpOut;
+        return tcpOut;
     }
 
     public long getUdpIn() {
-        return this.udpIn;
+        return udpIn;
     }
 
     public long getUdpOut() {
-        return this.udpOut;
+        return udpOut;
     }
 }

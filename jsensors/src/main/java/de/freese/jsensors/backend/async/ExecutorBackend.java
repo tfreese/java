@@ -37,26 +37,25 @@ public class ExecutorBackend extends AbstractBackend {
 
         Objects.requireNonNull(threadFactory, "threadFactory required");
 
-        this.executor = Executors.newFixedThreadPool(parallelism, threadFactory);
+        executor = Executors.newFixedThreadPool(parallelism, threadFactory);
     }
 
     @Override
     protected void storeValue(final SensorValue sensorValue) {
-        this.executor.execute(() -> {
+        executor.execute(() -> {
             // final Thread currentThread = Thread.currentThread();
             // final String oldName = currentThread.getName();
             // currentThread.setName("task-" + sensorValue.getName());
 
             try {
-                this.delegateBackend.store(sensorValue);
+                delegateBackend.store(sensorValue);
             }
             catch (Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
             }
-            //            finally
-            //            {
-            // currentThread.setName(oldName);
-            //            }
+            // finally {
+            //     currentThread.setName(oldName);
+            // }
         });
     }
 }

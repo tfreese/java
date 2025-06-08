@@ -167,7 +167,7 @@ public class MessageWrapper {
     }
 
     public String getMessageId() {
-        return this.messageId;
+        return messageId;
     }
 
     public long getMessageUid() throws Exception {
@@ -190,7 +190,7 @@ public class MessageWrapper {
     }
 
     public boolean isSpam() {
-        return this.isSpam;
+        return isSpam;
     }
 
     public void setSpam(final boolean isSpam) {
@@ -202,6 +202,6 @@ public class MessageWrapper {
     }
 
     protected Message getMessage() {
-        return this.message;
+        return message;
     }
 }

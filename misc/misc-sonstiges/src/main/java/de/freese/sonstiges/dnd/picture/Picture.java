@@ -25,7 +25,7 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
         super();
 
         this.image = image;
-        
+
         setFocusable(true);
         addMouseListener(this);
         addFocusListener(this);
@@ -35,14 +35,14 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
     public void focusGained(final FocusEvent event) {
         // Draw the component with a red border
         // indicating that it has focus.
-        this.repaint();
+        repaint();
     }
 
     @Override
     public void focusLost(final FocusEvent event) {
         // Draw the component with a black border
         // indicating that it doesn't have focus.
-        this.repaint();
+        repaint();
     }
 
     @Override
@@ -72,7 +72,7 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
     }
 
     Image getImage() {
-        return this.image;
+        return image;
     }
 
     void setImage(final Image image) {
@@ -85,11 +85,11 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
 
         // Draw in our entire space, even if isOpaque is false.
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, (this.image == null) ? 125 : this.image.getWidth(this), (this.image == null) ? 125 : this.image.getHeight(this));
+        g.fillRect(0, 0, (image == null) ? 125 : image.getWidth(this), (image == null) ? 125 : image.getHeight(this));
 
-        if (this.image != null) {
+        if (image != null) {
             // Draw image at its natural size of 125x125.
-            g.drawImage(this.image, 0, 0, this);
+            g.drawImage(image, 0, 0, this);
         }
 
         // Add a border, red if picture currently has focus
@@ -100,7 +100,7 @@ class Picture extends JComponent implements MouseListener, FocusListener, Access
             g.setColor(Color.BLACK);
         }
 
-        g.drawRect(0, 0, (this.image == null) ? 125 : this.image.getWidth(this), (this.image == null) ? 125 : this.image.getHeight(this));
+        g.drawRect(0, 0, (image == null) ? 125 : image.getWidth(this), (image == null) ? 125 : image.getHeight(this));
         g.dispose();
     }
 }

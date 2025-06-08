@@ -40,7 +40,7 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
 
     @Override
     public Object getSelectedItem() {
-        return this.selectedObject;
+        return selectedObject;
     }
 
     @Override
@@ -48,10 +48,10 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
         final int index = getList().indexOf(anItem);
 
         if (index != -1) {
-            this.selectedObject = getList().get(index);
+            selectedObject = getList().get(index);
         }
         else {
-            this.selectedObject = null;
+            selectedObject = null;
         }
 
         fireContentsChanged(this, index, index);
@@ -67,7 +67,7 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
      */
     @Override
     protected void fireIntervalRemoved(final Object source, final int index0, final int index1) {
-        if (this.selectedObject != null) {
+        if (selectedObject != null) {
             setSelectedItem(null);
         }
 

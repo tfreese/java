@@ -37,8 +37,8 @@ public final class SequencerSoundMain {
         super();
 
         try {
-            this.sequencer = MidiSystem.getSequencer();
-            this.sequencer.open();
+            sequencer = MidiSystem.getSequencer();
+            sequencer.open();
         }
         catch (MidiUnavailableException ex) {
             LOGGER.error(ex.getMessage(), ex);

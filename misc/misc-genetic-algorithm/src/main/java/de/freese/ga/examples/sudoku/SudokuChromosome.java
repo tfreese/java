@@ -109,7 +109,7 @@ public class SudokuChromosome extends Chromosome {
         //         .parallel()
         //         .forEach(i -> {
         //             // Erst nach fest vorgegeben Zahlen suchen.
-        //             SudokuGene gene = this.fixNumbers.get(i);
+        //             SudokuGene gene = fixNumbers.get(i);
         //
         //             if (gene == null) {
         //                 // Dann welche generieren.

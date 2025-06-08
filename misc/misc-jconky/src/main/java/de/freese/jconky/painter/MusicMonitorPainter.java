@@ -51,7 +51,7 @@ public class MusicMonitorPainter extends AbstractMonitorPainter {
         // if (musicInfo.getImageUri() != null) {
         // final double globalAlpha = gc.getGlobalAlpha();
         // gc.setGlobalAlpha(getSettings().getAlpha());
-        // gc.drawImage(this.image, x, y, imageWidth, imageHeight);
+        // gc.drawImage(image, x, y, imageWidth, imageHeight);
         // gc.setGlobalAlpha(globalAlpha);
         // }
         //
@@ -68,7 +68,7 @@ public class MusicMonitorPainter extends AbstractMonitorPainter {
      */
     void updateImage(final URI uri) {
         if (uri == null) {
-            this.image = null;
+            image = null;
             return;
         }
 
@@ -77,10 +77,10 @@ public class MusicMonitorPainter extends AbstractMonitorPainter {
             final String urlString = url.toString();
             getLogger().debug("URL: {}", url);
 
-            if (this.image == null || !this.image.getUrl().equals(urlString)) {
-                this.image = new Image(urlString);
+            if (image == null || !image.getUrl().equals(urlString)) {
+                image = new Image(urlString);
 
-                getLogger().debug("Image-URL: {}", this.image.getUrl());
+                getLogger().debug("Image-URL: {}", image.getUrl());
             }
         }
         catch (Exception ex) {

@@ -22,24 +22,24 @@ public class HostInfo {
     }
 
     public String getArchitecture() {
-        return this.architecture;
+        return architecture;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public String getVersion() {
-        return this.version;
+        return version;
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
-        builder.append("name=").append(this.name);
-        builder.append(", version=").append(this.version);
-        builder.append(", architecture=").append(this.architecture);
+        builder.append("name=").append(name);
+        builder.append(", version=").append(version);
+        builder.append(", architecture=").append(architecture);
         builder.append("]");
 
         return builder.toString();

@@ -28,7 +28,7 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter {
     public NetworkMonitorPainter() {
         super();
 
-        this.gradientStops = new Stop[]{new Stop(0D, Color.WHITE), new Stop(1D, getSettings().getColorValue())};
+        gradientStops = new Stop[]{new Stop(0D, Color.WHITE), new Stop(1D, getSettings().getColorValue())};
     }
 
     @Override
@@ -36,8 +36,8 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter {
         final NetworkInfos networkInfos = getContext().getNetworkInfos();
         final NetworkInfo lan = networkInfos.getByName("enp5s0");
 
-        this.downloadMap.computeIfAbsent(lan.getInterfaceName(), key -> new Values<>()).addValue(lan.getDownloadPerSecond());
-        this.uploadMap.computeIfAbsent(lan.getInterfaceName(), key -> new Values<>()).addValue(lan.getUploadPerSecond());
+        downloadMap.computeIfAbsent(lan.getInterfaceName(), key -> new Values<>()).addValue(lan.getDownloadPerSecond());
+        uploadMap.computeIfAbsent(lan.getInterfaceName(), key -> new Values<>()).addValue(lan.getUploadPerSecond());
 
         final NetworkProtocolInfo protocolInfo = networkInfos.getProtocolInfo();
         final String externalIp = getContext().getExternalIp();
@@ -84,12 +84,12 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter {
 
         gc.save();
         gc.translate(x, y);
-        paintInterfaceGraph(gc, graphWidth, graphHeight, this.downloadMap.computeIfAbsent(networkInfo.getInterfaceName(), key -> new Values<>()));
+        paintInterfaceGraph(gc, graphWidth, graphHeight, downloadMap.computeIfAbsent(networkInfo.getInterfaceName(), key -> new Values<>()));
         gc.restore();
 
         gc.save();
         gc.translate(x + graphWidth + 20D, y);
-        paintInterfaceGraph(gc, graphWidth, graphHeight, this.uploadMap.computeIfAbsent(networkInfo.getInterfaceName(), key -> new Values<>()));
+        paintInterfaceGraph(gc, graphWidth, graphHeight, uploadMap.computeIfAbsent(networkInfo.getInterfaceName(), key -> new Values<>()));
         gc.restore();
 
         y += graphHeight + fontSize + 3;
@@ -110,8 +110,8 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter {
         final double minNorm = 0D;
         final double maxNorm = height - 2;
 
-        // gc.setFill(new LinearGradient(0D, height - 2, 0D, 0D, false, CycleMethod.NO_CYCLE, this.gradientStops));
-        gc.setStroke(new LinearGradient(0D, height - 2, 0D, 0D, false, CycleMethod.NO_CYCLE, this.gradientStops));
+        // gc.setFill(new LinearGradient(0D, height - 2, 0D, 0D, false, CycleMethod.NO_CYCLE, gradientStops));
+        gc.setStroke(new LinearGradient(0D, height - 2, 0D, 0D, false, CycleMethod.NO_CYCLE, gradientStops));
 
         final double xOffset = width - valueList.size(); // Diagramm von rechts aufbauen.
         // double xOffset = 0D; // Diagramm von links aufbauen.

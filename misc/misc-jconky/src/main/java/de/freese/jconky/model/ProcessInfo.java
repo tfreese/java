@@ -24,23 +24,23 @@ public class ProcessInfo {
     }
 
     public double getCpuUsage() {
-        return this.cpuUsage;
+        return cpuUsage;
     }
 
     public double getMemoryUsage() {
-        return this.memoryUsage;
+        return memoryUsage;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public String getOwner() {
-        return this.owner;
+        return owner;
     }
 
     public int getPid() {
-        return this.pid;
+        return pid;
     }
 
     /**
@@ -53,18 +53,18 @@ public class ProcessInfo {
      * See: <a href="https://man7.org/linux/man-pages/man5/proc.5.html">man-pages</a><br>
      */
     public String getState() {
-        return this.state;
+        return state;
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
-        builder.append(" pid=").append(this.pid);
-        builder.append(", name=").append(this.name);
-        builder.append(", owner=").append(this.owner);
-        builder.append(", cpuUsage=").append(this.cpuUsage);
-        builder.append(", memoryUsage=").append(this.memoryUsage);
+        builder.append(" pid=").append(pid);
+        builder.append(", name=").append(name);
+        builder.append(", owner=").append(owner);
+        builder.append(", cpuUsage=").append(cpuUsage);
+        builder.append(", memoryUsage=").append(memoryUsage);
         builder.append("]");
 
         return builder.toString();

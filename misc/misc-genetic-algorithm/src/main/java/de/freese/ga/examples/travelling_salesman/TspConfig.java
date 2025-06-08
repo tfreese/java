@@ -29,13 +29,13 @@ public class TspConfig extends Config {
     public void setCities(final List<City> cities) {
         Objects.requireNonNull(cities, "cities required");
 
-        this.cities.clear();
-        this.cities.addAll(cities);
+        cities.clear();
+        cities.addAll(cities);
 
-        setSizeChromosome(this.cities.size());
+        setSizeChromosome(cities.size());
     }
 
     List<City> getCities() {
-        return this.cities;
+        return cities;
     }
 }

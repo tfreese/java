@@ -29,22 +29,22 @@ public class CoinConfig extends Config {
     }
 
     public void setExistingCoins(final List<Integer> existingCoins) {
-        this.coinCounter.clear();
-        this.existingCoins.clear();
-        this.existingCoins.addAll(existingCoins);
+        coinCounter.clear();
+        existingCoins.clear();
+        existingCoins.addAll(existingCoins);
 
         // 0 Münzen, falls wir nicht so viele brauchen, wie die das Chromosom lang ist.
         for (int i = 0; i < existingCoins.size(); i++) {
-            this.existingCoins.add(0);
+            existingCoins.add(0);
         }
 
-        setSizeChromosome(this.existingCoins.size());
+        setSizeChromosome(existingCoins.size());
 
         // Anzahl Münzen pro Wert zählen.
-        final List<Integer> list = new ArrayList<>(this.existingCoins);
+        final List<Integer> list = new ArrayList<>(existingCoins);
         list.removeIf(value -> value == 0); // 0-Münzen ignorieren
 
-        this.coinCounter = list.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        coinCounter = list.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
     }
 
     public void setTargetCents(final int cents) {
@@ -52,15 +52,15 @@ public class CoinConfig extends Config {
             throw new IllegalArgumentException("cents must be between 0 - " + getMaximumCents() + ": " + cents);
         }
 
-        this.targetCents = cents;
+        targetCents = cents;
     }
 
     Map<Integer, Long> getCoinCounter() {
-        return this.coinCounter;
+        return coinCounter;
     }
 
     List<Integer> getExistingCoins() {
-        return this.existingCoins;
+        return existingCoins;
     }
 
     int getMaximumCents() {
@@ -68,6 +68,6 @@ public class CoinConfig extends Config {
     }
 
     int getTargetCents() {
-        return this.targetCents;
+        return targetCents;
     }
 }

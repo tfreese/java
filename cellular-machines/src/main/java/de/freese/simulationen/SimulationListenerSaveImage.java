@@ -79,7 +79,7 @@ public class SimulationListenerSaveImage implements SimulationListener {
         this.directory = Objects.requireNonNull(directory, "directory required");
         this.type = Objects.requireNonNull(type, "type required");
         this.executor = Objects.requireNonNull(executor, "executor required");
-        this.counter = new AtomicInteger(0);
+        counter = new AtomicInteger(0);
     }
 
     @Override

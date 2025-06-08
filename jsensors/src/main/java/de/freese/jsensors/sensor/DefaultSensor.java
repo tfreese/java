@@ -34,20 +34,20 @@ public class DefaultSensor<T> implements Sensor {
 
     @Override
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
     @Override
     public String getName() {
-        return this.name;
+        return name;
     }
 
     @Override
     public SensorValue measure() {
-        final T obj = this.ref.get();
+        final T obj = ref.get();
 
         if (obj != null) {
-            final String functionValue = this.valueFunction.apply(obj);
+            final String functionValue = valueFunction.apply(obj);
 
             return new DefaultSensorValue(getName(), functionValue, System.currentTimeMillis());
         }

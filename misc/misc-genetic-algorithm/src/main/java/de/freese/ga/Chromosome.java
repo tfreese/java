@@ -17,7 +17,8 @@ public abstract class Chromosome {
         super();
 
         this.config = Objects.requireNonNull(config, "config required");
-        this.genes = new Gene[config.getSizeChromosome()];
+
+        genes = new Gene[config.getSizeChromosome()];
     }
 
     public abstract double calcFitnessValue();
@@ -44,7 +45,7 @@ public abstract class Chromosome {
     }
 
     public Gene[] getGenes() {
-        return this.genes;
+        return genes;
     }
 
     /**
@@ -96,6 +97,6 @@ public abstract class Chromosome {
     }
 
     protected Config getConfig() {
-        return this.config;
+        return config;
     }
 }

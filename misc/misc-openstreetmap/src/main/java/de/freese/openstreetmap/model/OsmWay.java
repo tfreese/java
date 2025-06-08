@@ -20,43 +20,43 @@ public class OsmWay extends AbstractOsmEntity {
     private Polygon polygon;
 
     public Rectangle getBounds() {
-        if (this.bounds == null) {
+        if (bounds == null) {
             for (OsmNode osmNode : getNodes()) {
                 final double x = Mercator.mercX(osmNode.getLongitude());
                 final double y = Mercator.mercY(osmNode.getLatitude());
 
-                if (this.bounds == null) {
-                    this.bounds = new Rectangle();
-                    this.bounds.x = (int) x;
-                    this.bounds.y = (int) y;
+                if (bounds == null) {
+                    bounds = new Rectangle();
+                    bounds.x = (int) x;
+                    bounds.y = (int) y;
                 }
 
-                this.bounds.add(x, y);
+                bounds.add(x, y);
             }
         }
 
-        return this.bounds;
+        return bounds;
     }
 
     public Polygon getDrawablePolygon(final Matrix myZTFMatrix) {
-        if (this.polygon == null) {
-            this.polygon = new Polygon();
+        if (polygon == null) {
+            polygon = new Polygon();
 
             for (OsmNode osmNode : getNodes()) {
                 final double x = Mercator.mercX(osmNode.getLongitude());
                 final double y = Mercator.mercY(osmNode.getLatitude());
-                this.polygon.addPoint((int) x, (int) y);
+                polygon.addPoint((int) x, (int) y);
             }
         }
 
-        return myZTFMatrix.multiply(this.polygon);
+        return myZTFMatrix.multiply(polygon);
     }
 
     public List<OsmNode> getNodes() {
-        if (this.nodes == null) {
-            this.nodes = new ArrayList<>();
+        if (nodes == null) {
+            nodes = new ArrayList<>();
         }
 
-        return this.nodes;
+        return nodes;
     }
 }

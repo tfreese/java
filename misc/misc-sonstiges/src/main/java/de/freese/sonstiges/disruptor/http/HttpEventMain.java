@@ -81,8 +81,9 @@ public final class HttpEventMain {
 
         this.address = address;
         this.port = port;
-        this.mapResponseReady = new ConcurrentHashMap<>();
-        this.mapKey = new ConcurrentHashMap<>();
+
+        mapResponseReady = new ConcurrentHashMap<>();
+        mapKey = new ConcurrentHashMap<>();
     }
 
     public Map<String, Boolean> getMapResponseReady() {

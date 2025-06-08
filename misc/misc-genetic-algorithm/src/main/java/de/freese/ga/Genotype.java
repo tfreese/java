@@ -28,7 +28,8 @@ public abstract class Genotype {
         super();
 
         this.config = Objects.requireNonNull(config, "config required");
-        this.chromosomes = new Chromosome[size];
+
+        chromosomes = new Chromosome[size];
     }
 
     /**
@@ -210,10 +211,10 @@ public abstract class Genotype {
     }
 
     protected Chromosome[] getChromosomes() {
-        return this.chromosomes;
+        return chromosomes;
     }
 
     protected Config getConfig() {
-        return this.config;
+        return config;
     }
 }

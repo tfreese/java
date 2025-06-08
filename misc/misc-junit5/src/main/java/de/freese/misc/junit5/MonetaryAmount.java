@@ -25,10 +25,10 @@ public class MonetaryAmount {
     }
 
     public Currency getCurrency() {
-        return this.currency;
+        return currency;
     }
 
     public BigDecimal getValue() {
-        return this.value;
+        return value;
     }
 }

@@ -16,7 +16,7 @@ public class VendingMaschine {
     }
 
     public void selectItem(final int boxIndex) throws Exception {
-        final Box box = this.boxes[boxIndex];
+        final Box box = boxes[boxIndex];
 
         if (box.isEmpty()) {
             throw new Exception("box is empty");
@@ -24,11 +24,11 @@ public class VendingMaschine {
 
         final int amountRequired = box.getPrice();
 
-        if (amountRequired > this.cashBox.getCurrentAmount()) {
+        if (amountRequired > cashBox.getCurrentAmount()) {
             throw new Exception("not enough money");
         }
 
         box.releaseItem();
-        this.cashBox.withdraw(amountRequired);
+        cashBox.withdraw(amountRequired);
     }
 }

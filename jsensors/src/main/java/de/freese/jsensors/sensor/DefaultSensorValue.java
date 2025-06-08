@@ -28,17 +28,17 @@ public class DefaultSensorValue implements SensorValue {
 
     @Override
     public String getName() {
-        return this.name;
+        return name;
     }
 
     @Override
     public long getTimestamp() {
-        return this.timestamp;
+        return timestamp;
     }
 
     @Override
     public String getValue() {
-        return this.value;
+        return value;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class DefaultSensorValue implements SensorValue {
         final StringBuilder builder = new StringBuilder();
         builder.append("SensorValue [");
         builder.append("name=").append(getName());
-        builder.append(", value=").append(this.value);
+        builder.append(", value=").append(value);
         builder.append(", timestamp=").append(getTimestamp());
         builder.append(", date=").append(getLocalDateTime());
         builder.append("]");

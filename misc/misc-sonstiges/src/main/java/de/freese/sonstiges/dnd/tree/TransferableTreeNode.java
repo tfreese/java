@@ -23,13 +23,13 @@ class TransferableTreeNode implements Transferable {
     TransferableTreeNode(final TreePath tp) {
         super();
 
-        this.path = tp;
+        path = tp;
     }
 
     @Override
     public synchronized Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException, IOException {
         if (isDataFlavorSupported(flavor)) {
-            return this.path;
+            return path;
         }
 
         throw new UnsupportedFlavorException(flavor);
@@ -37,7 +37,7 @@ class TransferableTreeNode implements Transferable {
 
     @Override
     public synchronized DataFlavor[] getTransferDataFlavors() {
-        return this.flavors;
+        return flavors;
     }
 
     @Override

@@ -23,7 +23,7 @@ public class OsmNode extends AbstractOsmEntity {
      * >−90.0 and <90.0
      */
     public float getLatitude() {
-        return this.latitude;
+        return latitude;
     }
 
     /**
@@ -31,7 +31,7 @@ public class OsmNode extends AbstractOsmEntity {
      * >−180 and <180
      */
     public float getLongitude() {
-        return this.longitude;
+        return longitude;
     }
 
     /**

@@ -29,40 +29,40 @@ public class MyPanel extends JPanel {
     }
 
     public Rectangle getMapBounds() {
-        if (this.mapBounds == null) {
-            for (OsmWay osmWay : this.model.getWayMap().values()) {
-                if (this.mapBounds == null) {
-                    this.mapBounds = new Rectangle(osmWay.getBounds());
+        if (mapBounds == null) {
+            for (OsmWay osmWay : model.getWayMap().values()) {
+                if (mapBounds == null) {
+                    mapBounds = new Rectangle(osmWay.getBounds());
                     continue;
                 }
 
-                this.mapBounds = this.mapBounds.union(osmWay.getBounds());
+                mapBounds = mapBounds.union(osmWay.getBounds());
             }
-            // for (OsmRelation osmRelation : this.model.getRelationMap().valueCollection()) {
-            // if (this.mapBounds == null) {
-            // this.mapBounds = new Rectangle(osmRelation.getBounds());
+            // for (OsmRelation osmRelation : model.getRelationMap().valueCollection()) {
+            // if (mapBounds == null) {
+            // mapBounds = new Rectangle(osmRelation.getBounds());
             // continue;
             // }
             //
-            // this.mapBounds = this.mapBounds.union(osmRelation.getBounds());
+            // mapBounds = mapBounds.union(osmRelation.getBounds());
             // }
         }
 
-        return this.mapBounds;
+        return mapBounds;
     }
 
     @Override
     public void paint(final Graphics g) {
-        if (this.model.getWayMap().isEmpty() || this.myZTFMatrix == null) {
+        if (model.getWayMap().isEmpty() || myZTFMatrix == null) {
             return;
         }
 
-        for (OsmWay osmWay : this.model.getWayMap().values()) {
-            final Polygon polyToDraw = osmWay.getDrawablePolygon(this.myZTFMatrix);
+        for (OsmWay osmWay : model.getWayMap().values()) {
+            final Polygon polyToDraw = osmWay.getDrawablePolygon(myZTFMatrix);
             g.drawPolygon(polyToDraw);
         }
-        // for (OsmRelation osmRelation : this.model.getRelationMap().valueCollection()) {
-        // final Polygon polyToDraw = osmRelation.getDrawablePolygon(this.myZTFMatrix);
+        // for (OsmRelation osmRelation : model.getRelationMap().valueCollection()) {
+        // final Polygon polyToDraw = osmRelation.getDrawablePolygon(myZTFMatrix);
         // g.drawPolygon(polyToDraw);
         // }
     }
@@ -74,7 +74,7 @@ public class MyPanel extends JPanel {
      */
     public void scrollHorizontal(final int delta) {
         final Matrix transMat = Matrix.translate(delta, 0);
-        this.myZTFMatrix = transMat.multiply(this.myZTFMatrix);
+        myZTFMatrix = transMat.multiply(myZTFMatrix);
     }
 
     /**
@@ -84,7 +84,7 @@ public class MyPanel extends JPanel {
      */
     public void scrollVertical(final int delta) {
         final Matrix transMat = Matrix.translate(0, delta);
-        this.myZTFMatrix = transMat.multiply(this.myZTFMatrix);
+        myZTFMatrix = transMat.multiply(myZTFMatrix);
     }
 
     /**
@@ -94,10 +94,10 @@ public class MyPanel extends JPanel {
      */
     public void zoom(final double factor) {
         final Point center = new Point(getWidth() / 2, getHeight() / 2);
-        this.myZTFMatrix = Matrix.zoomPoint(this.myZTFMatrix, center, factor);
+        myZTFMatrix = Matrix.zoomPoint(myZTFMatrix, center, factor);
 
         // final Matrix scaleMat = Matrix.scale(factor);
-        // this.myZTFMatrix = scaleMat.multiply(this.myZTFMatrix);
+        // myZTFMatrix = scaleMat.multiply(myZTFMatrix);
     }
 
     /**
@@ -106,6 +106,6 @@ public class MyPanel extends JPanel {
      */
     public void zoomToFit() {
         final Rectangle bounds = getMapBounds();
-        this.myZTFMatrix = Matrix.zoomToFit(bounds, new Rectangle(getWidth() - 2, getHeight() - 2));
+        myZTFMatrix = Matrix.zoomToFit(bounds, new Rectangle(getWidth() - 2, getHeight() - 2));
     }
 }

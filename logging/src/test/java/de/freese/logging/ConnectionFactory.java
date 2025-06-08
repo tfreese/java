@@ -58,7 +58,7 @@ public final class ConnectionFactory {
         // where EVENT_DATE > TIMESTAMPADD(SQL_TSI_DAY, -1, CURRENT_DATE)
         // where EVENT_DATE > DATE_SUB(CURRENT_DATE, INTERVAL 1 DAY)
 
-        this.dataSource = pool;
+        dataSource = pool;
 
         initDbLog4j();
         initDbLogback();
@@ -91,7 +91,7 @@ public final class ConnectionFactory {
     }
 
     public DataSource getDataSource() {
-        return this.dataSource;
+        return dataSource;
     }
 
     private boolean existTable(final String tableName) {

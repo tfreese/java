@@ -30,33 +30,33 @@ public class ProcessInfos {
     public int getAlive() {
         final Predicate<ProcessInfo> predicateAlive = PREDICATE_RUNNING.or(PREDICATE_SLEEPING).or(PREDICATE_WAITING).or(PREDICATE_IDLE);
 
-        return (int) this.infos.stream().filter(predicateAlive).count();
+        return (int) infos.stream().filter(predicateAlive).count();
     }
 
     public int getRunning() {
-        return (int) this.infos.stream().filter(PREDICATE_RUNNING).count();
+        return (int) infos.stream().filter(PREDICATE_RUNNING).count();
     }
 
     /**
      * Liefert die höchsten N Prozesse.
      */
     public List<ProcessInfo> getSortedByCpuUsage(final int count) {
-        return this.infos.stream().sorted(Comparator.comparing(ProcessInfo::getCpuUsage).reversed()).limit(count).toList();
+        return infos.stream().sorted(Comparator.comparing(ProcessInfo::getCpuUsage).reversed()).limit(count).toList();
     }
 
     /**
      * Liefert die höchsten N Prozesse.
      */
     public List<ProcessInfo> getSortedByMemoryUsage(final int count) {
-        return this.infos.stream().sorted(Comparator.comparing(ProcessInfo::getMemoryUsage).reversed()).limit(count).toList();
+        return infos.stream().sorted(Comparator.comparing(ProcessInfo::getMemoryUsage).reversed()).limit(count).toList();
     }
 
     public List<ProcessInfo> getSortedByName(final int count) {
-        return this.infos.stream().sorted(Comparator.comparing(ProcessInfo::getName)).limit(count).toList();
+        return infos.stream().sorted(Comparator.comparing(ProcessInfo::getName)).limit(count).toList();
     }
 
     public int size() {
-        return this.infos.size();
+        return infos.size();
     }
 
     @Override

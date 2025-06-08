@@ -31,17 +31,17 @@ public abstract class AbstractCell implements Cell {
 
     @Override
     public Color getColor() {
-        return this.color;
+        return color;
     }
 
     @Override
     public int getX() {
-        return this.x;
+        return x;
     }
 
     @Override
     public int getY() {
-        return this.y;
+        return y;
     }
 
     public void setColor(final Color color) {
@@ -66,7 +66,7 @@ public abstract class AbstractCell implements Cell {
     }
 
     protected AbstractRasterSimulation getSimulation() {
-        return this.simulation;
+        return simulation;
     }
 
     /**

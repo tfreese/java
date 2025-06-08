@@ -10,7 +10,7 @@ class SensorEvent {
     private SensorValue sensorValue;
 
     public SensorValue getSensorValue() {
-        return this.sensorValue;
+        return sensorValue;
     }
 
     public void setSensorValue(final SensorValue sensorValue) {

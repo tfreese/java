@@ -12,15 +12,15 @@ public class ForeignKey {
     private Column refColumn;
 
     public Column getColumn() {
-        return this.column;
+        return column;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public Column getRefColumn() {
-        return this.refColumn;
+        return refColumn;
     }
 
     public void setColumn(final Column column) {
@@ -39,11 +39,11 @@ public class ForeignKey {
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append("ForeignKey [");
-        builder.append("name=").append(this.name);
+        builder.append("name=").append(name);
         builder.append(", ");
-        builder.append(this.column.getTable().getName()).append(".").append(this.column.getName());
+        builder.append(column.getTable().getName()).append(".").append(column.getName());
         builder.append(" -> ");
-        builder.append(this.refColumn.getTable().getName()).append(".").append(this.refColumn.getName());
+        builder.append(refColumn.getTable().getName()).append(".").append(refColumn.getName());
         builder.append("]");
 
         return builder.toString();

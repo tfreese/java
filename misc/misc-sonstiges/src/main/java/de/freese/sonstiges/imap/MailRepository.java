@@ -84,7 +84,7 @@ public class MailRepository implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
-        try (Connection connection = this.dataSource.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             final String dbName = connection.getMetaData().getDatabaseProductName().toLowerCase();
 
             // Wird bei hsql bereits durch 'shutdown=true' erledigt.
@@ -98,27 +98,27 @@ public class MailRepository implements AutoCloseable {
             // Ignore
         }
 
-        // if (this.dataSource instanceof JDBCPool p) {
+        // if (dataSource instanceof JDBCPool p) {
         //     p.close(1);
         // }
-        // else if (this.dataSource instanceof JdbcConnectionPool p) {
+        // else if (dataSource instanceof JdbcConnectionPool p) {
         //     p.dispose();
         // }
         // else
-        if (this.dataSource instanceof AutoCloseable ac) {
+        if (dataSource instanceof AutoCloseable ac) {
             ac.close();
         }
-        else if (this.dataSource instanceof DisposableBean db) {
+        else if (dataSource instanceof DisposableBean db) {
             db.destroy();
         }
 
-        this.dataSource = null;
+        dataSource = null;
     }
 
     public boolean containsMessageId(final String messageId) throws SQLException {
         final String sql = "select count(*) from MESSAGE where MESSAGE_ID = ?";
 
-        try (Connection connection = this.dataSource.getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
             prepareStatement.setString(1, messageId);
 
@@ -135,7 +135,7 @@ public class MailRepository implements AutoCloseable {
     public int countMessagesForFolder(final String folderName) throws SQLException {
         final String sql = "select count(*) from MESSAGE where FOLDER_NAME = ?";
 
-        try (Connection connection = this.dataSource.getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
             prepareStatement.setString(1, folderName);
 
@@ -151,7 +151,7 @@ public class MailRepository implements AutoCloseable {
         String dbName = "";
         boolean databaseExists = false;
 
-        try (Connection connection = this.dataSource.getConnection();
+        try (Connection connection = dataSource.getConnection();
              ResultSet resultSet = connection.getMetaData().getTables(null, null, "MESSAGE", new String[]{"TABLE"})) {
             dbName = connection.getMetaData().getDatabaseProductName();
 
@@ -178,7 +178,7 @@ public class MailRepository implements AutoCloseable {
         try (InputStream inputStream = ClassLoader.getSystemResourceAsStream(schemaSql);
              Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
              BufferedReader bufferedReader = new BufferedReader(reader);
-             Connection connection = this.dataSource.getConnection();
+             Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
 
             final String script = bufferedReader.lines()
@@ -226,7 +226,7 @@ public class MailRepository implements AutoCloseable {
 
         final Set<Token> result = new HashSet<>();
 
-        try (Connection connection = this.dataSource.getConnection();
+        try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
@@ -243,7 +243,7 @@ public class MailRepository implements AutoCloseable {
     }
 
     public void insertMessage(final MessageWrapper messageWrapper) throws Exception {
-        try (Connection connection = this.dataSource.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             connection.setAutoCommit(false);
 
             final String sql = """
@@ -294,7 +294,7 @@ public class MailRepository implements AutoCloseable {
         final String sqlTokenInsert = "insert into TOKEN (VALUE, HAM_COUNT, SPAM_COUNT) values (?, ?, ?)";
         final String sqlTokenUpdate = "update TOKEN set HAM_COUNT = ?, SPAM_COUNT = ? where VALUE = ?";
 
-        try (Connection connection = this.dataSource.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             connection.setAutoCommit(false);
 
             try (PreparedStatement pstTokenInsert = connection.prepareStatement(sqlTokenInsert);
@@ -344,7 +344,7 @@ public class MailRepository implements AutoCloseable {
 
         final String sqlMessageToken = "insert into MESSAGE_TOKEN (MESSAGE_ID, VALUE, COUNT) values (?, ?, ?)";
 
-        try (Connection connection = this.dataSource.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             connection.setAutoCommit(false);
 
             try (PreparedStatement preparedStatementMessageToken = connection.prepareStatement(sqlMessageToken)) {

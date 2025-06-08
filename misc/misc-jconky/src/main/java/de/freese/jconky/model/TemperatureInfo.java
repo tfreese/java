@@ -20,19 +20,19 @@ public class TemperatureInfo {
     }
 
     public String getDevice() {
-        return this.device;
+        return device;
     }
 
     public double getTemperature() {
-        return this.temperature;
+        return temperature;
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
-        builder.append(" device=").append(this.device);
-        builder.append(", temperature=").append(this.temperature);
+        builder.append(" device=").append(device);
+        builder.append(", temperature=").append(temperature);
         builder.append("]");
 
         return builder.toString();

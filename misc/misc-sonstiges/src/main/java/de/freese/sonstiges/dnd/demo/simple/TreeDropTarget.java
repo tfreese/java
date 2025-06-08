@@ -31,8 +31,8 @@ class TreeDropTarget implements DropTargetListener {
     TreeDropTarget(final JTree tree) {
         super();
 
-        // this.targetTree = tree;
-        // this.target = new DropTarget(this.targetTree, this);
+        // targetTree = tree;
+        // target = new DropTarget(targetTree, this);
     }
 
     @Override

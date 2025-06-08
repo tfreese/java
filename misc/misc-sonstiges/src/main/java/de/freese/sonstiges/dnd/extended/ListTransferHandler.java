@@ -26,35 +26,35 @@ class ListTransferHandler extends StringTransferHandler {
 
     @Override
     protected void cleanup(final JComponent c, final boolean remove) {
-        if (remove && this.indices != null) {
+        if (remove && indices != null) {
             final JList<?> source = (JList<?>) c;
             final DefaultListModel<?> model = (DefaultListModel<?>) source.getModel();
 
             // If we are moving items around in the same list, we
             // need to adjust the indices accordingly, since those
             // after the insertion point have moved.
-            if (this.addCount > 0) {
-                for (int i = 0; i < this.indices.length; i++) {
-                    if (this.indices[i] > this.addIndex) {
-                        this.indices[i] += this.addCount;
+            if (addCount > 0) {
+                for (int i = 0; i < indices.length; i++) {
+                    if (indices[i] > addIndex) {
+                        indices[i] += addCount;
                     }
                 }
             }
 
-            for (int i = this.indices.length - 1; i >= 0; i--) {
-                model.remove(this.indices[i]);
+            for (int i = indices.length - 1; i >= 0; i--) {
+                model.remove(indices[i]);
             }
         }
 
-        this.indices = null;
-        this.addCount = 0;
-        this.addIndex = -1;
+        indices = null;
+        addCount = 0;
+        addIndex = -1;
     }
 
     @Override
     protected String exportString(final JComponent c) {
         final JList<?> list = (JList<?>) c;
-        this.indices = list.getSelectedIndices();
+        indices = list.getSelectedIndices();
 
         final List<?> values = list.getSelectedValuesList();
 
@@ -83,8 +83,8 @@ class ListTransferHandler extends StringTransferHandler {
         // attempts to insert the items after item #5, this would
         // be problematic when removing the original items.
         // So this is not allowed.
-        if (this.indices != null && index >= (this.indices[0] - 1) && index <= this.indices[this.indices.length - 1]) {
-            this.indices = null;
+        if (indices != null && index >= (indices[0] - 1) && index <= indices[indices.length - 1]) {
+            indices = null;
 
             return;
         }
@@ -102,10 +102,10 @@ class ListTransferHandler extends StringTransferHandler {
             }
         }
 
-        this.addIndex = index;
+        addIndex = index;
 
         final String[] values = str.split(System.lineSeparator());
-        this.addCount = values.length;
+        addCount = values.length;
 
         for (String value : values) {
             listModel.add(index++, value);

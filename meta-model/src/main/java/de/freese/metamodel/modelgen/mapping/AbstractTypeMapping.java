@@ -19,10 +19,10 @@ public abstract class AbstractTypeMapping implements TypeMapping {
         final Type type;
 
         if (nullable) {
-            type = this.nullableMappings.get(jdbcType);
+            type = nullableMappings.get(jdbcType);
         }
         else {
-            type = this.notNullMappings.get(jdbcType);
+            type = notNullMappings.get(jdbcType);
         }
 
         if (type == null) {
@@ -43,8 +43,8 @@ public abstract class AbstractTypeMapping implements TypeMapping {
      * Verknüpft einen {@link JDBCType} mit seiner Code-Repräsentation.
      */
     protected void register(final JDBCType jdbcType, final Type nullableType, final Type notNullType) {
-        this.nullableMappings.put(jdbcType, nullableType);
-        this.notNullMappings.put(jdbcType, notNullType);
+        nullableMappings.put(jdbcType, nullableType);
+        notNullMappings.put(jdbcType, notNullType);
     }
 
     // default sql types

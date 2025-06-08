@@ -28,40 +28,40 @@ public class CpuInfo {
      * Berechnet die CPU-Auslastung von 0 bis 1.<br>
      */
     public void calculateCpuUsage(final CpuInfo previous) {
-        this.usage = getCpuTimes().getCpuUsage(previous.getCpuTimes());
+        usage = getCpuTimes().getCpuUsage(previous.getCpuTimes());
     }
 
     public int getCore() {
-        return this.core;
+        return core;
     }
 
     public CpuTimes getCpuTimes() {
-        return this.cpuTimes;
+        return cpuTimes;
     }
 
     /**
      * Liefert die CPU-Auslastung von 0 bis 1.<br>
      */
     public double getCpuUsage() {
-        return this.usage;
+        return usage;
     }
 
     public int getFrequency() {
-        return this.frequency;
+        return frequency;
     }
 
     public double getTemperature() {
-        return this.temperature;
+        return temperature;
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
-        builder.append("core=").append(this.core);
-        builder.append(", usage=").append(this.usage);
-        builder.append(", temperature=").append(this.temperature);
-        builder.append(", frequency=").append(this.frequency);
+        builder.append("core=").append(core);
+        builder.append(", usage=").append(usage);
+        builder.append(", temperature=").append(temperature);
+        builder.append(", frequency=").append(frequency);
         builder.append("]");
 
         return builder.toString();

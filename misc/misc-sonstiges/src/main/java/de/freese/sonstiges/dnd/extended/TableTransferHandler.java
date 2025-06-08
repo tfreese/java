@@ -27,42 +27,42 @@ class TableTransferHandler extends StringTransferHandler {
     protected void cleanup(final JComponent c, final boolean remove) {
         final JTable source = (JTable) c;
 
-        if (remove && this.rows != null) {
+        if (remove && rows != null) {
             final DefaultTableModel model = (DefaultTableModel) source.getModel();
 
             // If we are moving items around in the same table, we
             // need to adjust the rows accordingly, since those
             // after the insertion point have moved.
-            if (this.addCount > 0) {
-                for (int i = 0; i < this.rows.length; i++) {
-                    if (this.rows[i] > this.addIndex) {
-                        this.rows[i] += this.addCount;
+            if (addCount > 0) {
+                for (int i = 0; i < rows.length; i++) {
+                    if (rows[i] > addIndex) {
+                        rows[i] += addCount;
                     }
                 }
             }
 
-            for (int i = this.rows.length - 1; i >= 0; i--) {
-                model.removeRow(this.rows[i]);
+            for (int i = rows.length - 1; i >= 0; i--) {
+                model.removeRow(rows[i]);
             }
         }
 
-        this.rows = null;
-        this.addCount = 0;
-        this.addIndex = -1;
+        rows = null;
+        addCount = 0;
+        addIndex = -1;
     }
 
     @Override
     protected String exportString(final JComponent c) {
         final JTable table = (JTable) c;
-        this.rows = table.getSelectedRows();
+        rows = table.getSelectedRows();
 
         final int colCount = table.getColumnCount();
 
         final StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < this.rows.length; i++) {
+        for (int i = 0; i < rows.length; i++) {
             for (int j = 0; j < colCount; j++) {
-                final Object val = table.getValueAt(this.rows[i], j);
+                final Object val = table.getValueAt(rows[i], j);
                 sb.append((val == null) ? "" : val.toString());
 
                 if (j != (colCount - 1)) {
@@ -70,7 +70,7 @@ class TableTransferHandler extends StringTransferHandler {
                 }
             }
 
-            if (i != (this.rows.length - 1)) {
+            if (i != (rows.length - 1)) {
                 sb.append(System.lineSeparator());
             }
         }
@@ -89,8 +89,8 @@ class TableTransferHandler extends StringTransferHandler {
         // attempts to insert the rows after row #5, this would
         // be problematic when removing the original rows.
         // So this is not allowed.
-        if (this.rows != null && index >= (this.rows[0] - 1) && index <= this.rows[this.rows.length - 1]) {
-            this.rows = null;
+        if (rows != null && index >= (rows[0] - 1) && index <= rows[rows.length - 1]) {
+            rows = null;
 
             return;
         }
@@ -108,10 +108,10 @@ class TableTransferHandler extends StringTransferHandler {
             }
         }
 
-        this.addIndex = index;
+        addIndex = index;
 
         final String[] values = str.split(System.lineSeparator());
-        this.addCount = values.length;
+        addCount = values.length;
 
         final int colCount = target.getColumnCount();
 

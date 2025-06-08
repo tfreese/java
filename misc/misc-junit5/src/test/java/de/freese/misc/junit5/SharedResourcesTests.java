@@ -22,13 +22,13 @@ class SharedResourcesTests {
 
     @BeforeEach
     void backup() {
-        this.backup = new Properties();
-        this.backup.putAll(System.getProperties());
+        backup = new Properties();
+        backup.putAll(System.getProperties());
     }
 
     @AfterEach
     void restore() {
-        System.setProperties(this.backup);
+        System.setProperties(backup);
     }
 
     @Test

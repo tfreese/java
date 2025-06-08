@@ -37,8 +37,8 @@ public class GpsPoint {
     public GpsPoint(final LatLon ll, final Date timestamp) throws ParseException {
         super();
 
-        this.latLon = ll;
-        this.time = timestamp;
+        latLon = ll;
+        time = timestamp;
     }
 
     /**
@@ -50,8 +50,8 @@ public class GpsPoint {
     public GpsPoint(final LatLon ll, final String timestamp) throws ParseException {
         super();
 
-        this.latLon = ll;
-        this.time = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(timestamp);
+        latLon = ll;
+        time = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(timestamp);
     }
 
     /**
@@ -62,10 +62,10 @@ public class GpsPoint {
     }
 
     public LatLon getLatLon() {
-        return this.latLon;
+        return latLon;
     }
 
     public Date getTime() {
-        return this.time;
+        return time;
     }
 }

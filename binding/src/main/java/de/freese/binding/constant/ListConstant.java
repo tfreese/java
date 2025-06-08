@@ -29,7 +29,7 @@ public final class ListConstant<T> extends AbstractListExpression<T> {
 
     @Override
     public ObservableList<T> getValue() {
-        return this.value;
+        return value;
     }
 
     @Override

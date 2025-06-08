@@ -27,10 +27,10 @@ public final class WindowsSystemMonitor extends AbstractSystemMonitor {
         final boolean is32bit = System.getProperty("sun.arch.data.model").contains("32");
         final String systemPath = is32bit ? "c:\\windows\\Sysnative" : "c:\\windows\\system32";
 
-        this.processBuilderCpu = new ProcessBuilder(systemPath + "\\wbem\\wmic.exe", "cpu get loadpercentage");
-        this.processBuilderFree = new ProcessBuilder(systemPath + "\\wbem\\wmic.exe", "memorychip get capacity");
-        this.processBuilderTop = new ProcessBuilder(systemPath + "\\tasklist.exe", "/Nh");
-        this.processBuilderUser = new ProcessBuilder(systemPath + "\\change.exe", "logon /query");
+        processBuilderCpu = new ProcessBuilder(systemPath + "\\wbem\\wmic.exe", "cpu get loadpercentage");
+        processBuilderFree = new ProcessBuilder(systemPath + "\\wbem\\wmic.exe", "memorychip get capacity");
+        processBuilderTop = new ProcessBuilder(systemPath + "\\tasklist.exe", "/Nh");
+        processBuilderUser = new ProcessBuilder(systemPath + "\\change.exe", "logon /query");
     }
 
     @Override

@@ -47,7 +47,7 @@ public final class SymbolEncoderMain {
     }
 
     private JPanel createPanelDots(final int dotsHorizontal, final int dotsVertical) {
-        this.toggleButtons = new JToggleButton[dotsVertical][dotsHorizontal];
+        toggleButtons = new JToggleButton[dotsVertical][dotsHorizontal];
 
         final JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(dotsVertical, dotsHorizontal));
@@ -102,7 +102,7 @@ public final class SymbolEncoderMain {
     }
 
     private JPanel createPanelEncoded(final int dotsHorizontal, final int dotsVertical) {
-        this.textFields = new JTextField[dotsVertical];
+        textFields = new JTextField[dotsVertical];
 
         final JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
@@ -127,7 +127,7 @@ public final class SymbolEncoderMain {
                 }
             });
 
-            this.textFields[y] = textField;
+            textFields[y] = textField;
 
             final GridBagConstraints gbc = new GridBagConstraints();
             gbc.gridx = 0;
@@ -142,12 +142,12 @@ public final class SymbolEncoderMain {
     }
 
     private JTextArea createTextArea() {
-        this.textArea = new JTextArea();
-        this.textArea.setPreferredSize(new Dimension(100, 50));
-        this.textArea.setEditable(false);
-        this.textArea.setFont(this.textArea.getFont().deriveFont(Font.BOLD, 16));
+        textArea = new JTextArea();
+        textArea.setPreferredSize(new Dimension(100, 50));
+        textArea.setEditable(false);
+        textArea.setFont(textArea.getFont().deriveFont(Font.BOLD, 16));
 
-        return this.textArea;
+        return textArea;
     }
 
     private void decodeRow(final int row, final int encoded) {
@@ -221,7 +221,7 @@ public final class SymbolEncoderMain {
                 textField.setText(null);
             }
 
-            this.textArea.setText(null);
+            textArea.setText(null);
         });
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
@@ -253,6 +253,6 @@ public final class SymbolEncoderMain {
             }
         }
 
-        this.textArea.setText(stringJoiner.toString());
+        textArea.setText(stringJoiner.toString());
     }
 }

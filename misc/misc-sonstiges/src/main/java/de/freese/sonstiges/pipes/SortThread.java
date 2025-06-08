@@ -66,12 +66,12 @@ public class SortThread extends Thread {
 
     @Override
     public void run() {
-        if (this.out != null && this.in != null) {
+        if (out != null && in != null) {
             try {
                 final String[] listOfWords = new String[MAX_WORDS];
                 int numWords = 0;
 
-                while ((listOfWords[numWords] = this.in.readLine()) != null) {
+                while ((listOfWords[numWords] = in.readLine()) != null) {
                     numWords++;
 
                     if (numWords == (MAX_WORDS - 1)) {
@@ -82,10 +82,10 @@ public class SortThread extends Thread {
                 quicksort(listOfWords, 0, numWords - 1);
 
                 for (int i = 0; i < numWords; i++) {
-                    this.out.println(listOfWords[i]);
+                    out.println(listOfWords[i]);
                 }
 
-                this.out.close();
+                out.close();
             }
             catch (IOException ex) {
                 LOGGER.error(ex.getMessage(), ex);

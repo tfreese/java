@@ -24,27 +24,27 @@ public abstract class AbstractModel {
     }
 
     public void addAnnotation(final String annotation) {
-        this.annotations.add(annotation);
+        annotations.add(annotation);
     }
 
     public void addComment(final String comment) {
-        this.comments.add(comment);
+        comments.add(comment);
     }
 
     public List<String> getAnnotations() {
-        return this.annotations;
+        return annotations;
     }
 
     public List<String> getComments() {
-        return this.comments;
+        return comments;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public <T> T getPayload(final Class<T> type) {
-        return type.cast(this.payload);
+        return type.cast(payload);
     }
 
     public void setPayload(final Object payload) {
@@ -56,7 +56,7 @@ public abstract class AbstractModel {
         final StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
         sb.append(" [");
-        sb.append("name = ").append(this.name);
+        sb.append("name = ").append(name);
         sb.append("]");
 
         return sb.toString();

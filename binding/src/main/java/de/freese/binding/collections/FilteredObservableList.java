@@ -26,7 +26,7 @@ public class FilteredObservableList<T> extends DefaultObservableList<T> {
         super(source);
 
         setPredicate(predicate);
-        this.filteredList.addAll(source);
+        filteredList.addAll(source);
 
         source.addListener(new ListDataListener() {
             @Override
@@ -53,7 +53,7 @@ public class FilteredObservableList<T> extends DefaultObservableList<T> {
 
     @Override
     public T get(final int index) {
-        return this.filteredList.get(index);
+        return filteredList.get(index);
     }
 
     public void setPredicate(final Predicate<T> predicate) {
@@ -62,17 +62,17 @@ public class FilteredObservableList<T> extends DefaultObservableList<T> {
 
     @Override
     public int size() {
-        return this.filteredList.size();
+        return filteredList.size();
     }
 
     protected void doFilter() {
         getLogger().debug("doFilter");
 
-        this.filteredList.clear();
+        filteredList.clear();
 
         for (T element : getSource()) {
-            if (this.predicate.test(element)) {
-                this.filteredList.add(element);
+            if (predicate.test(element)) {
+                filteredList.add(element);
             }
         }
     }

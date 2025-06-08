@@ -44,7 +44,7 @@ class ArrayListTransferHandler extends TransferHandler {
                 throw new UnsupportedFlavorException(flavor);
             }
 
-            return this.data;
+            return data;
         }
 
         @Override
@@ -75,8 +75,8 @@ class ArrayListTransferHandler extends TransferHandler {
     ArrayListTransferHandler() throws ClassNotFoundException {
         super();
 
-        this.localArrayListFlavor = new DataFlavor(LOCAL_ARRAY_LIST_TYPE);
-        this.serialArrayListFlavor = new DataFlavor(ArrayList.class, "ArrayList");
+        localArrayListFlavor = new DataFlavor(LOCAL_ARRAY_LIST_TYPE);
+        serialArrayListFlavor = new DataFlavor(ArrayList.class, "ArrayList");
     }
 
     @Override
@@ -102,10 +102,10 @@ class ArrayListTransferHandler extends TransferHandler {
             target = (JList<?>) c;
 
             if (hasLocalArrayListFlavor(t.getTransferDataFlavors())) {
-                list = (List<?>) t.getTransferData(this.localArrayListFlavor);
+                list = (List<?>) t.getTransferData(localArrayListFlavor);
             }
             else if (hasSerialArrayListFlavor(t.getTransferDataFlavors())) {
-                list = (List<?>) t.getTransferData(this.serialArrayListFlavor);
+                list = (List<?>) t.getTransferData(serialArrayListFlavor);
             }
             else {
                 return false;
@@ -133,9 +133,9 @@ class ArrayListTransferHandler extends TransferHandler {
         // be problematic when removing the original items.
         // This is interpreted as dropping the same data on itself
         // and has no effect.
-        if (this.source.equals(target)) {
-            if (this.indices != null && index >= (this.indices[0] - 1) && index <= this.indices[this.indices.length - 1]) {
-                this.indices = null;
+        if (source.equals(target)) {
+            if (indices != null && index >= (indices[0] - 1) && index <= indices[indices.length - 1]) {
+                indices = null;
 
                 return true;
             }
@@ -155,8 +155,8 @@ class ArrayListTransferHandler extends TransferHandler {
             }
         }
 
-        this.addIndex = index;
-        this.addCount = list.size();
+        addIndex = index;
+        addCount = list.size();
 
         for (Object element : list) {
             listModel.add(index, element);
@@ -169,10 +169,10 @@ class ArrayListTransferHandler extends TransferHandler {
     @Override
     protected Transferable createTransferable(final JComponent c) {
         if (c instanceof JList) {
-            this.source = (JList<?>) c;
-            this.indices = this.source.getSelectedIndices();
+            source = (JList<?>) c;
+            indices = source.getSelectedIndices();
 
-            final List<?> values = this.source.getSelectedValuesList();
+            final List<?> values = source.getSelectedValuesList();
 
             if (values == null || values.isEmpty()) {
                 return null;
@@ -198,37 +198,37 @@ class ArrayListTransferHandler extends TransferHandler {
 
     @Override
     protected void exportDone(final JComponent c, final Transferable data, final int action) {
-        if (action == MOVE && this.indices != null) {
-            final DefaultListModel<?> model = (DefaultListModel<?>) this.source.getModel();
+        if (action == MOVE && indices != null) {
+            final DefaultListModel<?> model = (DefaultListModel<?>) source.getModel();
 
             // If we are moving items around in the same list, we
             // need to adjust the indices accordingly since those
             // after the insertion point have moved.
-            if (this.addCount > 0) {
-                for (int i = 0; i < this.indices.length; i++) {
-                    if (this.indices[i] > this.addIndex) {
-                        this.indices[i] += this.addCount;
+            if (addCount > 0) {
+                for (int i = 0; i < indices.length; i++) {
+                    if (indices[i] > addIndex) {
+                        indices[i] += addCount;
                     }
                 }
             }
 
-            for (int i = this.indices.length - 1; i >= 0; i--) {
-                model.remove(this.indices[i]);
+            for (int i = indices.length - 1; i >= 0; i--) {
+                model.remove(indices[i]);
             }
         }
 
-        this.indices = null;
-        this.addIndex = -1;
-        this.addCount = 0;
+        indices = null;
+        addIndex = -1;
+        addCount = 0;
     }
 
     private boolean hasLocalArrayListFlavor(final DataFlavor[] flavors) {
-        if (this.localArrayListFlavor == null) {
+        if (localArrayListFlavor == null) {
             return false;
         }
 
         for (DataFlavor flavor : flavors) {
-            if (flavor.equals(this.localArrayListFlavor)) {
+            if (flavor.equals(localArrayListFlavor)) {
                 return true;
             }
         }
@@ -237,12 +237,12 @@ class ArrayListTransferHandler extends TransferHandler {
     }
 
     private boolean hasSerialArrayListFlavor(final DataFlavor[] flavors) {
-        if (this.serialArrayListFlavor == null) {
+        if (serialArrayListFlavor == null) {
             return false;
         }
 
         for (DataFlavor flavor : flavors) {
-            if (flavor.equals(this.serialArrayListFlavor)) {
+            if (flavor.equals(serialArrayListFlavor)) {
                 return true;
             }
         }

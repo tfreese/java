@@ -17,26 +17,26 @@ public class OsmModel {
     public OsmModel() {
         super();
 
-        this.nodeMap = new HashMap<>();
-        this.wayMap = new HashMap<>();
-        this.relationMap = new HashMap<>();
+        nodeMap = new HashMap<>();
+        wayMap = new HashMap<>();
+        relationMap = new HashMap<>();
     }
 
     public void clear() {
-        this.nodeMap.clear();
-        this.wayMap.clear();
-        this.relationMap.clear();
+        nodeMap.clear();
+        wayMap.clear();
+        relationMap.clear();
     }
 
     public Map<Long, OsmNode> getNodeMap() {
-        return this.nodeMap;
+        return nodeMap;
     }
 
     public Map<Long, OsmRelation> getRelationMap() {
-        return this.relationMap;
+        return relationMap;
     }
 
     public Map<Long, OsmWay> getWayMap() {
-        return this.wayMap;
+        return wayMap;
     }
 }

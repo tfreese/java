@@ -38,8 +38,9 @@ public abstract class AbstractSimulation implements Simulation {
 
         this.width = width;
         this.height = height;
-        this.random = new SecureRandom();
-        this.simulationListeners = Collections.synchronizedList(new ArrayList<>());
+
+        random = new SecureRandom();
+        simulationListeners = Collections.synchronizedList(new ArrayList<>());
     }
 
     @Override

@@ -24,31 +24,31 @@ public class Calculator {
     }
 
     public Calculator add(final long addend) {
-        return set(this.value.add(BigDecimal.valueOf(addend)));
+        return set(value.add(BigDecimal.valueOf(addend)));
     }
 
     public Calculator divide(final long divisor) {
-        return set(this.value.divide(BigDecimal.valueOf(divisor), MATH_CONTEXT));
+        return set(value.divide(BigDecimal.valueOf(divisor), MATH_CONTEXT));
     }
 
     public double doubleValue() {
-        return this.value.doubleValue();
+        return value.doubleValue();
     }
 
     public BigDecimal get() {
-        return this.value;
+        return value;
     }
 
     public long longValue() {
-        return this.value.longValue();
+        return value.longValue();
     }
 
     public Calculator multiply(final long factor) {
-        return set(this.value.multiply(BigDecimal.valueOf(factor)));
+        return set(value.multiply(BigDecimal.valueOf(factor)));
     }
 
     public Calculator power(final int exponent) {
-        return set(this.value.pow(exponent, MATH_CONTEXT));
+        return set(value.pow(exponent, MATH_CONTEXT));
     }
 
     public Calculator set(final BigDecimal value) {
@@ -69,6 +69,6 @@ public class Calculator {
     }
 
     public Calculator sqrt() {
-        return set(this.value.sqrt(MATH_CONTEXT));
+        return set(value.sqrt(MATH_CONTEXT));
     }
 }

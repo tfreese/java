@@ -49,7 +49,7 @@ class TestHsqlPersonDb {
     @Test
     @Order(40)
     void testColumns() throws Exception {
-        final List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, "T_PERSON");
+        final List<Schema> schemas = metaExporter.export(dataSource, SCHEMA_NAME, "T_PERSON");
 
         assertNotNull(schemas);
         assertEquals(1, schemas.size());
@@ -76,7 +76,7 @@ class TestHsqlPersonDb {
     @Test
     @Order(60)
     void testForeignKey() throws Exception {
-        final List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, "T_ADDRESS");
+        final List<Schema> schemas = metaExporter.export(dataSource, SCHEMA_NAME, "T_ADDRESS");
 
         assertNotNull(schemas);
         assertEquals(1, schemas.size());
@@ -106,7 +106,7 @@ class TestHsqlPersonDb {
     @Test
     @Order(70)
     void testIndices() throws Exception {
-        final List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, "T_PERSON");
+        final List<Schema> schemas = metaExporter.export(dataSource, SCHEMA_NAME, "T_PERSON");
 
         assertNotNull(schemas);
         assertEquals(1, schemas.size());
@@ -146,7 +146,7 @@ class TestHsqlPersonDb {
     @Test
     @Order(50)
     void testPrimaryKey() throws Exception {
-        final List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, "T_PERSON");
+        final List<Schema> schemas = metaExporter.export(dataSource, SCHEMA_NAME, "T_PERSON");
 
         assertNotNull(schemas);
         assertEquals(1, schemas.size());
@@ -167,7 +167,7 @@ class TestHsqlPersonDb {
     @Test
     @Order(10)
     void testSchema() throws Exception {
-        final List<Schema> schemas = this.metaExporter.export(dataSource, null, null);
+        final List<Schema> schemas = metaExporter.export(dataSource, null, null);
 
         assertNotNull(schemas);
         assertEquals(3, schemas.size());
@@ -176,7 +176,7 @@ class TestHsqlPersonDb {
     @Test
     @Order(20)
     void testSequences() throws Exception {
-        final List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, null);
+        final List<Schema> schemas = metaExporter.export(dataSource, SCHEMA_NAME, null);
 
         assertNotNull(schemas);
         assertEquals(1, schemas.size());
@@ -194,7 +194,7 @@ class TestHsqlPersonDb {
     @Test
     @Order(30)
     void testTable() throws Exception {
-        final List<Schema> schemas = this.metaExporter.export(dataSource, SCHEMA_NAME, null);
+        final List<Schema> schemas = metaExporter.export(dataSource, SCHEMA_NAME, null);
 
         assertNotNull(schemas);
         assertEquals(1, schemas.size());

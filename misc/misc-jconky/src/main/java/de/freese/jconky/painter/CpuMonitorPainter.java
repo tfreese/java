@@ -25,17 +25,17 @@ public class CpuMonitorPainter extends AbstractMonitorPainter {
     public CpuMonitorPainter() {
         super();
 
-        this.gradientStops = new Stop[]{new Stop(0D, getSettings().getColorGradientStart()), new Stop(1D, getSettings().getColorGradientStop())};
+        gradientStops = new Stop[]{new Stop(0D, getSettings().getColorGradientStart()), new Stop(1D, getSettings().getColorGradientStop())};
     }
 
     @Override
     public double paintValue(final GraphicsContext gc, final double width) {
         final CpuInfos cpuInfos = getContext().getCpuInfos();
 
-        this.coreUsageMap.computeIfAbsent(-1, key -> new Values<>()).addValue(cpuInfos.getTotal().getCpuUsage());
+        coreUsageMap.computeIfAbsent(-1, key -> new Values<>()).addValue(cpuInfos.getTotal().getCpuUsage());
 
         for (int i = 0; i < getContext().getNumberOfCores(); i++) {
-            this.coreUsageMap.computeIfAbsent(i, key -> new Values<>()).addValue(cpuInfos.get(i).getCpuUsage());
+            coreUsageMap.computeIfAbsent(i, key -> new Values<>()).addValue(cpuInfos.get(i).getCpuUsage());
         }
 
         double y = paintTotal(gc, width, cpuInfos);
@@ -80,7 +80,7 @@ public class CpuMonitorPainter extends AbstractMonitorPainter {
         gc.setStroke(getSettings().getColorText());
         gc.strokeRect(x, y, barWidth, 10D);
 
-        gc.setFill(new LinearGradient(x, y, x + barWidth, y, false, CycleMethod.NO_CYCLE, this.gradientStops));
+        gc.setFill(new LinearGradient(x, y, x + barWidth, y, false, CycleMethod.NO_CYCLE, gradientStops));
         gc.fillRect(x, y, usage * barWidth, 10D);
 
         return fontSize * 1.25D;
@@ -165,14 +165,14 @@ public class CpuMonitorPainter extends AbstractMonitorPainter {
         gc.strokeRect(x, y - fontSize, barWidth, 10D);
 
         y -= fontSize;
-        gc.setFill(new LinearGradient(x, y, x + barWidth, y, false, CycleMethod.NO_CYCLE, this.gradientStops));
+        gc.setFill(new LinearGradient(x, y, x + barWidth, y, false, CycleMethod.NO_CYCLE, gradientStops));
         gc.fillRect(x, y, usage * barWidth, 10D);
 
         return height;
     }
 
     private double paintTotalGraph(final GraphicsContext gc, final double width) {
-        final Values<Double> values = this.coreUsageMap.computeIfAbsent(-1, key -> new Values<>());
+        final Values<Double> values = coreUsageMap.computeIfAbsent(-1, key -> new Values<>());
         final List<Double> valueList = values.getLastValues((int) width);
         final double height = 20D;
 
@@ -181,8 +181,8 @@ public class CpuMonitorPainter extends AbstractMonitorPainter {
         // double minNorm = 0D;
         // double maxNorm = height - 2;
 
-        // gc.setFill(new LinearGradient(0D, height - 2, 0D, 0D, false, CycleMethod.NO_CYCLE, this.gradientStops));
-        gc.setStroke(new LinearGradient(0D, height - 2, 0D, 0D, false, CycleMethod.NO_CYCLE, this.gradientStops));
+        // gc.setFill(new LinearGradient(0D, height - 2, 0D, 0D, false, CycleMethod.NO_CYCLE, gradientStops));
+        gc.setStroke(new LinearGradient(0D, height - 2, 0D, 0D, false, CycleMethod.NO_CYCLE, gradientStops));
 
         final double xOffset = width - valueList.size(); // Diagramm von rechts aufbauen.
         // final double xOffset = 0D; // Diagramm von links aufbauen.

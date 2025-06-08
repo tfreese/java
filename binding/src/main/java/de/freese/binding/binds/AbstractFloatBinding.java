@@ -15,16 +15,16 @@ public abstract class AbstractFloatBinding extends AbstractFloatExpression imple
 
     @Override
     public Float getValue() {
-        return this.value;
+        return value;
     }
 
     @Override
     public void update() {
-        final float old = this.value;
-        this.value = computeValue();
+        final float old = value;
+        value = computeValue();
 
-        if (Objects.equals(old, this.value)) {
-            fireValueChangedEvent(old, this.value);
+        if (Objects.equals(old, value)) {
+            fireValueChangedEvent(old, value);
         }
     }
 

@@ -15,11 +15,11 @@ public abstract class AbstractOsmEntity {
     private long id;
 
     public long getID() {
-        return this.id;
+        return id;
     }
 
     public Map<String, String> getTags() {
-        return this.tags;
+        return tags;
     }
 
     public void setID(final long id) {

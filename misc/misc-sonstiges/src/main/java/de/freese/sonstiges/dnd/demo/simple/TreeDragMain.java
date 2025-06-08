@@ -27,7 +27,7 @@ public final class TreeDragMain extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // If you want AutoScrolling, use this line:
-        // this.tree = new de.freese.base.swing.components.tree.ExtTree();
+        // tree = new de.freese.base.swing.components.tree.ExtTree();
         final JTree tree = new JTree();
 
         // Otherwise, use this line:

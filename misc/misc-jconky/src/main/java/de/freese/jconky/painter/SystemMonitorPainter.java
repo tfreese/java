@@ -22,7 +22,7 @@ public class SystemMonitorPainter extends AbstractMonitorPainter {
     public SystemMonitorPainter() {
         super();
 
-        this.gradientStops = new Stop[]{new Stop(0D, getSettings().getColorGradientStart()), new Stop(1D, getSettings().getColorGradientStop())};
+        gradientStops = new Stop[]{new Stop(0D, getSettings().getColorGradientStart()), new Stop(1D, getSettings().getColorGradientStop())};
     }
 
     @Override
@@ -81,7 +81,7 @@ public class SystemMonitorPainter extends AbstractMonitorPainter {
         gc.setStroke(getSettings().getColorText());
         gc.strokeRect(x, y, barWidth, 10D);
 
-        gc.setFill(new LinearGradient(x, y, x + barWidth, y, false, CycleMethod.NO_CYCLE, this.gradientStops));
+        gc.setFill(new LinearGradient(x, y, x + barWidth, y, false, CycleMethod.NO_CYCLE, gradientStops));
         gc.fillRect(x, y, usage * barWidth, 10D);
     }
 }

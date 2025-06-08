@@ -12,7 +12,7 @@ public abstract class AbstractLongProperty extends AbstractLongExpression implem
 
     @Override
     public Long getValue() {
-        return this.value;
+        return value;
     }
 
     @Override

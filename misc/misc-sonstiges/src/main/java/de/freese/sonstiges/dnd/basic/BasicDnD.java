@@ -89,24 +89,24 @@ public final class BasicDnD extends JPanel implements ActionListener {
 
         // LEFT COLUMN
         // Use the table model to create a table.
-        this.table = new JTable(tm);
-        leftPanel.add(createPanelForComponent(this.table, "JTable"));
+        table = new JTable(tm);
+        leftPanel.add(createPanelForComponent(table, "JTable"));
 
         // Create a dnd.color chooser.
-        this.colorChooser = new JColorChooser();
-        leftPanel.add(createPanelForComponent(this.colorChooser, "JColorChooser"));
+        colorChooser = new JColorChooser();
+        leftPanel.add(createPanelForComponent(colorChooser, "JColorChooser"));
 
         // RIGHT COLUMN
         // Create a TextField.
-        this.textField = new JTextField(30);
-        this.textField.setText("Favorite foods: Pizza, Moussaka, Pot roast");
-        rightPanel.add(createPanelForComponent(this.textField, "JTextField"));
+        textField = new JTextField(30);
+        textField.setText("Favorite foods: Pizza, Moussaka, Pot roast");
+        rightPanel.add(createPanelForComponent(textField, "JTextField"));
 
         // Create a scrolled text area.
-        this.textArea = new JTextArea(5, 30);
-        this.textArea.setText("Favorite shows:" + System.lineSeparator() + "Buffy, Alias, Angel");
+        textArea = new JTextArea(5, 30);
+        textArea.setText("Favorite shows:" + System.lineSeparator() + "Buffy, Alias, Angel");
 
-        final JScrollPane scrollPane = new JScrollPane(this.textArea);
+        final JScrollPane scrollPane = new JScrollPane(textArea);
         rightPanel.add(createPanelForComponent(scrollPane, "JTextArea"));
 
         // Create a list model and a list.
@@ -118,10 +118,10 @@ public final class BasicDnD extends JPanel implements ActionListener {
         listModel.addElement("Elizabeth Monroe");
         listModel.addElement("Louisa Adams");
         listModel.addElement("Emily Donelson");
-        this.list = new JList<>(listModel);
-        this.list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        list = new JList<>(listModel);
+        list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-        final JScrollPane listView = new JScrollPane(this.list);
+        final JScrollPane listView = new JScrollPane(list);
         listView.setPreferredSize(new Dimension(300, 100));
         rightPanel.add(createPanelForComponent(listView, "JList"));
 
@@ -140,36 +140,36 @@ public final class BasicDnD extends JPanel implements ActionListener {
         anya.add(new DefaultMutableTreeNode("Winky"));
 
         final DefaultTreeModel model = new DefaultTreeModel(rootNode);
-        this.tree = new JTree(model);
-        this.tree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+        tree = new JTree(model);
+        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
 
-        final JScrollPane treeView = new JScrollPane(this.tree);
+        final JScrollPane treeView = new JScrollPane(tree);
         treeView.setPreferredSize(new Dimension(300, 100));
         rightPanel.add(createPanelForComponent(treeView, "JTree"));
 
         // Create the toggle button.
-        this.toggleDnD = new JCheckBox("Turn on Drag and Drop");
-        this.toggleDnD.setActionCommand("toggleDnD");
-        this.toggleDnD.addActionListener(this);
+        toggleDnD = new JCheckBox("Turn on Drag and Drop");
+        toggleDnD.setActionCommand("toggleDnD");
+        toggleDnD.addActionListener(this);
 
         final JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         splitPane.setOneTouchExpandable(true);
 
         add(splitPane, BorderLayout.CENTER);
-        add(this.toggleDnD, BorderLayout.PAGE_END);
+        add(toggleDnD, BorderLayout.PAGE_END);
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
     }
 
     @Override
     public void actionPerformed(final ActionEvent e) {
         if ("toggleDnD".equals(e.getActionCommand())) {
-            final boolean toggle = this.toggleDnD.isSelected();
-            this.textArea.setDragEnabled(toggle);
-            this.textField.setDragEnabled(toggle);
-            this.list.setDragEnabled(toggle);
-            this.table.setDragEnabled(toggle);
-            this.tree.setDragEnabled(toggle);
-            this.colorChooser.setDragEnabled(toggle);
+            final boolean toggle = toggleDnD.isSelected();
+            textArea.setDragEnabled(toggle);
+            textField.setDragEnabled(toggle);
+            list.setDragEnabled(toggle);
+            table.setDragEnabled(toggle);
+            tree.setDragEnabled(toggle);
+            colorChooser.setDragEnabled(toggle);
         }
     }
 

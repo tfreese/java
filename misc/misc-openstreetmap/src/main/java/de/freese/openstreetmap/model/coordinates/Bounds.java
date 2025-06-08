@@ -27,15 +27,15 @@ public class Bounds {
     public Bounds() {
         super();
 
-        this.myMin = new LatLon(-Projection.MAX_LAT, -Projection.MAX_LON);
-        this.myMax = new LatLon(Projection.MAX_LAT, Projection.MAX_LON);
+        myMin = new LatLon(-Projection.MAX_LAT, -Projection.MAX_LON);
+        myMax = new LatLon(Projection.MAX_LAT, Projection.MAX_LON);
     }
 
     public Bounds(final double lat0, final double lon0, final double lat1, final double lon1) {
         super();
 
-        this.myMin = new LatLon(Math.min(lat0, lat1), Math.min(lon0, lon1));
-        this.myMax = new LatLon(Math.max(lat0, lat1), Math.max(lon0, lon1));
+        myMin = new LatLon(Math.min(lat0, lat1), Math.min(lon0, lon1));
+        myMax = new LatLon(Math.max(lat0, lat1), Math.max(lon0, lon1));
     }
 
     public Bounds(final LatLon center, final double radius) {
@@ -50,15 +50,15 @@ public class Bounds {
         // not sure, whether this calculation is right... maybe there is some
         // more complex calculation needed to get a center of a spherical
         // dimension?
-        return new LatLon((this.myMin.lat() + this.myMax.lat()) / 2, (this.myMin.lon() + this.myMax.lon()) / 2);
+        return new LatLon((myMin.lat() + myMax.lat()) / 2, (myMin.lon() + myMax.lon()) / 2);
     }
 
     /**
      * @return true if the given coordinates are within this bounding-box
      */
     public boolean contains(final double latitude, final double longitude) {
-        // return !(latitude < this.myMin.lat()) && !(latitude > this.myMax.lat()) && !(longitude < this.myMin.lon()) && !(longitude > this.myMax.lon());
-        return latitude >= this.myMin.lat() && latitude <= this.myMax.lat() && longitude >= this.myMin.lon() && longitude <= this.myMax.lon();
+        // return !(latitude < myMin.lat()) && !(latitude > myMax.lat()) && !(longitude < myMin.lon()) && !(longitude > myMax.lon());
+        return latitude >= myMin.lat() && latitude <= myMax.lat() && longitude >= myMin.lon() && longitude <= myMax.lon();
     }
 
     // /**
@@ -83,11 +83,11 @@ public class Bounds {
     }
 
     public LatLon getMax() {
-        return this.myMax;
+        return myMax;
     }
 
     public LatLon getMin() {
-        return this.myMin;
+        return myMin;
     }
 
     /**
@@ -107,6 +107,6 @@ public class Bounds {
 
     @Override
     public String toString() {
-        return "Bounds[" + this.myMin.lat() + "," + this.myMin.lon() + "," + this.myMax.lat() + "," + this.myMax.lon() + "]";
+        return "Bounds[" + myMin.lat() + "," + myMin.lon() + "," + myMax.lat() + "," + myMax.lon() + "]";
     }
 }

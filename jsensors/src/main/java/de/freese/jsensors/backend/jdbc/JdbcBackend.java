@@ -78,7 +78,7 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
 
                     if (exclusive) {
                         // Without SensorName.
-                        // String index = String.format("ALTER TABLE %s ADD CONSTRAINT TIMESTAMP_PK PRIMARY KEY (TIMESTAMP);", this.tableName);
+                        // String index = String.format("ALTER TABLE %s ADD CONSTRAINT TIMESTAMP_PK PRIMARY KEY (TIMESTAMP);", tableName);
                         final String index = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (TIMESTAMP);", tableName, tableName);
 
                         statement.execute(index);

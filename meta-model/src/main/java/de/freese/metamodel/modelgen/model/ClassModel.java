@@ -31,7 +31,7 @@ public class ClassModel extends AbstractModel {
 
     public FieldModel addField(final String name, final String fieldClazzName) {
         final FieldModel fieldModel = new FieldModel(name, this, fieldClazzName);
-        this.fields.add(fieldModel);
+        fields.add(fieldModel);
 
         return fieldModel;
     }
@@ -41,21 +41,21 @@ public class ClassModel extends AbstractModel {
     }
 
     public void addImport(final String clazzName) {
-        this.imports.add(clazzName);
+        imports.add(clazzName);
     }
 
     public void addInterface(final Class<?> iface) {
-        this.interfaces.add(iface);
+        interfaces.add(iface);
 
         addImport(iface);
     }
 
     public List<FieldModel> getFields() {
-        return this.fields;
+        return fields;
     }
 
     public Set<String> getImports() {
-        final Set<String> set = new TreeSet<>(this.imports);
+        final Set<String> set = new TreeSet<>(imports);
 
         getFields().stream()
                 .filter(field -> !field.isFieldClassPrimitive())
@@ -67,19 +67,19 @@ public class ClassModel extends AbstractModel {
     }
 
     public List<Class<?>> getInterfaces() {
-        return this.interfaces;
+        return interfaces;
     }
 
     public String getPackageName() {
-        return this.packageName;
+        return packageName;
     }
 
     public boolean isAddFullConstructor() {
-        return this.addFullConstructor;
+        return addFullConstructor;
     }
 
     public boolean isSerializeable() {
-        return this.serializeable;
+        return serializeable;
     }
 
     public void setAddFullConstructor(final boolean addFullConstructor) {

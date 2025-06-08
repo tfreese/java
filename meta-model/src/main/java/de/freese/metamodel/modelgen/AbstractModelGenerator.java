@@ -121,27 +121,27 @@ public abstract class AbstractModelGenerator {
     }
 
     protected NamingStrategy getNamingStrategy() {
-        return this.namingStrategy;
+        return namingStrategy;
     }
 
     protected String getPackageName() {
-        return this.packageName;
+        return packageName;
     }
 
     protected TypeMapping getTypeMapping() {
-        return this.typeMapping;
+        return typeMapping;
     }
 
     protected boolean isAddFullConstructor() {
-        return this.addFullConstructor;
+        return addFullConstructor;
     }
 
     protected boolean isSerializeable() {
-        return this.serializeable;
+        return serializeable;
     }
 
     protected boolean isValidationAnnotations() {
-        return this.validationAnnotations;
+        return validationAnnotations;
     }
 
     protected ClassModel transformClass(final Table table) {

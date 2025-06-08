@@ -23,24 +23,24 @@ public class CpuLoadAvg {
     }
 
     public double getFifteenMinutes() {
-        return this.fifteenMinutes;
+        return fifteenMinutes;
     }
 
     public double getFiveMinutes() {
-        return this.fiveMinutes;
+        return fiveMinutes;
     }
 
     public double getOneMinute() {
-        return this.oneMinute;
+        return oneMinute;
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
-        builder.append("oneMinute=").append(this.oneMinute);
-        builder.append(", fiveMinutes=").append(this.fiveMinutes);
-        builder.append(", fifteenMinutes=").append(this.fifteenMinutes);
+        builder.append("oneMinute=").append(oneMinute);
+        builder.append(", fiveMinutes=").append(fiveMinutes);
+        builder.append(", fifteenMinutes=").append(fifteenMinutes);
         builder.append("]");
 
         return builder.toString();

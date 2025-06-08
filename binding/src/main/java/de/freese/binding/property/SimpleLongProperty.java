@@ -28,11 +28,11 @@ public class SimpleLongProperty extends AbstractLongProperty {
 
     @Override
     public Object getBean() {
-        return this.bean;
+        return bean;
     }
 
     @Override
     public String getName() {
-        return this.name;
+        return name;
     }
 }

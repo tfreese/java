@@ -29,7 +29,7 @@ public abstract class AbstractMonitorPainter implements MonitorPainter {
     }
 
     protected Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     protected Settings getSettings() {

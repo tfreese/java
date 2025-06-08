@@ -22,11 +22,11 @@ public class PolygonBounds extends Bounds {
     private final GeneralPath myPolygonPath = new GeneralPath(Path2D.WIND_EVEN_ODD);
 
     public void addPoint(final double lat, final double lon) {
-        if (this.myPolygonPath.getCurrentPoint() == null) {
-            this.myPolygonPath.moveTo(lat, lon);
+        if (myPolygonPath.getCurrentPoint() == null) {
+            myPolygonPath.moveTo(lat, lon);
         }
         else {
-            this.myPolygonPath.lineTo(lat, lon);
+            myPolygonPath.lineTo(lat, lon);
         }
     }
 
@@ -41,39 +41,39 @@ public class PolygonBounds extends Bounds {
 
     @Override
     public boolean contains(final double aLatitude, final double longitude) {
-        this.myPolygonPath.closePath();
+        myPolygonPath.closePath();
 
-        return this.myPolygonPath.contains(aLatitude, longitude);
+        return myPolygonPath.contains(aLatitude, longitude);
     }
 
     @Override
     public LatLon getCenter() {
-        this.myPolygonPath.closePath();
-        final Rectangle2D bounds2D = this.myPolygonPath.getBounds2D();
+        myPolygonPath.closePath();
+        final Rectangle2D bounds2D = myPolygonPath.getBounds2D();
 
         return new LatLon(bounds2D.getCenterX(), bounds2D.getCenterY());
     }
 
     @Override
     public LatLon getMax() {
-        this.myPolygonPath.closePath();
-        final Rectangle2D bounds2D = this.myPolygonPath.getBounds2D();
+        myPolygonPath.closePath();
+        final Rectangle2D bounds2D = myPolygonPath.getBounds2D();
 
         return new LatLon(bounds2D.getMaxX(), bounds2D.getMaxY());
     }
 
     @Override
     public LatLon getMin() {
-        this.myPolygonPath.closePath();
-        final Rectangle2D bounds2D = this.myPolygonPath.getBounds2D();
+        myPolygonPath.closePath();
+        final Rectangle2D bounds2D = myPolygonPath.getBounds2D();
 
         return new LatLon(bounds2D.getMinX(), bounds2D.getMinY());
     }
 
     @Override
     public double getSize() {
-        this.myPolygonPath.closePath();
-        final Rectangle2D bounds2D = this.myPolygonPath.getBounds2D();
+        myPolygonPath.closePath();
+        final Rectangle2D bounds2D = myPolygonPath.getBounds2D();
 
         return Math.max(bounds2D.getWidth(), bounds2D.getHeight());
     }

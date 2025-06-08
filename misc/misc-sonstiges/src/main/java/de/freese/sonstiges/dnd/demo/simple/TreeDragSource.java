@@ -34,8 +34,9 @@ class TreeDragSource implements DragSourceListener, DragGestureListener {
         super();
 
         this.sourceTree = tree;
-        this.source = new DragSource();
-        // this.recognizer = this.source.createDefaultDragGestureRecognizer(this.sourceTree, actions, this);
+
+        source = new DragSource();
+        // recognizer = source.createDefaultDragGestureRecognizer(sourceTree, actions, this);
     }
 
     @Override
@@ -44,7 +45,7 @@ class TreeDragSource implements DragSourceListener, DragGestureListener {
         LOGGER.info("Drop Action: {}", event.getDropAction());
 
         if (event.getDropSuccess() && event.getDropAction() == DnDConstants.ACTION_MOVE) {
-            ((DefaultTreeModel) this.sourceTree.getModel()).removeNodeFromParent(this.oldNode);
+            ((DefaultTreeModel) sourceTree.getModel()).removeNodeFromParent(oldNode);
         }
 
         // to support move only... if (event.getDropSuccess()) { ((DefaultTreeModel)sourceTree.getModel()).removeNodeFromParent(oldNode); }
@@ -62,16 +63,16 @@ class TreeDragSource implements DragSourceListener, DragGestureListener {
 
     @Override
     public void dragGestureRecognized(final DragGestureEvent event) {
-        final TreePath path = this.sourceTree.getSelectionPath();
+        final TreePath path = sourceTree.getSelectionPath();
 
         if (path == null || path.getPathCount() <= 1) {
             // We can't move the root node or an empty selection
             return;
         }
 
-        this.oldNode = (DefaultMutableTreeNode) path.getLastPathComponent();
+        oldNode = (DefaultMutableTreeNode) path.getLastPathComponent();
         final TransferableTreeNode transferable = new TransferableTreeNode(path);
-        this.source.startDrag(event, DragSource.DefaultMoveNoDrop, transferable, this);
+        source.startDrag(event, DragSource.DefaultMoveNoDrop, transferable, this);
 
         // If you support dropping the node anywhere, you should probably
         // start with a valid move cursor:

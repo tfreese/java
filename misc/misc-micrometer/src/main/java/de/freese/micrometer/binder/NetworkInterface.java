@@ -37,20 +37,20 @@ class NetworkInterface {
      * Die Reihenfolge der Meter-Abfrage ergibt sich aus deren Reihenfolge der Registrierung.
      */
     double getInput() {
-        LOGGER.info("getInput: {}", this.iface);
+        LOGGER.info("getInput: {}", iface);
 
         update();
 
-        return this.input;
+        return input;
     }
 
     /**
      * Die Reihenfolge der Meter-Abfrage ergibt sich aus deren Reihenfolge der Registrierung.
      */
     double getOutput() {
-        LOGGER.info("getOutput: {}", this.iface);
+        LOGGER.info("getOutput: {}", iface);
 
-        return this.output;
+        return output;
     }
 
     /**
@@ -93,18 +93,18 @@ class NetworkInterface {
     }
 
     private void update() {
-        LOGGER.info("update: {}", this.iface);
+        LOGGER.info("update: {}", iface);
 
-        final List<String> lines = executeCommand("ifconfig", this.iface).stream().map(String::strip).filter(line -> !line.isEmpty()).toList();
+        final List<String> lines = executeCommand("ifconfig", iface).stream().map(String::strip).filter(line -> !line.isEmpty()).toList();
 
-        this.input = lines.stream().filter(l -> l.startsWith("RX packets")).mapToLong(l -> {
+        input = lines.stream().filter(l -> l.startsWith("RX packets")).mapToLong(l -> {
             final Matcher matcher = PATTERN_BYTES.matcher(l);
             matcher.find();
 
             return Long.parseLong(matcher.group(1));
         }).findFirst().orElse(0L);
 
-        this.output = lines.stream().filter(l -> l.startsWith("TX packets")).mapToLong(l -> {
+        output = lines.stream().filter(l -> l.startsWith("TX packets")).mapToLong(l -> {
             final Matcher matcher = PATTERN_BYTES.matcher(l);
             matcher.find();
 

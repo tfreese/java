@@ -119,24 +119,23 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         super();
 
         // .redirectErrorStream(true); // Gibt Fehler auf dem InputStream aus.
-        this.processBuilderUname = new ProcessBuilder().command("/bin/sh", "-c", "uname --all");
+        processBuilderUname = new ProcessBuilder().command("/bin/sh", "-c", "uname --all");
 
-        this.processBuilderSensors = new ProcessBuilder().command("/bin/sh", "-c", "sensors");
+        processBuilderSensors = new ProcessBuilder().command("/bin/sh", "-c", "sensors");
 
         // -u tommy
-        this.processBuilderTop = new ProcessBuilder().command("/bin/sh", "-c", "top -b -n 1");
+        processBuilderTop = new ProcessBuilder().command("/bin/sh", "-c", "top -b -n 1");
 
-        this.processBuilderIfConfig = new ProcessBuilder().command("/bin/sh", "-c", "ifconfig");
-        this.processBuilderNetstat = new ProcessBuilder().command("/bin/sh", "-c", "netstat --statistics ");
-        this.processBuilderDf = new ProcessBuilder().command("/bin/sh", "-c", "df --block-size=1K");
-        this.processBuilderFree = new ProcessBuilder().command("/bin/sh", "-c", "free --bytes");
-        this.processBuilderCheckUpdates = new ProcessBuilder().command("/bin/sh", "-c", "checkupdates");
-        this.processBuilderPlayerCtlMetaData = new ProcessBuilder().command("/bin/sh", "-c", "playerctl -s metadata");
-        this.processBuilderPlayerCtlPosition = new ProcessBuilder().command("/bin/sh", "-c", "playerctl -s position");
-        this.processBuilderHddTemp = new ProcessBuilder().command("/bin/sh", "-c", "sudo hddtemp /dev/sda /dev/sdb");
-        this.processBuilderSmartCtl = new ProcessBuilder().command("/bin/sh", "-c", "sudo smartctl -A /dev/nvme0n1");
-        this.processBuilderNvidiaSmi = new ProcessBuilder().command("/bin/sh", "-c",
-                "nvidia-smi --format=csv,noheader,nounits --query-gpu=temperature.gpu,power.draw,fan.speed,utilization.gpu");
+        processBuilderIfConfig = new ProcessBuilder().command("/bin/sh", "-c", "ifconfig");
+        processBuilderNetstat = new ProcessBuilder("/bin/sh", "-c", "netstat --statistics ");
+        processBuilderDf = new ProcessBuilder("/bin/sh", "-c", "df --block-size=1K");
+        processBuilderFree = new ProcessBuilder("/bin/sh", "-c", "free --bytes");
+        processBuilderCheckUpdates = new ProcessBuilder("/bin/sh", "-c", "checkupdates");
+        processBuilderPlayerCtlMetaData = new ProcessBuilder("/bin/sh", "-c", "playerctl -s metadata");
+        processBuilderPlayerCtlPosition = new ProcessBuilder("/bin/sh", "-c", "playerctl -s position");
+        processBuilderHddTemp = new ProcessBuilder("/bin/sh", "-c", "sudo hddtemp /dev/sda /dev/sdb");
+        processBuilderSmartCtl = new ProcessBuilder("/bin/sh", "-c", "sudo smartctl -A /dev/nvme0n1");
+        processBuilderNvidiaSmi = new ProcessBuilder("/bin/sh", "-c", "nvidia-smi --format=csv,noheader,nounits --query-gpu=temperature.gpu,power.draw,fan.speed,utilization.gpu");
     }
 
     @Override

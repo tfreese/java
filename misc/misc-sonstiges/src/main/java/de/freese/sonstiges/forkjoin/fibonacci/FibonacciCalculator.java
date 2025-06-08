@@ -54,8 +54,8 @@ public class FibonacciCalculator {
     }
 
     public long calculate() {
-        final FibonacciTask task = new FibonacciTask(this.n);
+        final FibonacciTask task = new FibonacciTask(n);
 
-        return this.forkJoinPool.invoke(task);
+        return forkJoinPool.invoke(task);
     }
 }

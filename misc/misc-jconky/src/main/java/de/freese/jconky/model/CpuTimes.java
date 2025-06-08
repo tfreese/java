@@ -64,39 +64,39 @@ public class CpuTimes {
     }
 
     public long getGuest() {
-        return this.guest;
+        return guest;
     }
 
     public long getGuestNice() {
-        return this.guestNice;
+        return guestNice;
     }
 
     public long getIdle() {
-        return this.idle;
+        return idle;
     }
 
     public long getIoWait() {
-        return this.ioWait;
+        return ioWait;
     }
 
     public long getIrq() {
-        return this.irq;
+        return irq;
     }
 
     public long getNice() {
-        return this.nice;
+        return nice;
     }
 
     public long getSoftIrq() {
-        return this.softIrq;
+        return softIrq;
     }
 
     public long getSteal() {
-        return this.steal;
+        return steal;
     }
 
     public long getSystem() {
-        return this.system;
+        return system;
     }
 
     public long getTotal() {
@@ -112,6 +112,6 @@ public class CpuTimes {
     }
 
     public long getUser() {
-        return this.user;
+        return user;
     }
 }

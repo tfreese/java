@@ -25,7 +25,7 @@ public class NetworkInfos {
     }
 
     public void calculateUpAndDownload(final NetworkInfos previous) {
-        this.interfaces.keySet().forEach(name -> {
+        interfaces.keySet().forEach(name -> {
             final NetworkInfo niPrevious = previous.getByName(name);
             final NetworkInfo ni = getByName(name);
 
@@ -37,19 +37,19 @@ public class NetworkInfos {
     }
 
     public NetworkInfo getByIp(final String ip) {
-        return this.interfaces.values().stream().filter(ni -> ni.getIp().equals(ip)).findFirst().orElse(DEFAULT_NETWORK_INFO);
+        return interfaces.values().stream().filter(ni -> ni.getIp().equals(ip)).findFirst().orElse(DEFAULT_NETWORK_INFO);
     }
 
     public NetworkInfo getByName(final String interfaceName) {
-        return this.interfaces.computeIfAbsent(interfaceName, key -> DEFAULT_NETWORK_INFO);
+        return interfaces.computeIfAbsent(interfaceName, key -> DEFAULT_NETWORK_INFO);
     }
 
     public NetworkProtocolInfo getProtocolInfo() {
-        return this.protocolInfo;
+        return protocolInfo;
     }
 
     public int size() {
-        return this.interfaces.size();
+        return interfaces.size();
     }
 
     @Override

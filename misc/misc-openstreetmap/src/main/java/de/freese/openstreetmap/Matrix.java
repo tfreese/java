@@ -230,38 +230,38 @@ public class Matrix {
     public Matrix() {
         super();
 
-        this.m11 = 0.0D;
-        this.m12 = 0.0D;
-        this.m13 = 0.0D;
+        m11 = 0.0D;
+        m12 = 0.0D;
+        m13 = 0.0D;
 
-        this.m21 = 0.0D;
-        this.m22 = 0.0D;
-        this.m23 = 0.0D;
+        m21 = 0.0D;
+        m22 = 0.0D;
+        m23 = 0.0D;
 
-        this.m31 = 0.0D;
-        this.m32 = 0.0D;
-        this.m33 = 0.0D;
+        m31 = 0.0D;
+        m32 = 0.0D;
+        m33 = 0.0D;
     }
 
     /**
      * Liefert die Invers-Matrix der Transformationsmatrix.
      */
     public Matrix invers() {
-        final double myDet = ((this.m11 * this.m22 * this.m33) + (this.m12 * this.m23 * this.m31) + (this.m13 * this.m21 * this.m32))
-                - (this.m11 * this.m23 * this.m32) - (this.m12 * this.m21 * this.m33) - (this.m13 * this.m22 * this.m31);
+        final double myDet = ((m11 * m22 * m33) + (m12 * m23 * m31) + (m13 * m21 * m32))
+                - (m11 * m23 * m32) - (m12 * m21 * m33) - (m13 * m22 * m31);
 
         final Matrix retval = new Matrix();
-        retval.m11 = (this.m22 * this.m33) - (this.m32 * this.m23);
-        retval.m12 = (this.m13 * this.m32) - (this.m33 * this.m12);
-        retval.m13 = (this.m12 * this.m23) - (this.m13 * this.m22);
+        retval.m11 = (m22 * m33) - (m32 * m23);
+        retval.m12 = (m13 * m32) - (m33 * m12);
+        retval.m13 = (m12 * m23) - (m13 * m22);
 
-        retval.m21 = (this.m23 * this.m31) - (this.m33 * this.m21);
-        retval.m22 = (this.m11 * this.m33) - (this.m31 * this.m13);
-        retval.m23 = (this.m13 * this.m21) - (this.m23 * this.m11);
+        retval.m21 = (m23 * m31) - (m33 * m21);
+        retval.m22 = (m11 * m33) - (m31 * m13);
+        retval.m23 = (m13 * m21) - (m23 * m11);
 
-        retval.m31 = (this.m21 * this.m32) - (this.m31 * this.m22);
-        retval.m32 = (this.m12 * this.m31) - (this.m32 * this.m11);
-        retval.m33 = (this.m11 * this.m22) - (this.m21 * this.m12);
+        retval.m31 = (m21 * m32) - (m31 * m22);
+        retval.m32 = (m12 * m31) - (m32 * m11);
+        retval.m33 = (m11 * m22) - (m21 * m12);
 
         retval.m11 *= 1 / myDet;
         retval.m12 *= 1 / myDet;
@@ -287,17 +287,17 @@ public class Matrix {
      */
     public Matrix multiply(final Matrix other) {
         final Matrix retval = new Matrix();
-        retval.m11 = (this.m11 * other.m11) + (this.m12 * other.m21) + (this.m13 * other.m31);
-        retval.m12 = (this.m11 * other.m12) + (this.m12 * other.m22) + (this.m13 * other.m32);
-        retval.m13 = (this.m11 * other.m13) + (this.m12 * other.m23) + (this.m13 * other.m33);
+        retval.m11 = (m11 * other.m11) + (m12 * other.m21) + (m13 * other.m31);
+        retval.m12 = (m11 * other.m12) + (m12 * other.m22) + (m13 * other.m32);
+        retval.m13 = (m11 * other.m13) + (m12 * other.m23) + (m13 * other.m33);
 
-        retval.m21 = (this.m21 * other.m11) + (this.m22 * other.m21) + (this.m23 * other.m31);
-        retval.m22 = (this.m21 * other.m12) + (this.m22 * other.m22) + (this.m23 * other.m32);
-        retval.m23 = (this.m21 * other.m13) + (this.m22 * other.m23) + (this.m23 * other.m33);
+        retval.m21 = (m21 * other.m11) + (m22 * other.m21) + (m23 * other.m31);
+        retval.m22 = (m21 * other.m12) + (m22 * other.m22) + (m23 * other.m32);
+        retval.m23 = (m21 * other.m13) + (m22 * other.m23) + (m23 * other.m33);
 
-        retval.m31 = (this.m31 * other.m11) + (this.m32 * other.m21) + (this.m33 * other.m31);
-        retval.m32 = (this.m31 * other.m12) + (this.m32 * other.m22) + (this.m33 * other.m32);
-        retval.m33 = (this.m31 * other.m13) + (this.m32 * other.m23) + (this.m33 * other.m33);
+        retval.m31 = (m31 * other.m11) + (m32 * other.m21) + (m33 * other.m31);
+        retval.m32 = (m31 * other.m12) + (m32 * other.m22) + (m33 * other.m32);
+        retval.m33 = (m31 * other.m13) + (m32 * other.m23) + (m33 * other.m33);
 
         return retval;
     }
@@ -311,8 +311,8 @@ public class Matrix {
      */
     public Point multiply(final Point pt) {
         final Point retval = new Point();
-        retval.x = (int) ((pt.x * this.m11) + (pt.y * this.m12) + this.m13);
-        retval.y = (int) ((pt.x * this.m21) + (pt.y * this.m22) + this.m23);
+        retval.x = (int) ((pt.x * m11) + (pt.y * m12) + m13);
+        retval.y = (int) ((pt.x * m21) + (pt.y * m22) + m23);
 
         return retval;
     }
@@ -367,33 +367,9 @@ public class Matrix {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-        sb.append("|");
-        sb.append(this.m11);
-        sb.append(";");
-        sb.append("|");
-        sb.append(this.m12);
-        sb.append(";");
-        sb.append("|");
-        sb.append(this.m13);
-        sb.append("|").append(System.lineSeparator());
-        sb.append("|");
-        sb.append(this.m21);
-        sb.append(";");
-        sb.append("|");
-        sb.append(this.m22);
-        sb.append(";");
-        sb.append("|");
-        sb.append(this.m23);
-        sb.append("|").append(System.lineSeparator());
-        sb.append("|");
-        sb.append(this.m31);
-        sb.append(";");
-        sb.append("|");
-        sb.append(this.m32);
-        sb.append(";");
-        sb.append("|");
-        sb.append(this.m33);
-        sb.append("|").append(System.lineSeparator());
+        sb.append("|").append(m11).append(";").append("|").append(m12).append(";").append("|").append(m13).append("|").append(System.lineSeparator());
+        sb.append("|").append(m21).append(";").append("|").append(m22).append(";").append("|").append(m23).append("|").append(System.lineSeparator());
+        sb.append("|").append(m31).append(";").append("|").append(m32).append(";").append("|").append(m33).append("|").append(System.lineSeparator());
 
         return sb.toString();
     }

@@ -15,16 +15,16 @@ public abstract class AbstractStringBinding extends AbstractStringExpression imp
 
     @Override
     public String getValue() {
-        return this.value;
+        return value;
     }
 
     @Override
     public void update() {
-        final String old = this.value;
-        this.value = computeValue();
+        final String old = value;
+        value = computeValue();
 
-        if (Objects.equals(old, this.value)) {
-            fireValueChangedEvent(old, this.value);
+        if (Objects.equals(old, value)) {
+            fireValueChangedEvent(old, value);
         }
     }
 

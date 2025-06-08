@@ -34,31 +34,31 @@ public class MaxInIntervall extends RecursiveAction {
     }
 
     public int getResult() {
-        return this.result;
+        return result;
     }
 
     @Override
     protected void compute() {
-        if ((this.end - this.start) < this.intervalThreshold) {
-            this.result = findMaxSequentially();
+        if ((end - start) < intervalThreshold) {
+            result = findMaxSequentially();
         }
         else {
-            final int middle = (this.end - this.start) / 2;
+            final int middle = (end - start) / 2;
 
-            final MaxInIntervall task1 = new MaxInIntervall(this.array, this.start, this.start + middle, this.intervalThreshold);
-            final MaxInIntervall task2 = new MaxInIntervall(this.array, this.start + middle, this.end, this.intervalThreshold);
+            final MaxInIntervall task1 = new MaxInIntervall(array, start, start + middle, intervalThreshold);
+            final MaxInIntervall task2 = new MaxInIntervall(array, start + middle, end, intervalThreshold);
 
             invokeAll(task1, task2);
 
-            this.result = Math.max(task1.getResult(), task2.getResult());
+            result = Math.max(task1.getResult(), task2.getResult());
         }
     }
 
     private int findMaxSequentially() {
         int max = Integer.MIN_VALUE;
 
-        for (int i = this.start; i < this.end; i++) {
-            final int n = this.array[i];
+        for (int i = start; i < end; i++) {
+            final int n = array[i];
 
             if (n > max) {
                 max = n;

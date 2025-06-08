@@ -34,7 +34,7 @@ public class DiscordEmbed {
     private String titleUrl;
 
     public DiscordEmbed addField(final DiscordField field) {
-        this.fields.add(field);
+        fields.add(field);
 
         return this;
     }

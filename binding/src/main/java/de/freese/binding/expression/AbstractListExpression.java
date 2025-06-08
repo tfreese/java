@@ -42,8 +42,8 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
 
     @Override
     public void addListener(final ChangeListener<? super ObservableList<T>> listener) {
-        if (!this.listeners.contains(listener)) {
-            this.listeners.add(listener);
+        if (!listeners.contains(listener)) {
+            listeners.add(listener);
         }
     }
 
@@ -129,7 +129,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
 
     @Override
     public void removeListener(final ChangeListener<? super ObservableList<T>> listener) {
-        this.listeners.remove(listener);
+        listeners.remove(listener);
     }
 
     @Override
@@ -178,7 +178,7 @@ public abstract class AbstractListExpression<T> implements ObservableListValue<T
     }
 
     protected void fireValueChangedEvent(final ObservableList<T> oldValue, final ObservableList<T> newValue) {
-        for (ChangeListener<? super ObservableList<T>> changeListener : this.listeners) {
+        for (ChangeListener<? super ObservableList<T>> changeListener : listeners) {
             changeListener.changed(this, oldValue, newValue);
         }
     }

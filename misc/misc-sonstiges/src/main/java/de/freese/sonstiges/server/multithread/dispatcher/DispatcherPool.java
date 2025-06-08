@@ -51,7 +51,7 @@ public class DispatcherPool implements Dispatcher {
         this.numOfDispatcher = numOfDispatcher;
         this.numOfWorker = numOfWorker;
 
-        this.dispatchers = new ArrayList<>(numOfDispatcher);
+        dispatchers = new ArrayList<>(numOfDispatcher);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class DispatcherPool implements Dispatcher {
         final ThreadFactory threadFactoryDispatcher = Thread.ofPlatform().daemon().name(serverName + "-dispatcher-", 1).factory();
         final ThreadFactory threadFactoryWorker = Thread.ofPlatform().daemon().name(serverName + "-worker-", 1).factory();
 
-        // executorServiceWorker = new ThreadPoolExecutor(1, this.numOfWorker, 60L, TimeUnit.SECONDS, new SynchronousQueue<>(), threadFactoryWorker);
+        // executorServiceWorker = new ThreadPoolExecutor(1, numOfWorker, 60L, TimeUnit.SECONDS, new SynchronousQueue<>(), threadFactoryWorker);
         executorServiceWorker = Executors.newFixedThreadPool(numOfWorker, threadFactoryWorker);
 
         while (dispatchers.size() < numOfDispatcher) {
@@ -96,6 +96,6 @@ public class DispatcherPool implements Dispatcher {
 
         final int indexToUse = Math.abs(NEXT_INDEX.getAndIncrement(this) % length);
 
-        return this.dispatchers.get(indexToUse);
+        return dispatchers.get(indexToUse);
     }
 }

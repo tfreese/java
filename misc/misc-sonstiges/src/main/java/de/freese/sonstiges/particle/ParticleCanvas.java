@@ -35,7 +35,7 @@ class ParticleCanvas extends Canvas {
     ParticleCanvas() {
         super();
 
-        this.scheduledExecutorService = Executors.newScheduledThreadPool(1);
+        scheduledExecutorService = Executors.newScheduledThreadPool(1);
     }
 
     @Override

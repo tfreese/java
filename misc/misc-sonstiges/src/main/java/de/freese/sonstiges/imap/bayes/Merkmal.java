@@ -55,7 +55,7 @@ public class Merkmal implements Serializable {
     }
 
     public int getHamCount() {
-        return this.hamCount;
+        return hamCount;
     }
 
     public double getHamProbability() {
@@ -67,7 +67,7 @@ public class Merkmal implements Serializable {
     }
 
     public int getSpamCount() {
-        return this.spamCount;
+        return spamCount;
     }
 
     public double getSpamProbability() {

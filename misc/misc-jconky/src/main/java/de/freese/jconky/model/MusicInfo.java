@@ -32,27 +32,27 @@ public class MusicInfo {
     }
 
     public String getAlbum() {
-        return this.album;
+        return album;
     }
 
     public String getArtist() {
-        return this.artist;
+        return artist;
     }
 
     public int getBitRate() {
-        return this.bitRate;
+        return bitRate;
     }
 
     public URI getImageUri() {
-        return this.imageUri;
+        return imageUri;
     }
 
     public int getLength() {
-        return this.length;
+        return length;
     }
 
     public int getPosition() {
-        return this.position;
+        return position;
     }
 
     /**
@@ -67,20 +67,20 @@ public class MusicInfo {
     }
 
     public String getTitle() {
-        return this.title;
+        return title;
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
-        builder.append("artist=").append(this.artist);
-        builder.append(", album=").append(this.album);
-        builder.append(", title=").append(this.title);
-        builder.append(", length=").append(this.length);
-        builder.append(", position=").append(this.position);
-        builder.append(", bitRate=").append(this.bitRate);
-        builder.append(", imageUri=").append(this.imageUri);
+        builder.append("artist=").append(artist);
+        builder.append(", album=").append(album);
+        builder.append(", title=").append(title);
+        builder.append(", length=").append(length);
+        builder.append(", position=").append(position);
+        builder.append(", bitRate=").append(bitRate);
+        builder.append(", imageUri=").append(imageUri);
         builder.append("]");
 
         return builder.toString();

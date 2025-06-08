@@ -22,7 +22,7 @@ class TreeDropTargetListener implements DropTargetListener {
     TreeDropTargetListener() {
         super();
 
-        this.expandTimer = new Timer(1000, event -> {
+        expandTimer = new Timer(1000, event -> {
             // Nicht den RootKnoten
             if (TreeDropTargetListener.this.tree == null
                     || TreeDropTargetListener.this.lastPath == null
@@ -38,7 +38,7 @@ class TreeDropTargetListener implements DropTargetListener {
             // }
         });
 
-        this.expandTimer.setRepeats(true);
+        expandTimer.setRepeats(true);
     }
 
     @Override
@@ -48,7 +48,7 @@ class TreeDropTargetListener implements DropTargetListener {
 
     @Override
     public void dragExit(final DropTargetEvent dte) {
-        this.expandTimer.stop();
+        expandTimer.stop();
     }
 
     @Override
@@ -58,20 +58,20 @@ class TreeDropTargetListener implements DropTargetListener {
             return;
         }
 
-        this.tree = (JTree) event.getDropTargetContext().getComponent();
+        tree = (JTree) event.getDropTargetContext().getComponent();
 
-        final TreePath path = this.tree.getClosestPathForLocation(event.getLocation().x, event.getLocation().y);
+        final TreePath path = tree.getClosestPathForLocation(event.getLocation().x, event.getLocation().y);
 
-        if (path != this.lastPath) {
-            this.lastPath = path;
-            this.expandTimer.restart();
+        if (path != lastPath) {
+            lastPath = path;
+            expandTimer.restart();
         }
     }
 
     @Override
     public void drop(final DropTargetDropEvent event) {
-        this.tree = null;
-        this.expandTimer.stop();
+        tree = null;
+        expandTimer.stop();
     }
 
     @Override

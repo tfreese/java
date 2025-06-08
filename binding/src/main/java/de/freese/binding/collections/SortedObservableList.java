@@ -26,7 +26,7 @@ public class SortedObservableList<T> extends DefaultObservableList<T> {
         super(source);
 
         setComparator(comparator);
-        this.sortedList.addAll(source);
+        sortedList.addAll(source);
 
         source.addListener(new ListDataListener() {
             @Override
@@ -48,7 +48,7 @@ public class SortedObservableList<T> extends DefaultObservableList<T> {
 
     @Override
     public T get(final int index) {
-        return this.sortedList.get(index);
+        return sortedList.get(index);
     }
 
     public void setComparator(final Comparator<T> comparator) {
@@ -59,7 +59,7 @@ public class SortedObservableList<T> extends DefaultObservableList<T> {
     protected void doAdd(final int index, final T element) {
         getLogger().debug("Index: {}; Element: {}", index, element);
 
-        this.sortedList.add(index, element);
+        sortedList.add(index, element);
 
         super.doAdd(index, element);
     }
@@ -68,7 +68,7 @@ public class SortedObservableList<T> extends DefaultObservableList<T> {
     protected T doRemove(final int index) {
         getLogger().debug("Index: {}", index);
 
-        this.sortedList.remove(index);
+        sortedList.remove(index);
 
         return super.doRemove(index);
     }
@@ -77,7 +77,7 @@ public class SortedObservableList<T> extends DefaultObservableList<T> {
     protected T doSet(final int index, final T element) {
         getLogger().debug("Index: {}; Element: {}", index, element);
 
-        this.sortedList.set(index, element);
+        sortedList.set(index, element);
 
         return super.doSet(index, element);
     }
@@ -85,6 +85,6 @@ public class SortedObservableList<T> extends DefaultObservableList<T> {
     protected void doSort() {
         getLogger().debug("doSort");
 
-        this.sortedList.sort(this.comparator);
+        sortedList.sort(comparator);
     }
 }

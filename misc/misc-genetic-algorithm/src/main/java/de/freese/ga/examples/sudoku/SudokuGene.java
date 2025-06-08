@@ -15,6 +15,7 @@ public class SudokuGene extends Gene {
         super();
 
         super.setValue(value);
+
         this.mutable = mutable;
     }
 
@@ -44,7 +45,7 @@ public class SudokuGene extends Gene {
      * Beim Sudoku dürfen die fest vorgegebenen Zahlen nicht verändert werden !
      */
     public boolean isMutable() {
-        return this.mutable;
+        return mutable;
     }
 
     @Override

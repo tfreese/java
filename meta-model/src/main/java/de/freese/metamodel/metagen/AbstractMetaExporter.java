@@ -318,6 +318,6 @@ public abstract class AbstractMetaExporter implements MetaExporter {
     }
 
     protected Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 }

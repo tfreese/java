@@ -23,7 +23,7 @@ public class CpuInfos {
     }
 
     public CpuInfo get(final int core) {
-        return this.infos.getOrDefault(core, DEFAULT_CPU_INFO);
+        return infos.getOrDefault(core, DEFAULT_CPU_INFO);
     }
 
     public CpuInfo getTotal() {
@@ -31,6 +31,6 @@ public class CpuInfos {
     }
 
     public int size() {
-        return this.infos.size();
+        return infos.size();
     }
 }

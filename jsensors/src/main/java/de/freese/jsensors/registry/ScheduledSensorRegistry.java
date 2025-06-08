@@ -43,7 +43,7 @@ public class ScheduledSensorRegistry extends AbstractSensorRegistry implements L
      * The {@link SensorValue} is passed to a {@link Backend}.<br>
      */
     public void scheduleSensor(final String name, final long initialDelay, final long delay, final TimeUnit unit) {
-        if (this.scheduledExecutorService == null) {
+        if (scheduledExecutorService == null) {
             throw new IllegalStateException("scheduler is not started: call #start() first");
         }
 
@@ -51,23 +51,23 @@ public class ScheduledSensorRegistry extends AbstractSensorRegistry implements L
 
         final Runnable task = () -> getBackend(sensor.getName()).store(sensor.measure());
 
-        this.scheduledExecutorService.scheduleWithFixedDelay(task, initialDelay, delay, unit);
+        scheduledExecutorService.scheduleWithFixedDelay(task, initialDelay, delay, unit);
     }
 
     @Override
     public void start() {
-        if (this.scheduledExecutorService != null) {
+        if (scheduledExecutorService != null) {
             stop();
         }
 
-        this.scheduledExecutorService = Executors.newScheduledThreadPool(this.corePoolSize, this.threadFactory);
+        scheduledExecutorService = Executors.newScheduledThreadPool(corePoolSize, threadFactory);
     }
 
     @Override
     public void stop() {
-        if (this.scheduledExecutorService != null) {
-            this.scheduledExecutorService.shutdown();
-            this.scheduledExecutorService = null;
+        if (scheduledExecutorService != null) {
+            scheduledExecutorService.shutdown();
+            scheduledExecutorService = null;
         }
     }
 }

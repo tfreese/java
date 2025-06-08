@@ -19,14 +19,14 @@ public class RoutingBackend extends AbstractBackend {
      * Multiple {@link Backend}s for one Sensor possible.
      */
     public RoutingBackend route(final String sensorName, final Backend backend) {
-        this.routes.computeIfAbsent(sensorName, key -> new CompositeBackend()).add(backend);
+        routes.computeIfAbsent(sensorName, key -> new CompositeBackend()).add(backend);
 
         return this;
     }
 
     @Override
     protected void storeValue(final SensorValue sensorValue) {
-        final CompositeBackend compositeBackend = this.routes.get(sensorValue.getName());
+        final CompositeBackend compositeBackend = routes.get(sensorValue.getName());
 
         if (compositeBackend == null) {
             throw new IllegalStateException(String.format("no backends for sensor: '%s'", sensorValue.getName()));

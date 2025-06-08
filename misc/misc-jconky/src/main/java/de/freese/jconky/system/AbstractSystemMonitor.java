@@ -36,7 +36,7 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
     protected AbstractSystemMonitor() {
         super();
 
-        this.myPid = ProcessHandle.current().pid();
+        myPid = ProcessHandle.current().pid();
     }
 
     /**

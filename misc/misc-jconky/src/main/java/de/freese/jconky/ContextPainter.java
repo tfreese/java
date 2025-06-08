@@ -26,43 +26,43 @@ public class ContextPainter {
     private GraphicsContext gc;
 
     public void addMonitorPainter(final MonitorPainter monitorPainter) {
-        this.painters.add(monitorPainter);
+        painters.add(monitorPainter);
     }
 
     public void paint() {
         getLogger().debug("paint");
 
-        final double width = this.canvas.getWidth();
-        final double height = this.canvas.getHeight();
+        final double width = canvas.getWidth();
+        final double height = canvas.getHeight();
 
-        this.gc.clearRect(0, 0, width, height);
-        this.gc.save();
+        gc.clearRect(0, 0, width, height);
+        gc.save();
 
         final Insets marginOuter = Settings.getInstance().getMarginOuter();
-        this.gc.translate(marginOuter.getLeft(), marginOuter.getTop());
+        gc.translate(marginOuter.getLeft(), marginOuter.getTop());
 
         final double monitorWidth = width - (marginOuter.getRight() * 2D);
         // double totalY = 0D;
 
-        for (MonitorPainter painter : this.painters) {
-            final double monitorHeight = painter.paintValue(this.gc, monitorWidth);
+        for (MonitorPainter painter : painters) {
+            final double monitorHeight = painter.paintValue(gc, monitorWidth);
 
-            this.gc.translate(0D, monitorHeight);
+            gc.translate(0D, monitorHeight);
 
             // totalY += monitorHeight;
         }
 
         // Koordinatenursprung wieder nach oben links verlegen um es komplett malen zu lassen.
-        // this.gc.translate(-marginOuter.getLeft(), -totalY - marginOuter.getTop());
-        this.gc.restore();
+        // gc.translate(-marginOuter.getLeft(), -totalY - marginOuter.getTop());
+        gc.restore();
     }
 
     public void setCanvas(final Canvas canvas) {
         this.canvas = Objects.requireNonNull(canvas, "canvas required");
-        this.gc = Objects.requireNonNull(canvas.getGraphicsContext2D(), "graphicsContext required");
+        gc = Objects.requireNonNull(canvas.getGraphicsContext2D(), "graphicsContext required");
 
         // Font-Antialiasing, Gray = Default
-        // this.gc.setFontSmoothingType(FontSmoothingType.LCD);
+        // gc.setFontSmoothingType(FontSmoothingType.LCD);
     }
 
     protected Logger getLogger() {

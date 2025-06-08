@@ -26,7 +26,7 @@ public class MyFrame extends JFrame implements ActionListener {
     public MyFrame(final OsmModel model) {
         super("");
 
-        this.myPanel = new MyPanel(model);
+        myPanel = new MyPanel(model);
     }
 
     @Override
@@ -34,38 +34,38 @@ public class MyFrame extends JFrame implements ActionListener {
         final String doWhat = e.getActionCommand();
 
         if ("ZTF".equals(doWhat)) {
-            this.myPanel.zoomToFit();
-            // this.myPanel.repaint();
+            myPanel.zoomToFit();
+            // myPanel.repaint();
             repaint();
         }
         else if ("+".equals(doWhat)) {
-            this.myPanel.zoom(1.5);
-            // this.myPanel.repaint();
+            myPanel.zoom(1.5);
+            // myPanel.repaint();
             repaint();
         }
         else if ("-".equals(doWhat)) {
-            this.myPanel.zoom(1 / 1.5);
-            // this.myPanel.repaint();
+            myPanel.zoom(1 / 1.5);
+            // myPanel.repaint();
             repaint();
         }
         else if ("N".equals(doWhat)) {
-            this.myPanel.scrollVertical(-50);
-            // this.myPanel.repaint();
+            myPanel.scrollVertical(-50);
+            // myPanel.repaint();
             repaint();
         }
         else if ("W".equals(doWhat)) {
-            this.myPanel.scrollHorizontal(-50);
-            // this.myPanel.repaint();
+            myPanel.scrollHorizontal(-50);
+            // myPanel.repaint();
             repaint();
         }
         else if ("E".equals(doWhat)) {
-            this.myPanel.scrollHorizontal(50);
-            // this.myPanel.repaint();
+            myPanel.scrollHorizontal(50);
+            // myPanel.repaint();
             repaint();
         }
         else if ("S".equals(doWhat)) {
-            this.myPanel.scrollVertical(50);
-            // this.myPanel.repaint();
+            myPanel.scrollVertical(50);
+            // myPanel.repaint();
             repaint();
         }
     }
@@ -73,11 +73,10 @@ public class MyFrame extends JFrame implements ActionListener {
     public void initGui() {
         final BorderLayout myLayout = new BorderLayout();
 
-        // work on panel
         final Panel myButtonPanel = new Panel();
         Button myWorkButton;
 
-        this.myPanel.setLayout(new FlowLayout());
+        myPanel.setLayout(new FlowLayout());
         myWorkButton = new Button("ZTF");
         myWorkButton.addActionListener(this);
         myButtonPanel.add(myWorkButton);
@@ -117,12 +116,12 @@ public class MyFrame extends JFrame implements ActionListener {
 
         setLayout(myLayout);
         add(myButtonPanel, BorderLayout.SOUTH);
-        add(this.myPanel, BorderLayout.CENTER);
+        add(myPanel, BorderLayout.CENTER);
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     public void zoomToFit() {
-        this.myPanel.zoomToFit();
+        myPanel.zoomToFit();
     }
 }

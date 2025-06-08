@@ -127,20 +127,20 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
         super();
 
         // Init Printer-Settings and Page-Layout.
-        this.printerJob = PrinterJob.getPrinterJob();
-        this.pageFormat = this.printerJob.defaultPage();
+        printerJob = PrinterJob.getPrinterJob();
+        pageFormat = printerJob.defaultPage();
 
         setBackground(COLOR_BACKGROUND);
 
-        setPreferredSize(new Dimension((int) ((this.pageFormat.getWidth() + (2 * BORDER_SIZE)) * this.mdPreviewScale),
-                (int) ((this.pageFormat.getHeight() + (2 * BORDER_SIZE)) * this.mdPreviewScale)));
+        setPreferredSize(new Dimension((int) ((pageFormat.getWidth() + (2 * BORDER_SIZE)) * mdPreviewScale),
+                (int) ((pageFormat.getHeight() + (2 * BORDER_SIZE)) * mdPreviewScale)));
 
         try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("images/duke.png")) {
-            this.imgDuke = ImageIO.read(inputStream);
+            imgDuke = ImageIO.read(inputStream);
         }
 
         try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("images/java_cup.gif")) {
-            this.imgCup = ImageIO.read(inputStream);
+            imgCup = ImageIO.read(inputStream);
         }
     }
 

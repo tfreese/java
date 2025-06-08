@@ -44,20 +44,20 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
     public WaTorDiagrammPanel() {
         super();
 
-        this.timeSeriesFische = new TimeSeries("Fische");
-        this.timeSeriesHaie = new TimeSeries("Haie");
+        timeSeriesFische = new TimeSeries("Fische");
+        timeSeriesHaie = new TimeSeries("Haie");
 
         // Nur die letzten N Daten vorhalten.
-        // this.timeSeriesFische.setMaximumItemCount(1500);
-        // this.timeSeriesHaie.setMaximumItemCount(1500);
+        // timeSeriesFische.setMaximumItemCount(1500);
+        // timeSeriesHaie.setMaximumItemCount(1500);
 
         // Nur Daten der letzten Minute vorhalten.
-        this.timeSeriesFische.setMaximumItemAge(60 * 1000L);
-        this.timeSeriesHaie.setMaximumItemAge(60 * 1000L);
+        timeSeriesFische.setMaximumItemAge(60 * 1000L);
+        timeSeriesHaie.setMaximumItemAge(60 * 1000L);
 
         final TimeSeriesCollection dataset = new TimeSeriesCollection();
-        dataset.addSeries(this.timeSeriesFische);
-        dataset.addSeries(this.timeSeriesHaie);
+        dataset.addSeries(timeSeriesFische);
+        dataset.addSeries(timeSeriesHaie);
 
         final Font font = new Font("Arial", Font.BOLD, 12);
 
@@ -120,8 +120,8 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
         final Runnable runnable = () -> {
             final RegularTimePeriod timePeriod = new FixedMillisecond();
 
-            this.timeSeriesFische.addOrUpdate(timePeriod, fishes);
-            this.timeSeriesHaie.addOrUpdate(timePeriod, sharks);
+            timeSeriesFische.addOrUpdate(timePeriod, fishes);
+            timeSeriesHaie.addOrUpdate(timePeriod, sharks);
 
             // The Toolkit.getDefaultToolkit().sync() synchronises the painting on systems that buffer graphics events.
             // Without this line, the animation might not be smooth on Linux.

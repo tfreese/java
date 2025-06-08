@@ -15,16 +15,16 @@ public abstract class AbstractIntegerBinding extends AbstractIntegerExpression i
 
     @Override
     public Integer getValue() {
-        return this.value;
+        return value;
     }
 
     @Override
     public void update() {
-        final int old = this.value;
-        this.value = computeValue();
+        final int old = value;
+        value = computeValue();
 
-        if (Objects.equals(old, this.value)) {
-            fireValueChangedEvent(old, this.value);
+        if (Objects.equals(old, value)) {
+            fireValueChangedEvent(old, value);
         }
     }
 

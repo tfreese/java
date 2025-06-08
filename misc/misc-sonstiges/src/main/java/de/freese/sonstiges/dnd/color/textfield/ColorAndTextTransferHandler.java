@@ -57,8 +57,8 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
             return false;
         }
 
-        if (tc.equals(this.source) && tc.getCaretPosition() >= this.p0.getOffset() && tc.getCaretPosition() <= this.p1.getOffset()) {
-            this.shouldRemove = false;
+        if (tc.equals(source) && tc.getCaretPosition() >= p0.getOffset() && tc.getCaretPosition() <= p1.getOffset()) {
+            shouldRemove = false;
 
             return true;
         }
@@ -84,38 +84,38 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
 
     @Override
     protected Transferable createTransferable(final JComponent c) {
-        this.source = (JTextComponent) c;
+        source = (JTextComponent) c;
 
-        final int start = this.source.getSelectionStart();
-        final int end = this.source.getSelectionEnd();
-        final Document doc = this.source.getDocument();
+        final int start = source.getSelectionStart();
+        final int end = source.getSelectionEnd();
+        final Document doc = source.getDocument();
 
         if (start == end) {
             return null;
         }
 
         try {
-            this.p0 = doc.createPosition(start);
-            this.p1 = doc.createPosition(end);
+            p0 = doc.createPosition(start);
+            p1 = doc.createPosition(end);
         }
         catch (BadLocationException ex) {
             LOGGER.error("Can't create position - unable to remove text from source.", ex);
         }
 
-        this.shouldRemove = true;
+        shouldRemove = true;
 
-        final String data = this.source.getSelectedText();
+        final String data = source.getSelectedText();
 
         return new StringSelection(data);
     }
 
     @Override
     protected void exportDone(final JComponent c, final Transferable data, final int action) {
-        if (this.shouldRemove && action == MOVE) {
-            if (this.p0 != null && this.p1 != null && this.p0.getOffset() != this.p1.getOffset()) {
+        if (shouldRemove && action == MOVE) {
+            if (p0 != null && p1 != null && p0.getOffset() != p1.getOffset()) {
                 try {
                     final JTextComponent tc = (JTextComponent) c;
-                    tc.getDocument().remove(this.p0.getOffset(), this.p1.getOffset() - this.p0.getOffset());
+                    tc.getDocument().remove(p0.getOffset(), p1.getOffset() - p0.getOffset());
                 }
                 catch (BadLocationException ex) {
                     LOGGER.error("Can't remove text from source.", ex);
@@ -123,7 +123,7 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
             }
         }
 
-        this.source = null;
+        source = null;
     }
 
     /**

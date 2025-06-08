@@ -29,7 +29,7 @@ class CTransferableTreePath implements Transferable {
     public synchronized Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException {
         if (flavor.isMimeTypeEqual(FLAVOR_TREE_PATH.getMimeType())) // DataFlavor.javaJVMLocalObjectMimeType))
         {
-            return this.path;
+            return path;
         }
 
         throw new UnsupportedFlavorException(flavor);

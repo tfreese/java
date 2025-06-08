@@ -18,18 +18,18 @@ public abstract class AbstractExpression<T> implements ObservableValue<T> {
 
     @Override
     public void addListener(final ChangeListener<? super T> listener) {
-        if (!this.listeners.contains(listener)) {
-            this.listeners.add(listener);
+        if (!listeners.contains(listener)) {
+            listeners.add(listener);
         }
     }
 
     @Override
     public void removeListener(final ChangeListener<? super T> listener) {
-        this.listeners.remove(listener);
+        listeners.remove(listener);
     }
 
     protected void fireValueChangedEvent(final T oldValue, final T newValue) {
-        for (ChangeListener<? super T> changeListener : this.listeners) {
+        for (ChangeListener<? super T> changeListener : listeners) {
             changeListener.changed(this, oldValue, newValue);
         }
     }

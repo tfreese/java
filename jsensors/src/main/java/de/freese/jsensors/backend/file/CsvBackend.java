@@ -39,17 +39,17 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
     public void start() {
         try {
             // Create Directories.
-            final Path parent = this.path.getParent();
+            final Path parent = path.getParent();
             Files.createDirectories(parent);
 
-            if (!Files.exists(this.path)) {
-                getLogger().info("create file: {}", this.path);
+            if (!Files.exists(path)) {
+                getLogger().info("create file: {}", path);
 
                 // Create CSV-Header
-                try (OutputStream os = Files.newOutputStream(this.path, StandardOpenOption.CREATE)) {
+                try (OutputStream os = Files.newOutputStream(path, StandardOpenOption.CREATE)) {
                     final String header;
 
-                    if (this.exclusive) {
+                    if (exclusive) {
                         // Without SensorName.
                         header = String.format("\"%s\",\"%s\",\"%s\"%n", "VALUE", "TIMESTAMP", "TIME");
                     }
@@ -77,7 +77,7 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
     protected byte[] encode(final SensorValue sensorValue) {
         final String formatted;
 
-        if (this.exclusive) {
+        if (exclusive) {
             // Without Sensor Name.
             formatted = String.format("\"%s\",\"%d\",\"%s\"%n", sensorValue.getValue(), sensorValue.getTimestamp(), sensorValue.getLocalDateTime());
         }
@@ -95,7 +95,7 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
             return;
         }
 
-        try (OutputStream os = new BufferedOutputStream(Files.newOutputStream(this.path, StandardOpenOption.APPEND))) {
+        try (OutputStream os = new BufferedOutputStream(Files.newOutputStream(path, StandardOpenOption.APPEND))) {
             for (SensorValue sensorValue : values) {
                 final byte[] bytes = encode(sensorValue);
 

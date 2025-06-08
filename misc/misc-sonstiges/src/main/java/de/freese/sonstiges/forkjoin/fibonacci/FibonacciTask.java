@@ -27,14 +27,14 @@ public class FibonacciTask extends RecursiveTask<Long> {
 
     @Override
     protected Long compute() {
-        long result = 0;
+        long result = 0L;
 
-        if (this.n < THRESHOLD) {
-            result = FibonacciCalculator.fibonacci(this.n);
+        if (n < THRESHOLD) {
+            result = FibonacciCalculator.fibonacci(n);
         }
         else {
-            final FibonacciTask task1 = new FibonacciTask(this.n - 1);
-            final FibonacciTask task2 = new FibonacciTask(this.n - 2);
+            final FibonacciTask task1 = new FibonacciTask(n - 1);
+            final FibonacciTask task2 = new FibonacciTask(n - 2);
             task2.fork();
 
             result = task1.compute() + task2.join();

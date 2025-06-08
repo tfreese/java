@@ -35,15 +35,15 @@ public class Token {
     }
 
     public int getHamCount() {
-        return this.hamCount;
+        return hamCount;
     }
 
     public int getSpamCount() {
-        return this.spamCount;
+        return spamCount;
     }
 
     public String getValue() {
-        return this.value;
+        return value;
     }
 
     @Override

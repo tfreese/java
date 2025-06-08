@@ -16,7 +16,7 @@ public abstract class AbstractObjectProperty<T> extends AbstractObjectExpression
 
     @Override
     public T getValue() {
-        return this.value;
+        return value;
     }
 
     @Override

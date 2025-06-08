@@ -39,7 +39,7 @@ public class NetworkMetrics implements MeterBinder {
         this.tags = Objects.requireNonNull(tags, "tags required");
 
         try {
-            this.activeInterfaces.addAll(getActiveInterfaces());
+            activeInterfaces.addAll(getActiveInterfaces());
         }
         catch (IOException ex) {
             LOGGER.error(ex.getMessage(), ex);
@@ -51,17 +51,17 @@ public class NetworkMetrics implements MeterBinder {
         // Mit StepCounter müsste die Differenz aus altem und neuem Wert gesetzt werden.
         // Der StepFunctionCounter berechnet die Differenz automatisch.
         // Die Reihenfolge der Meter-Abfrage ergibt sich aus deren Reihenfolge der Registrierung.
-        this.activeInterfaces.forEach(iface -> {
+        activeInterfaces.forEach(iface -> {
             final NetworkInterface networkInterface = new NetworkInterface(iface);
 
             FunctionCounter.builder("network.in", networkInterface, NetworkInterface::getInput)
-                    .tags(this.tags).tag("interface", iface)
+                    .tags(tags).tag("interface", iface)
                     .description("Network Input for " + iface)
                     .baseUnit(BaseUnits.BYTES)
                     .register(registry);
 
             FunctionCounter.builder("network.out", networkInterface, NetworkInterface::getOutput)
-                    .tags(this.tags).tag("interface", iface)
+                    .tags(tags).tag("interface", iface)
                     .description("Network Output for " + iface)
                     .baseUnit(BaseUnits.BYTES)
                     .register(registry);
@@ -91,7 +91,7 @@ public class NetworkMetrics implements MeterBinder {
     }
 
     // private void update() {
-    // for (String iface : this.activeInterfaces) {
+    // for (String iface : activeInterfaces) {
     // try {
     // final List<String> lines = executeCommand("ifconfig", iface);
     //
@@ -102,7 +102,7 @@ public class NetworkMetrics implements MeterBinder {
     // // ArchLinux:
     // // RX packets 32997 bytes 46685918 (44.5 MiB)
     // // TX packets 15894 bytes 1288395 (1.2 MiB)
-    // // long inputOld = this.input;
+    // // long inputOld = input;
     //
     // final long input = lines.stream().map(String::trim).filter(l -> l.startsWith("RX packets")).mapToLong(l -> {
     // final Matcher matcher = PATTERN_BYTES.matcher(l);
@@ -124,7 +124,7 @@ public class NetworkMetrics implements MeterBinder {
     //
     // Metrics.globalRegistry.find("network.out").tag("interface", iface).counter().increment(output);
     //
-    // // System.out.printf("NetworkMetrics.update(): Input=%d, Output=%d", this.input, this.output);
+    // // System.out.printf("NetworkMetrics.update(): Input=%d, Output=%d", input, output);
     // }
     // catch (Exception ex) {
     // LOGGER.error(ex.getMessage(), ex);

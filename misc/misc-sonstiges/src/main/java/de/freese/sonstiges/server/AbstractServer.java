@@ -33,7 +33,7 @@ public abstract class AbstractServer implements Runnable {
 
         this.port = port;
 
-        this.startLock.acquireUninterruptibly();
+        startLock.acquireUninterruptibly();
     }
 
     public String getName() {
@@ -41,7 +41,7 @@ public abstract class AbstractServer implements Runnable {
     }
 
     public int getPort() {
-        return this.port;
+        return port;
     }
 
     public boolean isStarted() {

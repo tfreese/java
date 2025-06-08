@@ -80,14 +80,14 @@ public class XMLStreamOSMParser implements OSMParser {
                         final String key = reader.getAttributeValue(null, ATTR_NAME_KEY);
                         final String value = reader.getAttributeValue(null, ATTR_NAME_VALUE);
 
-                        if (this.node != null) {
-                            this.node.getTags().put(key, value);
+                        if (node != null) {
+                            node.getTags().put(key, value);
                         }
-                        else if (this.way != null) {
-                            this.way.getTags().put(key, value);
+                        else if (way != null) {
+                            way.getTags().put(key, value);
                         }
-                        else if (this.relation != null) {
-                            this.relation.getTags().put(key, value);
+                        else if (relation != null) {
+                            relation.getTags().put(key, value);
                         }
                     }
                     else if (NODE_NAME_NODE.equals(localName)) {
@@ -95,18 +95,18 @@ public class XMLStreamOSMParser implements OSMParser {
                         final float lat = Float.parseFloat(reader.getAttributeValue(null, ATTR_NAME_LAT));
                         final float lon = Float.parseFloat(reader.getAttributeValue(null, ATTR_NAME_LON));
 
-                        this.node = new OsmNode();
-                        this.node.setID(id);
-                        this.node.setLatitude(lat);
-                        this.node.setLongitude(lon);
-                        model.getNodeMap().put(id, this.node);
+                        node = new OsmNode();
+                        node.setID(id);
+                        node.setLatitude(lat);
+                        node.setLongitude(lon);
+                        model.getNodeMap().put(id, node);
                     }
                     else if (NODE_NAME_WAY.equals(localName)) {
                         final long id = Long.parseLong(reader.getAttributeValue(null, ATTR_NAME_ID));
 
-                        this.way = new OsmWay();
-                        this.way.setID(id);
-                        model.getWayMap().put(id, this.way);
+                        way = new OsmWay();
+                        way.setID(id);
+                        model.getWayMap().put(id, way);
                     }
                     else if (NODE_NAME_WAYNODE.equals(localName)) {
                         final long refID = Long.parseLong(reader.getAttributeValue(null, ATTR_NAME_REF));
@@ -114,15 +114,15 @@ public class XMLStreamOSMParser implements OSMParser {
                         final OsmNode n = model.getNodeMap().get(refID);
 
                         if (n != null) {
-                            this.way.getNodes().add(n);
+                            way.getNodes().add(n);
                         }
                     }
                     else if (NODE_NAME_RELATION.equals(localName)) {
                         final long id = Long.parseLong(reader.getAttributeValue(null, ATTR_NAME_ID));
 
-                        this.relation = new OsmRelation();
-                        this.relation.setID(id);
-                        model.getRelationMap().put(id, this.relation);
+                        relation = new OsmRelation();
+                        relation.setID(id);
+                        model.getRelationMap().put(id, relation);
                     }
                     else if (NODE_NAME_RELATIONMEMBER.equals(localName)) {
                         final String type = reader.getAttributeValue(null, ATTR_NAME_TYPE);
@@ -132,14 +132,14 @@ public class XMLStreamOSMParser implements OSMParser {
                             final OsmNode refNode = model.getNodeMap().get(refID);
 
                             if (refNode != null) {
-                                this.relation.getNodes().add(refNode);
+                                relation.getNodes().add(refNode);
                             }
                         }
                         else if (NODE_NAME_WAY.equals(type)) {
                             final OsmWay refWay = model.getWayMap().get(refID);
 
                             if (refWay != null) {
-                                this.relation.getWays().add(refWay);
+                                relation.getWays().add(refWay);
                             }
                         }
                     }
@@ -150,13 +150,13 @@ public class XMLStreamOSMParser implements OSMParser {
                     localName = reader.getLocalName();
 
                     if (NODE_NAME_NODE.equals(localName)) {
-                        this.node = null;
+                        node = null;
                     }
                     else if (NODE_NAME_WAY.equals(localName)) {
-                        this.way = null;
+                        way = null;
                     }
                     else if (NODE_NAME_RELATION.equals(localName)) {
-                        this.relation = null;
+                        relation = null;
                     }
 
                     break;

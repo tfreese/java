@@ -68,31 +68,31 @@ public final class DragColorMain extends JPanel implements ActionListener {
         add(chooser, BorderLayout.PAGE_START);
 
         // Create the dnd.color transfer handler.
-        this.colorHandler = new ColorTransferHandler();
+        colorHandler = new ColorTransferHandler();
 
         // Create a matrix of 9 buttons.
         final JPanel buttonPanel = new JPanel(new GridLayout(3, 3));
 
         for (int i = 0; i < 9; i++) {
             final JButton tmp = new JButton("Button " + i);
-            tmp.setTransferHandler(this.colorHandler);
+            tmp.setTransferHandler(colorHandler);
             buttonPanel.add(tmp);
         }
 
         add(buttonPanel, BorderLayout.CENTER);
 
         // Create a CheckBox.
-        this.toggleForeground = new JCheckBox("Change the foreground dnd.color.");
-        this.toggleForeground.setSelected(true);
-        this.toggleForeground.addActionListener(this);
+        toggleForeground = new JCheckBox("Change the foreground dnd.color.");
+        toggleForeground.setSelected(true);
+        toggleForeground.addActionListener(this);
 
         final JPanel textPanel = new JPanel(new BorderLayout());
         textPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        textPanel.add(this.toggleForeground, BorderLayout.PAGE_START);
+        textPanel.add(toggleForeground, BorderLayout.PAGE_START);
 
         // Create a label.
         final JLabel label = new JLabel("Change the dnd.color of any button or this label by dropping a dnd.color.");
-        label.setTransferHandler(this.colorHandler);
+        label.setTransferHandler(colorHandler);
         label.setOpaque(true); // So the background dnd.color can be changed.
         textPanel.add(label, BorderLayout.PAGE_END);
         add(textPanel, BorderLayout.PAGE_END);
@@ -100,6 +100,6 @@ public final class DragColorMain extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(final ActionEvent event) {
-        this.colorHandler.setChangesForegroundColor(this.toggleForeground.isSelected());
+        colorHandler.setChangesForegroundColor(toggleForeground.isSelected());
     }
 }

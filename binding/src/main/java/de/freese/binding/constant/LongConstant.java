@@ -28,7 +28,7 @@ public final class LongConstant extends AbstractLongExpression {
 
     @Override
     public Long getValue() {
-        return this.value;
+        return value;
     }
 
     @Override

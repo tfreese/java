@@ -9,11 +9,11 @@ public class Conf {
     private int threads;
 
     public int getBlockSize() {
-        return this.blockSize;
+        return blockSize;
     }
 
     public int getThreads() {
-        return this.threads;
+        return threads;
     }
 
     public void setBlockSize(final int blockSize) {

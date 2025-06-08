@@ -27,7 +27,7 @@ public abstract class AbstractSensorRegistry implements SensorRegistry {
 
     @Override
     public Sensor getSensor(final String name) {
-        final Sensor sensor = this.sensors.get(name);
+        final Sensor sensor = sensors.get(name);
 
         if (sensor == null) {
             throw new IllegalStateException(String.format("sensor does not exist: '%s'", name));
@@ -38,12 +38,12 @@ public abstract class AbstractSensorRegistry implements SensorRegistry {
 
     @Override
     public Stream<Sensor> getSensors() {
-        return this.sensors.values().stream();
+        return sensors.values().stream();
     }
 
     @Override
     public <T> Sensor registerSensor(final String name, final T obj, final Function<T, String> valueFunction, final String description, final Backend backend) {
-        if (this.sensors.containsKey(name)) {
+        if (sensors.containsKey(name)) {
             throw new IllegalStateException(String.format("sensor already exist: '%s'", name));
         }
 
@@ -51,11 +51,11 @@ public abstract class AbstractSensorRegistry implements SensorRegistry {
 
         registerBackend(name, backend);
 
-        return this.sensors.computeIfAbsent(name, key -> new DefaultSensor<>(key, obj, valueFunction, description));
+        return sensors.computeIfAbsent(name, key -> new DefaultSensor<>(key, obj, valueFunction, description));
     }
 
     protected Backend getBackend(final String name) {
-        final Backend backend = this.backends.computeIfAbsent(name, key -> NoOpBackend.getInstance());
+        final Backend backend = backends.computeIfAbsent(name, key -> NoOpBackend.getInstance());
 
         if (backend instanceof NoOpBackend) {
             getLogger().warn("NoOpBackend is used for sensor: {}", name);
@@ -65,7 +65,7 @@ public abstract class AbstractSensorRegistry implements SensorRegistry {
     }
 
     protected Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     protected void registerBackend(final String name, final Backend backend) {
@@ -73,6 +73,6 @@ public abstract class AbstractSensorRegistry implements SensorRegistry {
             getLogger().warn("NoOpBackend is used for sensor: {}", name);
         }
 
-        this.backends.put(name, backend);
+        backends.put(name, backend);
     }
 }

@@ -15,16 +15,16 @@ public abstract class AbstractLongBinding extends AbstractLongExpression impleme
 
     @Override
     public Long getValue() {
-        return this.value;
+        return value;
     }
 
     @Override
     public void update() {
-        final long old = this.value;
-        this.value = computeValue();
+        final long old = value;
+        value = computeValue();
 
-        if (Objects.equals(old, this.value)) {
-            fireValueChangedEvent(old, this.value);
+        if (Objects.equals(old, value)) {
+            fireValueChangedEvent(old, value);
         }
     }
 

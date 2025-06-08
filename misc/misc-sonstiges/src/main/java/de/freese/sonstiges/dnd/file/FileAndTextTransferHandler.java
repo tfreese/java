@@ -46,9 +46,9 @@ class FileAndTextTransferHandler extends TransferHandler {
     FileAndTextTransferHandler(final TabbedPaneController t) {
         super();
 
-        this.tpc = t;
-        this.fileFlavor = DataFlavor.javaFileListFlavor;
-        this.stringFlavor = DataFlavor.stringFlavor;
+        tpc = t;
+        fileFlavor = DataFlavor.javaFileListFlavor;
+        stringFlavor = DataFlavor.stringFlavor;
     }
 
     @Override
@@ -75,7 +75,7 @@ class FileAndTextTransferHandler extends TransferHandler {
         try {
             if (hasFileFlavor(t.getTransferDataFlavors())) {
                 String str = null;
-                final List<?> files = (List<?>) t.getTransferData(this.fileFlavor);
+                final List<?> files = (List<?>) t.getTransferData(fileFlavor);
 
                 for (Object file2 : files) {
                     final File file = (File) file2;
@@ -84,7 +84,7 @@ class FileAndTextTransferHandler extends TransferHandler {
                     // a new tab with the name of this file
                     // on the tab. The text area that will
                     // display the contents of the file is returned.
-                    textArea = this.tpc.addTab(file.toString());
+                    textArea = tpc.addTab(file.toString());
 
                     try (BufferedReader in = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
                         while ((str = in.readLine()) != null) {
@@ -101,15 +101,15 @@ class FileAndTextTransferHandler extends TransferHandler {
             else if (hasStringFlavor(t.getTransferDataFlavors())) {
                 textArea = (JTextArea) c;
 
-                if (textArea.equals(this.source)
-                        && textArea.getCaretPosition() >= this.p0.getOffset()
-                        && textArea.getCaretPosition() <= this.p1.getOffset()) {
-                    this.shouldRemove = false;
+                if (textArea.equals(source)
+                        && textArea.getCaretPosition() >= p0.getOffset()
+                        && textArea.getCaretPosition() <= p1.getOffset()) {
+                    shouldRemove = false;
 
                     return true;
                 }
 
-                final String str = (String) t.getTransferData(this.stringFlavor);
+                final String str = (String) t.getTransferData(stringFlavor);
                 textArea.replaceSelection(str);
 
                 return true;
@@ -127,38 +127,38 @@ class FileAndTextTransferHandler extends TransferHandler {
 
     @Override
     protected Transferable createTransferable(final JComponent c) {
-        this.source = (JTextArea) c;
+        source = (JTextArea) c;
 
-        final int start = this.source.getSelectionStart();
-        final int end = this.source.getSelectionEnd();
-        final Document doc = this.source.getDocument();
+        final int start = source.getSelectionStart();
+        final int end = source.getSelectionEnd();
+        final Document doc = source.getDocument();
 
         if (start == end) {
             return null;
         }
 
         try {
-            this.p0 = doc.createPosition(start);
-            this.p1 = doc.createPosition(end);
+            p0 = doc.createPosition(start);
+            p1 = doc.createPosition(end);
         }
         catch (BadLocationException ex) {
             LOGGER.error("Can't create position - unable to remove text from source.", ex);
         }
 
-        this.shouldRemove = true;
+        shouldRemove = true;
 
-        final String data = this.source.getSelectedText();
+        final String data = source.getSelectedText();
 
         return new StringSelection(data);
     }
 
     @Override
     protected void exportDone(final JComponent c, final Transferable data, final int action) {
-        if (this.shouldRemove && action == MOVE) {
-            if (this.p0 != null && this.p1 != null && this.p0.getOffset() != this.p1.getOffset()) {
+        if (shouldRemove && action == MOVE) {
+            if (p0 != null && p1 != null && p0.getOffset() != p1.getOffset()) {
                 try {
                     final JTextComponent tc = (JTextComponent) c;
-                    tc.getDocument().remove(this.p0.getOffset(), this.p1.getOffset() - this.p0.getOffset());
+                    tc.getDocument().remove(p0.getOffset(), p1.getOffset() - p0.getOffset());
                 }
                 catch (BadLocationException ex) {
                     LOGGER.error("Can't remove text from source.", ex);
@@ -166,12 +166,12 @@ class FileAndTextTransferHandler extends TransferHandler {
             }
         }
 
-        this.source = null;
+        source = null;
     }
 
     private boolean hasFileFlavor(final DataFlavor[] flavors) {
         for (DataFlavor flavor : flavors) {
-            if (this.fileFlavor.equals(flavor)) {
+            if (fileFlavor.equals(flavor)) {
                 return true;
             }
         }
@@ -181,7 +181,7 @@ class FileAndTextTransferHandler extends TransferHandler {
 
     private boolean hasStringFlavor(final DataFlavor[] flavors) {
         for (DataFlavor flavor : flavors) {
-            if (this.stringFlavor.equals(flavor)) {
+            if (stringFlavor.equals(flavor)) {
                 return true;
             }
         }

@@ -28,7 +28,7 @@ public class DefaultObservableList<T> extends AbstractObservableList<T> {
     }
 
     public final List<T> getSource() {
-        return this.source;
+        return source;
     }
 
     @Override

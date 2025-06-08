@@ -27,6 +27,6 @@ public enum SimulationType {
     }
 
     public String getNameShort() {
-        return this.nameShort;
+        return nameShort;
     }
 }

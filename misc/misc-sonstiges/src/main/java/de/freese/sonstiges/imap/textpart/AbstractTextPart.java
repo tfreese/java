@@ -14,7 +14,7 @@ public abstract class AbstractTextPart {
     }
 
     public String getText() {
-        return this.text;
+        return text;
     }
 
     @Override

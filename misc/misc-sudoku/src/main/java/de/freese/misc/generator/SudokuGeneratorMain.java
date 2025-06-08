@@ -91,18 +91,18 @@ public final class SudokuGeneratorMain {
 
         final double blockSize = Math.sqrt(grid.length);
 
-        if ((blockSize - Math.floor(blockSize)) != 0.0D) {
+        if (Double.compare(blockSize - Math.floor(blockSize), 0.0D) != 0) {
             throw new IllegalArgumentException("Array benötigt ganzzahlige Wurzel der Dimensionen !");
         }
 
         // if (blockSize > 4) {
-        // this.algorithm = new AlgorithmLinear();
+        // algorithm = new AlgorithmLinear();
         // }
         // else {
-        // this.algorithm = new AlgorithmRecursiveBacktracking();
+        // algorithm = new AlgorithmRecursiveBacktracking();
         // }
 
-        while (!this.algorithm.create(grid)) {
+        while (!algorithm.create(grid)) {
             System.out.println("Rätsel ungültig");
         }
 

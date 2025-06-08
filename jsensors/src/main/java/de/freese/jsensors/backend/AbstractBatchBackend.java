@@ -31,25 +31,25 @@ public abstract class AbstractBatchBackend extends AbstractBackend {
     }
 
     protected List<SensorValue> flush() {
-        final List<SensorValue> list = this.buffer;
-        this.buffer = null;
+        final List<SensorValue> list = buffer;
+        buffer = null;
 
         return list;
     }
 
     protected int getBatchSize() {
-        return this.batchSize;
+        return batchSize;
     }
 
     @Override
     protected void storeValue(final SensorValue sensorValue) {
-        if (this.buffer == null) {
-            this.buffer = new ArrayList<>();
+        if (buffer == null) {
+            buffer = new ArrayList<>();
         }
 
-        this.buffer.add(sensorValue);
+        buffer.add(sensorValue);
 
-        if (this.buffer.size() >= getBatchSize()) {
+        if (buffer.size() >= getBatchSize()) {
             submit();
         }
     }

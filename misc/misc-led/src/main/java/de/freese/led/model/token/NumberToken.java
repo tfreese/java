@@ -52,13 +52,13 @@ public class NumberToken extends AbstractLedToken {
 
     public void setValue(final Number number) {
         if (number instanceof Double d && (Double.isNaN(d) || Double.isInfinite(d))) {
-            this.value = "N/A";
+            value = "N/A";
         }
         else if (number == null) {
-            this.value = "N/A";
+            value = "N/A";
         }
         else {
-            this.value = this.numberFormat.format(number);
+            value = numberFormat.format(number);
         }
     }
 }

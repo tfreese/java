@@ -37,7 +37,7 @@ public abstract class AbstractBackend implements Backend {
     }
 
     protected Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     protected abstract void storeValue(SensorValue sensorValue);

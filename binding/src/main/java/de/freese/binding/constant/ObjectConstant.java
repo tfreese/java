@@ -28,7 +28,7 @@ public final class ObjectConstant<T> extends AbstractObjectExpression<T> {
 
     @Override
     public T getValue() {
-        return this.value;
+        return value;
     }
 
     @Override

@@ -120,7 +120,7 @@ public final class BallSimulationMain extends JComponent {
 
         // g.setBackground(Color.WHITE);
         // An alter Stelle löschen.
-        // this.balls.forEach(b -> paint(g, b, Color.WHITE));
+        // balls.forEach(b -> paint(g, b, Color.WHITE));
         g.setColor(getBackground());
         g.fillRect(0, 0, getImageWidth(), getImageHeight());
 

@@ -28,7 +28,7 @@ public final class DoubleConstant extends AbstractDoubleExpression {
 
     @Override
     public Double getValue() {
-        return this.value;
+        return value;
     }
 
     @Override

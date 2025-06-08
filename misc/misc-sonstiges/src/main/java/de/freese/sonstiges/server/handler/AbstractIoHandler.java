@@ -26,6 +26,6 @@ public abstract class AbstractIoHandler<T> implements IoHandler<T> {
     }
 
     protected Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 }

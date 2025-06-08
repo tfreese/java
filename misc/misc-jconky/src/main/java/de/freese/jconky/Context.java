@@ -54,69 +54,69 @@ public final class Context {
     }
 
     public CpuInfos getCpuInfos() {
-        return this.cpuInfos;
+        return cpuInfos;
     }
 
     public CpuLoadAvg getCpuLoadAvg() {
-        return this.cpuLoadAvg;
+        return cpuLoadAvg;
     }
 
     public String getExternalIp() {
-        return this.externalIp;
+        return externalIp;
     }
 
     public HostInfo getHostInfo() {
-        return this.hostInfo;
+        return hostInfo;
     }
 
     public MusicInfo getMusicInfo() {
-        return this.musicInfo;
+        return musicInfo;
     }
 
     public NetworkInfos getNetworkInfos() {
-        return this.networkInfos;
+        return networkInfos;
     }
 
     public int getNumberOfCores() {
-        return this.numberOfCores;
+        return numberOfCores;
     }
 
     public ProcessInfos getProcessInfos() {
-        return this.processInfos;
+        return processInfos;
     }
 
     public Map<String, TemperatureInfo> getTemperatures() {
-        return this.temperatures;
+        return temperatures;
     }
 
     public long getTotalSystemMemory() {
-        return this.totalSystemMemory;
+        return totalSystemMemory;
     }
 
     public int getUpdates() {
-        return this.updates;
+        return updates;
     }
 
     public double getUptimeInSeconds() {
-        return this.uptimeInSeconds;
+        return uptimeInSeconds;
     }
 
     public Map<String, UsageInfo> getUsages() {
-        return this.usages;
+        return usages;
     }
 
     public void updateCpuInfos() {
         try {
-            this.cpuLoadAvg = getSystemMonitor().getCpuLoadAvg();
+            cpuLoadAvg = getSystemMonitor().getCpuLoadAvg();
 
             // CpuUsages berechnen.
-            final CpuInfos cpuInfosPrevious = this.cpuInfos;
-            this.cpuInfos = getSystemMonitor().getCpuInfos();
+            final CpuInfos cpuInfosPrevious = cpuInfos;
+            cpuInfos = getSystemMonitor().getCpuInfos();
 
-            this.cpuInfos.getTotal().calculateCpuUsage(cpuInfosPrevious.getTotal());
+            cpuInfos.getTotal().calculateCpuUsage(cpuInfosPrevious.getTotal());
 
             for (int i = 0; i < getNumberOfCores(); i++) {
-                this.cpuInfos.get(i).calculateCpuUsage(cpuInfosPrevious.get(i));
+                cpuInfos.get(i).calculateCpuUsage(cpuInfosPrevious.get(i));
             }
         }
         catch (Exception ex) {
@@ -126,7 +126,7 @@ public final class Context {
 
     public void updateHostInfo() {
         try {
-            this.hostInfo = getSystemMonitor().getHostInfo();
+            hostInfo = getSystemMonitor().getHostInfo();
         }
         catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
@@ -135,7 +135,7 @@ public final class Context {
 
     public void updateMusicInfo() {
         try {
-            this.musicInfo = getSystemMonitor().getMusicInfo();
+            musicInfo = getSystemMonitor().getMusicInfo();
         }
         catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
@@ -147,10 +147,10 @@ public final class Context {
      */
     public void updateNetworkInfos() {
         try {
-            final NetworkInfos networkInfosPrevious = this.networkInfos;
-            this.networkInfos = getSystemMonitor().getNetworkInfos();
+            final NetworkInfos networkInfosPrevious = networkInfos;
+            networkInfos = getSystemMonitor().getNetworkInfos();
 
-            this.networkInfos.calculateUpAndDownload(networkInfosPrevious);
+            networkInfos.calculateUpAndDownload(networkInfosPrevious);
         }
         catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
@@ -162,21 +162,21 @@ public final class Context {
      */
     public void updateOneShot() {
         try {
-            this.numberOfCores = getSystemMonitor().getNumberOfCores();
+            numberOfCores = getSystemMonitor().getNumberOfCores();
         }
         catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
         }
 
         try {
-            this.totalSystemMemory = getSystemMonitor().getTotalSystemMemory();
+            totalSystemMemory = getSystemMonitor().getTotalSystemMemory();
         }
         catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
         }
 
         try {
-            this.externalIp = getSystemMonitor().getExternalIp();
+            externalIp = getSystemMonitor().getExternalIp();
         }
         catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
@@ -185,7 +185,7 @@ public final class Context {
 
     public void updateProcessInfos() {
         try {
-            this.processInfos = getSystemMonitor().getProcessInfos(getUptimeInSeconds(), getTotalSystemMemory());
+            processInfos = getSystemMonitor().getProcessInfos(getUptimeInSeconds(), getTotalSystemMemory());
         }
         catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
@@ -194,7 +194,7 @@ public final class Context {
 
     public void updateTemperatures() {
         try {
-            this.temperatures = getSystemMonitor().getTemperatures();
+            temperatures = getSystemMonitor().getTemperatures();
         }
         catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
@@ -203,7 +203,7 @@ public final class Context {
 
     public void updateUpdates() {
         try {
-            this.updates = getSystemMonitor().getUpdates();
+            updates = getSystemMonitor().getUpdates();
         }
         catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
@@ -212,7 +212,7 @@ public final class Context {
 
     public void updateUptimeInSeconds() {
         try {
-            this.uptimeInSeconds = getSystemMonitor().getUptimeInSeconds();
+            uptimeInSeconds = getSystemMonitor().getUptimeInSeconds();
         }
         catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);
@@ -228,7 +228,7 @@ public final class Context {
             map.putAll(getSystemMonitor().getRamAndSwap());
             map.putAll(getSystemMonitor().getFilesystems());
 
-            this.usages = map;
+            usages = map;
         }
         catch (Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);

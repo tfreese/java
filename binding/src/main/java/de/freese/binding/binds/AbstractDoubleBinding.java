@@ -15,16 +15,16 @@ public abstract class AbstractDoubleBinding extends AbstractDoubleExpression imp
 
     @Override
     public Double getValue() {
-        return this.value;
+        return value;
     }
 
     @Override
     public void update() {
-        final double old = this.value;
-        this.value = computeValue();
+        final double old = value;
+        value = computeValue();
 
-        if (Objects.equals(old, this.value)) {
-            fireValueChangedEvent(old, this.value);
+        if (Objects.equals(old, value)) {
+            fireValueChangedEvent(old, value);
         }
     }
 

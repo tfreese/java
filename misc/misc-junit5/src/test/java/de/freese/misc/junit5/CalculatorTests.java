@@ -30,14 +30,14 @@ class CalculatorTests {
 
     @BeforeEach
     void createCalculator() {
-        this.calculator = new Calculator();
+        calculator = new Calculator();
     }
 
     // @Disabled
     @Test
     @Tag("input-validation")
     void testCannotSetValueToNull() {
-        final IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> this.calculator.set(null));
+        final IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> calculator.set(null));
 
         assertNotNull(exception);
         assertEquals("cannot set value to null", exception.getMessage());
@@ -48,7 +48,7 @@ class CalculatorTests {
     @Tag("multiplication")
     @Tag("division")
     void testDivideResultOfMultiplication() {
-        final BigDecimal newValue = this.calculator.set(2).multiply(3).divide(4).get();
+        final BigDecimal newValue = calculator.set(2).multiply(3).divide(4).get();
 
         assertNotNull(newValue);
 
@@ -62,7 +62,7 @@ class CalculatorTests {
     @RepeatedTest(10)
     @Tag("power")
     void testFlakyTest() {
-        final double actualResult = this.calculator.set(Math.random()).power(2).doubleValue();
+        final double actualResult = calculator.set(Math.random()).power(2).doubleValue();
 
         assertEquals(0.0, actualResult, 0.5);
     }
@@ -71,7 +71,7 @@ class CalculatorTests {
     @DisplayName("1 + 1 = 2")
     @Tag("addition")
     void testOnePlusOneIsTwo() {
-        final long newValue = this.calculator.set(1).add(1).longValue();
+        final long newValue = calculator.set(1).add(1).longValue();
 
         assertEquals(2, newValue);
     }
@@ -82,7 +82,7 @@ class CalculatorTests {
     Stream<DynamicTest> testPowerOfTwo() {
         return IntStream.range(1, 100).mapToObj(value -> DynamicTest.dynamicTest(MessageFormat.format("{0}^2 = {0} * {0}", value), () -> {
             final var expectedValue = new Calculator(value).multiply(value).get();
-            final var actualValue = this.calculator.set(value).power(2).get();
+            final var actualValue = calculator.set(value).power(2).get();
             assertEquals(expectedValue, actualValue);
         }));
     }
@@ -96,7 +96,7 @@ class CalculatorTests {
     })
     @Tag("sqrt")
     void testSqrt(final long input, final double expectedResult) {
-        final double actualResult = this.calculator.set(input).sqrt().doubleValue();
+        final double actualResult = calculator.set(input).sqrt().doubleValue();
 
         assertEquals(expectedResult, actualResult, 1e-16);
     }
@@ -105,7 +105,7 @@ class CalculatorTests {
     @CsvFileSource(resources = "/sqrt.csv")
     @Tag("sqrt")
     void testSqrtFromFile(final long input, final double expectedResult) {
-        final double actualResult = this.calculator.set(input).sqrt().doubleValue();
+        final double actualResult = calculator.set(input).sqrt().doubleValue();
 
         assertEquals(expectedResult, actualResult, 1e-16);
     }

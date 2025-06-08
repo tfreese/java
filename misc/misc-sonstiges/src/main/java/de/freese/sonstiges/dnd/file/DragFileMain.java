@@ -65,11 +65,11 @@ public final class DragFileMain extends JPanel {
         final JPanel fcPanel = new JPanel(new BorderLayout());
         fcPanel.add(fc, BorderLayout.CENTER);
 
-        this.clear = new JButton("Clear All");
+        clear = new JButton("Clear All");
 
         final JPanel buttonPanel = new JPanel(new BorderLayout());
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        buttonPanel.add(this.clear, BorderLayout.LINE_END);
+        buttonPanel.add(clear, BorderLayout.LINE_END);
 
         final JPanel upperPanel = new JPanel(new BorderLayout());
         upperPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -84,10 +84,10 @@ public final class DragFileMain extends JPanel {
         final JTabbedPane tabbedPane = new JTabbedPane();
         final JPanel tabPanel = new JPanel(new BorderLayout());
         tabPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        this.tpc = new TabbedPaneController(tabbedPane, tabPanel);
+        tpc = new TabbedPaneController(tabbedPane, tabPanel);
 
-        this.clear.addActionListener(event -> {
-            if (event.getSource() == this.clear) {
+        clear.addActionListener(event -> {
+            if (event.getSource() == clear) {
                 tpc.clearAll();
             }
         });
@@ -99,6 +99,6 @@ public final class DragFileMain extends JPanel {
     }
 
     public void setDefaultButton() {
-        getRootPane().setDefaultButton(this.clear);
+        getRootPane().setDefaultButton(clear);
     }
 }

@@ -28,11 +28,11 @@ public class SimpleObjectProperty<T> extends AbstractObjectProperty<T> {
 
     @Override
     public Object getBean() {
-        return this.bean;
+        return bean;
     }
 
     @Override
     public String getName() {
-        return this.name;
+        return name;
     }
 }

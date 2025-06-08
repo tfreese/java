@@ -61,15 +61,14 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
 
         this.delegateBackend = Objects.requireNonNull(delegateBackend, "delegateBackend required");
 
-        this.stoppedRef = new AtomicBoolean();
-
-        this.worker = new QueueWorker();
+        stoppedRef = new AtomicBoolean();
+        worker = new QueueWorker();
     }
 
     @Override
     public void start() {
-        this.worker.setName(getName());
-        this.worker.setDaemon(true);
+        worker.setName(getName());
+        worker.setDaemon(true);
 
         worker.start();
     }
@@ -84,7 +83,7 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
 
         // There is a slight chance that the thread is not started yet, wait for it to run.
         // Otherwise, interrupt + join might block.
-        while (Thread.State.NEW.equals(this.worker.getState())) {
+        while (Thread.State.NEW.equals(worker.getState())) {
             try {
                 TimeUnit.MILLISECONDS.sleep(10);
             }
@@ -99,27 +98,27 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
         final boolean added = queue.offer(STOP_VALUE);
 
         if (!added) {
-            this.worker.interrupt();
+            worker.interrupt();
         }
 
         // Wait for the completion.
         try {
-            this.worker.join(200);
+            worker.join(200);
         }
         catch (InterruptedException ex) {
             // Restore interrupted state.
             Thread.currentThread().interrupt();
-            
+
             getLogger().error(ex.getMessage(), ex);
         }
 
         // Save last SensorValues.
-        if (!this.queue.isEmpty()) {
+        if (!queue.isEmpty()) {
             getLogger().info("store queued sensor values");
 
             SensorValue sensorValue = null;
 
-            while ((sensorValue = this.queue.poll()) != null) {
+            while ((sensorValue = queue.poll()) != null) {
                 if (sensorValue == STOP_VALUE) {
                     continue;
                 }
@@ -131,16 +130,16 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
 
     @Override
     protected void storeValue(final SensorValue sensorValue) {
-        this.queue.add(sensorValue);
+        queue.add(sensorValue);
     }
 
     private void dispatch(final SensorValue sensorValue) {
         getLogger().debug("Processing: {}", sensorValue);
 
-        this.delegateBackend.store(sensorValue);
+        delegateBackend.store(sensorValue);
     }
 
     private String getName() {
-        return this.delegateBackend.getClass().getSimpleName().replace("Backend", "Worker");
+        return delegateBackend.getClass().getSimpleName().replace("Backend", "Worker");
     }
 }

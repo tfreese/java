@@ -17,11 +17,9 @@ public abstract class AbstractBooleanBinding extends AbstractBooleanExpression i
 
     // @SuppressWarnings("unchecked")
     // @Override
-    // public void bind(final ObservableValue<? extends Object>...dependencies)
-    // {
-    // for (ObservableValue<? extends Object> o : dependencies)
-    // {
-    // o.addListener(this.listener);
+    // public void bind(final ObservableValue<? extends Object>...dependencies) {
+    // for (ObservableValue<? extends Object> o : dependencies) {
+    // o.addListener(listener);
     // }
     //
     // update();
@@ -29,16 +27,16 @@ public abstract class AbstractBooleanBinding extends AbstractBooleanExpression i
 
     @Override
     public Boolean getValue() {
-        return this.value;
+        return value;
     }
 
     @Override
     public void update() {
-        final Boolean old = this.value;
-        this.value = computeValue();
+        final Boolean old = value;
+        value = computeValue();
 
-        if (Objects.equals(old, this.value)) {
-            fireValueChangedEvent(old, this.value);
+        if (Objects.equals(old, value)) {
+            fireValueChangedEvent(old, value);
         }
     }
 

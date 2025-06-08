@@ -36,41 +36,41 @@ public class NetworkInfo {
     }
 
     public long getBytesReceived() {
-        return this.bytesReceived;
+        return bytesReceived;
     }
 
     public long getBytesTransmitted() {
-        return this.bytesTransmitted;
+        return bytesTransmitted;
     }
 
     public double getDownloadPerSecond() {
-        return this.downloadPerSecond;
+        return downloadPerSecond;
     }
 
     public String getInterfaceName() {
-        return this.interfaceName;
+        return interfaceName;
     }
 
     public String getIp() {
-        return this.ip;
+        return ip;
     }
 
     public long getTimestamp() {
-        return this.timestamp;
+        return timestamp;
     }
 
     public double getUploadPerSecond() {
-        return this.uploadPerSecond;
+        return uploadPerSecond;
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
-        builder.append("interfaceName=").append(this.interfaceName);
-        builder.append(", ip=").append(this.ip);
-        builder.append(", bytesTransmitted=").append(this.bytesTransmitted);
-        builder.append(", bytesReceived=").append(this.bytesReceived);
+        builder.append("interfaceName=").append(interfaceName);
+        builder.append(", ip=").append(ip);
+        builder.append(", bytesTransmitted=").append(bytesTransmitted);
+        builder.append(", bytesReceived=").append(bytesReceived);
         builder.append("]");
 
         return builder.toString();

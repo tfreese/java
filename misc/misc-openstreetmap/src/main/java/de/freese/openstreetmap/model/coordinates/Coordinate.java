@@ -41,8 +41,8 @@ public abstract class Coordinate {
     Coordinate(final double px, final double py) {
         super();
 
-        this.myXCoord = px;
-        this.myYCoord = py;
+        myXCoord = px;
+        myYCoord = py;
     }
 
     /**
@@ -53,7 +53,7 @@ public abstract class Coordinate {
      * @return The square of the distance between this and the other point, regarding the x/y values.
      */
     public double distance(final Coordinate other) {
-        return ((this.myXCoord - other.myXCoord) * (this.myXCoord - other.myXCoord)) + ((this.myYCoord - other.myYCoord) * (this.myYCoord - other.myYCoord));
+        return ((myXCoord - other.myXCoord) * (myXCoord - other.myXCoord)) + ((myYCoord - other.myYCoord) * (myYCoord - other.myYCoord));
     }
 
     @Override
@@ -66,25 +66,25 @@ public abstract class Coordinate {
             return false;
         }
 
-        if (Double.doubleToLongBits(this.myXCoord) != Double.doubleToLongBits(other.myXCoord)) {
+        if (Double.doubleToLongBits(myXCoord) != Double.doubleToLongBits(other.myXCoord)) {
             return false;
         }
 
-        return Double.doubleToLongBits(this.myYCoord) == Double.doubleToLongBits(other.myYCoord);
+        return Double.doubleToLongBits(myYCoord) == Double.doubleToLongBits(other.myYCoord);
     }
 
     /**
      * @return Either easting or latitude
      */
     public double getXCoord() {
-        return this.myXCoord;
+        return myXCoord;
     }
 
     /**
      * @return Either northing or longitude
      */
     public double getYCoord() {
-        return this.myYCoord;
+        return myYCoord;
     }
 
     @Override
@@ -92,10 +92,10 @@ public abstract class Coordinate {
         final int prime = 31;
         int result = 1;
 
-        long temp = Double.doubleToLongBits(this.myXCoord);
+        long temp = Double.doubleToLongBits(myXCoord);
         result = (prime * result) + Long.hashCode(temp);
 
-        temp = Double.doubleToLongBits(this.myYCoord);
+        temp = Double.doubleToLongBits(myYCoord);
         result = (prime * result) + Long.hashCode(temp);
 
         return result;

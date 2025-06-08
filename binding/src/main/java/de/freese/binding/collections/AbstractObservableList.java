@@ -38,12 +38,12 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
     public abstract T get(int index);
 
     public Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     @Override
     public boolean isListenerEnabled() {
-        return this.listenerEnabled;
+        return listenerEnabled;
     }
 
     @Override
@@ -164,6 +164,6 @@ public abstract class AbstractObservableList<T> extends AbstractList<T> implemen
     }
 
     protected EventListenerList getListeners() {
-        return this.listeners;
+        return listeners;
     }
 }

@@ -30,18 +30,18 @@ public class CpuMetrics implements SensorBinder {
             public String apply(final JavaSysMon t) {
                 final CpuTimes cpuTimes = CpuMetrics.this.sysMon.cpuTimes();
 
-                if (this.cpuTimesPrevious == null) {
-                    this.cpuTimesPrevious = cpuTimes;
+                if (cpuTimesPrevious == null) {
+                    cpuTimesPrevious = cpuTimes;
                     return "0";
                 }
 
-                final double usage = cpuTimes.getCpuUsage(this.cpuTimesPrevious) * 100D;
+                final double usage = cpuTimes.getCpuUsage(cpuTimesPrevious) * 100D;
 
                 return Double.toString(usage);
             }
         };
 
-        Sensor.builder("cpu.usage", this.sysMon, valueFunction).description("CPU-Usage in %").register(registry, backendProvider);
+        Sensor.builder("cpu.usage", sysMon, valueFunction).description("CPU-Usage in %").register(registry, backendProvider);
 
         return List.of("cpu.usage");
     }

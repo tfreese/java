@@ -43,7 +43,6 @@ public class AntCell extends AbstractCell {
         }
 
         private final int frontOffsetX;
-
         private final int frontOffsetY;
 
         Direction(final int frontOffsetX, final int frontOffsetY) {
@@ -55,7 +54,7 @@ public class AntCell extends AbstractCell {
          * Relative Koordinaten für die Zelle vor der Ameise.
          */
         public int[] getFrontOffsets() {
-            return new int[]{this.frontOffsetX, this.frontOffsetY};
+            return new int[]{frontOffsetX, frontOffsetY};
         }
 
         /**
@@ -99,11 +98,11 @@ public class AntCell extends AbstractCell {
     }
 
     public boolean isAnt() {
-        return CellType.ANT.equals(this.cellType);
+        return CellType.ANT.equals(cellType);
     }
 
     public boolean isEmpty() {
-        return CellType.EMPTY.equals(this.cellType);
+        return CellType.EMPTY.equals(cellType);
     }
 
     /**
@@ -118,7 +117,7 @@ public class AntCell extends AbstractCell {
             return;
         }
 
-        final int[] frontOffsets = this.direction.getFrontOffsets();
+        final int[] frontOffsets = direction.getFrontOffsets();
         final int newX = getSimulation().getXTorusCoord(getX(), frontOffsets[0]);
         final int newY = getSimulation().getYTorusCoord(getY(), frontOffsets[1]);
 
@@ -137,7 +136,7 @@ public class AntCell extends AbstractCell {
         if (Color.WHITE.equals(frontCell.getColor()) || frontCell.isEmpty()) {
             frontCell.setCellType(CellType.ANT);
             setCellType(CellType.BLACK);
-            frontCell.direction = this.direction.turnRight();
+            frontCell.direction = direction.turnRight();
 
             // Performance-Optimierung: Nur die Ameisen verarbeiten lassen.
             getSimulation().addNextGeneration(frontCell);
@@ -145,7 +144,7 @@ public class AntCell extends AbstractCell {
         else if (Color.BLACK.equals(frontCell.getColor()) || frontCell.isEmpty()) {
             frontCell.setCellType(CellType.ANT);
             setCellType(CellType.WHITE);
-            frontCell.direction = this.direction.turnLeft();
+            frontCell.direction = direction.turnLeft();
 
             // Performance-Optimierung: Nur die Ameisen verarbeiten lassen.
             getSimulation().addNextGeneration(frontCell);
@@ -177,7 +176,7 @@ public class AntCell extends AbstractCell {
      * @param orientation int; 0 - 3
      */
     public void setDirection(final int orientation) {
-        this.direction = switch (orientation) {
+        direction = switch (orientation) {
             case 1 -> Direction.EAST;
             case 2 -> Direction.SOUTH;
             case 3 -> Direction.WEST;

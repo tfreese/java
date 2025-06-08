@@ -48,7 +48,7 @@ public class SimulationCanvas extends JComponent implements SimulationListener {
 
         setPreferredSize(new Dimension(width, height));
 
-        this.useVolatileImage = SimulationEnvironment.getInstance().getAsBoolean("simulation.use.volatileImage", false);
+        useVolatileImage = SimulationEnvironment.getInstance().getAsBoolean("simulation.use.volatileImage", false);
 
         completed(simulation);
 
@@ -73,7 +73,7 @@ public class SimulationCanvas extends JComponent implements SimulationListener {
         final int x = 0;
         final int y = 0;
 
-        if (!this.useVolatileImage) {
+        if (!useVolatileImage) {
             g.drawImage(image, x, y, getWidth(), getHeight(), null);
 
             return;

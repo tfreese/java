@@ -51,7 +51,7 @@ class TestDemo {
 
         @Override
         public String toString() {
-            return "MyObject{" + "x=" + this.x + ", y=" + this.y + '}';
+            return "MyObject{" + "x=" + x + ", y=" + y + '}';
         }
     }
 

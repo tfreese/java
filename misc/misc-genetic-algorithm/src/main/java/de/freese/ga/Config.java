@@ -26,68 +26,68 @@ public class Config {
     public Config() {
         super();
 
-        // this.random = new Random();
-        this.random = new SecureRandom();
+        // random = new Random();
+        random = new SecureRandom();
     }
 
     /**
      * Liefert die Rate der Vererbung eines Chromosoms.
      */
     public double getCrossoverRate() {
-        return this.crossoverRate;
+        return crossoverRate;
     }
 
     /**
      * Liefert, wenn möglich, den max. Wert der Fitnessfunktion.
      */
     public double getMaxFitness() {
-        return this.maxFitness;
+        return maxFitness;
     }
 
     /**
      * Liefert die Rate der Mutation eines Chromosoms.
      */
     public double getMutationRate() {
-        return this.mutationRate;
+        return mutationRate;
     }
 
     public Random getRandom() {
-        return this.random;
+        return random;
     }
 
     /**
      * Liefert die Größe des Chromosoms.
      */
     public int getSizeChromosome() {
-        return this.sizeChromosome;
+        return sizeChromosome;
     }
 
     /**
      * Liefert die Größe des Genotyps.
      */
     public int getSizeGenotype() {
-        return this.sizeGenotype;
+        return sizeGenotype;
     }
 
     /**
      * Liefert die Größe der natürlichen Selektion für einen Genotyp.
      */
     public int getTournamentSize() {
-        return this.tournamentSize;
+        return tournamentSize;
     }
 
     /**
      * Beim Elitismus wird das fitteste Chromosom in die nächste Generation übernommen.
      */
     public boolean isElitism() {
-        return this.elitism;
+        return elitism;
     }
 
     /**
      * Setzt die Rate der Vererbung eines Chromosoms.
      */
     public void setCrossoverRate(final double rate) {
-        this.crossoverRate = rate;
+        crossoverRate = rate;
     }
 
     /**
@@ -105,27 +105,27 @@ public class Config {
      * Setzt die Rate der Mutation eines Chromosoms.
      */
     public void setMutationRate(final double rate) {
-        this.mutationRate = rate;
+        mutationRate = rate;
     }
 
     /**
      * Setzt die Größe des Chromosoms.
      */
     public void setSizeChromosome(final int size) {
-        this.sizeChromosome = size;
+        sizeChromosome = size;
     }
 
     /**
      * Setzt die Größe des Genotyps.
      */
     public void setSizeGenotype(final int size) {
-        this.sizeGenotype = size;
+        sizeGenotype = size;
     }
 
     /**
      * Setzt die Größe der natürlichen Selektion für einen Genotyp.
      */
     public void setTournamentSize(final int size) {
-        this.tournamentSize = size;
+        tournamentSize = size;
     }
 }

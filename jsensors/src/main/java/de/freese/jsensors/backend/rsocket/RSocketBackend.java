@@ -47,9 +47,9 @@ public class RSocketBackend extends AbstractBackend implements LifeCycle {
     @Override
     public void start() {
         final TcpClient tcpClient = TcpClient.create()
-                .host(this.uri.getHost())
-                .port(this.uri.getPort())
-                .runOn(LoopResources.create("jSensor-client-" + this.uri.getPort(), this.parallelism, true));
+                .host(uri.getHost())
+                .port(uri.getPort())
+                .runOn(LoopResources.create("jSensor-client-" + uri.getPort(), parallelism, true));
 
         final RSocketConnector connector = RSocketConnector.create()
                 .payloadDecoder(PayloadDecoder.DEFAULT)
@@ -57,12 +57,12 @@ public class RSocketBackend extends AbstractBackend implements LifeCycle {
 
         final Mono<RSocket> rSocket = connector.connect(TcpClientTransport.create(tcpClient));
 
-        this.client = RSocketClient.from(rSocket);
+        client = RSocketClient.from(rSocket);
     }
 
     @Override
     public void stop() {
-        this.client.dispose();
+        client.dispose();
     }
 
     protected ByteBuf encode(final SensorValue sensorValue) {
@@ -87,8 +87,7 @@ public class RSocketBackend extends AbstractBackend implements LifeCycle {
     protected void storeValue(final SensorValue sensorValue) {
         final ByteBuf byteBuf = encode(sensorValue);
 
-        this.client
-                .fireAndForget(Mono.just(ByteBufPayload.create(byteBuf)))
+        client.fireAndForget(Mono.just(ByteBufPayload.create(byteBuf)))
                 .block()
         ;
 

@@ -16,7 +16,7 @@ public abstract class AbstractStringProperty extends AbstractStringExpression im
 
     @Override
     public String getValue() {
-        return this.value;
+        return value;
     }
 
     @Override

@@ -18,25 +18,25 @@ public class Schema {
     private String name;
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public Sequence getSequence(final String name) {
-        return this.sequences.computeIfAbsent(name, key -> new Sequence(this, key));
+        return sequences.computeIfAbsent(name, key -> new Sequence(this, key));
     }
 
     public List<Sequence> getSequences() {
-        // return this.sequences.values().stream().sorted(Comparator.comparing(Sequence::getName)).collect(Collectors.toList());
-        return new ArrayList<>(this.sequences.values());
+        // return sequences.values().stream().sorted(Comparator.comparing(Sequence::getName)).collect(Collectors.toList());
+        return new ArrayList<>(sequences.values());
     }
 
     public Table getTable(final String name) {
-        return this.tables.computeIfAbsent(name, key -> new Table(this, key));
+        return tables.computeIfAbsent(name, key -> new Table(this, key));
     }
 
     public List<Table> getTables() {
-        // return this.tables.values().stream().sorted(Comparator.comparing(Table::getName)).collect(Collectors.toList());
-        return new ArrayList<>(this.tables.values());
+        // return tables.values().stream().sorted(Comparator.comparing(Table::getName)).collect(Collectors.toList());
+        return new ArrayList<>(tables.values());
     }
 
     public void setName(final String name) {
@@ -54,6 +54,6 @@ public class Schema {
     }
 
     public void validate() {
-        this.tables.values().forEach(Table::validate);
+        tables.values().forEach(Table::validate);
     }
 }

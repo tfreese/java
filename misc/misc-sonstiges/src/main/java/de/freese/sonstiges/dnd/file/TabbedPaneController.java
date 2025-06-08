@@ -28,12 +28,12 @@ class TabbedPaneController {
 
     TabbedPaneController(final JTabbedPane tb, final JPanel tp) {
         super();
-        
-        this.tabbedPane = tb;
-        this.tabbedPanel = tp;
-        this.transferHandler = new FileAndTextTransferHandler(this);
-        // this.fileSeparator = System.getProperty("file.separator");
-        this.fileSeparator = FileSystems.getDefault().getSeparator();
+
+        tabbedPane = tb;
+        tabbedPanel = tp;
+        transferHandler = new FileAndTextTransferHandler(this);
+        // fileSeparator = System.getProperty("file.separator");
+        fileSeparator = FileSystems.getDefault().getSeparator();
 
         // The split method in the String class uses
         // regular expressions to define the text used for
@@ -41,29 +41,29 @@ class TabbedPaneController {
         // character and must be escaped. Some look and feels,
         // such as Microsoft Windows, use the forward slash to
         // delimit the path.
-        if ("\\".equals(this.fileSeparator)) {
-            this.fileSeparator = "\\\\";
+        if ("\\".equals(fileSeparator)) {
+            fileSeparator = "\\\\";
         }
 
         init();
     }
 
     public JTextArea addTab(final String filename) {
-        if (this.noFiles) {
-            this.tabbedPanel.remove(this.emptyFilePanel);
-            this.tabbedPanel.add(this.tabbedPane, BorderLayout.CENTER);
-            this.noFiles = false;
+        if (noFiles) {
+            tabbedPanel.remove(emptyFilePanel);
+            tabbedPanel.add(tabbedPane, BorderLayout.CENTER);
+            noFiles = false;
         }
 
-        final String[] str = filename.split(this.fileSeparator);
+        final String[] str = filename.split(fileSeparator);
 
         return makeTextPanel(str[str.length - 1], filename);
     }
 
     public void clearAll() {
-        if (!this.noFiles) {
-            this.tabbedPane.removeAll();
-            this.tabbedPanel.remove(this.tabbedPane);
+        if (!noFiles) {
+            tabbedPane.removeAll();
+            tabbedPanel.remove(tabbedPane);
         }
 
         init();
@@ -72,33 +72,33 @@ class TabbedPaneController {
     protected JTextArea makeTextPanel(final String name, final String toolTip) {
         final JTextArea fileArea = new JTextArea(20, 15);
         fileArea.setDragEnabled(true);
-        fileArea.setTransferHandler(this.transferHandler);
+        fileArea.setTransferHandler(transferHandler);
         fileArea.setMargin(new Insets(5, 5, 5, 5));
 
         final JScrollPane fileScrollPane = new JScrollPane(fileArea);
-        this.tabbedPane.addTab(name, null, fileScrollPane, toolTip);
-        this.tabbedPane.setSelectedComponent(fileScrollPane);
+        tabbedPane.addTab(name, null, fileScrollPane, toolTip);
+        tabbedPane.setSelectedComponent(fileScrollPane);
 
         return fileArea;
     }
 
     private void init() {
-        this.noFiles = true;
+        noFiles = true;
 
-        if (this.emptyFilePanel == null) {
-            this.emptyFileArea = new JTextArea(20, 15);
-            this.emptyFileArea.setEditable(false);
-            this.emptyFileArea.setDragEnabled(true);
-            this.emptyFileArea.setTransferHandler(this.transferHandler);
-            this.emptyFileArea.setMargin(new Insets(5, 5, 5, 5));
+        if (emptyFilePanel == null) {
+            emptyFileArea = new JTextArea(20, 15);
+            emptyFileArea.setEditable(false);
+            emptyFileArea.setDragEnabled(true);
+            emptyFileArea.setTransferHandler(transferHandler);
+            emptyFileArea.setMargin(new Insets(5, 5, 5, 5));
 
-            final JScrollPane fileScrollPane = new JScrollPane(this.emptyFileArea);
-            this.emptyFilePanel = new JPanel(new BorderLayout(), false);
-            this.emptyFilePanel.add(fileScrollPane, BorderLayout.CENTER);
+            final JScrollPane fileScrollPane = new JScrollPane(emptyFileArea);
+            emptyFilePanel = new JPanel(new BorderLayout(), false);
+            emptyFilePanel.add(fileScrollPane, BorderLayout.CENTER);
         }
 
-        this.tabbedPanel.add(this.emptyFilePanel, BorderLayout.CENTER);
-        this.tabbedPanel.repaint();
-        this.emptyFileArea.setText("Select one or more files from the file chooser and drop here...");
+        tabbedPanel.add(emptyFilePanel, BorderLayout.CENTER);
+        tabbedPanel.repaint();
+        emptyFileArea.setText("Select one or more files from the file chooser and drop here...");
     }
 }

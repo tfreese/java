@@ -17,47 +17,47 @@ public final class Values<T extends Comparable<?>> {
     private LinkedList<T> newValues;
 
     public synchronized void addValue(final T value) {
-        if (this.newValues == null) {
-            this.newValues = new LinkedList<>();
+        if (newValues == null) {
+            newValues = new LinkedList<>();
         }
 
-        this.newValues.add(value);
+        newValues.add(value);
     }
 
     /**
      * Liefert die letzten n Werte.<br>
      */
     public synchronized List<T> getLastValues(final int count) {
-        final List<T> lastValues = this.newValues;
-        this.newValues = null;
+        final List<T> lastValues = newValues;
+        newValues = null;
 
         if (lastValues != null) {
             // Neue Werte hinzufügen.
-            this.valueList.addAll(lastValues);
+            valueList.addAll(lastValues);
         }
 
         // Alte Werte entfernen.
-        final int n = Math.min(count, this.valueList.size());
+        final int n = Math.min(count, valueList.size());
 
-        while (this.valueList.size() > n) {
-            final T oldValue = this.valueList.removeFirst();
+        while (valueList.size() > n) {
+            final T oldValue = valueList.removeFirst();
 
-            this.treeSet.remove(oldValue);
+            treeSet.remove(oldValue);
         }
 
         if (lastValues != null) {
             // Neue Werte für min.-/max. hinzufügen.
-            this.treeSet.addAll(lastValues);
+            treeSet.addAll(lastValues);
         }
 
-        return this.valueList;
+        return valueList;
     }
 
     public T getMaxValue() {
-        return this.treeSet.last();
+        return treeSet.last();
     }
 
     public T getMinValue() {
-        return this.treeSet.first();
+        return treeSet.first();
     }
 }

@@ -75,27 +75,27 @@ public class DisruptorBackend extends AbstractBackend implements LifeCycle {
 
     @Override
     public void start() {
-        this.disruptor = new Disruptor<>(SensorEvent::new, this.ringBufferSize, new JSensorThreadFactory("jSensor-disruptor-%d"));
+        disruptor = new Disruptor<>(SensorEvent::new, ringBufferSize, new JSensorThreadFactory("jSensor-disruptor-%d"));
 
         // EventHandler handles all the same Event -> LoadBalancing required if only one EventHandler should handle the Event.
-        final EventHandler<SensorEvent>[] handlers = new DisruptorSensorHandler[this.parallelism];
+        final EventHandler<SensorEvent>[] handlers = new DisruptorSensorHandler[parallelism];
 
         for (int i = 0; i < handlers.length; i++) {
-            handlers[i] = new DisruptorSensorHandler(this.delegateBackend, this.parallelism, i);
+            handlers[i] = new DisruptorSensorHandler(delegateBackend, parallelism, i);
         }
 
-        this.disruptor.handleEventsWith(handlers); //.then(new CleaningEventHandler());
+        disruptor.handleEventsWith(handlers); //.then(new CleaningEventHandler());
 
-        this.disruptor.start();
+        disruptor.start();
     }
 
     @Override
     public void stop() {
-        // Only required, if the Event-Publication is not finished.
-        // this.disruptor.halt();
+        // Only required if the Event-Publication is not finished.
+        // disruptor.halt();
 
         try {
-            this.disruptor.shutdown(3, TimeUnit.SECONDS);
+            disruptor.shutdown(3, TimeUnit.SECONDS);
         }
         catch (TimeoutException ex) {
             getLogger().error(ex.getMessage(), ex);
@@ -104,7 +104,7 @@ public class DisruptorBackend extends AbstractBackend implements LifeCycle {
 
     @Override
     protected void storeValue(final SensorValue sensorValue) {
-        final RingBuffer<SensorEvent> ringBuffer = this.disruptor.getRingBuffer();
+        final RingBuffer<SensorEvent> ringBuffer = disruptor.getRingBuffer();
 
         final long sequence = ringBuffer.next();
 

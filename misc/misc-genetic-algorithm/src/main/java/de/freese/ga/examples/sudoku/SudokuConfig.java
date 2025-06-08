@@ -34,18 +34,18 @@ public class SudokuConfig extends Config {
     public double getMaxFitness() {
         // Summe pro Zeile, Spalte und Block.<br>
         // Gaußsche Summenformel = (n² + n) / 2
-        final int puzzleSum = (int) (Math.pow(this.puzzleSize, 2) + this.puzzleSize) / 2;
+        final int puzzleSum = (int) (Math.pow(puzzleSize, 2) + puzzleSize) / 2;
 
         double fitness = 0.0D;
 
         // 405: Summe aller Zeilen = 45 x 9
-        fitness += this.puzzleSize * puzzleSum;
+        fitness += puzzleSize * puzzleSum;
 
         // // 405: Summe aller Spalten = 45 x 9
-        // fitness += this.puzzleSize * this.puzzleSum;
+        // fitness += puzzleSize * puzzleSum;
         //
         // // 405: Summe aller Blöcke = 45 x 9
-        // fitness += this.puzzleSize * this.puzzleSum;
+        // fitness += puzzleSize * puzzleSum;
 
         // 405 x 3 = 1215
         fitness *= 3;
@@ -89,37 +89,37 @@ public class SudokuConfig extends Config {
             throw new IllegalArgumentException("only puzzle with 9x9 format supported");
         }
 
-        this.puzzleSize = puzzle.size();
-        this.puzzleBlockSize = (int) Math.sqrt(puzzle.size());
+        puzzleSize = puzzle.size();
+        puzzleBlockSize = (int) Math.sqrt(puzzle.size());
 
-        this.fixNumbers.clear();
+        fixNumbers.clear();
 
-        for (int row = 0; row < this.puzzleSize; row++) {
+        for (int row = 0; row < puzzleSize; row++) {
             final String[] columns = puzzle.get(row);
 
-            for (int col = 0; col < this.puzzleSize; col++) {
-                final int index = (row * this.puzzleSize) + col;
+            for (int col = 0; col < puzzleSize; col++) {
+                final int index = (row * puzzleSize) + col;
 
                 final int number = Integer.parseInt(columns[col]);
 
                 if (number > 0) {
-                    this.fixNumbers.put(index, new SudokuGene(number, false));
+                    fixNumbers.put(index, new SudokuGene(number, false));
                 }
             }
         }
 
-        setSizeChromosome(this.puzzleSize * this.puzzleSize);
+        setSizeChromosome(puzzleSize * puzzleSize);
     }
 
     Map<Integer, SudokuGene> getFixNumbers() {
-        return this.fixNumbers;
+        return fixNumbers;
     }
 
     int getPuzzleBlockSize() {
-        return this.puzzleBlockSize;
+        return puzzleBlockSize;
     }
 
     int getPuzzleSize() {
-        return this.puzzleSize;
+        return puzzleSize;
     }
 }

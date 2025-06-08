@@ -28,7 +28,7 @@ public final class StringConstant extends AbstractStringExpression {
 
     @Override
     public String getValue() {
-        return this.value;
+        return value;
     }
 
     @Override

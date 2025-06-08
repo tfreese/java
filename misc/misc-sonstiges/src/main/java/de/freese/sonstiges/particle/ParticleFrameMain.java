@@ -43,8 +43,8 @@ public final class ParticleFrameMain extends JFrame {
     private ParticleFrameMain() {
         super();
 
-        this.canvas = new ParticleCanvas();
-        this.canvas.setSize(new Dimension(800, 800));
+        canvas = new ParticleCanvas();
+        canvas.setSize(new Dimension(800, 800));
 
         setTitle("Particles");
     }

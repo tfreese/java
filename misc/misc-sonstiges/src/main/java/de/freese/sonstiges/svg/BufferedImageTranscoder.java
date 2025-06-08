@@ -19,7 +19,7 @@ public final class BufferedImageTranscoder extends ImageTranscoder {
     }
 
     public BufferedImage getBufferedImage() {
-        return this.image;
+        return image;
     }
 
     @Override

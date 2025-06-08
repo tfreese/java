@@ -35,8 +35,9 @@ public class ServerMultiThread extends AbstractServer {
     public ServerMultiThread(final int port, final int numOfDispatcher, final int numOfWorker, final SelectorProvider selectorProvider) {
         super(port);
 
-        this.dispatcherPool = new DispatcherPool(numOfDispatcher, numOfWorker);
         this.selectorProvider = Objects.requireNonNull(selectorProvider, "selectorProvider required");
+
+        dispatcherPool = new DispatcherPool(numOfDispatcher, numOfWorker);
     }
 
     @Override
@@ -46,7 +47,7 @@ public class ServerMultiThread extends AbstractServer {
         Objects.requireNonNull(getIoHandler(), "ioHandler required");
 
         try {
-            // this.serverSocketChannel = ServerSocketChannel.open();
+            // serverSocketChannel = ServerSocketChannel.open();
             serverSocketChannel = selectorProvider.openServerSocketChannel();
             serverSocketChannel.configureBlocking(false);
 

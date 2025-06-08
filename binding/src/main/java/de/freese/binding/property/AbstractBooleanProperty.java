@@ -16,7 +16,7 @@ public abstract class AbstractBooleanProperty extends AbstractBooleanExpression 
 
     @Override
     public Boolean getValue() {
-        return this.value;
+        return value;
     }
 
     @Override

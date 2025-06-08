@@ -37,16 +37,16 @@ public class ReverseThread extends Thread {
 
     @Override
     public void run() {
-        if (this.out != null && this.in != null) {
+        if (out != null && in != null) {
             try {
                 String input = null;
 
-                while ((input = this.in.readLine()) != null) {
-                    this.out.println(reverseIt(input));
-                    this.out.flush();
+                while ((input = in.readLine()) != null) {
+                    out.println(reverseIt(input));
+                    out.flush();
                 }
 
-                this.out.close();
+                out.close();
             }
             catch (IOException ex) {
                 LOGGER.error(ex.getMessage(), ex);

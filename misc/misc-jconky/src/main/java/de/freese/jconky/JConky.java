@@ -74,7 +74,7 @@ public final class JConky extends Application {
         System.setProperty("prism.lcdtext", "true");
 
         final Canvas canvas = new Canvas();
-        this.conkyContextPainter.setCanvas(canvas);
+        conkyContextPainter.setCanvas(canvas);
 
         final Group pane = new Group();
         pane.getChildren().add(canvas);
@@ -101,16 +101,16 @@ public final class JConky extends Application {
 
         getLogger().info("init");
 
-        this.scheduledExecutorService = Executors.newScheduledThreadPool(4);
-        this.conkyContextPainter = new ContextPainter();
+        scheduledExecutorService = Executors.newScheduledThreadPool(4);
+        conkyContextPainter = new ContextPainter();
 
-        this.conkyContextPainter.addMonitorPainter(new HostMonitorPainter());
-        this.conkyContextPainter.addMonitorPainter(new CpuMonitorPainter());
-        this.conkyContextPainter.addMonitorPainter(new SystemMonitorPainter());
-        this.conkyContextPainter.addMonitorPainter(new NetworkMonitorPainter());
-        this.conkyContextPainter.addMonitorPainter(new ProcessMonitorPainter());
-        this.conkyContextPainter.addMonitorPainter(new TemperatureMonitorPainter());
-        this.conkyContextPainter.addMonitorPainter(new MusicMonitorPainter());
+        conkyContextPainter.addMonitorPainter(new HostMonitorPainter());
+        conkyContextPainter.addMonitorPainter(new CpuMonitorPainter());
+        conkyContextPainter.addMonitorPainter(new SystemMonitorPainter());
+        conkyContextPainter.addMonitorPainter(new NetworkMonitorPainter());
+        conkyContextPainter.addMonitorPainter(new ProcessMonitorPainter());
+        conkyContextPainter.addMonitorPainter(new TemperatureMonitorPainter());
+        conkyContextPainter.addMonitorPainter(new MusicMonitorPainter());
 
         getScheduledExecutorService().execute(() -> Context.getInstance().updateOneShot());
 
@@ -189,7 +189,7 @@ public final class JConky extends Application {
     public void startRepaintSchedule() {
         getScheduledExecutorService().scheduleWithFixedDelay(() -> {
             try {
-                Platform.runLater(this.conkyContextPainter::paint);
+                Platform.runLater(conkyContextPainter::paint);
             }
             catch (Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
@@ -207,6 +207,6 @@ public final class JConky extends Application {
     }
 
     private ScheduledExecutorService getScheduledExecutorService() {
-        return this.scheduledExecutorService;
+        return scheduledExecutorService;
     }
 }

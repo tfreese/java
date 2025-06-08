@@ -12,7 +12,7 @@ public abstract class AbstractDoubleProperty extends AbstractDoubleExpression im
 
     @Override
     public Double getValue() {
-        return this.value;
+        return value;
     }
 
     @Override

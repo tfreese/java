@@ -81,11 +81,11 @@ public class JSensorRSocketServer implements LifeCycle {
         final TcpServer tcpServer = TcpServer.create()
                 .host("localhost")
                 .port(port)
-                .runOn(LoopResources.create("jSensor-server-" + port, this.parallelism, false));
+                .runOn(LoopResources.create("jSensor-server-" + port, parallelism, false));
 
         final SocketAcceptor socketAcceptor = SocketAcceptor.forFireAndForget(this::forFireAndForget);
 
-        this.server = RSocketServer.create()
+        server = RSocketServer.create()
                 .acceptor(socketAcceptor)
                 .resume(resume)
                 .payloadDecoder(PayloadDecoder.DEFAULT)
@@ -97,7 +97,7 @@ public class JSensorRSocketServer implements LifeCycle {
     public void stop() {
         getLogger().info("stopping jSensor-rSocket server");
 
-        this.server.dispose();
+        server.dispose();
     }
 
     protected SensorValue decode(final Payload payload) {
@@ -117,7 +117,7 @@ public class JSensorRSocketServer implements LifeCycle {
     protected Mono<Void> forFireAndForget(final Payload payload) {
         final SensorValue sensorValue = decode(payload);
 
-        this.backend.store(sensorValue);
+        backend.store(sensorValue);
 
         return Mono.empty();
     }

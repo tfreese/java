@@ -23,7 +23,7 @@ public class ClassType implements Type {
     }
 
     public Class<?> getJavaClass() {
-        return this.javaClass;
+        return javaClass;
     }
 
     @Override

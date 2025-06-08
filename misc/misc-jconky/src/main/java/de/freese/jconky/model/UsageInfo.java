@@ -26,11 +26,11 @@ public class UsageInfo {
     }
 
     public String getPath() {
-        return this.path;
+        return path;
     }
 
     public long getSize() {
-        return this.size;
+        return size;
     }
 
     /**
@@ -41,16 +41,16 @@ public class UsageInfo {
     }
 
     public long getUsed() {
-        return this.used;
+        return used;
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append("[");
-        builder.append(" path=").append(this.path);
-        builder.append(", size=").append(this.size);
-        builder.append(", used=").append(this.used);
+        builder.append(" path=").append(path);
+        builder.append(", size=").append(size);
+        builder.append(", used=").append(used);
         builder.append("]");
 
         return builder.toString();

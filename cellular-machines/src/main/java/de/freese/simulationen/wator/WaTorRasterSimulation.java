@@ -54,54 +54,54 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
      * @return int[]; 0 = Anzahl Fische, 1 = Anzahl Haie
      */
     public int[] countFishesAndSharks() {
-        this.fishCounter.reset();
-        this.sharkCounter.reset();
+        fishCounter.reset();
+        sharkCounter.reset();
 
         getCellStream().map(WaTorCell.class::cast).forEach(cell -> {
             if (cell.isFish()) {
-                this.fishCounter.increment();
+                fishCounter.increment();
             }
             else if (cell.isShark()) {
-                this.sharkCounter.increment();
+                sharkCounter.increment();
             }
         });
 
-        return new int[]{this.fishCounter.intValue(), this.sharkCounter.intValue()};
+        return new int[]{fishCounter.intValue(), sharkCounter.intValue()};
     }
 
     /**
      * Brut-Energie der Fische.
      */
     public int getFishBreedEnergy() {
-        return this.fishBreedEnergy;
+        return fishBreedEnergy;
     }
 
     /**
      * Start-Energie der Fische.
      */
     public int getFishStartEnergy() {
-        return this.fishStartEnergy;
+        return fishStartEnergy;
     }
 
     /**
      * Brut-Energie der Haie.
      */
     public int getSharkBreedEnergy() {
-        return this.sharkBreedEnergy;
+        return sharkBreedEnergy;
     }
 
     /**
      * Start-Energie der Haie.
      */
     public int getSharkStartEnergy() {
-        return this.sharkStartEnergy;
+        return sharkStartEnergy;
     }
 
     /**
      * Sterbe-Energie der Haie.
      */
     public int getSharkStarveEnergy() {
-        return this.sharkStarveEnergy;
+        return sharkStarveEnergy;
     }
 
     @Override
@@ -163,7 +163,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
      * Richtung der Berechnung ändern, um Wellen-Fronten zu vermeiden.<br>
      */
     void nextGenerationNestedFor() {
-        if (this.direction == 0) {
+        if (direction == 0) {
             for (int x = 0; x < getWidth(); x++) {
                 for (int y = 0; y < getHeight(); y++) {
                     final WaTorCell cell = getCell(x, y);
@@ -174,7 +174,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
                 }
             }
         }
-        else if (this.direction == 1) {
+        else if (direction == 1) {
             for (int x = getWidth() - 1; x >= 0; x--) {
                 for (int y = 0; y < getHeight(); y++) {
                     final WaTorCell cell = getCell(x, y);
@@ -185,7 +185,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
                 }
             }
         }
-        else if (this.direction == 2) {
+        else if (direction == 2) {
             for (int x = getWidth() - 1; x >= 0; x--) {
                 for (int y = getHeight() - 1; y >= 0; y--) {
                     final WaTorCell cell = getCell(x, y);
@@ -196,7 +196,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
                 }
             }
         }
-        else if (this.direction == 3) {
+        else if (direction == 3) {
             for (int x = 0; x < getWidth(); x++) {
                 for (int y = getHeight() - 1; y >= 0; y--) {
                     final WaTorCell cell = getCell(x, y);
@@ -208,10 +208,10 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
             }
         }
 
-        this.direction++;
+        direction++;
 
-        if (this.direction == 4) {
-            this.direction = 0;
+        if (direction == 4) {
+            direction = 0;
         }
     }
 
@@ -220,7 +220,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
      * Richtung der Berechnung ändern, um Wellen-Fronten zu vermeiden.<br>
      */
     void nextGenerationStreams() {
-        if (this.direction == 0) {
+        if (direction == 0) {
             IntStream.range(0, getWidth())
                     .parallel()
                     .forEach(x -> {
@@ -233,7 +233,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
                         }
                     });
         }
-        else if (this.direction == 1) {
+        else if (direction == 1) {
             IntStream.rangeClosed(getWidth() - 1, 0)
                     .parallel()
                     .forEach(x -> {
@@ -246,7 +246,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
                         }
                     });
         }
-        else if (this.direction == 2) {
+        else if (direction == 2) {
             IntStream.rangeClosed(getWidth() - 1, 0)
                     .parallel()
                     .forEach(x -> {
@@ -259,7 +259,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
                         }
                     });
         }
-        else if (this.direction == 3) {
+        else if (direction == 3) {
             IntStream.range(0, getWidth())
                     .parallel()
                     .forEach(x -> {
@@ -273,10 +273,10 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
                     });
         }
 
-        this.direction++;
+        direction++;
 
-        if (this.direction == 4) {
-            this.direction = 0;
+        if (direction == 4) {
+            direction = 0;
         }
     }
 

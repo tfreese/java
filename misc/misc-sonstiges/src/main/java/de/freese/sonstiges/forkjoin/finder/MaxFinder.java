@@ -26,8 +26,8 @@ public class MaxFinder {
     }
 
     public int find() {
-        final MaxInIntervall task = new MaxInIntervall(this.array, 0, this.array.length, this.intervalThreshold);
-        this.forkJoinPool.invoke(task);
+        final MaxInIntervall task = new MaxInIntervall(array, 0, array.length, intervalThreshold);
+        forkJoinPool.invoke(task);
 
         return task.getResult();
     }

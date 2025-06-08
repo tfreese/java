@@ -26,23 +26,23 @@ public abstract class AbstractIndex {
     }
 
     public void addColumn(final int keyIndex, final Column column) {
-        this.columns.put(keyIndex, column);
+        columns.put(keyIndex, column);
     }
 
     /**
      * Liefert alle Spalten des Indexes sortiert nach KeyIndex.
      */
     public List<Column> getColumnsOrdered() {
-        // return this.columns.values().stream().sorted(Comparator.comparing(Column::getName)).toList();
-        return new ArrayList<>(this.columns.values());
+        // return columns.values().stream().sorted(Comparator.comparing(Column::getName)).toList();
+        return new ArrayList<>(columns.values());
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public Table getTable() {
-        return this.table;
+        return table;
     }
 
     public void setName(final String name) {
@@ -57,14 +57,14 @@ public abstract class AbstractIndex {
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append(getClass().getSimpleName()).append(" [");
-        builder.append(" table=").append(this.table);
-        builder.append(", name=").append(this.name);
+        builder.append(" table=").append(table);
+        builder.append(", name=").append(name);
         builder.append("]");
 
         return builder.toString();
     }
 
     protected Map<Integer, Column> getColumnMap() {
-        return this.columns;
+        return columns;
     }
 }

@@ -660,8 +660,8 @@ public final class MiscDemo {
 
             @Override
             public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) {
-                if (StringUtils.isNotBlank(this.indent)) {
-                    this.indent = this.indent.substring(0, this.indent.length() - 3);
+                if (StringUtils.isNotBlank(indent)) {
+                    indent = indent.substring(0, indent.length() - 3);
                 }
 
                 return FileVisitResult.CONTINUE;
@@ -669,7 +669,7 @@ public final class MiscDemo {
 
             @Override
             public FileVisitResult preVisitDirectory(final Path dir, final BasicFileAttributes attrs) {
-                this.indent = this.indent + "   ";
+                indent = indent + "   ";
 
                 // System.out.println(dir);
                 // System.out.println(path.relativize(dir));
@@ -682,7 +682,7 @@ public final class MiscDemo {
 
             @Override
             public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) {
-                LOGGER.info("{}{}", this.indent, file);
+                LOGGER.info("{}{}", indent, file);
 
                 return FileVisitResult.CONTINUE;
             }

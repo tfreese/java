@@ -79,8 +79,8 @@ public class ServerAsync extends AbstractServer {
         run();
 
         // Wait till finished.
-        // this.startLock.acquireUninterruptibly();
-        // this.startLock.release();
+        // startLock.acquireUninterruptibly();
+        // startLock.release();
     }
 
     @Override
@@ -96,7 +96,7 @@ public class ServerAsync extends AbstractServer {
      * Wartet auf neue Connections.
      */
     private void accept() {
-        this.serverSocketChannel.accept(null, new CompletionHandler<AsynchronousSocketChannel, Void>() {
+        serverSocketChannel.accept(null, new CompletionHandler<AsynchronousSocketChannel, Void>() {
             @Override
             public void completed(final AsynchronousSocketChannel channel, final Void attachment) {
                 try {

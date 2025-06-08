@@ -23,7 +23,8 @@ public final class MapBackend extends AbstractBackend {
         }
 
         this.keepLastNValues = keepLastNValues;
-        this.map = new HashMap<>();
+
+        map = new HashMap<>();
     }
 
     public SensorValue getLastValue(final String name) {
@@ -37,7 +38,7 @@ public final class MapBackend extends AbstractBackend {
     }
 
     public List<SensorValue> getValues(final String name) {
-        return List.copyOf(this.map.computeIfAbsent(name, key -> new ArrayList<>(keepLastNValues)));
+        return List.copyOf(map.computeIfAbsent(name, key -> new ArrayList<>(keepLastNValues)));
     }
 
     public int size(final String name) {

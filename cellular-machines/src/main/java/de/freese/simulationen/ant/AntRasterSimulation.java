@@ -46,11 +46,11 @@ public class AntRasterSimulation extends AbstractRasterSimulation {
         // getCellStream().forEach(RasterCell::nextGeneration);
 
         // Performance-Optimierung: Nur die Ameisen verarbeiten lassen.
-        this.ants.clear();
-        this.ants.addAll(this.antsNextGeneration);
-        this.antsNextGeneration.clear();
+        ants.clear();
+        ants.addAll(antsNextGeneration);
+        antsNextGeneration.clear();
 
-        this.ants.forEach(Cell::nextGeneration);
+        ants.forEach(Cell::nextGeneration);
 
         fireCompleted();
     }
@@ -59,7 +59,7 @@ public class AntRasterSimulation extends AbstractRasterSimulation {
     public void reset() {
         getCellStream().map(AntCell.class::cast).forEach(c -> c.setCellType(CellType.EMPTY));
 
-        for (int i = 0; i < this.numberOfAnts; i++) {
+        for (int i = 0; i < numberOfAnts; i++) {
             // final int x = getRandom().nextInt(50) + minX;
             // final int y = getRandom().nextInt(50) + minY;
             final int x = getRandom().nextInt(getWidth());
@@ -76,7 +76,7 @@ public class AntRasterSimulation extends AbstractRasterSimulation {
     }
 
     void addNextGeneration(final AntCell cell) {
-        this.antsNextGeneration.add(cell);
+        antsNextGeneration.add(cell);
     }
 
     /**

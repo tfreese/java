@@ -34,9 +34,9 @@ public final class SingleNoteSynthesizer2Main {
         super();
 
         try {
-            this.synth = MidiSystem.getSynthesizer();
-            this.synth.open();
-            this.receiver = this.synth.getReceiver();
+            synth = MidiSystem.getSynthesizer();
+            synth.open();
+            receiver = synth.getReceiver();
         }
         catch (MidiUnavailableException ex) {
             LOGGER.error(ex.getMessage(), ex);

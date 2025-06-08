@@ -12,7 +12,7 @@ public abstract class AbstractFloatProperty extends AbstractFloatExpression impl
 
     @Override
     public Float getValue() {
-        return this.value;
+        return value;
     }
 
     @Override

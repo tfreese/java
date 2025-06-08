@@ -56,7 +56,7 @@ class DTPicture extends Picture implements MouseMotionListener {
         // with a value of false. Your program would do one or the
         // other, but not both.
         if (installInputMapBindings) {
-            final InputMap imap = this.getInputMap();
+            final InputMap imap = getInputMap();
             imap.put(KeyStroke.getKeyStroke("ctrl X"), TransferHandler.getCutAction().getValue(Action.NAME));
             imap.put(KeyStroke.getKeyStroke("ctrl C"), TransferHandler.getCopyAction().getValue(Action.NAME));
             imap.put(KeyStroke.getKeyStroke("ctrl V"), TransferHandler.getPasteAction().getValue(Action.NAME));
@@ -78,15 +78,15 @@ class DTPicture extends Picture implements MouseMotionListener {
             return;
         }
 
-        if (this.firstMouseEvent != null) {
+        if (firstMouseEvent != null) {
             event.consume();
 
             // If they are holding down the control key, COPY rather than MOVE
             final int ctrlMask = InputEvent.CTRL_DOWN_MASK;
             final int action = ((event.getModifiersEx() & ctrlMask) == ctrlMask) ? TransferHandler.COPY : TransferHandler.MOVE;
 
-            final int dx = Math.abs(event.getX() - this.firstMouseEvent.getX());
-            final int dy = Math.abs(event.getY() - this.firstMouseEvent.getY());
+            final int dx = Math.abs(event.getX() - firstMouseEvent.getX());
+            final int dy = Math.abs(event.getY() - firstMouseEvent.getY());
 
             // Arbitrarily define a 5-pixel shift as the
             // official beginning of a drag.
@@ -96,8 +96,8 @@ class DTPicture extends Picture implements MouseMotionListener {
                 final TransferHandler handler = c.getTransferHandler();
 
                 // Tell the transfer handler to initiate the drag.
-                handler.exportAsDrag(c, this.firstMouseEvent, action);
-                this.firstMouseEvent = null;
+                handler.exportAsDrag(c, firstMouseEvent, action);
+                firstMouseEvent = null;
             }
         }
     }
@@ -114,19 +114,19 @@ class DTPicture extends Picture implements MouseMotionListener {
             return;
         }
 
-        this.firstMouseEvent = event;
+        firstMouseEvent = event;
         event.consume();
     }
 
     @Override
     public void mouseReleased(final MouseEvent event) {
-        this.firstMouseEvent = null;
+        firstMouseEvent = null;
     }
 
     @Override
     public void setImage(final Image image) {
         super.setImage(image);
 
-        this.repaint();
+        repaint();
     }
 }

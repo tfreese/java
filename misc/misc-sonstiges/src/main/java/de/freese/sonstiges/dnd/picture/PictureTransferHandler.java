@@ -31,7 +31,7 @@ class PictureTransferHandler extends TransferHandler {
         PictureTransferable(final DTPicture pic) {
             super();
 
-            this.image = pic.getImage();
+            image = pic.getImage();
         }
 
         @Override
@@ -40,7 +40,7 @@ class PictureTransferHandler extends TransferHandler {
                 throw new UnsupportedFlavorException(flavor);
             }
 
-            return this.image;
+            return image;
         }
 
         @Override
@@ -81,8 +81,8 @@ class PictureTransferHandler extends TransferHandler {
             final DTPicture pic = (DTPicture) c;
 
             // Don't drop on myself.
-            if (this.sourcePic == pic) {
-                this.shouldRemove = false;
+            if (sourcePic == pic) {
+                shouldRemove = false;
 
                 return true;
             }
@@ -108,18 +108,18 @@ class PictureTransferHandler extends TransferHandler {
 
     @Override
     protected Transferable createTransferable(final JComponent c) {
-        this.sourcePic = (DTPicture) c;
-        this.shouldRemove = true;
+        sourcePic = (DTPicture) c;
+        shouldRemove = true;
 
-        return new PictureTransferable(this.sourcePic);
+        return new PictureTransferable(sourcePic);
     }
 
     @Override
     protected void exportDone(final JComponent c, final Transferable data, final int action) {
-        if (this.shouldRemove && action == MOVE) {
-            this.sourcePic.setImage(null);
+        if (shouldRemove && action == MOVE) {
+            sourcePic.setImage(null);
         }
 
-        this.sourcePic = null;
+        sourcePic = null;
     }
 }

@@ -27,7 +27,7 @@ import de.freese.sonstiges.xml.jaxb.OpeningDateXmlAdapter;
 public class Club {
     @XmlElementWrapper(name = "djs")
     @JsonbProperty("djs")
-    private final List<DJ> dj = new ArrayList<>();
+    private final List<DJ> djs = new ArrayList<>();
 
     @XmlElementWrapper(name = "guests")
     private final Map<Integer, Integer> guests = new HashMap<>();
@@ -45,23 +45,23 @@ public class Club {
     // }
 
     public void addDJ(final DJ dj) {
-        this.dj.add(dj);
+        djs.add(dj);
     }
 
     public List<DJ> getDJs() {
-        return this.dj;
+        return djs;
     }
 
     public int getEmployees() {
-        return this.employees;
+        return employees;
     }
 
     public Map<Integer, Integer> getGuests() {
-        return this.guests;
+        return guests;
     }
 
     public Date getOpening() {
-        return this.opening;
+        return opening;
     }
 
     public void setEmployees(final int employees) {

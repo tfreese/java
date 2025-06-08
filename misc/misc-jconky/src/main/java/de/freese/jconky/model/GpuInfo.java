@@ -22,15 +22,15 @@ public class GpuInfo extends TemperatureInfo {
     }
 
     public int getFanSpeed() {
-        return this.fanSpeed;
+        return fanSpeed;
     }
 
     public double getPower() {
-        return this.power;
+        return power;
     }
 
     public int getUsage() {
-        return this.usage;
+        return usage;
     }
 
     @Override
@@ -39,9 +39,9 @@ public class GpuInfo extends TemperatureInfo {
         builder.append("[");
         builder.append(" device=").append(getDevice());
         builder.append(", temperature=").append(getTemperature());
-        builder.append(", power=").append(this.power);
-        builder.append(", fanSpeed=").append(this.fanSpeed);
-        builder.append(", usage=").append(this.usage);
+        builder.append(", power=").append(power);
+        builder.append(", fanSpeed=").append(fanSpeed);
+        builder.append(", usage=").append(usage);
         builder.append("]");
 
         return builder.toString();

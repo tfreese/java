@@ -24,7 +24,7 @@ public class AssoziationType implements Type {
 
     @Override
     public String getSimpleName() {
-        return this.simpleName;
+        return simpleName;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class AssoziationType implements Type {
 
     @Override
     public boolean isCollection() {
-        return this.isCollection;
+        return isCollection;
     }
 
     @Override

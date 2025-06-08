@@ -38,26 +38,26 @@ public class Table {
     }
 
     public void addPrimaryKeycolumn(final String keyName, final int keyColumnIndex, final String columnName) {
-        if (this.primaryKey == null) {
-            this.primaryKey = new PrimaryKey(this, keyName);
+        if (primaryKey == null) {
+            primaryKey = new PrimaryKey(this, keyName);
         }
 
         final Column column = getColumn(columnName);
 
-        this.primaryKey.addColumn(keyColumnIndex, column);
+        primaryKey.addColumn(keyColumnIndex, column);
     }
 
     public Column getColumn(final String name) {
-        return this.columns.computeIfAbsent(name, key -> new Column(this, key));
+        return columns.computeIfAbsent(name, key -> new Column(this, key));
     }
 
     public List<Column> getColumnsOrdered() {
-        return this.columns.values().stream().sorted(Comparator.comparing(Column::getTableIndex)).toList();
-        // return new ArrayList<>(this.columns.values());
+        return columns.values().stream().sorted(Comparator.comparing(Column::getTableIndex)).toList();
+        // return new ArrayList<>(columns.values());
     }
 
     public String getComment() {
-        return this.comment;
+        return comment;
     }
 
     public String getFullName() {
@@ -69,31 +69,31 @@ public class Table {
     }
 
     public Index getIndex(final String name) {
-        return this.indices.computeIfAbsent(name, key -> new Index(this, key));
+        return indices.computeIfAbsent(name, key -> new Index(this, key));
     }
 
     public List<Index> getIndices() {
-        return new ArrayList<>(this.indices.values());
+        return new ArrayList<>(indices.values());
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public PrimaryKey getPrimaryKey() {
-        return this.primaryKey;
+        return primaryKey;
     }
 
     public Schema getSchema() {
-        return this.schema;
+        return schema;
     }
 
     public UniqueConstraint getUniqueConstraint(final String name) {
-        return this.uniqueConstraints.computeIfAbsent(name, key -> new UniqueConstraint(this, key));
+        return uniqueConstraints.computeIfAbsent(name, key -> new UniqueConstraint(this, key));
     }
 
     public List<UniqueConstraint> getUniqueConstraints() {
-        return new ArrayList<>(this.uniqueConstraints.values());
+        return new ArrayList<>(uniqueConstraints.values());
     }
 
     public void setComment(final String comment) {
@@ -131,7 +131,7 @@ public class Table {
 
                 if (pkColumns.contains(uc.getColumnsOrdered().getFirst().getName())) {
                     getLogger().info("remove redundant UniqueConstraint {}; Cause: matches PrimaryKey", uc.getName());
-                    this.uniqueConstraints.remove(uc.getName());
+                    uniqueConstraints.remove(uc.getName());
                 }
             }
 
@@ -143,7 +143,7 @@ public class Table {
 
                 if (pkColumns.contains(idx.getColumnsOrdered().getFirst().getName())) {
                     getLogger().info("remove redundant Index {}; Cause: matches PrimaryKey", idx.getName());
-                    this.indices.remove(idx.getName());
+                    indices.remove(idx.getName());
                 }
             }
         }

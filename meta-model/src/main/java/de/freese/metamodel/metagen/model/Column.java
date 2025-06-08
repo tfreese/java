@@ -41,15 +41,15 @@ public class Column {
     }
 
     public String getComment() {
-        return this.comment;
+        return comment;
     }
 
     public int getDecimalDigits() {
-        return this.decimalDigits;
+        return decimalDigits;
     }
 
     public ForeignKey getForeignKey() {
-        return this.foreignKey;
+        return foreignKey;
     }
 
     public JDBCType getJdbcType() {
@@ -57,34 +57,34 @@ public class Column {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     /**
      * Columns anderer Tabellen, die auf diese Column zeigen.
      */
     public List<Column> getReverseForeignKeys() {
-        return new ArrayList<>(this.reverseForeignKeys);
+        return new ArrayList<>(reverseForeignKeys);
     }
 
     public int getSize() {
-        return this.size;
+        return size;
     }
 
     public int getSqlType() {
-        return this.sqlType;
+        return sqlType;
     }
 
     public Table getTable() {
-        return this.table;
+        return table;
     }
 
     public int getTableIndex() {
-        return this.tableIndex;
+        return tableIndex;
     }
 
     public String getTypeName() {
-        return this.typeName;
+        return typeName;
     }
 
     public boolean hasDecimalDigits() {
@@ -96,7 +96,7 @@ public class Column {
     }
 
     public boolean isNullable() {
-        return this.nullable;
+        return nullable;
     }
 
     /**
@@ -170,6 +170,6 @@ public class Column {
      * Hinzufügen einer Column einer anderen Tabelle, die auf diese Column zeigt.
      */
     void addReverseForeignKey(final Column column) {
-        this.reverseForeignKeys.add(column);
+        reverseForeignKeys.add(column);
     }
 }

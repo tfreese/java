@@ -17,16 +17,16 @@ public class Html2Text extends HTMLEditorKit.ParserCallback {
     private StringBuilder sb;
 
     public String getText() {
-        return this.sb.toString();
+        return sb.toString();
     }
 
     @Override
     public void handleText(final char[] data, final int pos) {
-        this.sb.append(data).append(" ");
+        sb.append(data).append(" ");
     }
 
     public Html2Text parse(final String html) throws Exception {
-        this.sb = new StringBuilder();
+        sb = new StringBuilder();
 
         final ParserDelegator delegator = new ParserDelegator();
 

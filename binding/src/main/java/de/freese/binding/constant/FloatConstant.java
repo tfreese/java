@@ -28,7 +28,7 @@ public final class FloatConstant extends AbstractFloatExpression {
 
     @Override
     public Float getValue() {
-        return this.value;
+        return value;
     }
 
     @Override

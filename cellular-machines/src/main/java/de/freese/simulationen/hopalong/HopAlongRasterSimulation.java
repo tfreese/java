@@ -22,7 +22,7 @@ public class HopAlongRasterSimulation extends AbstractRasterSimulation {
     public HopAlongRasterSimulation(final int width, final int height) {
         super(width, height);
 
-        this.center = new Point(width / 2, height / 2);
+        center = new Point(width / 2, height / 2);
 
         fillRaster(() -> new EmptyCell(this));
         reset();
@@ -48,32 +48,32 @@ public class HopAlongRasterSimulation extends AbstractRasterSimulation {
         final double b = 0.9F;
         final double c = 0.1D;
 
-        final double xx = this.y - (Math.signum(this.x) * Math.sqrt(Math.abs((b * this.x) - c)));
+        final double xx = y - (Math.signum(x) * Math.sqrt(Math.abs((b * x) - c)));
         // final double xx = y - (FastMath.signum(x) * FastMath.pow(Math.abs((b * x) - c), 0.5D));
-        // final double xx = this.y + (FastMath.signum(this.x) * Math.abs((b * this.x) - c));
-        final double yy = a - this.x;
+        // final double xx = y + (FastMath.signum(x) * Math.abs((b * x) - c));
+        final double yy = a - x;
 
-        this.x = xx;
-        this.y = yy;
+        x = xx;
+        y = yy;
 
         // double a = 80.0D;
-        // this.x = (this.x * Math.cos(a)) + (((this.x * this.x) - this.y) * Math.sin(a));
-        // this.y = (this.x * Math.sin(a)) - (((this.x * this.x) - this.y) * Math.cos(a));
+        // x = (x * Math.cos(a)) + (((x * x) - y) * Math.sin(a));
+        // y = (x * Math.sin(a)) - (((x * x) - y) * Math.cos(a));
 
         // Gingerbreadman
-        // this.x = (1 - this.y) + Math.abs(this.x);
-        // this.y = this.x;
+        // x = (1 - y) + Math.abs(x);
+        // y = x;
         //
-        // int newX = this.x + this.center.x;
-        // int newY = this.y + this.center.y;
+        // int newX = x + center.x;
+        // int newY = y + center.y;
         //
 
         // if (Double.isNaN(xx) || Double.isNaN(yy)) {
         // return;
         // }
 
-        // int newX = (int) this.x + this.center.x;
-        // int newY = (int) this.y + this.center.y;
+        // int newX = (int) x + center.x;
+        // int newY = (int) y + center.y;
         //
         // if ((newX < 0) || (newY < 0)) {
         // return;
@@ -83,8 +83,8 @@ public class HopAlongRasterSimulation extends AbstractRasterSimulation {
         // return;
         // }
 
-        int newX = (int) this.x;
-        int newY = (int) this.y;
+        int newX = (int) x;
+        int newY = (int) y;
 
         if (newX < 0) {
             newX = getXTorusCoord(0, newX);
@@ -112,12 +112,12 @@ public class HopAlongRasterSimulation extends AbstractRasterSimulation {
 
     @Override
     public void reset() {
-        this.x = this.center.x;
-        this.y = this.center.y;
-        // // this.x = 100.1D;
-        // // this.y = 100.1D;
-        // // this.x = 1d;
-        // // this.y = 1d;
+        x = center.x;
+        y = center.y;
+        // // x = 100.1D;
+        // // y = 100.1D;
+        // // x = 1d;
+        // // y = 1d;
 
         super.reset();
     }

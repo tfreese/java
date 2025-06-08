@@ -47,75 +47,75 @@ public final class Settings {
     private Settings() {
         super();
 
-        this.systemMonitor = new LinuxSystemMonitor();
+        systemMonitor = new LinuxSystemMonitor();
 
-        this.alpha = 0.65D;
-        this.colorText = Color.LIGHTGRAY.brighter();
-        this.colorTitle = Color.web("#CC9900");
-        this.colorValue = Color.web("#009BF9");
-        this.colorGradientStart = Color.GREEN;
-        this.colorGradientStop = Color.RED;
+        alpha = 0.65D;
+        colorText = Color.LIGHTGRAY.brighter();
+        colorTitle = Color.web("#CC9900");
+        colorValue = Color.web("#009BF9");
+        colorGradientStart = Color.GREEN;
+        colorGradientStop = Color.RED;
 
-        this.fontName = "DejaVu Sans Mono";
-        this.fontSize = 12D;
-        this.font = Font.font(this.fontName, this.fontSize); // new Font(getFontName(), getFontSize());
+        fontName = "DejaVu Sans Mono";
+        fontSize = 12D;
+        font = Font.font(fontName, fontSize); // new Font(getFontName(), getFontSize());
 
-        this.marginOuter = new Insets(5D, 5D, 5D, 5D);
-        this.marginInner = new Insets(2.5D, 2.5D, 2.5D, 2.5D);
+        marginOuter = new Insets(5D, 5D, 5D, 5D);
+        marginInner = new Insets(2.5D, 2.5D, 2.5D, 2.5D);
     }
 
     public double getAlpha() {
-        return this.alpha;
+        return alpha;
     }
 
     public Color getColorGradientStart() {
-        return this.colorGradientStart;
+        return colorGradientStart;
     }
 
     public Color getColorGradientStop() {
-        return this.colorGradientStop;
+        return colorGradientStop;
     }
 
     public Color getColorText() {
-        return this.colorText;
+        return colorText;
     }
 
     public Color getColorTitle() {
-        return this.colorTitle;
+        return colorTitle;
     }
 
     public Color getColorValue() {
-        return this.colorValue;
+        return colorValue;
     }
 
     public Font getFont() {
-        return this.font;
+        return font;
     }
 
     public String getFontName() {
-        return this.fontName;
+        return fontName;
     }
 
     public double getFontSize() {
-        return this.fontSize;
+        return fontSize;
     }
 
     /**
      * Innerer Rand.
      */
     public Insets getMarginInner() {
-        return this.marginInner;
+        return marginInner;
     }
 
     /**
      * Äusserer Rand.
      */
     public Insets getMarginOuter() {
-        return this.marginOuter;
+        return marginOuter;
     }
 
     public SystemMonitor getSystemMonitor() {
-        return this.systemMonitor;
+        return systemMonitor;
     }
 
     public boolean isDebug() {

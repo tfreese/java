@@ -22,16 +22,16 @@ public class PatternConfig extends Config {
     public void setPattern(final String pattern) {
         setSizeChromosome(pattern.length());
 
-        this.solution = new boolean[pattern.length()];
+        solution = new boolean[pattern.length()];
 
         for (int i = 0; i < pattern.length(); i++) {
             final char character = pattern.charAt(i);
 
-            this.solution[i] = character == '1';
+            solution[i] = character == '1';
         }
     }
 
     boolean[] getSolution() {
-        return this.solution;
+        return solution;
     }
 }

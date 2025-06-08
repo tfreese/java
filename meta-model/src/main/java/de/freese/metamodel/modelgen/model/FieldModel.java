@@ -31,11 +31,11 @@ public class FieldModel extends AbstractModel {
     }
 
     public ClassModel getClassModel() {
-        return this.classModel;
+        return classModel;
     }
 
     public String getFieldClazzName() {
-        return this.fieldClazzName;
+        return fieldClazzName;
     }
 
     public String getFieldClazzSimpleName() {
@@ -43,11 +43,11 @@ public class FieldModel extends AbstractModel {
     }
 
     public boolean isAssoziation() {
-        return this.isAssoziation;
+        return isAssoziation;
     }
 
     public boolean isCollection() {
-        return this.isCollection;
+        return isCollection;
     }
 
     public boolean isFieldClassArray() {
@@ -74,7 +74,7 @@ public class FieldModel extends AbstractModel {
     }
 
     public boolean isUseForToStringMethod() {
-        return this.useForToStringMethod;
+        return useForToStringMethod;
     }
 
     public void setAssoziation(final boolean isAssoziation) {
@@ -90,16 +90,16 @@ public class FieldModel extends AbstractModel {
     }
 
     synchronized Class<?> getFieldClazz() {
-        if (this.fieldClazz == null) {
+        if (fieldClazz == null) {
             try {
 
-                this.fieldClazz = ClassUtils.forName(getFieldClazzName(), null);
+                fieldClazz = ClassUtils.forName(getFieldClazzName(), null);
             }
             catch (ClassNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
         }
 
-        return this.fieldClazz;
+        return fieldClazz;
     }
 }

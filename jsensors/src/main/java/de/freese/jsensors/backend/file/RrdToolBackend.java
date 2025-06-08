@@ -41,14 +41,14 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
             final Path parent = this.path.getParent();
             Files.createDirectories(parent);
 
-            if (!Files.exists(this.path)) {
-                getLogger().info("create file: {}", this.path);
+            if (!Files.exists(path)) {
+                getLogger().info("create file: {}", path);
 
                 // Create default RRD.
                 final List<String> command = new ArrayList<>();
                 command.add("rrdtool");
                 command.add("create");
-                command.add(this.path.toString());
+                command.add(path.toString());
                 command.add("--step");
                 command.add("60");
                 command.add("DS:value_gauge:GAUGE:600:0:U");
@@ -85,7 +85,7 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
                 final List<String> command = new ArrayList<>();
                 command.add("rrdtool");
                 command.add("update");
-                command.add(this.path.toString());
+                command.add(path.toString());
                 command.add(String.format("%s:%s", sensorValue.getTimestamp(), sensorValue.getValue()));
 
                 final List<String> lines = Utils.executeCommand(command);

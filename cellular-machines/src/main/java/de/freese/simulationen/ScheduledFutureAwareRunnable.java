@@ -53,19 +53,19 @@ public class ScheduledFutureAwareRunnable implements Runnable {
 
     @Override
     public void run() {
-        if (this.exitCondition.getAsBoolean()) {
+        if (exitCondition.getAsBoolean()) {
             if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("{}: exit", Objects.toString(this.name, toString()));
+                LOGGER.info("{}: exit", Objects.toString(name, toString()));
             }
 
-            this.task.run();
+            task.run();
 
-            if (this.scheduledFuture != null) {
-                this.scheduledFuture.cancel(false);
+            if (scheduledFuture != null) {
+                scheduledFuture.cancel(false);
             }
             else {
                 if (LOGGER.isWarnEnabled()) {
-                    LOGGER.warn("{}: no ScheduledFuture reference", Objects.toString(this.name, toString()));
+                    LOGGER.warn("{}: no ScheduledFuture reference", Objects.toString(name, toString()));
                 }
             }
         }

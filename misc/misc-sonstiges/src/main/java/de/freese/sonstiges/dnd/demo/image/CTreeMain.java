@@ -113,11 +113,11 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         CDropTargetListener() {
             super();
 
-            this.colorCueLine = new Color(SystemColor.controlShadow.getRed(), SystemColor.controlShadow.getGreen(), SystemColor.controlShadow.getBlue(), 64);
+            colorCueLine = new Color(SystemColor.controlShadow.getRed(), SystemColor.controlShadow.getGreen(), SystemColor.controlShadow.getBlue(), 64);
 
             // Set up a hover timer, so that a node will be automatically expanded or collapsed
             // if the user lingers on it for more than a short time
-            this.timerHover = new Timer(1000, event -> {
+            timerHover = new Timer(1000, event -> {
                 // Reset left/right movement trend
                 CDropTargetListener.this.leftRight = 0;
 
@@ -135,7 +135,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
             });
 
             // Set timer to one-shot mode
-            this.timerHover.setRepeats(true);
+            timerHover.setRepeats(true);
         }
 
         @Override
@@ -151,7 +151,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         @Override
         public void dragExit(final DropTargetEvent event) {
             if (!DragSource.isDragImageSupported()) {
-                repaint(this.rectangleGhost.getBounds());
+                repaint(rectangleGhost.getBounds());
             }
         }
 
@@ -160,71 +160,71 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
             // Even if the mouse is not moving, this method is still invoked 10 times per second
             final Point pt = event.getLocation();
 
-            if (pt.equals(this.pointLast)) {
+            if (pt.equals(pointLast)) {
                 return;
             }
 
             // Try to determine whether the user is flicking the cursor right or left
-            final int nDeltaLeftRight = pt.x - this.pointLast.x;
+            final int nDeltaLeftRight = pt.x - pointLast.x;
 
-            if (this.leftRight > 0 && nDeltaLeftRight < 0 || this.leftRight < 0 && nDeltaLeftRight > 0) {
-                this.leftRight = 0;
+            if (leftRight > 0 && nDeltaLeftRight < 0 || leftRight < 0 && nDeltaLeftRight > 0) {
+                leftRight = 0;
             }
 
-            this.leftRight += nDeltaLeftRight;
+            leftRight += nDeltaLeftRight;
 
-            this.pointLast = pt;
+            pointLast = pt;
 
             final Graphics2D g2 = (Graphics2D) getGraphics();
 
             // If a drag image is not supported by the platform, then draw my own drag image
             if (!DragSource.isDragImageSupported()) {
                 // Rub out the last ghost image and cue line
-                paintImmediately(this.rectangleGhost.getBounds());
+                paintImmediately(rectangleGhost.getBounds());
 
                 // And remember where we are about to draw the new ghost image
-                this.rectangleGhost.setRect((double) pt.x - CTreeMain.this.pointOffset.x,
+                rectangleGhost.setRect((double) pt.x - CTreeMain.this.pointOffset.x,
                         (double) pt.y - CTreeMain.this.pointOffset.y,
                         CTreeMain.this.imageGhost.getWidth(),
                         CTreeMain.this.imageGhost.getHeight());
-                g2.drawImage(CTreeMain.this.imageGhost, AffineTransform.getTranslateInstance(this.rectangleGhost.getX(), this.rectangleGhost.getY()), null);
+                g2.drawImage(CTreeMain.this.imageGhost, AffineTransform.getTranslateInstance(rectangleGhost.getX(), rectangleGhost.getY()), null);
             }
             else {
                 // Just rub out the last cue line
-                paintImmediately(this.rectangleCueLine.getBounds());
+                paintImmediately(rectangleCueLine.getBounds());
             }
 
             final TreePath path = getClosestPathForLocation(pt.x, pt.y);
 
-            if (!(path.equals(this.pathLast))) {
+            if (!(path.equals(pathLast))) {
                 // We've moved up or down, so reset left/right movement trend
-                this.leftRight = 0;
-                this.pathLast = path;
-                this.timerHover.restart();
+                leftRight = 0;
+                pathLast = path;
+                timerHover.restart();
             }
 
             // In any case draw (over the ghost image if necessary) a cue line indicating where a drop will occur
             final Rectangle raPath = getPathBounds(path);
-            this.rectangleCueLine.setRect(0, raPath.y + raPath.getHeight(), getWidth(), 2);
+            rectangleCueLine.setRect(0, raPath.y + raPath.getHeight(), getWidth(), 2);
 
-            g2.setColor(this.colorCueLine);
-            g2.fill(this.rectangleCueLine);
+            g2.setColor(colorCueLine);
+            g2.fill(rectangleCueLine);
 
             // Now superimpose the left/right movement indicator if necessary
-            if (this.leftRight > 20) {
+            if (leftRight > 20) {
                 g2.drawImage(IMAGE_RIGHT, AffineTransform.getTranslateInstance((double) pt.x - CTreeMain.this.pointOffset.x, (double) pt.y - CTreeMain.this.pointOffset.y), null);
-                // this.shift += 1;
+                // shift += 1;
             }
-            else if (this.leftRight < -20) {
+            else if (leftRight < -20) {
                 g2.drawImage(IMAGE_LEFT, AffineTransform.getTranslateInstance((double) pt.x - CTreeMain.this.pointOffset.x, (double) pt.y - CTreeMain.this.pointOffset.y), null);
-                // this.shift -= 1;
+                // shift -= 1;
             }
             // else {
-            //     // this.shift = 0;
+            //     // shift = 0;
             // }
 
             // And include the cue line in the area to be rubbed out next time
-            this.rectangleGhost = this.rectangleGhost.createUnion(this.rectangleCueLine);
+            rectangleGhost = rectangleGhost.createUnion(rectangleCueLine);
 
             /*
              * // Do this if you want to prohibit dropping onto the drag source if (path.equals(_pathSource)) e.rejectDrag(); else
@@ -235,7 +235,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         @Override
         public void drop(final DropTargetDropEvent event) {
             // Prevent hover timer from doing an unwanted expandPath or collapsePath
-            this.timerHover.stop();
+            timerHover.stop();
 
             if (!isDropAcceptable(event)) {
                 event.rejectDrop();
@@ -412,14 +412,14 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
             if (nAction == DnDConstants.ACTION_MOVE) { // The dragged item (_pathSource) has been inserted at the target selected by the
                 // user.
                 // Now it is time to delete it from its original location.
-                LOGGER.info("REMOVING: {}", this.pathSource.getLastPathComponent());
+                LOGGER.info("REMOVING: {}", pathSource.getLastPathComponent());
 
                 // .. ask your TreeModel to delete the node
 
                 // Alten Knoten löschen
-                ((DefaultTreeModel) getModel()).removeNodeFromParent((MutableTreeNode) this.pathSource.getLastPathComponent());
+                ((DefaultTreeModel) getModel()).removeNodeFromParent((MutableTreeNode) pathSource.getLastPathComponent());
 
-                this.pathSource = null;
+                pathSource = null;
             }
         }
     }
@@ -445,7 +445,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
 
         // Work out the offset of the drag point from the TreePath bounding rectangle origin
         final Rectangle raPath = getPathBounds(path);
-        this.pointOffset.setLocation(ptDragOrigin.x - raPath.x, ptDragOrigin.y - raPath.y);
+        pointOffset.setLocation(ptDragOrigin.x - raPath.x, ptDragOrigin.y - raPath.y);
 
         // Get the cell renderer (which is a JLabel) for the path being dragged
         final JLabel label = (JLabel) getCellRenderer().getTreeCellRendererComponent(this, // tree
@@ -460,9 +460,9 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         // would normally do this
 
         // Get a buffered image of the selection for dragging a ghost image
-        this.imageGhost = new BufferedImage((int) raPath.getWidth(), (int) raPath.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE);
+        imageGhost = new BufferedImage((int) raPath.getWidth(), (int) raPath.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE);
 
-        final Graphics2D g2 = this.imageGhost.createGraphics();
+        final Graphics2D g2 = imageGhost.createGraphics();
 
         // Ask the cell renderer to paint itself into the BufferedImage
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC, 0.5F)); // Make the image
@@ -477,7 +477,7 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         // gradient
         // ghostlike
         g2.setPaint(new GradientPaint(nStartOfText, 0, SystemColor.controlShadow, getWidth(), 0, new Color(255, 255, 255, 0)));
-        g2.fillRect(nStartOfText, 0, getWidth(), this.imageGhost.getHeight());
+        g2.fillRect(nStartOfText, 0, getWidth(), imageGhost.getHeight());
 
         g2.dispose();
 
@@ -490,10 +490,10 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
 
         // Remember the path being dragged (because if it is being moved, we will have to delete it
         // later)
-        this.pathSource = path;
+        pathSource = path;
 
         // We pass our drag image just in case it IS supported by the platform
-        event.startDrag(null, this.imageGhost, new Point(5, 5), transferable, this);
+        event.startDrag(null, imageGhost, new Point(5, 5), transferable, this);
     }
 
     @Override
