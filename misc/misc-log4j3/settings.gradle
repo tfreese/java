@@ -1,0 +1,24 @@
+// Can not be configured by Conventions-Plugin.
+pluginManagement {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+//rootProject.name = "misc-log4j3"
+
+enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
+
+dependencyResolutionManagement {
+    // repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
+    // A Single-Project can have the Repositories in build.gradle.
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
+// include("module-1")
