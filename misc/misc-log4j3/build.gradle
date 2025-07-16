@@ -3,12 +3,9 @@ plugins {
     // id("java-library")
 }
 
-// group = "de.freese"
-// version = "1.0-SNAPSHOT"
-
-repositories {
-    mavenCentral()
-}
+// repositories {
+//     mavenCentral()
+// }
 
 java {
     toolchain {

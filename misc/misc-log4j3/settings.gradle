@@ -7,12 +7,11 @@ pluginManagement {
     }
 }
 
+// Without rootProject.name the Name of the Projekt-Directory is used.
 //rootProject.name = "misc-log4j3"
 
-enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
-
 dependencyResolutionManagement {
-    // repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
 
     // A Single-Project can have the Repositories in build.gradle.
     repositories {
@@ -22,3 +21,9 @@ dependencyResolutionManagement {
 }
 
 // include("module-1")
+
+println("")
+println("Gradle version: ${GradleVersion.current().version}")
+println("Java version: ${JavaVersion.current()}")
+println("MaxWorkerCount: ${gradle.getStartParameter().getMaxWorkerCount()}")
+println("")
