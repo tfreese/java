@@ -37,6 +37,8 @@ subprojects {
             dependency("com.github.spotbugs:spotbugs-annotations:$version_spotbugs")
             dependency("com.lmax:disruptor:$version_disruptor")
             dependency("dev.failsafe:failsafe:$version_failsafe")
+            dependency("net.jthink:jaudiotagger:$version_jaudiotagger")
+
             dependency("org.apache.commons:commons-compress:$version_commonsCompress")
             dependency("org.apache.lucene:lucene-queryparser:$version_lucene")
             // dependency("org.apache.lucene:version_luceneAnalysisCommon:$version_luceneAnalysisCommon")
@@ -56,15 +58,15 @@ subprojects {
                 entry("batik-codec")
                 entry("batik-swing")
             }
+            dependency("org.apache.velocity:velocity-engine-core:$version_velocity")
+            
             dependency("org.apiguardian:apiguardian-api:$version_apiGuardian")
-            dependency("org:jaudiotagger:$version_jaudiotagger")
             dependency("org.jfree:jfreechart:$version_jfreechart") {
                 // exclude("com.lowagie:itext")
                 // exclude("xml-apis:xml-apis")
             }
             dependency("org.jsoup:jsoup:$version_jsoup")
             dependency("org.jspecify:jspecify:$versoin_jspecify")
-            dependency("org.apache.velocity:velocity-engine-core:$version_velocity")
         }
     }
 

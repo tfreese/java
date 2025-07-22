@@ -14,6 +14,7 @@ public class FibonacciTask extends RecursiveTask<Long> {
      * THRESHOLD, for sequential calculation.
      */
     private static final int THRESHOLD = 15;
+
     @Serial
     private static final long serialVersionUID = 67781993370162624L;
 
@@ -27,19 +28,14 @@ public class FibonacciTask extends RecursiveTask<Long> {
 
     @Override
     protected Long compute() {
-        long result = 0L;
-
         if (n < THRESHOLD) {
-            result = FibonacciCalculator.fibonacci(n);
-        }
-        else {
-            final FibonacciTask task1 = new FibonacciTask(n - 1);
-            final FibonacciTask task2 = new FibonacciTask(n - 2);
-            task2.fork();
-
-            result = task1.compute() + task2.join();
+            return FibonacciCalculator.fibonacci(n);
         }
 
-        return result;
+        final FibonacciTask task1 = new FibonacciTask(n - 1);
+        final FibonacciTask task2 = new FibonacciTask(n - 2);
+        task2.fork();
+
+        return task1.compute() + task2.join();
     }
 }

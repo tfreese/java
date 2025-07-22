@@ -22,7 +22,7 @@ import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.TagField;
 import org.jaudiotagger.tag.TagTextField;
-import org.jaudiotagger.tag.datatype.Artwork;
+import org.jaudiotagger.tag.images.Artwork;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -88,8 +88,10 @@ public final class ValidateMp3TagsMain {
         int i = 1;
 
         for (Report report : new TreeSet<>(reports.values())) {
-            final String message = "%03d: %s".formatted(i++, report.toString(rootDirectory));
+            final String message = "%03d: %s".formatted(i, report.toString(rootDirectory));
             LOGGER.info(message);
+
+            i += 1;
         }
     }
     // private static final List<FieldKey> KEYS_UNUSED = Arrays.asList(FieldKey.COMMENT, FieldKey.COMPOSER, FieldKey.ORIGINAL_ARTIST,
@@ -106,7 +108,7 @@ public final class ValidateMp3TagsMain {
             return;
         }
 
-        addReport(reports, audioFile.getFile(), "mehrere cover");
+        addReport(reports, audioFile.getFile(), "multiple cover");
 
         // String value = tag.getFirst(FieldKey.COVER_ART);
         //
@@ -139,7 +141,7 @@ public final class ValidateMp3TagsMain {
                 }
 
                 if (value == null || value.isBlank() || FieldKey.ENCODER.equals(key) && audioFile.getFile().getName().toLowerCase().endsWith("flac")) {
-                    // Bei FLAC steht immer die Bibliothek drin.
+                    // FLAC always contains the library.
                     continue;
                 }
 
@@ -182,7 +184,7 @@ public final class ValidateMp3TagsMain {
         final String fileName = audioFile.getFile().getName();
 
         if (fileName.endsWith("MP3") || fileName.endsWith("WMA") || fileName.endsWith("FLAC")) {
-            addReport(reports, audioFile.getFile(), "dateiname");
+            addReport(reports, audioFile.getFile(), "fileName");
         }
 
         for (FieldKey key : keys) {
@@ -198,15 +200,15 @@ public final class ValidateMp3TagsMain {
                 }
 
                 if (value.contains("`") || value.contains("´") || value.contains("\"")) {
-                    addReport(reports, audioFile.getFile(), "sonderzeichen");
+                    addReport(reports, audioFile.getFile(), "special chars");
                 }
 
                 if (value.startsWith(" ") || value.endsWith(" ") || value.contains("  ")) {
-                    addReport(reports, audioFile.getFile(), "leerzeichen");
+                    addReport(reports, audioFile.getFile(), "spaces");
                 }
 
                 if (value.toLowerCase().contains(" vs ") || value.toLowerCase().contains(" feat ") || value.toLowerCase().contains(" ft ")) {
-                    addReport(reports, audioFile.getFile(), "schreibweise");
+                    addReport(reports, audioFile.getFile(), "writing");
                 }
 
                 // Words must begin with an Uppercase Letter.
@@ -225,7 +227,7 @@ public final class ValidateMp3TagsMain {
                     final char c = split.charAt(0);
 
                     if (Character.isLetter(c) && !Character.isUpperCase(c)) {
-                        addReport(reports, audioFile.getFile(), "schreibweise");
+                        addReport(reports, audioFile.getFile(), "writing");
                     }
                 }
             }

@@ -34,6 +34,7 @@ dependencies {
     implementation("io.projectreactor:reactor-test")
     implementation("jakarta.json.bind:jakarta.json.bind-api")
     implementation("jakarta.xml.bind:jakarta.xml.bind-api")
+    implementation("net.jthink:jaudiotagger")
     implementation("org.apache.commons:commons-compress")
     implementation("org.apache.commons:commons-lang3")
     implementation("org.apache.logging.log4j:log4j-to-slf4j")
@@ -43,7 +44,6 @@ dependencies {
     implementation("org.apache.xmlgraphics:batik-swing")
     implementation("org.apache.velocity:velocity-engine-core")
     implementation("org.freemarker:freemarker")
-    implementation("org:jaudiotagger")
     implementation("org.jsoup:jsoup")
     implementation("org.mariadb.jdbc:mariadb-java-client")
     implementation("org.springframework.boot:spring-boot-starter-mail") {
