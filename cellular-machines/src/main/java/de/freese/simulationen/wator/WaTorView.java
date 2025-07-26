@@ -15,7 +15,7 @@ import javax.swing.border.TitledBorder;
 import de.freese.simulationen.SimulationView;
 
 /**
- * View für die WaTor-Simulation.
+ * View for the WaTor-Simulation.
  *
  * @author Thomas Freese
  */
@@ -39,11 +39,11 @@ public class WaTorView extends SimulationView<WaTorRasterSimulation> {
     public void initialize(final WaTorRasterSimulation simulation, final Duration delay) {
         super.initialize(simulation, delay);
 
-        // Slider für Settings
+        // Slider for Settings
         final JPanel sliderPanel = new JPanel();
         sliderPanel.setLayout(new GridLayout(3, 1));
 
-        // Startenergie
+        // Start energie.
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(1, 2));
         panel.setBorder(new TitledBorder("Start-Energie -> Reset"));
@@ -74,7 +74,7 @@ public class WaTorView extends SimulationView<WaTorRasterSimulation> {
 
         sliderPanel.add(panel);
 
-        // Brutenergie
+        // Breed energie.
         panel = new JPanel();
         panel.setLayout(new GridLayout(1, 2));
         panel.setBorder(new TitledBorder("Brut-Energie"));
@@ -105,7 +105,7 @@ public class WaTorView extends SimulationView<WaTorRasterSimulation> {
 
         sliderPanel.add(panel);
 
-        // Sterbeenergie
+        // Dying energie.
         panel = new JPanel();
         panel.setLayout(new GridLayout(1, 2));
         panel.setBorder(new TitledBorder("Sterbe-Energie"));

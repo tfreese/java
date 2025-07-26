@@ -9,7 +9,7 @@ import de.freese.simulationen.model.Cell;
 import de.freese.simulationen.wator.WaTorCell.CellType;
 
 /**
- * Model der WaTor-Simulation.<br>
+ * Model of the WaTor-Simulation.<br>
  * <a href="http://de.academic.ru/dic.nsf/dewiki/1492493">WaTor-Simulation</a>
  *
  * @author Thomas Freese
@@ -18,29 +18,11 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
     private final LongAdder fishCounter = new LongAdder();
     private final LongAdder sharkCounter = new LongAdder();
 
-    /**
-     * Richtung der Berechnung.
-     */
     private int direction;
-    /**
-     * Brut-Energie der Fische.
-     */
     private int fishBreedEnergy = 5;
-    /**
-     * Start-Energie der Fische.
-     */
     private int fishStartEnergy = 1;
-    /**
-     * Brut-Energie der Haie.
-     */
     private int sharkBreedEnergy = 15;
-    /**
-     * Start-Energie der Haie.
-     */
     private int sharkStartEnergy = 10;
-    /**
-     * Start-Energie der Haie.
-     */
     private int sharkStarveEnergy;
 
     public WaTorRasterSimulation(final int width, final int height) {
@@ -51,7 +33,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
     }
 
     /**
-     * @return int[]; 0 = Anzahl Fische, 1 = Anzahl Haie
+     * @return int[]; 0 = count of fishes, 1 = count of sharks
      */
     public int[] countFishesAndSharks() {
         fishCounter.reset();
@@ -70,35 +52,35 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
     }
 
     /**
-     * Brut-Energie der Fische.
+     * Breed energie of fishes.
      */
     public int getFishBreedEnergy() {
         return fishBreedEnergy;
     }
 
     /**
-     * Start-Energie der Fische.
+     * Start energie of fishes.
      */
     public int getFishStartEnergy() {
         return fishStartEnergy;
     }
 
     /**
-     * Brut-Energie der Haie.
+     * Breed energie of sharks.
      */
     public int getSharkBreedEnergy() {
         return sharkBreedEnergy;
     }
 
     /**
-     * Start-Energie der Haie.
+     * Start energie of sharks.
      */
     public int getSharkStartEnergy() {
         return sharkStartEnergy;
     }
 
     /**
-     * Sterbe-Energie der Haie.
+     * Dying energie of sharks.
      */
     public int getSharkStarveEnergy() {
         return sharkStarveEnergy;
@@ -114,7 +96,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
     }
 
     /**
-     * Brut-Energie der Fische.
+     * Breed energie of fishes.
      *
      * @param fishBreedEnergy int
      */
@@ -123,7 +105,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
     }
 
     /**
-     * Start-Energie der Fische.
+     * Start energie of fishes.
      *
      * @param fishStartEnergy int
      */
@@ -132,7 +114,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
     }
 
     /**
-     * Brut-Energie der Haie.
+     * Breed energie of sharks.
      *
      * @param sharkBreedEnergy int
      */
@@ -141,7 +123,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
     }
 
     /**
-     * Start-Energie der Haie.
+     * Start energie of sharks.
      *
      * @param sharkStartEnergy int
      */
@@ -150,7 +132,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
     }
 
     /**
-     * Sterbe-Energie der Haie.
+     * Dying energy of sharks.
      *
      * @param sharkStarveEnergy int
      */
@@ -159,8 +141,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
     }
 
     /**
-     * Alte Berechnung.<br>
-     * Richtung der Berechnung ändern, um Wellen-Fronten zu vermeiden.<br>
+     * Change the direction of the calculation, to avoid wave fronts
      */
     void nextGenerationNestedFor() {
         if (direction == 0) {
@@ -216,8 +197,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
     }
 
     /**
-     * Alte Berechnung.<br>
-     * Richtung der Berechnung ändern, um Wellen-Fronten zu vermeiden.<br>
+     * Change the direction of the calculation, to avoid wave fronts
      */
     void nextGenerationStreams() {
         if (direction == 0) {
@@ -287,7 +267,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
 
     @Override
     protected void reset(final int x, final int y) {
-        // Zufällige Platzierung.
+        // Place randomly.
         final int rand = getRandom().nextInt(10);
 
         final WaTorCell cell = getCell(x, y);

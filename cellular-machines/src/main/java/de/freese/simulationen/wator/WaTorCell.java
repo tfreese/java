@@ -67,15 +67,12 @@ public class WaTorCell extends AbstractCell {
         this.energy = energy;
     }
 
-    /**
-     * Erhöht den Energiewert um 1.
-     */
     void incrementEnergy() {
         energy++;
     }
 
     /**
-     * Liefert einen Fisch in der Nachbarschaft oder keinen.
+     * Returns a fish in the neighborhood or null.
      */
     protected WaTorCell getFischNachbar() {
         if (fischNachbarnList.isEmpty()) {
@@ -102,22 +99,16 @@ public class WaTorCell extends AbstractCell {
         return (WaTorRasterSimulation) super.getSimulation();
     }
 
-    /**
-     * Erniedrigt den Energiewert um 1.
-     */
     private void decrementEnergy() {
         energy--;
     }
 
-    /**
-     * Erniedrigt den Energiewert.
-     */
     private void decrementEnergy(final int delta) {
         energy -= delta;
     }
 
     /**
-     * Ermittelt die Nachbarn dieser Zelle.<br>
+     * Determined the neighbors of this cell.<br>
      */
     private void ermittleNachbarn() {
         freieNachbarnList.clear();
@@ -136,7 +127,7 @@ public class WaTorCell extends AbstractCell {
     }
 
     /**
-     * Liefert die Koordinaten einer freien Zelle in der Nachbarschaft oder keine.
+     * LReturns the coordinates of a free cell in the neighborhood or null.
      */
     private int[] getFreierNachbar() {
         if (freieNachbarnList.isEmpty()) {
@@ -158,9 +149,6 @@ public class WaTorCell extends AbstractCell {
         return null;
     }
 
-    /**
-     * Erhöht den Energiewert.
-     */
     private void incrementEnergy(final int delta) {
         energy += delta;
     }
@@ -184,19 +172,19 @@ public class WaTorCell extends AbstractCell {
             final int freiX = frei[0];
             final int freiY = frei[1];
 
-            // Fisch "bewegen".
+            // Move the fisch.
             final WaTorCell cell = getSimulation().getCell(freiX, freiY);
             cell.setCellType(CellType.FISH);
             cell.setEnergy(energy);
 
             if (energy >= getSimulation().getFishBreedEnergy()) {
                 // Nachwuchs auf diesen Platz setzen.
-                setEnergy(energy / 2); // Energie aufteilen
+                setEnergy(energy / 2); // Split Energie.
 
                 cell.decrementEnergy(energy);
             }
             else {
-                // Diese Zelle leeren.
+                // Clear this cell.
                 setCellType(CellType.EMPTY);
                 setEnergy(0);
             }
@@ -217,7 +205,7 @@ public class WaTorCell extends AbstractCell {
 
         decrementEnergy();
 
-        // Versuchen zu fressen.
+        // Try to eat.
         WaTorCell shark = this;
         final WaTorCell fisch = getFischNachbar();
         final int[] frei = getFreierNachbar();
@@ -226,16 +214,16 @@ public class WaTorCell extends AbstractCell {
             if (fisch != null) {
                 shark = fisch;
 
-                // Der Fisch wird zum Hai.
+                // Fish becomes a shark.
                 shark.setCellType(CellType.SHARK);
-                shark.incrementEnergy(energy); // Energy von Fisch und Hai addieren.
+                shark.incrementEnergy(energy); // Add the energy from the fish and the shark.
 
-                // Diese Zelle leeren.
+                // Clear this cell.
                 setCellType(CellType.EMPTY);
                 setEnergy(0);
             }
             else {
-                // Nicht gefressen, dann bewegen.
+                // Do not eat, then move.
                 final int freiX = frei[0];
                 final int freiY = frei[1];
 
@@ -243,7 +231,7 @@ public class WaTorCell extends AbstractCell {
                 shark.setCellType(CellType.SHARK);
                 shark.setEnergy(energy);
 
-                // Diese Zelle leeren.
+                // Clear this cell.
                 setCellType(CellType.EMPTY);
                 setEnergy(0);
             }
@@ -251,14 +239,14 @@ public class WaTorCell extends AbstractCell {
             if (shark.energy >= getSimulation().getSharkBreedEnergy()) {
                 // Nachwuchs auf diesen Platz setzen.
                 setCellType(CellType.SHARK);
-                setEnergy(shark.energy / 2); // Energie aufteilen
+                setEnergy(shark.energy / 2); // Split Energie.
 
                 shark.decrementEnergy(energy);
             }
         }
 
         if (shark.energy <= getSimulation().getSharkStarveEnergy()) {
-            // Sterben
+            // Dying.
             shark.setCellType(CellType.EMPTY);
             shark.setEnergy(0);
         }

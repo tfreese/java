@@ -38,6 +38,10 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
     @Serial
     private static final long serialVersionUID = -7891438395009637657L;
 
+    private static ScheduledExecutorService getScheduledExecutorService() {
+        return SimulationEnvironment.getInstance().getScheduledExecutorService();
+    }
+    
     private final TimeSeries timeSeriesFische;
     private final TimeSeries timeSeriesHaie;
 
@@ -52,8 +56,8 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
         // timeSeriesHaie.setMaximumItemCount(1500);
 
         // Nur Daten der letzten Minute vorhalten.
-        timeSeriesFische.setMaximumItemAge(60 * 1000L);
-        timeSeriesHaie.setMaximumItemAge(60 * 1000L);
+        timeSeriesFische.setMaximumItemAge(60L * 1000L);
+        timeSeriesHaie.setMaximumItemAge(60L * 1000L);
 
         final TimeSeriesCollection dataset = new TimeSeriesCollection();
         dataset.addSeries(timeSeriesFische);
@@ -61,17 +65,17 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
 
         final Font font = new Font("Arial", Font.BOLD, 12);
 
-        // DomainAxis
+        // Domain Axis
         final ValueAxis xAxis = new DateAxis("Zeitachse");
         xAxis.setLowerMargin(0.02D);
         xAxis.setUpperMargin(0.02D);
         xAxis.setAutoRange(true);
-        xAxis.setFixedAutoRange(60 * 1000D); // 1 Minute
+        xAxis.setFixedAutoRange(60D * 1000D); // 1 Minute
         xAxis.setTickLabelsVisible(true);
         xAxis.setTickLabelFont(font);
         xAxis.setLabelFont(font);
 
-        // RangeAxis
+        // Range Axis
         final NumberAxis yAxis = new NumberAxis("Anzahl");
         yAxis.setAutoRangeIncludesZero(false);
         yAxis.setTickLabelFont(font);
@@ -123,7 +127,7 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
             timeSeriesFische.addOrUpdate(timePeriod, fishes);
             timeSeriesHaie.addOrUpdate(timePeriod, sharks);
 
-            // The Toolkit.getDefaultToolkit().sync() synchronises the painting on systems that buffer graphics events.
+            // Synchronising the painting on systems that buffer graphics events.
             // Without this line, the animation might not be smooth on Linux.
             Toolkit.getDefaultToolkit().sync();
         };
@@ -134,9 +138,5 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
         else {
             SwingUtilities.invokeLater(runnable);
         }
-    }
-
-    private ScheduledExecutorService getScheduledExecutorService() {
-        return SimulationEnvironment.getInstance().getScheduledExecutorService();
     }
 }
