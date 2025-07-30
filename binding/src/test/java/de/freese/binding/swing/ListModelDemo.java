@@ -10,20 +10,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JList;
 
 import de.freese.binding.collections.DefaultObservableList;
 import de.freese.binding.collections.ObservableList;
-import de.freese.binding.swing.combobox.DefaultObservableListComboBoxModel;
+import de.freese.binding.swing.list.DefaultObservableListListModel;
 
 /**
  * @author Thomas Freese
  */
-public final class ComboBoxModelMain {
+public final class ListModelDemo {
 
     public static void main(final String[] args) throws Exception {
-        final JFrame frame = new JFrame("Test-ComboBoxModel");
+        final JFrame frame = new JFrame("Test-ListModel");
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(final WindowEvent e) {
@@ -31,12 +31,14 @@ public final class ComboBoxModelMain {
             }
         });
 
-        ObservableList<Map<Integer, String>> list = new DefaultObservableList<>(new ArrayList<>());
-        list = list.sorted((o1, o2) -> o2.get(0).compareTo(o1.get(1))); // Absteigend nach erster Spalte.
-        list = list.filtered(map -> (Integer.parseInt(map.get(0).split("-")[0]) % 2) == 0); // Nur jede 2. Zeile
+        ObservableList<Map<Integer, String>> observableList = new DefaultObservableList<>(new ArrayList<>());
+        observableList = observableList.sorted((o1, o2) -> o2.get(0).compareTo(o1.get(1))); // Absteigend nach erster Spalte.
+        observableList = observableList.filtered(map -> (Integer.parseInt(map.get(0).split("-")[0]) % 2) == 0); // Nur jede 2. Zeile
 
-        final JComboBox<Map<Integer, String>> comboBox = new JComboBox<>(new DefaultObservableListComboBoxModel<>(list));
-        frame.add(comboBox);
+        final JList<Map<Integer, String>> jList = new JList<>(new DefaultObservableListListModel<>(observableList));
+        jList.setVisibleRowCount(5);
+
+        frame.add(jList);
 
         frame.setSize(300, 100);
         frame.setLocationRelativeTo(null);
@@ -52,21 +54,21 @@ public final class ComboBoxModelMain {
             row.put(2, i + "-2");
             row.put(3, i + "-3");
 
-            list.add(row);
+            observableList.add(row);
         }
 
         // Delete Rows
         await().pollDelay(Duration.ofMillis(2000L)).until(() -> true);
-        list.remove(0);
+        observableList.remove(0);
 
         await().pollDelay(Duration.ofMillis(2000L)).until(() -> true);
-        list.remove(2);
+        observableList.remove(2);
 
         await().pollDelay(Duration.ofMillis(2000L)).until(() -> true);
-        list.clear();
+        observableList.clear();
     }
 
-    private ComboBoxModelMain() {
+    private ListModelDemo() {
         super();
     }
 }

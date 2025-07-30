@@ -26,8 +26,12 @@ tasks.register("deleteAppFolder", Delete) {
 
     logger.lifecycle("delete app-Folder: ${projectDir}/src/test/generated")
 
-    delete(fileTree("src/test/generated")) {
-        include("**/*.*")
-    }
+    // Delete directory.
+    delete("src/test/generated")
+
+    // Delete files recursively.
+    // delete(fileTree("src/test/generated") {
+    //     include("**/*.*")
+    // })
 }
 clean.finalizedBy("deleteAppFolder")

@@ -6,11 +6,11 @@ package de.freese.binding.value;
  */
 public interface ObservableNumberValue<T extends Number> extends ObservableValue<T> {
     default double doubleValue() {
-        return getValue() == null ? 0 : getValue().doubleValue();
+        return getValue() == null ? 0D : getValue().doubleValue();
     }
 
     default float floatValue() {
-        return getValue() == null ? 0 : getValue().floatValue();
+        return getValue() == null ? 0F : getValue().floatValue();
     }
 
     default int intValue() {
@@ -18,6 +18,6 @@ public interface ObservableNumberValue<T extends Number> extends ObservableValue
     }
 
     default long longValue() {
-        return getValue() == null ? 0 : getValue().longValue();
+        return getValue() == null ? 0L : getValue().longValue();
     }
 }

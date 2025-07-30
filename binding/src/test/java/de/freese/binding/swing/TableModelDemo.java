@@ -22,7 +22,7 @@ import de.freese.binding.swing.table.AbstractObservableListTableModel;
 /**
  * @author Thomas Freese
  */
-public final class TableModelMain {
+public final class TableModelDemo {
 
     /**
      * @author Thomas Freese
@@ -87,7 +87,7 @@ public final class TableModelMain {
         list.clear();
     }
 
-    private TableModelMain() {
+    private TableModelDemo() {
         super();
     }
 }
