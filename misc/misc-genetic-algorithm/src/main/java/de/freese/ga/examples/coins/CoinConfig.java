@@ -28,23 +28,17 @@ public class CoinConfig extends Config {
         return 1_000D;
     }
 
-    public void setExistingCoins(final List<Integer> existingCoins) {
+    public void setExistingCoins(final List<Integer> coins) {
         coinCounter.clear();
-        existingCoins.clear();
-        existingCoins.addAll(existingCoins);
+        this.existingCoins.clear();
+        this.existingCoins.addAll(coins);
 
-        // 0 Münzen, falls wir nicht so viele brauchen, wie die das Chromosom lang ist.
-        for (int i = 0; i < existingCoins.size(); i++) {
-            existingCoins.add(0);
-        }
+        // Remove coins without value.
+        this.existingCoins.removeIf(value -> value <= 0);
 
-        setSizeChromosome(existingCoins.size());
+        setSizeChromosome(this.existingCoins.size());
 
-        // Anzahl Münzen pro Wert zählen.
-        final List<Integer> list = new ArrayList<>(existingCoins);
-        list.removeIf(value -> value == 0); // 0-Münzen ignorieren
-
-        coinCounter = list.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        coinCounter = this.existingCoins.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
     }
 
     public void setTargetCents(final int cents) {

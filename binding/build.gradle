@@ -10,3 +10,129 @@ dependencies {
 }
 
 build.finalizedBy("publishToMavenLocal")
+
+dependencyManagement {
+    generatedPomCustomization {
+        // Disable Spring's "dependencyManagement" in POM.
+        enabled = false
+    }
+}
+
+// https://docs.gradle.org/current/userguide/publishing_maven.html
+publishing {
+    publications {
+        binding(MavenPublication) {
+            // afterEvaluate {
+            //     // groupId = "..."
+            //     // artifactId = "..."
+            //     // version = "..."
+            // }
+
+            versionMapping {
+                usage(Usage.JAVA_API) {
+                    fromResolutionOf(JavaPlugin.RUNTIME_CLASSPATH_CONFIGURATION_NAME)
+                }
+                usage(Usage.JAVA_RUNTIME) {
+                    fromResolutionResult()
+                }
+            }
+
+            from(components.java)
+
+            // java-library:
+            // - api = <scope>compile</scope>
+            // - runtimeOnly = <scope>runtime</scope>
+            //
+            // java:
+            // - implementation = <scope>runtime</scope>
+            // - runtimeOnly = <scope>runtime</scope>
+
+            pom.withXml {
+                def root = asNode()
+                root.appendNode("packaging", "jar")
+                // root.dependencies.removeAll { dep ->
+                //     dep.scope == "test"
+                // }
+            }
+
+            pom {
+                // Is not generated in the POM.
+                // packaging = "jar"
+
+                name = project.name
+                description = project.description
+                // url = "http://www.example.com/library"
+                //
+                // properties = [
+                //         myProp          : "value",
+                //         "prop.with.dots": "anotherValue"
+                // ]
+                licenses {
+                    license {
+                        name = "The Apache License, Version 2.0"
+                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                    }
+                }
+                developers {
+                    developer {
+                        organization = "Private Code"
+                        organizationUrl = "https://github.com/tfreese"
+                        url = "https://github.com/tfreese"
+                        // id = "johnd"
+                        // name = "John Doe"
+                        // email = "john.doe@example.com"
+                        timezone = "+2"
+                        roles = ["architect", "developer"]
+                    }
+                }
+                // scm {
+                //     connection = "scm:git:git://example.com/my-library.git"
+                //     developerConnection = "scm:git:ssh://example.com/my-library.git"
+                //     url = "http://example.com/my-library/"
+                // }
+            }
+
+            // artifact(sourcesJar)
+            // artifact(testJar)
+            // artifact(testSourcesJar)
+            // artifact(javadocJar)
+            // artifact("macos-app-x64.dmg") {
+            //     classifier("macos-x64")
+            //     extension("dmg")
+            // }
+            // artifact("windows-app-x64.exe") {
+            //     classifier("windows-x64")
+            //     extension("exe")
+            // }
+        }
+
+        // custom(MavenPublication) {
+        //     if (!fileTree(dir: "generated/reports", include: '**/*').empty) {
+        //         artifact(customReport)
+        //     }
+        //     if (another_condition) {
+        //         artifact(anotherDistribution)
+        //     }
+        //     if (yet_another_condition) {
+        //         artifact(yetAnotherDistribution)
+        //     }
+        // }
+    }
+
+    repositories {
+        maven {
+            def releasesRepoUrl = layout.buildDirectory.dir("repos/releases")
+            def snapshotsRepoUrl = layout.buildDirectory.dir("repos/snapshots")
+
+            // url = project.hasProperty("release") ? releasesRepoUrl : snapshotsRepoUrl
+            url = version.endsWith("RELEASE") ? releasesRepoUrl : snapshotsRepoUrl
+            name = "otherLocal"
+            allowInsecureProtocol = true
+
+            // credentials {
+            //     username = deployRepoUsername
+            //     password = deployRepoPassword
+            // }
+        }
+    }
+}

@@ -45,7 +45,7 @@ public class CoinGenotype extends Genotype {
             }
 
             // Zählen wie viele Münzen von diesem Wert insgesamt vorhanden sind.
-            final long coinsExisting = getConfig().getCoinCounter().getOrDefault(coin.getValue(), 1L);
+            final long coinsExisting = getConfig().getCoinCounter().getOrDefault(coin.getInteger(), 1L);
 
             // Zählen wie viele Münzen von diesem Wert im Chromosom bereits vorhanden sind.
             final long coinsInPopulation = Stream.of(population.getGenes()).filter(Objects::nonNull).filter(g -> g.getValue().equals(coin.getValue())).count();

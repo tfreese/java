@@ -29,10 +29,10 @@ public class TspConfig extends Config {
     public void setCities(final List<City> cities) {
         Objects.requireNonNull(cities, "cities required");
 
-        cities.clear();
-        cities.addAll(cities);
+        this.cities.clear();
+        this.cities.addAll(cities);
 
-        setSizeChromosome(cities.size());
+        setSizeChromosome(this.cities.size());
     }
 
     List<City> getCities() {
