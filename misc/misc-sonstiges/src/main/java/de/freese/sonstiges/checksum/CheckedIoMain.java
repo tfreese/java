@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 public final class CheckedIoMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(CheckedIoMain.class);
 
-    public static void main(final String[] args) {
+    static void main() {
         final Adler32 inChecker = new Adler32();
         final Adler32 outChecker = new Adler32();
 

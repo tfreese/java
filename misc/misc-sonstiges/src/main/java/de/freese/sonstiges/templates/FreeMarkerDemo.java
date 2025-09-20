@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 public final class FreeMarkerDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(FreeMarkerDemo.class);
 
-    public static void main(final String[] args) {
+    static void main() {
         final String templateFile = "example.ftl";
 
         try {

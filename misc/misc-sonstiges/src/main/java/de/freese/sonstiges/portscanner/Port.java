@@ -40,7 +40,7 @@ final class Port implements Runnable {
             // Verbindungsaufbau reicht zum Testen.
             openPorts.put(socket.getPort(), this);
         }
-        catch (IOException ex) {
+        catch (IOException _) {
             // NOOP
             // LOGGER.warn(ex.getMessage());
         }

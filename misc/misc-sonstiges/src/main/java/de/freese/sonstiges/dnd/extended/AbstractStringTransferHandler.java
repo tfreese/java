@@ -17,7 +17,7 @@ import javax.swing.TransferHandler;
 /**
  * @author Thomas Freese
  */
-abstract class StringTransferHandler extends TransferHandler {
+abstract class AbstractStringTransferHandler extends TransferHandler {
     @Serial
     private static final long serialVersionUID = -7174980141806424667L;
 
@@ -46,7 +46,7 @@ abstract class StringTransferHandler extends TransferHandler {
 
                 return true;
             }
-            catch (UnsupportedFlavorException | IOException ex) {
+            catch (UnsupportedFlavorException | IOException _) {
                 // Empty
             }
         }

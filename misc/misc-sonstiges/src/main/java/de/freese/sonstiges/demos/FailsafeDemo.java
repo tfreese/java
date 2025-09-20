@@ -26,27 +26,6 @@ import de.freese.sonstiges.NamedThreadFactory;
 public final class FailsafeDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(FailsafeDemo.class);
 
-    public static void main(final String[] args) throws Exception {
-        final CircuitBreaker<Object> circuitBreaker = CircuitBreaker.builder()
-                //.handle(SQLException.class) // Alle Exceptions von diesem Typ werden als Fehler behandelt.
-                //.withFailureThreshold(3, 5) // Öffnen, wenn 3 von 5 Ausführungen Fehler erzeugen.
-                .withFailureThreshold(3, Duration.ofSeconds(1)) // Öffnen, wenn 3 Fehler im Zeitraum auftreten.
-                .withDelay(Duration.ofSeconds(1)) // Zeitraum nach Öffnung bis es in den Half-Open State geht.
-                .withSuccessThreshold(3, 5) // Schliessen, wenn 3 von 5 Ausführungen im Half-Open State keine Fehler erzeugen.
-                .onClose(event -> LOGGER.info("Closed after {}", event.getPreviousState()))
-                .onHalfOpen(event -> LOGGER.info("Half-Open after {}", event.getPreviousState()))
-                .onOpen(event -> LOGGER.info("Open after {}", event.getPreviousState()))
-                .onFailure(event -> LOGGER.error("onFailure: {}", event.getException().getMessage()))
-                //.onSuccess(event -> LOGGER.info("Success: {}", event.getResult()))
-                .build();
-
-        fallback(circuitBreaker);
-        System.out.println();
-
-        circuitBreaker.close();
-        // ipBlock(circuitBreaker);
-    }
-
     static void fallback(final CircuitBreaker<Object> circuitBreaker) throws Exception {
         final RetryPolicy<Object> retryPolicy = RetryPolicy.builder()
                 .withMaxRetries(2)
@@ -156,6 +135,27 @@ public final class FailsafeDemo {
         }
 
         printMetrics(circuitBreaker);
+    }
+
+    static void main() throws Exception {
+        final CircuitBreaker<Object> circuitBreaker = CircuitBreaker.builder()
+                //.handle(SQLException.class) // Alle Exceptions von diesem Typ werden als Fehler behandelt.
+                //.withFailureThreshold(3, 5) // Öffnen, wenn 3 von 5 Ausführungen Fehler erzeugen.
+                .withFailureThreshold(3, Duration.ofSeconds(1)) // Öffnen, wenn 3 Fehler im Zeitraum auftreten.
+                .withDelay(Duration.ofSeconds(1)) // Zeitraum nach Öffnung bis es in den Half-Open State geht.
+                .withSuccessThreshold(3, 5) // Schliessen, wenn 3 von 5 Ausführungen im Half-Open State keine Fehler erzeugen.
+                .onClose(event -> LOGGER.info("Closed after {}", event.getPreviousState()))
+                .onHalfOpen(event -> LOGGER.info("Half-Open after {}", event.getPreviousState()))
+                .onOpen(event -> LOGGER.info("Open after {}", event.getPreviousState()))
+                .onFailure(event -> LOGGER.error("onFailure: {}", event.getException().getMessage()))
+                //.onSuccess(event -> LOGGER.info("Success: {}", event.getResult()))
+                .build();
+
+        fallback(circuitBreaker);
+        System.out.println();
+
+        circuitBreaker.close();
+        // ipBlock(circuitBreaker);
     }
 
     private static void printMetrics(final CircuitBreaker<?> circuitBreaker) {

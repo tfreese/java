@@ -24,10 +24,10 @@ import de.freese.led.model.token.TextToken;
  * @author Thomas Freese
  */
 public final class LedDemo {
-    public static void main(final String[] args) {
+    static void main() {
         SwingUtilities.invokeLater(() -> {
             final JFrame frame = init();
-            //        frame.pack();
+            // frame.pack();
             frame.setSize(800, 100);
             frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

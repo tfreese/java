@@ -21,8 +21,7 @@ import de.freese.binding.swing.combobox.DefaultObservableListComboBoxModel;
  * @author Thomas Freese
  */
 public final class ComboBoxModelDemo {
-
-    public static void main(final String[] args) throws Exception {
+    static void main() {
         final JFrame frame = new JFrame("Test-ComboBoxModel");
         frame.addWindowListener(new WindowAdapter() {
             @Override

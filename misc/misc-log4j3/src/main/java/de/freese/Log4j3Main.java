@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Freese
  */
 public final class Log4j3Main {
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         try {
             System.setProperty("log4j.jndi.enableJdbc", "true");
 

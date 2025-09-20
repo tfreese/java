@@ -65,11 +65,11 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
     @Serial
     private static final long serialVersionUID = 10821500746764517L;
 
-    public static void main(final String[] args) {
+    static void main() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
-        catch (Exception ex) {
+        catch (Exception _) {
             // Empty
         }
 

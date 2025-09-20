@@ -34,7 +34,7 @@ import org.apache.lucene.store.NIOFSDirectory;
  * @author Thomas Freese
  */
 public final class LuceneDemo {
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         final Path path = Path.of("build", "lucene-dir");
 
         if (!Files.exists(path)) {

@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 public final class HazelcastNode1Demo {
     private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastNode1Demo.class);
 
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         final URL configUrl = ClassLoader.getSystemResource("hazelcast-node1.xml");
         final Config config = new XmlConfigBuilder(configUrl).build();
         // config.setProperty("hazelcast.partition.count", "2");

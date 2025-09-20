@@ -123,7 +123,7 @@ class TreeTransferHandler extends TransferHandler {
 
             sourcePath = (TreePath) t.getTransferData(TransferableTreeNode.TREE_PATH_FLAVOR);
         }
-        catch (UnsupportedFlavorException | IOException ex) {
+        catch (UnsupportedFlavorException | IOException _) {
             // Ignore
         }
 

@@ -21,7 +21,7 @@ import de.freese.logging.context.MapInitialContext;
  * @author Thomas Freese
  */
 final class LogbackDemo {
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         try {
             MapInitialContext.init();
 

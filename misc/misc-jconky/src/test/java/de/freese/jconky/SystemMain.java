@@ -31,7 +31,7 @@ public final class SystemMain {
             (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
     private static CpuTimes prev = new CpuTimes();
 
-    public static void main(final String[] args) {
+    static void main() {
         try (ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2)) {
             // cpu(scheduledExecutorService);
 

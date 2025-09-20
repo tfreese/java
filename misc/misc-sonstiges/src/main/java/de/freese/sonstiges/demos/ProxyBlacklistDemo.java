@@ -58,7 +58,7 @@ public final class ProxyBlacklistDemo {
         }
     }
 
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         final ProxyBlacklistDemo bl = new ProxyBlacklistDemo();
 
         final Path tempDirPath = Paths.get(System.getProperty("java.io.tmpdir"));
@@ -288,7 +288,7 @@ public final class ProxyBlacklistDemo {
                         try {
                             hostName = InetAddress.getByName(host).getHostName();
                         }
-                        catch (UnknownHostException ex) {
+                        catch (UnknownHostException _) {
                             // Ignore
                             cache.put(host, "null");
 

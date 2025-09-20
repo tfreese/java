@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableModel;
 /**
  * @author Thomas Freese
  */
-class TableTransferHandler extends StringTransferHandler {
+class TableTransferHandler extends AbstractStringTransferHandler {
     @Serial
     private static final long serialVersionUID = 8631829448750837938L;
 

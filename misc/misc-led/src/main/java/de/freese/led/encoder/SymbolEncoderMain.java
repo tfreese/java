@@ -31,7 +31,7 @@ import javax.swing.WindowConstants;
  * @author Thomas Freese
  */
 public final class SymbolEncoderMain {
-    public static void main(final String[] args) {
+    static void main() {
         SwingUtilities.invokeLater(() -> {
             final JFrame frame = new SymbolEncoderMain().init(5, 7);
             frame.setVisible(true);
@@ -121,7 +121,7 @@ public final class SymbolEncoderMain {
                         final int encoded = Integer.parseInt(textField.getText());
                         decodeRow(row, encoded);
                     }
-                    catch (NumberFormatException ex) {
+                    catch (NumberFormatException _) {
                         // Ignore
                     }
                 }

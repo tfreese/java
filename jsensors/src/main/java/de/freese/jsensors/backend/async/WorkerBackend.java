@@ -34,7 +34,7 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
                 try {
                     sensorValue = WorkerBackend.this.queue.take();
                 }
-                catch (InterruptedException ex) {
+                catch (InterruptedException _) {
                     // Restore interrupted state.
                     Thread.currentThread().interrupt();
                     break;

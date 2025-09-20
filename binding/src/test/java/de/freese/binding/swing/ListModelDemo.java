@@ -21,8 +21,7 @@ import de.freese.binding.swing.list.DefaultObservableListListModel;
  * @author Thomas Freese
  */
 public final class ListModelDemo {
-
-    public static void main(final String[] args) throws Exception {
+    static void main() {
         final JFrame frame = new JFrame("Test-ListModel");
         frame.addWindowListener(new WindowAdapter() {
             @Override

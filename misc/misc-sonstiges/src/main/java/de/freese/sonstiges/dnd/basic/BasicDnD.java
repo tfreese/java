@@ -36,7 +36,7 @@ public final class BasicDnD extends JPanel implements ActionListener {
     @Serial
     private static final long serialVersionUID = -1712718559600336190L;
 
-    public static void main(final String[] args) {
+    static void main() {
         // Schedule a job for the event-dispatching thread:
         // creating and showing this application's GUI.
         SwingUtilities.invokeLater(BasicDnD::createAndShowGUI);

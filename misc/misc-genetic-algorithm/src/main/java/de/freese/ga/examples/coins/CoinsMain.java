@@ -13,7 +13,7 @@ import de.freese.ga.Genotype;
  * @author Thomas Freese
  */
 public final class CoinsMain {
-    public static void main(final String[] args) {
+    static void main() {
         final List<Integer> existingCoins = new ArrayList<>();
         // existingCoins.add(50);
         existingCoins.add(50);

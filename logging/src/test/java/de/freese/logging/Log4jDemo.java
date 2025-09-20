@@ -23,7 +23,7 @@ import de.freese.logging.context.MapInitialContext;
  * @author Thomas Freese
  */
 final class Log4jDemo {
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         //        System.getenv().forEach((key, value) -> System.out.printf("%s = %s%n", key, value));
         //        System.getProperties().forEach((key, value) -> System.out.printf("%s = %s%n", key, value));
 

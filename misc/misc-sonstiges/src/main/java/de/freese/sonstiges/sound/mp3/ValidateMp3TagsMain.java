@@ -32,7 +32,87 @@ import org.slf4j.LoggerFactory;
 public final class ValidateMp3TagsMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ValidateMp3TagsMain.class);
 
-    public static void main(final String[] args) {
+    /**
+     * Check for Covers.
+     */
+    static void containsCovers(final Map<File, Report> reports, final AudioFile audioFile) {
+        final Tag tag = audioFile.getTag();
+        final List<Artwork> artworks = tag.getArtworkList();
+
+        if (artworks == null || artworks.isEmpty()) {
+            return;
+        }
+
+        addReport(reports, audioFile.getFile(), "multiple cover");
+
+        // String value = tag.getFirst(FieldKey.COVER_ART);
+        //
+        // if (StringUtils.isBlank(value)) {
+        // return;
+        // }
+        //
+        // reports.add(new Report("cover", audioFile.getFile()));
+    }
+    // private static final List<FieldKey> KEYS_UNUSED = Arrays.asList(FieldKey.COMMENT, FieldKey.COMPOSER, FieldKey.ORIGINAL_ARTIST,
+    // FieldKey.URL_OFFICIAL_ARTIST_SITE, FieldKey.ENCODER, FieldKey.ORIGINAL_ARTIST);
+
+    /**
+     * Check if Tags have Content.
+     */
+    static void containsFlag(final Map<File, Report> reports, final AudioFile audioFile, final List<FieldKey> keys) {
+        final Tag tag = audioFile.getTag();
+
+        for (FieldKey key : keys) {
+            for (TagField field : tag.getFields(key)) {
+                if (!(field instanceof final TagTextField textField)) {
+                    continue;
+                }
+
+                String value = null;
+
+                try {
+                    value = textField.getContent();
+                }
+                catch (NullPointerException _) {
+                    // Ignore
+                }
+
+                if (value == null || value.isBlank() || FieldKey.ENCODER.equals(key) && audioFile.getFile().getName().toLowerCase().endsWith("flac")) {
+                    // FLAC always contains the library.
+                    continue;
+                }
+
+                addReport(reports, audioFile.getFile(), key.name());
+            }
+        }
+    }
+
+    static void containsText(final Map<File, Report> reports, final AudioFile audioFile, final List<FieldKey> fields, final Set<String> texte) {
+        final Tag tag = audioFile.getTag();
+
+        for (FieldKey field : fields) {
+            for (TagField tagField : tag.getFields(field)) {
+                if (!(tagField instanceof TagTextField)) {
+                    continue;
+                }
+
+                final String value = ((TagTextField) tagField).getContent();
+
+                if (value == null || value.isEmpty()) {
+                    continue;
+                }
+
+                for (String text : texte) {
+                    if (value.contains(text)) {
+                        addReport(reports, audioFile.getFile(), "containsText");
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    static void main() {
         // Disable JUL-Logger.
         LogManager.getLogManager().reset();
 
@@ -92,86 +172,6 @@ public final class ValidateMp3TagsMain {
             LOGGER.info(message);
 
             i += 1;
-        }
-    }
-    // private static final List<FieldKey> KEYS_UNUSED = Arrays.asList(FieldKey.COMMENT, FieldKey.COMPOSER, FieldKey.ORIGINAL_ARTIST,
-    // FieldKey.URL_OFFICIAL_ARTIST_SITE, FieldKey.ENCODER, FieldKey.ORIGINAL_ARTIST);
-
-    /**
-     * Check for Covers.
-     */
-    static void containsCovers(final Map<File, Report> reports, final AudioFile audioFile) {
-        final Tag tag = audioFile.getTag();
-        final List<Artwork> artworks = tag.getArtworkList();
-
-        if (artworks == null || artworks.isEmpty()) {
-            return;
-        }
-
-        addReport(reports, audioFile.getFile(), "multiple cover");
-
-        // String value = tag.getFirst(FieldKey.COVER_ART);
-        //
-        // if (StringUtils.isBlank(value)) {
-        // return;
-        // }
-        //
-        // reports.add(new Report("cover", audioFile.getFile()));
-    }
-
-    /**
-     * Check if Tags have Content.
-     */
-    static void containsFlag(final Map<File, Report> reports, final AudioFile audioFile, final List<FieldKey> keys) {
-        final Tag tag = audioFile.getTag();
-
-        for (FieldKey key : keys) {
-            for (TagField field : tag.getFields(key)) {
-                if (!(field instanceof final TagTextField textField)) {
-                    continue;
-                }
-
-                String value = null;
-
-                try {
-                    value = textField.getContent();
-                }
-                catch (NullPointerException ex) {
-                    // Ignore
-                }
-
-                if (value == null || value.isBlank() || FieldKey.ENCODER.equals(key) && audioFile.getFile().getName().toLowerCase().endsWith("flac")) {
-                    // FLAC always contains the library.
-                    continue;
-                }
-
-                addReport(reports, audioFile.getFile(), key.name());
-            }
-        }
-    }
-
-    static void containsText(final Map<File, Report> reports, final AudioFile audioFile, final List<FieldKey> fields, final Set<String> texte) {
-        final Tag tag = audioFile.getTag();
-
-        for (FieldKey field : fields) {
-            for (TagField tagField : tag.getFields(field)) {
-                if (!(tagField instanceof TagTextField)) {
-                    continue;
-                }
-
-                final String value = ((TagTextField) tagField).getContent();
-
-                if (value == null || value.isEmpty()) {
-                    continue;
-                }
-
-                for (String text : texte) {
-                    if (value.contains(text)) {
-                        addReport(reports, audioFile.getFile(), "containsText");
-                        break;
-                    }
-                }
-            }
         }
     }
 

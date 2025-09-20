@@ -12,16 +12,6 @@ import de.freese.misc.generator.algorythm.SudokuAlgorithm;
  * @author Thomas Freese
  */
 public final class SudokuGeneratorMain {
-    public static void main(final String[] args) {
-        final SudokuGeneratorMain generator = new SudokuGeneratorMain(new AlgorithmRecursiveBacktracking());
-
-        // Liefert fehlerhafte Rätsel
-        // final SudokuGeneratorMain generator = new SudokuGeneratorMain(new AlgorithmLinear());
-
-        final int[][] grid = generator.create(3);
-        toString(grid);
-    }
-
     public static void toString(final int[][] grid) {
         final int blockSize = (int) Math.sqrt(grid.length);
 
@@ -52,6 +42,15 @@ public final class SudokuGeneratorMain {
         System.out.println(sb);
     }
 
+    static void main() {
+        final SudokuGeneratorMain generator = new SudokuGeneratorMain(new AlgorithmRecursiveBacktracking());
+
+        // Liefert fehlerhafte Rätsel
+        // final SudokuGeneratorMain generator = new SudokuGeneratorMain(new AlgorithmLinear());
+
+        final int[][] grid = generator.create(3);
+        toString(grid);
+    }
     private final SudokuAlgorithm algorithm;
 
     private SudokuGeneratorMain(final SudokuAlgorithm algorithm) {

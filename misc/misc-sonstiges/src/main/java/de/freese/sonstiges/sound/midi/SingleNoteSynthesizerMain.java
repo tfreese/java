@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 public final class SingleNoteSynthesizerMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(SingleNoteSynthesizerMain.class);
 
-    public static void main(final String[] args) {
+    static void main() {
         new SingleNoteSynthesizerMain().playNote(60);
     }
 

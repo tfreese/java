@@ -20,7 +20,7 @@ import javax.script.ScriptException;
  * @author Thomas Freese
  */
 public final class JavaScriptMain {
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         final ScriptEngineManager manager = new ScriptEngineManager();
 
         manager.getEngineFactories().forEach(System.out::println);

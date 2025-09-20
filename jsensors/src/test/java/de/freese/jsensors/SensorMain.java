@@ -8,9 +8,6 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.freese.jsensors.backend.CompositeBackend;
 import de.freese.jsensors.backend.ConsoleBackend;
 import de.freese.jsensors.backend.file.CsvBackend;
@@ -24,9 +21,7 @@ import de.freese.jsensors.utils.JSensorThreadFactory;
  * @author Thomas Freese
  */
 public final class SensorMain {
-    static final Logger LOGGER = LoggerFactory.getLogger(SensorMain.class);
-
-    public static void main(final String[] args) {
+    static void main() {
         final Path logPath = Paths.get(System.getProperty("user.home"), ".java-apps", "jSensors");
 
         final ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("scheduler-%d"), 4);

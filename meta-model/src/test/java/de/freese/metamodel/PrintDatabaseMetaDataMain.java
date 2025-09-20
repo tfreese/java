@@ -15,7 +15,7 @@ import javax.sql.DataSource;
  * @author Thomas Freese
  */
 public final class PrintDatabaseMetaDataMain {
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         final DataSource dataSource = TestUtil.createHsqlDBDataSource("jdbc:hsqldb:res:hsqldb/person;create=false;readonly=true");
 
         try (Connection connection = dataSource.getConnection()) {

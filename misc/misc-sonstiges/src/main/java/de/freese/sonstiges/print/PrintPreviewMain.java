@@ -53,7 +53,7 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
     @Serial
     private static final long serialVersionUID = -2189370102458478566L;
 
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         final JFrame frame = new JFrame("Einfaches Druckbeispiel");
         final PrintPreviewMain printPreview = new PrintPreviewMain();
 

@@ -39,37 +39,6 @@ import de.freese.micrometer.binder.NetworkMetrics;
 public final class MicrometerMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(MicrometerMain.class);
 
-    public static void main(final String[] args) throws Exception {
-        // initSimpleRegistry();
-        initPrometheusRegistry();
-        // initLoggingRegistry();
-
-        Metrics.globalRegistry.config()
-                // .meterFilter(MeterFilter.denyNameStartsWith("executor.pool.max"))
-                // .meterFilter(MeterFilter.denyNameStartsWith("executor.queue.remaining"))
-                .meterFilter(new MeterFilter() {
-                    @Override
-                    public MeterFilterReply accept(final Id id) {
-                        if ("scheduledExecutorService".equals(id.getTag("name"))) {
-                            if ("executor.pool.max".equals(id.getName()) || "executor.queue.remaining".equals(id.getName())) {
-                                // Ist bei ScheduledExecutorService immer Integer.MAX_VALUE;
-                                return MeterFilterReply.DENY;
-                            }
-
-                            return MeterFilterReply.ACCEPT;
-                        }
-
-                        return MeterFilterReply.NEUTRAL;
-                    }
-                })
-        ;
-
-        startMetrics();
-
-        // Avoid Terminating
-        // System.in.read();
-    }
-
     static void initLoggingRegistry() {
         // PushRegistryConfig
         final LoggingRegistryConfig loggingRegistryConfig = new LoggingRegistryConfig() {
@@ -133,6 +102,37 @@ public final class MicrometerMain {
 
         final SimpleMeterRegistry simpleMeterRegistry = new SimpleMeterRegistry(simpleConfig, Clock.SYSTEM);
         Metrics.addRegistry(simpleMeterRegistry);
+    }
+
+    static void main() throws Exception {
+        // initSimpleRegistry();
+        initPrometheusRegistry();
+        // initLoggingRegistry();
+
+        Metrics.globalRegistry.config()
+                // .meterFilter(MeterFilter.denyNameStartsWith("executor.pool.max"))
+                // .meterFilter(MeterFilter.denyNameStartsWith("executor.queue.remaining"))
+                .meterFilter(new MeterFilter() {
+                    @Override
+                    public MeterFilterReply accept(final Id id) {
+                        if ("scheduledExecutorService".equals(id.getTag("name"))) {
+                            if ("executor.pool.max".equals(id.getName()) || "executor.queue.remaining".equals(id.getName())) {
+                                // Ist bei ScheduledExecutorService immer Integer.MAX_VALUE;
+                                return MeterFilterReply.DENY;
+                            }
+
+                            return MeterFilterReply.ACCEPT;
+                        }
+
+                        return MeterFilterReply.NEUTRAL;
+                    }
+                })
+        ;
+
+        startMetrics();
+
+        // Avoid Terminating
+        // System.in.read();
     }
 
     private static void startMetrics() {

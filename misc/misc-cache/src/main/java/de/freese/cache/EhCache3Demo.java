@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 public final class EhCache3Demo {
     private static final Logger LOGGER = LoggerFactory.getLogger(EhCache3Demo.class);
 
-    public static void main(final String[] args) throws Exception {
+    static void main() {
         final URL configUrl = ClassLoader.getSystemResource("ehcache3.xml");
         final Configuration xmlConfig = new XmlConfiguration(configUrl);
 

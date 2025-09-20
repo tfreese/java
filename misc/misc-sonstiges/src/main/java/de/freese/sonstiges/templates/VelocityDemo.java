@@ -18,8 +18,7 @@ import org.slf4j.LoggerFactory;
 public final class VelocityDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(VelocityDemo.class);
 
-    public static void main(final String[] args) {
-
+    static void main() {
         try {
             final Properties properties = new Properties();
             properties.put("resource.loaders", "classpath");

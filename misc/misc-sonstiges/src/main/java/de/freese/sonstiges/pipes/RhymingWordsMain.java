@@ -22,23 +22,6 @@ import org.slf4j.LoggerFactory;
 public final class RhymingWordsMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(RhymingWordsMain.class);
 
-    public static void main(final String[] args) throws IOException, URISyntaxException {
-        final URL url = Thread.currentThread().getContextClassLoader().getResource("stopwords_de.txt");
-        final File file = new File(url.toURI());
-
-        // Do the reversing and sorting.
-
-        // Write the new list to standard out.
-        try (FileReader words = new FileReader(file, StandardCharsets.UTF_8);
-             BufferedReader in = new BufferedReader(reverse(sort(reverse(words))))) {
-            String input;
-
-            while ((input = in.readLine()) != null) {
-                LOGGER.info(input);
-            }
-        }
-    }
-
     public static Reader reverse(final Reader source) throws IOException {
         final BufferedReader in = new BufferedReader(source);
 
@@ -61,6 +44,23 @@ public final class RhymingWordsMain {
         new SortThread(out, in).start();
 
         return pipeIn;
+    }
+
+    static void main() throws IOException, URISyntaxException {
+        final URL url = Thread.currentThread().getContextClassLoader().getResource("stopwords_de.txt");
+        final File file = new File(url.toURI());
+
+        // Do the reversing and sorting.
+
+        // Write the new list to standard out.
+        try (FileReader words = new FileReader(file, StandardCharsets.UTF_8);
+             BufferedReader in = new BufferedReader(reverse(sort(reverse(words))))) {
+            String input;
+
+            while ((input = in.readLine()) != null) {
+                LOGGER.info(input);
+            }
+        }
     }
 
     private RhymingWordsMain() {

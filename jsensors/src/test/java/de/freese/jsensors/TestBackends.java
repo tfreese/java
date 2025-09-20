@@ -58,7 +58,7 @@ class TestBackends {
                     try {
                         Files.delete(path);
                     }
-                    catch (IOException ex) {
+                    catch (IOException _) {
                         // Ignore
                     }
                 });

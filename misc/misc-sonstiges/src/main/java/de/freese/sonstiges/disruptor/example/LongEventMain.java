@@ -21,7 +21,7 @@ public final class LongEventMain {
      */
     public static final int THREAD_COUNT = Math.max(2, Runtime.getRuntime().availableProcessors() - 2);
 
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         // Specify the size of the ring buffer, must be power of 2.
         // int ringBufferSize = Integer.highestOneBit(31) << 1;
         final int ringBufferSize = 32;

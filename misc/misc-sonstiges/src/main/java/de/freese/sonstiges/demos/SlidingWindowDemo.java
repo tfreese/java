@@ -4,7 +4,7 @@ package de.freese.sonstiges.demos;
  * @author Thomas Freese
  */
 public final class SlidingWindowDemo {
-    public static void main(final String[] args) {
+    static void main() {
         int[] arr = new int[]{2, 3};
         int windowSize = 3;
 

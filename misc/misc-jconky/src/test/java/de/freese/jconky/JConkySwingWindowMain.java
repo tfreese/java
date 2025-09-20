@@ -16,7 +16,7 @@ import javafx.scene.Scene;
  * @author Thomas Freese
  */
 public final class JConkySwingWindowMain {
-    public static void main(final String[] args) {
+    static void main() {
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         final JFrame frame = new JFrame();

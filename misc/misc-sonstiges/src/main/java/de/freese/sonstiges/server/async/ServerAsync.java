@@ -144,12 +144,12 @@ public class ServerAsync extends AbstractServer {
                 }
             }
         }
-        catch (InterruptedException | IOException ex) {
+        catch (InterruptedException | IOException _) {
             // (Re-)Cancel if current thread also interrupted.
             try {
                 channelGroup.shutdownNow();
             }
-            catch (IOException ex2) {
+            catch (IOException _) {
                 logger.error("AsynchronousChannelGroup did not terminate");
             }
 

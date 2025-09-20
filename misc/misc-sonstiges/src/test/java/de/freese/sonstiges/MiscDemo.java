@@ -174,64 +174,6 @@ public final class MiscDemo {
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool();
     private static final Logger LOGGER = LoggerFactory.getLogger(MiscDemo.class);
 
-    public static void main(final String[] args) throws Throwable {
-        // System.out.println("args = " + Arrays.deepToString(args));
-        // System.out.printf("%s: %s.%s%n", Thread.currentThread().getName(), "de.freese.sonstiges.MiscDemo", "main");
-
-        // System.out.println(generatePW(SecureRandom.getInstanceStrong(), "lllll_UUUUU_dddddd."));
-
-        // SecureRandom.getInstanceStrong()
-        //         .ints(1000, 0, 10)
-        //         .boxed()
-        //         .collect(Collectors.groupingBy(Function.identity(), TreeMap::new, Collectors.toList()))
-        //         .forEach((key, value) -> {
-        //                     System.out.println(key + " - " + value.size());
-        //                 }
-        //         );
-
-        // bitShift();
-        // bitValue();
-        // byteBuffer();
-        // collator();
-        // collector();
-        // dateTime();
-        // displayInterfaceInformation();
-        // fileWalker();
-        // fileSystems();
-        // hostName();
-        // httpRedirect();
-        // introspector();
-        // javaVersion();
-        // jarFileSystem();
-        // jndi();
-        // json();
-        // listDirectories();
-        // mail();
-        // monitoringMxBeans();
-        // pipedChannels();
-        // pipedStreams();
-        // processBuilder();
-        // reactor();
-        // reactorParallel();
-        // reactorStream();
-        // reactorSinks();
-        // regEx();
-        // reflection();
-        // securityProviders();
-        // streamParallelCustomThreadPool();
-        // showMemory();
-        // showWindowsNotification();
-        // splitList();
-        // textBlocks();
-        // utilLogging();
-        verifyJar();
-        // virtualThreads();
-        // zip();
-
-        Schedulers.shutdownNow();
-        EXECUTOR_SERVICE.shutdown();
-    }
-
     static void artistsWithOnlyOneSubdir() throws Exception {
         final Path basePath = Paths.get(System.getProperty("user.home"), "mediathek", "musik");
 
@@ -450,6 +392,39 @@ public final class MiscDemo {
         });
     }
 
+    static void dateTime() {
+        System.out.println("01: " + Instant.now()); // UTC time-zone
+        System.out.println("02: " + Instant.ofEpochMilli(System.currentTimeMillis()) + "; " + new Date()); // UTC time-zone
+        System.out.println("03: " + Clock.system(ZoneId.of("Europe/Berlin")).instant()); // UTC time-zone
+
+        System.out.println("04: " + ZonedDateTime.now());
+        System.out.println("05: " + ZonedDateTime.now().toLocalDate());
+        System.out.println("06: " + ZonedDateTime.now().toLocalDateTime());
+        System.out.println("07: " + ZonedDateTime.now().toLocalTime());
+
+        System.out.println("08: " + Date.from(ZonedDateTime.now().toInstant()));
+        System.out.println("09: " + Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+        System.out.println("10: " + Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(+2))));
+        System.out.println("11: " + ZoneId.systemDefault());
+        System.out.println("12: " + ZoneId.of("Europe/Berlin"));
+
+        System.out.println("13: " + LocalTime.now());
+        System.out.println("13: " + LocalDate.now());
+        System.out.println("14a: " + LocalDateTime.now());
+        System.out.println("14b: " + LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()), ZoneId.systemDefault()));
+        System.out.println("14c: " + LocalDateTime.ofEpochSecond(System.currentTimeMillis() / 1000, 0, ZoneOffset.ofHours(+2)));
+
+        final WeekFields weekFields = WeekFields.of(Locale.getDefault());
+        int weekNumber = LocalDate.of(2016, Month.JANUARY, 1).get(weekFields.weekOfWeekBasedYear());
+        System.out.println("15: 2016-01-01 - weekOfWeekBasedYear = " + weekNumber);
+        weekNumber = LocalDate.of(2016, Month.JANUARY, 1).get(weekFields.weekOfYear());
+        System.out.println("16: 2016-01-01 - weekOfYear = " + weekNumber);
+        weekNumber = LocalDate.of(2014, 12, 31).get(weekFields.weekOfWeekBasedYear());
+        System.out.println("17: 2014-12-31 - weekOfWeekBasedYear = " + weekNumber);
+        weekNumber = LocalDate.of(2014, 12, 31).get(weekFields.weekOfYear());
+        System.out.println("18: 2014-12-31 - weekOfYear = " + weekNumber);
+    }
+
     // static void datePicker() {
     //     final DatePickerSettings datePickerSettings = new DatePickerSettings();
     //     datePickerSettings.setFirstDayOfWeek(DayOfWeek.MONDAY);
@@ -496,39 +471,6 @@ public final class MiscDemo {
     //         frame.setVisible(true);
     //     });
     // }
-
-    static void dateTime() {
-        System.out.println("01: " + Instant.now()); // UTC time-zone
-        System.out.println("02: " + Instant.ofEpochMilli(System.currentTimeMillis()) + "; " + new Date()); // UTC time-zone
-        System.out.println("03: " + Clock.system(ZoneId.of("Europe/Berlin")).instant()); // UTC time-zone
-
-        System.out.println("04: " + ZonedDateTime.now());
-        System.out.println("05: " + ZonedDateTime.now().toLocalDate());
-        System.out.println("06: " + ZonedDateTime.now().toLocalDateTime());
-        System.out.println("07: " + ZonedDateTime.now().toLocalTime());
-
-        System.out.println("08: " + Date.from(ZonedDateTime.now().toInstant()));
-        System.out.println("09: " + Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
-        System.out.println("10: " + Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(+2))));
-        System.out.println("11: " + ZoneId.systemDefault());
-        System.out.println("12: " + ZoneId.of("Europe/Berlin"));
-
-        System.out.println("13: " + LocalTime.now());
-        System.out.println("13: " + LocalDate.now());
-        System.out.println("14a: " + LocalDateTime.now());
-        System.out.println("14b: " + LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()), ZoneId.systemDefault()));
-        System.out.println("14c: " + LocalDateTime.ofEpochSecond(System.currentTimeMillis() / 1000, 0, ZoneOffset.ofHours(+2)));
-
-        final WeekFields weekFields = WeekFields.of(Locale.getDefault());
-        int weekNumber = LocalDate.of(2016, Month.JANUARY, 1).get(weekFields.weekOfWeekBasedYear());
-        System.out.println("15: 2016-01-01 - weekOfWeekBasedYear = " + weekNumber);
-        weekNumber = LocalDate.of(2016, Month.JANUARY, 1).get(weekFields.weekOfYear());
-        System.out.println("16: 2016-01-01 - weekOfYear = " + weekNumber);
-        weekNumber = LocalDate.of(2014, 12, 31).get(weekFields.weekOfWeekBasedYear());
-        System.out.println("17: 2014-12-31 - weekOfWeekBasedYear = " + weekNumber);
-        weekNumber = LocalDate.of(2014, 12, 31).get(weekFields.weekOfYear());
-        System.out.println("18: 2014-12-31 - weekOfYear = " + weekNumber);
-    }
 
     static void displayInterfaceInformation() throws SocketException {
         final Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
@@ -1064,6 +1006,64 @@ public final class MiscDemo {
         }
 
         mimeMessage.writeTo(System.out);
+    }
+
+    static void main(final String[] args) throws Throwable {
+        // System.out.println("args = " + Arrays.deepToString(args));
+        // System.out.printf("%s: %s.%s%n", Thread.currentThread().getName(), "de.freese.sonstiges.MiscDemo", "main");
+
+        // System.out.println(generatePW(SecureRandom.getInstanceStrong(), "lllll_UUUUU_dddddd."));
+
+        // SecureRandom.getInstanceStrong()
+        //         .ints(1000, 0, 10)
+        //         .boxed()
+        //         .collect(Collectors.groupingBy(Function.identity(), TreeMap::new, Collectors.toList()))
+        //         .forEach((key, value) -> {
+        //                     System.out.println(key + " - " + value.size());
+        //                 }
+        //         );
+
+        // bitShift();
+        // bitValue();
+        // byteBuffer();
+        // collator();
+        // collector();
+        // dateTime();
+        // displayInterfaceInformation();
+        // fileWalker();
+        // fileSystems();
+        // hostName();
+        // httpRedirect();
+        // introspector();
+        // javaVersion();
+        // jarFileSystem();
+        // jndi();
+        // json();
+        // listDirectories();
+        // mail();
+        // monitoringMxBeans();
+        // pipedChannels();
+        // pipedStreams();
+        // processBuilder();
+        // reactor();
+        // reactorParallel();
+        // reactorStream();
+        // reactorSinks();
+        // regEx();
+        // reflection();
+        // securityProviders();
+        // streamParallelCustomThreadPool();
+        // showMemory();
+        // showWindowsNotification();
+        // splitList();
+        // textBlocks();
+        // utilLogging();
+        verifyJar();
+        // virtualThreads();
+        // zip();
+
+        Schedulers.shutdownNow();
+        EXECUTOR_SERVICE.shutdown();
     }
 
     static void monitoringMxBeans() {

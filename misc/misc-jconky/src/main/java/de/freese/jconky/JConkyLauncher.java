@@ -12,7 +12,7 @@ import com.sun.javafx.application.PlatformImpl;
  * @author Thomas Freese
  */
 public final class JConkyLauncher {
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         if (System.getProperty("LOG_DIR") == null) {
             // Docker kompatibel machen.
             System.setProperty("LOG_DIR", System.getProperty("user.home") + "/.java-apps/jconky");

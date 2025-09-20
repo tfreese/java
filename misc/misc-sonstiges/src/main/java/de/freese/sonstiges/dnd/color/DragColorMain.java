@@ -28,7 +28,7 @@ public final class DragColorMain extends JPanel implements ActionListener {
     @Serial
     private static final long serialVersionUID = 7463976633344385765L;
 
-    public static void main(final String[] args) {
+    static void main() {
         // Schedule a job for the event-dispatching thread:
         // creating and showing this application's GUI.
         SwingUtilities.invokeLater(DragColorMain::createAndShowGUI);

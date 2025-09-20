@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 public final class ServiceLoaderMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceLoaderMain.class);
 
-    public static void main(final String[] args) {
+    static void main() {
         final ServiceLoader<Service> serviceLoader = ServiceLoader.load(Service.class);
 
         for (Service service : serviceLoader) {

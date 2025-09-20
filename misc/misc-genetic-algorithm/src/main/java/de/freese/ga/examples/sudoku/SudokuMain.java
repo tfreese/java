@@ -11,7 +11,7 @@ import de.freese.ga.Genotype;
  * @author Thomas Freese
  */
 public final class SudokuMain {
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         final SudokuConfig config = new SudokuConfig();
         List<String[]> puzzle = null;
 

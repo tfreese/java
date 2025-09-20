@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 public final class SequencerSoundMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(SequencerSoundMain.class);
 
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         new SequencerSoundMain();
 
         TimeUnit.MILLISECONDS.sleep(8000);

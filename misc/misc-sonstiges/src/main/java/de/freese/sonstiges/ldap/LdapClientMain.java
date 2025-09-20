@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 public final class LdapClientMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(LdapClientMain.class);
 
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         final Properties env = new Properties();
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
         env.put(Context.PROVIDER_URL, "ldap://localhost:3389");

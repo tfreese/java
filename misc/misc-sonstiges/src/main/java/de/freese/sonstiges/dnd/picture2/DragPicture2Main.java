@@ -39,7 +39,7 @@ public final class DragPicture2Main extends JPanel {
     @Serial
     private static final long serialVersionUID = -3292264415574380091L;
 
-    public static void main(final String[] args) {
+    static void main() {
         // Schedule a job for the event-dispatching thread:
         // creating and showing this application's GUI.
         SwingUtilities.invokeLater(DragPicture2Main::createAndShowGUI);

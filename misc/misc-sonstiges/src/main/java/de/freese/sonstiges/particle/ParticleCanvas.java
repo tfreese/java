@@ -62,7 +62,7 @@ class ParticleCanvas extends Canvas {
                 }
             }
         }
-        catch (InterruptedException ex) {
+        catch (InterruptedException _) {
             // (Re-)Cancel if current thread also interrupted.
             scheduledExecutorService.shutdownNow();
 

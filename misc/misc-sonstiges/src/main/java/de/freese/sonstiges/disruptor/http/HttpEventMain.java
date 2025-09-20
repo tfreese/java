@@ -35,7 +35,7 @@ public final class HttpEventMain {
     public static final int THREAD_COUNT = Math.max(2, Runtime.getRuntime().availableProcessors() - 2);
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpEventMain.class);
 
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         LOGGER.info("----- Running the server on machine with {} cores -----", Runtime.getRuntime().availableProcessors());
 
         final HttpEventMain server = new HttpEventMain(null, 4333);

@@ -43,7 +43,7 @@ public final class TableModelDemo {
         }
     }
 
-    public static void main(final String[] args) throws Exception {
+    static void main() {
         final JFrame frame = new JFrame("Test-TableModel");
         frame.addWindowListener(new WindowAdapter() {
             @Override

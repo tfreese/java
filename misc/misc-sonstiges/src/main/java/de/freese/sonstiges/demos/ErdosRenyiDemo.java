@@ -10,7 +10,7 @@ import java.util.Random;
 public final class ErdosRenyiDemo {
     private static final Random RANDOM = new SecureRandom();
 
-    public static void main(final String[] args) {
+    static void main() {
         // int n = Integer.parseInt(args[1]);
         final int n = 10;
 

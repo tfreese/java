@@ -60,7 +60,7 @@ public final class MvStoreDemo {
         }
     }
 
-    public static void main(final String[] args) {
+    static void main() {
         try (MVStore store = createStore()) {
             defaultTypes(store);
             customTypes(store);

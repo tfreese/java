@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 public final class SingleNoteSynthesizer2Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(SingleNoteSynthesizer2Main.class);
 
-    public static void main(final String[] args) {
+    static void main() {
         final SingleNoteSynthesizer2Main synth = new SingleNoteSynthesizer2Main();
         synth.setInstrument(19);
         synth.playMajorChord(60);

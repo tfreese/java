@@ -21,7 +21,7 @@ public final class DragListMain extends JPanel {
     @Serial
     private static final long serialVersionUID = -796699297895768926L;
 
-    public static void main(final String[] args) {
+    static void main() {
         // Schedule a job for the event-dispatching thread:
         // creating and showing this application's GUI.
         SwingUtilities.invokeLater(() -> {

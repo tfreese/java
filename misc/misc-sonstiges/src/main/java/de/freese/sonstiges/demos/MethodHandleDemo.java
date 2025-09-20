@@ -48,7 +48,7 @@ public final class MethodHandleDemo {
         }
     }
 
-    public static void main(final String[] args) throws Throwable {
+    static void main() throws Throwable {
         accessFields();
         accessPrivateFields();
         insertArguments();

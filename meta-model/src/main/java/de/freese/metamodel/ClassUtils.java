@@ -175,7 +175,7 @@ public final class ClassUtils {
                 try {
                     return Class.forName(innerClassName, false, clToUse);
                 }
-                catch (ClassNotFoundException ex2) {
+                catch (ClassNotFoundException _) {
                     // Swallow - let original exception get through
                 }
             }
@@ -198,7 +198,7 @@ public final class ClassUtils {
         try {
             cl = Thread.currentThread().getContextClassLoader();
         }
-        catch (Throwable ex) {
+        catch (Throwable _) {
             // Cannot access thread context ClassLoader - falling back...
         }
 
@@ -211,7 +211,7 @@ public final class ClassUtils {
                 try {
                     cl = ClassLoader.getSystemClassLoader();
                 }
-                catch (Throwable ex) {
+                catch (Throwable _) {
                     // Cannot access system ClassLoader - oh well, maybe the caller can live with null...
                 }
             }

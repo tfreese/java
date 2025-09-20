@@ -20,7 +20,15 @@ import de.freese.sonstiges.discord.message.DiscordWebHookMessage;
 public final class DiscordMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscordMain.class);
 
-    public static void main(final String[] args) {
+    static void logMessage() throws Exception {
+        final DiscordWebHookMessage message = createMessage();
+
+        // Message senden.
+        final DiscordWebHookSender discordWebHookSender = new DefaultDiscordWebHookSender();
+        LOGGER.info(discordWebHookSender.toJson(message));
+    }
+
+    static void main() {
         try {
             logMessage();
             // sendMessage(null, null);
@@ -28,14 +36,6 @@ public final class DiscordMain {
         catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
-    }
-
-    static void logMessage() throws Exception {
-        final DiscordWebHookMessage message = createMessage();
-
-        // Message senden.
-        final DiscordWebHookSender discordWebHookSender = new DefaultDiscordWebHookSender();
-        LOGGER.info(discordWebHookSender.toJson(message));
     }
 
     static void sendMessage(final String webHookId, final String webHookToken) throws Exception {

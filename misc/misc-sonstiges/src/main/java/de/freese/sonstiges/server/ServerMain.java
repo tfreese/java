@@ -39,7 +39,7 @@ public final class ServerMain {
         return socketChannel.getRemoteAddress().toString();
     }
 
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         // final SelectorProvider selectorProvider = SelectorProvider.provider();
 
         // final AbstractServer server = new ServerSingleThread(8001);

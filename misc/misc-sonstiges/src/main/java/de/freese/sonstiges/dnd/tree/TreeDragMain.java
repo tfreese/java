@@ -23,7 +23,7 @@ public final class TreeDragMain extends JFrame {
     @Serial
     private static final long serialVersionUID = 1197758766045157541L;
 
-    public static void main(final String[] args) {
+    static void main() {
         new TreeDragMain();
     }
 

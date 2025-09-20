@@ -16,7 +16,7 @@ import de.freese.sonstiges.forkjoin.fibonacci.FibonacciCalculator;
 public final class ForkJoinFibonacciCalculatorMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ForkJoinFibonacciCalculatorMain.class);
 
-    public static void main(final String[] args) {
+    static void main() {
         final int n = 50;
         long result;
 

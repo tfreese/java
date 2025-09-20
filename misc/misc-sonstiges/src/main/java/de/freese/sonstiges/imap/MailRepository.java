@@ -94,7 +94,7 @@ public class MailRepository implements AutoCloseable {
                 }
             }
         }
-        catch (SQLException ex) {
+        catch (SQLException _) {
             // Ignore
         }
 

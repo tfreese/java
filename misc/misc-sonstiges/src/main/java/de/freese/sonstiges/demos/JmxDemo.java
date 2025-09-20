@@ -44,7 +44,7 @@ public final class JmxDemo {
         String getCurrentTime();
     }
 
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         // Siehe auch org.springframework.jmx.support.JmxUtils
 
         try (ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5)) {

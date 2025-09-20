@@ -8,7 +8,7 @@ import de.freese.ga.Genotype;
  * @author Thomas Freese
  */
 public final class PatternMain {
-    public static void main(final String[] args) {
+    static void main() {
         final String pattern = "11110000000000100000000001000000000010000000000100000000001111";
 
         final PatternConfig config = new PatternConfig();

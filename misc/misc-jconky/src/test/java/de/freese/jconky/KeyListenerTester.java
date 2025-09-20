@@ -10,7 +10,7 @@ import javax.swing.JFrame;
  * @author Thomas Freese
  */
 public final class KeyListenerTester {
-    public static void main(final String[] args) {
+    static void main() {
         final JFrame jFrame = new JFrame("Key Listener Tester");
 
         jFrame.addKeyListener(new KeyAdapter() {

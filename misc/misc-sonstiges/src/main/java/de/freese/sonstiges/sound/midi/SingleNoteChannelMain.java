@@ -16,10 +16,6 @@ import org.slf4j.LoggerFactory;
 public final class SingleNoteChannelMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(SingleNoteChannelMain.class);
 
-    public static void main(final String[] args) {
-        playNote(60);
-    }
-
     public static void playNote(final int note) {
         try (Synthesizer synth = MidiSystem.getSynthesizer()) {
             synth.open();
@@ -42,6 +38,10 @@ public final class SingleNoteChannelMain {
         }
 
         System.exit(0);
+    }
+
+    static void main() {
+        playNote(60);
     }
 
     private SingleNoteChannelMain() {

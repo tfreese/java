@@ -34,7 +34,7 @@ import org.xml.sax.SAXException;
 public final class XsltDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(XsltDemo.class);
 
-    public static void main(final String[] args) {
+    static void main() {
         Path basePath = Path.of(System.getProperty("user.dir"));
 
         while (basePath != null && !basePath.endsWith("java")) {

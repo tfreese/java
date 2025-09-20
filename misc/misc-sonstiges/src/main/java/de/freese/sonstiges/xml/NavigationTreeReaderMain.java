@@ -25,7 +25,7 @@ import org.xml.sax.SAXParseException;
 public final class NavigationTreeReaderMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(NavigationTreeReaderMain.class);
 
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         try {
             URL url = ClassLoader.getSystemResource("navigationTree.xsd");
             final Source schemaFile = new StreamSource(new File(url.toURI()));

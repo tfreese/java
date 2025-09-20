@@ -11,7 +11,7 @@ import javax.swing.JList;
  * @author Thomas Freese
  */
 @SuppressWarnings("unchecked")
-class ListTransferHandler extends StringTransferHandler {
+class ListTransferHandler extends AbstractStringTransferHandler {
     @Serial
     private static final long serialVersionUID = -3208151404479849978L;
     /**

@@ -111,12 +111,12 @@ class ArrayListTransferHandler extends TransferHandler {
                 return false;
             }
         }
-        catch (UnsupportedFlavorException ex) {
+        catch (UnsupportedFlavorException _) {
             LOGGER.error("importData: unsupported data flavor");
 
             return false;
         }
-        catch (IOException ex) {
+        catch (IOException _) {
             LOGGER.error("importData: I/O exception");
 
             return false;

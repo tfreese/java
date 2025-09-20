@@ -10,7 +10,7 @@ import java.util.List;
  * @author Thomas Freese
  */
 public final class TspMain {
-    public static void main(final String[] args) {
+    static void main() {
         final List<City> cities = new ArrayList<>(20);
         cities.add(new City("A", 60, 200));
         cities.add(new City("B", 180, 200));

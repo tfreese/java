@@ -50,7 +50,7 @@ public final class JConky extends Application {
         return LOGGER;
     }
 
-    // public static void main(final String[] args) {
+    // static void main() {
     // // Kein Taskbar Icon, funktioniert unter Linux aber nicht.
     // PlatformImpl.setTaskbarApplication(false);
     //

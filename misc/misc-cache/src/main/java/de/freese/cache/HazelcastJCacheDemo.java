@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 public final class HazelcastJCacheDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastJCacheDemo.class);
 
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         System.setProperty("hazelcast.map.partition.count", "1");
 
         final URL configUrl = ClassLoader.getSystemResource("hazelcast.xml");

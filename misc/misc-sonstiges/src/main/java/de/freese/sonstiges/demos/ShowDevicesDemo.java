@@ -15,7 +15,7 @@ import javax.swing.filechooser.FileSystemView;
  * @author Thomas Freese
  */
 public final class ShowDevicesDemo {
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         showFileStores();
         showRootDirectories();
         showRootsFromFileSystemView();

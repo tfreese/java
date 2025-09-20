@@ -28,7 +28,7 @@ public final class PortScannerMain {
     /**
      * @param args -host ip -threads num -ports firstPort lastPort
      */
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         int firstPort = FIRST_PORT;
         int lastPort = LAST_PORT;
         int threads = 8;
@@ -58,13 +58,13 @@ public final class PortScannerMain {
                     badArg("Unknown command-line argument: " + arg);
                 }
             }
-            catch (NoSuchElementException ex) {
+            catch (NoSuchElementException _) {
                 badArg("missing item after " + arg);
             }
-            catch (NumberFormatException ex) {
+            catch (NumberFormatException _) {
                 badArg("bad number format for " + arg + ": " + listIterator.previous());
             }
-            catch (UnknownHostException ex) {
+            catch (UnknownHostException _) {
                 badArg(listIterator.previous() + " is not a valid host name.");
             }
         }

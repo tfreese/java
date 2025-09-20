@@ -19,7 +19,7 @@ import de.freese.sonstiges.forkjoin.finder.MaxFinder;
 public final class ForkJoinMaxFinderMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ForkJoinMaxFinderMain.class);
 
-    public static void main(final String[] args) {
+    static void main() {
         final Random random = new SecureRandom();
 
         final int[] array = new int[100_000_000];

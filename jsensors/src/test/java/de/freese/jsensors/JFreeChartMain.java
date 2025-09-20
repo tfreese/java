@@ -32,7 +32,7 @@ import de.freese.jsensors.utils.JSensorThreadFactory;
  * @author Thomas Freese
  */
 public final class JFreeChartMain {
-    public static void main(final String[] args) {
+    static void main() {
         final ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("scheduler-%d"), 2);
         registry.start();
 

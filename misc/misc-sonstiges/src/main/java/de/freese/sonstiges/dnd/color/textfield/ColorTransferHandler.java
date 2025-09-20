@@ -35,7 +35,7 @@ class ColorTransferHandler extends TransferHandler {
         try {
             colorFlavor = new DataFlavor(MIME_TYPE);
         }
-        catch (ClassNotFoundException ex) {
+        catch (ClassNotFoundException _) {
             // Empty
         }
     }
@@ -60,10 +60,10 @@ class ColorTransferHandler extends TransferHandler {
 
                 return true;
             }
-            catch (UnsupportedFlavorException ex) {
+            catch (UnsupportedFlavorException _) {
                 System.out.println("importData: unsupported data flavor");
             }
-            catch (IOException ex) {
+            catch (IOException _) {
                 System.out.println("importData: I/O exception");
             }
         }

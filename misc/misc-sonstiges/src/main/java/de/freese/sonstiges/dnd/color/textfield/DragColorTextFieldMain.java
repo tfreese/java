@@ -47,7 +47,7 @@ public final class DragColorTextFieldMain extends JPanel {
         return menuBar;
     }
 
-    public static void main(final String[] args) {
+    static void main() {
         // Schedule a job for the event-dispatching thread:
         // creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(DragColorTextFieldMain::createAndShowGUI);

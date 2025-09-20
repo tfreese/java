@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 public final class HazelcastJavaConfigNode1Demo {
     private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastJavaConfigNode1Demo.class);
 
-    public static void main(final String[] args) {
+    static void main() {
         final HazelcastInstance hazelcastInstance = getHazelcastInstance();
 
         final IMap<String, String> map = hazelcastInstance.getMap("test");

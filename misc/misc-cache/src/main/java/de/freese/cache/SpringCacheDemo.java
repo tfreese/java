@@ -76,7 +76,7 @@ public class SpringCacheDemo {
         }
     }
 
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         // Redirect Caffeine JUL to Slf4J.
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();

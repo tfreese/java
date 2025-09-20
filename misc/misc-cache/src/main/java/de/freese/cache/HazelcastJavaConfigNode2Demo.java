@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 public final class HazelcastJavaConfigNode2Demo {
     private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastJavaConfigNode2Demo.class);
 
-    public static void main(final String[] args) {
+    static void main() {
         final HazelcastInstance hazelcastInstance = getHazelcastInstance();
 
         // Map ist niemals null.

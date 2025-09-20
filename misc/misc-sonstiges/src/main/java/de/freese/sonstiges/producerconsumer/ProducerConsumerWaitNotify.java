@@ -32,7 +32,7 @@ public final class ProducerConsumerWaitNotify {
                 try {
                     TimeUnit.MILLISECONDS.sleep(3000);
                 }
-                catch (InterruptedException ex) {
+                catch (InterruptedException _) {
                     // Restore interrupted state.
                     Thread.currentThread().interrupt();
                 }
@@ -52,7 +52,7 @@ public final class ProducerConsumerWaitNotify {
                 try {
                     wait(); // wait for Producer to put value
                 }
-                catch (InterruptedException ex) {
+                catch (InterruptedException _) {
                     // Restore interrupted state.
                     Thread.currentThread().interrupt();
                 }
@@ -69,7 +69,7 @@ public final class ProducerConsumerWaitNotify {
                 try {
                     wait(); // wait for Consumer to get value
                 }
-                catch (InterruptedException ex) {
+                catch (InterruptedException _) {
                     // Restore interrupted state.
                     Thread.currentThread().interrupt();
                 }
@@ -106,7 +106,7 @@ public final class ProducerConsumerWaitNotify {
                 try {
                     TimeUnit.MILLISECONDS.sleep(300);
                 }
-                catch (InterruptedException ex) {
+                catch (InterruptedException _) {
                     // Restore interrupted state.
                     Thread.currentThread().interrupt();
                 }
@@ -116,7 +116,7 @@ public final class ProducerConsumerWaitNotify {
         }
     }
 
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         final CubbyHole cubbyHole = new CubbyHole();
 
         try (ExecutorService executorService = Executors.newCachedThreadPool()) {

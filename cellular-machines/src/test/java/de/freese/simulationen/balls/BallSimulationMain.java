@@ -35,7 +35,7 @@ public final class BallSimulationMain extends JComponent {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public static void main(final String[] args) {
+    static void main() {
         // Dimensionen [m]
         final int w = 400;
         final int h = 240;

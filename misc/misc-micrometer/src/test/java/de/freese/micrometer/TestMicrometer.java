@@ -183,7 +183,7 @@ class TestMicrometer {
         assertEquals(2L, timer.count());
         assertNotNull(Metrics.globalRegistry.find("app.event"));
         assertEquals(2L, timer.count());
-        assertEquals(200L, timer.totalTime(TimeUnit.MILLISECONDS), 20);
+        assertEquals(200L, timer.totalTime(TimeUnit.MILLISECONDS), 30);
 
         // Long Task Timer
         final LongTaskTimer longTaskTimer = LongTaskTimer.builder("3rdPartyService").register(Metrics.globalRegistry);

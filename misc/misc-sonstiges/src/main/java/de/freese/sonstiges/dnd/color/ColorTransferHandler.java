@@ -40,7 +40,7 @@ class ColorTransferHandler extends TransferHandler {
         try {
             colorFlavor = new DataFlavor(MIME_TYPE);
         }
-        catch (ClassNotFoundException ex) {
+        catch (ClassNotFoundException _) {
             // Empty
         }
     }

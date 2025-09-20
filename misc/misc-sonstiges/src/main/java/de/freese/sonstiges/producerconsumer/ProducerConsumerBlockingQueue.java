@@ -90,7 +90,7 @@ public final class ProducerConsumerBlockingQueue {
         }
     }
 
-    public static void main(final String[] args) throws Exception {
+    static void main() throws Exception {
         // final BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(5);
         final BlockingQueue<Integer> queue = new LinkedBlockingQueue<>(5);
         // final BlockingQueue<Integer> queue = new SynchronousQueue<>();

@@ -27,7 +27,7 @@ import de.freese.simulationen.model.SimulationType;
 public final class SimulationLauncher {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimulationLauncher.class);
 
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         try {
             SimulationEnvironment.getInstance().init();
 

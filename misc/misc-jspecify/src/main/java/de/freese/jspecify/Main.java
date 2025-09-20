@@ -7,7 +7,7 @@ package de.freese.jspecify;
 // @NullMarked
 // Or in package-info.java for complete Package.
 public final class Main {
-    public static void main(final String[] args) {
+    static void main() {
         final TokenExtractor extractor = new DefaultTokenExtractor();
         final String token = extractor.extractToken("...");
 

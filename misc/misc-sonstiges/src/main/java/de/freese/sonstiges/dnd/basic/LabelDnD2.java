@@ -38,7 +38,7 @@ public final class LabelDnD2 extends JPanel {
         }
     }
 
-    public static void main(final String[] args) {
+    static void main() {
         // Schedule a job for the event-dispatching thread:
         // creating and showing this application's GUI.
         SwingUtilities.invokeLater(LabelDnD2::createAndShowGUI);

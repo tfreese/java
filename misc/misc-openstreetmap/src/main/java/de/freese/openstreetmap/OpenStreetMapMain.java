@@ -16,7 +16,7 @@ import de.freese.openstreetmap.model.OsmModel;
 public final class OpenStreetMapMain {
     private static final Logger LOGGER = Logger.getLogger(OpenStreetMapMain.class.getSimpleName());
 
-    public static void main(final String[] args) {
+    static void main() {
         try {
             // final OSMParser parser = new JdomOSMParser();
             // final OSMParser parser = new SaxOSMParser();

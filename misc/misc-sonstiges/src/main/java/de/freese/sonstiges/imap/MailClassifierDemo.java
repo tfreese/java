@@ -36,7 +36,7 @@ public final class MailClassifierDemo {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MailClassifierDemo.class);
 
-    public static void main(final String[] args) {
+    static void main() {
         final Map<String, Boolean> folders = Map.of("Spam", true, "INBOX", false, "archiv", false);
         final Path basePath = Paths.get(System.getProperty("user.home"), "db", "mails");
 

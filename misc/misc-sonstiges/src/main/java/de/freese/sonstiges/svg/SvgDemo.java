@@ -49,7 +49,18 @@ public final class SvgDemo extends JFrame {
     @Serial
     private static final long serialVersionUID = 8384522285700890883L;
 
-    public static void main(final String[] args) {
+    static BufferedImage loadSvgImage(final InputStream inputStream, final float width, final float height) throws Exception {
+        final BufferedImageTranscoder transcoder = new BufferedImageTranscoder();
+        transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, width);
+        transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, height);
+
+        final TranscoderInput transcoderInput = new TranscoderInput(inputStream);
+        transcoder.transcode(transcoderInput, null);
+
+        return transcoder.getBufferedImage();
+    }
+
+    static void main() {
         final SvgDemo application = new SvgDemo();
         application.initAndShowGUI();
 
@@ -60,17 +71,6 @@ public final class SvgDemo extends JFrame {
                 System.exit(0);
             }
         });
-    }
-
-    static BufferedImage loadSvgImage(final InputStream inputStream, final float width, final float height) throws Exception {
-        final BufferedImageTranscoder transcoder = new BufferedImageTranscoder();
-        transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, width);
-        transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, height);
-
-        final TranscoderInput transcoderInput = new TranscoderInput(inputStream);
-        transcoder.transcode(transcoderInput, null);
-
-        return transcoder.getBufferedImage();
     }
 
     // private static void saveImageAsPng(final InputStream inputStream, final OutputStream outputStream, final float width, final float height)

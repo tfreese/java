@@ -16,7 +16,7 @@ public final class ParticleFrameMain extends JFrame {
     @Serial
     private static final long serialVersionUID = 6280027925982262751L;
 
-    public static void main(final String[] args) {
+    static void main() {
         SwingUtilities.invokeLater(() -> showGui(10));
     }
 
