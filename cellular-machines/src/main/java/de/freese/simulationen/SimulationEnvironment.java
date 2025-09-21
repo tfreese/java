@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public class SimulationEnvironment {
+public final class SimulationEnvironment {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimulationEnvironment.class);
 
     /**
@@ -70,7 +70,7 @@ public class SimulationEnvironment {
                 logger.info("ExecutorService terminated");
             }
         }
-        catch (InterruptedException iex) {
+        catch (InterruptedException _) {
             logger.warn("Interrupted while waiting for ExecutorService");
 
             // (Re-)Cancel if current thread also interrupted.

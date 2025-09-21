@@ -51,6 +51,7 @@ public final class SudokuGeneratorMain {
         final int[][] grid = generator.create(3);
         toString(grid);
     }
+    
     private final SudokuAlgorithm algorithm;
 
     private SudokuGeneratorMain(final SudokuAlgorithm algorithm) {
