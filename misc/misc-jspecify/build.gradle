@@ -6,23 +6,42 @@ plugins {
 dependencies {
     implementation("org.jspecify:jspecify")
 
+    // annotationProcessor("com.uber.nullaway:nullaway:$version_nullaway")
     errorprone("com.uber.nullaway:nullaway:$version_nullaway")
     errorprone("com.google.errorprone:error_prone_core:$version_errorProneCore")
+    // errorproneJavac("com.google.errorprone:javac:9-dev-r4023-3")
 }
+
+// import net.ltgt.gradle.errorprone.CheckSeverity
 
 tasks.withType(JavaCompile).configureEach {
     options.errorprone {
-        disableAllChecks = true // Other error prone checks are disabled.
-        option("NullAway:OnlyNullMarked", "true")
-        option("NullAway:CustomContractAnnotations", "org.springframework.lang.Contract")
+        // check("NullAway", CheckSeverity.ERROR)
+        // check("NullAway", CheckSeverity.WARN)
+        warn("NullAway")
+
+        option("NullAway:AnnotatedPackages", "de.freese.jspecify")
+
+        // disable("MissingSummary")
+
+        //disableAllChecks = true // Other error prone checks are disabled.
+        // option("NullAway:OnlyNullMarked", "true")
+        //option("NullAway:CustomContractAnnotations", "org.springframework.lang.Contract")
+
         // Uncomment below if you are using Java 22+ compiled and you want to check generics nullness.
         option("NullAway:JSpecifyMode", "true")
-    }
-}
-tasks.compileJava {
-    options.errorprone.allErrorsAsWarnings.set(true)
-    options.errorprone.disableWarningsInGeneratedCode.set(false)
 
-    // The check defaults to a warning, bump it up to an error for the main sources.
-    options.errorprone.error("NullAway")
+        // allErrorsAsWarnings.set(true)
+        // disableWarningsInGeneratedCode.set(false)
+    }
+
+    // options.errorprone.allErrorsAsWarnings.set(true)
+    // options.errorprone.disableWarningsInGeneratedCode.set(false)
+
+    // Include to disable NullAway on test code.
+    // if (name.toLowerCase().contains("test")) {
+    //     options.errorprone {
+    //         disable("NullAway")
+    //     }
+    // }
 }

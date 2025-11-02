@@ -4,6 +4,8 @@ package de.freese.jspecify;
 import org.jspecify.annotations.Nullable;
 
 /**
+ * Extractor for Tokens.
+ *
  * @author Thomas Freese
  */
 public interface TokenExtractor {

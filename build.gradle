@@ -1,18 +1,18 @@
 // Execute Tasks in SubModule: gradle MODUL:clean build
 plugins {
-    id("de.freese.gradle.java.conventions") version("$version_myJavaConventionPlugin") apply(false)
+    id("de.freese.gradle.java.conventions").version("$version_myJavaConventionPlugin").apply(false)
 
-    id("com.google.protobuf") version("$version_protobufGradlePlugin") apply(false)
+    id("com.google.protobuf").version("$version_protobufGradlePlugin").apply(false)
 
-    id("net.ltgt.errorprone") version("$version_errorproneGradlePlugin") apply(false)
+    id("net.ltgt.errorprone").version("$version_errorproneGradlePlugin").apply(false)
 
     // id ("io.spring.dependency-management") version ("$version_springDependencyManagementPlugin") apply (false)
-    id("org.openjfx.javafxplugin") version("$version_javafxPlugin") apply(false)
-    id("org.springframework.boot") version("$version_springBoot") apply(false)
+    id("org.openjfx.javafxplugin").version("$version_javafxPlugin").apply(false)
+    id("org.springframework.boot").version("$version_springBoot").apply(false)
 }
 
 allprojects {
-    apply plugin: "base"
+    apply(plugin: "base")
 
     ant.lifecycleLogLevel = "INFO"
 
@@ -22,8 +22,8 @@ allprojects {
 }
 
 subprojects {
-    apply plugin: "de.freese.gradle.java.conventions"
-    apply plugin: "io.spring.dependency-management"
+    apply(plugin: "de.freese.gradle.java.conventions")
+    apply(plugin: "io.spring.dependency-management")
 
     dependencyManagement {
         imports {
@@ -59,7 +59,7 @@ subprojects {
                 entry("batik-swing")
             }
             dependency("org.apache.velocity:velocity-engine-core:$version_velocity")
-            
+
             dependency("org.apiguardian:apiguardian-api:$version_apiGuardian")
             dependency("org.jfree:jfreechart:$version_jfreechart") {
                 // exclude("com.lowagie:itext")

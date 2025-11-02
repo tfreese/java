@@ -4,6 +4,8 @@ package de.freese.jspecify;
 import org.jspecify.annotations.Nullable;
 
 /**
+ * Default implementation for a {@link TokenExtractor}.
+ *
  * @author Thomas Freese
  */
 public final class DefaultTokenExtractor implements TokenExtractor {

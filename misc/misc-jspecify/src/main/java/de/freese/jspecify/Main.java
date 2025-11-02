@@ -2,6 +2,8 @@
 package de.freese.jspecify;
 
 /**
+ * Main class.
+ *
  * @author Thomas Freese
  */
 // @NullMarked
