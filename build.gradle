@@ -1,6 +1,6 @@
 // Execute Tasks in SubModule: gradle MODUL:clean build
 plugins {
-    id("de.freese.gradle.java.conventions").version("$version_myJavaConventionPlugin").apply(false)
+    id("de.freese.gradle.conventions").version("$version_myJavaConventionPlugin").apply(false)
 
     id("com.google.protobuf").version("$version_protobufGradlePlugin").apply(false)
 
@@ -22,7 +22,7 @@ allprojects {
 }
 
 subprojects {
-    apply(plugin: "de.freese.gradle.java.conventions")
+    apply(plugin: "de.freese.gradle.conventions")
     apply(plugin: "io.spring.dependency-management")
 
     dependencyManagement {
