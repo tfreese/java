@@ -37,29 +37,31 @@ public class ExecutorServiceMetrics implements SensorBinder {
 
     @Override
     public List<String> bindTo(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
-        if (executorService instanceof ForkJoinPool fjp) {
-            return bindTo(registry, fjp, backendProvider);
-        }
-        else if (executorService instanceof ThreadPoolExecutor tpe) {
-            return bindTo(registry, tpe, backendProvider);
-        }
-        else {
-            final String className = executorService.getClass().getName();
-            ThreadPoolExecutor pool = null;
+        switch (executorService) {
+            case ForkJoinPool fjp -> {
+                return bindTo(registry, fjp, backendProvider);
+            }
+            case ThreadPoolExecutor tpe -> {
+                return bindTo(registry, tpe, backendProvider);
+            }
+            default -> {
+                final String className = executorService.getClass().getName();
+                ThreadPoolExecutor pool = null;
 
-            if ("java.util.concurrent.Executors$DelegatedScheduledExecutorService".equals(className)) {
-                pool = unwrapThreadPoolExecutor(executorService, executorService.getClass());
-            }
-            else if ("java.util.concurrent.Executors$AutoShutdownDelegatedExecutorService".equals(className)) {
-                pool = unwrapThreadPoolExecutor(executorService, executorService.getClass().getSuperclass());
-            }
+                if ("java.util.concurrent.Executors$DelegatedScheduledExecutorService".equals(className)) {
+                    pool = unwrapThreadPoolExecutor(executorService, executorService.getClass());
+                }
+                else if ("java.util.concurrent.Executors$AutoShutdownDelegatedExecutorService".equals(className)) {
+                    pool = unwrapThreadPoolExecutor(executorService, executorService.getClass().getSuperclass());
+                }
 
-            if (pool != null) {
-                return bindTo(registry, pool, backendProvider);
-            }
-            else {
-                // getLogger().warn("executorService not supported: {}", className);
-                throw new IllegalArgumentException(String.format("executorService not supported: '%s'", className));
+                if (pool != null) {
+                    return bindTo(registry, pool, backendProvider);
+                }
+                else {
+                    // getLogger().warn("executorService not supported: {}", className);
+                    throw new IllegalArgumentException(String.format("executorService not supported: '%s'", className));
+                }
             }
         }
     }
