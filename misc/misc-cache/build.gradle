@@ -10,6 +10,7 @@ dependencies {
     implementation("javax.cache:cache-api")
     implementation("org.ehcache:ehcache:${dependencyManagement.importedProperties["ehcache3.version"]}:jakarta")
     implementation("org.slf4j:jul-to-slf4j")
+    implementation("org.springframework.boot:spring-boot-hazelcast")
     implementation("org.springframework.boot:spring-boot-starter-cache") {
         exclude(group: "org.springframework.boot", module: "spring-boot-starter-logging")
     }

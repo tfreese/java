@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.net.URI;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.json.JsonMapper;
 
 import de.freese.sonstiges.discord.message.DiscordWebHookMessage;
 
@@ -30,10 +30,12 @@ public interface DiscordWebHookSender {
     void send(DiscordWebHookMessage message, URI uri) throws IOException;
 
     default String toJson(final DiscordWebHookMessage message) throws JacksonException {
-        final ObjectMapper mapper = new ObjectMapper(); // .enable(SerializationFeature.INDENT_OUTPUT);
-        mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL); // Keine Nulls ausgeben / serialisieren
+        final JsonMapper jsonMapper = JsonMapper.builder()
+                // .configure(SerializationFeature.INDENT_OUTPUT)
+                .configure(SerializationFeature.INDENT_OUTPUT, true)
+                .changeDefaultPropertyInclusion(value -> value.withValueInclusion(JsonInclude.Include.NON_NULL)) // Keine Nulls ausgeben / serialisieren
+                .build();
 
-        return mapper.writer().writeValueAsString(message);
+        return jsonMapper.writer().writeValueAsString(message);
     }
 }

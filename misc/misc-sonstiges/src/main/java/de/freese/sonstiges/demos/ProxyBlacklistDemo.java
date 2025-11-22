@@ -427,7 +427,7 @@ public final class ProxyBlacklistDemo {
                     boolean match = false;
 
                     for (String regex : regexList) {
-                        if (!StringUtils.startsWith(host, ".*")) {
+                        if (!host.startsWith(".*")) {
                             regex = ".*" + regex;
                         }
 

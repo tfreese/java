@@ -8,7 +8,6 @@ dependencies {
     api("jakarta.persistence:jakarta.persistence-api")
     api("jakarta.validation:jakarta.validation-api")
     api("org.hibernate.orm:hibernate-core")
-    api("org.hibernate.orm:hibernate-core")
 
     implementation("org.slf4j:slf4j-api")
 

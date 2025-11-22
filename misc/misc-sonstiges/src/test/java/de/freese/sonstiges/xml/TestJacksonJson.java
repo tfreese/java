@@ -7,17 +7,16 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.AnnotationIntrospector;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tools.jackson.databind.AnnotationIntrospector;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import tools.jackson.databind.json.JsonMapper;
 
 import de.freese.sonstiges.xml.jaxb.model.Club;
 import de.freese.sonstiges.xml.jaxb.model.ClubFactory;
@@ -36,41 +35,23 @@ class TestJacksonJson {
 
     @Test
     void testJson() throws Exception {
-        final ObjectMapper jsonMapper = new ObjectMapper();
-
-        // final JacksonXmlModule xmlModule = new JacksonXmlModule();
-        // xmlModule.setDefaultUseWrapper(false);
-        //
-        // final ObjectMapper xmlMapper = new XmlMapper(xmlModule);
-        // xmlMapper.registerModule(new JaxbAnnotationModule());
-        // xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-        // final AnnotationIntrospector jaxbIntrospector = new JaxbAnnotationIntrospector(TypeFactory.defaultInstance());
-        // xmlMapper.setAnnotationIntrospector(jaxbIntrospector);
-        // xmlMapper.getDeserializationConfig().with(jaxbIntrospector);
-        // xmlMapper.getSerializationConfig().with(jaxbIntrospector);
-
         final AnnotationIntrospector jacksonIntrospector = new JacksonAnnotationIntrospector();
 
-        // // Annotation-Mix: Verwende primär JaxB-Annotations und sekundär Jackson-Annotations
-        // final AnnotationIntrospector introspector = new AnnotationIntrospectorPair(jaxbIntrospector, jacksonIntrospector);
+        final JsonMapper jsonMapper = JsonMapper.builder()
+                .annotationIntrospector(jacksonIntrospector)
 
-        jsonMapper.setAnnotationIntrospector(jacksonIntrospector);
-        // jsonMapper.getDeserializationConfig().with(introspector);
-        // jsonMapper.getSerializationConfig().with(introspector);
+                // Name des Root-Objektes mit anzeigen.
+                .enable(SerializationFeature.WRAP_ROOT_VALUE)
+                .enable(DeserializationFeature.UNWRAP_ROOT_VALUE)
 
-        // Name des Root-Objektes mit anzeigen.
-        jsonMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
-        jsonMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
-
-        // Globales PrettyPrinting; oder einzeln über jsonMapper.writerWithDefaultPrettyPrinter() nutzbar.
-        jsonMapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-        jsonMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-        // jsonMapper.setVisibility(jsonMapper.getVisibilityChecker().with(Visibility.NONE));
-        jsonMapper.setVisibility(PropertyAccessor.FIELD, Visibility.NONE);
-        jsonMapper.setVisibility(PropertyAccessor.SETTER, Visibility.PUBLIC_ONLY);
-        jsonMapper.setVisibility(PropertyAccessor.GETTER, Visibility.PUBLIC_ONLY);
+                // Globales PrettyPrinting; oder einzeln über jsonMapper.writerWithDefaultPrettyPrinter() nutzbar.
+                .enable(SerializationFeature.INDENT_OUTPUT)
+                .enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)
+                .changeDefaultVisibility(handler ->
+                        handler.withFieldVisibility(Visibility.NONE)
+                                .withSetterVisibility(Visibility.PUBLIC_ONLY)
+                                .withGetterVisibility(Visibility.PUBLIC_ONLY))
+                .build();
 
         Club club = ClubFactory.createClub();
 

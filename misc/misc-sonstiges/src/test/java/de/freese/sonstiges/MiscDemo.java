@@ -138,9 +138,6 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
@@ -154,6 +151,9 @@ import reactor.core.publisher.Sinks;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 import reactor.test.StepVerifier;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.json.JsonMapper;
 
 import de.freese.sonstiges.xml.jaxb.model.Club;
 import de.freese.sonstiges.xml.jaxb.model.DJ;
@@ -882,16 +882,17 @@ public final class MiscDemo {
 
     @SuppressWarnings("unchecked")
     static void json() throws IOException {
-        final ObjectMapper objectMapper = new ObjectMapper()
-                .configure(SerializationFeature.INDENT_OUTPUT, true)
+        final JsonMapper jsonMapper = JsonMapper.builder()
+                .enable(SerializationFeature.INDENT_OUTPUT)
                 .enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS)
-                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .build();
 
         final Club club = new Club();
         club.setEmployees(3);
         club.addDJ(new DJ("a", "b"));
 
-        objectMapper.writer().writeValue(System.out, club);
+        jsonMapper.writer().writeValue(System.out, club);
 
         final Map<String, Map<String, String>> map = new HashMap<>();
 
@@ -901,19 +902,19 @@ public final class MiscDemo {
                         .forEach(keyValue -> map.computeIfAbsent(s, key -> new HashMap<>()).put(keyValue, keyValue))
         );
 
-        final String json = objectMapper.writeValueAsString(map);
+        final String json = jsonMapper.writeValueAsString(map);
         System.out.println(json);
 
-        final Map<String, Map<String, String>> mapJson = objectMapper.readValue(json, Map.class);
+        final Map<String, Map<String, String>> mapJson = jsonMapper.readValue(json, Map.class);
         System.out.println(mapJson);
 
         map.clear();
         mapJson.forEach((key, value) -> map.put(key, new HashMap<>(value)));
         System.out.println(map);
 
-        // MyClass myObject = objectMapper.readValue(path.toFile(), MyClass.class);
-        // MyClass[] myObjects = objectMapper.readValue(path.toFile(), MyClass[].class);
-        // List<MyClass> myList = objectMapper.readValue(path.toFile(), new TypeReference<List<MyClass>>(){});
+        // MyClass myObject = jsonMapper.readValue(path.toFile(), MyClass.class);
+        // MyClass[] myObjects = jsonMapper.readValue(path.toFile(), MyClass[].class);
+        // List<MyClass> myList = jsonMapper.readValue(path.toFile(), new TypeReference<List<MyClass>>(){});
 
         // // implementation("jakarta.platform:jakarta.jakartaee-api")
         // implementation("jakarta.json:jakarta.json-api")
