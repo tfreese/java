@@ -51,13 +51,8 @@ public final class ServerMain {
         // ForkJoinPool.commonPool().execute(server);
 
         LOGGER.info("******************************************************************************************************************");
-        LOGGER.info("You're using an IDE, click in this console and press ENTER to call System.exit() and trigger the shutdown routine.");
+        LOGGER.info("You're using an IDE, click in this console and press Ctrl+D or Ctrl+Z.");
         LOGGER.info("******************************************************************************************************************");
-
-        // Console für programmatische Eingabe simulieren.
-        // final PipedOutputStream pos = new PipedOutputStream();
-        // final PipedInputStream pis = new PipedInputStream(pos);
-        // System.setIn(pis);
 
         while (!server.isStarted()) {
             LOGGER.info("check started");
@@ -83,9 +78,6 @@ public final class ServerMain {
 
             requestResponse(client, charset);
         }
-
-        // Console simulieren.
-        // pos.write(0);
 
         try {
             System.in.read();
