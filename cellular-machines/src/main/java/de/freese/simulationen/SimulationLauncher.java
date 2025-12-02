@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,11 +32,14 @@ public final class SimulationLauncher {
         try {
             SimulationEnvironment.getInstance().init();
 
-            if (args.length == 0) {
-                throw new IllegalArgumentException("parameter required: -swing or -console");
-            }
+            List<String> parameter = new ArrayList<>(List.of(args));
 
-            final List<String> parameter = new ArrayList<>(List.of(args));
+            if (parameter.isEmpty()) {
+                // throw new IllegalArgumentException("parameter required: -swing or -console");
+
+                LOGGER.warn("No Parameter set, use swing as Default");
+                parameter = new ArrayList<>(List.of("-swing"));
+            }
 
             if ("-swing".equals(parameter.getFirst())) {
                 launchSwing();
@@ -97,7 +101,7 @@ public final class SimulationLauncher {
         SimulationEnvironment.getInstance().shutdown();
     }
 
-    private static void launchSwing() {
+    private static void launchSwing() throws Exception {
         Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
             if (throwable != null) {
                 LOGGER.error(throwable.getMessage(), throwable);
@@ -126,6 +130,10 @@ public final class SimulationLauncher {
         // maxWidth = Math.max(maxWidth, displayMode.getWidth());
         // maxHeight = Math.max(maxHeight, displayMode.getHeight());
         // }
+
+        // UIManager.setLookAndFeel("com.formdev.flatlaf.FlatDarculaLaf");
+        // UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatDarkFlatIJTheme");
+        UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTDraculaIJTheme");
 
         final int width = (int) (maxWidth * 0.75D);
         final int height = (int) (maxHeight * 0.75D);
