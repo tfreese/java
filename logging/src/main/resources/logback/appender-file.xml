@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <included>
 
-    <!-- Conditions needs org.codehaus.janino:janino -->
-    <!--if condition='isNull("LOG_DIR")'>
-        <then>
-            <property name="LOG_DIR" value="${user.dir}/logs" />
-        </then>
-        <else>
-        </else>
-    </if -->
-
     <!--
         Parameter:
         - PATTERN_FILE			-> Pattern-Format for Log-File

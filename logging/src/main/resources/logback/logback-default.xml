@@ -20,15 +20,6 @@
     <property name="fileMaxSize" value="${LOG_FILE_MAX_SIZE:-10MB}" />
     <property name="fileMaxSizeCap" value="${LOG_FILE_SIZE_CAP:-1GB}" />
 
-    <!-- Conditions needs org.codehaus.janino:janino -->
-    <!--if condition='isNull("LOG_DIR")'>
-        <then>
-            <property name="LOG_DIRECTORY" value="${user.home}/.java-apps/logs" />
-        </then>
-        <else>
-        </else>
-    </if-->
-
     <!-- ######################################################################################################################################## -->
 
     <appender name="CONSOLE_STD" class="ch.qos.logback.core.ConsoleAppender">
