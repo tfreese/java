@@ -41,7 +41,7 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
     private static ScheduledExecutorService getScheduledExecutorService() {
         return SimulationEnvironment.getInstance().getScheduledExecutorService();
     }
-    
+
     private final TimeSeries timeSeriesFische;
     private final TimeSeries timeSeriesHaie;
 
@@ -118,7 +118,7 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
     }
 
     /**
-     * Aktualisiert das Diagramm.
+     * Aktualisiert das Diagram.
      */
     protected void update(final int fishes, final int sharks) {
         final Runnable runnable = () -> {
@@ -127,7 +127,7 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
             timeSeriesFische.addOrUpdate(timePeriod, fishes);
             timeSeriesHaie.addOrUpdate(timePeriod, sharks);
 
-            // Synchronising the painting on systems that buffer graphics events.
+            // Synchronizing the painting on systems that buffer graphics events.
             // Without this line, the animation might not be smooth on Linux.
             Toolkit.getDefaultToolkit().sync();
         };

@@ -52,35 +52,35 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
     }
 
     /**
-     * Breed energie of fishes.
+     * Breed energy of fishes.
      */
     public int getFishBreedEnergy() {
         return fishBreedEnergy;
     }
 
     /**
-     * Start energie of fishes.
+     * Start energy of fishes.
      */
     public int getFishStartEnergy() {
         return fishStartEnergy;
     }
 
     /**
-     * Breed energie of sharks.
+     * Breed energy of sharks.
      */
     public int getSharkBreedEnergy() {
         return sharkBreedEnergy;
     }
 
     /**
-     * Start energie of sharks.
+     * Start energy of sharks.
      */
     public int getSharkStartEnergy() {
         return sharkStartEnergy;
     }
 
     /**
-     * Dying energie of sharks.
+     * Dying energy of sharks.
      */
     public int getSharkStarveEnergy() {
         return sharkStarveEnergy;
@@ -96,7 +96,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
     }
 
     /**
-     * Breed energie of fishes.
+     * Breed energy of fishes.
      *
      * @param fishBreedEnergy int
      */
@@ -105,7 +105,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
     }
 
     /**
-     * Start energie of fishes.
+     * Start energy of fishes.
      *
      * @param fishStartEnergy int
      */
@@ -114,7 +114,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
     }
 
     /**
-     * Breed energie of sharks.
+     * Breed energy of sharks.
      *
      * @param sharkBreedEnergy int
      */
@@ -123,7 +123,7 @@ public class WaTorRasterSimulation extends AbstractRasterSimulation {
     }
 
     /**
-     * Start energie of sharks.
+     * Start energy of sharks.
      *
      * @param sharkStartEnergy int
      */
