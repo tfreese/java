@@ -25,7 +25,7 @@ tasks.withType(JavaCompile).configureEach {
         // disable("MissingSummary")
 
         //disableAllChecks = true // Other error prone checks are disabled.
-        // option("NullAway:OnlyNullMarked", "true")
+        //option("NullAway:OnlyNullMarked", "true")
         //option("NullAway:CustomContractAnnotations", "org.springframework.lang.Contract")
 
         // Uncomment below if you are using Java 22+ compiled and you want to check generics nullness.
@@ -39,9 +39,9 @@ tasks.withType(JavaCompile).configureEach {
     // options.errorprone.disableWarningsInGeneratedCode.set(false)
 
     // Include to disable NullAway on test code.
-    // if (name.toLowerCase().contains("test")) {
-    //     options.errorprone {
-    //         disable("NullAway")
-    //     }
-    // }
+    if (name.toLowerCase().contains("test")) {
+        options.errorprone {
+            disable("NullAway")
+        }
+    }
 }
