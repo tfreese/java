@@ -1,0 +1,41 @@
+# ===================================================================
+# COMMON SPRING BOOT PROPERTIES
+# https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+spring:
+    lifecycle:
+        timeout-per-shutdown-phase: 10s
+    main:
+        banner-mode: off
+    output:
+        ansi:
+            enabled: always
+    #    profiles:
+    #        active: file
+    # -Dspring.profiles.active=file
+
+server:
+    #address: ${APP_ADDRESS}
+    port: 30090
+    compression:
+        enabled: true
+    error:
+        include-message: never
+    shutdown: "graceful"
+
+
+# CronExpression
+jobs:
+    clean:
+        cron: "@daily"
+        #cron: "*/3 * * * * *"
+
+# Default 5 Days = 120 Hours
+entries:
+    timeout: PT120H
+
+logging:
+    level:
+        root: INFO
+        org.springframework.web: INFO

@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="GradleBuildCache" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="de.freese.gradle.cache.GradleBuildCache" />
+    <module name="tools.gradle-build-cache.main" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="de.freese.gradle.cache.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
