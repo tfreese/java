@@ -6,7 +6,7 @@ pluginManagement {
     }
 }
 
-// Without rootProject.name the Name of the Projekt-Directory is used.
+// Without rootProject.name the Name of the Project-Directory is used.
 rootProject.name = "java"
 
 include("binding")
@@ -16,7 +16,7 @@ include("jsensors")
 include("logging")
 include("meta-model")
 
-//file("${rootDir}/misc").eachDirMatch(~/misc-.*/) {
+// file("${rootDir}/misc").eachDirMatch(~/misc-.*/) {
 //    include("misc:${it.name}")
 //}
 

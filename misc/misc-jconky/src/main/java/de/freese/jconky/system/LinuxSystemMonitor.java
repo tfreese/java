@@ -247,7 +247,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         final List<String> lines = readContent(processBuilderDf);
 
         for (String line : lines) {
-            if (line.contains("vgdesktop-root") || line.contains("/tmp")) {
+            if (line.contains("/dev/md1") || line.contains("/tmp")) {
                 final String[] splits = SPACE_PATTERN.split(line);
                 final String path = splits[5];
                 final long size = Long.parseLong(splits[1]);
@@ -683,15 +683,13 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     }
 
     ProcessInfos getProcessInfosByTop() {
-        final List<ProcessInfo> infos = new ArrayList<>(300);
-
         final List<String> lines = readContent(processBuilderTop);
         // final String output = lines.stream().collect(Collectors.joining("\n"));
 
         // GiB Spch: 15,6 total, 12,4 free, 2,0 used, 1,1 buff/cache
         // GiB Swap: 14,4 total, 14,4 free, 0,0 used. 13,2 avail Spch
 
-        // Bis zur ProzessLise gehen.
+        // Bis zur ProzessListe gehen.
         int startIndex = 0;
 
         for (String line : lines) {
@@ -702,36 +700,33 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
             }
         }
 
-        for (int i = startIndex; i < lines.size(); i++) {
-            final String line = lines.get(i);
+        final List<ProcessInfo> infos = lines.stream()
+                .skip(startIndex)
+                .filter(line -> line != null && !line.isBlank())
+                .map(line -> SPACE_PATTERN.split(line.strip()))
+                .map(splits -> {
+                    final int pid = Integer.parseInt(splits[0]);
+                    final String owner = splits[1];
+                    final double cpuUsage = Double.parseDouble(splits[8].replace(",", "."));
+                    final double memoryUsage = Double.parseDouble(splits[9].replace(",", "."));
+                    final String state = splits[7];
+                    final String name = splits[11];
 
-            final String[] splits = SPACE_PATTERN.split(line.strip());
+                    // jConky itself.
 
-            final int pid = Integer.parseInt(splits[0]);
-            final String owner = splits[1];
-            final double cpuUsage = Double.parseDouble(splits[8].replace(",", "."));
-            final double memoryUsage = Double.parseDouble(splits[9].replace(",", "."));
-            final String state = splits[7];
-            final String name = splits[11];
+                    if (getMyPid() == pid) {
+                        // jConky itself.
+                        return null;
+                    }
 
-            if (getMyPid() == pid) {
-                // jConky wollen wir nicht.
-                continue;
-            }
+                    if ("top".equals(name)) {
+                        // top itself.
+                        return null;
+                    }
 
-            if ("top".equals(name)) {
-                // top wollen wir nicht.
-                continue;
-            }
-
-            // if ("java".equals(name)) {
-            // // java wollen wir nicht.
-            // continue;
-            // }
-
-            final ProcessInfo processInfo = new ProcessInfo(pid, state, name, owner, cpuUsage / 100D, memoryUsage / 100D);
-            infos.add(processInfo);
-        }
+                    return new ProcessInfo(pid, state, name, owner, cpuUsage / 100D, memoryUsage / 100D);
+                })
+                .toList();
 
         return new ProcessInfos(infos);
     }
