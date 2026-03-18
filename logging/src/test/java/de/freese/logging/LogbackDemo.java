@@ -72,7 +72,7 @@ final class LogbackDemo {
         }
 
         if (url == null) {
-            url = Paths.get("maven-projects", "de/freese/logging", "src", "main", "java", configFile).toUri().toURL();
+            url = Paths.get("logging", "src", "main", "java", configFile).toUri().toURL();
         }
 
         config.doConfigure(url);
