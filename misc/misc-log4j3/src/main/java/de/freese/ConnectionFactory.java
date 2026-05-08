@@ -99,8 +99,12 @@ public final class ConnectionFactory {
 
     private void initDbLog4j() {
         if (existTable("LOGGING")) {
+            System.out.printf("%s_ConnectionFactory.initDbLog4j: LOGGING Table already exist%n", Thread.currentThread().getName());
+
             return;
         }
+
+        System.out.printf("%s_ConnectionFactory.initDbLog4j%n", Thread.currentThread().getName());
 
         try (Connection connection = getDataSource().getConnection();
              Statement statement = connection.createStatement()) {

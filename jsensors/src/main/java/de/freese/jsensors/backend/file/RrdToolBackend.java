@@ -86,7 +86,7 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
                 command.add("rrdtool");
                 command.add("update");
                 command.add(path.toString());
-                command.add(String.format("%s:%s", sensorValue.getTimestamp(), sensorValue.getValue()));
+                command.add(String.format("%s:%s", sensorValue.timestamp(), sensorValue.value()));
 
                 final List<String> lines = Utils.executeCommand(command);
 

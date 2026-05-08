@@ -1,6 +1,8 @@
 // Created: 02 Mai 2025
 package de.freese;
 
+import java.util.logging.Level;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
@@ -34,7 +36,7 @@ public final class Log4j3Main {
             LogManager.shutdown();
         }
         catch (Exception ex) {
-            ex.printStackTrace();
+            java.util.logging.Logger.getLogger(Log4j3Main.class.getSimpleName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
         finally {
             ConnectionFactory.getInstance().close();

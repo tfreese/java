@@ -79,11 +79,11 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
 
         if (exclusive) {
             // Without Sensor Name.
-            formatted = String.format("\"%s\",\"%d\",\"%s\"%n", sensorValue.getValue(), sensorValue.getTimestamp(), sensorValue.getLocalDateTime());
+            formatted = String.format("\"%s\",\"%d\",\"%s\"%n", sensorValue.value(), sensorValue.timestamp(), sensorValue.getLocalDateTime());
         }
         else {
             // With Sensor Name.
-            formatted = String.format("\"%s\",\"%s\",\"%d\",\"%s\"%n", sensorValue.getName(), sensorValue.getValue(), sensorValue.getTimestamp(), sensorValue.getLocalDateTime());
+            formatted = String.format("\"%s\",\"%s\",\"%d\",\"%s\"%n", sensorValue.name(), sensorValue.value(), sensorValue.timestamp(), sensorValue.getLocalDateTime());
         }
 
         return formatted.getBytes(StandardCharsets.UTF_8);

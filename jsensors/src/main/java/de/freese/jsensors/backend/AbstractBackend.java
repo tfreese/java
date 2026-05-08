@@ -21,7 +21,7 @@ public abstract class AbstractBackend implements Backend {
             return;
         }
 
-        if (sensorValue.getValue() == null || sensorValue.getValue().isEmpty()) {
+        if (sensorValue.value() == null || sensorValue.value().isEmpty()) {
             getLogger().warn("sensorValue without content");
             return;
         }

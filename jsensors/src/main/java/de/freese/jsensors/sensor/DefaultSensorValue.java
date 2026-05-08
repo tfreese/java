@@ -8,14 +8,8 @@ import java.util.Objects;
  *
  * @author Thomas Freese
  */
-public class DefaultSensorValue implements SensorValue {
-    private final String name;
-    private final long timestamp;
-    private final String value;
-
+public record DefaultSensorValue(String name, String value, long timestamp) implements SensorValue {
     public DefaultSensorValue(final String name, final String value, final long timestamp) {
-        super();
-
         this.name = Objects.requireNonNull(name, "name required");
         this.value = Objects.requireNonNull(value, "value required");
 
@@ -27,30 +21,12 @@ public class DefaultSensorValue implements SensorValue {
     }
 
     @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    @Override
-    public String getValue() {
-        return value;
-    }
-
-    @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("SensorValue [");
-        builder.append("name=").append(getName());
-        builder.append(", value=").append(value);
-        builder.append(", timestamp=").append(getTimestamp());
-        builder.append(", date=").append(getLocalDateTime());
-        builder.append("]");
-
-        return builder.toString();
+        return "SensorValue [" +
+                "name=" + name() +
+                ", value=" + value +
+                ", timestamp=" + timestamp() +
+                ", date=" + getLocalDateTime() +
+                "]";
     }
 }

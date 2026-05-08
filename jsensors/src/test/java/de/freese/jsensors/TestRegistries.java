@@ -51,7 +51,7 @@ class TestRegistries {
         final SensorValue sensorValue = mapBackend.getLastValue("test");
 
         assertNotNull(sensorValue);
-        assertEquals("obj", sensorValue.getValue());
+        assertEquals("obj", sensorValue.value());
     }
 
     @Test
@@ -85,6 +85,6 @@ class TestRegistries {
         registry.stop();
 
         assertNotNull(sensorValue);
-        assertEquals("obj", sensorValue.getValue());
+        assertEquals("obj", sensorValue.value());
     }
 }

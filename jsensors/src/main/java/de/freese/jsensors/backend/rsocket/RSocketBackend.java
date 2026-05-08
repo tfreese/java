@@ -69,16 +69,16 @@ public class RSocketBackend extends AbstractBackend implements LifeCycle {
         final ByteBuf byteBuf = ByteBufAllocator.DEFAULT.buffer();
 
         // byteBuf.writeCharSequence(sensorValue.getName(), StandardCharsets.UTF_8);
-        byte[] bytes = sensorValue.getName().getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = sensorValue.name().getBytes(StandardCharsets.UTF_8);
         byteBuf.writeInt(bytes.length);
         byteBuf.writeBytes(bytes);
 
         // byteBuf.writeCharSequence(sensorValue.getValue(), StandardCharsets.UTF_8);
-        bytes = sensorValue.getValue().getBytes(StandardCharsets.UTF_8);
+        bytes = sensorValue.value().getBytes(StandardCharsets.UTF_8);
         byteBuf.writeInt(bytes.length);
         byteBuf.writeBytes(bytes);
 
-        byteBuf.writeLong(sensorValue.getTimestamp());
+        byteBuf.writeLong(sensorValue.timestamp());
 
         return byteBuf;
     }

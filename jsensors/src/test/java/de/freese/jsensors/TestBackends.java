@@ -99,7 +99,7 @@ class TestBackends {
     @Test
     void testCsvBackendExclusive() throws Exception {
         for (SensorValue sensorValue : createSensorValues()) {
-            final Path path = LOG_PATH.resolve(sensorValue.getName() + ".csv");
+            final Path path = LOG_PATH.resolve(sensorValue.name() + ".csv");
             Files.deleteIfExists(path);
 
             final CsvBackend backend = new CsvBackend(5, path, true);
@@ -170,16 +170,16 @@ class TestBackends {
         assertEquals(2, dbValues.size());
 
         for (int i = 0; i < dbValues.size(); i++) {
-            assertEquals(sensorValues.get(i).getName(), dbValues.get(i).getName());
-            assertEquals(sensorValues.get(i).getValue(), dbValues.get(i).getValue());
-            assertEquals(sensorValues.get(i).getTimestamp(), dbValues.get(i).getTimestamp());
+            assertEquals(sensorValues.get(i).name(), dbValues.get(i).name());
+            assertEquals(sensorValues.get(i).value(), dbValues.get(i).value());
+            assertEquals(sensorValues.get(i).timestamp(), dbValues.get(i).timestamp());
         }
     }
 
     @Test
     void testJdbcBackendExclusive() throws Exception {
         for (SensorValue sensorValue : createSensorValues()) {
-            final JdbcBackend backend = new JdbcBackend(5, dataSource, "SENSOR_" + sensorValue.getName(), false);
+            final JdbcBackend backend = new JdbcBackend(5, dataSource, "SENSOR_" + sensorValue.name(), false);
 
             backend.start();
             backend.store(sensorValue);
@@ -187,14 +187,14 @@ class TestBackends {
 
             try (Connection con = dataSource.getConnection();
                  Statement stmt = con.createStatement();
-                 ResultSet rs = stmt.executeQuery("select * from SENSOR_" + sensorValue.getName())) {
+                 ResultSet rs = stmt.executeQuery("select * from SENSOR_" + sensorValue.name())) {
                 rs.next();
 
                 final SensorValue storedValue = new DefaultSensorValue(rs.getString("NAME"), rs.getString("VALUE"), rs.getLong("TIMESTAMP"));
 
-                assertEquals(sensorValue.getName(), storedValue.getName());
-                assertEquals(sensorValue.getValue(), storedValue.getValue());
-                assertEquals(sensorValue.getTimestamp(), storedValue.getTimestamp());
+                assertEquals(sensorValue.name(), storedValue.name());
+                assertEquals(sensorValue.value(), storedValue.value());
+                assertEquals(sensorValue.timestamp(), storedValue.timestamp());
             }
         }
     }
@@ -225,7 +225,7 @@ class TestBackends {
     @EnabledOnOs(OS.LINUX)
     void testRrdToolBackend() throws Exception {
         for (SensorValue sensorValue : createSensorValues()) {
-            final Path path = LOG_PATH.resolve(sensorValue.getName() + ".rrd");
+            final Path path = LOG_PATH.resolve(sensorValue.name() + ".rrd");
             Files.deleteIfExists(path);
 
             final RrdToolBackend backend = new RrdToolBackend(5, path);
@@ -262,14 +262,14 @@ class TestBackends {
     }
 
     private void testValues(final List<SensorValue> sensorValues, final List<SensorValue> consumedValues) {
-        final List<SensorValue> consumed = consumedValues.stream().sorted(Comparator.comparing(SensorValue::getTimestamp)).toList();
+        final List<SensorValue> consumed = consumedValues.stream().sorted(Comparator.comparing(SensorValue::timestamp)).toList();
 
         assertEquals(sensorValues.size(), consumed.size());
 
         for (int i = 0; i < consumed.size(); i++) {
-            assertEquals(sensorValues.get(i).getName(), consumed.get(i).getName());
-            assertEquals(sensorValues.get(i).getValue(), consumed.get(i).getValue());
-            assertEquals(sensorValues.get(i).getTimestamp(), consumed.get(i).getTimestamp());
+            assertEquals(sensorValues.get(i).name(), consumed.get(i).name());
+            assertEquals(sensorValues.get(i).value(), consumed.get(i).value());
+            assertEquals(sensorValues.get(i).timestamp(), consumed.get(i).timestamp());
         }
     }
 }

@@ -26,10 +26,10 @@ public class RoutingBackend extends AbstractBackend {
 
     @Override
     protected void storeValue(final SensorValue sensorValue) {
-        final CompositeBackend compositeBackend = routes.get(sensorValue.getName());
+        final CompositeBackend compositeBackend = routes.get(sensorValue.name());
 
         if (compositeBackend == null) {
-            throw new IllegalStateException(String.format("no backends for sensor: '%s'", sensorValue.getName()));
+            throw new IllegalStateException(String.format("no backends for sensor: '%s'", sensorValue.name()));
         }
 
         compositeBackend.store(sensorValue);

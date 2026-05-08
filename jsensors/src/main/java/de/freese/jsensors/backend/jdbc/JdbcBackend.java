@@ -136,14 +136,14 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
             for (SensorValue sensorValue : values) {
                 if (exclusive) {
                     // Without SensorName.
-                    pstmt.setString(1, sensorValue.getValue());
-                    pstmt.setLong(2, sensorValue.getTimestamp());
+                    pstmt.setString(1, sensorValue.value());
+                    pstmt.setLong(2, sensorValue.timestamp());
                 }
                 else {
                     // With SensorName.
-                    pstmt.setString(1, sensorValue.getName());
-                    pstmt.setString(2, sensorValue.getValue());
-                    pstmt.setLong(3, sensorValue.getTimestamp());
+                    pstmt.setString(1, sensorValue.name());
+                    pstmt.setString(2, sensorValue.value());
+                    pstmt.setLong(3, sensorValue.timestamp());
                 }
 
                 pstmt.addBatch();

@@ -38,22 +38,22 @@ public final class JFreeChartMain {
 
         final TimeSeries timeSeriesCpuUsage = new TimeSeries("cpu.usage");
         new CpuMetrics().bindTo(registry, name -> sensorValue -> {
-            if (sensorValue.getValue() == null || sensorValue.getValue().isBlank()) {
+            if (sensorValue.value() == null || sensorValue.value().isBlank()) {
                 return;
             }
 
-            final RegularTimePeriod timePeriod = new FixedMillisecond(sensorValue.getTimestamp());
+            final RegularTimePeriod timePeriod = new FixedMillisecond(sensorValue.timestamp());
             timeSeriesCpuUsage.add(timePeriod, sensorValue.getValueAsDouble());
         });
         registry.scheduleSensor("cpu.usage", 1, 1, TimeUnit.SECONDS);
 
         final TimeSeries timeSeriesMemoryUsage = new TimeSeries("memory.usage");
         new MemoryMetrics().bindTo(registry, name -> sensorValue -> {
-            if (sensorValue.getValue() == null || sensorValue.getValue().isBlank()) {
+            if (sensorValue.value() == null || sensorValue.value().isBlank()) {
                 return;
             }
 
-            final RegularTimePeriod timePeriod = new FixedMillisecond(sensorValue.getTimestamp());
+            final RegularTimePeriod timePeriod = new FixedMillisecond(sensorValue.timestamp());
             timeSeriesMemoryUsage.add(timePeriod, sensorValue.getValueAsDouble());
         });
         registry.scheduleSensor("memory.usage", 1, 1, TimeUnit.SECONDS);

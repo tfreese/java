@@ -47,7 +47,7 @@ public final class MapBackend extends AbstractBackend {
 
     @Override
     protected void storeValue(final SensorValue sensorValue) {
-        final List<SensorValue> values = map.computeIfAbsent(sensorValue.getName(), key -> new ArrayList<>(keepLastNValues));
+        final List<SensorValue> values = map.computeIfAbsent(sensorValue.name(), key -> new ArrayList<>(keepLastNValues));
 
         values.add(sensorValue);
 

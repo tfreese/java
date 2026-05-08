@@ -50,7 +50,7 @@ class TestMetricBinder {
 
         final SensorValue sensorValue1 = mapBackend.getLastValue("cpu.usage");
         assertNotNull(sensorValue1);
-        assertEquals("0", sensorValue1.getValue());
+        assertEquals("0", sensorValue1.value());
 
         await().pollDelay(Duration.ofMillis(300L)).until(() -> true);
 
@@ -58,7 +58,7 @@ class TestMetricBinder {
 
         final SensorValue sensorValue2 = mapBackend.getLastValue("cpu.usage");
         assertNotNull(sensorValue2);
-        assertNotEquals(sensorValue1.getTimestamp(), sensorValue2.getTimestamp());
+        assertNotEquals(sensorValue1.timestamp(), sensorValue2.timestamp());
         assertTrue(sensorValue2.getValueAsDouble() > 0D);
     }
 

@@ -12,21 +12,15 @@ import java.util.function.Function;
  */
 public interface SensorValue {
     default Date getDate() {
-        return new Date(getTimestamp());
+        return new Date(timestamp());
     }
 
     default LocalDateTime getLocalDateTime() {
-        return LocalDateTime.ofInstant(Instant.ofEpochMilli(getTimestamp()), ZoneId.systemDefault());
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp()), ZoneId.systemDefault());
     }
 
-    String getName();
-
-    long getTimestamp();
-
-    String getValue();
-
     default <T> T getValueAs(final Function<String, T> function) {
-        return function.apply(getValue());
+        return function.apply(value());
     }
 
     default double getValueAsDouble() {
@@ -36,4 +30,10 @@ public interface SensorValue {
     default long getValueAsLong() {
         return getValueAs(Long::parseLong);
     }
+
+    String name();
+
+    long timestamp();
+
+    String value();
 }
