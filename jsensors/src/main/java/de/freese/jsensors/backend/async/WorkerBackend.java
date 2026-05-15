@@ -85,9 +85,9 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
         // Otherwise, interrupt + join might block.
         while (Thread.State.NEW.equals(worker.getState())) {
             try {
-                TimeUnit.MILLISECONDS.sleep(10);
+                TimeUnit.MILLISECONDS.sleep(10L);
             }
-            catch (InterruptedException ex) {
+            catch (final InterruptedException ex) {
                 getLogger().error(ex.getMessage(), ex);
 
                 // Restore interrupted state.
@@ -103,9 +103,9 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
 
         // Wait for the completion.
         try {
-            worker.join(200);
+            worker.join(200L);
         }
-        catch (InterruptedException ex) {
+        catch (final InterruptedException ex) {
             // Restore interrupted state.
             Thread.currentThread().interrupt();
 
@@ -116,7 +116,7 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
         if (!queue.isEmpty()) {
             getLogger().info("store queued sensor values");
 
-            SensorValue sensorValue = null;
+            SensorValue sensorValue;
 
             while ((sensorValue = queue.poll()) != null) {
                 if (sensorValue == STOP_VALUE) {

@@ -97,7 +97,7 @@ public class DisruptorBackend extends AbstractBackend implements LifeCycle {
         try {
             disruptor.shutdown(3, TimeUnit.SECONDS);
         }
-        catch (TimeoutException ex) {
+        catch (final TimeoutException ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }

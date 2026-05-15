@@ -26,6 +26,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.condition.EnabledIf;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 
@@ -98,7 +99,7 @@ class TestBackends {
 
     @Test
     void testCsvBackendExclusive() throws Exception {
-        for (SensorValue sensorValue : createSensorValues()) {
+        for (final SensorValue sensorValue : createSensorValues()) {
             final Path path = LOG_PATH.resolve(sensorValue.name() + ".csv");
             Files.deleteIfExists(path);
 
@@ -178,7 +179,7 @@ class TestBackends {
 
     @Test
     void testJdbcBackendExclusive() throws Exception {
-        for (SensorValue sensorValue : createSensorValues()) {
+        for (final SensorValue sensorValue : createSensorValues()) {
             final JdbcBackend backend = new JdbcBackend(5, dataSource, "SENSOR_" + sensorValue.name(), false);
 
             backend.start();
@@ -223,8 +224,9 @@ class TestBackends {
 
     @Test
     @EnabledOnOs(OS.LINUX)
+    @EnabledIf("testRrdtoolExist")
     void testRrdToolBackend() throws Exception {
-        for (SensorValue sensorValue : createSensorValues()) {
+        for (final SensorValue sensorValue : createSensorValues()) {
             final Path path = LOG_PATH.resolve(sensorValue.name() + ".rrd");
             Files.deleteIfExists(path);
 
@@ -236,6 +238,13 @@ class TestBackends {
 
             assertTrue(Files.exists(path));
         }
+    }
+
+    boolean testRrdtoolExist() {
+        return Files.exists(Path.of("/usr/bin/rrdtool"))
+                || Files.exists(Path.of("/usr/lib/rrdtool"))
+                || Files.exists(Path.of("/usr/share/rrdtool"))
+                ;
     }
 
     @Test

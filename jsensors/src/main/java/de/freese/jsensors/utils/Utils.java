@@ -40,13 +40,13 @@ public final class Utils {
             process.waitFor();
             process.destroy();
         }
-        catch (InterruptedException ex) {
+        catch (final InterruptedException ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             // Restore interrupted state.
             Thread.currentThread().interrupt();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 

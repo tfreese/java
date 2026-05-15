@@ -50,7 +50,7 @@ public class ExecutorBackend extends AbstractBackend {
             try {
                 delegateBackend.store(sensorValue);
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
             }
             // finally {

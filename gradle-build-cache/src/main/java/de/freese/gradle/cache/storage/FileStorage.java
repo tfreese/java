@@ -28,7 +28,7 @@ public final class FileStorage extends AbstractStorage {
     private record FileStorageEntry(String key, Path path) implements StorageEntry {
         @Override
         public boolean equals(final Object o) {
-            if (!(o instanceof FileStorageEntry(String k, Path p))) {
+            if (!(o instanceof FileStorageEntry(final String k, final Path p))) {
                 return false;
             }
 
@@ -40,7 +40,7 @@ public final class FileStorage extends AbstractStorage {
             try {
                 return Files.size(path());
             }
-            catch (IOException ex) {
+            catch (final IOException ex) {
                 throw new UncheckedIOException(ex);
             }
         }
@@ -63,7 +63,7 @@ public final class FileStorage extends AbstractStorage {
 
                 // outputStream.flush();
             }
-            catch (IOException ex) {
+            catch (final IOException ex) {
                 throw new UncheckedIOException(ex);
             }
         }
@@ -83,7 +83,7 @@ public final class FileStorage extends AbstractStorage {
                 Files.createDirectories(workingDirectory);
             }
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
     }
@@ -112,7 +112,7 @@ public final class FileStorage extends AbstractStorage {
 
             bufferedOutputStream.flush();
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
     }
@@ -126,7 +126,7 @@ public final class FileStorage extends AbstractStorage {
 
             final AtomicInteger counter = new AtomicInteger(0);
 
-            for (Path file : files) {
+            for (final Path file : files) {
                 if (!Files.isRegularFile(file)) {
                     continue;
                 }
@@ -140,7 +140,7 @@ public final class FileStorage extends AbstractStorage {
 
             getLogger().info("Entries removed: {}", counter);
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
     }
@@ -163,7 +163,7 @@ public final class FileStorage extends AbstractStorage {
 
             return exist;
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
         finally {
@@ -175,18 +175,15 @@ public final class FileStorage extends AbstractStorage {
         try (Stream<Path> paths = Files.walk(workingDirectory)) {
             return paths.filter(Files::isRegularFile).sorted().toList();
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
     }
 
     private String toString(final List<Path> files) {
-        final StringBuilder sb = new StringBuilder(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("workingDirectory=").append(workingDirectory);
-        sb.append(", files=").append(files.size());
-        sb.append(']');
-
-        return sb.toString();
+        return getClass().getSimpleName() + " ["
+                + "workingDirectory=" + workingDirectory
+                + ", files=" + files.size()
+                + ']';
     }
 }

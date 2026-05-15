@@ -18,7 +18,7 @@ public class DefaultSensorRegistry extends AbstractSensorRegistry {
             try {
                 getBackend(sensor.getName()).store(sensor.measure());
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
             }
         });

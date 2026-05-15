@@ -38,10 +38,10 @@ public class ExecutorServiceMetrics implements SensorBinder {
     @Override
     public List<String> bindTo(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
         switch (executorService) {
-            case ForkJoinPool fjp -> {
+            case final ForkJoinPool fjp -> {
                 return bindTo(registry, fjp, backendProvider);
             }
-            case ThreadPoolExecutor tpe -> {
+            case final ThreadPoolExecutor tpe -> {
                 return bindTo(registry, tpe, backendProvider);
             }
             default -> {
@@ -50,15 +50,13 @@ public class ExecutorServiceMetrics implements SensorBinder {
 
                 if ("java.util.concurrent.Executors$DelegatedScheduledExecutorService".equals(className)) {
                     pool = unwrapThreadPoolExecutor(executorService, executorService.getClass());
-                }
-                else if ("java.util.concurrent.Executors$AutoShutdownDelegatedExecutorService".equals(className)) {
+                } else if ("java.util.concurrent.Executors$AutoShutdownDelegatedExecutorService".equals(className)) {
                     pool = unwrapThreadPoolExecutor(executorService, executorService.getClass().getSuperclass());
                 }
 
                 if (pool != null) {
                     return bindTo(registry, pool, backendProvider);
-                }
-                else {
+                } else {
                     // getLogger().warn("executorService not supported: {}", className);
                     throw new IllegalArgumentException(String.format("executorService not supported: '%s'", className));
                 }

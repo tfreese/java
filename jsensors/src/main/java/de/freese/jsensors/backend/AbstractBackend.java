@@ -31,7 +31,7 @@ public abstract class AbstractBackend implements Backend {
         try {
             storeValue(sensorValue);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }

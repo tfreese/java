@@ -26,7 +26,7 @@ public final class MapStorage extends AbstractStorage {
 
         @Override
         public boolean equals(final Object o) {
-            if (!(o instanceof MapStorageEntry(String k, byte[] v))) {
+            if (!(o instanceof MapStorageEntry(final String k, final byte[] v))) {
                 return false;
             }
 
@@ -50,12 +50,9 @@ public final class MapStorage extends AbstractStorage {
 
         @Override
         public String toString() {
-            final StringBuilder sb = new StringBuilder(getClass().getSimpleName());
-            sb.append(" [");
-            sb.append("bytes=").append(Arrays.toString(bytes));
-            sb.append(']');
-
-            return sb.toString();
+            return getClass().getSimpleName() + " ["
+                    + "bytes=" + Arrays.toString(bytes)
+                    + ']';
         }
 
         @Override
@@ -65,7 +62,7 @@ public final class MapStorage extends AbstractStorage {
 
                 // outputStream.flush();
             }
-            catch (IOException ex) {
+            catch (final IOException ex) {
                 throw new UncheckedIOException(ex);
             }
         }
@@ -74,7 +71,7 @@ public final class MapStorage extends AbstractStorage {
     private record TimedValue(Instant instant, byte[] bytes) {
         @Override
         public boolean equals(final Object o) {
-            if (!(o instanceof TimedValue(Instant instant1, byte[] value1))) {
+            if (!(o instanceof TimedValue(final Instant instant1, final byte[] value1))) {
                 return false;
             }
 
@@ -88,13 +85,10 @@ public final class MapStorage extends AbstractStorage {
 
         @Override
         public String toString() {
-            final StringBuilder sb = new StringBuilder(getClass().getSimpleName());
-            sb.append(" [");
-            sb.append("instant=").append(instant);
-            sb.append(", bytes=").append(Arrays.toString(bytes));
-            sb.append(']');
-
-            return sb.toString();
+            return getClass().getSimpleName() + " ["
+                    + "instant=" + instant
+                    + ", bytes=" + Arrays.toString(bytes)
+                    + ']';
         }
     }
 
@@ -123,7 +117,7 @@ public final class MapStorage extends AbstractStorage {
 
             cache.put(key, new TimedValue(Instant.now(), baos.toByteArray()));
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
     }
@@ -152,10 +146,8 @@ public final class MapStorage extends AbstractStorage {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder(getClass().getSimpleName());
-        sb.append(" with ").append(cache.size()).append(" entries");
 
-        return sb.toString();
+        return getClass().getSimpleName() + " with " + cache.size() + " entries";
     }
 
     @Override

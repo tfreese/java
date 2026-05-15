@@ -82,8 +82,7 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
                         final String index = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (TIMESTAMP);", tableName, tableName);
 
                         statement.execute(index);
-                    }
-                    else {
+                    } else {
                         // With SensorName.
                         final String index = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (NAME, TIMESTAMP);", tableName, tableName);
 
@@ -99,7 +98,7 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
                 }
             }
         }
-        catch (SQLException ex) {
+        catch (final SQLException ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }
@@ -122,8 +121,7 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
             // Without SensorName.
             sql.append(" (VALUE, TIMESTAMP)");
             sql.append(" VALUES (?, ?)");
-        }
-        else {
+        } else {
             // With SensorName.
             sql.append(" (NAME, VALUE, TIMESTAMP)");
             sql.append(" VALUES (?, ?, ?)");
@@ -133,13 +131,12 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
              PreparedStatement pstmt = con.prepareStatement(sql.toString())) {
             con.setAutoCommit(false);
 
-            for (SensorValue sensorValue : values) {
+            for (final SensorValue sensorValue : values) {
                 if (exclusive) {
                     // Without SensorName.
                     pstmt.setString(1, sensorValue.value());
                     pstmt.setLong(2, sensorValue.timestamp());
-                }
-                else {
+                } else {
                     // With SensorName.
                     pstmt.setString(1, sensorValue.name());
                     pstmt.setString(2, sensorValue.value());
@@ -154,7 +151,7 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
 
             con.commit();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }

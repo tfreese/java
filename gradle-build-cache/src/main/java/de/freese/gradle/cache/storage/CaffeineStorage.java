@@ -28,7 +28,7 @@ public final class CaffeineStorage extends AbstractStorage {
     private record CaffeineStorageHandle(String key, byte[] bytes) implements StorageEntry {
         @Override
         public boolean equals(final Object o) {
-            if (!(o instanceof CaffeineStorageHandle(String k, byte[] v))) {
+            if (!(o instanceof CaffeineStorageHandle(final String k, final byte[] v))) {
                 return false;
             }
             return Objects.equals(key(), k) && Objects.deepEquals(bytes(), v);
@@ -51,12 +51,9 @@ public final class CaffeineStorage extends AbstractStorage {
 
         @Override
         public String toString() {
-            final StringBuilder sb = new StringBuilder(getClass().getSimpleName());
-            sb.append(" [");
-            sb.append("bytes=").append(Arrays.toString(bytes()));
-            sb.append(']');
-
-            return sb.toString();
+            return getClass().getSimpleName() + " ["
+                    + "bytes=" + Arrays.toString(this.bytes())
+                    + ']';
         }
 
         @Override
@@ -66,7 +63,7 @@ public final class CaffeineStorage extends AbstractStorage {
 
                 // outputStream.flush();
             }
-            catch (IOException ex) {
+            catch (final IOException ex) {
                 throw new UncheckedIOException(ex);
             }
         }
@@ -118,7 +115,7 @@ public final class CaffeineStorage extends AbstractStorage {
 
             cache.put(key, baos.toByteArray());
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
     }

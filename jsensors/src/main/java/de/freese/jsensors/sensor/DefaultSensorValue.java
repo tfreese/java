@@ -22,11 +22,11 @@ public record DefaultSensorValue(String name, String value, long timestamp) impl
 
     @Override
     public String toString() {
-        return "SensorValue [" +
-                "name=" + name() +
-                ", value=" + value +
-                ", timestamp=" + timestamp() +
-                ", date=" + getLocalDateTime() +
-                "]";
+        return "SensorValue ["
+                + "name=" + name()
+                + ", value=" + value
+                + ", timestamp=" + timestamp()
+                + ", date=" + getLocalDateTime()
+                + "]";
     }
 }

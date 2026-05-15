@@ -61,8 +61,7 @@ public class DiscMetrics implements SensorBinder {
     public List<String> bindTo(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
         if (file != null) {
             return bindTo(registry, file, File::getFreeSpace, File::getTotalSpace, backendProvider);
-        }
-        else if (path != null) {
+        } else if (path != null) {
             try {
                 final FileStore fileStore = Files.getFileStore(path);
 
@@ -70,7 +69,7 @@ public class DiscMetrics implements SensorBinder {
                     try {
                         return fs.getUsableSpace();
                     }
-                    catch (Exception ex) {
+                    catch (final Exception ex) {
                         getLogger().error(ex.getMessage(), ex);
                     }
 
@@ -79,14 +78,14 @@ public class DiscMetrics implements SensorBinder {
                     try {
                         return fs.getTotalSpace();
                     }
-                    catch (Exception ex) {
+                    catch (final Exception ex) {
                         getLogger().error(ex.getMessage(), ex);
                     }
 
                     return 0L;
                 }, backendProvider);
             }
-            catch (IOException ex) {
+            catch (final IOException ex) {
                 throw new UncheckedIOException(ex);
             }
         }

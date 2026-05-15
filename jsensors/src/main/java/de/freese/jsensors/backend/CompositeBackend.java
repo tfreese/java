@@ -24,11 +24,11 @@ public final class CompositeBackend extends AbstractBackend {
 
     @Override
     protected void storeValue(final SensorValue sensorValue) {
-        for (Backend backend : backends) {
+        for (final Backend backend : backends) {
             try {
                 backend.store(sensorValue);
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
             }
         }

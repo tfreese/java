@@ -63,7 +63,7 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
                 }
             }
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }
@@ -80,7 +80,7 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
         }
 
         try {
-            for (SensorValue sensorValue : values) {
+            for (final SensorValue sensorValue : values) {
                 // Update RRD.
                 final List<String> command = new ArrayList<>();
                 command.add("rrdtool");
@@ -95,7 +95,7 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
                 }
             }
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }

@@ -52,8 +52,7 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
                     if (exclusive) {
                         // Without SensorName.
                         header = String.format("\"%s\",\"%s\",\"%s\"%n", "VALUE", "TIMESTAMP", "TIME");
-                    }
-                    else {
+                    } else {
                         // With SensorName.
                         header = String.format("\"%s\",\"%s\",\"%s\",\"%s\"%n", "NAME", "VALUE", "TIMESTAMP", "TIME");
                     }
@@ -64,7 +63,7 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
                 }
             }
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }
@@ -80,8 +79,7 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
         if (exclusive) {
             // Without Sensor Name.
             formatted = String.format("\"%s\",\"%d\",\"%s\"%n", sensorValue.value(), sensorValue.timestamp(), sensorValue.getLocalDateTime());
-        }
-        else {
+        } else {
             // With Sensor Name.
             formatted = String.format("\"%s\",\"%s\",\"%d\",\"%s\"%n", sensorValue.name(), sensorValue.value(), sensorValue.timestamp(), sensorValue.getLocalDateTime());
         }
@@ -96,7 +94,7 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
         }
 
         try (OutputStream os = new BufferedOutputStream(Files.newOutputStream(path, StandardOpenOption.APPEND))) {
-            for (SensorValue sensorValue : values) {
+            for (final SensorValue sensorValue : values) {
                 final byte[] bytes = encode(sensorValue);
 
                 os.write(bytes);
@@ -104,7 +102,7 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
 
             os.flush();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }

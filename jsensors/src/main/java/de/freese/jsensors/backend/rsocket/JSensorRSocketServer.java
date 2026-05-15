@@ -71,10 +71,10 @@ public class JSensorRSocketServer implements LifeCycle {
         });
 
         final Resume resume = new Resume()
-                .sessionDuration(Duration.ofMinutes(5))
+                .sessionDuration(Duration.ofMinutes(5L))
                 .retry(
                         Retry
-                                .fixedDelay(10, Duration.ofSeconds(1))
+                                .fixedDelay(10, Duration.ofSeconds(1L))
                                 .doBeforeRetry(s -> LOGGER.debug("Disconnected. Trying to resume..."))
                 );
 

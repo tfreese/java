@@ -26,10 +26,10 @@ public final class UnixDomainSocketServer {
     private static final int MAX_MESSAGE_SIZE = 1024 * 1024; // 1 MB Limit
     private static final Path SOCKET_PATH = Path.of(System.getProperty("java.io.tmpdir")).resolve("unixDomainSocket.socket");
 
-    private static class ClientState {
+    private static final class ClientState {
+        final boolean closing = false;
         final ByteBuffer lengthBuffer = ByteBuffer.allocate(4); // For Prefix
         final Deque<ByteBuffer> writeQueue = new ArrayDeque<>();
-        boolean closing = false;
         ByteBuffer payloadBuffer = null;
     }
 
@@ -233,14 +233,11 @@ public final class UnixDomainSocketServer {
 
                         if (key.isAcceptable()) {
                             handleAccept(server, selector);
-                        }
-                        else if (key.isReadable()) {
+                        } else if (key.isReadable()) {
                             handleRead(key, selector);
-                        }
-                        else if (key.isWritable()) {
+                        } else if (key.isWritable()) {
                             handleWrite(key);
-                        }
-                        else {
+                        } else {
                             closeKey(key);
                         }
                     }
