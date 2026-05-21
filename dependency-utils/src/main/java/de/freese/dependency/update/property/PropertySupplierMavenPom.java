@@ -1,0 +1,61 @@
+// Created: 28.05.23
+package de.freese.dependency.update.property;
+
+import java.nio.file.Path;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Properties;
+import java.util.TreeMap;
+
+import org.apache.maven.model.Model;
+import org.apache.maven.model.Profile;
+
+import de.freese.dependency.utils.MavenModelCache;
+
+/**
+ * @author Thomas Freese
+ */
+final class PropertySupplierMavenPom implements PropertySupplier {
+    private static void toMap(final Map<String, String> map, final Properties properties) {
+        if (properties == null) {
+            return;
+        }
+
+        for (final String name : properties.stringPropertyNames()) {
+            map.put(name, properties.getProperty(name));
+        }
+
+        // properties.forEach((key, value) -> map.put((String) key, (String) value));
+
+        // final Enumeration<String> enums = (Enumeration<String>) properties.propertyNames();
+        //
+        // while (enums.hasMoreElements()) {
+        // final String key = enums.nextElement();
+        // final String value = properties.getProperty(key);
+        //
+        // map.put(key, value);
+        // }
+    }
+
+    private final Path path;
+
+    PropertySupplierMavenPom(final Path path) {
+        super();
+
+        this.path = Objects.requireNonNull(path, "path required");
+    }
+
+    @Override
+    public Map<String, String> get() {
+        final Model model = MavenModelCache.get(path);
+        final Map<String, String> map = new TreeMap<>();
+
+        toMap(map, model.getProperties());
+
+        for (final Profile profile : model.getProfiles()) {
+            toMap(map, profile.getProperties());
+        }
+
+        return map;
+    }
+}

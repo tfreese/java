@@ -1,0 +1,124 @@
+// Created: 03 Apr. 2025
+package de.freese.dependency.update.client.url;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.UnaryOperator;
+
+import javax.net.ssl.HttpsURLConnection;
+
+import de.freese.dependency.update.client.AbstractRetryableRepositoryClient;
+
+/**
+ * @author Thomas Freese
+ */
+final class UrlConnectionRepositoryClient extends AbstractRetryableRepositoryClient {
+
+    private final UnaryOperator<HttpsURLConnection> connectionConfigurer;
+
+    UrlConnectionRepositoryClient(final int maxRetries, final Duration retryInterval, final UnaryOperator<HttpsURLConnection> connectionConfigurer) {
+        super(maxRetries, retryInterval);
+
+        this.connectionConfigurer = Objects.requireNonNull(connectionConfigurer, "connectionConfigurer required");
+    }
+
+    @Override
+    public void close() {
+        getLogger().info("close");
+    }
+
+    @Override
+    public List<String> executeVersionsByMavenSearch(final URI uri) {
+        try {
+            final HttpsURLConnection connection = createConnection(uri);
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept", "application/json");
+
+            connection.connect();
+
+            getLogger().debug("GET {} {}", uri, connection.getResponseCode());
+
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                try (InputStream inputStream = connection.getInputStream()) {
+                    final String json = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+
+                    return parseVersionsJson(json);
+                }
+            }
+
+            getLogger().warn("Response {}: {}", connection.getResponseCode(), uri);
+        }
+        catch (final Exception ex) {
+            getLogger().error(ex.getMessage(), ex);
+        }
+
+        return List.of();
+    }
+
+    @Override
+    public List<String> executeVersionsByMetaData(final URI uri) {
+        try {
+            final HttpsURLConnection connection = createConnection(uri);
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept", "application/xml");
+
+            connection.connect();
+
+            getLogger().debug("GET {} {}", uri, connection.getResponseCode());
+
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                try (InputStream inputStream = connection.getInputStream()) {
+                    return parseVersionsXml(inputStream);
+                }
+            }
+
+            getLogger().warn("Response {}: {}", connection.getResponseCode(), uri);
+        }
+        catch (final Exception ex) {
+            getLogger().error(ex.getMessage(), ex);
+        }
+
+        return List.of();
+    }
+
+    @Override
+    protected boolean executeExist(final URI uri) {
+        try {
+            final HttpsURLConnection connection = createConnection(uri);
+            connection.setRequestMethod("HEAD");
+
+            connection.connect();
+
+            getLogger().debug("HEAD {} {}", uri, connection.getResponseCode());
+
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                return true;
+            }
+
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND) {
+                return false;
+            }
+
+            getLogger().warn("Response {}: {}", connection.getResponseCode(), uri);
+        }
+        catch (final Exception ex) {
+            getLogger().error(ex.getMessage(), ex);
+        }
+
+        return false;
+    }
+
+    private HttpsURLConnection createConnection(final URI uri) throws IOException {
+        final HttpsURLConnection connection = (HttpsURLConnection) uri.toURL().openConnection();
+
+        connectionConfigurer.apply(connection);
+
+        return connection;
+    }
+}

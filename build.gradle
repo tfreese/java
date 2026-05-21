@@ -27,7 +27,7 @@ subprojects {
 
     dependencyManagement {
         imports {
-            //mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+            // mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
             mavenBom("org.springframework.boot:spring-boot-dependencies:$version_springBoot")
         }
 
@@ -59,6 +59,7 @@ subprojects {
                 entry("batik-codec")
                 entry("batik-swing")
             }
+            dependency("org.gradle:gradle-tooling-api:$version_gradleToolingApi")
             dependency("org.apache.velocity:velocity-engine-core:$version_velocity")
 
             dependency("org.apiguardian:apiguardian-api:$version_apiGuardian")
@@ -77,7 +78,7 @@ subprojects {
         }
 
         dependencies {
-            //implementation(platform("org.springframework.boot:spring-boot-dependencies:$version_springBoot"))
+            // implementation(platform("org.springframework.boot:spring-boot-dependencies:$version_springBoot"))
 
             testImplementation("org.assertj:assertj-core")
             testImplementation("org.awaitility:awaitility")

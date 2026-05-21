@@ -1,0 +1,49 @@
+package de.freese.dependency.update.client.jnh;
+
+import java.net.Authenticator;
+import java.net.http.HttpClient;
+import java.time.Duration;
+import java.util.Objects;
+
+import javax.net.ssl.SSLContext;
+
+import de.freese.dependency.update.client.AbstractRepositoryHttpClientBuilder;
+import de.freese.dependency.update.client.RepositoryClient;
+
+/**
+ * @author Thomas Freese
+ */
+public final class JreHttpRepositoryClientBuilder extends AbstractRepositoryHttpClientBuilder<JreHttpRepositoryClientBuilder> {
+    private Authenticator authenticator;
+
+    public JreHttpRepositoryClientBuilder authenticator(final Authenticator authenticator) {
+        this.authenticator = authenticator;
+
+        return self();
+    }
+
+    @Override
+    public RepositoryClient build() throws Exception {
+        final int maxRetries = getMaxRetries() == 0 ? DEFAULT_MAX_RETRIES : getMaxRetries();
+        final Duration retryInterval = Objects.requireNonNullElse(getRetryInterval(), DEFAULT_RETRY_INTERVAL);
+        final Duration connectTimeout = Objects.requireNonNullElse(getConnectTimeout(), DEFAULT_CONNECT_TIMEOUT);
+        final SSLContext sslContext = Objects.requireNonNullElse(getSslContext(), SSLContext.getDefault());
+
+        HttpClient.Builder httpClientBuilder = HttpClient.newBuilder()
+                .version(HttpClient.Version.HTTP_2)
+                .followRedirects(HttpClient.Redirect.ALWAYS)
+                .connectTimeout(connectTimeout)
+                .sslContext(sslContext);
+
+        if (authenticator != null) {
+            httpClientBuilder = httpClientBuilder.authenticator(authenticator);
+        }
+
+        return new JreHttpRepositoryClient(maxRetries, retryInterval, httpClientBuilder.build());
+    }
+
+    @Override
+    protected JreHttpRepositoryClientBuilder self() {
+        return this;
+    }
+}
