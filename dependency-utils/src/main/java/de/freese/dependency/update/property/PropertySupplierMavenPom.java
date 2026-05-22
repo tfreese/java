@@ -2,8 +2,11 @@
 package de.freese.dependency.update.property;
 
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.TreeMap;
 
@@ -55,6 +58,30 @@ final class PropertySupplierMavenPom implements PropertySupplier {
         for (final Profile profile : model.getProfiles()) {
             toMap(map, profile.getProperties());
         }
+
+        map.entrySet().forEach(entry -> {
+            final String value = entry.getValue();
+
+            if (value == null) {
+                return;
+            }
+
+            if (value.contains("${project.groupId}")) {
+                entry.setValue(value.replace("${project.groupId}", model.getGroupId()));
+            } else if (value.contains("${project.artifactId}")) {
+                entry.setValue(value.replace("${project.artifactId}", model.getArtifactId()));
+            } else if (value.contains("${project.version}")) {
+                entry.setValue(value.replace("${project.version}", model.getVersion()));
+            } else if (value.contains("${project.basedir}")) {
+                entry.setValue(value.replace("${project.basedir}", path.getParent().toString()));
+            } else if (value.contains("${project.build.directory}")) {
+                entry.setValue(value.replace("${project.build.directory}", path.getParent().resolve("target").toString()));
+            } else if (value.contains("${maven.build.timestamp}")) {
+                final String format = Optional.ofNullable(map.get("maven.build.timestamp.format")).orElse("yyyyMMdd-HHmmss");
+
+                entry.setValue(value.replace("${maven.build.timestamp}", LocalDateTime.now().format(DateTimeFormatter.ofPattern(format))));
+            }
+        });
 
         return map;
     }

@@ -1,7 +1,5 @@
 plugins {
     id("application")
-    id("maven-publish")
-    id("ivy-publish")
 }
 
 description = "Check for new Dependency Versions"
@@ -64,76 +62,3 @@ dependencies {
     // testImplementation("org.apache.maven.resolver:maven-resolver-transport-http:")
     // testImplementation("org.apache.maven.resolver:maven-resolver-transport-wagon")
 }
-
-publishing {
-    publications {
-        // dependencyUtils(MavenPublication) {
-        //     from(components.java)
-        // }
-        dependencyUtils(IvyPublication) {
-            organisation = project.group
-            module = project.name
-            revision = project.version //+ "_" + new Date().format("yyyyMMdd_HHmmss")
-
-            from(components.java) // Mit Dependencies.
-
-            // Nur das JAR, keine Dependencies in ivy.xml
-            // artifact(tasks.named("jar")) {
-            //     // type = "ear"
-            // }
-
-            // Optional weitere Artefakte:
-            // artifact(tasks.named("sourcesJar")) {
-            //     type       = "source"
-            //     extension  = "jar"
-            //     classifier = "sources"
-            // }
-
-            // Übertragen den Dependency-Versionen in den Ivy-Descriptor.
-            versionMapping {
-                usage("java-api") { fromResolutionResult() }
-                usage("java-runtime") { fromResolutionResult() }
-            }
-
-            // descriptor {
-            //     withXml {
-            //         // Ohne Descriptor, Dependencies-Node komplett leeren.
-            //         asNode().getAt("dependencies").forEach { node ->
-            //             (node as groovy.util.Node).setValue("")
-            //         }
-            //     }
-            // }
-        }
-    }
-
-    repositories {
-        ivy {
-            name = "localIvyRepo"
-            url = uri(layout.buildDirectory.dir("ivy-repo"))
-
-            patternLayout {
-                artifact("[organisation]/[module](/[branch])/[type]s/[artifact]-[revision].[ext]")
-                ivy("[organization]/[module](/[branch])/[type]s/[artifact]-[revision].[ext]")
-            }
-        }
-
-        // ivy {
-        //     name = "remoteIvyRepo"
-        //     url = uri("https://repo.example.com/ivy-releases")
-        //
-        //     patternLayout {
-        //         artifact("[organisation]/[module](/[branch])/[type]s/[artifact]-[revision].[ext]")
-        //         ivy("[organization]/[module](/[branch])/[type]s/[artifact]-[revision].[ext]")
-        //     }
-        //
-        //     // Falls HTTPS mit internem CA:
-        //     // isAllowInsecureProtocol = false
-        //
-        //     credentials {
-        //         username = providers.environmentVariable("IVY_REPO_USER").orElse("").get()
-        //         password = providers.environmentVariable("IVY_REPO_PASS").orElse("").get()
-        //     }
-        // }
-    }
-}
-// build.finalizedBy("publishToMavenLocal")

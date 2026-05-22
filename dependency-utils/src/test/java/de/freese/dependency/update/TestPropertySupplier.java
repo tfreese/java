@@ -26,7 +26,8 @@ class TestPropertySupplier {
     static Stream<Arguments> argumentsFactory() {
         return Stream.of(
                 Arguments.of("ivy", PropertySupplier.ofIvySettings(Path.of("..", "..", "parents", "ivy-projects", "ivysettings.xml"))),
-                Arguments.of("spring", PropertySupplier.ofSpringBootDependencies())
+                Arguments.of("spring", PropertySupplier.ofSpringBootDependencies()),
+                Arguments.of("maven", PropertySupplier.ofMavenPom(Path.of("..", "..", "parents", "maven-projects", "maven-parent", "pom.xml")))
         );
     }
 
