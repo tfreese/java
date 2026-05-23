@@ -9,7 +9,7 @@ package de.freese.dependency.version;
 // import com.fasterxml.jackson.databind.JsonNode;
 // import com.fasterxml.jackson.databind.ObjectMapper;
 //
-/// **
+// **
 // * @author Thomas Freese
 // */
 // class VersionQueryWithRestTemplate extends AbstractVersionQuery {
@@ -36,11 +36,11 @@ package de.freese.dependency.version;
 // // // String url = "http://search.maven.org/solrsearch/select?q=g:\"{groupID}\"+AND+a:\"{artifactID}\"&core=gav&rows=20&wt=json";
 // // // String jsonResult = restTemplate.getForObject(url, String.class, dependency.getGroup(), dependency.getArtifact());
 // // // '+' in der Query bleiben erhalten.
-/// /        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://search.maven.org/solrsearch/select")
-/// /            .queryParam("q", String.format("g:\"%s\"+AND+a:\"%s\"", groupID, artifactID))
-/// /            .queryParam("core", "gav")
-/// /            .queryParam("rows", "10")
-/// /            .queryParam("wt", "json");
+//       UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://search.maven.org/solrsearch/select")
+//            .queryParam("q", String.format("g:\"%s\"+AND+a:\"%s\"", groupID, artifactID))
+//            .queryParam("core", "gav")
+//            .queryParam("rows", "10")
+//            .queryParam("wt", "json");
 // //
 // // URI repository = builder.build().toUri();
 // // String jsonResult = restTemplate.getForObject(repository, String.class);

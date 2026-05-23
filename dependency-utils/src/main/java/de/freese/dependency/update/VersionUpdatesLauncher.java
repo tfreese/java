@@ -33,8 +33,6 @@ public final class VersionUpdatesLauncher {
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
 
-        final VersionUpdates versionUpdates = new VersionUpdates();
-
         final Path basePath = Path.of(System.getProperty("user.home"), "git");
         final Path pathParents = basePath.resolve("parents");
         final Path pathParentsGradle = pathParents.resolve("gradle-projects");
@@ -46,6 +44,8 @@ public final class VersionUpdatesLauncher {
                 pathParentsMaven.resolve("maven-parent", "pom.xml"),
                 basePath.resolve("test-repo-release", "pom.xml")
         );
+
+        final VersionUpdates versionUpdates = new VersionUpdates();
 
         // Repositories
         versionUpdates.configureRepositoryResolver(repositoryResolver -> {
@@ -80,6 +80,7 @@ public final class VersionUpdatesLauncher {
                             .add(CoordinateSupplier.ofGradleProperties())
                             .add(CoordinateSupplier.ofGradleProperties(basePath.resolve("syro", "gradle.properties")))
                             .add(CoordinateSupplier.ofGradleProperties(basePath.resolve("java", "misc", "misc-log4j3", "gradle.properties")))
+                            .add(CoordinateSupplier.ofGradleProperties(pathParents.resolve("tools", "gradle.properties")))
                             .add(CoordinateSupplier.ofGradleProperties(pathParentsGradle.resolve("gradle-plugins-test", "gradle.properties")))
                             .add(CoordinateSupplier.ofGradleProperties(pathParentsGradle.resolve("gradle-test-1", "gradle.properties")))
                             .add(CoordinateSupplier.ofGradleProperties(pathParentsGradle.resolve("platformbom-example", "gradle.properties")))

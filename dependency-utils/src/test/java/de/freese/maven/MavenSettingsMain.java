@@ -60,7 +60,7 @@ public final class MavenSettingsMain {
         final SettingsDecryptionRequest decryptionRequest = new DefaultSettingsDecryptionRequest(settings);
         final SettingsDecryptionResult decryptionResult = settingsDecrypter.decrypt(decryptionRequest);
 
-        for (Server server : decryptionResult.getServers()) {
+        for (final Server server : decryptionResult.getServers()) {
             LOGGER.info("Server = {} {}/{}", server.getId(), server.getUsername(), server.getPassword());
         }
     }

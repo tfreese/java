@@ -185,7 +185,6 @@ final class QueryExecutor {
 
     private static ThreadFactory createThreadFactory() {
         return Thread.ofPlatform().daemon().name("query-", 1L).factory();
-        // return Thread.ofVirtual().name("query-", 1).factory();
     }
 
     private QueryExecutor() {

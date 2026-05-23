@@ -74,7 +74,7 @@ final class RepositorySupplierMavenSettings implements RepositorySupplier {
 
         final SettingsBuilder settingsBuilder = new DefaultSettingsBuilderFactory().newInstance();
 
-        SettingsBuildingResult settingsBuildingResult = null;
+        final SettingsBuildingResult settingsBuildingResult;
 
         try {
             settingsBuildingResult = settingsBuilder.build(settingsBuildingRequest);

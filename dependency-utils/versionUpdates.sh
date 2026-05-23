@@ -9,7 +9,6 @@ cd "$BASEDIR" || exit
 
 
 #rm -rf ../.gradle/configuration-cache/
-#../gradlew --quiet build run
 ../gradlew --quiet run
 
 cd ~ || exit
