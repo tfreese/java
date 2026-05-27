@@ -84,8 +84,8 @@ public final class VersionUpdatesLauncher {
                             .add(CoordinateSupplier.ofGradleProperties(pathParentsGradle.resolve("gradle-plugins-test", "gradle.properties")))
                             .add(CoordinateSupplier.ofGradleProperties(pathParentsGradle.resolve("gradle-test-1", "gradle.properties")))
                             .add(CoordinateSupplier.ofGradleProperties(pathParentsGradle.resolve("platformbom-example", "gradle.properties")))
-                            .add(CoordinateSupplier.ofIvy(pathParentsIvy.resolve("ivy-multi-module", "project-api", "ivy.xml")))
-                            .add(CoordinateSupplier.ofIvy(pathParentsIvy.resolve("ivy-multi-module", "project-impl", "ivy.xml")))
+                            .add(CoordinateSupplier.ofIvy(pathParentsIvy.resolve("multi-module", "project-api", "ivy.xml")))
+                            .add(CoordinateSupplier.ofIvy(pathParentsIvy.resolve("multi-module", "project-impl", "ivy.xml")))
                             .setCoordinateFilter(coordinate -> !coordinate.getGroupId().startsWith("de.freese"));
 
                     mavenPoms.forEach(pom -> coordinateResolver.add(CoordinateSupplier.ofMavenPom(pom)));
