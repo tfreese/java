@@ -46,9 +46,9 @@ public final class FailsafeDemo {
                 .build();
 
         // Permits 100 executions per second.
-        // final RateLimiter<Object> rateLimiter = RateLimiter.smoothBuilder(100, Duration.ofSeconds(1)).withMaxWaitTime(Duration.ofSeconds(1)).build();
+        // final RateLimiter<Object> rateLimiter = RateLimiter.smoothBuilder(100L, Duration.ofSeconds(1L)).withMaxWaitTime(Duration.ofSeconds(1L)).build();
         // Permits an execution every 10 millis.
-        // final RateLimiter<Object> rateLimiter = RateLimiter.smoothBuilder(Duration.ofMillis(10)).withMaxWaitTime(Duration.ofSeconds(1)).build();
+        // final RateLimiter<Object> rateLimiter = RateLimiter.smoothBuilder(Duration.ofMillis(10L)).withMaxWaitTime(Duration.ofSeconds(1L)).build();
 
         final Timeout<Object> timeout = Timeout.builder(Duration.ofMillis(50L))
                 .onFailure(event -> LOGGER.error("Timeout onFailure: {} ms", event.getElapsedTime().toMillis()))
@@ -63,11 +63,11 @@ public final class FailsafeDemo {
                 .with(scheduledExecutorService);
 
         final CheckedSupplier<String> checkedSupplier = () -> {
-            if (System.currentTimeMillis() % 3 == 0) {
+            if (System.currentTimeMillis() % 3L == 0L) {
                 throw new RuntimeException("Test Exception");
             }
 
-            TimeUnit.MILLISECONDS.sleep(50);
+            TimeUnit.MILLISECONDS.sleep(50L);
 
             return "value";
         };
@@ -78,7 +78,7 @@ public final class FailsafeDemo {
 
             LOGGER.info("Result = {}", result);
 
-            TimeUnit.MILLISECONDS.sleep(200);
+            TimeUnit.MILLISECONDS.sleep(200L);
         }
 
         printMetrics(circuitBreaker);
@@ -95,7 +95,7 @@ public final class FailsafeDemo {
                 return;
             }
 
-            if (System.currentTimeMillis() % 3 == 0) {
+            if (System.currentTimeMillis() % 3L == 0L) {
                 throw new RuntimeException("Test Exception");
             }
         };
@@ -104,14 +104,14 @@ public final class FailsafeDemo {
             try {
                 failsafeExecutor.run(checkedRunnable);
             }
-            catch (FailsafeException ex) {
+            catch (final FailsafeException ex) {
                 final Throwable cause = ex.getCause();
 
                 if (cause != null) {
                     LOGGER.error(cause.getMessage());
                 }
             }
-            catch (RuntimeException ex) {
+            catch (final RuntimeException ex) {
                 LOGGER.error(ex.getMessage());
             }
 
@@ -126,12 +126,11 @@ public final class FailsafeDemo {
 
             if (circuitBreaker.isOpen()) {
                 LOGGER.info("IP is blocked");
-            }
-            else {
+            } else {
                 LOGGER.info("IP is open");
             }
 
-            TimeUnit.MILLISECONDS.sleep(200);
+            TimeUnit.MILLISECONDS.sleep(200L);
         }
 
         printMetrics(circuitBreaker);
@@ -141,8 +140,8 @@ public final class FailsafeDemo {
         final CircuitBreaker<Object> circuitBreaker = CircuitBreaker.builder()
                 //.handle(SQLException.class) // Alle Exceptions von diesem Typ werden als Fehler behandelt.
                 //.withFailureThreshold(3, 5) // Öffnen, wenn 3 von 5 Ausführungen Fehler erzeugen.
-                .withFailureThreshold(3, Duration.ofSeconds(1)) // Öffnen, wenn 3 Fehler im Zeitraum auftreten.
-                .withDelay(Duration.ofSeconds(1)) // Zeitraum nach Öffnung bis es in den Half-Open State geht.
+                .withFailureThreshold(3, Duration.ofSeconds(1L)) // Öffnen, wenn 3 Fehler im Zeitraum auftreten.
+                .withDelay(Duration.ofSeconds(1L)) // Zeitraum nach Öffnung bis es in den Half-Open State geht.
                 .withSuccessThreshold(3, 5) // Schliessen, wenn 3 von 5 Ausführungen im Half-Open State keine Fehler erzeugen.
                 .onClose(event -> LOGGER.info("Closed after {}", event.getPreviousState()))
                 .onHalfOpen(event -> LOGGER.info("Half-Open after {}", event.getPreviousState()))
