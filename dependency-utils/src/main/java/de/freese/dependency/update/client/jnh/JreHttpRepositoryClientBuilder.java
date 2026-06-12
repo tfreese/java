@@ -31,9 +31,9 @@ public final class JreHttpRepositoryClientBuilder extends AbstractRepositoryHttp
 
         HttpClient.Builder httpClientBuilder = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)
-                .followRedirects(HttpClient.Redirect.ALWAYS)
                 .connectTimeout(connectTimeout)
-                .sslContext(sslContext);
+                .sslContext(sslContext)
+                .followRedirects(HttpClient.Redirect.ALWAYS);
 
         if (authenticator != null) {
             httpClientBuilder = httpClientBuilder.authenticator(authenticator);

@@ -246,6 +246,7 @@ public class ApacheHttpRepositoryClientBuilder extends AbstractRepositoryHttpCli
         return RequestConfig.custom()
                 .setConnectionRequestTimeout(Timeout.of(Objects.requireNonNullElse(getConnectTimeout(), DEFAULT_CONNECT_TIMEOUT)))
                 .setResponseTimeout(Timeout.of(Objects.requireNonNullElse(getReadTimeout(), DEFAULT_READ_TIMEOUT)))
+                .setRedirectsEnabled(true)
                 .build();
     }
 

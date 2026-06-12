@@ -3,14 +3,12 @@ package de.freese.dependency.update;
 
 import java.net.URI;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadFactory;
 
@@ -41,7 +39,6 @@ final class QueryExecutor {
         // executeQueries(versionResolver, coordinates, repositories);
         // executeQueriesByFlux(versionResolver, coordinates, repositories);
         executeQueriesByFixedExecutor(versionResolver, coordinates, repositories);
-        // executeQueriesByFuture(versionResolver, coordinates, repositories);
         // executeQueriesBySemaphore(versionResolver, coordinates, repositories);
         // executeQueriesByStreamParallel(versionResolver, coordinates, repositories);
 
@@ -70,7 +67,8 @@ final class QueryExecutor {
     }
 
     static void executeQueriesByFlux(final VersionResolver versionResolver, final List<Coordinate> coordinates, final Set<URI> repositories) {
-        final Scheduler scheduler = Schedulers.newParallel("Query");
+        // final Scheduler scheduler = Schedulers.newParallel("Query");
+        final Scheduler scheduler = Schedulers.newParallel(PARALLELISM, createThreadFactory());
 
         Flux.fromIterable(coordinates)
                 .parallel(PARALLELISM)
@@ -90,41 +88,8 @@ final class QueryExecutor {
                 .block();
     }
 
-    static void executeQueriesByFuture(final VersionResolver versionResolver, final List<Coordinate> coordinates, final Set<URI> repositories) {
-        try (ExecutorService executorService = Executors.newFixedThreadPool(PARALLELISM, createThreadFactory())) {
-            final List<Future<Void>> futureList = new ArrayList<>(PARALLELISM);
-
-            for (final Coordinate coordinate : coordinates.stream().toList()) {
-                if (futureList.size() == PARALLELISM) {
-                    futureList.removeFirst().get();
-                }
-
-                final Future<Void> future = executorService.submit(() -> {
-                    final String newestVersion = versionResolver.findNewestVersion(coordinate.getGroupId(), coordinate.getArtifactId(), repositories);
-                    coordinate.setVersionNewest(newestVersion);
-                }, null);
-
-                futureList.add(future);
-            }
-
-            // Wait until all are finished.
-            for (final Future<Void> future : futureList) {
-                future.get();
-            }
-        }
-        catch (final InterruptedException ex) {
-            LOGGER.error(ex.getMessage(), ex);
-
-            // Restore interrupted state.
-            Thread.currentThread().interrupt();
-        }
-        catch (final ExecutionException ex) {
-            LOGGER.error(ex.getMessage(), ex);
-        }
-    }
-
     static void executeQueriesBySemaphore(final VersionResolver versionResolver, final List<Coordinate> coordinates, final Set<URI> repositories) {
-        try (ExecutorService executorService = Executors.newFixedThreadPool(PARALLELISM, createThreadFactory())) {
+        try (ExecutorService executorService = Executors.newCachedThreadPool(createThreadFactory())) {
             final Semaphore rateLimiter = new Semaphore(PARALLELISM, true);
 
             coordinates.forEach(coordinate -> {
@@ -185,6 +150,7 @@ final class QueryExecutor {
 
     private static ThreadFactory createThreadFactory() {
         return Thread.ofPlatform().daemon().name("query-", 1L).factory();
+        // return Thread.ofVirtual().name("query-", 1L).factory();
     }
 
     private QueryExecutor() {

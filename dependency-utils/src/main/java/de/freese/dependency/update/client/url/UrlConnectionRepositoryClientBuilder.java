@@ -39,6 +39,7 @@ public final class UrlConnectionRepositoryClientBuilder extends AbstractReposito
             connection.setDoInput(true); // Read from Connection (getInputStream).
             connection.setSSLSocketFactory(sslContext.getSocketFactory());
             connection.setHostnameVerifier(hostnameVerifier);
+            connection.setInstanceFollowRedirects(true);
 
             if (authenticator != null) {
                 connection.setAuthenticator(authenticator);
