@@ -55,12 +55,13 @@ public final class VersionUpdatesLauncher {
                     .or(uri -> !"https://central".startsWith(uri.toString()));
 
             repositoryResolver
+                    .setRepositoryFilter(repositoryFilter)
                     .add(RepositorySupplier.ofMavenSettings())
                     // .add(RepositorySupplier.of("https://repo1.maven.org/maven2"))
                     // .add(RepositorySupplier.of("https://repository.primefaces.org"))
                     .add(RepositorySupplier.of("https://repo.gradle.org/gradle/libs-releases"))
                     .add(RepositorySupplier.of("https://plugins.gradle.org/m2"))
-                    .setRepositoryFilter(repositoryFilter);
+            ;
         });
 
         // Properties

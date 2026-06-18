@@ -57,7 +57,9 @@ public final class RepositoryResolver implements Supplier<Set<URI>> {
         return repositories;
     }
 
-    public void setRepositoryFilter(final Predicate<URI> repositoryFilter) {
+    public RepositoryResolver setRepositoryFilter(final Predicate<URI> repositoryFilter) {
         this.repositoryFilter = Objects.requireNonNull(repositoryFilter, "repositoryFilter required");
+
+        return this;
     }
 }
