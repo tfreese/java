@@ -44,9 +44,9 @@ class TestCoordinateSupplier {
                 "gradle-projects", "libs.versions.toml"))));
 
         ARGUMENTS.add(Arguments.of("ivy-1", CoordinateSupplier.ofIvy(Path.of("..", "..", "parents",
-                "ivy-projects", "ivy-multi-module", "project-api", "ivy.xml"))));
+                "ivy-projects", "multi-module", "project-api", "ivy.xml"))));
         ARGUMENTS.add(Arguments.of("ivy-2", CoordinateSupplier.ofIvy(Path.of("..", "..", "parents",
-                "ivy-projects", "ivy-multi-module", "project-impl", "ivy.xml"))));
+                "ivy-projects", "multi-module", "project-impl", "ivy.xml"))));
     }
 
     @ParameterizedTest(name = "{index} ({0}) => {1}")
