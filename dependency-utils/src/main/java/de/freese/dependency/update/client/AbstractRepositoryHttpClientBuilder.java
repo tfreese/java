@@ -12,7 +12,7 @@ public abstract class AbstractRepositoryHttpClientBuilder<B> {
     protected static final Duration DEFAULT_CONNECT_TIMEOUT = Duration.ofSeconds(30L);
     protected static final int DEFAULT_MAX_RETRIES = 3;
     protected static final Duration DEFAULT_READ_TIMEOUT = Duration.ofSeconds(30L);
-    protected static final Duration DEFAULT_RETRY_INTERVAL = Duration.ofSeconds(3L);
+    protected static final Duration DEFAULT_RETRY_INTERVAL = Duration.ofSeconds(2L);
 
     private Duration connectTimeout;
     private HostnameVerifier hostnameVerifier;

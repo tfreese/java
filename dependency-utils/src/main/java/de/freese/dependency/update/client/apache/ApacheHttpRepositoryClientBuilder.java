@@ -52,7 +52,7 @@ public class ApacheHttpRepositoryClientBuilder extends AbstractRepositoryHttpCli
     private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
     private static final int DEFAULT_CHUNK_SIZE = 1_048_576;
     private static final Duration DEFAULT_EVICT_IDLE = Duration.ofMinutes(15L);
-    private static final int DEFAULT_MAX_CONN = 30;
+    private static final int DEFAULT_MAX_CONN = 20;
     private static final Duration DEFAULT_TTL = Duration.ofMinutes(10L);
 
     private int bufferSize;

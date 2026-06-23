@@ -6,24 +6,23 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.UnaryOperator;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import de.freese.dependency.update.client.AbstractRetryableRepositoryClient;
+import de.freese.dependency.update.client.AbstractRepositoryClient;
 
 /**
  * @author Thomas Freese
  */
-final class UrlConnectionRepositoryClient extends AbstractRetryableRepositoryClient {
+final class UrlConnectionRepositoryClient extends AbstractRepositoryClient {
 
     private final UnaryOperator<HttpsURLConnection> connectionConfigurer;
 
-    UrlConnectionRepositoryClient(final int maxRetries, final Duration retryInterval, final UnaryOperator<HttpsURLConnection> connectionConfigurer) {
-        super(maxRetries, retryInterval);
+    UrlConnectionRepositoryClient(final UnaryOperator<HttpsURLConnection> connectionConfigurer) {
+        super();
 
         this.connectionConfigurer = Objects.requireNonNull(connectionConfigurer, "connectionConfigurer required");
     }
@@ -34,7 +33,34 @@ final class UrlConnectionRepositoryClient extends AbstractRetryableRepositoryCli
     }
 
     @Override
-    public List<String> executeVersionsByMavenSearch(final URI uri) {
+    public boolean exist(final URI uri) {
+        try {
+            final HttpsURLConnection connection = createConnection(uri);
+            connection.setRequestMethod("HEAD");
+
+            connection.connect();
+
+            getLogger().debug("HEAD {} {}", uri, connection.getResponseCode());
+
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                return true;
+            }
+
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND) {
+                return false;
+            }
+
+            getLogger().warn("Response {}: {}", connection.getResponseCode(), uri);
+        }
+        catch (final Exception ex) {
+            getLogger().error(ex.getMessage(), ex);
+        }
+
+        return false;
+    }
+
+    @Override
+    public List<String> getVersionsByMavenSearch(final URI uri) {
         try {
             final HttpsURLConnection connection = createConnection(uri);
             connection.setRequestMethod("GET");
@@ -62,7 +88,7 @@ final class UrlConnectionRepositoryClient extends AbstractRetryableRepositoryCli
     }
 
     @Override
-    public List<String> executeVersionsByMetaData(final URI uri) {
+    public List<String> getVersionsByMetaData(final URI uri) {
         try {
             final HttpsURLConnection connection = createConnection(uri);
             connection.setRequestMethod("GET");
@@ -85,33 +111,6 @@ final class UrlConnectionRepositoryClient extends AbstractRetryableRepositoryCli
         }
 
         return List.of();
-    }
-
-    @Override
-    protected boolean executeExist(final URI uri) {
-        try {
-            final HttpsURLConnection connection = createConnection(uri);
-            connection.setRequestMethod("HEAD");
-
-            connection.connect();
-
-            getLogger().debug("HEAD {} {}", uri, connection.getResponseCode());
-
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                return true;
-            }
-
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND) {
-                return false;
-            }
-
-            getLogger().warn("Response {}: {}", connection.getResponseCode(), uri);
-        }
-        catch (final Exception ex) {
-            getLogger().error(ex.getMessage(), ex);
-        }
-
-        return false;
     }
 
     private HttpsURLConnection createConnection(final URI uri) throws IOException {

@@ -9,6 +9,7 @@ import javax.net.ssl.SSLContext;
 
 import de.freese.dependency.update.client.AbstractRepositoryHttpClientBuilder;
 import de.freese.dependency.update.client.RepositoryClient;
+import de.freese.dependency.update.client.RetryableRepositoryClient;
 
 /**
  * @author Thomas Freese
@@ -39,7 +40,9 @@ public final class JreHttpRepositoryClientBuilder extends AbstractRepositoryHttp
             httpClientBuilder = httpClientBuilder.authenticator(authenticator);
         }
 
-        return new JreHttpRepositoryClient(maxRetries, retryInterval, httpClientBuilder.build());
+        final RepositoryClient repositoryClient = new JreHttpRepositoryClient(httpClientBuilder.build());
+
+        return new RetryableRepositoryClient(repositoryClient, maxRetries, retryInterval);
     }
 
     @Override

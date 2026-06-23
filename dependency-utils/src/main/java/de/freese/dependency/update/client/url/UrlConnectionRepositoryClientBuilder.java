@@ -10,6 +10,7 @@ import javax.net.ssl.SSLContext;
 
 import de.freese.dependency.update.client.AbstractRepositoryHttpClientBuilder;
 import de.freese.dependency.update.client.RepositoryClient;
+import de.freese.dependency.update.client.RetryableRepositoryClient;
 
 /**
  * @author Thomas Freese
@@ -32,7 +33,7 @@ public final class UrlConnectionRepositoryClientBuilder extends AbstractReposito
         final SSLContext sslContext = Objects.requireNonNullElse(getSslContext(), SSLContext.getDefault());
         final HostnameVerifier hostnameVerifier = Objects.requireNonNullElse(getHostnameVerifier(), HttpsURLConnection.getDefaultHostnameVerifier());
 
-        return new UrlConnectionRepositoryClient(maxRetries, retryInterval, connection -> {
+        final RepositoryClient repositoryClient = new UrlConnectionRepositoryClient(connection -> {
             connection.setConnectTimeout((int) connectTimeout.toMillis());
             connection.setReadTimeout((int) readTimeout.toMillis());
             connection.setDoOutput(true); // Write to Connection (getOutputStream).
@@ -47,6 +48,8 @@ public final class UrlConnectionRepositoryClientBuilder extends AbstractReposito
 
             return connection;
         });
+
+        return new RetryableRepositoryClient(repositoryClient, maxRetries, retryInterval);
     }
 
     @Override

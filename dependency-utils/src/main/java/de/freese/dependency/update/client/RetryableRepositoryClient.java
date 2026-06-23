@@ -1,4 +1,3 @@
-// Created: 05 Apr. 2025
 package de.freese.dependency.update.client;
 
 import java.net.HttpRetryException;
@@ -15,16 +14,16 @@ import dev.failsafe.function.CheckedSupplier;
 /**
  * @author Thomas Freese
  */
-
-public abstract class AbstractRetryableRepositoryClient extends AbstractRepositoryClient {
+public final class RetryableRepositoryClient extends AbstractRepositoryClientDecorator {
     private final FailsafeExecutor<Object> failsafeExecutor;
 
-    protected AbstractRetryableRepositoryClient(final int maxRetries, final Duration retryInterval) {
-        super();
+    public RetryableRepositoryClient(final RepositoryClient delegate, final int maxRetries, final Duration retryInterval) {
+        super(delegate);
 
         final RetryPolicy<Object> retryPolicy = RetryPolicy.builder()
                 .withMaxRetries(maxRetries)
-                .withDelay(retryInterval)
+                // .withDelay(retryInterval)
+                .withBackoff(retryInterval, Duration.ofSeconds(10), 1.5D)
                 .onRetry(event -> {
                     final Throwable lastException = event.getLastException();
 
@@ -57,29 +56,23 @@ public abstract class AbstractRetryableRepositoryClient extends AbstractReposito
     }
 
     @Override
-    public final boolean exist(final URI uri) {
-        final CheckedSupplier<Boolean> checkedSupplier = () -> executeExist(uri);
+    public boolean exist(final URI uri) {
+        final CheckedSupplier<Boolean> checkedSupplier = () -> super.exist(uri);
 
         return failsafeExecutor.get(checkedSupplier);
     }
 
     @Override
-    public final List<String> getVersionsByMavenSearch(final URI uri) {
-        final CheckedSupplier<List<String>> checkedSupplier = () -> executeVersionsByMavenSearch(uri);
+    public List<String> getVersionsByMavenSearch(final URI uri) {
+        final CheckedSupplier<List<String>> checkedSupplier = () -> super.getVersionsByMavenSearch(uri);
 
         return failsafeExecutor.get(checkedSupplier);
     }
 
     @Override
-    public final List<String> getVersionsByMetaData(final URI uri) {
-        final CheckedSupplier<List<String>> checkedSupplier = () -> executeVersionsByMetaData(uri);
+    public List<String> getVersionsByMetaData(final URI uri) {
+        final CheckedSupplier<List<String>> checkedSupplier = () -> super.getVersionsByMetaData(uri);
 
         return failsafeExecutor.get(checkedSupplier);
     }
-
-    protected abstract boolean executeExist(URI uri);
-
-    protected abstract List<String> executeVersionsByMavenSearch(URI uri);
-
-    protected abstract List<String> executeVersionsByMetaData(URI uri);
 }
