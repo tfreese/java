@@ -14,7 +14,6 @@ import java.time.Duration;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import de.freese.jsensors.backend.MapBackend;
@@ -23,6 +22,7 @@ import de.freese.jsensors.binder.DiscMetrics;
 import de.freese.jsensors.binder.ExecutorServiceMetrics;
 import de.freese.jsensors.binder.MemoryMetrics;
 import de.freese.jsensors.binder.SwapMetrics;
+import de.freese.jsensors.binder.ThreadMetrics;
 import de.freese.jsensors.registry.DefaultSensorRegistry;
 import de.freese.jsensors.sensor.Sensor;
 import de.freese.jsensors.sensor.SensorValue;
@@ -41,25 +41,22 @@ class TestMetricBinder {
 
         registry.measureAll();
 
-        Assertions.assertThat(mapBackend.getLastValue("cpu.usage"))
-                .isNotNull()
-                // .matches(sensorValue -> "0".equals(sensorValue.getValue()))
-                // .hasFieldOrPropertyWithValue("value", "0")
-                .extracting("value").isEqualTo("0")
-        ;
+        await().pollDelay(Duration.ofMillis(300L)).until(() -> true);
 
-        final SensorValue sensorValue1 = mapBackend.getLastValue("cpu.usage");
-        assertNotNull(sensorValue1);
-        assertEquals("0", sensorValue1.value());
+        registry.measureAll();
+
+        final SensorValue sensorValue = mapBackend.getLastValue("cpu.usage");
+        assertNotNull(sensorValue);
+        assertTrue(sensorValue.getValueAsDouble() > 0D);
 
         await().pollDelay(Duration.ofMillis(300L)).until(() -> true);
 
         registry.measureAll();
 
-        final SensorValue sensorValue2 = mapBackend.getLastValue("cpu.usage");
-        assertNotNull(sensorValue2);
-        assertNotEquals(sensorValue1.timestamp(), sensorValue2.timestamp());
-        assertTrue(sensorValue2.getValueAsDouble() > 0D);
+        final SensorValue sensorValue1 = mapBackend.getLastValue("cpu.usage");
+        assertNotNull(sensorValue1);
+        assertNotEquals(sensorValue1.timestamp(), sensorValue.timestamp());
+        assertTrue(sensorValue.getValueAsDouble() > 0D);
     }
 
     @Test
@@ -144,22 +141,18 @@ class TestMetricBinder {
 
         final SensorValue sensorValueFree = mapBackend.getLastValue("memory.free");
         final SensorValue sensorValueMax = mapBackend.getLastValue("memory.max");
-        final SensorValue sensorValueTotal = mapBackend.getLastValue("memory.total");
         final SensorValue sensorValueUsage = mapBackend.getLastValue("memory.usage");
 
         assertNotNull(sensorValueFree);
         assertNotNull(sensorValueMax);
-        assertNotNull(sensorValueTotal);
         assertNotNull(sensorValueUsage);
 
         assertTrue(sensorValueFree.getValueAsLong() > 0L);
         assertTrue(sensorValueMax.getValueAsLong() > 0L);
-        assertTrue(sensorValueTotal.getValueAsLong() > 0L);
         assertTrue(sensorValueUsage.getValueAsDouble() > 0D);
 
         // System.out.printf("memory.free: %.3f MB%n", sensorValueFree.getValueAsLong() / 1024D / 1024D);
         // System.out.printf("memory.max: %.3f MB%n", sensorValueMax.getValueAsLong() / 1024D / 1024D);
-        // System.out.printf("memory.total: %.3f MB%n", sensorValueTotal.getValueAsLong( / 1024D / 1024D);
         // System.out.printf("memory.usage: %.3f %%%n", sensorValueUsage.getValueAsDouble());
     }
 
@@ -173,11 +166,31 @@ class TestMetricBinder {
         registry.measureAll();
 
         final SensorValue sensorValueFree = mapBackend.getLastValue("swap.free");
+        final SensorValue sensorValueTotal = mapBackend.getLastValue("swap.total");
         final SensorValue sensorValueUsage = mapBackend.getLastValue("swap.usage");
 
         assertNotNull(sensorValueFree);
+        assertNotNull(sensorValueTotal);
         assertNotNull(sensorValueUsage);
 
-        assertTrue(sensorValueFree.getValueAsLong() > 0L);
+        assertTrue(sensorValueFree.getValueAsDouble() > 0D);
+        assertTrue(sensorValueTotal.getValueAsDouble() > 0D);
+        assertTrue(sensorValueUsage.getValueAsDouble() > 0D);
+    }
+
+    @Test
+    void testThreadMetrics() {
+        final DefaultSensorRegistry registry = new DefaultSensorRegistry();
+        final MapBackend mapBackend = new MapBackend(3);
+
+        new ThreadMetrics().bindTo(registry, name -> mapBackend);
+
+        registry.measureAll();
+
+        final SensorValue sensorValueCount = mapBackend.getLastValue("thread.count");
+
+        assertNotNull(sensorValueCount);
+
+        assertTrue(sensorValueCount.getValueAsLong() > 0L);
     }
 }

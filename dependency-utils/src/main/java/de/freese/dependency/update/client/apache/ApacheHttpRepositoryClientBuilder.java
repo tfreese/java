@@ -238,7 +238,7 @@ public class ApacheHttpRepositoryClientBuilder extends AbstractRepositoryHttpCli
     }
 
     protected HttpRequestRetryStrategy createHttpRequestRetryStrategy() {
-        return new MyHttpRequestRetryStrategy(getMaxRetries() == 0 ? DEFAULT_MAX_RETRIES : getMaxRetries(),
+        return new ExponentialBackoffRetryStrategy(getMaxRetries() == 0 ? DEFAULT_MAX_RETRIES : getMaxRetries(),
                 TimeValue.of(Objects.requireNonNullElse(getRetryInterval(), DEFAULT_RETRY_INTERVAL)));
     }
 

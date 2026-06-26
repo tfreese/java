@@ -26,8 +26,8 @@ import java.io.UncheckedIOException;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
 import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
-import java.lang.management.ThreadMXBean;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryUsage;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.Inet4Address;
@@ -74,7 +74,6 @@ import java.time.Month;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -98,6 +97,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
@@ -240,7 +240,7 @@ public final class MiscDemo {
             System.out.println();
         }
 
-        for (int parallelism : List.of(32, 24, 16, 8, 4, 2)) {
+        for (final int parallelism : List.of(32, 24, 16, 8, 4, 2)) {
             System.out.printf("highestOneBit: %2d << 4 = %3d%n", parallelism, Integer.highestOneBit(parallelism) << 4);
         }
     }
@@ -481,7 +481,7 @@ public final class MiscDemo {
 
             final Enumeration<InetAddress> inetAddresses = netInt.getInetAddresses();
 
-            for (InetAddress inetAddress : Collections.list(inetAddresses)) {
+            for (final InetAddress inetAddress : Collections.list(inetAddresses)) {
                 System.out.printf("\tIs LoopBack: %s%n", inetAddress.isLoopbackAddress());
                 System.out.printf("\tHostName: %s%n", inetAddress.getHostName());
                 System.out.printf("\tInetAddress: %s%n", inetAddress);
@@ -510,7 +510,7 @@ public final class MiscDemo {
     static void fileSystems() throws Exception {
         final FileSystem defaultFileSystem = FileSystems.getDefault();
 
-        for (FileStore store : defaultFileSystem.getFileStores()) {
+        for (final FileStore store : defaultFileSystem.getFileStores()) {
             final long total = store.getTotalSpace() / 1024 / 1024 / 1024;
             final long used = (store.getTotalSpace() - store.getUnallocatedSpace()) / 1024 / 1024 / 1024;
             final long avail = store.getUsableSpace() / 1024 / 1024 / 1024;
@@ -520,7 +520,7 @@ public final class MiscDemo {
 
         System.out.println();
 
-        for (Path rootPath : defaultFileSystem.getRootDirectories()) {
+        for (final Path rootPath : defaultFileSystem.getRootDirectories()) {
             final FileStore fileStore = Files.getFileStore(rootPath);
 
             System.out.println("RootPath: " + rootPath + ", FileStore: " + fileStore);
@@ -538,7 +538,7 @@ public final class MiscDemo {
 
         final FileSystemView fsv = FileSystemView.getFileSystemView();
 
-        for (File file : File.listRoots()) {
+        for (final File file : File.listRoots()) {
             System.out.println("Drive Name: " + file);
             System.out.println("Display Name: " + fsv.getSystemDisplayName(file));
             System.out.println("Description: " + fsv.getSystemTypeDescription(file));
@@ -547,7 +547,7 @@ public final class MiscDemo {
 
         System.out.println();
 
-        for (Path path : List.of(Paths.get("build.gradle"), Paths.get(System.getProperty("user.home"), ".xinitrc"),
+        for (final Path path : List.of(Paths.get("build.gradle"), Paths.get(System.getProperty("user.home"), ".xinitrc"),
                 Paths.get(System.getProperty("java.io.tmpdir")))) {
             System.out.println("Path: " + path + ", Size=" + Files.size(path));
             System.out.println("Path Root: " + path.getRoot());
@@ -671,7 +671,7 @@ public final class MiscDemo {
             hostName = InetAddress.getLocalHost().getHostName();
             System.out.printf("InetAddress.getLocalHost: %s%n", hostName);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             // Bei Betriebssystemen ohne DNS-Konfiguration funktioniert InetAddress.getLocalHost nicht !
             System.out.printf("InetAddress.getLocalHost: %s%n", ex.getMessage());
         }
@@ -681,7 +681,7 @@ public final class MiscDemo {
             hostName = br.readLine();
             System.out.printf("CMD 'hostname': %s%n", hostName);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             // Ignore
             System.out.printf("CMD 'hostname': %s%n", ex.getMessage());
         }
@@ -704,12 +704,10 @@ public final class MiscDemo {
                     if (!address.isLoopbackAddress() && address instanceof Inet4Address) {
                         hostName = address.getHostName();
                         System.out.printf("NetworkInterface IPv4: %s%n", hostName);
-                    }
-                    else if (!address.isLoopbackAddress() && !address.isLinkLocalAddress()) {
+                    } else if (!address.isLoopbackAddress() && !address.isLinkLocalAddress()) {
                         hostName = address.getHostName();
                         System.out.printf("NetworkInterface IPv6: %s%n", hostName);
-                    }
-                    else if (!address.isLoopbackAddress()) {
+                    } else if (!address.isLoopbackAddress()) {
                         hostName = address.getHostName();
                         System.out.printf("NetworkInterface IPv6 Link: %s%n", hostName);
                     }
@@ -780,7 +778,7 @@ public final class MiscDemo {
     }
 
     static void introspector() throws IntrospectionException {
-        for (PropertyDescriptor propertyDescriptor : Introspector.getBeanInfo(DJ.class).getPropertyDescriptors()) {
+        for (final PropertyDescriptor propertyDescriptor : Introspector.getBeanInfo(DJ.class).getPropertyDescriptors()) {
             System.out.printf("%s: %s, %s%n", propertyDescriptor.getName(), propertyDescriptor.getReadMethod(), propertyDescriptor.getWriteMethod());
         }
     }
@@ -798,7 +796,7 @@ public final class MiscDemo {
                 // return new StreamSource(Files.newInputStream(path), uri.toString());
                 return new StreamSource(uri.toURL().openStream(), uri.toString());
             }
-            catch (IOException ex) {
+            catch (final IOException ex) {
                 throw new UncheckedIOException(ex);
             }
         };
@@ -847,7 +845,7 @@ public final class MiscDemo {
             try {
                 versionString += "." + String.format("%03d", Integer.parseInt(splits[3]));
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 System.err.println(ex.getMessage());
             }
         }
@@ -955,7 +953,7 @@ public final class MiscDemo {
         final DirectoryStream.Filter<Path> filter = path -> Files.isDirectory(path) && !path.getFileName().toString().startsWith(".");
 
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(base, filter)) {
-            for (Path path : stream) {
+            for (final Path path : stream) {
                 System.out.println(path);
             }
         }
@@ -1042,7 +1040,7 @@ public final class MiscDemo {
         // json();
         // listDirectories();
         // mail();
-        // monitoringMxBeans();
+        monitoringMxBeans();
         // pipedChannels();
         // pipedStreams();
         // processBuilder();
@@ -1059,7 +1057,7 @@ public final class MiscDemo {
         // splitList();
         // textBlocks();
         // utilLogging();
-        verifyJar();
+        // verifyJar();
         // virtualThreads();
         // zip();
 
@@ -1067,83 +1065,54 @@ public final class MiscDemo {
         EXECUTOR_SERVICE.shutdown();
     }
 
-    static void monitoringMxBeans() {
-        System.out.println("OperatingSystemMXBean");
+    static void monitoringMxBeans() throws InterruptedException {
+        System.out.println("monitoringMxBeans");
 
-        final Runtime runtime = Runtime.getRuntime();
-        final ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
-        // MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
-        // MemoryUsage memoryUsage = memoryMXBean.getHeapMemoryUsage();
+        final MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
 
-        final OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
-        final com.sun.management.OperatingSystemMXBean os = (com.sun.management.OperatingSystemMXBean) operatingSystemMXBean;
+        // final com.sun.management.OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.newPlatformMXBeanProxy(mBeanServer,
+        //         ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME, com.sun.management.OperatingSystemMXBean.class);
 
-        // Das funktioniert nur, wenn es mehrmals aufgerufen wird.
-        os.getCpuLoad();
-        os.getCpuLoad();
+        // final com.sun.management.OperatingSystemMXBean operatingSystemMXBean = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
-        System.out.println("\tArch: " + os.getArch());
-        System.out.println("\tName: " + os.getName());
-        System.out.println("\tVersion: " + os.getVersion());
-        System.out.println("\tCpuLoad: " + os.getCpuLoad());
-        System.out.println("\tCpuLoad: " + os.getCpuLoad());
-        System.out.println("\tAvailableProcessors: " + os.getAvailableProcessors());
-        System.out.println("\tCommittedVirtualMemorySize: " + os.getCommittedVirtualMemorySize());
-        System.out.println("\tFreePhysicalMemorySize(: " + os.getFreeMemorySize());
-        System.out.println("\tFreeSwapSpaceSize: " + os.getFreeSwapSpaceSize());
-        System.out.println("\tProcessCpuLoad: " + os.getProcessCpuLoad());
-        System.out.println("\tProcessCpuTime: " + os.getProcessCpuTime());
-        System.out.println("\tSystemLoadAverage: " + os.getSystemLoadAverage());
-        System.out.println("\tTotalPhysicalMemorySize: " + os.getTotalMemorySize());
-        System.out.println("\tTotalSwapSpaceSize: " + os.getTotalSwapSpaceSize());
-
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        System.out.printf("%s\t\t\t\t-\t%s\t-\t%s\t-\t%s%n", "Datum", "Cpu-Usage", "Memory-Usage", "Thread-Count");
-        System.out.printf("%s\t-\t%.2f %%\t\t-\t%.2f %%\t\t\t-\t%d%n", LocalDateTime.now().format(formatter),
-                os.getCpuLoad() * 100D, 1D - (runtime.freeMemory() / (double) runtime.maxMemory()), threadMXBean.getThreadCount());
-
-        long lastSystemTime = 0L;
-        long lastProcessCpuTime = 0L;
-
-        long systemTime = System.nanoTime();
-        long processCpuTime = os.getProcessCpuTime();
-        double cpuUsage = ((double) (processCpuTime - lastProcessCpuTime)) / ((double) (systemTime - lastSystemTime));
-        System.out.println("\tcpuUsage: " + cpuUsage);
-
-        lastSystemTime = systemTime;
-        lastProcessCpuTime = processCpuTime;
-
-        // TimeUnit.MILLISECONDS.sleep(3000L);
-        await().pollDelay(Duration.ofMillis(3000L)).until(() -> true);
-
-        systemTime = System.nanoTime();
-        processCpuTime = os.getProcessCpuTime();
-        cpuUsage = ((double) (processCpuTime - lastProcessCpuTime)) / ((double) (systemTime - lastSystemTime));
-        System.out.println("\tcpuUsage: " + cpuUsage);
-
-        System.out.println();
+        final com.sun.management.OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getPlatformMXBean(com.sun.management.OperatingSystemMXBean.class);
 
         for (int i = 0; i < 3; i++) {
-            System.out.printf("SystemLoadAverage: %3.3f%n", os.getSystemLoadAverage());
-            System.out.printf("CpuLoad: %3.3f %%%n", os.getCpuLoad() * 100D);
-            System.out.printf("ProcessCpuLoad: %3.3f %%%n", os.getProcessCpuLoad() * 100D);
-            // logInfo("MaxMemorySize: %d MB - %d MB", runtime.maxMemory() / 1024 / 1024, memoryUsage.getMax() / 1024 / 1024);
-            // logInfo("FreeMemorySize: %d MB - %d MB", (runtime.freeMemory() / 1024 / 1024, (memoryUsage.getCommitted() - memoryUsage.getUsed()) / 1024 / 1024);
-            // logInfo("UsedMemorySize: %d MB - %d MB", (runtime.maxMemory() - runtime.freeMemory()) / 1024 / 1024, memoryUsage.getUsed() / 1024 / 1024);
-            // logInfo("MemoryUsage: %5.3f %% - %3.3f %%", 1D - (runtime.freeMemory() / (double) runtime.maxMemory()), memoryUsage.getUsed() / (double) memoryUsage.getCommitted());
-            System.out.printf("ThreadCount: %d%n", threadMXBean.getThreadCount());
+            if (LOGGER.isInfoEnabled()) {
+                LOGGER.info("SystemLoadAverage: %3.3f %%".formatted(operatingSystemMXBean.getSystemLoadAverage()));
+                LOGGER.info("CpuLoad: %3.3f %%".formatted(operatingSystemMXBean.getCpuLoad() * 100D));
+                LOGGER.info("ProcessCpuLoad: %3.3f %%".formatted(operatingSystemMXBean.getProcessCpuLoad() * 100D));
+                LOGGER.info("AvailableProcessors: {}", operatingSystemMXBean.getAvailableProcessors());
+                LOGGER.info("System FreeMemorySize: %3.3f".formatted(operatingSystemMXBean.getFreeMemorySize() / 1024D / 1024D));
+                LOGGER.info("System TotalMemorySize: %3.3f".formatted(operatingSystemMXBean.getTotalMemorySize() / 1024D / 1024D));
+                LOGGER.info("System Memory Usage: %3.3f %%".formatted(((double) operatingSystemMXBean.getFreeMemorySize() / operatingSystemMXBean.getTotalMemorySize()) * 100D));
+                LOGGER.info("FreeSwapSpaceSize: %3.3f".formatted(operatingSystemMXBean.getFreeSwapSpaceSize() / 1024D / 1024D));
+                LOGGER.info("TotalSwapSpaceSize: %3.3f".formatted(operatingSystemMXBean.getTotalSwapSpaceSize() / 1024D / 1024D));
+                LOGGER.info("ThreadCount: {}", ManagementFactory.getThreadMXBean().getThreadCount());
+                LOGGER.info("Arch: {}", operatingSystemMXBean.getArch());
+                LOGGER.info("Version: {}", operatingSystemMXBean.getVersion());
+                LOGGER.info("Name: {}", operatingSystemMXBean.getName());
+                LOGGER.info("os.name: {}", System.getProperty("os.name"));
+                LOGGER.info("os.name by env.COMPUTERNAME: {}", System.getenv("COMPUTERNAME")); // Windows
+                LOGGER.info("os.name by env.HOSTNAME: {}", System.getenv("HOSTNAME")); // Linux
+                LOGGER.info("os.name by RuntimeMXBean: {}", ManagementFactory.getRuntimeMXBean().getName());
 
-            final double freeMemory = runtime.freeMemory();
-            final double totalMemory = runtime.totalMemory();
-            final double usedMemory = totalMemory - freeMemory;
-            final double memoryUsagePercent = (usedMemory / totalMemory) * 100D;
+                final MemoryUsage heap = memoryMXBean.getHeapMemoryUsage();
+                final long used = heap.getUsed();
+                final long max = heap.getMax() > 0 ? heap.getMax() : heap.getCommitted();
 
-            System.out.printf("UsedMemory: %.0f MB, TotalMemory: %.0f MB, Usage: %.3f %%%n", usedMemory / 1024D / 1024D, totalMemory / 1024D / 1024D, memoryUsagePercent);
+                LOGGER.info("MemoryMXBean: Used %.0f MB, Max: %.0f MB, Usage: %.3f %%".formatted(
+                        used / 1024D / 1024D,
+                        max / 1024D / 1024D,
+                        ((double) used / max) * 100D));
 
-            System.out.println();
+                TimeUnit.SECONDS.sleep(2);
 
-            // TimeUnit.SECONDS.sleep(1L);
-            await().pollDelay(Duration.ofMillis(1000L)).until(() -> true);
+                // TimeUnit.MILLISECONDS.sleep(3000L);
+                // await().pollDelay(Duration.ofMillis(3000L)).until(() -> true);
+
+                LOGGER.info("");
+            }
         }
     }
 
@@ -1185,7 +1154,7 @@ public final class MiscDemo {
             writer.accept(sinkChannel);
             reader.accept(sourceChannel);
         }
-        catch (Throwable ex) {
+        catch (final Throwable ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 
@@ -1206,7 +1175,7 @@ public final class MiscDemo {
 
             readFuture.get();
         }
-        catch (Throwable ex) {
+        catch (final Throwable ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }
@@ -1233,7 +1202,7 @@ public final class MiscDemo {
 
                     pipeOut.flush();
                 }
-                catch (IOException ex) {
+                catch (final IOException ex) {
                     referenceThrowable.set(ex);
                 }
             };
@@ -1274,7 +1243,7 @@ public final class MiscDemo {
         final Set<String> sets = Charset.availableCharsets().keySet();
         // Arrays.sort(ids);
 
-        for (String set : sets) {
+        for (final String set : sets) {
             System.out.println(set);
         }
     }
@@ -1284,7 +1253,7 @@ public final class MiscDemo {
         final String[] ids = TimeZone.getAvailableIDs();
         Arrays.sort(ids);
 
-        for (String id : ids) {
+        for (final String id : ids) {
             System.out.println(id);
         }
     }
@@ -1450,7 +1419,7 @@ public final class MiscDemo {
             field.setAccessible(true);
             System.out.printf("Old Reflection-Api: %s%n", Arrays.toString((byte[]) field.get(string)));
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             ex.printStackTrace();
         }
 
@@ -1460,7 +1429,7 @@ public final class MiscDemo {
             final VarHandle varHandle = methodLookup.findVarHandle(String.class, "value", byte[].class);
             System.out.printf("New MethodHandles: %s%n", Arrays.toString((byte[]) varHandle.get(string)));
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -1590,12 +1559,12 @@ public final class MiscDemo {
     }
 
     static void securityProviders() {
-        for (Provider provider : Security.getProviders()) {
+        for (final Provider provider : Security.getProviders()) {
             System.out.printf(" --- Provider %s, version %s --- %n", provider.getName(), provider.getVersionStr());
 
             final Set<Service> services = provider.getServices();
 
-            for (Service service : services) {
+            for (final Service service : services) {
                 if (service.getType().equalsIgnoreCase(MessageDigest.class.getSimpleName())) {
                     System.out.printf("Algorithm name: \"%s\"%n", service.getAlgorithm());
                 }
@@ -1666,8 +1635,7 @@ public final class MiscDemo {
             systemTray.add(trayIcon);
 
             trayIcon.displayMessage("Hello, World", "notification demo", TrayIcon.MessageType.INFO);
-        }
-        else {
+        } else {
             System.err.println("SystemTray is not supported !");
         }
     }
@@ -1832,9 +1800,9 @@ public final class MiscDemo {
 
             final Set<String> signedSet = new HashSet<>();
 
-            for (Map.Entry<String, Attributes> entry : man.getEntries().entrySet()) {
-                for (Object attributKey : entry.getValue().keySet()) {
-                    if (attributKey instanceof Attributes.Name attrName && !attrName.toString().contains("-Digest")) {
+            for (final Map.Entry<String, Attributes> entry : man.getEntries().entrySet()) {
+                for (final Object attributKey : entry.getValue().keySet()) {
+                    if (attributKey instanceof final Attributes.Name attrName && !attrName.toString().contains("-Digest")) {
                         signedSet.add(entry.getKey());
                     }
                 }

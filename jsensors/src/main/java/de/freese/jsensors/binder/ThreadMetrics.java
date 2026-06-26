@@ -2,6 +2,7 @@
 package de.freese.jsensors.binder;
 
 import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadMXBean;
 import java.util.List;
 import java.util.function.Function;
 
@@ -12,8 +13,8 @@ import de.freese.jsensors.sensor.Sensor;
 /**
  * @author Thomas Freese
  */
-public class CpuMetrics implements SensorBinder {
-    private final com.sun.management.OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getPlatformMXBean(com.sun.management.OperatingSystemMXBean.class);
+public class ThreadMetrics implements SensorBinder {
+    private final ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
 
     @Override
     public List<String> bindTo(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
@@ -21,9 +22,9 @@ public class CpuMetrics implements SensorBinder {
     }
 
     private List<String> bindCpuUsage(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
-        Sensor.builder("cpu.usage", operatingSystemMXBean, bean -> Double.toString(bean.getCpuLoad() * 100D))
-                .description("CPU-Usage in %").register(registry, backendProvider);
+        Sensor.builder("thread.count", threadMXBean, bean -> Integer.toString(bean.getThreadCount()))
+                .description("Thread count").register(registry, backendProvider);
 
-        return List.of("cpu.usage");
+        return List.of("thread.count");
     }
 }
