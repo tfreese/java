@@ -30,10 +30,8 @@ final class JakartaRepositoryClient extends AbstractRepositoryClient {
     JakartaRepositoryClient(final ClientConfig clientConfig, final Supplier<PoolStats> poolStatsSupplier) {
         super();
 
-        Objects.requireNonNull(clientConfig, "clientConfig required");
-
         client = ClientBuilder.newBuilder()
-                .withConfig(clientConfig)
+                .withConfig(Objects.requireNonNull(clientConfig, "clientConfig required"))
                 .build();
 
         this.poolStatsSupplier = Objects.requireNonNull(poolStatsSupplier, "poolStatsSupplier required");

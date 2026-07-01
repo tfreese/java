@@ -3,6 +3,7 @@ package de.freese.dependency.update.property;
 
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Objects;
@@ -79,7 +80,7 @@ final class PropertySupplierMavenPom implements PropertySupplier {
             } else if (value.contains("${maven.build.timestamp}")) {
                 final String format = Optional.ofNullable(map.get("maven.build.timestamp.format")).orElse("yyyyMMdd-HHmmss");
 
-                entry.setValue(value.replace("${maven.build.timestamp}", LocalDateTime.now().format(DateTimeFormatter.ofPattern(format))));
+                entry.setValue(value.replace("${maven.build.timestamp}", LocalDateTime.now(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern(format))));
             }
         });
 

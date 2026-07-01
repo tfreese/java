@@ -7,6 +7,7 @@ import org.apache.hc.client5.http.auth.CredentialsProvider;
 import org.slf4j.LoggerFactory;
 
 import de.freese.dependency.update.client.apache.ApacheHttpRepositoryClientBuilder;
+import de.freese.dependency.update.client.apache.PreemptiveAuthenticationRequestInterceptor;
 import de.freese.dependency.update.client.jakarta.JakartaRepositoryClientBuilder;
 import de.freese.dependency.update.client.jnh.JreHttpRepositoryClientBuilder;
 import de.freese.dependency.update.client.url.UrlConnectionRepositoryClientBuilder;
@@ -29,7 +30,8 @@ public final class RepositoryClientFactory {
                 .maxRetries(maxRetries)
                 .retryInterval(retryInterval)
                 .builderConfigurer(httpClientBuilder -> httpClientBuilder
-                        .setDefaultCredentialsProvider(credentialsProvider)
+                        // .setDefaultCredentialsProvider(credentialsProvider)
+                        .addRequestInterceptorFirst(new PreemptiveAuthenticationRequestInterceptor(credentialsProvider))
                 )
                 .build();
     }

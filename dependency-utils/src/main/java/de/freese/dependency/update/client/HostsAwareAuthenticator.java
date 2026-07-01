@@ -23,9 +23,8 @@ public final class HostsAwareAuthenticator extends Authenticator {
     public HostsAwareAuthenticator(final Map<String, PasswordAuthentication> map) {
         super();
 
-        Objects.requireNonNull(map, "map required");
-
-        map.forEach((host, credentials) -> this.map.put(host.toLowerCase(), credentials));
+        Objects.requireNonNull(map, "map required")
+                .forEach((host, credentials) -> this.map.put(host.toLowerCase(), credentials));
     }
 
     @Override

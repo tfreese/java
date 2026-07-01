@@ -70,7 +70,7 @@ public final class ExponentialBackoffRetryStrategy extends DefaultHttpRequestRet
             try {
                 retryAfter = TimeValue.ofSeconds(Long.parseLong(value));
             }
-            catch (final NumberFormatException _) {
+            catch (NumberFormatException _) {
                 final Instant retryAfterDate = DateUtils.parseStandardDate(value);
 
                 if (retryAfterDate != null) {
