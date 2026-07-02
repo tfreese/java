@@ -1,9 +1,11 @@
 package de.freese.dependency.update.client;
 
 import java.net.Authenticator;
+import java.net.PasswordAuthentication;
 import java.time.Duration;
 
 import org.apache.hc.client5.http.auth.CredentialsProvider;
+import org.apache.hc.client5.http.impl.auth.CredentialsProviderBuilder;
 import org.slf4j.LoggerFactory;
 
 import de.freese.dependency.update.client.apache.ApacheHttpRepositoryClientBuilder;
@@ -38,24 +40,27 @@ public final class RepositoryClientFactory {
 
     private static Authenticator createAuthenticator() {
         // return new HostsAwareAuthenticator("host", new PasswordAuthentication("user", "password".toCharArray()));
-        return null;
+        return new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(null, "".toCharArray());
+            }
+        };
     }
 
     private static CredentialsProvider createCredentialsProvider() {
-        // final CredentialsProvider credentialsProvider = CredentialsProviderBuilder.create()
-        //         .add(
-        //                 new HttpHost("https", "host", 443),
-        //                 new UsernamePasswordCredentials("user", "token".toCharArray())
-        //         )
-        //         .add(
-        //                 new HttpHost("https", "host", 443),
-        //                 new BearerToken("token")
-        //         )
-        //         .build();
-        //
-        // return credentialsProvider;
+        final CredentialsProvider credentialsProvider = CredentialsProviderBuilder.create()
+                //         .add(;
+                //                 new HttpHost("https", "HOST", 443),
+                //                 new UsernamePasswordCredentials("user", "token".toCharArray())
+                //         )
+                //         .add(
+                //                 new HttpHost("https", "HOST", 443),
+                //                 new BearerToken("token")
+                //         )
+                .build();
 
-        return null;
+        return credentialsProvider;
     }
 
     private static RepositoryClient createJakartaWsClient(final int maxRetries, final Duration retryInterval) throws Exception {
