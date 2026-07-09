@@ -38,6 +38,7 @@ import org.apache.hc.core5.pool.PoolReusePolicy;
 import org.apache.hc.core5.pool.PoolStats;
 import org.apache.hc.core5.util.TimeValue;
 import org.apache.hc.core5.util.Timeout;
+import org.jspecify.annotations.Nullable;
 
 import de.freese.dependency.update.client.AbstractRepositoryHttpClientBuilder;
 import de.freese.dependency.update.client.RepositoryClient;
@@ -56,12 +57,17 @@ public class ApacheHttpRepositoryClientBuilder extends AbstractRepositoryHttpCli
     private static final Duration DEFAULT_TTL = Duration.ofMinutes(10L);
 
     private int bufferSize;
+    @Nullable
     private UnaryOperator<HttpClientBuilder> builderConfigurer;
+    @Nullable
     private Charset charset;
     private int chunkSize;
+    @Nullable
     private Duration evictIdleConnections;
     private int maxConnTotal;
-    private AtomicReference<Supplier<PoolStats>> poolStatsReference;
+    @Nullable
+    private AtomicReference<@Nullable Supplier<PoolStats>> poolStatsReference;
+    @Nullable
     private Duration timeToLive;
 
     public ApacheHttpRepositoryClientBuilder bufferSize(final int bufferSize) {
@@ -156,7 +162,7 @@ public class ApacheHttpRepositoryClientBuilder extends AbstractRepositoryHttpCli
         return self();
     }
 
-    public ApacheHttpRepositoryClientBuilder poolStatsReference(final AtomicReference<Supplier<PoolStats>> poolStatsReference) {
+    public ApacheHttpRepositoryClientBuilder poolStatsReference(final AtomicReference<@Nullable Supplier<PoolStats>> poolStatsReference) {
         this.poolStatsReference = poolStatsReference;
 
         return self();
@@ -168,6 +174,7 @@ public class ApacheHttpRepositoryClientBuilder extends AbstractRepositoryHttpCli
         return self();
     }
 
+    @SuppressWarnings({"ReturnValueIgnored"})
     protected HttpClientBuilder configHttpClientBuilder(final HttpClientBuilder httpClientBuilder) {
         httpClientBuilder
                 .evictExpiredConnections()
@@ -197,7 +204,7 @@ public class ApacheHttpRepositoryClientBuilder extends AbstractRepositoryHttpCli
         return new DefaultConnectionReuseStrategy();
     }
 
-    protected HttpClientConnectionManager createHttpClientConnectionManager(final AtomicReference<Supplier<PoolStats>> poolStatsReference) {
+    protected HttpClientConnectionManager createHttpClientConnectionManager(final AtomicReference<@Nullable Supplier<PoolStats>> poolStatsReference) {
         final HttpConnectionFactory<ManagedHttpClientConnection> connectionSocketFactory = createHttpConnectionFactory();
 
         // new NoopHostnameVerifier()

@@ -48,8 +48,8 @@ final class CoordinateSupplierMavenRepository implements CoordinateSupplier {
 
             for (final Path pomPath : pomPaths) {
                 final Path versionPath = pomPath.getParent();
-                final Path artifactIdPath = versionPath.getParent();
-                final Path groupIdPath = path.relativize(artifactIdPath.getParent());
+                final Path artifactIdPath = Objects.requireNonNull(versionPath).getParent();
+                final Path groupIdPath = path.relativize(Objects.requireNonNull(artifactIdPath).getParent());
 
                 final String version = versionPath.getFileName().toString();
                 final String artifactId = artifactIdPath.getFileName().toString();

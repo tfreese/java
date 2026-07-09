@@ -2,9 +2,12 @@ package de.freese.dependency.update.client;
 
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.jspecify.annotations.Nullable;
 
 /**
  * @author Thomas Freese
@@ -24,15 +27,16 @@ public final class HostsAwareAuthenticator extends Authenticator {
         super();
 
         Objects.requireNonNull(map, "map required")
-                .forEach((host, credentials) -> this.map.put(host.toLowerCase(), credentials));
+                .forEach((host, credentials) -> this.map.put(host.toLowerCase(Locale.getDefault()), credentials));
     }
 
+    @Nullable
     @Override
     protected PasswordAuthentication getPasswordAuthentication() {
         final String requestingHost = getRequestingHost();
 
         if (requestingHost != null) {
-            return map.get(requestingHost.toLowerCase());
+            return map.get(requestingHost.toLowerCase(Locale.getDefault()));
         }
 
         return null;

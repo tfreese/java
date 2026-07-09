@@ -17,6 +17,7 @@ import de.freese.dependency.update.client.url.UrlConnectionRepositoryClientBuild
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings({"java:S1144"})
 public final class RepositoryClientFactory {
     public static RepositoryClient createRepositoryClient(final int maxRetries, final Duration retryInterval) throws Exception {
         return createApacheHttpClient(maxRetries, retryInterval);
@@ -49,18 +50,18 @@ public final class RepositoryClientFactory {
     }
 
     private static CredentialsProvider createCredentialsProvider() {
-        final CredentialsProvider credentialsProvider = CredentialsProviderBuilder.create()
-                //         .add(;
-                //                 new HttpHost("https", "HOST", 443),
-                //                 new UsernamePasswordCredentials("user", "token".toCharArray())
-                //         )
-                //         .add(
-                //                 new HttpHost("https", "HOST", 443),
-                //                 new BearerToken("token")
-                //         )
-                .build();
+        // final CredentialsProvider credentialsProvider = CredentialsProviderBuilder.create()
+        //         //         .add(;
+        //         //                 new HttpHost("https", "HOST", 443),
+        //         //                 new UsernamePasswordCredentials("user", "token".toCharArray())
+        //         //         )
+        //         //         .add(
+        //         //                 new HttpHost("https", "HOST", 443),
+        //         //                 new BearerToken("token")
+        //         //         )
+        //         .build();
 
-        return credentialsProvider;
+        return CredentialsProviderBuilder.create().build();
     }
 
     private static RepositoryClient createJakartaWsClient(final int maxRetries, final Duration retryInterval) throws Exception {

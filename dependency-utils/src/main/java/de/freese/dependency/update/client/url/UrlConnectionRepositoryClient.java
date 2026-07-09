@@ -114,10 +114,6 @@ final class UrlConnectionRepositoryClient extends AbstractRepositoryClient {
     }
 
     private HttpsURLConnection createConnection(final URI uri) throws IOException {
-        final HttpsURLConnection connection = (HttpsURLConnection) uri.toURL().openConnection();
-
-        connectionConfigurer.apply(connection);
-
-        return connection;
+        return connectionConfigurer.apply((HttpsURLConnection) uri.toURL().openConnection());
     }
 }

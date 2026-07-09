@@ -24,6 +24,7 @@ import org.apache.hc.core5.http.message.RequestLine;
 import org.apache.hc.core5.http.message.StatusLine;
 import org.apache.hc.core5.io.CloseMode;
 import org.apache.hc.core5.pool.PoolStats;
+import org.jspecify.annotations.Nullable;
 
 import de.freese.dependency.update.client.AbstractRepositoryClient;
 
@@ -86,7 +87,7 @@ final class ApacheHttpRepositoryClient extends AbstractRepositoryClient {
     private final CloseableHttpClient httpClient;
     private final Supplier<PoolStats> poolStatsSupplier;
 
-    ApacheHttpRepositoryClient(final CloseableHttpClient httpClient, final Supplier<PoolStats> poolStatsSupplier) {
+    ApacheHttpRepositoryClient(final CloseableHttpClient httpClient, final @Nullable Supplier<PoolStats> poolStatsSupplier) {
         super();
 
         this.httpClient = Objects.requireNonNull(httpClient, "httpClient required");

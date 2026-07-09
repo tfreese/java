@@ -17,6 +17,7 @@ import jakarta.ws.rs.core.Response;
 
 import org.apache.hc.core5.pool.PoolStats;
 import org.glassfish.jersey.client.ClientConfig;
+import org.jspecify.annotations.Nullable;
 
 import de.freese.dependency.update.client.AbstractRepositoryClient;
 
@@ -27,7 +28,7 @@ final class JakartaRepositoryClient extends AbstractRepositoryClient {
     private final Client client;
     private final Supplier<PoolStats> poolStatsSupplier;
 
-    JakartaRepositoryClient(final ClientConfig clientConfig, final Supplier<PoolStats> poolStatsSupplier) {
+    JakartaRepositoryClient(final ClientConfig clientConfig, final @Nullable Supplier<PoolStats> poolStatsSupplier) {
         super();
 
         client = ClientBuilder.newBuilder()

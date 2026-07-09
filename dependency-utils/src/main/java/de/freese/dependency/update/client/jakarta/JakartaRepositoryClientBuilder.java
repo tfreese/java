@@ -8,6 +8,7 @@ import org.glassfish.jersey.apache5.connector.Apache5ClientProperties;
 import org.glassfish.jersey.apache5.connector.Apache5ConnectorProvider;
 import org.glassfish.jersey.apache5.connector.Apache5HttpClientBuilderConfigurator;
 import org.glassfish.jersey.client.ClientConfig;
+import org.jspecify.annotations.Nullable;
 
 import de.freese.dependency.update.client.RepositoryClient;
 import de.freese.dependency.update.client.apache.ApacheHttpRepositoryClientBuilder;
@@ -18,7 +19,7 @@ import de.freese.dependency.update.client.apache.ApacheHttpRepositoryClientBuild
 public final class JakartaRepositoryClientBuilder extends ApacheHttpRepositoryClientBuilder {
     @Override
     public RepositoryClient build() throws Exception {
-        final AtomicReference<Supplier<PoolStats>> poolStatsReference = new AtomicReference<>(null);
+        final AtomicReference<@Nullable Supplier<PoolStats>> poolStatsReference = new AtomicReference<>(null);
 
         final ClientConfig clientConfig = new ClientConfig()
                 // .connectorProvider(new JavaNetHttpConnectorProvider());

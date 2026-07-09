@@ -3,6 +3,8 @@ package de.freese.dependency.update.coordinate;
 
 import java.util.Objects;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * @author Thomas Freese
  */
@@ -12,6 +14,8 @@ public final class Coordinate implements Comparable<Coordinate> {
     private final String source;
 
     private String versionCurrent;
+
+    @Nullable
     private String versionNewest;
 
     public Coordinate(final String groupId, final String artifactId, final String version, final String source) {
@@ -69,6 +73,7 @@ public final class Coordinate implements Comparable<Coordinate> {
         return versionCurrent;
     }
 
+    @Nullable
     public String getVersionNewest() {
         return versionNewest;
     }

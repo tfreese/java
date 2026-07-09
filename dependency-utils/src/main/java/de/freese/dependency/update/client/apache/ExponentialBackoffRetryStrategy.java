@@ -42,12 +42,15 @@ public final class ExponentialBackoffRetryStrategy extends DefaultHttpRequestRet
             HttpStatus.SC_SERVICE_UNAVAILABLE,
             HttpStatus.SC_INTERNAL_SERVER_ERROR
     );
+
     private final long defaultRetryIntervalMillis;
+    private final TimeValue defaultretryAfter;
 
     public ExponentialBackoffRetryStrategy(final int maxRetries, final TimeValue defaultRetryInterval) {
         super(maxRetries, defaultRetryInterval, NON_RETRIABLE_EXCEPTIONS, RETRIABLE_CODES);
 
         this.defaultRetryIntervalMillis = defaultRetryInterval.toMilliseconds();
+        defaultretryAfter = TimeValue.ofMilliseconds(defaultRetryIntervalMillis);
     }
 
     @Override
@@ -65,7 +68,7 @@ public final class ExponentialBackoffRetryStrategy extends DefaultHttpRequestRet
 
         if (retryAfterHeader != null) {
             final String value = retryAfterHeader.getValue();
-            TimeValue retryAfter = null;
+            TimeValue retryAfter = defaultretryAfter;
 
             try {
                 retryAfter = TimeValue.ofSeconds(Long.parseLong(value));

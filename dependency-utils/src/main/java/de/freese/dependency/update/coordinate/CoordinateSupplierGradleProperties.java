@@ -78,10 +78,10 @@ final class CoordinateSupplierGradleProperties implements CoordinateSupplier {
                     continue;
                 }
 
-                final String[] coordinateSplits = PATTERN_DOUBLE_DOT.split(PATTERN_SPACE.split(gaLine)[1]);
+                final String[] coordinateSplits = PATTERN_DOUBLE_DOT.split(PATTERN_SPACE.split(gaLine, -1)[1], -1);
                 final String groupID = coordinateSplits[0].strip();
                 final String artifactID = coordinateSplits[1].strip();
-                final String version = PATTERN_EQUAL.split(versionLine)[1].strip();
+                final String version = PATTERN_EQUAL.split(versionLine, -1)[1].strip();
 
                 coordinates.add(new Coordinate(groupID, artifactID, version, Utils.toSource(path)));
             } else if (predicateGa.test(gaLine)) {

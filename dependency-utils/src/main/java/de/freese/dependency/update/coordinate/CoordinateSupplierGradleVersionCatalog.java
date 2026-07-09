@@ -58,7 +58,7 @@ final class CoordinateSupplierGradleVersionCatalog implements CoordinateSupplier
                 break;
             }
 
-            final String[] splits = line.split("=");
+            final String[] splits = line.split("=", -1);
             final String key = splits[0].strip();
             final String value = splits[1].strip().replace("\"", "");
 
@@ -83,14 +83,14 @@ final class CoordinateSupplierGradleVersionCatalog implements CoordinateSupplier
                 break;
             }
 
-            String[] splits = line.split("=");
-            final String coordinate = splits[2].split(",")[0].replace("\"", "").strip();
+            String[] splits = line.split("=", -1);
+            final String coordinate = splits[2].split(",", -1)[0].replace("\"", "").strip();
             final String versionKey = splits[3].replace("\"", "").replace("}", "").strip();
 
-            splits = coordinate.split(":");
+            splits = coordinate.split(":", -1);
             final String groupId = splits[0];
             final String artifactId = splits[1];
-            final String version = versions.get(versionKey);
+            final String version = Objects.requireNonNull(versions.get(versionKey));
 
             coordinates.add(new Coordinate(groupId, artifactId, version, Utils.toSource(path)));
         }

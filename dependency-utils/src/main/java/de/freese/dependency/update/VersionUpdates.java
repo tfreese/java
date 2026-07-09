@@ -112,7 +112,9 @@ public final class VersionUpdates {
                         final String key = version.substring(2, version.length() - 1);
                         version = properties.get(key);
 
-                        coordinate.setVersionCurrent(version);
+                        if (version != null) {
+                            coordinate.setVersionCurrent(version);
+                        }
                     }
 
                     return coordinate;

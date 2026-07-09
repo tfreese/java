@@ -100,10 +100,6 @@ final class PropertySupplierSpringBootDependencies implements PropertySupplier {
     }
 
     private static void toMap(final Map<String, String> map, final Properties properties) {
-        if (properties == null) {
-            return;
-        }
-
         for (final String name : properties.stringPropertyNames()) {
             map.put(name, properties.getProperty(name));
         }

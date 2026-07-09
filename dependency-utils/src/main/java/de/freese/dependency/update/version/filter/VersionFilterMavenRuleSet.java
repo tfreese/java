@@ -50,7 +50,7 @@ final class VersionFilterMavenRuleSet implements VersionFilter {
     public Set<String> getFilteredVersions(final String groupId, final String artifactId, final Collection<String> versions) {
         String key = groupId + ":";
 
-        if (artifactId == null || artifactId.isBlank()) {
+        if (artifactId.isBlank()) {
             key += "*";
         } else {
             key += artifactId;

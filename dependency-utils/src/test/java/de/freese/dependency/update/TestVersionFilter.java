@@ -58,7 +58,7 @@ class TestVersionFilter {
         final List<String> versions = Arrays.asList("21", "1.0.1", "v20190307", "1.11.510");
         final VersionFilter versionFilter = VersionFilter.ofDefaultRegEx();
 
-        final Set<String> filtered = versionFilter.getFilteredVersions(null, null, versions);
+        final Set<String> filtered = versionFilter.getFilteredVersions("", "", versions);
 
         assertNotNull(filtered);
         assertEquals(3, filtered.size());

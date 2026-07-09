@@ -43,9 +43,24 @@ tasks.withType(JavaCompile).configureEach {
     // options.errorprone.disableWarningsInGeneratedCode.set(false)
 
     // Disable NullAway on test code.
-    if (name.toLowerCase().contains("test")) {
-        options.errorprone {
-            disable("NullAway")
-        }
-    }
+    // if (name.toLowerCase().contains("test")) {
+    //     options.errorprone {
+    //         disable("NullAway")
+    //     }
+    // }
 }
+
+// tasks.named("compileTestJava") {
+//     options.errorprone {
+//         // Disable All.
+//         enabled = false
+//
+//         // Disable Test-Classes.
+//         option("NullAway:ExcludedClassAnnotations", "org.junit.jupiter.api.Test,org.junit.Test")
+//
+//         // Disable Test-Packages.
+//         option("NullAway:UnannotatedSubPackages", "de.freese.jspecify,de.freese.jspecify.test")
+//
+//         disable("NullAway")
+//     }
+// }

@@ -54,21 +54,17 @@ public abstract class AbstractRepositoryClient implements RepositoryClient {
         }
     }
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final JsonMapper jsonMapper = JsonMapper.builder()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .build();
 
-    private JsonMapper jsonMapper;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected Logger getLogger() {
         return logger;
     }
 
     protected synchronized ObjectMapper getObjectMapper() {
-        if (jsonMapper == null) {
-            jsonMapper = JsonMapper.builder()
-                    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                    .build();
-        }
-
         return jsonMapper;
     }
 

@@ -72,14 +72,14 @@ public final class CaffeineStorage extends AbstractStorage {
     private final Cache<String, byte[]> cache;
 
     public CaffeineStorage(final Duration expireAfterWrite, final ScheduledExecutorService scheduledExecutorService, final ExecutorService executorService) {
-        super();
-
         if (expireAfterWrite == null || expireAfterWrite.isZero() || expireAfterWrite.isNegative()) {
             throw new IllegalArgumentException("expireAfterWrite must be positive: " + expireAfterWrite);
         }
 
         Objects.requireNonNull(scheduledExecutorService, "scheduledExecutorService required");
         Objects.requireNonNull(executorService, "executorService required");
+
+        super();
 
         cache = Caffeine.newBuilder()
                 .maximumSize(Integer.MAX_VALUE)

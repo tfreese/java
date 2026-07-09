@@ -10,10 +10,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.UUID;
 
 import jakarta.annotation.Resource;
 
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
@@ -33,6 +35,7 @@ class TestBuildCache {
     // @TempDir(cleanup = CleanupMode.ALWAYS)
     // private static Path pathTest;
 
+    @Nullable
     @Resource
     private MockMvc mockMvc;
 
@@ -45,7 +48,7 @@ class TestBuildCache {
     void testMiss() throws Exception {
         final String key = "someKey";
 
-        mockMvc.perform(get("/cache/" + key)
+        Objects.requireNonNull(mockMvc).perform(get("/cache/" + key)
                         .accept(CacheController.MEDIA_TYPE_GRADLE_CACHE)
                 )
                 .andExpect(status().isNotFound());
@@ -56,7 +59,7 @@ class TestBuildCache {
         final String key = getKey();
         final byte[] payload = getKey().getBytes(StandardCharsets.UTF_8);
 
-        mockMvc.perform(put("/cache/" + key)
+        Objects.requireNonNull(mockMvc).perform(put("/cache/" + key)
                         .contentType(CacheController.MEDIA_TYPE_GRADLE_CACHE)
                         .content(payload)
                 )

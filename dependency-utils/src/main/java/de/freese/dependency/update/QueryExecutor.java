@@ -44,7 +44,11 @@ final class QueryExecutor {
 
         return coordinates.stream()
                 .filter(Coordinate::hasUpdate)
-                .filter(coordinate -> !coordinate.getVersionNewest().startsWith(VersionFilter.EMPTY_VERSION))
+                .filter(coordinate -> {
+                    final String versionNewest = coordinate.getVersionNewest();
+
+                    return versionNewest != null && !versionNewest.startsWith(VersionFilter.EMPTY_VERSION);
+                })
                 .toList();
     }
 

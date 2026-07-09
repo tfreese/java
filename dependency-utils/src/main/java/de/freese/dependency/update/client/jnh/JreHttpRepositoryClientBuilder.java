@@ -7,6 +7,8 @@ import java.util.Objects;
 
 import javax.net.ssl.SSLContext;
 
+import org.jspecify.annotations.Nullable;
+
 import de.freese.dependency.update.client.AbstractRepositoryHttpClientBuilder;
 import de.freese.dependency.update.client.RepositoryClient;
 import de.freese.dependency.update.client.RetryableRepositoryClient;
@@ -15,6 +17,7 @@ import de.freese.dependency.update.client.RetryableRepositoryClient;
  * @author Thomas Freese
  */
 public final class JreHttpRepositoryClientBuilder extends AbstractRepositoryHttpClientBuilder<JreHttpRepositoryClientBuilder> {
+    @Nullable
     private Authenticator authenticator;
 
     public JreHttpRepositoryClientBuilder authenticator(final Authenticator authenticator) {
@@ -26,6 +29,7 @@ public final class JreHttpRepositoryClientBuilder extends AbstractRepositoryHttp
     @Override
     public RepositoryClient build() throws Exception {
         final int maxRetries = getMaxRetries() == 0 ? DEFAULT_MAX_RETRIES : getMaxRetries();
+
         final Duration retryInterval = Objects.requireNonNullElse(getRetryInterval(), DEFAULT_RETRY_INTERVAL);
         final Duration connectTimeout = Objects.requireNonNullElse(getConnectTimeout(), DEFAULT_CONNECT_TIMEOUT);
         final SSLContext sslContext = Objects.requireNonNullElse(getSslContext(), SSLContext.getDefault());

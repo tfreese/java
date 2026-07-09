@@ -5,6 +5,8 @@ import java.time.Duration;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * @author Thomas Freese
  */
@@ -14,11 +16,16 @@ public abstract class AbstractRepositoryHttpClientBuilder<B> {
     protected static final Duration DEFAULT_READ_TIMEOUT = Duration.ofSeconds(30L);
     protected static final Duration DEFAULT_RETRY_INTERVAL = Duration.ofSeconds(2L);
 
+    @Nullable
     private Duration connectTimeout;
+    @Nullable
     private HostnameVerifier hostnameVerifier;
     private int maxRetries;
+    @Nullable
     private Duration readTimeout;
+    @Nullable
     private Duration retryInterval;
+    @Nullable
     private SSLContext sslContext;
 
     public abstract RepositoryClient build() throws Exception;
@@ -63,10 +70,12 @@ public abstract class AbstractRepositoryHttpClientBuilder<B> {
         return self();
     }
 
+    @Nullable
     protected Duration getConnectTimeout() {
         return connectTimeout;
     }
 
+    @Nullable
     protected HostnameVerifier getHostnameVerifier() {
         return hostnameVerifier;
     }
@@ -75,14 +84,17 @@ public abstract class AbstractRepositoryHttpClientBuilder<B> {
         return maxRetries;
     }
 
+    @Nullable
     protected Duration getReadTimeout() {
         return readTimeout;
     }
 
+    @Nullable
     protected Duration getRetryInterval() {
         return retryInterval;
     }
 
+    @Nullable
     protected SSLContext getSslContext() {
         return sslContext;
     }

@@ -8,6 +8,8 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 
+import org.jspecify.annotations.Nullable;
+
 import de.freese.dependency.update.client.AbstractRepositoryHttpClientBuilder;
 import de.freese.dependency.update.client.RepositoryClient;
 import de.freese.dependency.update.client.RetryableRepositoryClient;
@@ -16,6 +18,7 @@ import de.freese.dependency.update.client.RetryableRepositoryClient;
  * @author Thomas Freese
  */
 public final class UrlConnectionRepositoryClientBuilder extends AbstractRepositoryHttpClientBuilder<UrlConnectionRepositoryClientBuilder> {
+    @Nullable
     private Authenticator authenticator;
 
     public UrlConnectionRepositoryClientBuilder authenticator(final Authenticator authenticator) {

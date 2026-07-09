@@ -21,10 +21,6 @@ import de.freese.dependency.utils.MavenModelCache;
  */
 final class PropertySupplierMavenPom implements PropertySupplier {
     private static void toMap(final Map<String, String> map, final Properties properties) {
-        if (properties == null) {
-            return;
-        }
-
         for (final String name : properties.stringPropertyNames()) {
             map.put(name, properties.getProperty(name));
         }
@@ -74,9 +70,9 @@ final class PropertySupplierMavenPom implements PropertySupplier {
             } else if (value.contains("${project.version}")) {
                 entry.setValue(value.replace("${project.version}", model.getVersion()));
             } else if (value.contains("${project.basedir}")) {
-                entry.setValue(value.replace("${project.basedir}", path.getParent().toString()));
+                entry.setValue(value.replace("${project.basedir}", Objects.requireNonNull(path.getParent()).toString()));
             } else if (value.contains("${project.build.directory}")) {
-                entry.setValue(value.replace("${project.build.directory}", path.getParent().resolve("target").toString()));
+                entry.setValue(value.replace("${project.build.directory}", Objects.requireNonNull(path.getParent()).resolve("target").toString()));
             } else if (value.contains("${maven.build.timestamp}")) {
                 final String format = Optional.ofNullable(map.get("maven.build.timestamp.format")).orElse("yyyyMMdd-HHmmss");
 

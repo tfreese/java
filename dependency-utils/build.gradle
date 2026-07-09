@@ -1,5 +1,6 @@
 plugins {
     id("application")
+    id("net.ltgt.errorprone")
 }
 
 description = "Check for new Dependency Versions"
@@ -35,6 +36,10 @@ application {
 // }
 
 dependencies {
+    implementation("org.jspecify:jspecify")
+    errorprone("com.uber.nullaway:nullaway:$version_nullaway")
+    errorprone("com.google.errorprone:error_prone_core:$version_errorProneCore")
+
     implementation("tools.jackson.core:jackson-databind")
     implementation("dev.failsafe:failsafe")
     implementation("io.projectreactor:reactor-core")
@@ -61,3 +66,25 @@ dependencies {
     // testImplementation("org.apache.maven.resolver:maven-resolver-transport-http:")
     // testImplementation("org.apache.maven.resolver:maven-resolver-transport-wagon")
 }
+
+tasks.withType(JavaCompile).configureEach {
+    options.errorprone {
+        warn("NullAway")
+
+        // Scan all Packages.
+        option("NullAway:AnnotatedPackages", "de.freese.dependency")
+
+        // Scan only Packages with package.info.java.
+        // option("NullAway:OnlyNullMarked", "true")
+
+        disable("MissingSummary")
+        disable("UnusedMethod")
+
+        // No byte[] allowed.
+        // disable("ArrayRecordComponent")
+
+        // Uncomment below if you are using Java 22+ compiled and you want to check generics nullness.
+        option("NullAway:JSpecifyMode", "true")
+    }
+}
+

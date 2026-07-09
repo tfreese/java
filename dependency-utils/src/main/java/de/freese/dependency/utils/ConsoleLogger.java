@@ -11,6 +11,7 @@ import org.slf4j.event.Level;
  * @author Thomas Freese
  * @since 08.07.26
  */
+@SuppressWarnings({"OverridingMethodInconsistentArgumentNamesChecker"})
 public final class ConsoleLogger implements Logger {
     // Plugin "Grep Console" will override these AnsiCodes!
     //
