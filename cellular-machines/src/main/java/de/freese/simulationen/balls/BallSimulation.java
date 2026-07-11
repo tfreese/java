@@ -45,14 +45,13 @@ public class BallSimulation extends AbstractSimulation {
      * @param delay int [ms]
      */
     public BallSimulation(final int width, final int height, final int delay, final int numberOfBalls) {
-        super(width, height);
-
-        this.delay = delay;
-
         if (numberOfBalls < 1) {
             throw new IllegalArgumentException("numberOfBalls < 1");
         }
 
+        super(width, height);
+
+        this.delay = delay;
         this.numberOfBalls = numberOfBalls;
 
         bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -105,7 +104,7 @@ public class BallSimulation extends AbstractSimulation {
     protected void updateImage() {
         final Graphics g = getImage().getGraphics();
 
-        if (g instanceof Graphics2D g2d) {
+        if (g instanceof final Graphics2D g2d) {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             // g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
             // g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);

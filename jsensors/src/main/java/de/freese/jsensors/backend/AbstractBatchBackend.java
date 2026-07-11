@@ -17,11 +17,11 @@ public abstract class AbstractBatchBackend extends AbstractBackend {
     private List<SensorValue> buffer;
 
     protected AbstractBatchBackend(final int batchSize) {
-        super();
-
         if (batchSize < 1) {
             throw new IllegalArgumentException("batchSize < 1: " + batchSize);
         }
+        
+        super();
 
         this.batchSize = batchSize;
     }

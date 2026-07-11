@@ -78,22 +78,22 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
 
                     if (exclusive) {
                         // Without SensorName.
-                        // String index = String.format("ALTER TABLE %s ADD CONSTRAINT TIMESTAMP_PK PRIMARY KEY (TIMESTAMP);", tableName);
-                        final String index = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (TIMESTAMP);", tableName, tableName);
+                        // String sqlIndex = String.format("ALTER TABLE %s ADD CONSTRAINT TIMESTAMP_PK PRIMARY KEY (TIMESTAMP);", tableName);
+                        final String sqlIndex = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (TIMESTAMP);", tableName, tableName);
 
-                        statement.execute(index);
+                        statement.execute(sqlIndex);
                     } else {
                         // With SensorName.
-                        final String index = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (NAME, TIMESTAMP);", tableName, tableName);
+                        final String sqlIndex = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (NAME, TIMESTAMP);", tableName, tableName);
 
-                        statement.execute(index);
+                        statement.execute(sqlIndex);
 
                         // These Indices existing by UNIQUE INDEX.
-                        // index = String.format("CREATE INDEX NAME_IDX ON %s (NAME);", tableName);
-                        // stmt.execute(index);
+                        // sqlIndex = String.format("CREATE INDEX NAME_IDX ON %s (NAME);", tableName);
+                        // stmt.execute(sqlIndex);
                         //
-                        // index = String.format("CREATE INDEX TIMESTAMP_IDX ON %s (TIMESTAMP);", tableName);
-                        // stmt.execute(index);
+                        // sqlIndex = String.format("CREATE INDEX TIMESTAMP_IDX ON %s (TIMESTAMP);", tableName);
+                        // stmt.execute(sqlIndex);
                     }
                 }
             }

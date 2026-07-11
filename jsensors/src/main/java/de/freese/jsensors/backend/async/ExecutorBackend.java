@@ -27,15 +27,15 @@ public class ExecutorBackend extends AbstractBackend {
     }
 
     public ExecutorBackend(final Backend delegateBackend, final int parallelism, final ThreadFactory threadFactory) {
-        super();
-
-        this.delegateBackend = Objects.requireNonNull(delegateBackend, "delegateBackend required");
-
         if (parallelism < 1) {
             throw new IllegalArgumentException("parallelism < 1: " + parallelism);
         }
 
         Objects.requireNonNull(threadFactory, "threadFactory required");
+
+        super();
+
+        this.delegateBackend = Objects.requireNonNull(delegateBackend, "delegateBackend required");
 
         executor = Executors.newFixedThreadPool(parallelism, threadFactory);
     }

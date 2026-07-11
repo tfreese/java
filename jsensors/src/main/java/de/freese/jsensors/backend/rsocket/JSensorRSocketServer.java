@@ -43,20 +43,18 @@ public class JSensorRSocketServer implements LifeCycle {
     private Disposable server;
 
     public JSensorRSocketServer(final Backend backend, final int port, final int parallelism) {
-        super();
-
-        this.backend = Objects.requireNonNull(backend, "backend required");
-
         if (port < 1) {
             throw new IllegalArgumentException("port < 1: " + port);
         }
-
-        this.port = port;
 
         if (parallelism < 1) {
             throw new IllegalArgumentException("parallelism < 1: " + parallelism);
         }
 
+        super();
+
+        this.backend = Objects.requireNonNull(backend, "backend required");
+        this.port = port;
         this.parallelism = parallelism;
     }
 

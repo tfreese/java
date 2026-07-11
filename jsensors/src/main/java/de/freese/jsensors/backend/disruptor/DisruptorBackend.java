@@ -52,15 +52,9 @@ public class DisruptorBackend extends AbstractBackend implements LifeCycle {
      * @param ringBufferSize int; must be a power of 2
      */
     public DisruptorBackend(final Backend delegateBackend, final int parallelism, final int ringBufferSize) {
-        super();
-
-        this.delegateBackend = Objects.requireNonNull(delegateBackend, "delegateBackend required");
-
         if (parallelism < 1) {
             throw new IllegalArgumentException("parallelism < 1: " + parallelism);
         }
-
-        this.parallelism = parallelism;
 
         if (ringBufferSize < 1) {
             throw new IllegalArgumentException("ringBufferSize < 1: " + ringBufferSize);
@@ -70,6 +64,10 @@ public class DisruptorBackend extends AbstractBackend implements LifeCycle {
             throw new IllegalArgumentException("ringBufferSize must be a power of 2");
         }
 
+        super();
+
+        this.delegateBackend = Objects.requireNonNull(delegateBackend, "delegateBackend required");
+        this.parallelism = parallelism;
         this.ringBufferSize = ringBufferSize;
     }
 

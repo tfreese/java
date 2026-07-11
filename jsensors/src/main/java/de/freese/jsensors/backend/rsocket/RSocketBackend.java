@@ -33,14 +33,13 @@ public class RSocketBackend extends AbstractBackend implements LifeCycle {
     private RSocketClient client;
 
     public RSocketBackend(final URI uri, final int parallelism) {
-        super();
-
-        this.uri = Objects.requireNonNull(uri, "uri required");
-
         if (parallelism < 1) {
             throw new IllegalArgumentException("parallelism < 1: " + parallelism);
         }
 
+        super();
+
+        this.uri = Objects.requireNonNull(uri, "uri required");
         this.parallelism = parallelism;
     }
 

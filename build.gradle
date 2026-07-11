@@ -90,7 +90,7 @@ subprojects {
             }
 
             // To avoid compiler warnings about @API annotations in Log4j Code.
-            testCompileOnly("com.github.spotbugs:spotbugs-annotations")
+            compileOnly("com.github.spotbugs:spotbugs-annotations")
 
             // To avoid compiler warnings about @API annotations in JUnit Code.
             // testCompileOnly("org.apiguardian:apiguardian-api")

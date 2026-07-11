@@ -7,8 +7,7 @@
 package de.freese.openstreetmap.model.coordinates;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import de.freese.openstreetmap.model.projection.Projection;
 
@@ -26,32 +25,19 @@ public class GpsPoint {
     /**
      * The timestamp of the last modification/creation.
      */
-    private final Date time;
+    private final LocalDateTime localDateTime;
 
     /**
-     * @param ll latitude and longitude (The actual coordinates)
-     * @param timestamp The timestamp of the last modification/creation.
+     * @param latLon latitude and longitude (The actual coordinates)
+     * @param localDateTime The timestamp of the last modification/creation.
      *
      * @throws ParseException if the timestamp has a wrong format.
      */
-    public GpsPoint(final LatLon ll, final Date timestamp) throws ParseException {
+    public GpsPoint(final LatLon latLon, final LocalDateTime localDateTime) throws ParseException {
         super();
 
-        latLon = ll;
-        time = timestamp;
-    }
-
-    /**
-     * @param ll latitude and longitude (The actual coordinates)
-     * @param timestamp The timestamp of the last modification/creation.
-     *
-     * @throws ParseException if the timestamp has a wrong format.
-     */
-    public GpsPoint(final LatLon ll, final String timestamp) throws ParseException {
-        super();
-
-        latLon = ll;
-        time = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(timestamp);
+        this.latLon = latLon;
+        this.localDateTime = localDateTime;
     }
 
     /**
@@ -65,7 +51,7 @@ public class GpsPoint {
         return latLon;
     }
 
-    public Date getTime() {
-        return time;
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
     }
 }

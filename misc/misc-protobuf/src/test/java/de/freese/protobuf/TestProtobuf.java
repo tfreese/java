@@ -58,7 +58,7 @@ class TestProtobuf {
         try {
             System.out.printf("JsonFormat:%n%s%n", JsonFormat.printer().sortingMapKeys().print(addressBook));
         }
-        catch (InvalidProtocolBufferException ex) {
+        catch (final InvalidProtocolBufferException ex) {
             throw new RuntimeException(ex);
         }
     }

@@ -1,6 +1,8 @@
 // Created: 27.05.2018
 package de.freese.cache;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -22,51 +24,58 @@ public final class HazelcastJavaConfigNode1Demo {
     private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastJavaConfigNode1Demo.class);
 
     static void main() {
-        final HazelcastInstance hazelcastInstance = getHazelcastInstance();
+        try {
+            final HazelcastInstance hazelcastInstance = createHazelcastInstance();
 
-        final IMap<String, String> map = hazelcastInstance.getMap("test");
-        // ReplicatedMap<String, String> map = hazelcastInstance.getReplicatedMap("test2");
+            final IMap<String, String> map = hazelcastInstance.getMap("test");
+            // ReplicatedMap<String, String> map = hazelcastInstance.getReplicatedMap("test2");
 
-        final AtomicBoolean runner = new AtomicBoolean(true);
+            final AtomicBoolean runner = new AtomicBoolean(true);
 
-        try (ExecutorService executorService = Executors.newSingleThreadExecutor()) {
-            executorService.execute(() -> {
-                int counter = 0;
+            try (ExecutorService executorService = Executors.newSingleThreadExecutor()) {
+                executorService.execute(() -> {
+                    int counter = 0;
 
-                while (runner.get()) {
-                    final String value = map.get("key");
-                    LOGGER.info("{}: cache value = {}", Thread.currentThread().getName(), value);
+                    while (runner.get()) {
+                        final String value = map.get("key");
+                        LOGGER.info("{}: cache value = {}", Thread.currentThread().getName(), value);
 
-                    if (value == null) {
-                        map.put("key", "value" + counter);
-                        counter++;
+                        if (value == null) {
+                            map.put("key", "value" + counter);
+                            counter++;
+                        }
+
+                        if (counter == 1) {
+                            map.put("key1", "value1");
+                            map.put("key2", "value2");
+                            map.put("key3", "value3");
+                            map.remove("key2");
+                        }
+
+                        CacheConfigurer.sleep(1000L);
                     }
+                });
 
-                    if (counter == 1) {
-                        map.put("key1", "value1");
-                        map.put("key2", "value2");
-                        map.put("key3", "value3");
-                        map.remove("key2");
-                    }
+                // Block main-Thread.
+                System.console().readLine();
 
-                    CacheConfigurer.sleep(1000L);
-                }
-            });
+                runner.set(false);
 
-            // Block main-Thread.
-            System.console().readLine();
+                CacheConfigurer.sleep(1500L);
+            }
 
-            runner.set(false);
-
-            CacheConfigurer.sleep(1500L);
+            hazelcastInstance.shutdown();
+            Hazelcast.shutdownAll();
         }
-
-        hazelcastInstance.shutdown();
-        Hazelcast.shutdownAll();
+        catch (final Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
-    private static HazelcastInstance getHazelcastInstance() {
-        final Config config = CacheConfigurer.configureHazelCastWithNetwork(5801);
+    private static HazelcastInstance createHazelcastInstance() throws UnknownHostException {
+        final String localIP = InetAddress.getLocalHost().getHostAddress();
+
+        final Config config = CacheConfigurer.configureHazelCastWithNetwork(localIP, 5801);
 
         return Hazelcast.newHazelcastInstance(config);
     }

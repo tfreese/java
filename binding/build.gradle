@@ -21,52 +21,32 @@ dependencyManagement {
 // https://docs.gradle.org/current/userguide/publishing_maven.html
 publishing {
     publications {
-        binding(MavenPublication) {
-            // afterEvaluate {
-            //     // groupId = "..."
-            //     // artifactId = "..."
-            //     // version = "..."
-            // }
-
+        create("binding", MavenPublication) {
             versionMapping {
+                // id("java-library")
+                // - api = <scope>compile</scope>
+                // - runtimeOnly = <scope>runtime</scope>
+                //
+                // id("java")
+                // - implementation = <scope>runtime</scope>
+                // - runtimeOnly = <scope>runtime</scope>
+
                 usage(Usage.JAVA_API) {
-                    fromResolutionOf(JavaPlugin.RUNTIME_CLASSPATH_CONFIGURATION_NAME)
+                    // Nimm die Abhängigkeitsauflösung aus genau dieser Konfiguration.
+                    fromResolutionOf(JavaPlugin.COMPILE_CLASSPATH_CONFIGURATION_NAME)
                 }
                 usage(Usage.JAVA_RUNTIME) {
+                    // Nimm das bereits berechnete Resolution-Result der aktuellen Usage/Variante.
                     fromResolutionResult()
                 }
             }
 
             from(components.java)
 
-            // java-library:
-            // - api = <scope>compile</scope>
-            // - runtimeOnly = <scope>runtime</scope>
-            //
-            // java:
-            // - implementation = <scope>runtime</scope>
-            // - runtimeOnly = <scope>runtime</scope>
-
-            pom.withXml {
-                def root = asNode()
-                root.appendNode("packaging", "jar")
-                // root.dependencies.removeAll { dep ->
-                //     dep.scope == "test"
-                // }
-            }
-
             pom {
-                // Is not generated in the POM.
-                // packaging = "jar"
-
                 name = project.name
                 description = project.description
-                // url = "http://www.example.com/library"
-                //
-                // properties = [
-                //         myProp          : "value",
-                //         "prop.with.dots": "anotherValue"
-                // ]
+
                 licenses {
                     license {
                         name = "The Apache License, Version 2.0"
@@ -78,45 +58,41 @@ publishing {
                         organization = "Private Code"
                         organizationUrl = "https://github.com/tfreese"
                         url = "https://github.com/tfreese"
-                        // id = "johnd"
-                        // name = "John Doe"
-                        // email = "john.doe@example.com"
                         timezone = "+2"
                         roles = ["architect", "developer"]
                     }
                 }
-                // scm {
-                //     connection = "scm:git:git://example.com/my-library.git"
-                //     developerConnection = "scm:git:ssh://example.com/my-library.git"
-                //     url = "http://example.com/my-library/"
-                // }
             }
 
-            // artifact(sourcesJar)
-            // artifact(testJar)
-            // artifact(testSourcesJar)
-            // artifact(javadocJar)
-            // artifact("macos-app-x64.dmg") {
-            //     classifier("macos-x64")
-            //     extension("dmg")
-            // }
-            // artifact("windows-app-x64.exe") {
-            //     classifier("windows-x64")
-            //     extension("exe")
-            // }
-        }
+            pom.withXml {
+                def root = asNode()
+                // root.dependencies.removeAll { dep ->
+                //     dep.scope == "test"
+                // }
 
-        // custom(MavenPublication) {
-        //     if (!fileTree(dir: "generated/reports", include: '**/*').empty) {
-        //         artifact(customReport)
-        //     }
-        //     if (another_condition) {
-        //         artifact(anotherDistribution)
-        //     }
-        //     if (yet_another_condition) {
-        //         artifact(yetAnotherDistribution)
-        //     }
-        // }
+                if (!root.packaging || root.packaging.isEmpty()) {
+                    // Doesn't work.
+                    // def children = root.children()
+                    // def idx = children.findIndexOf { it instanceof Node && it.name() == "description" }
+                    // def packagingNode = new Node(null, "packaging", "jar")
+                    //
+                    // if (idx >= 0) {
+                    //     children.add(idx + 1, packagingNode) // After description-Node.
+                    // } else {
+                    //     children.add(packagingNode)
+                    // }
+                    def desc = root.description ? root.description[0] : null
+
+                    if (desc != null) {
+                        desc + {
+                            packaging("jar")
+                        }
+                    } else {
+                        root.appendNode("packaging", "jar")
+                    }
+                }
+            }
+        }
     }
 
     repositories {

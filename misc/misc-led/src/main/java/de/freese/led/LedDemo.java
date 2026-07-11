@@ -93,6 +93,15 @@ public final class LedDemo {
             });
         }, 1000, 100, TimeUnit.MILLISECONDS);
 
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                scheduledExecutorService.shutdownNow();
+            }
+            catch (Exception _) {
+                // Ignore
+            }
+        }, "ShutdownHook"));
+
         return frame;
     }
 

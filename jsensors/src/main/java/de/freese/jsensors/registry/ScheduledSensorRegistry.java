@@ -27,14 +27,13 @@ public class ScheduledSensorRegistry extends AbstractSensorRegistry implements L
     private ScheduledExecutorService scheduledExecutorService;
 
     public ScheduledSensorRegistry(final ThreadFactory threadFactory, final int corePoolSize) {
-        super();
-
-        this.threadFactory = Objects.requireNonNull(threadFactory, "threadFactory required");
-
         if (corePoolSize < 1) {
             throw new IllegalArgumentException("corePoolSize < 1: " + corePoolSize);
         }
 
+        super();
+
+        this.threadFactory = Objects.requireNonNull(threadFactory, "threadFactory required");
         this.corePoolSize = corePoolSize;
     }
 

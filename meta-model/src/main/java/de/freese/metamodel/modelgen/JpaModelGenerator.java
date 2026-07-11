@@ -55,7 +55,7 @@ public class JpaModelGenerator extends PojoModelGenerator {
             classModel.addImport(jakarta.persistence.UniqueConstraint.class);
             sb.append(", uniqueConstraints = {");
 
-            for (UniqueConstraint uc : table.getUniqueConstraints()) {
+            for (final UniqueConstraint uc : table.getUniqueConstraints()) {
                 sb.append("@UniqueConstraint(name = \"").append(uc.getName()).append("\", columnNames = {");
 
                 for (final Iterator<Column> iterator = uc.getColumnsOrdered().iterator(); iterator.hasNext(); ) {
@@ -134,11 +134,10 @@ public class JpaModelGenerator extends PojoModelGenerator {
 
             fieldModel.addAnnotation("@ManyToOne(fetch = FetchType.LAZY)");
 
-            final StringBuilder sb = new StringBuilder();
-            sb.append("@JoinColumn(name = \"").append(column.getName()).append("\"");
-            sb.append(", foreignKey = @ForeignKey(name = \"").append(fk.getName()).append("\")");
-            sb.append(", nullable = false)");
-            fieldModel.addAnnotation(sb.toString());
+            final String sb = "@JoinColumn(name = \"" + column.getName() + "\""
+                    + ", foreignKey = @ForeignKey(name = \"" + fk.getName() + "\")"
+                    + ", nullable = false)";
+            fieldModel.addAnnotation(sb);
 
             transformFieldComments(column, fieldModel);
             transformFieldAnnotations(column, fieldModel);
@@ -146,7 +145,7 @@ public class JpaModelGenerator extends PojoModelGenerator {
 
         if (!reverseFKs.isEmpty()) {
             // 1:n Children
-            for (Column reverseFK : reverseFKs) {
+            for (final Column reverseFK : reverseFKs) {
                 final String refClassName = getNamingStrategy().getClassName(reverseFK.getTable().getName());
 
                 final FieldModel fieldModel = classModel.addField(refClassName.toLowerCase() + "es", getPackageName() + "." + refClassName);
@@ -160,13 +159,12 @@ public class JpaModelGenerator extends PojoModelGenerator {
                 classModel.addImport(FetchType.class);
                 classModel.addImport(CascadeType.class);
 
-                final StringBuilder sb = new StringBuilder();
-                sb.append("@OneToMany(mappedBy = \"").append(classModel.getName().toLowerCase());
-                sb.append("\", fetch = FetchType.LAZY, orphanRemoval = true, cascade =");
-                sb.append("{CascadeType.ALL}");
-                sb.append(")");
+                final String sb = "@OneToMany(mappedBy = \"" + classModel.getName().toLowerCase()
+                        + "\", fetch = FetchType.LAZY, orphanRemoval = true, cascade ="
+                        + "{CascadeType.ALL}"
+                        + ")";
 
-                fieldModel.addAnnotation(sb.toString());
+                fieldModel.addAnnotation(sb);
 
                 transformFieldComments(reverseFK, fieldModel);
                 transformFieldAnnotations(reverseFK, fieldModel);
@@ -188,7 +186,7 @@ public class JpaModelGenerator extends PojoModelGenerator {
             fieldModel.addAnnotation("@Id");
         }
 
-        // TODO Composite PrimaryKeys !
+        // Implement handle ofComposite PrimaryKeys!
 
         // Column
         fieldModel.addImport(jakarta.persistence.Column.class);

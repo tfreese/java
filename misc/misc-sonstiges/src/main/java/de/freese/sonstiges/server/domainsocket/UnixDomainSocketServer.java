@@ -27,10 +27,10 @@ public final class UnixDomainSocketServer {
     private static final Path SOCKET_PATH = Path.of(System.getProperty("java.io.tmpdir")).resolve("unixDomainSocket.socket");
 
     private static final class ClientState {
-        final boolean closing = false;
-        final ByteBuffer lengthBuffer = ByteBuffer.allocate(4); // For Prefix
-        final Deque<ByteBuffer> writeQueue = new ArrayDeque<>();
-        ByteBuffer payloadBuffer = null;
+        private final boolean closing = false;
+        private final ByteBuffer lengthBuffer = ByteBuffer.allocate(4); // For Prefix
+        private final Deque<ByteBuffer> writeQueue = new ArrayDeque<>();
+        private ByteBuffer payloadBuffer;
     }
 
     static void main() throws IOException {

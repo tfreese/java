@@ -16,11 +16,11 @@ public final class MapBackend extends AbstractBackend {
     private final Map<String, List<SensorValue>> map;
 
     public MapBackend(final int keepLastNValues) {
-        super();
-
         if (keepLastNValues < 1) {
             throw new IllegalArgumentException("keepLastNValues < 1: " + keepLastNValues);
         }
+
+        super();
 
         this.keepLastNValues = keepLastNValues;
 

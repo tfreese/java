@@ -419,9 +419,9 @@ public final class MiscDemo {
         System.out.println("15: 2016-01-01 - weekOfWeekBasedYear = " + weekNumber);
         weekNumber = LocalDate.of(2016, Month.JANUARY, 1).get(weekFields.weekOfYear());
         System.out.println("16: 2016-01-01 - weekOfYear = " + weekNumber);
-        weekNumber = LocalDate.of(2014, 12, 31).get(weekFields.weekOfWeekBasedYear());
+        weekNumber = LocalDate.of(2014, Month.DECEMBER, 31).get(weekFields.weekOfWeekBasedYear());
         System.out.println("17: 2014-12-31 - weekOfWeekBasedYear = " + weekNumber);
-        weekNumber = LocalDate.of(2014, 12, 31).get(weekFields.weekOfYear());
+        weekNumber = LocalDate.of(2014, Month.DECEMBER, 31).get(weekFields.weekOfYear());
         System.out.println("18: 2014-12-31 - weekOfYear = " + weekNumber);
     }
 
@@ -677,7 +677,8 @@ public final class MiscDemo {
         }
 
         // Cross Platform (Windows, Linux, Unix, Mac)
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec(new String[]{"hostname"}).getInputStream()))) {
+        try (Process process = Runtime.getRuntime().exec(new String[]{"hostname"});
+             BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
             hostName = br.readLine();
             System.out.printf("CMD 'hostname': %s%n", hostName);
         }
@@ -879,7 +880,7 @@ public final class MiscDemo {
     }
 
     @SuppressWarnings("unchecked")
-    static void json() throws IOException {
+    static void json() {
         final JsonMapper jsonMapper = JsonMapper.builder()
                 .enable(SerializationFeature.INDENT_OUTPUT)
                 .enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS)
@@ -1007,10 +1008,7 @@ public final class MiscDemo {
         mimeMessage.writeTo(System.out);
     }
 
-    static void main(final String[] args) throws Throwable {
-        // System.out.println("args = " + Arrays.deepToString(args));
-        // System.out.printf("%s: %s.%s%n", Thread.currentThread().getName(), "de.freese.sonstiges.MiscDemo", "main");
-
+    static void main() throws Throwable {
         // System.out.println(generatePW(SecureRandom.getInstanceStrong(), "lllll_UUUUU_dddddd."));
 
         // SecureRandom.getInstanceStrong()
@@ -1269,9 +1267,8 @@ public final class MiscDemo {
             // .redirectErrorStream(true); // Gibt Fehler auf dem InputStream aus.
 
             for (int i = 0; i < 10; i++) {
-                final Process process = processBuilder.start();
-
-                try (BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8));
+                try (Process process = processBuilder.start();
+                     BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8));
                      BufferedReader stdError = new BufferedReader(new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8))) {
                     // Read the output from the command.
                     System.out.println("Here is the standard output of the command:");
@@ -1283,8 +1280,6 @@ public final class MiscDemo {
                 }
 
                 System.out.println();
-                // process.waitFor();
-                process.destroy();
             }
 
             System.exit(0);

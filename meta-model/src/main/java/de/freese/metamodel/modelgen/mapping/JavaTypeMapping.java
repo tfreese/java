@@ -2,7 +2,8 @@
 package de.freese.metamodel.modelgen.mapping;
 
 import java.sql.JDBCType;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * {@link JDBCType}-Mapping für Java.
@@ -20,15 +21,15 @@ public class JavaTypeMapping extends AbstractTypeMapping {
         register(JDBCType.BOOLEAN, new ClassType(Boolean.class), new ClassType(boolean.class));
         register(JDBCType.CHAR, new ClassType(Character.class), new ClassType(char.class));
         register(JDBCType.CLOB, new ClassType(String.class));
-        register(JDBCType.DATE, new ClassType(Date.class)); // LocalDateTime
+        register(JDBCType.DATE, new ClassType(LocalDateTime.class));
         register(JDBCType.DECIMAL, new ClassType(Long.class), new ClassType(long.class));
         register(JDBCType.DOUBLE, new ClassType(Double.class), new ClassType(double.class));
         register(JDBCType.FLOAT, new ClassType(Float.class), new ClassType(float.class));
         register(JDBCType.INTEGER, new ClassType(Integer.class), new ClassType(int.class));
         register(JDBCType.NUMERIC, new ClassType(Double.class), new ClassType(double.class));
         register(JDBCType.SMALLINT, new ClassType(Short.class), new ClassType(short.class));
-        register(JDBCType.TIME, new ClassType(Date.class));
-        register(JDBCType.TIMESTAMP, new ClassType(Date.class));
+        register(JDBCType.TIME, new ClassType(LocalDate.class));
+        register(JDBCType.TIMESTAMP, new ClassType(LocalDateTime.class));
         register(JDBCType.VARCHAR, new ClassType(String.class));
     }
 }

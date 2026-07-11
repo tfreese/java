@@ -7,6 +7,7 @@ import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -145,7 +146,7 @@ public final class MicrometerMain {
         new NetworkMetrics().bindTo(Metrics.globalRegistry);
 
         final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(4, new NamedThreadFactory("scheduler"));
-        new ExecutorServiceMetrics(scheduledExecutorService, "scheduledExecutorService", null).bindTo(Metrics.globalRegistry);
+        new ExecutorServiceMetrics(scheduledExecutorService, "scheduledExecutorService", Set.of()).bindTo(Metrics.globalRegistry);
 
         // Diese funktionieren nicht, da sie in privaten Wrappern gekapselt werden !
         // new ExecutorServiceMetrics(Executors.newSingleThreadExecutor(), "test1", null).bindTo(Metrics.globalRegistry);

@@ -25,14 +25,14 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Freese
  */
 public final class CacheConfigurer {
-    public static Config configureHazelCastWithNetwork(final int localPort) {
+    public static Config configureHazelCastWithNetwork(final String localIp, final int localPort) {
         return configureHazelCastWithDefaults().setNetworkConfig(new NetworkConfig()
                 .setPort(localPort)
                 .setPortAutoIncrement(false)
                 .setReuseAddress(true)
                 .setInterfaces(new InterfacesConfig()
                         .setEnabled(true)
-                        .addInterface("192.168.155.100")
+                        .addInterface(localIp)
                 )
                 .setJoin(new JoinConfig()
                         .setMulticastConfig(new MulticastConfig()
@@ -41,7 +41,7 @@ public final class CacheConfigurer {
                                 .setMulticastPort(54327)
                                 .setMulticastTimeToLive(32)
                                 .setMulticastTimeoutSeconds(3)
-                                .setTrustedInterfaces(Set.of("192.168.155.100"))
+                                .setTrustedInterfaces(Set.of(localIp))
                         )
                         .setTcpIpConfig(new TcpIpConfig()
                                 .setEnabled(false) // Either Multicast or TCP.
@@ -65,7 +65,7 @@ public final class CacheConfigurer {
         try {
             TimeUnit.MILLISECONDS.sleep(millies);
         }
-        catch (InterruptedException ex) {
+        catch (final InterruptedException ex) {
             // Restore interrupted state.
             Thread.currentThread().interrupt();
 
