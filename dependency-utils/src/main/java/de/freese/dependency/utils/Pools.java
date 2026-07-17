@@ -55,7 +55,7 @@ public final class Pools {
             final DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             documentBuilder.setEntityResolver(BLOCKING_ENTITY_RESOLVER);
 
-            return documentBuilderFactory.newDocumentBuilder();
+            return documentBuilder;
         }
         catch (final ParserConfigurationException ex) {
             throw new IllegalStateException("Unable to create secure DocumentBuilder", ex);

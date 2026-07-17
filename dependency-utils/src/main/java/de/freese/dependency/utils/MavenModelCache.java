@@ -2,8 +2,8 @@
 package de.freese.dependency.utils;
 
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.maven.model.Model;
 import org.apache.maven.model.building.DefaultModelBuilderFactory;
@@ -14,39 +14,35 @@ import org.apache.maven.model.building.ModelBuildingRequest;
  * @author Thomas Freese
  */
 public final class MavenModelCache {
-    private static final Map<Path, Model> CACHE = new HashMap<>();
+    private static final Map<Path, Model> CACHE = new ConcurrentHashMap<>();
 
-    public static synchronized Model get(final Path path) {
-        Model model = CACHE.get(path);
-
-        if (model == null) {
+    public static Model get(final Path path) {
+        return CACHE.computeIfAbsent(path, p -> {
             final ModelBuilder modelBuilder = new DefaultModelBuilderFactory().newInstance();
-            model = modelBuilder.buildRawModel(path.toFile(), ModelBuildingRequest.VALIDATION_LEVEL_MINIMAL, false).get();
-
-            // try {
-            //     final ModelBuildingRequest req = new DefaultModelBuildingRequest();
-            //     req.setProcessPlugins(false);
-            //     req.setPomFile(path.toFile());
-            //     req.setTwoPhaseBuilding(true);
-            //     req.setValidationLevel(ModelBuildingRequest.VALIDATION_LEVEL_MINIMAL);
-            //     // req.setWorkspaceModelResolver(...);
-            //     req.setModelResolver(new DefaultModelResolver);
-            //
-            //     final Model model2 = modelBuilder.build(req).getEffectiveModel();
-            //     System.out.println(model2);
-            // }
-            // catch (ModelBuildingException ex) {
-            //     throw new RuntimeException(ex);
-            // }
+            final Model model = modelBuilder.buildRawModel(p.toFile(), ModelBuildingRequest.VALIDATION_LEVEL_MINIMAL, false).get();
 
             if (model == null) {
-                throw new IllegalArgumentException("no model found for path: " + path);
+                throw new IllegalArgumentException("no model found for path: " + p);
             }
 
-            put(path, model);
-        }
+            return model;
+        });
 
-        return model;
+        // try {
+        //     final ModelBuildingRequest req = new DefaultModelBuildingRequest();
+        //     req.setProcessPlugins(false);
+        //     req.setPomFile(path.toFile());
+        //     req.setTwoPhaseBuilding(true);
+        //     req.setValidationLevel(ModelBuildingRequest.VALIDATION_LEVEL_MINIMAL);
+        //     // req.setWorkspaceModelResolver(...);
+        //     req.setModelResolver(new DefaultModelResolver);
+        //
+        //     final Model model2 = modelBuilder.build(req).getEffectiveModel();
+        //     System.out.println(model2);
+        // }
+        // catch (ModelBuildingException ex) {
+        //     throw new RuntimeException(ex);
+        // }
     }
 
     private static void put(final Path path, final Model model) {

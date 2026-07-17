@@ -372,7 +372,7 @@ public final class ConsoleLogger implements Logger {
         int placeHolderIndex;
         int lastPlaceHolderIndex = 0;
 
-        while ((placeHolderIndex = format.indexOf("{}", lastPlaceHolderIndex)) > 0) {
+        while ((placeHolderIndex = format.indexOf("{}", lastPlaceHolderIndex)) >= 0) {
             sb.append(format, lastPlaceHolderIndex, placeHolderIndex);
 
             if (argumentIndex < arguments.length) {
