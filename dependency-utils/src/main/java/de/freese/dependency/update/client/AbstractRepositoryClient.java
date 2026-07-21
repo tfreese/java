@@ -29,6 +29,7 @@ import de.freese.dependency.utils.Pools;
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings({"java:S125"})
 public abstract class AbstractRepositoryClient implements RepositoryClient {
     protected static List<String> parseVersionsXml(final InputStream inputStream) throws IOException, SAXException, XPathExpressionException {
         final DocumentBuilder documentBuilder = Pools.DOCUMENT_BUILDER.get();

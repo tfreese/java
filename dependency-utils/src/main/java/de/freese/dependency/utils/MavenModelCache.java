@@ -45,9 +45,9 @@ public final class MavenModelCache {
         // }
     }
 
-    private static void put(final Path path, final Model model) {
-        CACHE.put(path, model);
-    }
+    // private static void put(final Path path, final Model model) {
+    //     CACHE.put(path, model);
+    // }
 
     private MavenModelCache() {
         super();

@@ -1,6 +1,7 @@
 // Created: 28.05.23
 package de.freese.dependency.update.property;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,12 @@ public final class PropertyResolver implements Supplier<Map<String, String>> {
 
     public PropertyResolver add(final PropertySupplier propertySupplier) {
         this.propertySuppliers.add(Objects.requireNonNull(propertySupplier, "propertySupplier required"));
+
+        return this;
+    }
+
+    public PropertyResolver addMaven(final Path path) {
+        add(PropertySupplier.ofMavenPom(Objects.requireNonNull(path, "path required")));
 
         return this;
     }

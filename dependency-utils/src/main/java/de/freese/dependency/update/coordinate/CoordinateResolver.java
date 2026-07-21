@@ -1,6 +1,7 @@
 // Created: 28.05.23
 package de.freese.dependency.update.coordinate;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,6 +27,24 @@ public final class CoordinateResolver implements Supplier<List<Coordinate>> {
         return this;
     }
 
+    public CoordinateResolver addGradle(final Path path) {
+        add(CoordinateSupplier.ofGradleProperties(Objects.requireNonNull(path, "path required")));
+
+        return this;
+    }
+
+    public CoordinateResolver addIvy(final Path path) {
+        add(CoordinateSupplier.ofIvy(Objects.requireNonNull(path, "path required")));
+
+        return this;
+    }
+
+    public CoordinateResolver addMaven(final Path path) {
+        add(CoordinateSupplier.ofMavenPom(Objects.requireNonNull(path, "path required")));
+
+        return this;
+    }
+
     @Override
     public List<Coordinate> get() {
         final List<Coordinate> coordinates = new ArrayList<>(256);
@@ -41,7 +60,7 @@ public final class CoordinateResolver implements Supplier<List<Coordinate>> {
         return coordinates;
     }
 
-    public void setCoordinateFilter(final Predicate<Coordinate> coordinateFilter) {
+    public void setFilter(final Predicate<Coordinate> coordinateFilter) {
         this.coordinateFilter = Objects.requireNonNull(coordinateFilter, "coordinateFilter required");
     }
 }
