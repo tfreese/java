@@ -8,6 +8,7 @@ import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment> {
         try {
             LOGGER.debug("{}: Read Request", channel.getRemoteAddress());
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             failed(ex, null);
         }
 
@@ -60,8 +61,7 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment> {
         if (endOfHeader[0] == '\r' && endOfHeader[1] == '\n' && endOfHeader[2] == '\r' && endOfHeader[3] == '\n') {
             // Empty Line = End of the HttpHeader.
             write(channel);
-        }
-        else {
+        } else {
             // Next READ-Operation in this Thread.
             channel.read(byteBuffer, attachment, this);
 
@@ -72,32 +72,35 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment> {
 
     @Override
     public void failed(final Throwable exc, final MyAttachment attachment) {
-        final AsynchronousSocketChannel channel = attachment.channel();
+        if (attachment != null) {
+            final AsynchronousSocketChannel channel = attachment.channel();
 
-        ServerAsync.close(channel, LOGGER);
+            ServerAsync.close(channel, LOGGER);
+        }
+
         LOGGER.error(exc.getMessage(), exc);
     }
 
     private void write(final AsynchronousSocketChannel channel) {
         final Charset charset = IoHandler.DEFAULT_CHARSET;
 
-        final CharBuffer charBufferBody = CharBuffer.allocate(256);
-        charBufferBody.put("<html>").put(System.lineSeparator());
-        charBufferBody.put("<head>").put(System.lineSeparator());
-        charBufferBody.put("<title>NIO Test</title>").put(System.lineSeparator());
-        charBufferBody.put("<meta charset=\"UTF-8\">").put(System.lineSeparator());
-        charBufferBody.put("</head>").put(System.lineSeparator());
-        charBufferBody.put("<body>").put(System.lineSeparator());
-        charBufferBody.put("Date: " + LocalDateTime.now() + "<br>").put(System.lineSeparator());
-        charBufferBody.put("</body>").put(System.lineSeparator());
-        charBufferBody.put("</html>").put(System.lineSeparator());
+        final CharBuffer charBufferBody = CharBuffer.allocate(256)
+                .put("<html>").put(System.lineSeparator())
+                .put("<head>").put(System.lineSeparator())
+                .put("<title>NIO Test</title>").put(System.lineSeparator())
+                .put("<meta charset=\"UTF-8\">").put(System.lineSeparator())
+                .put("</head>").put(System.lineSeparator())
+                .put("<body>").put(System.lineSeparator())
+                .put("Date: " + LocalDateTime.now(ZoneId.systemDefault()) + "<br>").put(System.lineSeparator())
+                .put("</body>").put(System.lineSeparator())
+                .put("</html>").put(System.lineSeparator());
 
-        final CharBuffer charBuffer = CharBuffer.allocate(1024);
-        charBuffer.put("HTTP/1.1 200 OK").put(System.lineSeparator());
-        charBuffer.put("Server: nio").put(System.lineSeparator());
-        charBuffer.put("Content-type: text/html").put(System.lineSeparator());
-        charBuffer.put("Content-length: " + (charBufferBody.position() * 2)).put(System.lineSeparator());
-        charBuffer.put(System.lineSeparator());
+        final CharBuffer charBuffer = CharBuffer.allocate(1024)
+                .put("HTTP/1.1 200 OK").put(System.lineSeparator())
+                .put("Server: nio").put(System.lineSeparator())
+                .put("Content-type: text/html").put(System.lineSeparator())
+                .put("Content-length: " + (charBufferBody.position() * 2)).put(System.lineSeparator())
+                .put(System.lineSeparator());
 
         charBufferBody.flip();
         charBuffer.put(charBufferBody);

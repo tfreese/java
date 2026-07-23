@@ -62,8 +62,8 @@ public final class ValidateMp3TagsMain {
     static void containsFlag(final Map<File, Report> reports, final AudioFile audioFile, final List<FieldKey> keys) {
         final Tag tag = audioFile.getTag();
 
-        for (FieldKey key : keys) {
-            for (TagField field : tag.getFields(key)) {
+        for (final FieldKey key : keys) {
+            for (final TagField field : tag.getFields(key)) {
                 if (!(field instanceof final TagTextField textField)) {
                     continue;
                 }
@@ -90,8 +90,8 @@ public final class ValidateMp3TagsMain {
     static void containsText(final Map<File, Report> reports, final AudioFile audioFile, final List<FieldKey> fields, final Set<String> texte) {
         final Tag tag = audioFile.getTag();
 
-        for (FieldKey field : fields) {
-            for (TagField tagField : tag.getFields(field)) {
+        for (final FieldKey field : fields) {
+            for (final TagField tagField : tag.getFields(field)) {
                 if (!(tagField instanceof TagTextField)) {
                     continue;
                 }
@@ -102,7 +102,7 @@ public final class ValidateMp3TagsMain {
                     continue;
                 }
 
-                for (String text : texte) {
+                for (final String text : texte) {
                     if (value.contains(text)) {
                         addReport(reports, audioFile.getFile(), "containsText");
                         break;
@@ -161,13 +161,13 @@ public final class ValidateMp3TagsMain {
                 // containsFlag(reports, audioFile, unwantedKeys);
             });
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 
         int i = 1;
 
-        for (Report report : new TreeSet<>(reports.values())) {
+        for (final Report report : new TreeSet<>(reports.values())) {
             final String message = "%03d: %s".formatted(i, report.toString(rootDirectory));
             LOGGER.info(message);
 
@@ -187,9 +187,9 @@ public final class ValidateMp3TagsMain {
             addReport(reports, audioFile.getFile(), "fileName");
         }
 
-        for (FieldKey key : keys) {
-            for (TagField field : tag.getFields(key)) {
-                if (!(field instanceof TagTextField textField)) {
+        for (final FieldKey key : keys) {
+            for (final TagField field : tag.getFields(key)) {
+                if (!(field instanceof final TagTextField textField)) {
                     continue;
                 }
 
@@ -219,7 +219,7 @@ public final class ValidateMp3TagsMain {
 
                 final String[] splits = value.split(" ");
 
-                for (String split : splits) {
+                for (final String split : splits) {
                     if (split == null || split.isBlank()) {
                         continue;
                     }
@@ -258,10 +258,10 @@ public final class ValidateMp3TagsMain {
 
                             consumer.accept(audioFile);
                         }
-                        catch (RuntimeException ex) {
+                        catch (final RuntimeException ex) {
                             throw ex;
                         }
-                        catch (Exception ex) {
+                        catch (final Exception ex) {
                             final RuntimeException rex = new RuntimeException(ex);
                             rex.setStackTrace(ex.getStackTrace());
 

@@ -12,7 +12,7 @@ dependencies {
     implementation("org.slf4j:jul-to-slf4j")
     implementation("org.springframework.boot:spring-boot-hazelcast")
     implementation("org.springframework.boot:spring-boot-starter-cache") {
-        exclude(group: "org.springframework.boot", module: "spring-boot-starter-logging")
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
     }
 
     runtimeOnly("org.slf4j:slf4j-simple")

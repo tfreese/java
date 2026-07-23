@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -51,7 +52,7 @@ public final class JmxDemo {
             final MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
 
             // Eigene MBean registrieren.
-            mBeanServer.registerMBean((DateMXBean) () -> LocalDateTime.now().toString(), new ObjectName("bean:name=dateBean"));
+            mBeanServer.registerMBean((DateMXBean) () -> LocalDateTime.now(ZoneId.systemDefault()).toString(), new ObjectName("bean:name=dateBean"));
             // final DateMXBean dateBeanProxy = JMX.newMBeanProxy(mBeanServer, new ObjectName("bean:name=dateBean"), DateMXBean.class);
 
             // jdbc:h2:~/test;MODE=Oracle;DEFAULT_NULL_ORDERING=HIGH
@@ -77,8 +78,7 @@ public final class JmxDemo {
                     try {
                         if (poolProxy == null) {
                             LOGGER.info("Hikari not initialized, please wait...");
-                        }
-                        else {
+                        } else {
                             LOGGER.info("HikariPoolState: Active={}; Idle={}, Total={}, WaitingThreads={}",
                                     poolProxy.getActiveConnections(),
                                     poolProxy.getIdleConnections(),
@@ -86,7 +86,7 @@ public final class JmxDemo {
                                     poolProxy.getThreadsAwaitingConnection());
                         }
                     }
-                    catch (Throwable ex) {
+                    catch (final Throwable ex) {
                         LOGGER.error(ex.getMessage());
                     }
                 }, 100L, 1000L, TimeUnit.MILLISECONDS);
@@ -104,7 +104,7 @@ public final class JmxDemo {
                         // LOGGER.info("DateBean: {}", mBeanServer.invoke(ObjectName.getInstance("bean:name=dateBean"), "getCurrentTime", null, null));
 
                     }
-                    catch (Exception ex) {
+                    catch (final Exception ex) {
                         LOGGER.error(ex.getMessage());
                     }
                 }, 1L, 3L, TimeUnit.SECONDS);

@@ -33,6 +33,7 @@ import de.freese.sonstiges.imap.textpart.PlainTextPart;
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings({"java:S2143"})
 public class MessageWrapper {
     private static final Set<Character> ASCII_CHARS_KEEP = Set.of(
             // 228
@@ -54,7 +55,7 @@ public class MessageWrapper {
     private static String getMessageId(final Message message) throws Exception {
         String messageId = null;
 
-        if (message instanceof MimeMessage mm) {
+        if (message instanceof final MimeMessage mm) {
             messageId = mm.getMessageID();
         }
 
@@ -91,18 +92,16 @@ public class MessageWrapper {
         final List<AbstractTextPart> textParts = new ArrayList<>();
 
         if (part.isMimeType("text/*")) {
-            if (!(part.getContent() instanceof String text)) {
+            if (!(part.getContent() instanceof final String text)) {
                 return Collections.emptyList();
             }
 
             if (part.isMimeType("text/plain")) {
                 textParts.add(new PlainTextPart(text));
-            }
-            else if (part.isMimeType("text/html")) {
+            } else if (part.isMimeType("text/html")) {
                 textParts.add(new HtmlTextPart(text));
             }
-        }
-        else if (part.isMimeType("multipart/*")) {
+        } else if (part.isMimeType("multipart/*")) {
             final Multipart mp = (Multipart) part.getContent();
 
             for (int i = 0; i < mp.getCount(); i++) {
@@ -125,7 +124,7 @@ public class MessageWrapper {
         int pos = 0;
         final char[] chars = input.toCharArray();
 
-        for (char c : chars) {
+        for (final char c : chars) {
             if (!ASCII_CHARS_KEEP.contains(c) && (c < 32 || c > 126)) {
                 continue;
             }
@@ -174,7 +173,7 @@ public class MessageWrapper {
         final Message msg = getMessage();
         final Folder folder = msg.getFolder();
 
-        if (folder instanceof UIDFolder uidFolder) {
+        if (folder instanceof final UIDFolder uidFolder) {
             return uidFolder.getUID(msg);
         }
 

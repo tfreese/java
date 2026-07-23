@@ -1,7 +1,8 @@
 package de.freese.sonstiges.xml.jaxb.model;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class Club {
 
     @XmlJavaTypeAdapter(OpeningDateXmlAdapter.class)
     // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
-    private final Date opening = new Date();
+    private final LocalDate opening = LocalDate.now(ZoneId.systemDefault());
 
     @XmlAttribute
     private int employees;
@@ -60,7 +61,7 @@ public class Club {
         return guests;
     }
 
-    public Date getOpening() {
+    public LocalDate getOpening() {
         return opening;
     }
 

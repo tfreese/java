@@ -1,6 +1,5 @@
 plugins {
     id("java")
-    id("org.openjfx.javafxplugin")
     id("maven-publish")
 }
 
@@ -159,8 +158,8 @@ tasks.register("genJaxb") {
 
             // Avoid Message: Consider using <depends>/<produces> so that XJC won't do unnecessary compilation.
 
-            //depends(file: binding)
-            //depends(dir: schemaDir.dir("GolfCountryClub"), includes: "**/*.xsd")
+            // depends(file: binding)
+            // depends(dir: schemaDir.dir("GolfCountryClub"), includes: "**/*.xsd")
             // produces(dir: destDirXjc, includes: "**/*.java")
             produces(dir: destDirXjc, includes: "de/freese/xjc/golfcountryclub/**/*.java")
         }

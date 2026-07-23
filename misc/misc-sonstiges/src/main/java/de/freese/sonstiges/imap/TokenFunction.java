@@ -61,7 +61,7 @@ public class TokenFunction implements Function<MessageWrapper, Map<String, Integ
                 .sorted()
                 .toList();
     };
-    
+
     public static final BiFunction<List<String>, Locale, Map<String, Integer>> STEMMER_FILTER = (token, locale) -> {
         final UnaryOperator<String> functionStemmer = FunctionStemmer.get(locale);
 
@@ -115,7 +115,7 @@ public class TokenFunction implements Function<MessageWrapper, Map<String, Integ
 
             return STEMMER_FILTER.apply(token, locale);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 

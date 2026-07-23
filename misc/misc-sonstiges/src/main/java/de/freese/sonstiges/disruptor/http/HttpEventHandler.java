@@ -4,6 +4,7 @@ package de.freese.sonstiges.disruptor.http;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Map;
 import java.util.Objects;
 
@@ -61,24 +62,24 @@ public class HttpEventHandler extends AbstractLoadBalancedEventHandler<HttpEvent
     }
 
     private String serverResponse(final long sequence) {
-        final StringBuilder body = new StringBuilder();
-        body.append("<html lang=\"de\">").append(System.lineSeparator());
-        body.append(" <head>").append(System.lineSeparator());
-        body.append("     <meta charset=\"UTF-8\">").append(System.lineSeparator());
-        body.append("     <title>Disruptor-Demo</title>").append(System.lineSeparator());
-        body.append(" </head>").append(System.lineSeparator());
-        body.append(" <body>").append(System.lineSeparator());
-        body.append("     Sample Response: ").append(LocalDateTime.now()).append("<br>").append(System.lineSeparator());
-        body.append("     Sequence: ").append(sequence).append("<br>").append(System.lineSeparator());
-        body.append(" </body>").append(System.lineSeparator());
-        body.append("</html>").append(System.lineSeparator());
+        final StringBuilder body = new StringBuilder()
+                .append("<html lang=\"de\">").append(System.lineSeparator())
+                .append(" <head>").append(System.lineSeparator())
+                .append("     <meta charset=\"UTF-8\">").append(System.lineSeparator())
+                .append("     <title>Disruptor-Demo</title>").append(System.lineSeparator())
+                .append(" </head>").append(System.lineSeparator())
+                .append(" <body>").append(System.lineSeparator())
+                .append("     Sample Response: ").append(LocalDateTime.now(ZoneId.systemDefault())).append("<br>").append(System.lineSeparator())
+                .append("     Sequence: ").append(sequence).append("<br>").append(System.lineSeparator())
+                .append(" </body>").append(System.lineSeparator())
+                .append("</html>").append(System.lineSeparator());
 
-        final StringBuilder sb = new StringBuilder();
-        sb.append("HTTP/1.1 200 OK").append(System.lineSeparator());
-        sb.append("Server: disruptor").append(System.lineSeparator());
-        sb.append("Content-type: text/html").append(System.lineSeparator());
-        sb.append(System.lineSeparator());
-        sb.append(body);
+        final StringBuilder sb = new StringBuilder()
+                .append("HTTP/1.1 200 OK").append(System.lineSeparator())
+                .append("Server: disruptor").append(System.lineSeparator())
+                .append("Content-type: text/html").append(System.lineSeparator())
+                .append(System.lineSeparator())
+                .append(body);
 
         return sb.toString();
     }

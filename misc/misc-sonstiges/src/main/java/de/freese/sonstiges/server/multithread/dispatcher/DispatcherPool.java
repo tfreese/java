@@ -33,8 +33,6 @@ public class DispatcherPool implements Dispatcher {
     private volatile int nextIndex;
 
     public DispatcherPool(final int numOfDispatcher, final int numOfWorker) {
-        super();
-
         if (numOfDispatcher < 1) {
             throw new IllegalArgumentException("numOfDispatcher < 1: " + numOfDispatcher);
         }
@@ -47,6 +45,8 @@ public class DispatcherPool implements Dispatcher {
             final String message = String.format("numOfDispatcher > numOfWorker: %d < %d", numOfDispatcher, numOfWorker);
             throw new IllegalArgumentException(message);
         }
+        
+        super();
 
         this.numOfDispatcher = numOfDispatcher;
         this.numOfWorker = numOfWorker;

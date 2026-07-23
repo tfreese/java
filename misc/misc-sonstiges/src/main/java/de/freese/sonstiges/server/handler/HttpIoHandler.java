@@ -9,6 +9,7 @@ import java.nio.channels.WritableByteChannel;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import de.freese.sonstiges.server.ServerMain;
 
@@ -42,7 +43,7 @@ public class HttpIoHandler extends AbstractIoHandler<SelectionKey> {
             // WRITE-Mode for Channel.
             selectionKey.interestOps(SelectionKey.OP_WRITE);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }
@@ -56,23 +57,23 @@ public class HttpIoHandler extends AbstractIoHandler<SelectionKey> {
 
             final WritableByteChannel channel = (WritableByteChannel) selectionKey.channel();
 
-            final CharBuffer charBufferBody = CharBuffer.allocate(256);
-            charBufferBody.put("<html>").put(System.lineSeparator());
-            charBufferBody.put("<head>").put(System.lineSeparator());
-            charBufferBody.put("<title>NIO Test</title>").put(System.lineSeparator());
-            charBufferBody.put("<meta charset=\"UTF-8\">").put(System.lineSeparator());
-            charBufferBody.put("</head>").put(System.lineSeparator());
-            charBufferBody.put("<body>").put(System.lineSeparator());
-            charBufferBody.put("Date: " + LocalDateTime.now() + "<br>").put(System.lineSeparator());
-            charBufferBody.put("</body>").put(System.lineSeparator());
-            charBufferBody.put("</html>").put(System.lineSeparator());
+            final CharBuffer charBufferBody = CharBuffer.allocate(256)
+                    .put("<html>").put(System.lineSeparator())
+                    .put("<head>").put(System.lineSeparator())
+                    .put("<title>NIO Test</title>").put(System.lineSeparator())
+                    .put("<meta charset=\"UTF-8\">").put(System.lineSeparator())
+                    .put("</head>").put(System.lineSeparator())
+                    .put("<body>").put(System.lineSeparator())
+                    .put("Date: " + LocalDateTime.now(ZoneId.systemDefault()) + "<br>").put(System.lineSeparator())
+                    .put("</body>").put(System.lineSeparator())
+                    .put("</html>").put(System.lineSeparator());
 
-            final CharBuffer charBuffer = CharBuffer.allocate(1024);
-            charBuffer.put("HTTP/1.1 200 OK").put(System.lineSeparator());
-            charBuffer.put("Server: nio").put(System.lineSeparator());
-            charBuffer.put("Content-type: text/html").put(System.lineSeparator());
-            charBuffer.put("Content-length: " + (charBufferBody.position() * 2)).put(System.lineSeparator());
-            charBuffer.put(System.lineSeparator());
+            final CharBuffer charBuffer = CharBuffer.allocate(1024)
+                    .put("HTTP/1.1 200 OK").put(System.lineSeparator())
+                    .put("Server: nio").put(System.lineSeparator())
+                    .put("Content-type: text/html").put(System.lineSeparator())
+                    .put("Content-length: " + (charBufferBody.position() * 2)).put(System.lineSeparator())
+                    .put(System.lineSeparator());
 
             charBufferBody.flip();
             charBuffer.put(charBufferBody);
@@ -93,7 +94,7 @@ public class HttpIoHandler extends AbstractIoHandler<SelectionKey> {
             // Otherwise again READ-Mode.
             // selectionKey.interestOps(SelectionKey.OP_READ);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }

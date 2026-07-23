@@ -25,11 +25,11 @@ public abstract class AbstractServer implements Runnable {
     private String name = getClass().getSimpleName();
 
     protected AbstractServer(final int port) {
-        super();
-
         if (port <= 0) {
             throw new IllegalArgumentException("port <= 0: " + port);
         }
+
+        super();
 
         this.port = port;
 

@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -105,10 +107,9 @@ public class MailRepository implements AutoCloseable {
         //     p.dispose();
         // }
         // else
-        if (dataSource instanceof AutoCloseable ac) {
+        if (dataSource instanceof final AutoCloseable ac) {
             ac.close();
-        }
-        else if (dataSource instanceof DisposableBean db) {
+        } else if (dataSource instanceof final DisposableBean db) {
             db.destroy();
         }
 
@@ -170,8 +171,7 @@ public class MailRepository implements AutoCloseable {
 
         if (dbName.contains("mysql") || dbName.contains("mariadb")) {
             schemaSql = "mail_schema_mysql.sql";
-        }
-        else if (dbName.contains("oracle")) {
+        } else if (dbName.contains("oracle")) {
             schemaSql = "mail_schema_oracle.sql";
         }
 
@@ -256,14 +256,14 @@ public class MailRepository implements AutoCloseable {
                 preparedStatementMessage.setString(2, messageWrapper.getFolderName());
                 preparedStatementMessage.setString(3, messageWrapper.getSubject());
                 preparedStatementMessage.setBoolean(4, messageWrapper.isSpam());
-                preparedStatementMessage.setTimestamp(5, new java.sql.Timestamp(messageWrapper.getDate().getTime()));
+                preparedStatementMessage.setObject(5, LocalDateTime.ofInstant(messageWrapper.getDate().toInstant(), ZoneId.systemDefault()));
                 preparedStatementMessage.setString(6, messageWrapper.getFrom());
 
                 preparedStatementMessage.executeUpdate();
 
                 connection.commit();
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 connection.rollback();
                 throw ex;
             }
@@ -299,7 +299,7 @@ public class MailRepository implements AutoCloseable {
 
             try (PreparedStatement pstTokenInsert = connection.prepareStatement(sqlTokenInsert);
                  PreparedStatement pstTokenUpdate = connection.prepareStatement(sqlTokenUpdate)) {
-                for (Map.Entry<String, Integer> entry : wordCount.entrySet()) {
+                for (final Map.Entry<String, Integer> entry : wordCount.entrySet()) {
                     final String value = entry.getKey();
                     final Token token = existingToken.get(value);
 
@@ -310,21 +310,18 @@ public class MailRepository implements AutoCloseable {
                         if (messageWrapper.isSpam()) {
                             pstTokenInsert.setInt(2, 0);
                             pstTokenInsert.setInt(3, 1);
-                        }
-                        else {
+                        } else {
                             pstTokenInsert.setInt(2, 1);
                             pstTokenInsert.setInt(3, 0);
                         }
 
                         pstTokenInsert.executeUpdate();
-                    }
-                    else {
+                    } else {
                         // Update
                         if (messageWrapper.isSpam()) {
                             pstTokenUpdate.setInt(1, token.getHamCount());
                             pstTokenUpdate.setInt(2, token.getSpamCount() + 1);
-                        }
-                        else {
+                        } else {
                             pstTokenUpdate.setInt(1, token.getHamCount() + 1);
                             pstTokenUpdate.setInt(2, token.getSpamCount());
                         }
@@ -336,7 +333,7 @@ public class MailRepository implements AutoCloseable {
 
                 connection.commit();
             }
-            catch (SQLException ex) {
+            catch (final SQLException ex) {
                 connection.rollback();
                 throw ex;
             }
@@ -348,7 +345,7 @@ public class MailRepository implements AutoCloseable {
             connection.setAutoCommit(false);
 
             try (PreparedStatement preparedStatementMessageToken = connection.prepareStatement(sqlMessageToken)) {
-                for (Map.Entry<String, Integer> entry : wordCount.entrySet()) {
+                for (final Map.Entry<String, Integer> entry : wordCount.entrySet()) {
                     final String token = entry.getKey();
                     final int count = entry.getValue();
 
@@ -365,7 +362,7 @@ public class MailRepository implements AutoCloseable {
 
                 connection.commit();
             }
-            catch (SQLException ex) {
+            catch (final SQLException ex) {
                 connection.rollback();
                 throw ex;
             }
