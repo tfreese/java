@@ -1,4 +1,3 @@
-// Created: 06.03.2019
 package de.freese.dependency.update.version.filter;
 
 import java.io.IOException;
@@ -35,6 +34,7 @@ import org.xml.sax.SAXException;
  * {@link VersionFilter} for a Maven RuleSet.
  *
  * @author Thomas Freese
+ * @since 06.03.2019
  */
 final class VersionFilterMavenRuleSet implements VersionFilter {
     private final Logger logger = LoggerFactory.getLogger(getClass());

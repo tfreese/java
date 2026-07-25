@@ -1,4 +1,3 @@
-// Created: 03.03.2019
 package de.freese.dependency.update;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -19,6 +18,7 @@ import de.freese.dependency.update.version.query.VersionQuery;
 
 /**
  * @author Thomas Freese
+ * @since 03.03.2019
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestVersionQuery {

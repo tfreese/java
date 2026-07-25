@@ -1,4 +1,3 @@
-// Created: 03.03.2019
 package de.freese.dependency.update.version.query;
 
 import java.net.URI;
@@ -11,6 +10,7 @@ import de.freese.dependency.update.coordinate.Coordinate;
  * Provides available Versions for a {@link Coordinate}.
  *
  * @author Thomas Freese
+ * @since 03.03.2019
  */
 @FunctionalInterface
 public interface VersionQuery {

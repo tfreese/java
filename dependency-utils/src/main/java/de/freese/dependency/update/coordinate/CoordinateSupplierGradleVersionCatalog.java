@@ -1,4 +1,3 @@
-// Created: 28.05.23
 package de.freese.dependency.update.coordinate;
 
 import java.io.IOException;
@@ -19,6 +18,7 @@ import de.freese.dependency.utils.Utils;
  * Parse *.toml Files.
  *
  * @author Thomas Freese
+ * @since 28.05.23
  */
 final class CoordinateSupplierGradleVersionCatalog implements CoordinateSupplier {
     private final Path path;

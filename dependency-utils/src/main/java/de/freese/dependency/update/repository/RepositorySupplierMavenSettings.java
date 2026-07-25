@@ -1,4 +1,3 @@
-// Created: 28.05.23
 package de.freese.dependency.update.repository;
 
 import java.io.File;
@@ -23,6 +22,7 @@ import org.apache.maven.settings.building.SettingsBuildingResult;
 
 /**
  * @author Thomas Freese
+ * @since 28.05.23
  */
 final class RepositorySupplierMavenSettings implements RepositorySupplier {
 

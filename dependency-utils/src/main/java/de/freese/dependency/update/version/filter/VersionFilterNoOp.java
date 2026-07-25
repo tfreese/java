@@ -1,4 +1,3 @@
-// Created: 06.03.2019
 package de.freese.dependency.update.version.filter;
 
 import java.util.Collection;
@@ -9,6 +8,7 @@ import java.util.TreeSet;
  * NO-OP {@link VersionFilter}
  *
  * @author Thomas Freese
+ * @since 06.03.2019
  */
 final class VersionFilterNoOp implements VersionFilter {
     @Override

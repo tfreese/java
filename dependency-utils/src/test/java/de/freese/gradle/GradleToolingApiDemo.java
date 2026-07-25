@@ -1,4 +1,3 @@
-// Created: 10 Feb. 2025
 package de.freese.gradle;
 
 import java.io.File;
@@ -14,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 10.02.2025
  */
 public final class GradleToolingApiDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(GradleToolingApiDemo.class);

@@ -1,4 +1,3 @@
-// Created: 26.02.2021
 package de.freese.dependency.update.version;
 
 import java.net.URI;
@@ -15,6 +14,7 @@ import de.freese.dependency.update.version.query.VersionQuery;
 
 /**
  * @author Thomas Freese
+ * @since 26.02.2021
  */
 public class VersionResolver {
     private final Map<String, String> cache = new ConcurrentHashMap<>();

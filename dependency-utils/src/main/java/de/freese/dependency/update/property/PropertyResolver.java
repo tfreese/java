@@ -1,4 +1,3 @@
-// Created: 28.05.23
 package de.freese.dependency.update.property;
 
 import java.nio.file.Path;
@@ -16,6 +15,7 @@ import de.freese.dependency.utils.PropertySubstitution;
 
 /**
  * @author Thomas Freese
+ * @since 28.05.23
  */
 public final class PropertyResolver implements Supplier<Map<String, String>> {
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertyResolver.class);
@@ -28,8 +28,23 @@ public final class PropertyResolver implements Supplier<Map<String, String>> {
         return this;
     }
 
-    public PropertyResolver addMaven(final Path path) {
-        add(PropertySupplier.ofMavenPom(Objects.requireNonNull(path, "path required")));
+    public PropertyResolver fromIvySettings(final Path path) {
+        add(PropertySupplier.fromIvySettings(Objects.requireNonNull(path, "path required")));
+
+        return this;
+    }
+
+    public PropertyResolver fromMavenPom(final Path path) {
+        add(PropertySupplier.fromMavenPom(Objects.requireNonNull(path, "path required")));
+
+        return this;
+    }
+
+    /**
+     * Looking for spring-boot-dependencies POM in ~/.m2/repository and ~/.gradle/caches/modules/files.
+     */
+    public PropertyResolver fromSpringBootDependencies() {
+        add(PropertySupplier.fromSpringBootDependencies());
 
         return this;
     }

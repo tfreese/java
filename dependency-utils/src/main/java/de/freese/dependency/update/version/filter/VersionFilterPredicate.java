@@ -1,4 +1,3 @@
-// Created: 14.10.23
 package de.freese.dependency.update.version.filter;
 
 import java.util.Collection;
@@ -9,6 +8,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author Thomas Freese
+ * @since 14.10.23
  */
 final class VersionFilterPredicate implements VersionFilter {
     private Predicate<String> versionFilter = version -> false;

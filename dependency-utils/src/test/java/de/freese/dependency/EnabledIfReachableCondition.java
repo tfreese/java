@@ -1,4 +1,3 @@
-// Created: 09 März 2025
 package de.freese.dependency;
 
 import java.net.URI;
@@ -16,6 +15,7 @@ import org.junit.platform.commons.util.AnnotationUtils;
 
 /**
  * @author Thomas Freese
+ * @since 09.03.2025
  */
 public final class EnabledIfReachableCondition implements ExecutionCondition {
     @Override
@@ -33,8 +33,7 @@ public final class EnabledIfReachableCondition implements ExecutionCondition {
 
         if (reachable) {
             return ConditionEvaluationResult.enabled(String.format("Enabled because %s is reachable", uri));
-        }
-        else {
+        } else {
             return ConditionEvaluationResult.disabled(String.format("Disabled because %s could not be reached in %dms", uri, timeoutMillis));
         }
     }

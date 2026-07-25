@@ -1,4 +1,3 @@
-// Created: 03 Apr. 2025
 package de.freese.dependency.update.client;
 
 import java.io.IOException;
@@ -28,6 +27,7 @@ import de.freese.dependency.utils.Pools;
 
 /**
  * @author Thomas Freese
+ * @since 03.04.2025
  */
 @SuppressWarnings({"java:S125"})
 public abstract class AbstractRepositoryClient implements RepositoryClient {

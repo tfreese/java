@@ -1,4 +1,3 @@
-// Created: 18.09.2019
 package de.freese.dependency.utils;
 
 import java.io.BufferedReader;
@@ -26,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 18.09.2019
  */
 public final class Utils {
     /**

@@ -1,4 +1,3 @@
-// Created: 18 Apr. 2025
 package de.freese.dependency.update.client.jakarta;
 
 import java.io.InputStream;
@@ -23,6 +22,7 @@ import de.freese.dependency.update.client.AbstractRepositoryClient;
 
 /**
  * @author Thomas Freese
+ * @since 18.04.2025
  */
 final class JakartaRepositoryClient extends AbstractRepositoryClient {
     private final Client client;

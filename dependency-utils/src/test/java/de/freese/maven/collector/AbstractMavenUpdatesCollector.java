@@ -1,4 +1,3 @@
-// Created: 28.12.2015
 package de.freese.maven.collector;
 
 import java.util.List;
@@ -18,6 +17,7 @@ import de.freese.dependency.update.coordinate.Coordinate;
  * }</pre>
  *
  * @author Thomas Freese
+ * @since 28.12.2015
  */
 public abstract class AbstractMavenUpdatesCollector {
     private final Logger logger = LoggerFactory.getLogger(getClass());

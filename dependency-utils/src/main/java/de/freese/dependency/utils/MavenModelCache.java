@@ -1,4 +1,3 @@
-// Created: 06.03.23
 package de.freese.dependency.utils;
 
 import java.nio.file.Path;
@@ -12,6 +11,7 @@ import org.apache.maven.model.building.ModelBuildingRequest;
 
 /**
  * @author Thomas Freese
+ * @since 06.03.23
  */
 public final class MavenModelCache {
     private static final Map<Path, Model> CACHE = new ConcurrentHashMap<>();

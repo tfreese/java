@@ -1,4 +1,3 @@
-// Created: 28.05.23
 package de.freese.dependency.update.property;
 
 import java.nio.file.Path;
@@ -18,6 +17,7 @@ import de.freese.dependency.utils.MavenModelCache;
 
 /**
  * @author Thomas Freese
+ * @since 28.05.23
  */
 final class PropertySupplierMavenPom implements PropertySupplier {
     private static void toMap(final Map<String, String> map, final Properties properties) {

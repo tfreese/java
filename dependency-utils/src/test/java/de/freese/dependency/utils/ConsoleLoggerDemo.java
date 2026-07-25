@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 import org.slf4j.Logger;
+import org.slf4j.helpers.BasicMarkerFactory;
 
 /**
  * @author Thomas Freese
@@ -21,6 +22,7 @@ public final class ConsoleLoggerDemo {
 
         final Duration duration = Duration.between(Instant.now().minusMillis(123_456_789L), Instant.now());
         logger.info("Duration: {}.{} s", duration.toSeconds(), duration.toMillisPart());
+        logger.info(new BasicMarkerFactory().getMarker("TEST"), "Duration: {}.{} s", duration.toSeconds(), duration.toMillisPart());
     }
 
     private ConsoleLoggerDemo() {

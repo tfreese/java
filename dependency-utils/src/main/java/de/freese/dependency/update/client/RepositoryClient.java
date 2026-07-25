@@ -1,4 +1,3 @@
-// Created: 03 Apr. 2025
 package de.freese.dependency.update.client;
 
 import java.net.URI;
@@ -6,6 +5,7 @@ import java.util.List;
 
 /**
  * @author Thomas Freese
+ * @since 03.04.2025
  */
 public interface RepositoryClient extends AutoCloseable {
 

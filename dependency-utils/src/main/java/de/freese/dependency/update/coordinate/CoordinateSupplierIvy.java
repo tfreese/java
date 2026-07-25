@@ -1,4 +1,3 @@
-// Created: 28.05.23
 package de.freese.dependency.update.coordinate;
 
 import java.io.InputStream;
@@ -25,6 +24,7 @@ import de.freese.dependency.utils.Utils;
 
 /**
  * @author Thomas Freese
+ * @since 28.05.23
  */
 final class CoordinateSupplierIvy implements CoordinateSupplier {
     private final Path path;

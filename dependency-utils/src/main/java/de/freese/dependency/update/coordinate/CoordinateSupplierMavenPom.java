@@ -1,4 +1,3 @@
-// Created: 28.05.23
 package de.freese.dependency.update.coordinate;
 
 import java.nio.file.Path;
@@ -22,6 +21,7 @@ import de.freese.dependency.utils.Utils;
 
 /**
  * @author Thomas Freese
+ * @since 28.05.23
  */
 final class CoordinateSupplierMavenPom implements CoordinateSupplier {
     private static List<Coordinate> parseDependencies(final Model model) {

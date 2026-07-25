@@ -1,4 +1,3 @@
-// Created: 28.05.23
 package de.freese.dependency.update.coordinate;
 
 import java.nio.file.Path;
@@ -13,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 28.05.23
  */
 public final class CoordinateResolver implements Supplier<List<Coordinate>> {
     private static final Logger LOGGER = LoggerFactory.getLogger(CoordinateResolver.class);
@@ -27,20 +27,27 @@ public final class CoordinateResolver implements Supplier<List<Coordinate>> {
         return this;
     }
 
-    public CoordinateResolver addGradle(final Path path) {
-        add(CoordinateSupplier.ofGradleProperties(Objects.requireNonNull(path, "path required")));
+    /**
+     * Default: {@code Paths.get(System.getProperty("user.home"), ".gradle", "gradle.properties")}
+     **/
+    public CoordinateResolver fromGradleProperties() {
+        return fromGradleProperties(Path.of(System.getProperty("user.home"), ".gradle", "gradle.properties"));
+    }
+
+    public CoordinateResolver fromGradleProperties(final Path path) {
+        add(CoordinateSupplier.fromGradleProperties(Objects.requireNonNull(path, "path required")));
 
         return this;
     }
 
-    public CoordinateResolver addIvy(final Path path) {
-        add(CoordinateSupplier.ofIvy(Objects.requireNonNull(path, "path required")));
+    public CoordinateResolver fromIvy(final Path path) {
+        add(CoordinateSupplier.fromIvy(Objects.requireNonNull(path, "path required")));
 
         return this;
     }
 
-    public CoordinateResolver addMaven(final Path path) {
-        add(CoordinateSupplier.ofMavenPom(Objects.requireNonNull(path, "path required")));
+    public CoordinateResolver fromMavenPom(final Path path) {
+        add(CoordinateSupplier.fromMavenPom(Objects.requireNonNull(path, "path required")));
 
         return this;
     }
@@ -60,7 +67,9 @@ public final class CoordinateResolver implements Supplier<List<Coordinate>> {
         return coordinates;
     }
 
-    public void setFilter(final Predicate<Coordinate> coordinateFilter) {
+    public CoordinateResolver setFilter(final Predicate<Coordinate> coordinateFilter) {
         this.coordinateFilter = Objects.requireNonNull(coordinateFilter, "coordinateFilter required");
+
+        return this;
     }
 }

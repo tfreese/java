@@ -1,4 +1,3 @@
-// // Created: 27 März 2025
 // package de.freese.maven;
 //
 // import java.io.File;
@@ -46,6 +45,7 @@
 //  * https://github.com/indrabasak/stackoverflow-indra/blob/master/effective-pom/pom.xml
 //  *
 //  * @author Thomas Freese
+//  * @since 27.03.2025
 //  */
 // @SuppressWarnings("all")
 // public final class EffectivePomBuilder {

@@ -1,4 +1,3 @@
-// Created: 28.05.23
 package de.freese.dependency.update.coordinate;
 
 import static de.freese.dependency.utils.Utils.PATTERN_DOUBLE_DOT;
@@ -27,6 +26,7 @@ import de.freese.dependency.utils.Utils;
 
 /**
  * @author Thomas Freese
+ * @since 28.05.23
  */
 final class CoordinateSupplierGradleProperties implements CoordinateSupplier {
     private static final Logger LOGGER = LoggerFactory.getLogger(CoordinateSupplierGradleProperties.class);

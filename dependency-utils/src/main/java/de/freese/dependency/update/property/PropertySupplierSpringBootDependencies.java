@@ -1,4 +1,3 @@
-// Created: 28.05.23
 package de.freese.dependency.update.property;
 
 import java.io.IOException;
@@ -27,7 +26,10 @@ import org.slf4j.LoggerFactory;
 import de.freese.dependency.utils.MavenModelCache;
 
 /**
+ * Looking for spring-boot-dependencies POM in ~/.m2/repository and ~/.gradle/caches/modules/files.
+ *
  * @author Thomas Freese
+ * @since 28.05.23
  */
 final class PropertySupplierSpringBootDependencies implements PropertySupplier {
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertySupplierSpringBootDependencies.class);

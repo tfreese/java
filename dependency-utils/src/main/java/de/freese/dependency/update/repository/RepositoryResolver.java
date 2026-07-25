@@ -1,7 +1,7 @@
-// Created: 28.05.23
 package de.freese.dependency.update.repository;
 
 import java.net.URI;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 28.05.23
  */
 public final class RepositoryResolver implements Supplier<Set<URI>> {
     private static final Logger LOGGER = LoggerFactory.getLogger(RepositoryResolver.class);
@@ -29,6 +30,23 @@ public final class RepositoryResolver implements Supplier<Set<URI>> {
         this.repositorySuppliers.add(Objects.requireNonNull(repositorySupplier, "repositorySupplier required"));
 
         return this;
+    }
+
+    public RepositoryResolver add(final URI repository) {
+        add(RepositorySupplier.from(Objects.requireNonNull(repository, "repository required")));
+
+        return this;
+    }
+
+    public RepositoryResolver fromMavenSettings(final Path path) {
+        return add(RepositorySupplier.fromMavenSettings(Objects.requireNonNull(path, "path required")));
+    }
+
+    /**
+     * Default: {@code Paths.get(System.getProperty("user.home"), ".m2", "settings.xml")}
+     */
+    public RepositoryResolver fromMavenSettings() {
+        return fromMavenSettings(Path.of(System.getProperty("user.home"), ".m2", "settings.xml"));
     }
 
     @Override

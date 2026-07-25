@@ -1,4 +1,3 @@
-// Created: 22.03.2017
 package de.freese.dependency.update.coordinate;
 
 import java.util.Objects;
@@ -7,6 +6,7 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * @author Thomas Freese
+ * @since 22.03.2017
  */
 public final class Coordinate implements Comparable<Coordinate> {
     private final String artifactId;

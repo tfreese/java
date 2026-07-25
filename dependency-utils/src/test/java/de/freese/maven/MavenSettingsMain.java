@@ -1,4 +1,3 @@
-// Created: 10.03.23
 package de.freese.maven;
 
 import java.nio.file.Files;
@@ -24,6 +23,7 @@ import org.sonatype.plexus.components.sec.dispatcher.DefaultSecDispatcher;
 
 /**
  * @author Thomas Freese
+ * @since 10.03.23
  */
 public final class MavenSettingsMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(MavenSettingsMain.class);

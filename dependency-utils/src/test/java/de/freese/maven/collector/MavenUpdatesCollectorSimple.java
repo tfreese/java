@@ -1,4 +1,3 @@
-// Created: 28.12.2015
 package de.freese.maven.collector;
 
 import java.util.ArrayList;
@@ -17,8 +16,9 @@ import de.freese.dependency.update.coordinate.Coordinate;
  * .forEach(System.out::println);
  *
  * @author Thomas Freese
+ * @since 28.12.2015
  */
-public class MavenUpdatesCollectorSimple extends AbstractMavenUpdatesCollector {
+public final class MavenUpdatesCollectorSimple extends AbstractMavenUpdatesCollector {
     private final List<Coordinate> updates;
 
     /**

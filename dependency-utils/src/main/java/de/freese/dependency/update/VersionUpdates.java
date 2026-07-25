@@ -1,4 +1,3 @@
-// Created: 28.05.23
 package de.freese.dependency.update;
 
 import java.awt.Toolkit;
@@ -8,8 +7,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
-import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +23,14 @@ import de.freese.dependency.update.version.query.VersionQuery;
 
 /**
  * @author Thomas Freese
+ * @since 28.05.23
  */
 public final class VersionUpdates {
     private static final Logger LOGGER = LoggerFactory.getLogger(VersionUpdates.class);
+
+    public static VersionUpdatesBuilder builder() {
+        return new VersionUpdatesBuilder();
+    }
 
     public static void printUpdates(final Collection<Coordinate> coordinates, final PrintStream printStream) {
         printStream.println();
@@ -79,24 +83,16 @@ public final class VersionUpdates {
         printStream.flush();
     }
 
-    private final CoordinateResolver coordinateResolver = new CoordinateResolver();
-    private final PropertyResolver propertyResolver = new PropertyResolver();
-    private final RepositoryResolver repositoryResolver = new RepositoryResolver();
+    private final CoordinateResolver coordinateResolver;
+    private final PropertyResolver propertyResolver;
+    private final RepositoryResolver repositoryResolver;
 
-    public VersionUpdates() {
+    VersionUpdates(final RepositoryResolver repositoryResolver, final PropertyResolver propertyResolver, final CoordinateResolver coordinateResolver) {
         super();
-    }
 
-    public void configureCoordinateResolver(final Consumer<CoordinateResolver> consumer) {
-        consumer.accept(coordinateResolver);
-    }
-
-    public void configurePropertyResolver(final Consumer<PropertyResolver> consumer) {
-        consumer.accept(propertyResolver);
-    }
-
-    public void configureRepositoryResolver(final Consumer<RepositoryResolver> consumer) {
-        consumer.accept(repositoryResolver);
+        this.repositoryResolver = Objects.requireNonNull(repositoryResolver, "repositoryResolver required");
+        this.propertyResolver = Objects.requireNonNull(propertyResolver, "propertyResolver required");
+        this.coordinateResolver = Objects.requireNonNull(coordinateResolver, "coordinateResolver required");
     }
 
     public List<Coordinate> getUpdates(final VersionQuery versionQuery, final VersionFilter versionFilter) {

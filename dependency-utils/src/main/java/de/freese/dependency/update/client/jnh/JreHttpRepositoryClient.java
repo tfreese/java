@@ -1,4 +1,3 @@
-// Created: 03 Apr. 2025
 package de.freese.dependency.update.client.jnh;
 
 import java.io.InputStream;
@@ -14,6 +13,7 @@ import de.freese.dependency.update.client.AbstractRepositoryClient;
 
 /**
  * @author Thomas Freese
+ * @since 03.04.2025
  */
 final class JreHttpRepositoryClient extends AbstractRepositoryClient {
     private final HttpClient httpClient;

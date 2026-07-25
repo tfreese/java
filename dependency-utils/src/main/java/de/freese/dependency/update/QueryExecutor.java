@@ -1,4 +1,3 @@
-// Created: 14.10.23
 package de.freese.dependency.update;
 
 import java.net.URI;
@@ -26,6 +25,7 @@ import de.freese.dependency.update.version.filter.VersionFilter;
 
 /**
  * @author Thomas Freese
+ * @since 14.10.23
  */
 final class QueryExecutor {
     private static final Logger LOGGER = LoggerFactory.getLogger(QueryExecutor.class);

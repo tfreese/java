@@ -1,4 +1,3 @@
-// Created: 03 Apr. 2025
 package de.freese.dependency.update.version.query;
 
 import java.net.URI;
@@ -9,6 +8,7 @@ import de.freese.dependency.update.client.RepositoryClient;
 
 /**
  * @author Thomas Freese
+ * @since 03.04.2025
  */
 final class VersionQueryMavenSearch extends AbstractVersionQuery {
 

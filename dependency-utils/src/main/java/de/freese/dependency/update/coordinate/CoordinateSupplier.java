@@ -1,4 +1,3 @@
-// Created: 28.05.23
 package de.freese.dependency.update.coordinate;
 
 import java.nio.file.Path;
@@ -8,40 +7,35 @@ import java.util.function.Supplier;
 
 /**
  * @author Thomas Freese
+ * @since 28.05.23
  */
 @FunctionalInterface
 public interface CoordinateSupplier extends Supplier<List<Coordinate>> {
-    /**
-     * Default: {@code Paths.get(System.getProperty("user.home"), ".gradle", "gradle.properties")}
-     **/
-    static CoordinateSupplier ofGradleProperties() {
-        return ofGradleProperties(Path.of(System.getProperty("user.home"), ".gradle", "gradle.properties"));
+
+    static CoordinateSupplier from(final Set<Coordinate> coordinates) {
+        return new CoordinateSupplierDefault(coordinates);
     }
 
-    static CoordinateSupplier ofGradleProperties(final Path path) {
+    static CoordinateSupplier fromGradleProperties(final Path path) {
         return new CoordinateSupplierGradleProperties(path);
     }
 
     /**
      * Parse *.toml Files.
      **/
-    static CoordinateSupplier ofGradleVersionCatalog(final Path path) {
+    static CoordinateSupplier fromGradleVersionCatalog(final Path path) {
         return new CoordinateSupplierGradleVersionCatalog(path);
     }
 
-    static CoordinateSupplier ofIvy(final Path path) {
+    static CoordinateSupplier fromIvy(final Path path) {
         return new CoordinateSupplierIvy(path);
     }
 
-    static CoordinateSupplier ofManual(final Set<Coordinate> coordinates) {
-        return new CoordinateSupplierManual(coordinates);
-    }
-
-    static CoordinateSupplier ofMavenPom(final Path path) {
+    static CoordinateSupplier fromMavenPom(final Path path) {
         return new CoordinateSupplierMavenPom(path);
     }
 
-    static CoordinateSupplier ofMavenRepository(final Path path) {
+    static CoordinateSupplier fromMavenRepository(final Path path) {
         return new CoordinateSupplierMavenRepository(path);
     }
 }

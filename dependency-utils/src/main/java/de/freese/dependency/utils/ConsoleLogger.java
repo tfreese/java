@@ -88,17 +88,17 @@ public final class ConsoleLogger implements Logger {
 
     @Override
     public void debug(final Marker marker, final String format, final Object arg) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        log(Level.DEBUG, marker, format, arg);
     }
 
     @Override
     public void debug(final Marker marker, final String format, final Object arg1, final Object arg2) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        log(Level.DEBUG, marker, format, arg1, arg2);
     }
 
     @Override
     public void debug(final Marker marker, final String format, final Object... arguments) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        log(Level.DEBUG, marker, format, arguments);
     }
 
     @Override
@@ -138,17 +138,17 @@ public final class ConsoleLogger implements Logger {
 
     @Override
     public void error(final Marker marker, final String format, final Object arg) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        log(Level.ERROR, marker, format, arg);
     }
 
     @Override
     public void error(final Marker marker, final String format, final Object arg1, final Object arg2) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        log(Level.ERROR, marker, format, arg1, arg2);
     }
 
     @Override
     public void error(final Marker marker, final String format, final Object... arguments) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        log(Level.ERROR, marker, format, arguments);
     }
 
     @Override
@@ -193,17 +193,17 @@ public final class ConsoleLogger implements Logger {
 
     @Override
     public void info(final Marker marker, final String format, final Object arg) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        log(Level.INFO, marker, format, arg);
     }
 
     @Override
     public void info(final Marker marker, final String format, final Object arg1, final Object arg2) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        log(Level.INFO, marker, format, arg1, arg2);
     }
 
     @Override
     public void info(final Marker marker, final String format, final Object... arguments) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        log(Level.INFO, marker, format, arguments);
     }
 
     @Override
@@ -293,17 +293,17 @@ public final class ConsoleLogger implements Logger {
 
     @Override
     public void trace(final Marker marker, final String format, final Object arg) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        log(Level.TRACE, marker, format, arg);
     }
 
     @Override
     public void trace(final Marker marker, final String format, final Object arg1, final Object arg2) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        log(Level.TRACE, marker, format, arg1, arg2);
     }
 
     @Override
     public void trace(final Marker marker, final String format, final Object... arguments) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        log(Level.TRACE, marker, format, arguments);
     }
 
     @Override
@@ -343,17 +343,17 @@ public final class ConsoleLogger implements Logger {
 
     @Override
     public void warn(final Marker marker, final String format, final Object arg) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        log(Level.WARN, marker, format, arg);
     }
 
     @Override
     public void warn(final Marker marker, final String format, final Object arg1, final Object arg2) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        log(Level.WARN, marker, format, arg1, arg2);
     }
 
     @Override
     public void warn(final Marker marker, final String format, final Object... arguments) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        log(Level.WARN, marker, format, arguments);
     }
 
     @Override
@@ -403,6 +403,24 @@ public final class ConsoleLogger implements Logger {
 
     private void log(final Level level, final String format, final Object... arguments) {
         final String message = formatToString(format, arguments);
+
+        log(level, message);
+    }
+
+    private void log(final Level level, final Marker marker, final String format, final Object arg) {
+        final String message = marker.getName() + " - " + formatToString(format, arg);
+
+        log(level, message);
+    }
+
+    private void log(final Level level, final Marker marker, final String format, final Object arg1, final Object arg2) {
+        final String message = marker.getName() + " - " + formatToString(format, arg1, arg2);
+
+        log(level, message);
+    }
+
+    private void log(final Level level, final Marker marker, final String format, final Object... arguments) {
+        final String message = marker.getName() + " - " + formatToString(format, arguments);
 
         log(level, message);
     }

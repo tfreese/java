@@ -1,4 +1,3 @@
-// Created: 03.03.2019
 package de.freese.dependency.update;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -22,6 +21,7 @@ import de.freese.dependency.update.coordinate.CoordinateSupplier;
 
 /**
  * @author Thomas Freese
+ * @since 03.03.2019
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @DisplayName("Test CoordinateSupplier")
@@ -34,18 +34,18 @@ class TestCoordinateSupplier {
 
     @BeforeAll
     static void beforeAll() {
-        ARGUMENTS.add(Arguments.of("bom", CoordinateSupplier.ofMavenPom(Path.of("..", "..", "parents", "maven-projects", "maven-bom", "pom.xml"))));
-        ARGUMENTS.add(Arguments.of("parent", CoordinateSupplier.ofMavenPom(Path.of("..", "..", "parents", "maven-projects", "maven-parent",
+        ARGUMENTS.add(Arguments.of("bom", CoordinateSupplier.fromMavenPom(Path.of("..", "..", "parents", "maven-projects", "maven-bom", "pom.xml"))));
+        ARGUMENTS.add(Arguments.of("parent", CoordinateSupplier.fromMavenPom(Path.of("..", "..", "parents", "maven-projects", "maven-parent",
                 "pom.xml"))));
 
-        ARGUMENTS.add(Arguments.of("gradle.properties", CoordinateSupplier.ofGradleProperties(Path.of(System.getProperty("user.home"), ".gradle",
+        ARGUMENTS.add(Arguments.of("gradle.properties", CoordinateSupplier.fromGradleProperties(Path.of(System.getProperty("user.home"), ".gradle",
                 "gradle.properties"))));
-        ARGUMENTS.add(Arguments.of("gradle version catalog", CoordinateSupplier.ofGradleVersionCatalog(Path.of("..", "..", "parents",
+        ARGUMENTS.add(Arguments.of("gradle version catalog", CoordinateSupplier.fromGradleVersionCatalog(Path.of("..", "..", "parents",
                 "gradle-projects", "libs.versions.toml"))));
 
-        ARGUMENTS.add(Arguments.of("ivy-1", CoordinateSupplier.ofIvy(Path.of("..", "..", "parents",
+        ARGUMENTS.add(Arguments.of("ivy-1", CoordinateSupplier.fromIvy(Path.of("..", "..", "parents",
                 "ivy-projects", "multi-module", "project-api", "ivy.xml"))));
-        ARGUMENTS.add(Arguments.of("ivy-2", CoordinateSupplier.ofIvy(Path.of("..", "..", "parents",
+        ARGUMENTS.add(Arguments.of("ivy-2", CoordinateSupplier.fromIvy(Path.of("..", "..", "parents",
                 "ivy-projects", "multi-module", "project-impl", "ivy.xml"))));
     }
 

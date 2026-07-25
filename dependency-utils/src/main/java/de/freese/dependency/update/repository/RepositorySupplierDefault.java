@@ -1,4 +1,3 @@
-// Created: 28.05.23
 package de.freese.dependency.update.repository;
 
 import java.net.URI;
@@ -9,11 +8,12 @@ import java.util.TreeSet;
 
 /**
  * @author Thomas Freese
+ * @since 28.05.23
  */
-final class RepositorySupplierManual implements RepositorySupplier {
+final class RepositorySupplierDefault implements RepositorySupplier {
     private final Set<URI> repositories = new TreeSet<>();
 
-    RepositorySupplierManual(final Set<URI> repositories) {
+    RepositorySupplierDefault(final Set<URI> repositories) {
         super();
 
         this.repositories.addAll(Objects.requireNonNull(repositories, "repositories required"));

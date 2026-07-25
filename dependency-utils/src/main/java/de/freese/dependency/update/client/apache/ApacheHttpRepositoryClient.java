@@ -1,4 +1,3 @@
-// Created: 05 Apr. 2025
 package de.freese.dependency.update.client.apache;
 
 import java.io.InputStream;
@@ -32,6 +31,7 @@ import de.freese.dependency.update.client.AbstractRepositoryClient;
  * <a href=https://github.com/apache/httpcomponents-client/blob/5.4.x/httpclient5/src/test/java/org/apache/hc/client5/http/examples/ClientConfiguration.java>config</a>
  *
  * @author Thomas Freese
+ * @since 05.04.2025
  */
 final class ApacheHttpRepositoryClient extends AbstractRepositoryClient {
 

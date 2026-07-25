@@ -1,4 +1,3 @@
-// Created: 03.03.2019
 package de.freese.dependency.version;
 
 //
@@ -11,6 +10,7 @@ package de.freese.dependency.version;
 //
 // **
 // * @author Thomas Freese
+// * @since 03.03.2019
 // */
 // class VersionQueryWithRestTemplate extends AbstractVersionQuery {
 // private final ObjectMapper mapper;

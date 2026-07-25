@@ -1,4 +1,3 @@
-// Created: 28.05.23
 package de.freese.dependency.update.property;
 
 import java.io.InputStream;
@@ -23,6 +22,7 @@ import de.freese.dependency.utils.Pools;
 
 /**
  * @author Thomas Freese
+ * @since 28.05.23
  */
 final class PropertySupplierIvySettings implements PropertySupplier {
     private final Path path;

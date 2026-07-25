@@ -1,4 +1,3 @@
-// Created: 30.12.2015
 package de.freese.maven.collector;
 
 import java.util.ArrayList;
@@ -21,8 +20,9 @@ import de.freese.dependency.update.coordinate.Coordinate;
  * .collect(Collectors.toList());
  *
  * @author Thomas Freese
+ * @since 30.12.2015
  */
-public class MavenUpdatesCollectorImpl extends AbstractMavenUpdatesCollector implements Collector<String, List<Coordinate>, Stream<Coordinate>> {
+public final class MavenUpdatesCollectorImpl extends AbstractMavenUpdatesCollector implements Collector<String, List<Coordinate>, Stream<Coordinate>> {
     @Override
     public BiConsumer<List<Coordinate>, String> accumulator() {
         return this::doAccumulate;

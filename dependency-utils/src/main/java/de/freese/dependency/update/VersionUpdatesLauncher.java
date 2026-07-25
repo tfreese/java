@@ -15,9 +15,6 @@ import reactor.core.scheduler.Schedulers;
 import de.freese.dependency.update.client.RepositoryClient;
 import de.freese.dependency.update.client.RepositoryClientType;
 import de.freese.dependency.update.coordinate.Coordinate;
-import de.freese.dependency.update.coordinate.CoordinateSupplier;
-import de.freese.dependency.update.property.PropertySupplier;
-import de.freese.dependency.update.repository.RepositorySupplier;
 import de.freese.dependency.update.version.filter.VersionFilter;
 import de.freese.dependency.update.version.query.VersionQuery;
 
@@ -46,53 +43,52 @@ public final class VersionUpdatesLauncher {
                 basePath.resolve("test-repo-release", "pom.xml")
         );
 
-        final VersionUpdates versionUpdates = new VersionUpdates();
+        final VersionUpdates versionUpdates = VersionUpdates.builder()
+                .configureRepositoryResolver(repositoryResolver -> {
+                    // Repositories
+                    Predicate<URI> repositoryFilter = uri -> !"file".equalsIgnoreCase(uri.getScheme());
+                    repositoryFilter = repositoryFilter
+                            .or(uri -> !"http://central".startsWith(uri.toString()))
+                            .or(uri -> !"https://central".startsWith(uri.toString()));
 
-        // Repositories
-        versionUpdates.configureRepositoryResolver(repositoryResolver -> {
-            Predicate<URI> repositoryFilter = uri -> !"file".equalsIgnoreCase(uri.getScheme());
-            repositoryFilter = repositoryFilter
-                    .or(uri -> !"http://central".startsWith(uri.toString()))
-                    .or(uri -> !"https://central".startsWith(uri.toString()));
-
-            repositoryResolver
-                    .setFilter(repositoryFilter)
-                    .add(RepositorySupplier.ofMavenSettings())
-                    // .add(RepositorySupplier.of("https://repo1.maven.org/maven2"))
-                    // .add(RepositorySupplier.of("https://repository.primefaces.org"))
-                    .add(RepositorySupplier.of("https://repo.gradle.org/gradle/libs-releases"))
-                    .add(RepositorySupplier.of("https://plugins.gradle.org/m2"))
-            ;
-        });
-
-        // Properties
-        versionUpdates.configurePropertyResolver(propertyResolver -> {
-                    propertyResolver
-                            .add(PropertySupplier.ofSpringBootDependencies())
-                            .add(PropertySupplier.ofIvySettings(pathParentsIvy.resolve("ivysettings.xml")))
+                    repositoryResolver
+                            .setFilter(repositoryFilter)
+                            .fromMavenSettings()
+                            // .add(URI.create(("https://repo1.maven.org/maven2"))
+                            // .add(URI.create(("https://repository.primefaces.org"))
+                            .add(URI.create("https://repo.gradle.org/gradle/libs-releases"))
+                            .add(URI.create("https://plugins.gradle.org/m2"))
                     ;
+                })
+                .configurePropertyResolver(propertyResolver -> {
+                            // Properties
+                            propertyResolver
+                                    .fromSpringBootDependencies()
+                                    .fromIvySettings(pathParentsIvy.resolve("ivysettings.xml"))
+                            ;
 
-                    mavenPoms.forEach(propertyResolver::addMaven);
-                }
-        );
+                            mavenPoms.forEach(propertyResolver::fromMavenPom);
+                        }
+                )
+                .configureCoordinateResolver(coordinateResolver -> {
+                            // Coordinates
+                            coordinateResolver
+                                    .setFilter(coordinate -> !coordinate.getGroupId().startsWith("de.freese"))
+                                    .fromGradleProperties()
+                                    .fromGradleProperties(basePath.resolve("syro", "gradle.properties"))
+                                    .fromGradleProperties(basePath.resolve("java", "misc", "misc-log4j3", "gradle.properties"))
+                                    .fromGradleProperties(pathParents.resolve("tools", "gradle.properties"))
+                                    .fromGradleProperties(pathParentsGradle.resolve("gradle-plugins-test", "gradle.properties"))
+                                    .fromGradleProperties(pathParentsGradle.resolve("gradle-test-1", "gradle.properties"))
+                                    .fromGradleProperties(pathParentsGradle.resolve("platformbom-example", "gradle.properties"))
+                                    .fromIvy(pathParentsIvy.resolve("multi-module", "project-api", "ivy.xml"))
+                                    .fromIvy(pathParentsIvy.resolve("multi-module", "project-impl", "ivy.xml"))
+                            ;
 
-        // Coordinates
-        versionUpdates.configureCoordinateResolver(coordinateResolver -> {
-                    coordinateResolver
-                            .add(CoordinateSupplier.ofGradleProperties())
-                            .addGradle(basePath.resolve("syro", "gradle.properties"))
-                            .addGradle(basePath.resolve("java", "misc", "misc-log4j3", "gradle.properties"))
-                            .addGradle(pathParents.resolve("tools", "gradle.properties"))
-                            .addGradle(pathParentsGradle.resolve("gradle-plugins-test", "gradle.properties"))
-                            .addGradle(pathParentsGradle.resolve("gradle-test-1", "gradle.properties"))
-                            .addGradle(pathParentsGradle.resolve("platformbom-example", "gradle.properties"))
-                            .addIvy(pathParentsIvy.resolve("multi-module", "project-api", "ivy.xml"))
-                            .addIvy(pathParentsIvy.resolve("multi-module", "project-impl", "ivy.xml"))
-                            .setFilter(coordinate -> !coordinate.getGroupId().startsWith("de.freese"));
-
-                    mavenPoms.forEach(coordinateResolver::addMaven);
-                }
-        );
+                            mavenPoms.forEach(coordinateResolver::fromMavenPom);
+                        }
+                )
+                .build();
 
         int errorCode = 0;
 

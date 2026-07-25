@@ -1,4 +1,3 @@
-// Created: 06.03.2019
 package de.freese.dependency.update.version.filter;
 
 import java.nio.file.Path;
@@ -7,6 +6,7 @@ import java.util.Set;
 
 /**
  * @author Thomas Freese
+ * @since 06.03.2019
  */
 @FunctionalInterface
 public interface VersionFilter {
