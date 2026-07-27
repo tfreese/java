@@ -7,7 +7,6 @@ echo "Suche nach neuen Dependency Versionen..."
 BASEDIR=$(dirname "$0") # Script directory
 cd "$BASEDIR" || exit
 
-
 #rm -rf ../.gradle/configuration-cache/
 ../gradlew --quiet run
 
