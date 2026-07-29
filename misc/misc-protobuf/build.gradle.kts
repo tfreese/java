@@ -16,12 +16,12 @@ description = "Google Protobuf Demo"
 protobuf {
     protoc {
 //        path = "/usr/bin/protoc"
-        artifact = "com.google.protobuf:protoc:$version_protobufProtoc"
+        artifact = "com.google.protobuf:protoc:" + property("version_protobufProtoc")
     }
 }
 
 dependencies {
-    implementation("com.google.protobuf:protobuf-java:$version_protobufProtoc")
+    implementation("com.google.protobuf:protobuf-java:" + property("version_protobufProtoc"))
 
-    testImplementation("com.google.protobuf:protobuf-java-util:$version_protobufProtoc")
+    testImplementation("com.google.protobuf:protobuf-java-util:" + property("version_protobufProtoc"))
 }

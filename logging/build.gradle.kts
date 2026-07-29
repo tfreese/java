@@ -5,7 +5,7 @@ plugins {
 description = "Basis-Projekt für Logging-APIs"
 
 //configurations.configureEach {
-//    exclude group: "ch.qos.logback", module: "logback-core"
+//    exclude group = "ch.qos.logback", module = "logback-core"
 //}
 
 dependencies {
@@ -19,7 +19,7 @@ dependencies {
     // testImplementation("org.apache.logging.log4j:log4j-jdbc:3.0.0-beta3")
 
     testImplementation("ch.qos.logback.db:logback-classic-db") {
-        exclude(group: "ch.qos.logback", module: "logback-core")
+        exclude(group = "ch.qos.logback", module = "logback-core")
     }
     testImplementation("org.hsqldb:hsqldb")
 }

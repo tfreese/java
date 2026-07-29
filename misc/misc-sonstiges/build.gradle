@@ -112,7 +112,7 @@ tasks.register("xslt") {
 //         project.ant.taskdef(..., classpath: projects.configurations.myConfig.asPath)
 //     }
 // }
-tasks.register("testXjcTask", de.freese.gradle.java.xjc.XjcTask) {
+tasks.register("testXjcTask", de.freese.gradle.xjc.XjcTask) {
     // group = "MyTasks"
 
     destDir.set(layout.buildDirectory.get().dir("generated").dir("xjcTask"))

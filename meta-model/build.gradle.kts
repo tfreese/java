@@ -19,9 +19,9 @@ dependencies {
     testImplementation("org.xerial:sqlite-jdbc")
 }
 
-tasks.register("deleteAppFolder", Delete) {
+tasks.register<Delete>("deleteAppFolder") {
     description = "Delete app-Folder."
-    group = "Maintenance"
+    group = "MyTasks"
 
     logger.lifecycle("delete app-Folder: ${projectDir}/src/test/generated")
 
@@ -33,4 +33,4 @@ tasks.register("deleteAppFolder", Delete) {
     //     include("**/*.*")
     // })
 }
-clean.finalizedBy("deleteAppFolder")
+tasks.named("clean").get().finalizedBy("deleteAppFolder")

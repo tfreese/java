@@ -8,8 +8,8 @@ plugins {
 dependencies {
     implementation("org.jspecify:jspecify")
 
-    errorprone("com.uber.nullaway:nullaway:$version_nullaway")
-    errorprone("com.google.errorprone:error_prone_core:$version_errorProneCore")
+    errorprone("com.uber.nullaway:nullaway:" + property("version_nullaway"))
+    errorprone("com.google.errorprone:error_prone_core:" + property("version_errorProneCore"))
 }
 
 tasks.withType(JavaCompile).configureEach {
