@@ -5,16 +5,6 @@ plugins {
 
 description = "Check for new Dependency Versions"
 
-repositories {
-    maven {
-        url = "https://repo.gradle.org/gradle/libs-releases"
-        name = "gradle-libs-releases"
-        content {
-            includeGroup("org.gradle")
-        }
-    }
-}
-
 ext {
     mainClazz = "de.freese.dependency.update.VersionUpdatesLauncher"
 }

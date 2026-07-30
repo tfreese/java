@@ -7,7 +7,22 @@ pluginManagement {
 }
 
 // Without rootProject.name the Name of the Project-Directory is used.
-rootProject.name = "java"
+// rootProject.name = "java"
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url = uri("https://repo.gradle.org/gradle/libs-releases")
+            content {
+                includeGroup("org.gradle")
+            }
+        }
+    }
+}
 
 include("binding")
 include("cellular-machines")

@@ -1,6 +1,7 @@
 package de.freese.misc.junit5;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.util.Currency;
@@ -8,7 +9,6 @@ import java.util.Currency;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
@@ -22,7 +22,7 @@ class CurrencyConverterTests {
     @Test
     void testConvertsEurToUsd(@Mock final ExchangeRateService exchangeRateService) {
         final var originalAmount = new MonetaryAmount("100.00", EUR);
-        Mockito.when(exchangeRateService.getRate("EUR", "USD")).thenReturn(1.139157);
+        when(exchangeRateService.getRate("EUR", "USD")).thenReturn(1.139157);
 
         final var currencyConverter = new CurrencyConverter(exchangeRateService);
         final var convertedAmount = currencyConverter.convert(originalAmount, USD);
