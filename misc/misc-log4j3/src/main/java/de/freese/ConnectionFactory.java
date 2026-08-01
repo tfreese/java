@@ -67,18 +67,15 @@ public final class ConnectionFactory {
                     statement.execute("SHUTDOWN COMPACT");
                 }
             }
-        }
-        catch (SQLException _) {
+        } catch (SQLException _) {
             // Ignore
         }
 
-        if (getDataSource() instanceof JDBCPool p) {
+        if (getDataSource() instanceof final JDBCPool p) {
             p.close(1);
-        }
-        else if (getDataSource() instanceof AutoCloseable ac) {
+        } else if (getDataSource() instanceof final AutoCloseable ac) {
             ac.close();
-        }
-        else if (getDataSource() instanceof Closeable c) {
+        } else if (getDataSource() instanceof final Closeable c) {
             c.close();
         }
     }
@@ -91,8 +88,7 @@ public final class ConnectionFactory {
         try (Connection connection = getDataSource().getConnection();
              ResultSet resultSet = connection.getMetaData().getTables(null, null, tableName, new String[]{"TABLE"})) {
             return resultSet.next();
-        }
-        catch (SQLException ex) {
+        } catch (final SQLException ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -130,8 +126,7 @@ public final class ConnectionFactory {
             statement.execute("create sequence if not exists LOGGING_SEQUENCE as bigint start with 1 increment by 1");
             statement.execute("create index if not exists LOGGING_IDX_EVENTDATE on LOGGING (EVENT_DATE)");
             // statement.execute("create index if not exists LOGGING_IDX_MODUL on LOGGING (MODUL)");
-        }
-        catch (SQLException ex) {
+        } catch (final SQLException ex) {
             throw new RuntimeException(ex);
         }
     }

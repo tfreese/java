@@ -64,34 +64,34 @@ publishing {
                 }
             }
 
-            pom.withXml {
-                def root = asNode()
-                // root.dependencies.removeAll { dep ->
-                //     dep.scope == "test"
-                // }
-
-                if (!root.packaging || root.packaging.isEmpty()) {
-                    // Doesn't work.
-                    // def children = root.children()
-                    // def idx = children.findIndexOf { it instanceof Node && it.name() == "description" }
-                    // def packagingNode = new Node(null, "packaging", "jar")
-                    //
-                    // if (idx >= 0) {
-                    //     children.add(idx + 1, packagingNode) // After description-Node.
-                    // } else {
-                    //     children.add(packagingNode)
-                    // }
-                    def desc = root.description ? root.description[0] : null
-
-                    if (desc != null) {
-                        desc + {
-                            packaging("jar")
-                        }
-                    } else {
-                        root.appendNode("packaging", "jar")
-                    }
-                }
-            }
+            // pom.withXml {
+            //     def root = asNode()
+            //     // root.dependencies.removeAll { dep ->
+            //     //     dep.scope == "test"
+            //     // }
+            //
+            //     if (!root.packaging || root.packaging.isEmpty()) {
+            //         // Doesn't work.
+            //         // def children = root.children()
+            //         // def idx = children.findIndexOf { it instanceof Node && it.name() == "description" }
+            //         // def packagingNode = new Node(null, "packaging", "jar")
+            //         //
+            //         // if (idx >= 0) {
+            //         //     children.add(idx + 1, packagingNode) // After description-Node.
+            //         // } else {
+            //         //     children.add(packagingNode)
+            //         // }
+            //         def desc = root.description ? root.description[0] : null
+            //
+            //         if (desc != null) {
+            //             desc + {
+            //                 packaging("jar")
+            //             }
+            //         } else {
+            //             root.appendNode("packaging", "jar")
+            //         }
+            //     }
+            // }
         }
     }
 

@@ -28,26 +28,26 @@ subprojects {
     dependencyManagement {
         imports {
             // mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
-            mavenBom("org.springframework.boot:spring-boot-dependencies:$version_springBoot")
+            mavenBom("org.springframework.boot:spring-boot-dependencies:" + property("version_springBoot"))
         }
 
         dependencies {
-            dependency("ch.qos.logback.db:logback-classic-db:$version_logbackClassicDb")
-            dependency("com.danielflower.apprunner:javasysmon:$version_javasysmon")
-            dependency("com.formdev:flatlaf-intellij-themes:$version_flatLaf")
-            dependency("com.github.spotbugs:spotbugs-annotations:$version_spotbugs")
-            dependency("com.lmax:disruptor:$version_disruptor")
-            dependency("dev.failsafe:failsafe:$version_failsafe")
-            dependency("net.jthink:jaudiotagger:$version_jaudiotagger")
+            dependency("ch.qos.logback.db:logback-classic-db:" + property("version_logbackClassicDb"))
+            dependency("com.danielflower.apprunner:javasysmon:" + property("version_javasysmon"))
+            dependency("com.formdev:flatlaf-intellij-themes:" + property("version_flatLaf"))
+            dependency("com.github.spotbugs:spotbugs-annotations:" + property("version_spotbugs"))
+            dependency("com.lmax:disruptor:" + property("version_disruptor"))
+            dependency("dev.failsafe:failsafe:" + property("version_failsafe"))
+            dependency("net.jthink:jaudiotagger:" + property("version_jaudiotagger"))
 
-            dependency("org.apache.commons:commons-compress:$version_commonsCompress")
-            dependency("org.apache.lucene:lucene-queryparser:$version_lucene")
-            // dependency("org.apache.lucene:version_luceneAnalysisCommon:$version_luceneAnalysisCommon")
-            dependencySet(group: "org.apache.lucene", version: "$version_lucene") {
+            dependency("org.apache.commons:commons-compress:" + property("version_commonsCompress"))
+            dependency("org.apache.lucene:lucene-queryparser:" + property("version_lucene"))
+            // dependency("org.apache.lucene:version_luceneAnalysisCommon:" + property("version_luceneAnalysisCommon"))
+            dependencySet(group: "org.apache.lucene", version: property("version_lucene")) {
                 entry("lucene-analysis-common")
                 entry("lucene-queryparser")
             }
-            dependencySet(group: "org.apache.maven", version: "$version_maven") {
+            dependencySet(group: "org.apache.maven", version: property("version_maven")) {
                 entry("maven-model-builder")
                 entry("maven-settings-builder")
             }
@@ -55,20 +55,20 @@ subprojects {
                 entry("tomcat-catalina")
                 entry("tomcat-juli")
             }
-            dependencySet(group: "org.apache.xmlgraphics", version: "$version_batik") {
+            dependencySet(group: "org.apache.xmlgraphics", version: property("version_batik")) {
                 entry("batik-codec")
                 entry("batik-swing")
             }
-            dependency("org.gradle:gradle-tooling-api:$version_gradleToolingApi")
-            dependency("org.apache.velocity:velocity-engine-core:$version_velocity")
+            dependency("org.gradle:gradle-tooling-api:" + property("version_gradleToolingApi"))
+            dependency("org.apache.velocity:velocity-engine-core:" + property("version_velocity"))
 
-            dependency("org.apiguardian:apiguardian-api:$version_apiGuardian")
-            dependency("org.jfree:jfreechart:$version_jfreechart") {
+            dependency("org.apiguardian:apiguardian-api:" + property("version_apiGuardian"))
+            dependency("org.jfree:jfreechart:" + property("version_jfreechart")) {
                 // exclude("com.lowagie:itext")
                 // exclude("xml-apis:xml-apis")
             }
-            dependency("org.jsoup:jsoup:$version_jsoup")
-            // dependency("org.jspecify:jspecify:$versoin_jspecify")
+            dependency("org.jsoup:jsoup:" + property("version_jsoup"))
+            // dependency("org.jspecify:jspecify:" + property("versoin_jspecify"))
         }
     }
 
@@ -101,10 +101,6 @@ subprojects {
         // test {
         // tasks.named("test")
         tasks.withType(Test).configureEach {
-            enabled = true
-            ignoreFailures = false
-            useJUnitPlatform()
-
             String mockitoFiles = configurations.mockitoAgent.asPath
 
             doFirst {
@@ -113,12 +109,4 @@ subprojects {
             }
         }
     }
-}
-
-// For Composite Build.
-tasks.register("cleanAll", GradleBuild) {
-    tasks = ["clean"]
-}
-tasks.register("buildAll", GradleBuild) {
-    tasks = ["build"]
 }

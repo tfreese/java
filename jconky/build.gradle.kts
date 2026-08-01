@@ -16,10 +16,10 @@ description = "Java-Clone of Linux Tool 'conky'"
 // }
 
 javafx {
-    version = "$version_javafx"
-    modules = ["javafx.controls", "javafx.swing"]
+    version = project.property("version_javafx").toString()
+    modules = listOf("javafx.controls", "javafx.swing")
     configuration = "implementation"
-    platform = "linux" // linux, windows, mac
+    setPlatform("linux") // linux, windows, mac
     // sdk = "PATH"
 }
 
@@ -31,5 +31,5 @@ dependencies {
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"
 springBoot {
-    mainClass = "de.freese.jconky.JConkyLauncher"
+    mainClass.set("de.freese.jconky.JConkyLauncher")
 }

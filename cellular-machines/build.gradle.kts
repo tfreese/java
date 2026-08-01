@@ -18,7 +18,7 @@ dependencies {
 // [archiveBaseName]-[archiveAppendix]-[archiveVersion]-[archiveClassifier].[archiveExtension]
 // archiveFileName = "my-boot.jar"
 springBoot {
-    mainClass = "de.freese.simulationen.SimulationLauncher"
+    mainClass.set("de.freese.simulationen.SimulationLauncher")
 }
 
 // gradle bootRun --args="-console -type wator -cycles 1500 -size 3840 2160 -dir /tmp/simulationen"

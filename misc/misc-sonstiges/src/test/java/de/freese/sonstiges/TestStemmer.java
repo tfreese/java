@@ -11,7 +11,6 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.params.provider.Arguments;
-import org.tartarus.snowball.SnowballProgram;
 import org.tartarus.snowball.SnowballStemmer;
 import org.tartarus.snowball.ext.GermanStemmer;
 
@@ -39,21 +38,21 @@ class TestStemmer {
 
     private static Stemmer wrap(final Object stemmerImpl) {
         return switch (stemmerImpl) {
-            case SnowballStemmer snowballStemmer -> value -> {
-                ((SnowballStemmer) stemmerImpl).setCurrent(value);
-                ((SnowballStemmer) stemmerImpl).stem();
+            case final SnowballStemmer snowballStemmer -> value -> {
+                snowballStemmer.setCurrent(value);
+                snowballStemmer.stem();
 
-                return ((SnowballProgram) stemmerImpl).getCurrent();
+                return snowballStemmer.getCurrent();
             };
-            // case GermanMinimalStemmer germanMinimalStemmer -> value -> {
+            // case final GermanMinimalStemmer germanMinimalStemmer -> value -> {
             //     final char[] ca = value.toCharArray();
-            //     final int length = ((GermanMinimalStemmer) stemmerImpl).stem(ca, ca.length);
+            //     final int length = germanMinimalStemmer.stem(ca, ca.length);
             //
             //     return new String(ca, 0, length);
             // };
-            // case GermanLightStemmer germanLightStemmer -> value -> {
+            // case final GermanLightStemmer germanLightStemmer -> value -> {
             //     final char[] ca = value.toCharArray();
-            //     final int length = ((GermanLightStemmer) stemmerImpl).stem(ca, ca.length);
+            //     final int length = germanLightStemmer.stem(ca, ca.length);
             //
             //     return new String(ca, 0, length);
             // };

@@ -5,12 +5,10 @@ plugins {
 
 description = "Check for new Dependency Versions"
 
-ext {
-    mainClazz = "de.freese.dependency.update.VersionUpdatesLauncher"
-}
+val mainClazz = "de.freese.dependency.update.VersionUpdatesLauncher"
 
 application {
-    mainClass = mainClazz
+    mainClass.set(mainClazz)
 }
 // run {
 //     jvmArgs = ["--enable-native-access=ALL-UNNAMED"]
@@ -57,7 +55,7 @@ dependencies {
     // testImplementation("org.apache.maven.resolver:maven-resolver-transport-wagon")
 }
 
-tasks.withType(JavaCompile).configureEach {
+tasks.withType<JavaCompile>().configureEach {
     options.errorprone {
         warn("NullAway")
 

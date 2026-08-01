@@ -8,8 +8,8 @@ plugins {
 description = "Gradle Build Cache"
 
 dependencies {
-    errorprone("com.uber.nullaway:nullaway:$version_nullaway")
-    errorprone("com.google.errorprone:error_prone_core:$version_errorProneCore")
+    errorprone("com.uber.nullaway:nullaway:" + property("version_nullaway"))
+    errorprone("com.google.errorprone:error_prone_core:" + property("version_errorProneCore"))
 
     implementation("com.github.ben-manes.caffeine:caffeine")
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
@@ -18,9 +18,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
 }
 
-ext {
-    mainClazz = "de.freese.gradle.cache.GradleBuildCache"
-}
+val mainClazz = "de.freese.gradle.cache.GradleBuildCache"
 
 // gradle run --args="-Dspring.profiles.active=file"
 // application {
@@ -33,14 +31,14 @@ ext {
 
 // gradle exec --args=["-Dspring.profiles.active=file"]
 // gradle exec -Dspring.profiles.active=file
-tasks.register("exec", JavaExec) {
+tasks.register<JavaExec>("exec") {
     group = "MyTasks"
     description = "Start the GradleBuildCache"
 
     // classpath = files(...)
-    classpath = sourceSets.main.runtimeClasspath
+    classpath = sourceSets["main"].runtimeClasspath
 
-    mainClass = mainClazz
+    mainClass.set(mainClazz)
 
     // args("-Dspring.profiles.active=file")
     environment("spring.profiles.active", "file")
@@ -62,31 +60,31 @@ tasks.register("exec", JavaExec) {
 // [archiveBaseName]-[archiveAppendix]-[archiveVersion]-[archiveClassifier].[archiveExtension]
 // archiveFileName = "my-boot.jar"
 springBoot {
-    mainClass = mainClazz
+    mainClass.set(mainClazz)
 }
 
 // gradle bootRun --args="--spring.profiles.active=file --server.port=65111"
-bootRun {
-    args = [
-            "--spring.profiles.active=file"
-    ]
-    jvmArgs = ["--enable-native-access=ALL-UNNAMED"]
+tasks.named<org.springframework.boot.gradle.tasks.run.BootRun>("bootRun") {
+    //systemProperty("com.example.property", findProperty("example") ?: "default")
+
+    args = listOf("--spring.profiles.active=file")
+    jvmArgs = listOf("--enable-native-access=ALL-UNNAMED")
 }
 
-tasks.withType(JavaCompile).configureEach {
-    options.errorprone {
-        warn("NullAway")
-
-        // Scan all Packages.
-        option("NullAway:AnnotatedPackages", "de.freese.gradle.cache")
-
-        // Scan only Packages with package.info.java.
-        // option("NullAway:OnlyNullMarked", "true")
-
-        // No byte[] allowed.
-        disable("ArrayRecordComponent")
-
-        // Uncomment below if you are using Java 22+ compiled and you want to check generics nullness.
-        option("NullAway:JSpecifyMode", "true")
-    }
-}
+//tasks.withType<JavaCompile>().configureEach {
+//    options.errorprone {
+//        warn("NullAway")
+//
+//        // Scan all Packages.
+//        option("NullAway:AnnotatedPackages", "de.freese.gradle.cache")
+//
+//        // Scan only Packages with package.info.java.
+//        // option("NullAway:OnlyNullMarked", "true")
+//
+//        // No byte[] allowed.
+//        disable("ArrayRecordComponent")
+//
+//        // Uncomment below if you are using Java 22+ compiled and you want to check generics nullness.
+//        option("NullAway:JSpecifyMode", "true")
+//    }
+//}

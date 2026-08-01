@@ -1,4 +1,3 @@
-// Can not be configured by Conventions-Plugin.
 pluginManagement {
     repositories {
         mavenLocal()
@@ -25,5 +24,5 @@ dependencyResolutionManagement {
 println("")
 println("Gradle version: ${GradleVersion.current().version}")
 println("Java version: ${JavaVersion.current()}")
-println("MaxWorkerCount: ${gradle.getStartParameter().getMaxWorkerCount()}")
+println("MaxWorkerCount: ${gradle.startParameter.maxWorkerCount}")
 println("")

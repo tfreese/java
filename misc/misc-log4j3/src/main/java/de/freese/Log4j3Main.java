@@ -34,11 +34,9 @@ public final class Log4j3Main {
             // Programmatic ShutdownHook for Async-Appender, see xml#shutdownHook
             // For this 'shutdownHook="disable"' must configure in the XML!
             LogManager.shutdown();
-        }
-        catch (Exception ex) {
+        } catch (final Exception ex) {
             java.util.logging.Logger.getLogger(Log4j3Main.class.getSimpleName()).log(Level.SEVERE, ex.getMessage(), ex);
-        }
-        finally {
+        } finally {
             ConnectionFactory.getInstance().close();
         }
     }
