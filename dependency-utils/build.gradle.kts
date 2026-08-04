@@ -1,3 +1,5 @@
+import net.ltgt.gradle.errorprone.errorprone
+
 plugins {
     id("application")
     id("net.ltgt.errorprone")
@@ -57,6 +59,14 @@ dependencies {
 
 tasks.withType<JavaCompile>().configureEach {
     options.errorprone {
+        // Warnung: [MissingSummary] A summary line is required on public/protected Javadocs.
+        // Or with SuppressWarnings.
+        disable("MissingSummary")
+        disable("UnusedMethod")
+
+        // No byte[] allowed.
+        // disable("ArrayRecordComponent")
+
         warn("NullAway")
 
         // Scan all Packages.
@@ -64,12 +74,6 @@ tasks.withType<JavaCompile>().configureEach {
 
         // Scan only Packages with package.info.java.
         // option("NullAway:OnlyNullMarked", "true")
-
-        disable("MissingSummary")
-        disable("UnusedMethod")
-
-        // No byte[] allowed.
-        // disable("ArrayRecordComponent")
 
         // Uncomment below if you are using Java 22+ compiled and you want to check generics nullness.
         option("NullAway:JSpecifyMode", "true")

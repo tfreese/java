@@ -1,3 +1,5 @@
+import net.ltgt.gradle.errorprone.errorprone
+
 plugins {
     id("java")
     // id("application")
@@ -71,20 +73,21 @@ tasks.named<org.springframework.boot.gradle.tasks.run.BootRun>("bootRun") {
     jvmArgs = listOf("--enable-native-access=ALL-UNNAMED")
 }
 
-//tasks.withType<JavaCompile>().configureEach {
-//    options.errorprone {
-//        warn("NullAway")
-//
-//        // Scan all Packages.
-//        option("NullAway:AnnotatedPackages", "de.freese.gradle.cache")
-//
-//        // Scan only Packages with package.info.java.
-//        // option("NullAway:OnlyNullMarked", "true")
-//
-//        // No byte[] allowed.
-//        disable("ArrayRecordComponent")
-//
-//        // Uncomment below if you are using Java 22+ compiled and you want to check generics nullness.
-//        option("NullAway:JSpecifyMode", "true")
-//    }
-//}
+tasks.withType<JavaCompile>().configureEach {
+    options.errorprone {
+        // No byte[] allowed.
+        // Or with SuppressWarnings.
+        disable("ArrayRecordComponent")
+
+        warn("NullAway")
+
+        // Scan all Packages.
+        option("NullAway:AnnotatedPackages", "de.freese.gradle.cache")
+
+        // Scan only Packages with package.info.java.
+        // option("NullAway:OnlyNullMarked", "true")
+
+        // Uncomment below if you are using Java 22+ compiled and you want to check generics nullness.
+        option("NullAway:JSpecifyMode", "true")
+    }
+}

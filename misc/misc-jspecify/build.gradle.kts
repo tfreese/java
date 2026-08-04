@@ -1,3 +1,5 @@
+import net.ltgt.gradle.errorprone.errorprone
+
 plugins {
     id("java")
     id("net.ltgt.errorprone")
@@ -12,6 +14,10 @@ dependencies {
 
 tasks.withType<JavaCompile>().configureEach {
     options.errorprone {
+        // Warnung: [MissingSummary] A summary line is required on public/protected Javadocs.
+        // Or with SuppressWarnings.
+        // disable("MissingSummary")
+
         // check("NullAway", net.ltgt.gradle.errorprone.CheckSeverity.ERROR)
         // check("NullAway", CheckSeverity.WARN)
         warn("NullAway")
@@ -25,10 +31,6 @@ tasks.withType<JavaCompile>().configureEach {
 
         // Uncomment below if you are using Java 22+ compiled and you want to check generics nullness.
         option("NullAway:JSpecifyMode", "true")
-
-        // Warnung: [MissingSummary] A summary line is required on public/protected Javadocs.
-        // Or with SuppressWarnings.
-        // disable("MissingSummary")
 
         // disableAllChecks = true // Other error prone checks are disabled.
         // option("NullAway:CustomContractAnnotations", "org.springframework.lang.Contract")
@@ -48,17 +50,17 @@ tasks.withType<JavaCompile>().configureEach {
     // }
 }
 
-// tasks.named("compileTestJava") {
-//     options.errorprone {
-//         // Disable All.
-//         enabled = false
+//tasks.named("compileTestJava").configure {
+//    options.errorprone {
+//        // Disable All.
+//        enabled = false
 //
-//         // Disable Test-Classes.
-//         option("NullAway:ExcludedClassAnnotations", "org.junit.jupiter.api.Test,org.junit.Test")
+//        disable("NullAway")
 //
-//         // Disable Test-Packages.
-//         option("NullAway:UnannotatedSubPackages", "de.freese.jspecify,de.freese.jspecify.test")
+//        // Disable Test-Classes.
+//        option("NullAway:ExcludedClassAnnotations", "org.junit.jupiter.api.Test,org.junit.Test")
 //
-//         disable("NullAway")
-//     }
-// }
+//        // Disable Test-Packages.
+//        option("NullAway:UnannotatedSubPackages", "de.freese.jspecify,de.freese.jspecify.test")
+//    }
+//}
