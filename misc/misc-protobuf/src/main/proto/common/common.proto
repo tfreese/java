@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package common;
+
+option java_package = "de.freese.protobuf.model.common";
+option java_multiple_files = true;
+option optimize_for = SPEED; // Default is SPEED, other options are CODE_SIZE and LITE_RUNTIME
+
+message LocalDateValue {
+    // Mark deleted Field-Numbers and -Names to avoid reuse.
+    // https://protobuf.dev/programming-guides/proto3/#consequences
+    // reserved 2, 15, 9 to 11;
+    // reserved "foo", "bar";
+
+    int32 year = 1;
+    int32 month = 2;
+    int32 day = 3;
+}

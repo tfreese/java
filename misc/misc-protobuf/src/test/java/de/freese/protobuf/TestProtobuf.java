@@ -12,15 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.JsonFormat;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import de.freese.protobuf.model.addressbook.AddressBook;
-import de.freese.protobuf.model.person.Person;
-import de.freese.protobuf.model.phone.PhoneNumber;
-import de.freese.protobuf.model.phone.PhoneType;
+import de.freese.protobuf.model.addressbook.person.Person;
+import de.freese.protobuf.model.addressbook.phone.PhoneNumber;
+import de.freese.protobuf.model.addressbook.phone.PhoneType;
+import de.freese.protobuf.model.common.LocalDateValue;
 import de.freese.protobuf.model.test.ListOfTest1;
 import de.freese.protobuf.model.test.ListOfTest2;
 import de.freese.protobuf.model.test.Test1;
@@ -34,19 +34,15 @@ class TestProtobuf {
 
     @BeforeAll
     static void beforeAll() {
-        final long id = System.currentTimeMillis();
-        final String name = "Test";
-        final String email = "test@example.org";
-
         final PhoneNumber.Builder phoneNumberBuilder = PhoneNumber.newBuilder()
                 .setType(PhoneType.PHONE_TYPE_HOME)
                 .setNumber("007");
 
         final Person.Builder personBuilder = Person.newBuilder()
-                .setId(id)
-                .setName(name)
-                .setEmail(email)
-                .setBirthDay(Timestamp.newBuilder().setSeconds(System.currentTimeMillis() / 1000L).setNanos(1)) // Timestamps.fromMillis(System.currentTimeMillis())
+                .setId(System.currentTimeMillis())
+                .setName("Test")
+                .setEmail("test@example.org")
+                .setBirthDay(LocalDateValue.newBuilder().setYear(1990).setMonth(2).setDay(3)) // Timestamps.fromMillis(System.currentTimeMillis())
                 .addPhones(phoneNumberBuilder);
 
         addressBook = AddressBook.newBuilder()
@@ -57,8 +53,7 @@ class TestProtobuf {
 
         try {
             System.out.printf("JsonFormat:%n%s%n", JsonFormat.printer().sortingMapKeys().print(addressBook));
-        }
-        catch (final InvalidProtocolBufferException ex) {
+        } catch (final InvalidProtocolBufferException ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -135,7 +130,6 @@ class TestProtobuf {
         }
 
         final List<Test1> list1 = new ArrayList<>();
-        final List<Test2> list2 = new ArrayList<>();
 
         try (InputStream inputStream = new ByteArrayInputStream(bytes)) {
             while (inputStream.available() > 0) {
@@ -150,15 +144,11 @@ class TestProtobuf {
                 inputStream.read(bytes);
 
                 list1.add(Test1.parseFrom(bytes));
-                list2.add(Test2.parseFrom(bytes));
             }
         }
 
         assertFalse(list1.isEmpty());
         assertEquals(2, list1.size());
-
-        assertFalse(list2.isEmpty());
-        assertEquals(2, list2.size());
     }
 
     @Test

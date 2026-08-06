@@ -1,11 +1,10 @@
 syntax = "proto3";
 
-package myproject.namespace;
+package addressbook;
 
-option java_package = "de.freese.protobuf.model.phone";
+option java_package = "de.freese.protobuf.model.addressbook.phone";
 option java_outer_classname = "PhoneNumberProto";
 option java_multiple_files = true;
-option optimize_for = SPEED;
 
 enum PhoneType {
     PHONE_TYPE_UNSPECIFIED = 0; // [deprecated = true];

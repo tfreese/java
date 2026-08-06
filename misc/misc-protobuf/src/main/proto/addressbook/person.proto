@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package addressbook;
+
+option java_package = "de.freese.protobuf.model.addressbook.person";
+option java_outer_classname = "PersonProto";
+option java_multiple_files = true;
+option optimize_for = SPEED;
+
+import "addressbook/phone.proto";
+import "common/common.proto";
+
+message Person {
+    int64 id = 1;
+    string name = 2;
+    optional string email = 3;
+    common.LocalDateValue birthDay = 4;
+    repeated PhoneNumber phones = 5;
+}
