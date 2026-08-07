@@ -68,27 +68,19 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
         List<String> lines = null;
         List<String> errors = null;
 
-        try {
-            final Process process = processBuilder.start();
-
+        try (Process process = processBuilder.start()) {
             try (BufferedReader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8));
                  BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8))) {
                 lines = inputReader.lines().toList();
                 errors = errorReader.lines().toList();
             }
 
-            try {
-                process.waitFor();
-            }
-            catch (InterruptedException ex) {
-                getLogger().error(ex.getMessage());
+            process.waitFor();
+        } catch (final InterruptedException ex) {
+            getLogger().error(ex.getMessage());
 
-                Thread.currentThread().interrupt();
-            }
-
-            process.destroy();
-        }
-        catch (IOException ex) {
+            Thread.currentThread().interrupt();
+        } catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
 
@@ -132,8 +124,7 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
             // }
             //
             // return lines;
-        }
-        catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
     }

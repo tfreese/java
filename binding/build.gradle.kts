@@ -5,12 +5,6 @@ plugins {
 
 description = "An alternative for Swing like the Binding in JavaFX."
 
-dependencies {
-    api("org.slf4j:slf4j-api")
-}
-
-tasks.named("build").get().finalizedBy("publishToMavenLocal")
-
 dependencyManagement {
     generatedPomCustomization {
         // Disable Spring's "dependencyManagement" in POM.
@@ -18,6 +12,12 @@ dependencyManagement {
         //enabled = false
     }
 }
+
+dependencies {
+    api("org.slf4j:slf4j-api")
+}
+
+tasks.named("build").get().finalizedBy("publishToMavenLocal")
 
 // Deaktiviere Configuration Cache für Maven Publish Tasks (nicht kompatibel).
 tasks.withType<GenerateMavenPom>().configureEach {
@@ -31,6 +31,9 @@ val publishGroup = project.group.toString()
 val publishName = project.name
 val publishVersion = project.version.toString()
 val publishDescription = project.description
+
+// components["java"]
+//val componentContainer = components.findByName("java")
 
 // https://docs.gradle.org/current/userguide/publishing_maven.html
 publishing {

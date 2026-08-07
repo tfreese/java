@@ -4,10 +4,24 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+
+    val versionMyJavaConventionPlugin = providers.gradleProperty("version_myJavaConventionPlugin")
+    val versionProtobufGradlePlugin = providers.gradleProperty("version_protobufGradlePlugin")
+    val versionErrorproneGradlePlugin = providers.gradleProperty("version_errorproneGradlePlugin")
+    val versionJavafxPlugin = providers.gradleProperty("version_javafxPlugin")
+    val versionSpringBoot = providers.gradleProperty("version_springBoot")
+
+    plugins {
+        id("de.freese.gradle.conventions").version(versionMyJavaConventionPlugin).apply(false)
+        id("com.google.protobuf").version(versionProtobufGradlePlugin).apply(false)
+        id("net.ltgt.errorprone").version(versionErrorproneGradlePlugin).apply(false)
+        id("org.openjfx.javafxplugin").version(versionJavafxPlugin).apply(false)
+        id("org.springframework.boot").version(versionSpringBoot).apply(false)
+    }
 }
 
 // Without rootProject.name the Name of the Project-Directory is used.
-// rootProject.name = "java"
+rootProject.name = "java"
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -52,5 +66,5 @@ include("misc:misc-sudoku")
 println("")
 println("Gradle version: ${GradleVersion.current().version}")
 println("Java version: ${JavaVersion.current()}")
-println("MaxWorkerCount: ${gradle.getStartParameter().getMaxWorkerCount()}")
+println("MaxWorkerCount: ${gradle.startParameter.maxWorkerCount}")
 println("")

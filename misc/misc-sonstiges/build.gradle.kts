@@ -61,11 +61,11 @@ dependencies {
     runtimeOnly("org.slf4j:slf4j-simple")
 
     testImplementation("com.h2database:h2")
-    testImplementation("org.apache.tomcat:tomcat-catalina") {
-        // tomcat-juli ist in tomcat-catalina enthalten, aber auch viele andere Jars die nicht benötigt werden.
-        exclude(group = "org.apache.tomcat")
-    }
-    testImplementation("org.apache.tomcat:tomcat-juli")
+    //testImplementation("org.apache.tomcat:tomcat-catalina") {
+    //    // tomcat-juli ist in tomcat-catalina enthalten, aber auch viele andere Jars die nicht benötigt werden.
+    //    exclude(group = "org.apache.tomcat")
+    //}
+    //testImplementation("org.apache.tomcat:tomcat-juli")
 }
 
 tasks.register("xslt") {
