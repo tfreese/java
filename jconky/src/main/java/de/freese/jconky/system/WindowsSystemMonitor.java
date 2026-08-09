@@ -3,9 +3,6 @@ package de.freese.jconky.system;
 
 import java.util.Map;
 
-import de.freese.jconky.model.CpuInfos;
-import de.freese.jconky.model.CpuLoadAvg;
-import de.freese.jconky.model.HostInfo;
 import de.freese.jconky.model.MusicInfo;
 import de.freese.jconky.model.NetworkInfos;
 import de.freese.jconky.model.ProcessInfos;
@@ -16,46 +13,26 @@ import de.freese.jconky.model.UsageInfo;
  * @author Thomas Freese
  */
 public final class WindowsSystemMonitor extends AbstractSystemMonitor {
-    private final ProcessBuilder processBuilderCpu;
-    private final ProcessBuilder processBuilderFree;
-    private final ProcessBuilder processBuilderTop;
-    private final ProcessBuilder processBuilderUser;
+    // private final ProcessBuilder processBuilderCpu;
+    // private final ProcessBuilder processBuilderFree;
+    // private final ProcessBuilder processBuilderTop;
+    // private final ProcessBuilder processBuilderUser;
 
     public WindowsSystemMonitor() {
         super();
 
-        final boolean is32bit = System.getProperty("sun.arch.data.model").contains("32");
-        final String systemPath = is32bit ? "c:\\windows\\Sysnative" : "c:\\windows\\system32";
+        // final boolean is32bit = System.getProperty("sun.arch.data.model").contains("32");
+        // final String systemPath = is32bit ? "c:\\windows\\Sysnative" : "c:\\windows\\system32";
 
-        processBuilderCpu = new ProcessBuilder(systemPath + "\\wbem\\wmic.exe", "cpu get loadpercentage");
-        processBuilderFree = new ProcessBuilder(systemPath + "\\wbem\\wmic.exe", "memorychip get capacity");
-        processBuilderTop = new ProcessBuilder(systemPath + "\\tasklist.exe", "/Nh");
-        processBuilderUser = new ProcessBuilder(systemPath + "\\change.exe", "logon /query");
-    }
-
-    @Override
-    public CpuInfos getCpuInfos() {
-        return null;
-    }
-
-    @Override
-    public CpuLoadAvg getCpuLoadAvg() {
-        return null;
-    }
-
-    @Override
-    public String getExternalIp() {
-        return "";
+        // processBuilderCpu = new ProcessBuilder(systemPath + "\\wbem\\wmic.exe", "cpu get loadpercentage");
+        // processBuilderFree = new ProcessBuilder(systemPath + "\\wbem\\wmic.exe", "memorychip get capacity");
+        // processBuilderTop = new ProcessBuilder(systemPath + "\\tasklist.exe", "/Nh");
+        // processBuilderUser = new ProcessBuilder(systemPath + "\\change.exe", "logon /query");
     }
 
     @Override
     public Map<String, UsageInfo> getFilesystems() {
         return Map.of();
-    }
-
-    @Override
-    public HostInfo getHostInfo() {
-        return null;
     }
 
     @Override

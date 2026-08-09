@@ -1,7 +1,6 @@
 // Created: 07.12.2020
 package de.freese.jconky.model;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
@@ -18,7 +17,7 @@ public class ProcessInfos {
     private final List<ProcessInfo> infos;
 
     public ProcessInfos() {
-        this(Collections.emptyList());
+        this(List.of());
     }
 
     public ProcessInfos(final List<ProcessInfo> infos) {

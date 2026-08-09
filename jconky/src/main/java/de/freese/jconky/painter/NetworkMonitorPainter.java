@@ -34,7 +34,7 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter {
     @Override
     public double paintValue(final GraphicsContext gc, final double width) {
         final NetworkInfos networkInfos = getContext().getNetworkInfos();
-        final NetworkInfo lan = networkInfos.getByName("enp5s0");
+        final NetworkInfo lan = networkInfos.getByName("enp6s0");
 
         downloadMap.computeIfAbsent(lan.getInterfaceName(), key -> new Values<>()).addValue(lan.getDownloadPerSecond());
         uploadMap.computeIfAbsent(lan.getInterfaceName(), key -> new Values<>()).addValue(lan.getUploadPerSecond());
@@ -108,10 +108,10 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter {
         // final  double maxValue = 28D * 1024D * 1024D; // 28 MB/s als max. bei 200er Leitung.
         final double maxValue = values.getMaxValue();
         final double minNorm = 0D;
-        final double maxNorm = height - 2;
+        final double maxNorm = height - 2D;
 
         // gc.setFill(new LinearGradient(0D, height - 2, 0D, 0D, false, CycleMethod.NO_CYCLE, gradientStops));
-        gc.setStroke(new LinearGradient(0D, height - 2, 0D, 0D, false, CycleMethod.NO_CYCLE, gradientStops));
+        gc.setStroke(new LinearGradient(0D, height - 2D, 0D, 0D, false, CycleMethod.NO_CYCLE, gradientStops));
 
         final double xOffset = width - valueList.size(); // Diagramm von rechts aufbauen.
         // double xOffset = 0D; // Diagramm von links aufbauen.

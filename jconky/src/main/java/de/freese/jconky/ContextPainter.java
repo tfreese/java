@@ -33,7 +33,7 @@ public class ContextPainter {
         final double width = canvas.getWidth();
         final double height = canvas.getHeight();
 
-        getLogger().debug("paint: width={}, height={}", width, height);
+        // getLogger().debug("paint: width={}, height={}", width, height);
 
         gc.clearRect(0D, 0D, width, height);
         gc.save();

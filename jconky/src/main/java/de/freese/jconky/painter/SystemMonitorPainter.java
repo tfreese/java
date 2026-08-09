@@ -67,9 +67,9 @@ public class SystemMonitorPainter extends AbstractMonitorPainter {
 
         final String format = "%.1f%s";
         final long used = usageInfo.used();
-        final long size = usageInfo.size();
+        final long total = usageInfo.total();
         final double usage = usageInfo.getUsage();
-        final String value = String.format("%s/%s", JConkyUtils.toHumanReadableSize(used, format), JConkyUtils.toHumanReadableSize(size, format));
+        final String value = String.format("%s/%s", JConkyUtils.toHumanReadableSize(used, format), JConkyUtils.toHumanReadableSize(total, format));
         paintTextAndValue(gc, path, value, x, y);
 
         x = 150D;

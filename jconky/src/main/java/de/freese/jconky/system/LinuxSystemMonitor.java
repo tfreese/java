@@ -1,18 +1,14 @@
 // Created: 01.12.2020
 package de.freese.jconky.system;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,7 +17,6 @@ import de.freese.jconky.model.CpuInfos;
 import de.freese.jconky.model.CpuLoadAvg;
 import de.freese.jconky.model.CpuTimes;
 import de.freese.jconky.model.GpuInfo;
-import de.freese.jconky.model.HostInfo;
 import de.freese.jconky.model.MusicInfo;
 import de.freese.jconky.model.NetworkInfo;
 import de.freese.jconky.model.NetworkInfos;
@@ -36,23 +31,23 @@ import de.freese.jconky.util.JConkyUtils;
  * @author Thomas Freese
  */
 public class LinuxSystemMonitor extends AbstractSystemMonitor {
-    /**
-     * /proc/cpuinfo: processor\\s+:\\s+(\\d+)
-     */
-    static final Pattern CPUINFO_NUM_CPU_PATTERN = Pattern.compile("processor\\s+:\\s+(\\d+)", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
-    /**
-     * /proc/stat: cpu\\s+(.*)
-     */
-    static final Pattern CPU_JIFFIES_PATTERN = Pattern.compile("cpu\\s+(.*)", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
-    /**
-     * Bei AMD gib's keine Temperatur pro Core.<br>
-     * sensors: Core\\s{1}\\d+:.*
-     */
-    static final Pattern SENSORS_CORE_PATTERN = Pattern.compile("Core\\s\\d+:.*", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
-    /**
-     * /proc/stat: cpu\\d+
-     */
-    protected static final Pattern STAT_NUM_CPU_PATTERN = Pattern.compile("cpu\\d+", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
+    // /**
+    //  * /proc/cpuinfo: processor\\s+:\\s+(\\d+)
+    //  */
+    // static final Pattern CPUINFO_NUM_CPU_PATTERN = Pattern.compile("processor\\s+:\\s+(\\d+)", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
+    // /**
+    //  * /proc/stat: cpu\\s+(.*)
+    //  */
+    // static final Pattern CPU_JIFFIES_PATTERN = Pattern.compile("cpu\\s+(.*)", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
+    // /**
+    //  * Bei AMD gib's keine Temperatur pro Core.<br>
+    //  * sensors: Core\\s{1}\\d+:.*
+    //  */
+    // static final Pattern SENSORS_CORE_PATTERN = Pattern.compile("Core\\s\\d+:.*", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
+    // /**
+    //  * /proc/stat: cpu\\d+
+    //  */
+    // protected static final Pattern STAT_NUM_CPU_PATTERN = Pattern.compile("cpu\\d+", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
 
     private static final Pattern APROC_DIR_PATTERN = Pattern.compile("([\\d]*)");
 
@@ -102,9 +97,9 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     }
 
     private final ProcessBuilder processBuilderCheckUpdates;
-    private final ProcessBuilder processBuilderDf;
+    // private final ProcessBuilder processBuilderDf;
     private final ProcessBuilder processBuilderFree;
-    private final ProcessBuilder processBuilderHddTemp;
+    // private final ProcessBuilder processBuilderHddTemp;
     private final ProcessBuilder processBuilderIfConfig;
     private final ProcessBuilder processBuilderNetstat;
     private final ProcessBuilder processBuilderNvidiaSmi;
@@ -113,13 +108,13 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     private final ProcessBuilder processBuilderSensors;
     private final ProcessBuilder processBuilderSmartCtl;
     private final ProcessBuilder processBuilderTop;
-    private final ProcessBuilder processBuilderUname;
+    // private final ProcessBuilder processBuilderUname;
 
     public LinuxSystemMonitor() {
         super();
 
         // .redirectErrorStream(true); // Gibt Fehler auf dem InputStream aus.
-        processBuilderUname = new ProcessBuilder().command("/bin/sh", "-c", "uname --all");
+        // processBuilderUname = new ProcessBuilder().command("/bin/sh", "-c", "uname --all");
 
         processBuilderSensors = new ProcessBuilder().command("/bin/sh", "-c", "sensors");
 
@@ -128,12 +123,12 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
 
         processBuilderIfConfig = new ProcessBuilder().command("/bin/sh", "-c", "ifconfig");
         processBuilderNetstat = new ProcessBuilder("/bin/sh", "-c", "netstat --statistics ");
-        processBuilderDf = new ProcessBuilder("/bin/sh", "-c", "df --block-size=1K");
+        // processBuilderDf = new ProcessBuilder("/bin/sh", "-c", "df --block-size=1K");
         processBuilderFree = new ProcessBuilder("/bin/sh", "-c", "free --bytes");
         processBuilderCheckUpdates = new ProcessBuilder("/bin/sh", "-c", "checkupdates");
         processBuilderPlayerCtlMetaData = new ProcessBuilder("/bin/sh", "-c", "playerctl -s metadata");
         processBuilderPlayerCtlPosition = new ProcessBuilder("/bin/sh", "-c", "playerctl -s position");
-        processBuilderHddTemp = new ProcessBuilder("/bin/sh", "-c", "sudo hddtemp /dev/sda /dev/sdb");
+        // processBuilderHddTemp = new ProcessBuilder("/bin/sh", "-c", "sudo hddtemp /dev/sda /dev/sdb");
         processBuilderSmartCtl = new ProcessBuilder("/bin/sh", "-c", "sudo smartctl -A /dev/nvme0n1");
         processBuilderNvidiaSmi = new ProcessBuilder("/bin/sh", "-c", "nvidia-smi --format=csv,noheader,nounits --query-gpu=temperature.gpu,power.draw,fan.speed,utilization.gpu");
     }
@@ -189,13 +184,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
             cpuInfoMap.put(cpuInfo.getCore(), cpuInfo);
         }
 
-        final CpuInfos cpuInfos = new CpuInfos(cpuInfoMap);
-
-        if (getLogger().isDebugEnabled()) {
-            getLogger().debug(cpuInfos.get(-1).toString());
-        }
-
-        return cpuInfos;
+        return new CpuInfos(cpuInfoMap);
     }
 
     @Override
@@ -209,80 +198,43 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         // String[] splits = line.split(SPACE_PATTERN.pattern());
         final String[] splits = SPACE_PATTERN.split(line);
 
-        final CpuLoadAvg loadAvg = new CpuLoadAvg(Double.parseDouble(splits[0]), Double.parseDouble(splits[1]), Double.parseDouble(splits[2]));
-
-        if (getLogger().isDebugEnabled()) {
-            getLogger().debug(loadAvg.toString());
-        }
-
-        return loadAvg;
+        return new CpuLoadAvg(Double.parseDouble(splits[0]), Double.parseDouble(splits[1]), Double.parseDouble(splits[2]));
     }
 
-    @Override
-    public String getExternalIp() {
-        String externalIp = "";
+    // @Override
+    // public Map<String, UsageInfo> getFilesystems() {
+    //     final Map<String, UsageInfo> map = new HashMap<>();
+    //
+    //     final List<String> lines = readContent(processBuilderDf);
+    //
+    //     for (final String line : lines) {
+    //         if (line.contains("/dev/md1") || line.contains("/tmp")) {
+    //             final String[] splits = SPACE_PATTERN.split(line);
+    //             final String path = splits[5];
+    //             final long total = Long.parseLong(splits[1]);
+    //             final long used = Long.parseLong(splits[2]);
+    //             final long free = Long.parseLong(splits[3]);
+    //
+    //             map.put(path, new UsageInfo(path, total, used, free));
+    //         }
+    //     }
+    //
+    //     return map;
+    // }
 
-        try {
-            final URL url = URI.create("https://ifconfig.me").toURL();
-            final URLConnection connection = url.openConnection();
-            // connection.connect();
-
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
-                externalIp = br.readLine();
-            }
-        }
-        catch (Exception ex) {
-            getLogger().error(ex.getMessage(), ex);
-        }
-
-        getLogger().debug("externalIp = {}", externalIp);
-
-        return externalIp;
-    }
-
-    @Override
-    public Map<String, UsageInfo> getFilesystems() {
-        final Map<String, UsageInfo> map = new HashMap<>();
-
-        final List<String> lines = readContent(processBuilderDf);
-
-        for (String line : lines) {
-            if (line.contains("/dev/md1") || line.contains("/tmp")) {
-                final String[] splits = SPACE_PATTERN.split(line);
-                final String path = splits[5];
-                final long size = Long.parseLong(splits[1]);
-                final long used = Long.parseLong(splits[2]);
-
-                map.put(path, new UsageInfo(path, size * 1024L, used * 1024L));
-            }
-        }
-
-        if (getLogger().isDebugEnabled()) {
-            getLogger().debug(map.toString());
-        }
-
-        return map;
-    }
-
-    @Override
-    public HostInfo getHostInfo() {
-        final List<String> lines = readContent(processBuilderUname);
-        final String line = lines.getFirst();
-
-        // ArchLinux
-        // Linux mainah 5.9.11-arch2-1 #1 SMP PREEMPT Sat, 28 Nov 2020 02:07:22 +0000 x86_64 GNU/Linux
-
-        // String[] splits = line.split(SPACE_PATTERN.pattern());
-        final String[] splits = SPACE_PATTERN.split(line);
-
-        final HostInfo hostInfo = new HostInfo(splits[1], splits[2], splits[12] + " " + splits[13]);
-
-        if (getLogger().isDebugEnabled()) {
-            getLogger().debug(hostInfo.toString());
-        }
-
-        return hostInfo;
-    }
+    // @Override
+    // public HostInfo getHostInfo() {
+    //     final List<String> lines = readContent(processBuilderUname);
+    //     final String line = lines.getFirst();
+    //
+    //     // ArchLinux
+    //     // Linux mainah 5.9.11-arch2-1 #1 SMP PREEMPT Sat, 28 Nov 2020 02:07:22 +0000 x86_64 GNU/Linux
+    //
+    //     // String[] splits = line.split(SPACE_PATTERN.pattern());
+    //     final String[] splits = SPACE_PATTERN.split(line);
+    //
+    //     return = new HostInfo(splits[1], splits[2], splits[12] + " " + splits[13]);
+    // }
 
     @Override
     public MusicInfo getMusicInfo() {
@@ -297,28 +249,23 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         int bitRate = 0;
         URI imageUri = null;
 
-        for (String line : lines) {
+        for (final String line : lines) {
             if (line.contains("xesam:artist ")) {
                 final String[] splits = SPACE_PATTERN.split(line, 3);
                 artist = splits[2];
-            }
-            else if (line.contains("xesam:album ")) {
+            } else if (line.contains("xesam:album ")) {
                 final String[] splits = SPACE_PATTERN.split(line, 3);
                 album = splits[2];
-            }
-            else if (line.contains("xesam:title ")) {
+            } else if (line.contains("xesam:title ")) {
                 final String[] splits = SPACE_PATTERN.split(line, 3);
                 title = splits[2];
-            }
-            else if (line.contains("mpris:length ")) {
+            } else if (line.contains("mpris:length ")) {
                 final String[] splits = SPACE_PATTERN.split(line, 3);
                 length = (int) (Long.parseLong(splits[2]) / 1_000_000L); // Nano-Sekunden -> Sekunden
-            }
-            else if (line.contains("bitrate")) {
+            } else if (line.contains("bitrate")) {
                 final String[] splits = SPACE_PATTERN.split(line, 3);
                 bitRate = Integer.parseInt(splits[2]);
-            }
-            else if (line.contains("mpris:artUrl")) {
+            } else if (line.contains("mpris:artUrl")) {
                 final String[] splits = SPACE_PATTERN.split(line, 3);
                 imageUri = URI.create(splits[2]);
             }
@@ -327,13 +274,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         lines = readContent(processBuilderPlayerCtlPosition);
         position = Double.valueOf(lines.getFirst()).intValue();
 
-        final MusicInfo musicInfo = new MusicInfo(artist, album, title, length, position, bitRate, imageUri);
-
-        if (getLogger().isDebugEnabled()) {
-            getLogger().debug(musicInfo.toString());
-        }
-
-        return musicInfo;
+        return new MusicInfo(artist, album, title, length, position, bitRate, imageUri);
     }
 
     @Override
@@ -347,7 +288,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         final Map<Integer, List<String>> map = new HashMap<>();
         int n = 0;
 
-        for (String line : lines) {
+        for (final String line : lines) {
             if (line.isBlank()) {
                 n++;
                 continue;
@@ -358,7 +299,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
 
         final Map<String, NetworkInfo> networkInfoMap = new HashMap<>();
 
-        for (List<String> ifLines : map.values()) {
+        for (final List<String> ifLines : map.values()) {
             String interfaceName = null;
             String ip = null;
             long bytesReceived = 0L;
@@ -371,18 +312,15 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
                     // Interface Name
                     final int index = line.indexOf(':');
                     interfaceName = line.substring(0, index);
-                }
-                else if (line.startsWith("inet ")) {
+                } else if (line.startsWith("inet ")) {
                     // IP
                     final String[] splits = SPACE_PATTERN.split(line);
                     ip = splits[1];
-                }
-                else if (line.startsWith("RX packets")) {
+                } else if (line.startsWith("RX packets")) {
                     // Bytes Received
                     final String[] splits = SPACE_PATTERN.split(line);
                     bytesReceived = Long.parseLong(splits[4]);
-                }
-                else if (line.startsWith("TX packets")) {
+                } else if (line.startsWith("TX packets")) {
                     // Bytes Transmitted
                     final String[] splits = SPACE_PATTERN.split(line);
                     bytesTransmitted = Long.parseLong(splits[4]);
@@ -427,69 +365,52 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
             if (line.contains("total packets received") || line.contains("Pakete insgesamt empfangen")) {
                 final String[] splits = SPACE_PATTERN.split(line);
                 ipIn = Long.parseLong(splits[0]);
-            }
-            else if (line.contains("requests sent out") || line.contains("eingehende Pakete ausgeliefert")) {
+            } else if (line.contains("requests sent out") || line.contains("eingehende Pakete ausgeliefert")) {
                 final String[] splits = SPACE_PATTERN.split(line);
                 ipOut = Long.parseLong(splits[0]);
-            }
-            else if (line.contains("ICMP messages received") || line.contains("ICMP-Meldungen empfangen")) {
+            } else if (line.contains("ICMP messages received") || line.contains("ICMP-Meldungen empfangen")) {
                 final String[] splits = SPACE_PATTERN.split(line);
                 icmpIn = Long.parseLong(splits[0]);
-            }
-            else if (line.contains("ICMP messages sent") || line.contains("ICMP Nachrichten gesendet")) {
+            } else if (line.contains("ICMP messages sent") || line.contains("ICMP Nachrichten gesendet")) {
                 final String[] splits = SPACE_PATTERN.split(line);
                 icmpOut = Long.parseLong(splits[0]);
-            }
-            else if (line.contains("connections established") || line.contains("Verbindungen aufgebaut")) {
+            } else if (line.contains("connections established") || line.contains("Verbindungen aufgebaut")) {
                 final String[] splits = SPACE_PATTERN.split(line);
                 tcpConnections = Integer.parseInt(splits[0]);
-            }
-            else if ((line.contains("segments received") || line.contains("Segmente empfangen")) && tcpIn == 0) {
+            } else if ((line.contains("segments received") || line.contains("Segmente empfangen")) && tcpIn == 0) {
                 // 45825 segments received
                 // 0 bad segments received
                 final String[] splits = SPACE_PATTERN.split(line);
                 tcpIn = Long.parseLong(splits[0]);
-            }
-            else if (line.contains("segments sent out") || line.contains("Segmente ausgesendet")) {
+            } else if (line.contains("segments sent out") || line.contains("Segmente ausgesendet")) {
                 final String[] splits = SPACE_PATTERN.split(line);
                 tcpOut = Long.parseLong(splits[0]);
-            }
-            else if (line.contains("packets received") || line.contains("Pakete empfangen")) {
+            } else if (line.contains("packets received") || line.contains("Pakete empfangen")) {
                 final String[] splits = SPACE_PATTERN.split(line);
                 udpIn = Long.parseLong(splits[0]);
-            }
-            else if (line.contains("packets sent") || line.contains("Pakete gesendet")) {
+            } else if (line.contains("packets sent") || line.contains("Pakete gesendet")) {
                 final String[] splits = SPACE_PATTERN.split(line);
                 udpOut = Long.parseLong(splits[0]);
             }
         }
 
         final NetworkProtocolInfo protocolInfo = new NetworkProtocolInfo(icmpIn, icmpOut, ipIn, ipOut, tcpConnections, tcpIn, tcpOut, udpIn, udpOut);
-        final NetworkInfos networkInfos = new NetworkInfos(networkInfoMap, protocolInfo);
 
-        if (getLogger().isDebugEnabled()) {
-            getLogger().debug(networkInfos.toString());
-        }
-
-        return networkInfos;
+        return new NetworkInfos(networkInfoMap, protocolInfo);
     }
 
     @Override
     public ProcessInfos getProcessInfos(final double uptimeInSeconds, final long totalSystemMemory) {
-        final ProcessInfos processInfos = getProcessInfosByTop();
-        // final ProcessInfos processInfos = getProcessInfosByProc(uptimeInSeconds, totalSystemMemory);
-
-        if (getLogger().isDebugEnabled()) {
-            getLogger().debug(processInfos.toString());
-        }
-
-        return processInfos;
+        return getProcessInfosByTop();
+        // return getProcessInfosByProc(uptimeInSeconds, totalSystemMemory);
     }
 
+    /**
+     * /proc/meminfo
+     */
     @Override
     public Map<String, UsageInfo> getRamAndSwap() {
-        // /proc/meminfo
-        final Map<String, UsageInfo> map = new HashMap<>();
+        final Map<String, UsageInfo> map = super.getRamAndSwap();
 
         final List<String> lines = readContent(processBuilderFree);
 
@@ -497,25 +418,23 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
             if (i == 1) {
                 // Speicher
                 final String line = lines.get(i).replace(":", ": ");
-                final String[] splits = SPACE_PATTERN.split(line);
+                final String[] splits = SPACE_PATTERN.split(line, -1);
                 final long size = Long.parseLong(splits[1]);
                 final long used = Long.parseLong(splits[2]);
+                final long free = Long.parseLong(splits[3]);
 
-                map.put("RAM", new UsageInfo("RAM", size, used));
+                map.put("RAM", new UsageInfo("RAM", size, used, free));
             }
-            else if (i == 2) {
-                // Swap
-                final String line = lines.get(i).replace(":", ": ");
-                final String[] splits = SPACE_PATTERN.split(line);
-                final long size = Long.parseLong(splits[1]);
-                final long used = Long.parseLong(splits[2]);
-
-                map.put("SWAP", new UsageInfo("SWAP", size, used));
-            }
-        }
-
-        if (getLogger().isDebugEnabled()) {
-            getLogger().debug(map.toString());
+            // else if (i == 2) {
+            //     // Swap
+            //     final String line = lines.get(i).replace(":", ": ");
+            //     final String[] splits = SPACE_PATTERN.split(line);
+            //     final long size = Long.parseLong(splits[1]);
+            //     final long used = Long.parseLong(splits[2]);
+            //     final long free = Long.parseLong(splits[3]);
+            //
+            //     map.put("SWAP", new UsageInfo("SWAP", size, used, free));
+            // }
         }
 
         return map;
@@ -525,20 +444,20 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     public Map<String, TemperatureInfo> getTemperatures() {
         final Map<String, TemperatureInfo> map = new HashMap<>();
 
-        List<String> lines = readContent(processBuilderHddTemp);
-        // final String output = lines.stream().collect(Collectors.joining("\n"))
+        // List<String> lines = readContent(processBuilderHddTemp);
+        // // final String output = lines.stream().collect(Collectors.joining("\n"))
+        //
+        // for (final String line : lines) {
+        //     final String[] splits = SPACE_PATTERN.split(line);
+        //     final String device = splits[0].replace(":", "");
+        //     final double temperature = Double.parseDouble(splits[splits.length - 1].replace("°C", ""));
+        //
+        //     map.put(device, new TemperatureInfo(device, temperature));
+        // }
 
-        for (String line : lines) {
-            final String[] splits = SPACE_PATTERN.split(line);
-            final String device = splits[0].replace(":", "");
-            final double temperature = Double.parseDouble(splits[splits.length - 1].replace("°C", ""));
+        List<String> lines = readContent(processBuilderSmartCtl);
 
-            map.put(device, new TemperatureInfo(device, temperature));
-        }
-
-        lines = readContent(processBuilderSmartCtl);
-
-        for (String line : lines) {
+        for (final String line : lines) {
             if (line.startsWith("Temperature Sensor 2:")) {
                 final String[] splits = SPACE_PATTERN.split(line);
                 final double temperature = Double.parseDouble(splits[3]);
@@ -559,18 +478,12 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
 
         map.put("GPU", new GpuInfo(temperature, power, fanSpeed, usage));
 
-        if (getLogger().isDebugEnabled()) {
-            getLogger().debug(map.toString());
-        }
-
         return map;
     }
 
     @Override
     public int getUpdates() {
         final long updates = readContent(processBuilderCheckUpdates).size();
-
-        getLogger().debug("updates = {}", updates);
 
         return (int) updates;
     }
@@ -585,11 +498,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
 
         final String[] splits = SPACE_PATTERN.split(line);
 
-        final double uptimeInSeconds = Double.parseDouble(splits[0]);
-
-        getLogger().debug("uptimeInSeconds = {}", uptimeInSeconds);
-
-        return uptimeInSeconds;
+        return Double.parseDouble(splits[0]);
     }
 
     ProcessInfos getProcessInfosByProc(final double uptimeInSeconds, final long totalSystemMemory) {
@@ -597,7 +506,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
 
         final List<ProcessInfo> infos = new ArrayList<>(pids.length);
 
-        for (String pid : pids) {
+        for (final String pid : pids) {
             // /proc/4543/stat
             // 4543 (cinnamon) S 4231 3355 3355 0 -1 4194304 159763 53230 432 4977 11873 3096 1461 181 20 0 12 0 3831 4350136320 79932 18446744073709551615
             // 94314044076032 94314044078533 140729316610576 0 0 0 0 16781312 82952 0 0 0 17 0 0 0 833 0 0 94314044087280 94314044088448 94314055774208
@@ -631,12 +540,11 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
             final double seconds = uptimeInSeconds - JConkyUtils.jiffieToSeconds(starttime);
             final double cpuUsage = JConkyUtils.jiffieToSeconds(totalTimeJiffie) / seconds;
 
-            String command = null;
+            String command;
 
             if (!cmdLine.isEmpty()) {
                 command = cmdLine.getFirst();
-            }
-            else {
+            } else {
                 command = splitsStat[1];
             }
 
@@ -645,12 +553,11 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
             final String statusOutput = String.join(System.lineSeparator(), status);
 
             Matcher matcher = STATUS_NAME_PATTERN.matcher(statusOutput);
-            String name = null;
+            final String name;
 
             if (matcher.find()) {
                 name = matcher.group(1);
-            }
-            else {
+            } else {
                 name = command;
             }
 
@@ -664,8 +571,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
             // matcher = STATUS_VM_SIZE_MATCHER.matcher(status);
             // long totalBytes = 0L;
             //
-            // if (matcher.find())
-            // {
+            // if (matcher.find()) {
             // totalBytes = Long.parseLong(matcher.group(1));
             // }
 
@@ -675,8 +581,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
 
             final ProcessInfo processInfo = new ProcessInfo(Integer.parseInt(pid), state, name, uid, cpuUsage, (double) residentBytes / totalSystemMemory);
             infos.add(processInfo);
-
-            // TODO /etc/passwd auslesen für UIDs.
         }
 
         return new ProcessInfos(infos);
@@ -692,7 +596,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         // Bis zur ProzessListe gehen.
         int startIndex = 0;
 
-        for (String line : lines) {
+        for (final String line : lines) {
             startIndex++;
 
             if (line.strip().startsWith("PID USER")) {
@@ -726,6 +630,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
 
                     return new ProcessInfo(pid, state, name, owner, cpuUsage / 100D, memoryUsage / 100D);
                 })
+                .filter(Objects::nonNull)
                 .toList();
 
         return new ProcessInfos(infos);

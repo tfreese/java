@@ -4,28 +4,25 @@ package de.freese.jconky.model;
 /**
  * @author Thomas Freese
  */
-public record UsageInfo(String path, long size, long used) {
+public record UsageInfo(String path, long total, long used, long free) {
     public UsageInfo() {
-        this("", 0L, 0L);
-    }
-
-    public long getFree() {
-        return size() - used();
+        this("", 0L, 0L, 0L);
     }
 
     /**
      * Liefert die Auslastung von 0 bis 1.<br>
      */
     public double getUsage() {
-        return (double) used() / size();
+        return (double) used() / total();
     }
 
     @Override
     public String toString() {
         return getClass().getSimpleName() + "["
                 + " path=" + path
-                + ", size=" + size
+                + ", total=" + total
                 + ", used=" + used
+                + ", free=" + free
                 + "]";
     }
 }

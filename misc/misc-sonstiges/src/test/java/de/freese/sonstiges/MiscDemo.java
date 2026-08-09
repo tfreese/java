@@ -186,8 +186,7 @@ public final class MiscDemo {
                             subFolder = subStream
                                     .filter(Files::isDirectory)
                                     .count();
-                        }
-                        catch (Exception _) {
+                        } catch (Exception _) {
                             // Ignore
                         }
 
@@ -516,6 +515,7 @@ public final class MiscDemo {
             final long avail = store.getUsableSpace() / 1024 / 1024 / 1024;
 
             System.out.format("%-20s %8d %8d %8d%n", store, total, used, avail);
+            // System.out.format("%-20s %8d %8d %8d%n", store.name() + "-" + store.type(), total, used, avail);
         }
 
         System.out.println();
@@ -547,7 +547,7 @@ public final class MiscDemo {
 
         System.out.println();
 
-        for (final Path path : List.of(Paths.get("build.gradle"), Paths.get(System.getProperty("user.home"), ".xinitrc"),
+        for (final Path path : List.of(Paths.get("build.gradle.kts"), Paths.get(System.getProperty("user.home"), ".xinitrc"),
                 Paths.get(System.getProperty("java.io.tmpdir")))) {
             System.out.println("Path: " + path + ", Size=" + Files.size(path));
             System.out.println("Path Root: " + path.getRoot());
@@ -670,8 +670,7 @@ public final class MiscDemo {
         try {
             hostName = InetAddress.getLocalHost().getHostName();
             System.out.printf("InetAddress.getLocalHost: %s%n", hostName);
-        }
-        catch (final Exception ex) {
+        } catch (final Exception ex) {
             // Bei Betriebssystemen ohne DNS-Konfiguration funktioniert InetAddress.getLocalHost nicht !
             System.out.printf("InetAddress.getLocalHost: %s%n", ex.getMessage());
         }
@@ -681,8 +680,7 @@ public final class MiscDemo {
              BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
             hostName = br.readLine();
             System.out.printf("CMD 'hostname': %s%n", hostName);
-        }
-        catch (final Exception ex) {
+        } catch (final Exception ex) {
             // Ignore
             System.out.printf("CMD 'hostname': %s%n", ex.getMessage());
         }
@@ -714,8 +712,7 @@ public final class MiscDemo {
                     }
                 }
             }
-        }
-        catch (Exception _) {
+        } catch (Exception _) {
             // Ignore
         }
     }
@@ -796,8 +793,7 @@ public final class MiscDemo {
 
                 // return new StreamSource(Files.newInputStream(path), uri.toString());
                 return new StreamSource(uri.toURL().openStream(), uri.toString());
-            }
-            catch (final IOException ex) {
+            } catch (final IOException ex) {
                 throw new UncheckedIOException(ex);
             }
         };
@@ -845,8 +841,7 @@ public final class MiscDemo {
             // Update
             try {
                 versionString += "." + String.format("%03d", Integer.parseInt(splits[3]));
-            }
-            catch (final Exception ex) {
+            } catch (final Exception ex) {
                 System.err.println(ex.getMessage());
             }
         }
@@ -1028,7 +1023,7 @@ public final class MiscDemo {
         // dateTime();
         // displayInterfaceInformation();
         // fileWalker();
-        // fileSystems();
+        fileSystems();
         // hostName();
         // httpRedirect();
         // introspector();
@@ -1038,7 +1033,7 @@ public final class MiscDemo {
         // json();
         // listDirectories();
         // mail();
-        monitoringMxBeans();
+        // monitoringMxBeans();
         // pipedChannels();
         // pipedStreams();
         // processBuilder();
@@ -1151,8 +1146,7 @@ public final class MiscDemo {
 
             writer.accept(sinkChannel);
             reader.accept(sourceChannel);
-        }
-        catch (final Throwable ex) {
+        } catch (final Throwable ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 
@@ -1172,8 +1166,7 @@ public final class MiscDemo {
             });
 
             readFuture.get();
-        }
-        catch (final Throwable ex) {
+        } catch (final Throwable ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }
@@ -1199,8 +1192,7 @@ public final class MiscDemo {
                     pipeOut.write("Hello World".getBytes(StandardCharsets.UTF_8));
 
                     pipeOut.flush();
-                }
-                catch (final IOException ex) {
+                } catch (final IOException ex) {
                     referenceThrowable.set(ex);
                 }
             };
@@ -1283,8 +1275,7 @@ public final class MiscDemo {
             }
 
             System.exit(0);
-        }
-        catch (final IOException ex) {
+        } catch (final IOException ex) {
             LOGGER.error(ex.getMessage(), ex);
             System.exit(-1);
         }
@@ -1413,8 +1404,7 @@ public final class MiscDemo {
             final Field field = String.class.getDeclaredField("value");
             field.setAccessible(true);
             System.out.printf("Old Reflection-Api: %s%n", Arrays.toString((byte[]) field.get(string)));
-        }
-        catch (final Exception ex) {
+        } catch (final Exception ex) {
             ex.printStackTrace();
         }
 
@@ -1423,8 +1413,7 @@ public final class MiscDemo {
             // final MethodHandles.Lookup methodLookup = MethodHandles.lookup();
             final VarHandle varHandle = methodLookup.findVarHandle(String.class, "value", byte[].class);
             System.out.printf("New MethodHandles: %s%n", Arrays.toString((byte[]) varHandle.get(string)));
-        }
-        catch (final Exception ex) {
+        } catch (final Exception ex) {
             ex.printStackTrace();
         }
     }

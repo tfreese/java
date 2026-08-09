@@ -39,8 +39,7 @@ public final class SystemMain {
 
             // Keep the Program running.
             System.in.read();
-        }
-        catch (Exception ex) {
+        } catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }
@@ -97,8 +96,7 @@ public final class SystemMain {
             final long guestNice = Long.parseLong(splits[10]);
 
             return Optional.of(new CpuTimes(user, nice, system, idle, ioWait, irq, softIrq, steal, guest, guestNice));
-        }
-        catch (Exception ex) {
+        } catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 
@@ -162,8 +160,7 @@ public final class SystemMain {
                 final String message = new String(bytes);
 
                 LOGGER.info(message);
-            }
-            catch (Exception ex) {
+            } catch (final Exception ex) {
                 LOGGER.error(ex.getMessage(), ex);
             }
         }, 1L, 1L, TimeUnit.SECONDS);
