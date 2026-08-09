@@ -1,4 +1,3 @@
-// Created: 10.08.2018
 package de.freese.binding.swing;
 
 import static org.awaitility.Awaitility.await;
@@ -13,12 +12,12 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JList;
 
-import de.freese.binding.collections.DefaultObservableList;
-import de.freese.binding.collections.ObservableList;
-import de.freese.binding.swing.list.DefaultObservableListListModel;
+import de.freese.binding.collection.ObservableList;
+import de.freese.binding.swing.list.ObservableListListModel;
 
 /**
  * @author Thomas Freese
+ * @since 09.08.26
  */
 public final class ListModelDemo {
     static void main() {
@@ -30,11 +29,11 @@ public final class ListModelDemo {
             }
         });
 
-        ObservableList<Map<Integer, String>> observableList = new DefaultObservableList<>(new ArrayList<>());
-        observableList = observableList.sorted((o1, o2) -> o2.get(0).compareTo(o1.get(1))); // Absteigend nach erster Spalte.
-        observableList = observableList.filtered(map -> (Integer.parseInt(map.get(0).split("-")[0]) % 2) == 0); // Nur jede 2. Zeile
+        final ObservableList<Map<Integer, String>> observableList = new ObservableList<>(new ArrayList<>());
+        // observableList = observableList.sorted((o1, o2) -> o2.get(0).compareTo(o1.get(1))); // Absteigend nach erster Spalte.
+        // observableList = observableList.filtered(map -> (Integer.parseInt(map.get(0).split("-")[0]) % 2) == 0); // Nur jede 2. Zeile
 
-        final JList<Map<Integer, String>> jList = new JList<>(new DefaultObservableListListModel<>(observableList));
+        final JList<Map<Integer, String>> jList = new JList<>(new ObservableListListModel<>(observableList));
         jList.setVisibleRowCount(5);
 
         frame.add(jList);

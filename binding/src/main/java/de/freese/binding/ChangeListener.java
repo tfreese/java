@@ -1,4 +1,4 @@
-package de.freese.newbinding;
+package de.freese.binding;
 
 @FunctionalInterface
 public interface ChangeListener<T> {

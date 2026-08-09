@@ -1,4 +1,3 @@
-// Created: 10.08.2018
 package de.freese.binding.swing;
 
 import static org.awaitility.Awaitility.await;
@@ -13,12 +12,12 @@ import java.util.Map;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
-import de.freese.binding.collections.DefaultObservableList;
-import de.freese.binding.collections.ObservableList;
-import de.freese.binding.swing.combobox.DefaultObservableListComboBoxModel;
+import de.freese.binding.collection.ObservableList;
+import de.freese.binding.swing.combobox.ObservableListComboBoxModel;
 
 /**
  * @author Thomas Freese
+ * @since 09.08.26
  */
 public final class ComboBoxModelDemo {
     static void main() {
@@ -30,11 +29,11 @@ public final class ComboBoxModelDemo {
             }
         });
 
-        ObservableList<Map<Integer, String>> list = new DefaultObservableList<>(new ArrayList<>());
-        list = list.sorted((o1, o2) -> o2.get(0).compareTo(o1.get(1))); // Absteigend nach erster Spalte.
-        list = list.filtered(map -> (Integer.parseInt(map.get(0).split("-")[0]) % 2) == 0); // Nur jede 2. Zeile
+        final ObservableList<Map<Integer, String>> list = new ObservableList<>(new ArrayList<>());
+        // list = list.sorted((o1, o2) -> o2.get(0).compareTo(o1.get(1))); // Absteigend nach erster Spalte.
+        // list = list.filtered(map -> (Integer.parseInt(map.get(0).split("-")[0]) % 2) == 0); // Nur jede 2. Zeile
 
-        final JComboBox<Map<Integer, String>> comboBox = new JComboBox<>(new DefaultObservableListComboBoxModel<>(list));
+        final JComboBox<Map<Integer, String>> comboBox = new JComboBox<>(new ObservableListComboBoxModel<>(list));
         frame.add(comboBox);
 
         frame.setSize(300, 100);

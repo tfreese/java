@@ -1,4 +1,3 @@
-// Created: 10.08.2018
 package de.freese.binding.swing.table;
 
 import java.io.Serial;
@@ -10,6 +9,7 @@ import javax.swing.table.AbstractTableModel;
 
 /**
  * @author Thomas Freese
+ * @since 09.08.26
  */
 public abstract class AbstractListTableModel<T> extends AbstractTableModel {
     @Serial
@@ -79,12 +79,6 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel {
     }
 
     public final T getObjectAt(final int rowIndex) {
-        // if ((rowIndex < 0) || (getList().size() <= rowIndex)) {
-        // getLogger().warn("Falscher Index = " + rowIndex + "; ListSize = " + getList().size());
-        //
-        // // return null;
-        // }
-
         return getList().get(rowIndex);
     }
 
@@ -99,17 +93,13 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel {
 
     public void refresh() {
         fireTableDataChanged();
-
-        // if (getRowCount() > 0) {
-        // fireTableRowsUpdated(0, getRowCount() - 1);
-        // }
     }
 
     protected List<String> getColumnNames() {
         return columnNames;
     }
 
-    protected List<T> getList() {
+    private List<T> getList() {
         return list;
     }
 }

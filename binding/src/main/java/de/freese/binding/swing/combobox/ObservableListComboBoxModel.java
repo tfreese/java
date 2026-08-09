@@ -5,28 +5,23 @@ import java.io.Serial;
 import javax.swing.ComboBoxModel;
 import javax.swing.event.ListDataEvent;
 
-import de.freese.binding.collections.ObservableList;
-import de.freese.binding.swing.list.AbstractObservableListListModel;
+import de.freese.binding.collection.ObservableList;
+import de.freese.binding.swing.list.ObservableListListModel;
 
 /**
- * Basis ComboBoxModel, das intern eine {@link ObservableList} verwendet.
- *
  * @author Thomas Freese
  */
-public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObservableListListModel<T> implements ComboBoxModel<T> {
+public class ObservableListComboBoxModel<T> extends ObservableListListModel<T> implements ComboBoxModel<T> {
     @Serial
     private static final long serialVersionUID = -5837879226873538114L;
 
-    /**
-     * @author Thomas Freese
-     */
-    private final class ComboBoxEventListListener extends EventListListener {
+    private final class ComboBoxEventListListener extends ObservableListListModel<T>.EventListListener {
         /**
          * Überschrieben, um sicherzustellen, das das selektierte Objekt in der ComboBox angepasst wird, wenn sich die Daten der {ObservableList} anpassen.
          */
         @Override
         public void contentsChanged(final ListDataEvent event) {
-            AbstractObservableListComboBoxModel.this.selectedObject = null;
+            ObservableListComboBoxModel.this.selectedObject = null;
 
             super.contentsChanged(event);
         }
@@ -34,7 +29,7 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
 
     private transient Object selectedObject;
 
-    protected AbstractObservableListComboBoxModel(final ObservableList<T> list) {
+    public ObservableListComboBoxModel(final ObservableList<T> list) {
         super(list);
     }
 
@@ -49,8 +44,7 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
 
         if (index != -1) {
             selectedObject = getList().get(index);
-        }
-        else {
+        } else {
             selectedObject = null;
         }
 

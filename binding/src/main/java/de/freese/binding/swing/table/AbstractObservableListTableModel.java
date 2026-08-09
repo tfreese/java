@@ -6,10 +6,11 @@ import java.util.List;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-import de.freese.binding.collections.ObservableList;
+import de.freese.binding.collection.ObservableList;
 
 /**
  * @author Thomas Freese
+ * @since 09.08.26
  */
 public abstract class AbstractObservableListTableModel<T> extends AbstractListTableModel<T> {
     @Serial
@@ -23,12 +24,6 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
     private final class EventListListener implements ListDataListener {
         @Override
         public void contentsChanged(final ListDataEvent event) {
-            // final int firstRow = event.getIndex0();
-            // final int lastRow = event.getIndex1();
-            //
-            // fireTableRowsUpdated(firstRow, lastRow);
-            // fireTableRowsUpdated(0, Integer.MAX_VALUE);
-
             fireTableDataChanged();
         }
 
@@ -61,8 +56,8 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
         list.addListener(new EventListListener());
     }
 
-    @Override
-    protected ObservableList<T> getList() {
-        return (ObservableList<T>) super.getList();
-    }
+    // @Override
+    // protected ObservableList<T> getList() {
+    //     return (ObservableList<T>) super.getList();
+    // }
 }

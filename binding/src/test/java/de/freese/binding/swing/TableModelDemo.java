@@ -1,4 +1,3 @@
-// Created: 10.08.2018
 package de.freese.binding.swing;
 
 import static org.awaitility.Awaitility.await;
@@ -15,12 +14,12 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import de.freese.binding.collections.DefaultObservableList;
-import de.freese.binding.collections.ObservableList;
+import de.freese.binding.collection.ObservableList;
 import de.freese.binding.swing.table.AbstractObservableListTableModel;
 
 /**
  * @author Thomas Freese
+ * @since 09.08.26
  */
 public final class TableModelDemo {
 
@@ -52,9 +51,9 @@ public final class TableModelDemo {
             }
         });
 
-        ObservableList<Map<Integer, String>> list = new DefaultObservableList<>(new ArrayList<>());
-        list = list.sorted((o1, o2) -> o2.get(0).compareTo(o1.get(1))); // Absteigend nach erster Spalte.
-        list = list.filtered(map -> (Integer.parseInt(map.get(0).split("-")[0]) % 2) == 0); // Nur jede 2. Zeile
+        final ObservableList<Map<Integer, String>> list = new ObservableList<>(new ArrayList<>());
+        // list = list.sorted((o1, o2) -> o2.get(0).compareTo(o1.get(1))); // Absteigend nach erster Spalte.
+        // list = list.filtered(map -> (Integer.parseInt(map.get(0).split("-")[0]) % 2) == 0); // Nur jede 2. Zeile
 
         final JTable table = new JTable(new MyTableModel(4, list));
         frame.add(new JScrollPane(table));

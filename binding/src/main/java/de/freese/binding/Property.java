@@ -1,4 +1,4 @@
-package de.freese.newbinding;
+package de.freese.binding;
 
 import java.util.LinkedHashSet;
 import java.util.Objects;

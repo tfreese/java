@@ -1,4 +1,3 @@
-// Created: 18.08.2018
 package de.freese.binding;
 
 import java.awt.event.FocusAdapter;
@@ -10,62 +9,32 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
-import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.JTextComponent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.binding.property.Property;
-import de.freese.binding.value.ObservableValue;
-
 /**
- * Util-Klasse für die Swing-Bindings.
- *
  * @author Thomas Freese
+ * @since 09.08.26
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "java:S1192"})
 public final class SwingBindings {
     private static final Logger LOGGER = LoggerFactory.getLogger(SwingBindings.class);
-
-    public static void bindBidirectional(final JCheckBox component, final Property<Boolean> property) {
-        bindToSwing(property, component);
-        bindToProperty(component, property);
-    }
-
-    public static <T> void bindBidirectional(final JComboBox<T> component, final Property<T> property) {
-        bindToSwing(property, component);
-        bindToProperty(component, property);
-    }
-
-    public static void bindBidirectional(final JSlider component, final Property<Integer> property) {
-        bindToSwing(property, component);
-        bindToProperty(component, property);
-    }
-
-    public static void bindBidirectional(final JSpinner component, final Property<Integer> property) {
-        bindToSwing(property, component);
-        bindToProperty(component, property);
-    }
-
-    public static void bindBidirectional(final JTextComponent component, final Property<String> property) {
-        bindToSwing(property, component);
-        bindToProperty(component, property);
-    }
 
     public static void bindToProperty(final JCheckBox component, final Property<Boolean> property) {
         component.addItemListener(event -> {
             final boolean selected = component.isSelected();
 
+            LOGGER.debug("JCheckBox selection changed: {}", selected);
+
             if (Objects.equals(selected, property.getValue())) {
-                LOGGER.debug("JCheckBox: Selected equals property.getValue() -> return: {}", selected);
+                LOGGER.debug("JCheckBox.isSelected() equals Property.getValue() -> return: {}", selected);
                 return;
             }
 
-            LOGGER.debug("JCheckBox selection changed: {}", selected);
-
-            updateProperty(property, selected);
+            property.setValue(selected);
         });
     }
 
@@ -73,14 +42,14 @@ public final class SwingBindings {
         component.addItemListener(event -> {
             final T selectedItem = (T) component.getSelectedItem();
 
+            LOGGER.debug("JComboBox selection changed: {}", selectedItem);
+
             if (Objects.equals(selectedItem, property.getValue())) {
-                LOGGER.debug("JComboBox: SelectedItem equals property.getValue() -> return: {}", selectedItem);
+                LOGGER.debug("JComboBox.getSelectedItem() equals Property.getValue() -> return: {}", selectedItem);
                 return;
             }
 
-            LOGGER.debug("JComboBox selection changed: {}", selectedItem);
-
-            updateProperty(property, selectedItem);
+            property.setValue(selectedItem);
         });
     }
 
@@ -88,14 +57,14 @@ public final class SwingBindings {
         component.addChangeListener(event -> {
             final int value = component.getValue();
 
+            LOGGER.debug("JSlider changed: {}", value);
+
             if (Objects.equals(value, property.getValue())) {
-                LOGGER.debug("JSlider: Value equals property.getValue() -> return: {}", value);
+                LOGGER.debug("JSlider.getValue() equals Property.getValue() -> return: {}", value);
                 return;
             }
 
-            LOGGER.debug("JSlider changed: {}", value);
-
-            updateProperty(property, value);
+            property.setValue(value);
         });
     }
 
@@ -103,14 +72,14 @@ public final class SwingBindings {
         component.addChangeListener(event -> {
             final T value = (T) component.getValue();
 
+            LOGGER.debug("JSpinner changed: {}", value);
+
             if (Objects.equals(value, property.getValue())) {
-                LOGGER.debug("JSpinner: Value equals property.getValue() -> return: {}", value);
+                LOGGER.debug("JSpinner.getValue() equals Property.getValue() -> return: {}", value);
                 return;
             }
 
-            LOGGER.debug("JSpinner changed: {}", value);
-
-            updateProperty(property, value);
+            property.setValue(value);
         });
     }
 
@@ -120,33 +89,39 @@ public final class SwingBindings {
             public void focusLost(final FocusEvent e) {
                 final String text = component.getText();
 
+                LOGGER.debug("JTextComponent focus lost: {}", text);
+
                 if (Objects.equals(text, property.getValue())) {
-                    LOGGER.debug("JTextComponent: Text equals property.getValue() -> return: {}", text);
+                    LOGGER.debug("JTextComponent.getText() equals Property.getValue() -> return: {}", text);
                     return;
                 }
 
-                LOGGER.debug("JTextComponent focus lost: {}", text);
-
-                updateProperty(property, text);
+                property.setValue(text);
             }
         });
     }
 
-    public static void bindToSwing(final ObservableValue<Boolean> value, final JCheckBox component) {
-        value.addListener((observable, oldValue, newValue) -> {
-            if (Objects.equals(component.isSelected(), newValue)) {
-                LOGGER.debug("JCheckBox: Selected equals newValue -> return: {}", newValue);
+    public static void bindToProperty(final JLabel component, final Property<String> property) {
+        component.addPropertyChangeListener("text", event -> {
+            final String text = component.getText();
+
+            LOGGER.debug("JLabel text changed: {}", text);
+
+            if (Objects.equals(text, property.getValue())) {
+                LOGGER.debug("JLabel.getText() equals Property.getValue() -> return: {}", text);
                 return;
             }
 
-            component.setSelected(newValue);
+            property.setValue(text);
         });
     }
 
-    public static void bindToSwing(final ObservableValue<Integer> value, final JSlider component) {
-        value.addListener((observable, oldValue, newValue) -> {
+    public static <T> void bindToSwing(final Property<T> property, final JSpinner component) {
+        property.addListener((prop, oldValue, newValue) -> {
+            LOGGER.debug("Property value changed: {}, {} -> {}", prop.getName(), oldValue, newValue);
+
             if (Objects.equals(component.getValue(), newValue)) {
-                LOGGER.debug("JSlider: Value equals newValue -> return: {}", newValue);
+                LOGGER.debug("JSpinner.getValue() equals newValue -> return: {}", newValue);
                 return;
             }
 
@@ -154,10 +129,25 @@ public final class SwingBindings {
         });
     }
 
-    public static void bindToSwing(final ObservableValue<String> value, final JLabel component) {
-        value.addListener((observable, oldValue, newValue) -> {
+    public static void bindToSwing(final Property<Integer> property, final JSlider component) {
+        property.addListener((prop, oldValue, newValue) -> {
+            LOGGER.debug("Property value changed: {}, {} -> {}", prop.getName(), oldValue, newValue);
+
+            if (Objects.equals(component.getValue(), newValue)) {
+                LOGGER.debug("JSlider.getValue() equals newValue -> return: {}", newValue);
+                return;
+            }
+
+            component.setValue(newValue);
+        });
+    }
+
+    public static void bindToSwing(final Property<String> property, final JLabel component) {
+        property.addListener((prop, oldValue, newValue) -> {
+            LOGGER.debug("Property value changed: {}, {} -> {}", prop.getName(), oldValue, newValue);
+
             if (Objects.equals(component.getText(), newValue)) {
-                LOGGER.debug("JLabel: Text equals newValue -> return: {}", newValue);
+                LOGGER.debug("JLabel.getText() equals newValue -> return: {}", newValue);
                 return;
             }
 
@@ -165,10 +155,12 @@ public final class SwingBindings {
         });
     }
 
-    public static void bindToSwing(final ObservableValue<String> value, final JTextComponent component) {
-        value.addListener((observable, oldValue, newValue) -> {
+    public static void bindToSwing(final Property<String> property, final JTextComponent component) {
+        property.addListener((prop, oldValue, newValue) -> {
+            LOGGER.debug("Property value changed: {}, {} -> {}", prop.getName(), oldValue, newValue);
+
             if (Objects.equals(component.getText(), newValue)) {
-                LOGGER.debug("JTextComponent: Text equals newValue -> return: {}", newValue);
+                LOGGER.debug("JTextComponent.getText() equals newValue -> return: {}", newValue);
                 return;
             }
 
@@ -176,10 +168,12 @@ public final class SwingBindings {
         });
     }
 
-    public static void bindToSwing(final ObservableValue<String> value, final TitledBorder component) {
-        value.addListener((observable, oldValue, newValue) -> {
+    public static void bindToSwing(final Property<String> property, final TitledBorder component) {
+        property.addListener((prop, oldValue, newValue) -> {
+            LOGGER.debug("Property value changed: {}, {} -> {}", prop.getName(), oldValue, newValue);
+
             if (Objects.equals(component.getTitle(), newValue)) {
-                LOGGER.debug("TitledBorder: Title equals newValue -> return: {}", newValue);
+                LOGGER.debug("TitledBorder.getTitle() equals newValue -> return: {}", newValue);
                 return;
             }
 
@@ -187,10 +181,12 @@ public final class SwingBindings {
         });
     }
 
-    public static <T> void bindToSwing(final ObservableValue<T> value, final JComboBox<T> component) {
-        value.addListener((observable, oldValue, newValue) -> {
+    public static <T> void bindToSwing(final Property<T> property, final JComboBox<T> component) {
+        property.addListener((prop, oldValue, newValue) -> {
+            LOGGER.debug("Property value changed: {}, {} -> {}", prop.getName(), oldValue, newValue);
+
             if (Objects.equals(component.getSelectedItem(), newValue)) {
-                LOGGER.debug("JComboBox: SelectedItem equals newValue -> return: {}", newValue);
+                LOGGER.debug("JComboBox.getSelectedItem() equals newValue -> return: {}", newValue);
                 return;
             }
 
@@ -198,48 +194,17 @@ public final class SwingBindings {
         });
     }
 
-    public static <T> void bindToSwing(final ObservableValue<T> value, final JSpinner component) {
-        value.addListener((observable, oldValue, newValue) -> {
-            if (Objects.equals(component.getValue(), newValue)) {
-                LOGGER.debug("JSpinner: Value equals newValue -> return: {}", newValue);
+    public static void bindToSwing(final Property<Boolean> property, final JCheckBox component) {
+        property.addListener((prop, oldValue, newValue) -> {
+            LOGGER.debug("Property value changed: {}, {} -> {}", prop.getName(), oldValue, newValue);
+
+            if (Objects.equals(component.isSelected(), newValue)) {
+                LOGGER.debug("JCheckBox.isSelected() equals newValue -> return: {}", newValue);
                 return;
             }
 
-            component.setValue(newValue);
+            component.setSelected(newValue);
         });
-    }
-
-    private static <T> void updateProperty(final Property<T> property, final T newValue) {
-        final Runnable task = () -> {
-            if (Objects.equals(property.getValue(), newValue)) {
-                LOGGER.debug("newValue equals property -> return: {}", newValue);
-                return;
-            }
-
-            LOGGER.debug("set newValue in property: {}", newValue);
-
-            property.setValue(newValue);
-        };
-
-        if (SwingUtilities.isEventDispatchThread()) {
-            task.run();
-        }
-        else {
-            SwingUtilities.invokeLater(task);
-        }
-
-        // if (Platform.isFxApplicationThread()) {
-        // task.run();
-        // }
-        // else {
-        // try {
-        // Platform.runLater(task);
-        // }
-        // catch (IllegalStateException ex) {
-        // // Toolkit not initialized
-        // task.run();
-        // }
-        // }
     }
 
     private SwingBindings() {
