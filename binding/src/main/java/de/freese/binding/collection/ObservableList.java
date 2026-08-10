@@ -66,8 +66,28 @@ public final class ObservableList<T> extends AbstractList<T> {
     }
 
     @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        final ObservableList<?> that = (ObservableList<?>) o;
+
+        return listenerEnabled == that.listenerEnabled && Objects.equals(delegate, that.delegate) && Objects.equals(listenerList, that.listenerList);
+    }
+
+    @Override
     public T get(final int index) {
         return delegate.get(index);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), delegate, listenerList, listenerEnabled);
     }
 
     public boolean isListenerEnabled() {
