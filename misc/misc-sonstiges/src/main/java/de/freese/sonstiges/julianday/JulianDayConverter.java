@@ -1,18 +1,13 @@
 package de.freese.sonstiges.julianday;
 
+import java.time.LocalDate;
+
 /**
- * UtilMethoden für den Julianischen Tag.
+ * Das julianische Datum (JD) ist eine fortlaufende Zählung von Tagen seit dem 1. Januar 4713 v. Chr. (12:00 Uhr Weltzeit).
  *
  * @author Thomas Freese
  */
 public final class JulianDayConverter {
-    /**
-     * Berechnet den Wert des Julianischen Tages.
-     */
-    public static int calculateJD(final Day day) {
-        return calculateJD(day.getYear(), day.getMonth(), day.getDayOfMonth());
-    }
-
     /**
      * Berechnet den Wert des Julianischen Tages.
      */
@@ -27,18 +22,16 @@ public final class JulianDayConverter {
     /**
      * Liefert einen lesbaren Wert des Jahres, Monats und Tag.
      *
-     * @param day {@link Day}; 01.01.1970
-     *
      * @return int; 19700101
      */
-    public static int calculateReadable(final Day day) {
-        return (day.getYear() * 10_000) + (day.getMonth() * 100) + day.getDayOfMonth();
+    public static int calculateReadable(final int year, final int month, final int day) {
+        return (year * 10_000) + (month * 100) + day;
     }
 
     /**
      * Berechnet das Tagesobjekt aus dem Julianischen Wert.
      */
-    public static Day createDayFromJD(final int julianDay) {
+    public static LocalDate createLocalDateFromJD(final int julianDay) {
         final int g = ((julianDay << 2) - 7_468_865) / 146_097;
         final int a = (julianDay + 1 + g) - (g >> 2);
         final int b = a + 1524;
@@ -49,7 +42,7 @@ public final class JulianDayConverter {
         final int month = e < 14 ? e - 1 : e - 13;
         final int year = month > 2 ? c - 4_716 : c - 4_715;
 
-        return new Day(year, month, day);
+        return LocalDate.of(year, month, day);
     }
 
     /**
@@ -57,10 +50,12 @@ public final class JulianDayConverter {
      *
      * @param readableDay int; 19700101
      *
-     * @return {@link Day}; 01.01.1970
+     * @return {@link LocalDate}; 01.01.1970
      */
-    public static Day createDayFromReadable(final int readableDay) {
-        return new Day(readableDay / 10000, (readableDay % 10000) / 100, readableDay % 100);
+    public static LocalDate createLocalDateFromReadable(final int readableDay) {
+        final int jd = calculateJD(readableDay / 10_000, (readableDay % 10_000) / 100, readableDay % 100);
+
+        return createLocalDateFromJD(jd);
     }
 
     private JulianDayConverter() {
