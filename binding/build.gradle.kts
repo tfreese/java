@@ -5,11 +5,21 @@ plugins {
 
 description = "An alternative for Swing like the Binding in JavaFX."
 
+// Deaktiviere Configuration Cache für Maven Publish Tasks (nicht kompatibel).
+tasks.withType<GenerateMavenPom>().configureEach {
+    notCompatibleWithConfigurationCache("Maven POM generation with configuration cache")
+}
+tasks.withType<GenerateModuleMetadata>().configureEach {
+    notCompatibleWithConfigurationCache("Maven metadata generation with configuration cache")
+}
+tasks.withType<PublishToMavenRepository>().configureEach {
+    notCompatibleWithConfigurationCache("Disable Configuration Cache.")
+}
+
 dependencyManagement {
     generatedPomCustomization {
         // Disable Spring's "dependencyManagement" in POM.
         setEnabled(false)
-        //enabled = false
     }
 }
 
@@ -19,21 +29,13 @@ dependencies {
 
 tasks.named("build").get().finalizedBy("publishToMavenLocal")
 
-// Deaktiviere Configuration Cache für Maven Publish Tasks (nicht kompatibel).
-tasks.withType<GenerateMavenPom>().configureEach {
-    notCompatibleWithConfigurationCache("Maven POM generation with configuration cache")
-}
-tasks.withType<GenerateModuleMetadata>().configureEach {
-    notCompatibleWithConfigurationCache("Maven metadata generation with configuration cache")
-}
-
 val publishGroup = project.group.toString()
 val publishName = project.name
 val publishVersion = project.version.toString()
 val publishDescription = project.description
 
 // components["java"]
-//val componentContainer = components.findByName("java")
+// val componentContainer = components.findByName("java")
 
 // https://docs.gradle.org/current/userguide/publishing_maven.html
 publishing {

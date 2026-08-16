@@ -57,8 +57,8 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter {
         y += paintInterface(gc, width - x - getSettings().getMarginInner().getRight(), lan);
         gc.restore();
 
-        y += fontSize * 1.25D;
-        paintTextAndValue(gc, "TCP-Connections:", Integer.toString(protocolInfo.getTcpConnections()), x, y);
+        // y += fontSize * 1.25D;
+        // paintTextAndValue(gc, "TCP-Connections:", Integer.toString(protocolInfo.getTcpConnections()), x, y);
 
         final double height = y + 5D;
         drawDebugBorder(gc, width, height);

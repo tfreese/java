@@ -9,7 +9,6 @@ public class NetworkProtocolInfo {
     private long icmpOut;
     private long ipIn;
     private long ipOut;
-    private int tcpConnections;
     private long tcpIn;
     private long tcpOut;
     private long udpIn;
@@ -19,14 +18,13 @@ public class NetworkProtocolInfo {
         super();
     }
 
-    public NetworkProtocolInfo(final long icmpIn, final long icmpOut, final long ipIn, final long ipOut, final int tcpConnections, final long tcpIn, final long tcpOut,
+    public NetworkProtocolInfo(final long icmpIn, final long icmpOut, final long ipIn, final long ipOut, final long tcpIn, final long tcpOut,
                                final long udpIn, final long udpOut) {
         super();
         this.icmpIn = icmpIn;
         this.icmpOut = icmpOut;
         this.ipIn = ipIn;
         this.ipOut = ipOut;
-        this.tcpConnections = tcpConnections;
         this.tcpIn = tcpIn;
         this.tcpOut = tcpOut;
         this.udpIn = udpIn;
@@ -47,10 +45,6 @@ public class NetworkProtocolInfo {
 
     public long getIpOut() {
         return ipOut;
-    }
-
-    public int getTcpConnections() {
-        return tcpConnections;
     }
 
     public long getTcpIn() {

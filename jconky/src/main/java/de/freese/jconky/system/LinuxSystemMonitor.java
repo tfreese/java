@@ -99,9 +99,8 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     private final ProcessBuilder processBuilderCheckUpdates;
     // private final ProcessBuilder processBuilderDf;
     private final ProcessBuilder processBuilderFree;
-    // private final ProcessBuilder processBuilderHddTemp;
-    private final ProcessBuilder processBuilderIfConfig;
-    private final ProcessBuilder processBuilderNetstat;
+    private final ProcessBuilder processBuilderNetworkIf;
+    private final ProcessBuilder processBuilderNstat;
     private final ProcessBuilder processBuilderNvidiaSmi;
     private final ProcessBuilder processBuilderPlayerCtlMetaData;
     private final ProcessBuilder processBuilderPlayerCtlPosition;
@@ -113,7 +112,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     public LinuxSystemMonitor() {
         super();
 
-        // .redirectErrorStream(true); // Gibt Fehler auf dem InputStream aus.
         // processBuilderUname = new ProcessBuilder().command("/bin/sh", "-c", "uname --all");
 
         processBuilderSensors = new ProcessBuilder().command("/bin/sh", "-c", "sensors");
@@ -121,14 +119,13 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         // -u tommy
         processBuilderTop = new ProcessBuilder().command("/bin/sh", "-c", "top -b -n 1");
 
-        processBuilderIfConfig = new ProcessBuilder().command("/bin/sh", "-c", "ifconfig");
-        processBuilderNetstat = new ProcessBuilder("/bin/sh", "-c", "netstat --statistics ");
+        processBuilderNetworkIf = new ProcessBuilder().command("/bin/sh", "-c", "ip -s -4 addr");
+        processBuilderNstat = new ProcessBuilder("/bin/sh", "-c", "nstat -a");
         // processBuilderDf = new ProcessBuilder("/bin/sh", "-c", "df --block-size=1K");
         processBuilderFree = new ProcessBuilder("/bin/sh", "-c", "free --bytes");
         processBuilderCheckUpdates = new ProcessBuilder("/bin/sh", "-c", "checkupdates");
         processBuilderPlayerCtlMetaData = new ProcessBuilder("/bin/sh", "-c", "playerctl -s metadata");
         processBuilderPlayerCtlPosition = new ProcessBuilder("/bin/sh", "-c", "playerctl -s position");
-        // processBuilderHddTemp = new ProcessBuilder("/bin/sh", "-c", "sudo hddtemp /dev/sda /dev/sdb");
         processBuilderSmartCtl = new ProcessBuilder("/bin/sh", "-c", "sudo smartctl -A /dev/nvme0n1");
         processBuilderNvidiaSmi = new ProcessBuilder("/bin/sh", "-c", "nvidia-smi --format=csv,noheader,nounits --query-gpu=temperature.gpu,power.draw,fan.speed,utilization.gpu");
     }
@@ -253,19 +250,24 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
             if (line.contains("xesam:artist ")) {
                 final String[] splits = SPACE_PATTERN.split(line, 3);
                 artist = splits[2];
-            } else if (line.contains("xesam:album ")) {
+            }
+            else if (line.contains("xesam:album ")) {
                 final String[] splits = SPACE_PATTERN.split(line, 3);
                 album = splits[2];
-            } else if (line.contains("xesam:title ")) {
+            }
+            else if (line.contains("xesam:title ")) {
                 final String[] splits = SPACE_PATTERN.split(line, 3);
                 title = splits[2];
-            } else if (line.contains("mpris:length ")) {
+            }
+            else if (line.contains("mpris:length ")) {
                 final String[] splits = SPACE_PATTERN.split(line, 3);
                 length = (int) (Long.parseLong(splits[2]) / 1_000_000L); // Nano-Sekunden -> Sekunden
-            } else if (line.contains("bitrate")) {
+            }
+            else if (line.contains("bitrate")) {
                 final String[] splits = SPACE_PATTERN.split(line, 3);
                 bitRate = Integer.parseInt(splits[2]);
-            } else if (line.contains("mpris:artUrl")) {
+            }
+            else if (line.contains("mpris:artUrl")) {
                 final String[] splits = SPACE_PATTERN.split(line, 3);
                 imageUri = URI.create(splits[2]);
             }
@@ -279,22 +281,21 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
 
     @Override
     public NetworkInfos getNetworkInfos() {
-        // ifconfig
-        // cat /sys/class/net/
-        // cat /proc/net/dev
-        List<String> lines = readContent(processBuilderIfConfig);
+        // ip -s -4 addr
+        List<String> ipLines = new ArrayList<>(readContent(processBuilderNetworkIf));
 
-        // Trennung der Interfaces durch leere Zeile.
+        // Separate Interfaces.
         final Map<Integer, List<String>> map = new HashMap<>();
         int n = 0;
 
-        for (final String line : lines) {
-            if (line.isBlank()) {
+        for (final String line : ipLines) {
+            if (line.contains(": <")) {
                 n++;
-                continue;
             }
 
-            map.computeIfAbsent(n, key -> new ArrayList<>()).add(line);
+            if (n > 0) {
+                map.computeIfAbsent(n, key -> new ArrayList<>()).add(line);
+            }
         }
 
         final Map<String, NetworkInfo> networkInfoMap = new HashMap<>();
@@ -305,96 +306,93 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
             long bytesReceived = 0L;
             long bytesTransmitted = 0L;
 
-            for (int i = 0; i < ifLines.size(); i++) {
-                final String line = ifLines.get(i).strip();
+            do {
+                String line = ifLines.removeFirst().strip();
 
-                if (i == 0) {
+                if (line.contains(": <")) {
                     // Interface Name
                     final int index = line.indexOf(':');
-                    interfaceName = line.substring(0, index);
-                } else if (line.startsWith("inet ")) {
+                    interfaceName = line.substring(index + 1, line.indexOf(":", index + 1)).strip();
+                }
+                else if (line.startsWith("inet ")) {
                     // IP
                     final String[] splits = SPACE_PATTERN.split(line);
                     ip = splits[1];
-                } else if (line.startsWith("RX packets")) {
+                }
+                else if (line.startsWith("RX:")) {
                     // Bytes Received
+                    line = ifLines.removeFirst().strip();
                     final String[] splits = SPACE_PATTERN.split(line);
-                    bytesReceived = Long.parseLong(splits[4]);
-                } else if (line.startsWith("TX packets")) {
+                    bytesReceived = Long.parseLong(splits[0]);
+                }
+                else if (line.startsWith("TX:")) {
                     // Bytes Transmitted
+                    line = ifLines.removeFirst().strip();
                     final String[] splits = SPACE_PATTERN.split(line);
-                    bytesTransmitted = Long.parseLong(splits[4]);
+                    bytesTransmitted = Long.parseLong(splits[0]);
                 }
             }
+            while (!ifLines.isEmpty());
 
-            final NetworkInfo networkInfo = new NetworkInfo(interfaceName, ip, bytesReceived, bytesTransmitted);
-            networkInfoMap.put(interfaceName, networkInfo);
+            if (interfaceName != null && !interfaceName.isEmpty()) {
+                final NetworkInfo networkInfo = new NetworkInfo(interfaceName, ip, bytesReceived, bytesTransmitted);
+                networkInfoMap.put(interfaceName, networkInfo);
+            }
         }
 
-        // Protokoll infos
-        // ss -s
-        // ss -l
-        // ss -t -a
-        // ss -t -s
-        // netstat -natp
-        // netstat -nat
-        // netstat -natu | grep 'ESTABLISHED'
-        // netstat -s
-        lines = readContent(processBuilderNetstat);
-        // String output = lines.stream().collect(Collectors.joining("\n"));
-        // Pattern patternIpIn =
-        // Pattern.compile("\\d+\\s+(total packets received|Pakete insgesamt empfangen)", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
-        // Matcher matcher = patternIpIn.matcher(output);
-        // if (matcher.find())
-        // {
-        // System.out.println(matcher.group());
-        // }
+        // Protokoll Infos.
+        // nstat -a
+        List<String> nStatLines = readContent(processBuilderNstat);
+
         long icmpIn = 0;
         long icmpOut = 0;
         long ipIn = 0;
         long ipOut = 0;
-        int tcpConnections = 0;
         long tcpIn = 0;
         long tcpOut = 0;
         long udpIn = 0;
         long udpOut = 0;
 
-        for (String line : lines) {
+        for (String line : nStatLines) {
             line = line.strip();
 
-            if (line.contains("total packets received") || line.contains("Pakete insgesamt empfangen")) {
+            if (line.contains("TcpInSegs")) {
                 final String[] splits = SPACE_PATTERN.split(line);
-                ipIn = Long.parseLong(splits[0]);
-            } else if (line.contains("requests sent out") || line.contains("eingehende Pakete ausgeliefert")) {
+                tcpIn = Long.parseLong(splits[1]);
+            }
+            else if (line.contains("TcpOutSegs")) {
                 final String[] splits = SPACE_PATTERN.split(line);
-                ipOut = Long.parseLong(splits[0]);
-            } else if (line.contains("ICMP messages received") || line.contains("ICMP-Meldungen empfangen")) {
+                tcpOut = Long.parseLong(splits[1]);
+            }
+            else if (line.contains("UdpInDatagrams")) {
                 final String[] splits = SPACE_PATTERN.split(line);
-                icmpIn = Long.parseLong(splits[0]);
-            } else if (line.contains("ICMP messages sent") || line.contains("ICMP Nachrichten gesendet")) {
+                udpIn = Long.parseLong(splits[1]);
+            }
+            else if (line.contains("UdpOutDatagrams")) {
                 final String[] splits = SPACE_PATTERN.split(line);
-                icmpOut = Long.parseLong(splits[0]);
-            } else if (line.contains("connections established") || line.contains("Verbindungen aufgebaut")) {
+                udpOut = Long.parseLong(splits[1]);
+            }
+            else if (line.contains("IpInReceives")) {
                 final String[] splits = SPACE_PATTERN.split(line);
-                tcpConnections = Integer.parseInt(splits[0]);
-            } else if ((line.contains("segments received") || line.contains("Segmente empfangen")) && tcpIn == 0) {
-                // 45825 segments received
-                // 0 bad segments received
+                ipIn = Long.parseLong(splits[1]);
+            }
+            else if (line.contains("IpOutRequests")) {
                 final String[] splits = SPACE_PATTERN.split(line);
-                tcpIn = Long.parseLong(splits[0]);
-            } else if (line.contains("segments sent out") || line.contains("Segmente ausgesendet")) {
+                ipOut = Long.parseLong(splits[1]);
+            }
+            else if (line.contains("Icmp6InMsgs")) {
+                // IcmpInEchos
                 final String[] splits = SPACE_PATTERN.split(line);
-                tcpOut = Long.parseLong(splits[0]);
-            } else if (line.contains("packets received") || line.contains("Pakete empfangen")) {
+                icmpIn = Long.parseLong(splits[1]);
+            }
+            else if (line.contains("Icmp6OutMsgs")) {
+                // IcmpOutEchoReps
                 final String[] splits = SPACE_PATTERN.split(line);
-                udpIn = Long.parseLong(splits[0]);
-            } else if (line.contains("packets sent") || line.contains("Pakete gesendet")) {
-                final String[] splits = SPACE_PATTERN.split(line);
-                udpOut = Long.parseLong(splits[0]);
+                icmpOut = Long.parseLong(splits[1]);
             }
         }
 
-        final NetworkProtocolInfo protocolInfo = new NetworkProtocolInfo(icmpIn, icmpOut, ipIn, ipOut, tcpConnections, tcpIn, tcpOut, udpIn, udpOut);
+        final NetworkProtocolInfo protocolInfo = new NetworkProtocolInfo(icmpIn, icmpOut, ipIn, ipOut, tcpIn, tcpOut, udpIn, udpOut);
 
         return new NetworkInfos(networkInfoMap, protocolInfo);
     }
@@ -443,17 +441,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     @Override
     public Map<String, TemperatureInfo> getTemperatures() {
         final Map<String, TemperatureInfo> map = new HashMap<>();
-
-        // List<String> lines = readContent(processBuilderHddTemp);
-        // // final String output = lines.stream().collect(Collectors.joining("\n"))
-        //
-        // for (final String line : lines) {
-        //     final String[] splits = SPACE_PATTERN.split(line);
-        //     final String device = splits[0].replace(":", "");
-        //     final double temperature = Double.parseDouble(splits[splits.length - 1].replace("°C", ""));
-        //
-        //     map.put(device, new TemperatureInfo(device, temperature));
-        // }
 
         List<String> lines = readContent(processBuilderSmartCtl);
 
@@ -544,7 +531,8 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
 
             if (!cmdLine.isEmpty()) {
                 command = cmdLine.getFirst();
-            } else {
+            }
+            else {
                 command = splitsStat[1];
             }
 
@@ -557,7 +545,8 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
 
             if (matcher.find()) {
                 name = matcher.group(1);
-            } else {
+            }
+            else {
                 name = command;
             }
 

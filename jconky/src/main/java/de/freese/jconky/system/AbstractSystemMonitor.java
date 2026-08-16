@@ -4,6 +4,7 @@ package de.freese.jconky.system;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.lang.management.ManagementFactory;
 import java.net.URI;
@@ -37,6 +38,8 @@ import de.freese.jconky.model.UsageInfo;
 public abstract class AbstractSystemMonitor implements SystemMonitor {
     /**
      * "[ ]" = "\\s+" = Whitespace: einer oder mehrere
+     * Tabs, NewLines are supported.
+     * Tab only: "\t+"
      */
     protected static final Pattern SPACE_PATTERN = Pattern.compile("\\s+", Pattern.UNICODE_CHARACTER_CLASS);
     private static final com.sun.management.OperatingSystemMXBean OPERATING_SYSTEM_MX_BEAN =
@@ -78,7 +81,8 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
                 externalIp = br.readLine();
             }
-        } catch (final Exception ex) {
+        }
+        catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
 
@@ -103,7 +107,8 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
                     final String[] splits = path.split(SPACE_PATTERN.pattern(), -1);
                     map.put(splits[0], new UsageInfo(splits[0], total, used, free));
                 }
-            } catch (final IOException ex) {
+            }
+            catch (final IOException ex) {
                 getLogger().error(ex.getMessage(), ex);
             }
         }
@@ -173,26 +178,29 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
         List<String> lines = null;
         List<String> errors = null;
 
+        // .redirectErrorStream(true); // Gibt Fehler auf dem InputStream aus.
         try (Process process = processBuilder.start()) {
-            try (BufferedReader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8));
-                 BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8))) {
-                lines = inputReader.lines().toList();
-                errors = errorReader.lines().toList();
+            try (Reader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8));
+                 Reader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8))) {
+                // lines = inputReader.lines().toList();
+                // errors = errorReader.lines().toList();
+                lines = inputReader.readAllLines();
+                errors = errorReader.readAllLines();
             }
 
             process.waitFor();
-        } catch (final InterruptedException ex) {
+        }
+        catch (final InterruptedException ex) {
             getLogger().error(ex.getMessage());
 
             Thread.currentThread().interrupt();
-        } catch (final IOException ex) {
+        }
+        catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
 
-        if (errors != null && !errors.isEmpty()) {
-            if (getLogger().isErrorEnabled()) {
-                getLogger().error("'{}': {}", processBuilder.command(), String.join(System.lineSeparator(), errors));
-            }
+        if (!errors.isEmpty() && getLogger().isErrorEnabled()) {
+            getLogger().error("'{}': {}", processBuilder.command(), String.join(System.lineSeparator(), errors));
         }
 
         return lines;
@@ -229,7 +237,8 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
             // }
             //
             // return lines;
-        } catch (final IOException ex) {
+        }
+        catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
     }
