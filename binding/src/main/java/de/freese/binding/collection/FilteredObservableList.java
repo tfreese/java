@@ -1,6 +1,5 @@
 package de.freese.binding.collection;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -14,65 +13,67 @@ import javax.swing.event.ListDataListener;
  * @author Thomas Freese
  * @since 09.08.26
  */
-public final class FilteredObservableList<T> extends AbstractList<T> {
+public final class FilteredObservableList<T> extends ObservableList<T> {
 
-    private final List<T> delegate;
-    private final List<T> filteredList;
+    private final ObservableList<T> delegate;
+    private final List<T> filteredList = new ArrayList<>();
 
     private Predicate<T> predicate;
 
-    public FilteredObservableList(final List<T> delegate, final Predicate<T> predicate) {
-        super();
+    public FilteredObservableList(final ObservableList<T> delegate, final Predicate<T> predicate) {
+        super(delegate);
 
         this.delegate = Objects.requireNonNull(delegate, "delegate required");
-        this.filteredList = new ArrayList<>(delegate);
 
         setPredicate(predicate);
 
-        if (delegate instanceof final ObservableList<T> ol) {
-            ol.addListener(new ListDataListener() {
-                @Override
-                public void contentsChanged(final ListDataEvent event) {
-                    doFilter();
+        this.delegate.addListener(new ListDataListener() {
+            @Override
+            public void contentsChanged(final ListDataEvent event) {
+                doFilter();
+            }
+
+            @Override
+            public void intervalAdded(final ListDataEvent event) {
+                doFilter();
+            }
+
+            @Override
+            public void intervalRemoved(final ListDataEvent event) {
+                final int firstRow = event.getIndex0();
+                final int lastRow = event.getIndex1();
+
+                // One shift in List.
+                if (lastRow >= firstRow) {
+                    filteredList.subList(firstRow, lastRow + 1).clear();
                 }
 
-                @Override
-                public void intervalAdded(final ListDataEvent event) {
-                    doFilter();
-                }
-
-                @Override
-                public void intervalRemoved(final ListDataEvent event) {
-                    final int firstRow = event.getIndex0();
-                    final int lastRow = event.getIndex1();
-
-                    for (int i = firstRow; i <= lastRow; i++) {
-                        filteredList.remove(i);
-                    }
-                }
-            });
-        }
+                // Every remove triggers one shift in List.
+                // for (int i = lastRow; i >= firstRow; i--) {
+                //     filteredList.remove(i);
+                // }
+            }
+        });
     }
 
     @Override
     public boolean add(final T t) {
-        throw new UnsupportedOperationException("add(T) not supported, use delegate.add(T) instead");
+        return delegate.add(t);
     }
 
     @Override
     public void add(final int index, final T element) {
-        throw new UnsupportedOperationException("add(int, T) not supported, use delegate.add(int, T) instead");
+        delegate.add(index, element);
     }
 
     @Override
     public boolean addAll(final int index, final Collection<? extends T> c) {
-        throw new UnsupportedOperationException("addAll(int, Collection) not supported, use delegate.addAll(int, Collection) instead");
-
+        return delegate.addAll(index, c);
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException("clear() not supported, use delegate.clear() instead");
+        delegate.clear();
     }
 
     @Override
@@ -82,12 +83,12 @@ public final class FilteredObservableList<T> extends AbstractList<T> {
 
     @Override
     public T remove(final int index) {
-        throw new UnsupportedOperationException("remove(int) not supported, use delegate.remove(int) instead");
+        return delegate.remove(index);
     }
 
     @Override
     public T set(final int index, final T element) {
-        throw new UnsupportedOperationException("set(int, T) not supported, use delegate.set(int, T) instead");
+        return delegate.set(index, element);
     }
 
     public void setPredicate(final Predicate<T> predicate) {

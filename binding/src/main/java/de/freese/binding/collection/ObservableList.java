@@ -14,7 +14,7 @@ import javax.swing.event.ListDataListener;
  * @author Thomas Freese
  * @since 09.08.26
  */
-public final class ObservableList<T> extends AbstractList<T> {
+public class ObservableList<T> extends AbstractList<T> {
     private final List<T> delegate;
     private final EventListenerList listenerList = new EventListenerList();
 
@@ -70,7 +70,7 @@ public final class ObservableList<T> extends AbstractList<T> {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        
+
         if (!super.equals(o)) {
             return false;
         }
