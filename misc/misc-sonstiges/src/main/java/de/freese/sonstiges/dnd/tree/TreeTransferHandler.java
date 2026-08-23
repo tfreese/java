@@ -1,4 +1,3 @@
-// Created: 31.08.2004
 package de.freese.sonstiges.dnd.tree;
 
 import java.awt.datatransfer.DataFlavor;
@@ -16,9 +15,10 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 
 /**
- * TransferHandler für DnD von JTree-JTree
+ * TransferHandler für DnD von JTree-JTree.
  *
  * @author Thomas Freese
+ * @since 31.08.2004
  */
 class TreeTransferHandler extends TransferHandler {
     @Serial
@@ -29,11 +29,11 @@ class TreeTransferHandler extends TransferHandler {
     private TreePath targetPath;
 
     /**
-     * Ist DnD erlaubt ?
+     * Ist DnD erlaubt?
      */
     @Override
     public boolean canImport(final JComponent comp, final DataFlavor[] transferFlavors) {
-        for (DataFlavor transferFlavor : transferFlavors) {
+        for (final DataFlavor transferFlavor : transferFlavors) {
             if (TransferableTreeNode.TREE_PATH_FLAVOR.equals(transferFlavor)) {
                 return true;
             }
@@ -43,7 +43,7 @@ class TreeTransferHandler extends TransferHandler {
     }
 
     /**
-     * Was darf DnD ?
+     * Was darf DnD?
      */
     @Override
     public int getSourceActions(final JComponent c) {
@@ -55,7 +55,7 @@ class TreeTransferHandler extends TransferHandler {
      */
     @Override
     public boolean importData(final JComponent comp, final Transferable t) {
-        if (canImport(comp, t.getTransferDataFlavors()) && comp instanceof JTree targetTree) {
+        if (canImport(comp, t.getTransferDataFlavors()) && comp instanceof final JTree targetTree) {
             // Wird in exportDone gegen den sourcePath geprüft
             targetPath = targetTree.getSelectionPath();
 
@@ -82,7 +82,7 @@ class TreeTransferHandler extends TransferHandler {
      */
     @Override
     protected Transferable createTransferable(final JComponent c) {
-        if (!(c instanceof JTree sourceTree)) {
+        if (!(c instanceof final JTree sourceTree)) {
             return null;
 
             // oder ???
@@ -99,7 +99,7 @@ class TreeTransferHandler extends TransferHandler {
     protected void exportDone(final JComponent source, final Transferable data, final int action) {
         final TreePath sourcePath = getSourcePath(data);
 
-        if (action == MOVE && source instanceof JTree sourceTree && sourcePath != null) {
+        if (action == MOVE && source instanceof final JTree sourceTree && sourcePath != null) {
             final DefaultTreeModel sourceModell = (DefaultTreeModel) sourceTree.getModel();
 
             // Nur Löschen, wenn Source != Target ist.
@@ -111,7 +111,7 @@ class TreeTransferHandler extends TransferHandler {
     }
 
     /**
-     * ServiceMethode, liefert den SourcePath aus dem Transferable-Daten.
+     * ServiceMethode, liefert den SourcePath aus den Transferable-Daten.
      */
     private TreePath getSourcePath(final Transferable t) {
         TreePath sourcePath = null;

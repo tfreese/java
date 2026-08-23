@@ -1,10 +1,10 @@
-// Created: 26.08.2015
 package de.freese.ga.examples.travelling_salesman;
 
 /**
  * Genom Value
  *
  * @author Thomas Freese
+ * @since 26.08.2015
  */
 public record City(String name, int x, int y) {
     public double distanceTo(final City city) {
@@ -16,10 +16,6 @@ public record City(String name, int x, int y) {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append(name());
-        sb.append("(").append(x()).append(":").append(y()).append(")");
-
-        return sb.toString();
+        return name() + "(" + x() + ":" + y() + ")";
     }
 }

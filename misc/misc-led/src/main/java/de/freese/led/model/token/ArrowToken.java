@@ -1,10 +1,10 @@
-// Created: 22.12.23
 package de.freese.led.model.token;
 
 import java.awt.Color;
 
 /**
  * @author Thomas Freese
+ * @since 22.12.23
  */
 public class ArrowToken extends AbstractLedToken {
     public enum Arrow {

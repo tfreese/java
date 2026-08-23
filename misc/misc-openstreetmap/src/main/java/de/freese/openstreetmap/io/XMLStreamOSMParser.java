@@ -1,4 +1,3 @@
-// Created: 12.03.2015
 package de.freese.openstreetmap.io;
 
 import java.io.InputStream;
@@ -19,6 +18,7 @@ import de.freese.openstreetmap.model.OsmWay;
  * Beste Variante, da nur das aktuelle Element im Speicher gehalten wird.
  *
  * @author Thomas Freese
+ * @since 12.03.2015
  */
 @SuppressWarnings("java:S2259")
 public class XMLStreamOSMParser implements OSMParser {
@@ -52,7 +52,7 @@ public class XMLStreamOSMParser implements OSMParser {
         // Protect against to XXE attacks.
         inputFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
         inputFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
-        //        inputFactory.setProperty(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        // inputFactory.setProperty(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 
         final XMLStreamReader reader = inputFactory.createXMLStreamReader(inputStream);
 

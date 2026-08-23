@@ -1,8 +1,8 @@
-// Created: 04.03.2021
 package de.freese.simulationen.model;
 
 /**
  * @author Thomas Freese
+ * @since 04.03.2021
  */
 public enum SimulationType {
     ANTS("ants"),
@@ -11,7 +11,7 @@ public enum SimulationType {
     WATER_TORUS("wator");
 
     public static SimulationType findByNameShort(final String nameShort) {
-        for (SimulationType type : values()) {
+        for (final SimulationType type : values()) {
             if (type.getNameShort().equals(nameShort)) {
                 return type;
             }

@@ -1,4 +1,3 @@
-// Created: 10 Apr. 2025
 package de.freese.jspecify;
 
 import org.jspecify.annotations.Nullable;
@@ -7,6 +6,7 @@ import org.jspecify.annotations.Nullable;
  * Default implementation for a {@link TokenExtractor}.
  *
  * @author Thomas Freese
+ * @since 10.04.2025
  */
 public final class DefaultTokenExtractor implements TokenExtractor {
     @Override

@@ -1,4 +1,3 @@
-// Created: 02.09.2021
 package de.freese.jsensors.binder;
 
 import java.util.List;
@@ -12,6 +11,7 @@ import de.freese.jsensors.sensor.Sensor;
  * Binds {@link Sensor}s with one or more information to the {@link SensorRegistry}.
  *
  * @author Thomas Freese
+ * @since 02.09.2021
  */
 @FunctionalInterface
 public interface SensorBinder {

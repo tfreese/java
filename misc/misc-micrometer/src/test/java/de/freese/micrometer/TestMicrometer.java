@@ -1,4 +1,3 @@
-// Created: 08.04.2021
 package de.freese.micrometer;
 
 import static java.util.stream.Collectors.joining;
@@ -39,6 +38,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 08.04.2021
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestMicrometer {
@@ -177,13 +177,13 @@ class TestMicrometer {
             return null;
         };
 
-        timer.record(100, TimeUnit.MILLISECONDS);
+        timer.record(100L, TimeUnit.MILLISECONDS);
         timer.recordCallable(callable);
 
         assertEquals(2L, timer.count());
         assertNotNull(Metrics.globalRegistry.find("app.event"));
         assertEquals(2L, timer.count());
-        assertEquals(200L, timer.totalTime(TimeUnit.MILLISECONDS), 30);
+        assertEquals(200L, timer.totalTime(TimeUnit.MILLISECONDS), 30L);
 
         // Long Task Timer
         final LongTaskTimer longTaskTimer = LongTaskTimer.builder("3rdPartyService").register(Metrics.globalRegistry);

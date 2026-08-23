@@ -1,8 +1,8 @@
-// Created: 22.12.2020
 package de.freese.jconky.model;
 
 /**
  * @author Thomas Freese
+ * @since 22.12.2020
  */
 public class TemperatureInfo {
     private final String device;

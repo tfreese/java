@@ -1,4 +1,3 @@
-// Created: 12.10.2016
 package de.freese.simulationen.balls;
 
 import java.awt.Color;
@@ -15,6 +14,7 @@ import de.freese.simulationen.model.AbstractSimulation;
  * Simulation springender Bälle.
  *
  * @author Thomas Freese
+ * @since 12.10.2016
  */
 public class BallSimulation extends AbstractSimulation {
     /**

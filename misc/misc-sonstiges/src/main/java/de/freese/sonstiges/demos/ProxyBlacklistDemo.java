@@ -1,4 +1,3 @@
-// Created: 28.08.2015
 package de.freese.sonstiges.demos;
 
 import java.io.BufferedReader;
@@ -43,6 +42,7 @@ import org.slf4j.LoggerFactory;
  * Generator für eine Proxy Blacklist.
  *
  * @author Thomas Freese
+ * @since 28.08.2015
  */
 public final class ProxyBlacklistDemo {
     private static final CompletionService<Set<String>> COMPLETION_SERVICE = new ExecutorCompletionService<>(ForkJoinPool.commonPool());
@@ -158,7 +158,7 @@ public final class ProxyBlacklistDemo {
         try (PrintWriter writer = new PrintWriter(targetDirectory.resolve("privoxy-generated.filter").toFile(), charset)) {
             writer.println("FILTER: generated Tag Filter for HTML Elements");
 
-            for (String element : blackListElements) {
+            for (final String element : blackListElements) {
                 writer.println(element);
             }
         }
@@ -167,7 +167,7 @@ public final class ProxyBlacklistDemo {
         try (PrintWriter writer = new PrintWriter(targetDirectory.resolve("privoxy-generated.action").toFile(), charset)) {
             writer.println("{ +block{generated} }");
 
-            for (String domain : blackListDomain) {
+            for (final String domain : blackListDomain) {
                 writer.println(domain);
             }
 
@@ -177,14 +177,14 @@ public final class ProxyBlacklistDemo {
             writer.println();
             writer.println("{ -block }");
 
-            for (String domain : whiteListDomain) {
+            for (final String domain : whiteListDomain) {
                 writer.println(domain);
             }
 
             writer.println();
             writer.println("{ -block +handle-as-image }");
 
-            for (String image : whiteListImages) {
+            for (final String image : whiteListImages) {
                 writer.println(image);
             }
         }
@@ -340,7 +340,7 @@ public final class ProxyBlacklistDemo {
                 }
             }
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage());
         }
 
@@ -410,7 +410,7 @@ public final class ProxyBlacklistDemo {
                 }
             }
         }
-        catch (EOFException ex) {
+        catch (final EOFException ex) {
             LOGGER.error(ex.getMessage());
         }
 
@@ -446,7 +446,7 @@ public final class ProxyBlacklistDemo {
         LOGGER.info("Write: {}", path);
 
         try (PrintWriter writer = new PrintWriter(path.toFile(), StandardCharsets.UTF_8)) {
-            for (String host : blackList) {
+            for (final String host : blackList) {
                 writer.printf("%s%n", host);
             }
         }

@@ -1,4 +1,3 @@
-// Created: 03.06.2016
 package de.freese.metamodel.metagen.model;
 
 import java.util.ArrayList;
@@ -11,6 +10,7 @@ import java.util.TreeMap;
  * Basis-Implementierung: Enthält die MetaDaten eines Index.
  *
  * @author Thomas Freese
+ * @since 03.06.2016
  */
 public abstract class AbstractIndex {
     private final Map<Integer, Column> columns = new TreeMap<>();
@@ -55,13 +55,10 @@ public abstract class AbstractIndex {
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append(getClass().getSimpleName()).append(" [");
-        builder.append(" table=").append(table);
-        builder.append(", name=").append(name);
-        builder.append("]");
-
-        return builder.toString();
+        return getClass().getSimpleName() + " [" +
+                " table=" + table +
+                ", name=" + name +
+                "]";
     }
 
     protected Map<Integer, Column> getColumnMap() {

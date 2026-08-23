@@ -1,4 +1,3 @@
-// Created: 07.11.2009
 package de.freese.misc.generator;
 
 import java.util.Objects;
@@ -10,6 +9,7 @@ import de.freese.misc.generator.algorythm.SudokuAlgorithm;
  * Erstellt mit einem {@link SudokuAlgorithm} ein gültiges Rätsel.
  *
  * @author Thomas Freese
+ * @since 07.11.2009
  */
 public final class SudokuGeneratorMain {
     public static void toString(final int[][] grid) {
@@ -19,7 +19,7 @@ public final class SudokuGeneratorMain {
 
         for (int x = 0; x < grid.length; x++) {
             if ((x % blockSize) == 0) {
-                sb.append("-".repeat((grid.length * 3) + blockSize + 1));
+                sb.repeat("-", (grid.length * 3) + blockSize + 1);
 
                 sb.append(System.lineSeparator());
             }
@@ -35,7 +35,7 @@ public final class SudokuGeneratorMain {
             sb.append("|").append(System.lineSeparator());
         }
 
-        sb.append("-".repeat((grid.length * 3) + blockSize + 1));
+        sb.repeat("-", (grid.length * 3) + blockSize + 1);
 
         sb.append(System.lineSeparator());
 
@@ -51,7 +51,7 @@ public final class SudokuGeneratorMain {
         final int[][] grid = generator.create(3);
         toString(grid);
     }
-    
+
     private final SudokuAlgorithm algorithm;
 
     private SudokuGeneratorMain(final SudokuAlgorithm algorithm) {

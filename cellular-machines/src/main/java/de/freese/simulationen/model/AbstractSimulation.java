@@ -1,4 +1,3 @@
-// Created: 18.09.2009
 package de.freese.simulationen.model;
 
 import java.security.SecureRandom;
@@ -11,6 +10,7 @@ import java.util.Random;
  * BasisModel für die Simulationen.
  *
  * @author Thomas Freese
+ * @since 18.09.2009
  */
 public abstract class AbstractSimulation implements Simulation {
     /**
@@ -86,7 +86,7 @@ public abstract class AbstractSimulation implements Simulation {
     protected void fireCompleted() {
         updateImage();
 
-        for (SimulationListener listener : simulationListeners) {
+        for (final SimulationListener listener : simulationListeners) {
             listener.completed(this);
         }
     }

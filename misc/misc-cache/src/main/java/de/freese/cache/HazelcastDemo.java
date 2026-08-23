@@ -1,4 +1,3 @@
-// Created: 28.05.2018
 package de.freese.cache;
 
 import java.io.IOException;
@@ -20,6 +19,7 @@ import org.slf4j.LoggerFactory;
  * <a href="http://docs.hazelcast.org/docs/latest-dev/manual/html-single/index.html">latest-dev</a>
  *
  * @author Thomas Freese
+ * @since 28.05.2018
  */
 public final class HazelcastDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastDemo.class);

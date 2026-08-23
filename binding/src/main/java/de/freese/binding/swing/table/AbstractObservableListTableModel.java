@@ -10,7 +10,7 @@ import de.freese.binding.collection.ObservableList;
 
 /**
  * @author Thomas Freese
- * @since 09.08.26
+ * @since 09.08.2026
  */
 public abstract class AbstractObservableListTableModel<T> extends AbstractListTableModel<T> {
     @Serial

@@ -1,9 +1,5 @@
 package de.freese.sonstiges.dnd.extended;
 
-/*
- * ExtendedDnDMain.java is a 1.4 example that requires the following files: StringTransferHandler.java ListTransferHandler.java TableTransferHandler.java
- */
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;

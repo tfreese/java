@@ -1,8 +1,8 @@
-// Created: 20.12.2020
 package de.freese.jconky.model;
 
 /**
  * @author Thomas Freese
+ * @since 20.12.2020
  */
 public class NetworkProtocolInfo {
     private long icmpIn;
@@ -18,8 +18,7 @@ public class NetworkProtocolInfo {
         super();
     }
 
-    public NetworkProtocolInfo(final long icmpIn, final long icmpOut, final long ipIn, final long ipOut, final long tcpIn, final long tcpOut,
-                               final long udpIn, final long udpOut) {
+    public NetworkProtocolInfo(final long icmpIn, final long icmpOut, final long ipIn, final long ipOut, final long tcpIn, final long tcpOut, final long udpIn, final long udpOut) {
         super();
         this.icmpIn = icmpIn;
         this.icmpOut = icmpOut;

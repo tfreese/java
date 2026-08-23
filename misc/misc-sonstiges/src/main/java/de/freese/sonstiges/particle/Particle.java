@@ -6,11 +6,12 @@ import java.util.Random;
 
 /**
  * @author Thomas Freese
+ * @since 04.10.2018
  */
 class Particle {
     private final Color color;
     private final Random random;
-    
+
     private int x;
     private int y;
 

@@ -13,7 +13,7 @@ import de.freese.binding.collection.ObservableList;
 
 /**
  * @author Thomas Freese
- * @since 09.08.26
+ * @since 09.08.2026
  */
 public class ObservableListListModel<T> implements ListModel<T>, Serializable {
     @Serial

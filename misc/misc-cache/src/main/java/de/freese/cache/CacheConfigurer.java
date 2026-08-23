@@ -1,4 +1,3 @@
-// Created: 07 Feb. 2025
 package de.freese.cache;
 
 import java.util.Set;
@@ -23,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 07.02.2025
  */
 public final class CacheConfigurer {
     public static Config configureHazelCastWithNetwork(final String localIp, final int localPort) {

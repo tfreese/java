@@ -1,8 +1,8 @@
-// Created: 01.12.2020
 package de.freese.jconky.model;
 
 /**
  * @author Thomas Freese
+ * @since 01.12.2020
  */
 public record HostInfo(String name, String version, String architecture) {
     public HostInfo() {

@@ -1,4 +1,3 @@
-// Created: 13.12.2020
 package de.freese.jconky.painter;
 
 import javafx.scene.canvas.GraphicsContext;
@@ -12,6 +11,7 @@ import de.freese.jconky.Settings;
 
 /**
  * @author Thomas Freese
+ * @since 13.12.2020
  */
 public abstract class AbstractMonitorPainter implements MonitorPainter {
     private final Logger logger = LoggerFactory.getLogger(getClass());

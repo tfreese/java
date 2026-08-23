@@ -62,7 +62,7 @@ public abstract class Coordinate {
             return true;
         }
 
-        if (!(obj instanceof Coordinate other)) {
+        if (!(obj instanceof final Coordinate other)) {
             return false;
         }
 

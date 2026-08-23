@@ -1,4 +1,3 @@
-// Created: 06.11.2013
 package de.freese.sonstiges.mockito;
 
 import static org.mockito.Mockito.doThrow;
@@ -12,6 +11,7 @@ import org.mockito.ArgumentMatchers;
 
 /**
  * @author Thomas Freese
+ * @since 06.11.2013
  */
 class TestVendingMaschine {
     @Test

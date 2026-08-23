@@ -1,4 +1,3 @@
-// Created: 21.12.23
 package de.freese.led.painter;
 
 import java.awt.Color;
@@ -8,6 +7,7 @@ import de.freese.led.model.element.LedElement;
 
 /**
  * @author Thomas Freese
+ * @since 21.12.23
  */
 public interface LedPainter {
     void paintElement(Graphics graphics, LedElement ledElement, int width, int height);

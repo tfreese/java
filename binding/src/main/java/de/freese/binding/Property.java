@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
- * @since 09.08.26
+ * @since 09.08.2026
  */
 public class Property<T> {
     protected static final Logger LOGGER = LoggerFactory.getLogger(Property.class);

@@ -30,7 +30,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
 /**
- * Created on 31.08.2004
+ * @since 31.08.2004
  */
 public final class BasicDnD extends JPanel implements ActionListener {
     @Serial

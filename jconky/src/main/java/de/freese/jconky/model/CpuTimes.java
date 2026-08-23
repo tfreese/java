@@ -1,4 +1,3 @@
-// Created: 30.11.2020
 package de.freese.jconky.model;
 
 /**
@@ -14,37 +13,11 @@ package de.freese.jconky.model;
  * Oder auch benannt als: Periodendauer des Timer-Interrupts<br>
  *
  * @author Thomas Freese
+ * @since 30.11.2020
  */
-public class CpuTimes {
-    private final long guest;
-    private final long guestNice;
-    private final long idle;
-    private final long ioWait;
-    private final long irq;
-    private final long nice;
-    private final long softIrq;
-    private final long steal;
-    private final long system;
-    private final long user;
-
+public record CpuTimes(long user, long nice, long system, long idle, long ioWait, long irq, long softIrq, long steal, long guest, long guestNice) {
     public CpuTimes() {
-        this(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-    }
-
-    public CpuTimes(final long user, final long nice, final long system, final long idle, final long ioWait, final long irq, final long softIrq, final long steal, final long guest,
-                    final long guestNice) {
-        super();
-
-        this.user = user;
-        this.nice = nice;
-        this.system = system;
-        this.idle = idle;
-        this.ioWait = ioWait;
-        this.irq = irq;
-        this.softIrq = softIrq;
-        this.steal = steal;
-        this.guest = guest;
-        this.guestNice = guestNice;
+        this(0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
     }
 
     /**
@@ -63,55 +36,15 @@ public class CpuTimes {
         return percent;
     }
 
-    public long getGuest() {
-        return guest;
-    }
-
-    public long getGuestNice() {
-        return guestNice;
-    }
-
-    public long getIdle() {
-        return idle;
-    }
-
-    public long getIoWait() {
-        return ioWait;
-    }
-
-    public long getIrq() {
-        return irq;
-    }
-
-    public long getNice() {
-        return nice;
-    }
-
-    public long getSoftIrq() {
-        return softIrq;
-    }
-
-    public long getSteal() {
-        return steal;
-    }
-
-    public long getSystem() {
-        return system;
-    }
-
     public long getTotal() {
         return getTotalIdle() + getTotalNonIdle();
     }
 
     public long getTotalIdle() {
-        return getIdle() + getIoWait();
+        return idle() + ioWait();
     }
 
     public long getTotalNonIdle() {
-        return getUser() + getNice() + getSystem() + getIrq() + getSoftIrq() + getSteal();
-    }
-
-    public long getUser() {
-        return user;
+        return user() + nice() + system() + irq() + softIrq() + steal();
     }
 }

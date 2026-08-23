@@ -1,4 +1,3 @@
-// Created: 23.07.2018
 package de.freese.metamodel.metagen;
 
 import java.sql.SQLException;
@@ -11,6 +10,7 @@ import de.freese.metamodel.metagen.model.Schema;
  * {@link MetaExporter} für MariaDB.
  *
  * @author Thomas Freese
+ * @since 23.07.2018
  */
 public class MariaDbMetaExporter extends AbstractMetaExporter {
     @Override

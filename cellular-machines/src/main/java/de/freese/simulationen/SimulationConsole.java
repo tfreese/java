@@ -1,4 +1,3 @@
-// Created: 08.02.2014
 package de.freese.simulationen;
 
 import java.io.IOException;
@@ -33,6 +32,7 @@ import de.freese.simulationen.wator.WaTorRasterSimulation;
  * </pre>
  *
  * @author Thomas Freese
+ * @since 08.02.2014
  */
 class SimulationConsole {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimulationConsole.class);
@@ -64,7 +64,7 @@ class SimulationConsole {
                         try {
                             Files.delete(file);
                         }
-                        catch (IOException ex) {
+                        catch (final IOException ex) {
                             throw new UncheckedIOException(ex);
                         }
                     });
@@ -81,14 +81,14 @@ class SimulationConsole {
             for (int cycle = 0; cycle < cycles; cycle++) {
                 simulation.nextGeneration();
 
-                if (simulation instanceof BallSimulation bs && bs.isFinished()) {
+                if (simulation instanceof final BallSimulation bs && bs.isFinished()) {
                     break;
                 }
 
                 // TimeUnit.MILLISECONDS.sleep(delay);
             }
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             System.exit(-1);

@@ -1,4 +1,3 @@
-// Created: 28.08.23
 package de.freese.sonstiges.imap.supplier;
 
 import java.io.BufferedOutputStream;
@@ -25,6 +24,7 @@ import de.freese.sonstiges.imap.model.MessageWrapper;
 
 /**
  * @author Thomas Freese
+ * @since 28.08.2023
  */
 public class RemoteMailSupplier implements MailSupplier {
 
@@ -36,7 +36,7 @@ public class RemoteMailSupplier implements MailSupplier {
     public RemoteMailSupplier(final Map<String, Boolean> folders) {
         this(folders, folder -> {
             try {
-                if (folder instanceof IMAPFolder iFolder) {
+                if (folder instanceof final IMAPFolder iFolder) {
                     // All Mails, oldest first.
                     return List.of(iFolder.getSortedMessages(new SortTerm[]{SortTerm.ARRIVAL}));
                 }
@@ -44,7 +44,7 @@ public class RemoteMailSupplier implements MailSupplier {
                 // All Mails, oldest first.
                 return List.of(folder.getMessages());
             }
-            catch (MessagingException ex) {
+            catch (final MessagingException ex) {
                 throw new RuntimeException(ex);
             }
         });
@@ -72,7 +72,7 @@ public class RemoteMailSupplier implements MailSupplier {
                     message.writeTo(outputStream);
                 }
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 LOGGER.error(ex.getMessage(), ex);
             }
         };
@@ -85,7 +85,7 @@ public class RemoteMailSupplier implements MailSupplier {
         try (MailClient mailClient = new MailClient()) {
             mailClient.login();
 
-            for (Map.Entry<String, Boolean> entry : folders.entrySet()) {
+            for (final Map.Entry<String, Boolean> entry : folders.entrySet()) {
                 final String folderName = entry.getKey();
                 final boolean isSpam = entry.getValue();
 
@@ -95,10 +95,10 @@ public class RemoteMailSupplier implements MailSupplier {
                         messageWrapper.setSpam(isSpam);
                         messageConsumer.accept(messageWrapper);
                     }
-                    catch (RuntimeException ex) {
+                    catch (final RuntimeException ex) {
                         throw ex;
                     }
-                    catch (Exception ex) {
+                    catch (final Exception ex) {
                         throw new RuntimeException(ex);
                     }
                 });

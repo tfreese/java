@@ -1,8 +1,8 @@
-// Created: 05.12.2020
 package de.freese.jconky.model;
 
 /**
  * @author Thomas Freese
+ * @since 05.12.2020
  */
 public class CpuInfo {
     private final int core;

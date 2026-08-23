@@ -1,4 +1,3 @@
-// Created: 26.08.2020
 package de.freese.sonstiges.disruptor.http;
 
 import java.io.IOException;
@@ -26,6 +25,7 @@ import org.slf4j.LoggerFactory;
  * </a>
  *
  * @author Thomas Freese
+ * @since 26.08.2020
  */
 @SuppressWarnings({"java:S2095", "java:S2245"})
 public final class HttpEventMain {
@@ -62,7 +62,7 @@ public final class HttpEventMain {
         try {
             server.start();
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             LOGGER.error(ex.getMessage(), ex);
             System.exit(0);
         }

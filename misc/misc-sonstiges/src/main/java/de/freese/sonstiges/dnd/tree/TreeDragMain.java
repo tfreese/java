@@ -1,4 +1,3 @@
-// Created: 31.08.2004
 package de.freese.sonstiges.dnd.tree;
 
 import java.awt.Dimension;
@@ -17,6 +16,7 @@ import org.slf4j.LoggerFactory;
  * Testklasse für DnD von JTree - JTree.
  *
  * @author Thomas Freese
+ * @since 31.08.2004
  */
 public final class TreeDragMain extends JFrame {
     private static final Logger LOGGER = LoggerFactory.getLogger(TreeDragMain.class);
@@ -41,7 +41,7 @@ public final class TreeDragMain extends JFrame {
         try {
             treeLeft.getDropTarget().addDropTargetListener(new TreeDropTargetListener());
         }
-        catch (TooManyListenersException ex) {
+        catch (final TooManyListenersException ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 

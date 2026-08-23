@@ -1,4 +1,3 @@
-// Created: 08.07.23
 package de.freese.protobuf;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,6 +27,7 @@ import de.freese.protobuf.model.test.Test2;
 
 /**
  * @author Thomas Freese
+ * @since 08.07.23
  */
 class TestProtobuf {
     private static AddressBook addressBook;
@@ -53,7 +53,8 @@ class TestProtobuf {
 
         try {
             System.out.printf("JsonFormat:%n%s%n", JsonFormat.printer().sortingMapKeys().print(addressBook));
-        } catch (final InvalidProtocolBufferException ex) {
+        }
+        catch (final InvalidProtocolBufferException ex) {
             throw new RuntimeException(ex);
         }
     }

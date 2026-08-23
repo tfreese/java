@@ -1,4 +1,3 @@
-// Created: 07 Feb. 2025
 package de.freese.cache;
 
 import java.util.Collection;
@@ -11,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 07.02.2025
  */
 public final class HazelcastMapStore<K, V> implements MapStore<K, V> {
     private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastMapStore.class);

@@ -1,4 +1,3 @@
-// Created: 11 Apr. 2025
 package de.freese.gradle.cache.controller;
 
 import java.io.IOException;
@@ -25,9 +24,8 @@ import de.freese.gradle.cache.storage.Storage;
 import de.freese.gradle.cache.storage.StorageEntry;
 
 /**
- * REST-Controller.
- *
  * @author Thomas Freese
+ * @since 11.04.2025
  */
 @RestController
 @RequestMapping("cache")
@@ -71,7 +69,7 @@ public final class CacheController {
         storage.lock(key);
 
         try {
-            final StorageEntry storageEntry = storage.getStorageEntry(key);
+            final StorageEntry storageEntry = storage.getEntry(key);
 
             if (storageEntry == null) {
                 LOGGER.info("No cache available for key: {}", key);

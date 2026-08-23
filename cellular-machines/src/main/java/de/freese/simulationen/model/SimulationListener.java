@@ -1,10 +1,10 @@
-// Created: 17.10.2009
 package de.freese.simulationen.model;
 
 /**
  * Listener für Veränderungen einer Simulation.
  *
  * @author Thomas Freese
+ * @since 17.10.2009
  */
 @FunctionalInterface
 public interface SimulationListener {

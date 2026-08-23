@@ -1,4 +1,3 @@
-// Created: 29.06.2020
 package de.freese.ga.examples.pattern;
 
 import java.util.stream.Collectors;
@@ -9,6 +8,7 @@ import de.freese.ga.Gene;
 
 /**
  * @author Thomas Freese
+ * @since 29.06.2020
  */
 public class PatternChromosome extends Chromosome {
     public PatternChromosome(final PatternConfig config) {

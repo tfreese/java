@@ -1,4 +1,3 @@
-// Created: 06.11.2011
 package de.freese.openstreetmap.model;
 
 import java.awt.Polygon;
@@ -13,6 +12,7 @@ import de.freese.openstreetmap.Mercator;
  * Gruppiert {@link OsmNode} zu einem zusammenhängenden Weg.
  *
  * @author Thomas Freese
+ * @since 06.11.2011
  */
 public class OsmWay extends AbstractOsmEntity {
     private Rectangle bounds;
@@ -21,7 +21,7 @@ public class OsmWay extends AbstractOsmEntity {
 
     public Rectangle getBounds() {
         if (bounds == null) {
-            for (OsmNode osmNode : getNodes()) {
+            for (final OsmNode osmNode : getNodes()) {
                 final double x = Mercator.mercX(osmNode.getLongitude());
                 final double y = Mercator.mercY(osmNode.getLatitude());
 
@@ -42,7 +42,7 @@ public class OsmWay extends AbstractOsmEntity {
         if (polygon == null) {
             polygon = new Polygon();
 
-            for (OsmNode osmNode : getNodes()) {
+            for (final OsmNode osmNode : getNodes()) {
                 final double x = Mercator.mercX(osmNode.getLongitude());
                 final double y = Mercator.mercY(osmNode.getLatitude());
                 polygon.addPoint((int) x, (int) y);

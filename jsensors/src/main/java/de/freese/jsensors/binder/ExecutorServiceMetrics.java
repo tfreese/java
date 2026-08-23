@@ -1,4 +1,3 @@
-// Created: 03.09.2021
 package de.freese.jsensors.binder;
 
 import java.lang.invoke.MethodHandles;
@@ -21,6 +20,7 @@ import de.freese.jsensors.sensor.Sensor;
  * See io.micrometer.core.instrument.binder.jvm.ExecutorServiceMetrics
  *
  * @author Thomas Freese
+ * @since 03.09.2021
  */
 public class ExecutorServiceMetrics implements SensorBinder {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExecutorServiceMetrics.class);
@@ -50,13 +50,15 @@ public class ExecutorServiceMetrics implements SensorBinder {
 
                 if ("java.util.concurrent.Executors$DelegatedScheduledExecutorService".equals(className)) {
                     pool = unwrapThreadPoolExecutor(executorService, executorService.getClass());
-                } else if ("java.util.concurrent.Executors$AutoShutdownDelegatedExecutorService".equals(className)) {
+                }
+                else if ("java.util.concurrent.Executors$AutoShutdownDelegatedExecutorService".equals(className)) {
                     pool = unwrapThreadPoolExecutor(executorService, executorService.getClass().getSuperclass());
                 }
 
                 if (pool != null) {
                     return bindTo(registry, pool, backendProvider);
-                } else {
+                }
+                else {
                     // getLogger().warn("executorService not supported: {}", className);
                     throw new IllegalArgumentException(String.format("executorService not supported: '%s'", className));
                 }
@@ -69,49 +71,74 @@ public class ExecutorServiceMetrics implements SensorBinder {
     }
 
     private List<String> bindTo(final SensorRegistry registry, final ForkJoinPool forkJoinPool, final Function<String, Backend> backendProvider) {
-        Sensor.builder("executor.steals." + serviceName, forkJoinPool, pool -> Long.toString(pool.getStealCount())).description(
+        final Sensor stealsSensor = Sensor.builder("executor.steals." + serviceName, forkJoinPool, pool -> Long.toString(pool.getStealCount())).description(
                         "Estimate of the total number of tasks stolen from one thread's work queue by another. The reported value "
                                 + "underestimates the actual total number of steals when the pool is not quiescent")
                 .register(registry, backendProvider);
 
-        Sensor.builder("executor.queued." + serviceName, forkJoinPool, pool -> Long.toString(pool.getQueuedTaskCount()))
+        final Sensor queuedSensor = Sensor.builder("executor.queued." + serviceName, forkJoinPool, pool -> Long.toString(pool.getQueuedTaskCount()))
                 .description("An estimate of the total number of tasks currently held in queues by worker threads").register(registry, backendProvider);
 
-        Sensor.builder("executor.active." + serviceName, forkJoinPool, pool -> Integer.toString(pool.getActiveThreadCount()))
+        final Sensor activeSensor = Sensor.builder("executor.active." + serviceName, forkJoinPool, pool -> Integer.toString(pool.getActiveThreadCount()))
                 .description("An estimate of the number of threads that are currently stealing or executing tasks").register(registry, backendProvider);
 
-        Sensor.builder("executor.running." + serviceName, forkJoinPool, pool -> Integer.toString(pool.getRunningThreadCount()))
+        final Sensor runningSensor = Sensor.builder("executor.running." + serviceName, forkJoinPool, pool -> Integer.toString(pool.getRunningThreadCount()))
                 .description("An estimate of the number of worker threads that are not blocked waiting to join tasks or for other managed synchronization threads")
                 .register(registry, backendProvider);
 
-        return List.of("executor.steals." + serviceName, "executor.queued." + serviceName, "executor.active." + serviceName, "executor.running." + serviceName);
+        return List.of(
+                stealsSensor.getName(),
+                queuedSensor.getName(),
+                activeSensor.getName(),
+                runningSensor.getName()
+        );
     }
 
     private List<String> bindTo(final SensorRegistry registry, final ThreadPoolExecutor threadPoolExecutor, final Function<String, Backend> backendProvider) {
-        Sensor.builder("executor.completed." + serviceName, threadPoolExecutor, pool -> Long.toString(pool.getCompletedTaskCount()))
+        final Sensor copmpletedSensor = Sensor.builder("executor.completed." + serviceName,
+                        threadPoolExecutor,
+                        pool -> Long.toString(pool.getCompletedTaskCount()))
                 .description("The approximate total number of tasks that have completed execution").register(registry, backendProvider);
 
-        Sensor.builder("executor.active." + serviceName, threadPoolExecutor, pool -> Integer.toString(pool.getActiveCount()))
+        final Sensor activeSensor = Sensor.builder("executor.active." + serviceName,
+                        threadPoolExecutor,
+                        pool -> Integer.toString(pool.getActiveCount()))
                 .description("The approximate number of threads that are actively executing tasks").register(registry, backendProvider);
 
-        Sensor.builder("executor.queued." + serviceName, threadPoolExecutor, pool -> Integer.toString(pool.getQueue().size()))
+        final Sensor queuedSensor = Sensor.builder("executor.queued." + serviceName,
+                        threadPoolExecutor,
+                        pool -> Integer.toString(pool.getQueue().size()))
                 .description("The approximate number of tasks that are queued for execution").register(registry, backendProvider);
 
-        Sensor.builder("executor.queue.remaining." + serviceName, threadPoolExecutor, pool -> Integer.toString(pool.getQueue().remainingCapacity()))
+        final Sensor queueRemainingSensor = Sensor.builder("executor.queue.remaining." + serviceName,
+                        threadPoolExecutor,
+                        pool -> Integer.toString(pool.getQueue().remainingCapacity()))
                 .description("The number of additional elements that this queue can ideally accept without blocking").register(registry, backendProvider);
 
-        Sensor.builder("executor.pool.size." + serviceName, threadPoolExecutor, pool -> Integer.toString(pool.getPoolSize()))
+        final Sensor sizeSensor = Sensor.builder("executor.pool.size." + serviceName,
+                        threadPoolExecutor,
+                        pool -> Integer.toString(pool.getPoolSize()))
                 .description("The current number of threads in the pool").register(registry, backendProvider);
 
-        Sensor.builder("executor.pool.core." + serviceName, threadPoolExecutor, pool -> Integer.toString(pool.getCorePoolSize()))
+        final Sensor coreSensor = Sensor.builder("executor.pool.core." + serviceName,
+                        threadPoolExecutor,
+                        pool -> Integer.toString(pool.getCorePoolSize()))
                 .description("The core number of threads for the pool").register(registry, backendProvider);
 
-        Sensor.builder("executor.pool.max." + serviceName, threadPoolExecutor, pool -> Integer.toString(pool.getMaximumPoolSize()))
+        final Sensor maxSensor = Sensor.builder("executor.pool.max." + serviceName,
+                        threadPoolExecutor,
+                        pool -> Integer.toString(pool.getMaximumPoolSize()))
                 .description("The maximum allowed number of threads in the pool").register(registry, backendProvider);
 
-        return List.of("executor.completed." + serviceName, "executor.active." + serviceName, "executor.queued." + serviceName,
-                "executor.queue.remaining." + serviceName, "executor.pool.size." + serviceName, "executor.pool.core." + serviceName,
-                "executor.pool.max." + serviceName);
+        return List.of(
+                copmpletedSensor.getName(),
+                activeSensor.getName(),
+                queuedSensor.getName(),
+                queueRemainingSensor.getName(),
+                sizeSensor.getName(),
+                coreSensor.getName(),
+                maxSensor.getName()
+        );
     }
 
     /**

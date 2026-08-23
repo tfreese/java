@@ -1,4 +1,3 @@
-// Created: 28.10.2020
 package de.freese.jsensors.backend.rsocket;
 
 import java.net.URI;
@@ -25,6 +24,7 @@ import de.freese.jsensors.utils.LifeCycle;
 
 /**
  * @author Thomas Freese
+ * @since 28.10.2020
  */
 public class RSocketBackend extends AbstractBackend implements LifeCycle {
     private final int parallelism;

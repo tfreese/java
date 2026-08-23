@@ -1,11 +1,10 @@
-// Created: 05.12.2020
 package de.freese.jconky.model;
 
-import java.util.Collections;
 import java.util.Map;
 
 /**
  * @author Thomas Freese
+ * @since 05.12.2020
  */
 public class CpuInfos {
     private static final CpuInfo DEFAULT_CPU_INFO = new CpuInfo();
@@ -13,7 +12,7 @@ public class CpuInfos {
     private final Map<Integer, CpuInfo> infos;
 
     public CpuInfos() {
-        this(Collections.emptyMap());
+        this(Map.of());
     }
 
     public CpuInfos(final Map<Integer, CpuInfo> infos) {

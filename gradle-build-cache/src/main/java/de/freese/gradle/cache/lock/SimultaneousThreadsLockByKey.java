@@ -1,4 +1,3 @@
-// Created: 13 Apr. 2025
 package de.freese.gradle.cache.lock;
 
 import java.util.Map;
@@ -10,6 +9,7 @@ import java.util.concurrent.Semaphore;
  * Concurrency handled by {@link Semaphore}.
  *
  * @author Thomas Freese
+ * @since 13.04.2025
  */
 public final class SimultaneousThreadsLockByKey implements LockByKey {
     private static final int ALLOWED_THREADS = 2;

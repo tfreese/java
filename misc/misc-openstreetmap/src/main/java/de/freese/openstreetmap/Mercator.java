@@ -40,7 +40,7 @@ public final class Mercator {
         final double y;
 
         // Formel nach OpenStreetMap.
-        // double phi = m_lat * RAD;
+        // double phi = lat * RAD;
         // double sinphi = Math.sin(phi);
         // double con = EXZENTRIZITAET * sinphi;
         // con = Math.pow(((1.0D - con) / (1.0D + con)), EXZENTRIZITAET_HALBE);

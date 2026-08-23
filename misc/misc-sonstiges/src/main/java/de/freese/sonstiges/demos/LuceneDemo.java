@@ -1,4 +1,3 @@
-// Created: 24 Juli 2024
 package de.freese.sonstiges.demos;
 
 import java.io.IOException;
@@ -32,6 +31,7 @@ import org.apache.lucene.store.NIOFSDirectory;
 
 /**
  * @author Thomas Freese
+ * @since 24.07.2024
  */
 public final class LuceneDemo {
     static void main() throws Exception {

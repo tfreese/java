@@ -1,4 +1,3 @@
-// Created: 21.04.2020
 package de.freese.metamodel.codegen;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -20,6 +19,7 @@ import de.freese.metamodel.modelgen.model.FieldModel;
 
 /**
  * @author Thomas Freese
+ * @since 21.04.2020
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestCodeGen {

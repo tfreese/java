@@ -1,4 +1,3 @@
-// Created: 18 Juli 2025
 package de.freese.jconky;
 
 import java.awt.event.KeyAdapter;
@@ -8,6 +7,7 @@ import javax.swing.JFrame;
 
 /**
  * @author Thomas Freese
+ * @since 18.07.2025
  */
 public final class KeyListenerTester {
     static void main() {

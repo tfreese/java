@@ -1,4 +1,3 @@
-// Created: 12.03.2015
 package de.freese.openstreetmap.io;
 
 import org.xml.sax.Attributes;
@@ -15,6 +14,7 @@ import de.freese.openstreetmap.model.OsmWay;
  * XML-{@link ContentHandler} for OSM-Dateien.
  *
  * @author Thomas Freese
+ * @since 12.03.2015
  */
 public class OSMContentHandler extends DefaultHandler {
     private static final String ATTR_NAME_ID = "id";

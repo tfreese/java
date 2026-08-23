@@ -1,4 +1,3 @@
-// Created: 02.06.2017
 package de.freese.jsensors.backend.jdbc;
 
 import java.sql.Connection;
@@ -23,6 +22,7 @@ import de.freese.jsensors.utils.LifeCycle;
  * {@link Backend} for database tables.<br>
  *
  * @author Thomas Freese
+ * @since 02.06.2017
  */
 public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
     private final DataSource dataSource;
@@ -82,7 +82,8 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
                         final String sqlIndex = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (TIMESTAMP);", tableName, tableName);
 
                         statement.execute(sqlIndex);
-                    } else {
+                    }
+                    else {
                         // With SensorName.
                         final String sqlIndex = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (NAME, TIMESTAMP);", tableName, tableName);
 
@@ -121,7 +122,8 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
             // Without SensorName.
             sql.append(" (VALUE, TIMESTAMP)");
             sql.append(" VALUES (?, ?)");
-        } else {
+        }
+        else {
             // With SensorName.
             sql.append(" (NAME, VALUE, TIMESTAMP)");
             sql.append(" VALUES (?, ?, ?)");
@@ -136,7 +138,8 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
                     // Without SensorName.
                     pstmt.setString(1, sensorValue.value());
                     pstmt.setLong(2, sensorValue.timestamp());
-                } else {
+                }
+                else {
                     // With SensorName.
                     pstmt.setString(1, sensorValue.name());
                     pstmt.setString(2, sensorValue.value());

@@ -1,4 +1,3 @@
-// Created: 20.01.2011
 package de.freese.sonstiges;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,6 +17,7 @@ import org.tartarus.snowball.ext.GermanStemmer;
  * TestKlasse für Stemmer filter.
  *
  * @author Thomas Freese
+ * @since 20.01.2011
  */
 class TestStemmer {
     //, Arguments.of("Lucene German Minimal", wrap(new GermanMinimalStemmer()))

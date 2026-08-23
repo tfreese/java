@@ -1,4 +1,3 @@
-// Created: 29.06.2020
 package de.freese.ga.examples.sudoku;
 
 import java.util.Objects;
@@ -7,6 +6,7 @@ import de.freese.ga.Gene;
 
 /**
  * @author Thomas Freese
+ * @since 29.06.2020
  */
 public class SudokuGene extends Gene {
     private final boolean mutable;
@@ -25,7 +25,7 @@ public class SudokuGene extends Gene {
             return true;
         }
 
-        if (!(o instanceof SudokuGene gene)) {
+        if (!(o instanceof final SudokuGene gene)) {
             return false;
         }
 
@@ -42,7 +42,7 @@ public class SudokuGene extends Gene {
     }
 
     /**
-     * Beim Sudoku dürfen die fest vorgegebenen Zahlen nicht verändert werden !
+     * Beim Sudoku dürfen die fest vorgegebenen Zahlen nicht verändert werden!
      */
     public boolean isMutable() {
         return mutable;

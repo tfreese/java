@@ -1,4 +1,3 @@
-// Created: 12 Apr. 2025
 package de.freese.gradle.cache.storage;
 
 import java.io.ByteArrayOutputStream;
@@ -23,12 +22,13 @@ import org.jspecify.annotations.Nullable;
  * {@link Caffeine} implementation for {@link Storage}-API.
  *
  * @author Thomas Freese
+ * @since 12.04.2025
  */
 public final class CaffeineStorage extends AbstractStorage {
-    private record CaffeineStorageHandle(String key, byte[] bytes) implements StorageEntry {
+    private record CaffeineStorageEntry(String key, byte[] bytes) implements StorageEntry {
         @Override
         public boolean equals(final Object o) {
-            if (!(o instanceof CaffeineStorageHandle(final String k, final byte[] v))) {
+            if (!(o instanceof CaffeineStorageEntry(final String k, final byte[] v))) {
                 return false;
             }
             return Objects.equals(key(), k) && Objects.deepEquals(bytes(), v);
@@ -94,7 +94,7 @@ public final class CaffeineStorage extends AbstractStorage {
 
     @Override
     @Nullable
-    public StorageEntry getStorageEntry(final String key) {
+    public StorageEntry getEntry(final String key) {
         Objects.requireNonNull(key, "key required");
 
         final byte[] bytes = cache.getIfPresent(key);
@@ -103,7 +103,7 @@ public final class CaffeineStorage extends AbstractStorage {
             return null;
         }
 
-        return new CaffeineStorageHandle(key, bytes);
+        return new CaffeineStorageEntry(key, bytes);
     }
 
     @Override

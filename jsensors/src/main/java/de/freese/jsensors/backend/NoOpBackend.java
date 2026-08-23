@@ -1,10 +1,10 @@
-// Created: 01.06.23
 package de.freese.jsensors.backend;
 
 import de.freese.jsensors.sensor.SensorValue;
 
 /**
  * @author Thomas Freese
+ * @since 01.06.23
  */
 public final class NoOpBackend implements Backend {
     private static final class NoOpBackendHolder {

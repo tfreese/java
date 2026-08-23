@@ -1,4 +1,3 @@
-// Created: 05.09.2020
 package de.freese.sonstiges.server;
 
 import java.io.IOException;
@@ -21,6 +20,7 @@ import de.freese.sonstiges.server.singlethread.ServerSingleThread;
 
 /**
  * @author Thomas Freese
+ * @since 05.09.2020
  */
 public final class ServerMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerMain.class);
@@ -28,7 +28,7 @@ public final class ServerMain {
     public static String getRemoteAddress(final SelectionKey selectionKey) throws IOException {
         final SelectableChannel selectableChannel = selectionKey.channel();
 
-        if (selectableChannel instanceof SocketChannel sc) {
+        if (selectableChannel instanceof final SocketChannel sc) {
             return getRemoteAddress(sc);
         }
 
@@ -56,7 +56,7 @@ public final class ServerMain {
 
         while (!server.isStarted()) {
             LOGGER.info("check started");
-            TimeUnit.MILLISECONDS.sleep(100);
+            TimeUnit.MILLISECONDS.sleep(100L);
         }
 
         final InetSocketAddress serverAddress = new InetSocketAddress("localhost", 8001);
@@ -67,14 +67,14 @@ public final class ServerMain {
             // client.connect(serverAddress);
 
             while (!client.finishConnect()) {
-                TimeUnit.MILLISECONDS.sleep(10);
+                TimeUnit.MILLISECONDS.sleep(10L);
             }
 
             client.configureBlocking(true);
 
             requestResponse(client, charset);
 
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(1L);
 
             requestResponse(client, charset);
         }
@@ -82,7 +82,7 @@ public final class ServerMain {
         try {
             System.in.read();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 

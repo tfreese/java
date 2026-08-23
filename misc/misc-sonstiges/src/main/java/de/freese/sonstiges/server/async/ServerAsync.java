@@ -1,4 +1,3 @@
-// Created: 31.10.2016
 package de.freese.sonstiges.server.async;
 
 import java.io.IOException;
@@ -22,6 +21,7 @@ import de.freese.sonstiges.server.AbstractServer;
  * Der Server kümmert sich um alle Verbindungen in separaten Threads.
  *
  * @author Thomas Freese
+ * @since 31.10.2016
  */
 public class ServerAsync extends AbstractServer {
     public static void close(final AsynchronousSocketChannel channel, final Logger logger) {
@@ -30,7 +30,7 @@ public class ServerAsync extends AbstractServer {
             channel.shutdownOutput();
             channel.close();
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             logger.error(ex.getMessage(), ex);
         }
     }
@@ -69,7 +69,7 @@ public class ServerAsync extends AbstractServer {
 
             accept();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }
@@ -102,7 +102,7 @@ public class ServerAsync extends AbstractServer {
                 try {
                     getLogger().debug("{}: Connection Accepted", channel.getRemoteAddress());
                 }
-                catch (IOException ex) {
+                catch (final IOException ex) {
                     failed(ex, null);
                 }
 
@@ -132,14 +132,14 @@ public class ServerAsync extends AbstractServer {
 
         try {
             // Wait a while for existing tasks to terminate.
-            if (!channelGroup.awaitTermination(10, TimeUnit.SECONDS)) {
+            if (!channelGroup.awaitTermination(10L, TimeUnit.SECONDS)) {
                 logger.warn("Timed out while waiting for AsynchronousChannelGroup");
 
                 // Cancel currently executing tasks.
                 channelGroup.shutdownNow();
 
                 // Wait a while for tasks to respond to being canceled.
-                if (!channelGroup.awaitTermination(5, TimeUnit.SECONDS)) {
+                if (!channelGroup.awaitTermination(5L, TimeUnit.SECONDS)) {
                     logger.error("AsynchronousChannelGroup did not terminate");
                 }
             }

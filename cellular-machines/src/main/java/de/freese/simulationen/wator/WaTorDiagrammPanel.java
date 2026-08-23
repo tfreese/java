@@ -1,4 +1,3 @@
-// Created: 09.10.2009
 package de.freese.simulationen.wator;
 
 import java.awt.BasicStroke;
@@ -33,6 +32,7 @@ import de.freese.simulationen.model.SimulationListener;
  * DiagrammPanel der WaTor-Simulation.
  *
  * @author Thomas Freese
+ * @since 09.10.2009
  */
 public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
     @Serial

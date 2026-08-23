@@ -67,7 +67,7 @@ springBoot {
 
 // gradle bootRun --args="--spring.profiles.active=file --server.port=65111"
 tasks.named<org.springframework.boot.gradle.tasks.run.BootRun>("bootRun") {
-    //systemProperty("com.example.property", findProperty("example") ?: "default")
+    // systemProperty("com.example.property", findProperty("example") ?: "default")
 
     args = listOf("--spring.profiles.active=file")
     jvmArgs = listOf("--enable-native-access=ALL-UNNAMED")
@@ -87,7 +87,7 @@ tasks.withType<JavaCompile>().configureEach {
         // Scan only Packages with package.info.java.
         // option("NullAway:OnlyNullMarked", "true")
 
-        // Uncomment below if you are using Java 22+ compiled and you want to check generics nullness.
+        // Uncomment below if you are using Java 22+ compiled, and you want to check generics nullness.
         option("NullAway:JSpecifyMode", "true")
     }
 }

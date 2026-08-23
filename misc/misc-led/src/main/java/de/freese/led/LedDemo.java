@@ -1,4 +1,3 @@
-// Created: 20.12.23
 package de.freese.led;
 
 import java.awt.Color;
@@ -22,6 +21,7 @@ import de.freese.led.model.token.TextToken;
 
 /**
  * @author Thomas Freese
+ * @since 20.12.23
  */
 public final class LedDemo {
     static void main() {

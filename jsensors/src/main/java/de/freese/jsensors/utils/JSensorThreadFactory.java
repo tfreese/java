@@ -1,4 +1,3 @@
-// Created: 10.09.2020
 package de.freese.jsensors.utils;
 
 import java.util.Objects;
@@ -8,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Thomas Freese
+ * @since 10.09.2020
  */
 public class JSensorThreadFactory implements ThreadFactory {
     private final boolean daemon;

@@ -1,4 +1,3 @@
-// Created: 07.08.2003
 package de.freese.sonstiges.sound.midi;
 
 import java.util.concurrent.TimeUnit;
@@ -12,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 07.08.2003
  */
 public final class SingleNoteChannelMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(SingleNoteChannelMain.class);
@@ -23,17 +23,17 @@ public final class SingleNoteChannelMain {
             final MidiChannel channel = synth.getChannels()[0];
             channel.noteOn(note, 70);
 
-            TimeUnit.MILLISECONDS.sleep(1000);
+            TimeUnit.MILLISECONDS.sleep(1000L);
 
             channel.noteOff(note, 70);
         }
-        catch (InterruptedException ex) {
+        catch (final InterruptedException ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             // Restore interrupted state.
             Thread.currentThread().interrupt();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 

@@ -1,4 +1,3 @@
-// Created: 07.11.2009
 package de.freese.misc.generator.algorythm;
 
 import java.awt.Point;
@@ -12,6 +11,7 @@ import java.util.Random;
  * Algorithmus zum Erstellen von Sudoku-Rätseln.
  *
  * @author Thomas Freese
+ * @since 07.11.2009
  * @deprecated Liefert fehlerhafte Rätsel
  */
 @Deprecated(since = "now")

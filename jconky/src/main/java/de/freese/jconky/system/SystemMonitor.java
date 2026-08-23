@@ -1,4 +1,3 @@
-// Created: 01.12.2020
 package de.freese.jconky.system;
 
 import java.util.Map;
@@ -14,6 +13,7 @@ import de.freese.jconky.model.UsageInfo;
 
 /**
  * @author Thomas Freese
+ * @since 01.12.2020
  */
 public interface SystemMonitor {
     CpuInfos getCpuInfos();

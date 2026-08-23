@@ -1,4 +1,3 @@
-// Created: 08.07.2018
 package de.freese.metamodel.metagen;
 
 import java.util.List;
@@ -12,6 +11,7 @@ import de.freese.metamodel.metagen.model.Schema;
  * Bildet die Struktur einer Datenbank ab.
  *
  * @author Thomas Freese
+ * @since 08.07.2018
  */
 @FunctionalInterface
 public interface MetaExporter {

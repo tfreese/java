@@ -233,11 +233,14 @@ public final class UnixDomainSocketServer {
 
                         if (key.isAcceptable()) {
                             handleAccept(server, selector);
-                        } else if (key.isReadable()) {
+                        }
+                        else if (key.isReadable()) {
                             handleRead(key, selector);
-                        } else if (key.isWritable()) {
+                        }
+                        else if (key.isWritable()) {
                             handleWrite(key);
-                        } else {
+                        }
+                        else {
                             closeKey(key);
                         }
                     }

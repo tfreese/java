@@ -1,4 +1,3 @@
-// Created: 08.09.2020
 package de.freese.sonstiges.server.async;
 
 import java.io.IOException;
@@ -11,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 08.09.2020
  */
 class HttpWriteHandler implements CompletionHandler<Integer, MyAttachment> {
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpWriteHandler.class);
@@ -23,7 +23,7 @@ class HttpWriteHandler implements CompletionHandler<Integer, MyAttachment> {
         try {
             LOGGER.debug("{}: Write Response", channel.getRemoteAddress());
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             failed(ex, null);
         }
 

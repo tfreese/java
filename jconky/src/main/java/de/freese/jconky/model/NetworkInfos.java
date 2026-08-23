@@ -1,4 +1,3 @@
-// Created: 19.12.2020
 package de.freese.jconky.model;
 
 import java.util.HashMap;
@@ -6,6 +5,7 @@ import java.util.Map;
 
 /**
  * @author Thomas Freese
+ * @since 19.12.2020
  */
 public class NetworkInfos {
     private static final NetworkInfo DEFAULT_NETWORK_INFO = new NetworkInfo();

@@ -1,4 +1,3 @@
-// Created: 08.04.2021
 package de.freese.micrometer;
 
 import java.io.OutputStream;
@@ -36,6 +35,7 @@ import de.freese.micrometer.binder.NetworkMetrics;
 
 /**
  * @author Thomas Freese
+ * @since 08.04.2021
  */
 public final class MicrometerMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(MicrometerMain.class);
@@ -51,7 +51,7 @@ public final class MicrometerMain {
             @Override
             public Duration step() {
                 // Default = 1 Minute
-                return Duration.ofSeconds(1);
+                return Duration.ofSeconds(1L);
             }
         };
 
@@ -71,7 +71,7 @@ public final class MicrometerMain {
             @Override
             public Duration step() {
                 // Default = 1 Minute
-                return Duration.ofSeconds(1);
+                return Duration.ofSeconds(1L);
             }
         };
 
@@ -97,7 +97,7 @@ public final class MicrometerMain {
             @Override
             public Duration step() {
                 // Default = 1 Minute
-                return Duration.ofSeconds(1);
+                return Duration.ofSeconds(1L);
             }
         };
 

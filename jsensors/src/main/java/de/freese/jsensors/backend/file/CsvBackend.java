@@ -1,4 +1,3 @@
-// Created: 31.05.2017
 package de.freese.jsensors.backend.file;
 
 import java.io.BufferedOutputStream;
@@ -20,6 +19,7 @@ import de.freese.jsensors.utils.LifeCycle;
  * {@link Backend} for a CSV-File.<br>
  *
  * @author Thomas Freese
+ * @since 31.05.2017
  */
 public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
     private final boolean exclusive;
@@ -52,7 +52,8 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
                     if (exclusive) {
                         // Without SensorName.
                         header = String.format("\"%s\",\"%s\",\"%s\"%n", "VALUE", "TIMESTAMP", "TIME");
-                    } else {
+                    }
+                    else {
                         // With SensorName.
                         header = String.format("\"%s\",\"%s\",\"%s\",\"%s\"%n", "NAME", "VALUE", "TIMESTAMP", "TIME");
                     }
@@ -79,7 +80,8 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
         if (exclusive) {
             // Without Sensor Name.
             formatted = String.format("\"%s\",\"%d\",\"%s\"%n", sensorValue.value(), sensorValue.timestamp(), sensorValue.getLocalDateTime());
-        } else {
+        }
+        else {
             // With Sensor Name.
             formatted = String.format("\"%s\",\"%s\",\"%d\",\"%s\"%n", sensorValue.name(), sensorValue.value(), sensorValue.timestamp(), sensorValue.getLocalDateTime());
         }

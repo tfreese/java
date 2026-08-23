@@ -1,4 +1,3 @@
-// Created: 29.06.2020
 package de.freese.ga.examples.coins;
 
 import java.util.ArrayList;
@@ -12,6 +11,7 @@ import de.freese.ga.Gene;
 
 /**
  * @author Thomas Freese
+ * @since 29.06.2020
  */
 public class CoinChromosome extends Chromosome {
     public CoinChromosome(final CoinConfig config) {

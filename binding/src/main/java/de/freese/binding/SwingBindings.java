@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
- * @since 09.08.26
+ * @since 09.08.2026
  */
 @SuppressWarnings({"unchecked", "java:S1192"})
 public final class SwingBindings {
@@ -118,8 +118,6 @@ public final class SwingBindings {
 
     public static <T> void bindToSwing(final Property<T> property, final JSpinner component) {
         property.addListener((prop, oldValue, newValue) -> {
-            LOGGER.debug("Property value changed: {}, {} -> {}", prop.getName(), oldValue, newValue);
-
             if (Objects.equals(component.getValue(), newValue)) {
                 LOGGER.debug("JSpinner.getValue() equals newValue -> return: {}", newValue);
                 return;
@@ -131,8 +129,6 @@ public final class SwingBindings {
 
     public static void bindToSwing(final Property<Integer> property, final JSlider component) {
         property.addListener((prop, oldValue, newValue) -> {
-            LOGGER.debug("Property value changed: {}, {} -> {}", prop.getName(), oldValue, newValue);
-
             if (Objects.equals(component.getValue(), newValue)) {
                 LOGGER.debug("JSlider.getValue() equals newValue -> return: {}", newValue);
                 return;
@@ -144,8 +140,6 @@ public final class SwingBindings {
 
     public static void bindToSwing(final Property<String> property, final JLabel component) {
         property.addListener((prop, oldValue, newValue) -> {
-            LOGGER.debug("Property value changed: {}, {} -> {}", prop.getName(), oldValue, newValue);
-
             if (Objects.equals(component.getText(), newValue)) {
                 LOGGER.debug("JLabel.getText() equals newValue -> return: {}", newValue);
                 return;
@@ -157,8 +151,6 @@ public final class SwingBindings {
 
     public static void bindToSwing(final Property<String> property, final JTextComponent component) {
         property.addListener((prop, oldValue, newValue) -> {
-            LOGGER.debug("Property value changed: {}, {} -> {}", prop.getName(), oldValue, newValue);
-
             if (Objects.equals(component.getText(), newValue)) {
                 LOGGER.debug("JTextComponent.getText() equals newValue -> return: {}", newValue);
                 return;
@@ -170,8 +162,6 @@ public final class SwingBindings {
 
     public static void bindToSwing(final Property<String> property, final TitledBorder component) {
         property.addListener((prop, oldValue, newValue) -> {
-            LOGGER.debug("Property value changed: {}, {} -> {}", prop.getName(), oldValue, newValue);
-
             if (Objects.equals(component.getTitle(), newValue)) {
                 LOGGER.debug("TitledBorder.getTitle() equals newValue -> return: {}", newValue);
                 return;
@@ -183,8 +173,6 @@ public final class SwingBindings {
 
     public static <T> void bindToSwing(final Property<T> property, final JComboBox<T> component) {
         property.addListener((prop, oldValue, newValue) -> {
-            LOGGER.debug("Property value changed: {}, {} -> {}", prop.getName(), oldValue, newValue);
-
             if (Objects.equals(component.getSelectedItem(), newValue)) {
                 LOGGER.debug("JComboBox.getSelectedItem() equals newValue -> return: {}", newValue);
                 return;
@@ -196,8 +184,6 @@ public final class SwingBindings {
 
     public static void bindToSwing(final Property<Boolean> property, final JCheckBox component) {
         property.addListener((prop, oldValue, newValue) -> {
-            LOGGER.debug("Property value changed: {}, {} -> {}", prop.getName(), oldValue, newValue);
-
             if (Objects.equals(component.isSelected(), newValue)) {
                 LOGGER.debug("JCheckBox.isSelected() equals newValue -> return: {}", newValue);
                 return;

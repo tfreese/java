@@ -1,4 +1,3 @@
-// Created: 10.12.2020
 package de.freese.jconky.painter;
 
 import java.util.HashMap;
@@ -19,6 +18,7 @@ import de.freese.jconky.util.JConkyUtils;
 
 /**
  * @author Thomas Freese
+ * @since 10.12.2020
  */
 public class NetworkMonitorPainter extends AbstractMonitorPainter {
     private final Map<String, Values<Double>> downloadMap = new HashMap<>();
@@ -105,7 +105,7 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter {
         final List<Double> valueList = values.getLastValues((int) width);
 
         final double minValue = 0D;
-        // final  double maxValue = 28D * 1024D * 1024D; // 28 MB/s als max. bei 200er Leitung.
+        // final double maxValue = 28D * 1024D * 1024D; // 28 MB/s als max. bei 200er-Leitung.
         final double maxValue = values.getMaxValue();
         final double minNorm = 0D;
         final double maxNorm = height - 2D;

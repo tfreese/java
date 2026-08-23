@@ -1,4 +1,3 @@
-// Created: 23.07.2018
 package de.freese.metamodel.metagen.model;
 
 import java.util.Objects;
@@ -7,6 +6,7 @@ import java.util.Objects;
  * Enthält die MetaDaten einer Tabelle.
  *
  * @author Thomas Freese
+ * @since 23.07.2018
  */
 public class Sequence {
     private long increment;
@@ -64,12 +64,11 @@ public class Sequence {
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("Sequence [");
-        builder.append("schema=").append(getSchema().getName());
-        builder.append(", name=").append(getName());
-        builder.append("]");
+        final String builder = "Sequence [" +
+                "schema=" + getSchema().getName() +
+                ", name=" + getName() +
+                "]";
 
-        return builder.toString();
+        return builder;
     }
 }

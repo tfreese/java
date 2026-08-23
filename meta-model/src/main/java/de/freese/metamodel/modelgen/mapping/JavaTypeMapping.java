@@ -1,4 +1,3 @@
-// Created: 22.07.2018
 package de.freese.metamodel.modelgen.mapping;
 
 import java.sql.JDBCType;
@@ -9,6 +8,7 @@ import java.time.LocalDateTime;
  * {@link JDBCType}-Mapping für Java.
  *
  * @author Thomas Freese
+ * @since 22.07.2018
  */
 public class JavaTypeMapping extends AbstractTypeMapping {
     public JavaTypeMapping() {

@@ -1,4 +1,3 @@
-// Created: 31.08.2004
 package de.freese.sonstiges.dnd.tree;
 
 import java.awt.dnd.DropTargetDragEvent;
@@ -12,6 +11,7 @@ import javax.swing.tree.TreePath;
 
 /**
  * @author Thomas Freese
+ * @since 31.08.2004
  */
 class TreeDropTargetListener implements DropTargetListener {
     private final Timer expandTimer;
@@ -53,7 +53,7 @@ class TreeDropTargetListener implements DropTargetListener {
 
     @Override
     public void dragOver(final DropTargetDragEvent event) {
-        // Ist Target ein JTree ?
+        // Ist Target ein JTree?
         if (!(event.getDropTargetContext().getComponent() instanceof JTree)) {
             return;
         }

@@ -1,4 +1,3 @@
-// Created: 29.06.2020
 package de.freese.ga;
 
 import java.util.Objects;
@@ -8,6 +7,7 @@ import java.util.Objects;
  * Chromosome = Mögliche Lösung
  *
  * @author Thomas Freese
+ * @since 29.06.2020
  */
 public abstract class Chromosome {
     private final Config config;
@@ -26,7 +26,7 @@ public abstract class Chromosome {
     public boolean contains(final Gene gene) {
         boolean contains = false;
 
-        for (Gene g : getGenes()) {
+        for (final Gene g : getGenes()) {
             if (g == null) {
                 continue;
             }

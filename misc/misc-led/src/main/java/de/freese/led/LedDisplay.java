@@ -1,4 +1,3 @@
-// Created: 21.12.23
 package de.freese.led;
 
 import java.awt.Color;
@@ -13,6 +12,7 @@ import de.freese.led.painter.RectLedPainter;
 
 /**
  * @author Thomas Freese
+ * @since 21.12.23
  */
 public final class LedDisplay {
     /**

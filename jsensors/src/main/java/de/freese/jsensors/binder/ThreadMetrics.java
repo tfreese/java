@@ -1,4 +1,3 @@
-// Created: 02.09.2021
 package de.freese.jsensors.binder;
 
 import java.lang.management.ManagementFactory;
@@ -12,6 +11,7 @@ import de.freese.jsensors.sensor.Sensor;
 
 /**
  * @author Thomas Freese
+ * @since 02.09.2021
  */
 public class ThreadMetrics implements SensorBinder {
     private final ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
@@ -22,9 +22,9 @@ public class ThreadMetrics implements SensorBinder {
     }
 
     private List<String> bindCpuUsage(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
-        Sensor.builder("thread.count", threadMXBean, bean -> Integer.toString(bean.getThreadCount()))
+        final Sensor countSensor = Sensor.builder("thread.count", threadMXBean, bean -> Integer.toString(bean.getThreadCount()))
                 .description("Thread count").register(registry, backendProvider);
 
-        return List.of("thread.count");
+        return List.of(countSensor.getName());
     }
 }

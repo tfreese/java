@@ -1,4 +1,3 @@
-// Created: 04.04.2012
 package de.freese.sonstiges.forkjoin.fibonacci;
 
 import java.util.HashMap;
@@ -12,6 +11,7 @@ import org.slf4j.LoggerFactory;
  * Berechnet den Fibonacci-Wert.
  *
  * @author Thomas Freese
+ * @since 04.04.2012
  */
 public class FibonacciCalculator {
     private static final Map<Integer, Long> CACHE = new HashMap<>();

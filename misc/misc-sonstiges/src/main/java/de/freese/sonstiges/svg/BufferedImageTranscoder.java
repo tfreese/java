@@ -1,4 +1,3 @@
-// Created: 29.11.2018
 package de.freese.sonstiges.svg;
 
 import java.awt.image.BufferedImage;
@@ -9,6 +8,7 @@ import org.apache.batik.transcoder.image.ImageTranscoder;
 
 /**
  * @author Thomas Freese
+ * @since 29.11.2018
  */
 public final class BufferedImageTranscoder extends ImageTranscoder {
     private BufferedImage image;

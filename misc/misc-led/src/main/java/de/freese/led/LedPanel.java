@@ -1,4 +1,3 @@
-// Created: 20.12.23
 package de.freese.led;
 
 import java.awt.Graphics;
@@ -11,6 +10,7 @@ import de.freese.led.painter.LedPainter;
 
 /**
  * @author Thomas Freese
+ * @since 20.12.23
  */
 final class LedPanel extends JComponent {
     @Serial

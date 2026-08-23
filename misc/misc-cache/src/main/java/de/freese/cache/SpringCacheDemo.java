@@ -1,4 +1,3 @@
-// Created: 11 Juni 2024
 package de.freese.cache;
 
 import java.math.BigDecimal;
@@ -32,6 +31,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author Thomas Freese
+ * @since 11.06.2024
  */
 @SpringBootApplication(scanBasePackages = {"de.freese.cache"}, exclude = {HazelcastAutoConfiguration.class})
 @EnableCaching
@@ -110,8 +110,8 @@ public class SpringCacheDemo {
                     }
                     else {
                         caffeine = Caffeine.newBuilder()
-                                .maximumSize(1000)
-                                .expireAfterAccess(Duration.ofHours(12))
+                                .maximumSize(1000L)
+                                .expireAfterAccess(Duration.ofHours(12L))
                         ;
                     }
 

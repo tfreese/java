@@ -1,4 +1,3 @@
-// Created: 08.07.2018
 package de.freese.metamodel.metagen;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,6 +27,7 @@ import de.freese.metamodel.metagen.model.UniqueConstraint;
 
 /**
  * @author Thomas Freese
+ * @since 08.07.2018
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestHsqlPersonDb {

@@ -1,4 +1,3 @@
-// Created: 30.08.2004
 package de.freese.sonstiges.dnd.demo.simple;
 
 import java.awt.datatransfer.DataFlavor;
@@ -10,6 +9,7 @@ import javax.swing.tree.TreePath;
 
 /**
  * @author Thomas Freese
+ * @since 30.08.2004
  */
 class TransferableTreeNode implements Transferable {
     public static final DataFlavor FLAVOR_TREE_PATH = new DataFlavor(TreePath.class, "Tree Path");

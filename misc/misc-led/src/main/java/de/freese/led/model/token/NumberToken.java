@@ -1,4 +1,3 @@
-// Created: 20.12.23
 package de.freese.led.model.token;
 
 import java.awt.Color;
@@ -7,6 +6,7 @@ import java.util.Locale;
 
 /**
  * @author Thomas Freese
+ * @since 20.12.23
  */
 public class NumberToken extends AbstractLedToken {
     private static NumberFormat getDefaultNumberFormat() {
@@ -51,7 +51,7 @@ public class NumberToken extends AbstractLedToken {
     }
 
     public void setValue(final Number number) {
-        if (number instanceof Double d && (Double.isNaN(d) || Double.isInfinite(d))) {
+        if (number instanceof final Double d && (Double.isNaN(d) || Double.isInfinite(d))) {
             value = "N/A";
         }
         else if (number == null) {

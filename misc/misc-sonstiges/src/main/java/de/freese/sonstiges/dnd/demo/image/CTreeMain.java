@@ -68,7 +68,8 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
     static void main() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception _) {
+        }
+        catch (Exception _) {
             // Empty
         }
 
@@ -127,7 +128,8 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
 
                 if (isExpanded(CDropTargetListener.this.pathLast)) {
                     collapsePath(CDropTargetListener.this.pathLast);
-                } else {
+                }
+                else {
                     expandPath(CDropTargetListener.this.pathLast);
                 }
             });
@@ -140,7 +142,8 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         public void dragEnter(final DropTargetDragEvent event) {
             if (!isDragAcceptable(event)) {
                 event.rejectDrag();
-            } else {
+            }
+            else {
                 event.acceptDrag(event.getDropAction());
             }
         }
@@ -185,7 +188,8 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
                         CTreeMain.this.imageGhost.getWidth(),
                         CTreeMain.this.imageGhost.getHeight());
                 g2.drawImage(CTreeMain.this.imageGhost, AffineTransform.getTranslateInstance(rectangleGhost.getX(), rectangleGhost.getY()), null);
-            } else {
+            }
+            else {
                 // Just rub out the last cue line
                 paintImmediately(rectangleCueLine.getBounds());
             }
@@ -210,7 +214,8 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
             if (leftRight > 20) {
                 g2.drawImage(IMAGE_RIGHT, AffineTransform.getTranslateInstance((double) pt.x - CTreeMain.this.pointOffset.x, (double) pt.y - CTreeMain.this.pointOffset.y), null);
                 // shift += 1;
-            } else if (leftRight < -20) {
+            }
+            else if (leftRight < -20) {
                 g2.drawImage(IMAGE_LEFT, AffineTransform.getTranslateInstance((double) pt.x - CTreeMain.this.pointOffset.x, (double) pt.y - CTreeMain.this.pointOffset.y), null);
                 // shift -= 1;
             }
@@ -291,7 +296,8 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
 
                         // No need to check remaining flavors
                         break;
-                    } catch (UnsupportedFlavorException | IOException ex) {
+                    }
+                    catch (UnsupportedFlavorException | IOException ex) {
                         LOGGER.error(ex.getMessage(), ex);
                         event.dropComplete(false);
 
@@ -307,7 +313,8 @@ public final class CTreeMain extends JTree implements DragSourceListener, DragGe
         public void dropActionChanged(final DropTargetDragEvent event) {
             if (!isDragAcceptable(event)) {
                 event.rejectDrag();
-            } else {
+            }
+            else {
                 event.acceptDrag(event.getDropAction());
             }
         }

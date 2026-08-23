@@ -1,5 +1,3 @@
-// Created: 15.11.2020
-
 package de.freese.jconky;
 
 import java.util.List;
@@ -42,6 +40,7 @@ import de.freese.jconky.painter.TemperatureMonitorPainter;
  * </ol>
  *
  * @author Thomas Freese
+ * @since 15.11.2020
  */
 public final class JConky extends Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(JConky.class);
@@ -164,7 +163,8 @@ public final class JConky extends Application {
             // pane.setBackground(Background.EMPTY);
             // pane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
             // pane.setStyle("-fx-background-color: transparent;");
-        } else {
+        }
+        else {
             scene.setFill(Color.BLACK);
         }
 

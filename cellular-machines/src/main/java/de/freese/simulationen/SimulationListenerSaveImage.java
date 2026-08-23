@@ -1,4 +1,3 @@
-// Created: 26.01.2014
 package de.freese.simulationen;
 
 import java.awt.Graphics2D;
@@ -27,6 +26,7 @@ import de.freese.simulationen.model.SimulationType;
  * Speichert die Bilder der Simulation.
  *
  * @author Thomas Freese
+ * @since 26.01.2014
  */
 public class SimulationListenerSaveImage implements SimulationListener {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimulationListenerSaveImage.class);
@@ -57,7 +57,7 @@ public class SimulationListenerSaveImage implements SimulationListener {
 
                 outputStream.flush();
             }
-            catch (IOException ex) {
+            catch (final IOException ex) {
                 throw new UncheckedIOException(ex);
             }
         }

@@ -1,4 +1,3 @@
-// Created: 08.07.2018
 package de.freese.metamodel.metagen.model;
 
 import java.util.ArrayList;
@@ -17,6 +16,7 @@ import org.slf4j.LoggerFactory;
  * Enthält die MetaDaten einer Tabelle.
  *
  * @author Thomas Freese
+ * @since 08.07.2018
  */
 public class Table {
     private static final Logger LOGGER = LoggerFactory.getLogger(Table.class);
@@ -110,13 +110,12 @@ public class Table {
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("Table [");
-        builder.append("schema=").append(getSchema().getName());
-        builder.append(", name=").append(getName());
-        builder.append("]");
+        final String builder = "Table [" +
+                "schema=" + getSchema().getName() +
+                ", name=" + getName() +
+                "]";
 
-        return builder.toString();
+        return builder;
     }
 
     public void validate() {
@@ -124,7 +123,7 @@ public class Table {
             // Entferne den UniqueConstraint, welcher nur eine Spalte enthält und diese der PrimaryKey ist.
             final Set<String> pkColumns = getPrimaryKey().getColumnMap().values().stream().map(Column::getName).collect(Collectors.toSet());
 
-            for (UniqueConstraint uc : getUniqueConstraints()) {
+            for (final UniqueConstraint uc : getUniqueConstraints()) {
                 if (uc.getColumnMap().size() > 1) {
                     continue;
                 }
@@ -136,7 +135,7 @@ public class Table {
             }
 
             // Entferne den Index, welcher nur eine Spalte enthält und diese der PrimaryKey ist.
-            for (Index idx : getIndices()) {
+            for (final Index idx : getIndices()) {
                 if (idx.getColumnMap().size() > 1) {
                     continue;
                 }

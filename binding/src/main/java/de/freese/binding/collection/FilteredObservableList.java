@@ -11,7 +11,7 @@ import javax.swing.event.ListDataListener;
 
 /**
  * @author Thomas Freese
- * @since 09.08.26
+ * @since 09.08.2026
  */
 public final class FilteredObservableList<T> extends ObservableList<T> {
 

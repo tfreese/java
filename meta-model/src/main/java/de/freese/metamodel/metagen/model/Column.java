@@ -1,4 +1,3 @@
-// Created: 08.07.2018
 package de.freese.metamodel.metagen.model;
 
 import java.sql.JDBCType;
@@ -11,6 +10,7 @@ import java.util.Objects;
  * Enthält die MetaDaten einer Spalte.
  *
  * @author Thomas Freese
+ * @since 08.07.2018
  */
 public class Column {
     private static final int UNDEFINED = -1;
@@ -156,14 +156,11 @@ public class Column {
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("Column [");
-        builder.append("schema=").append(getTable().getSchema().getName());
-        builder.append(", table=").append(getTable().getName());
-        builder.append(", name=").append(getName());
-        builder.append("]");
-
-        return builder.toString();
+        return "Column [" +
+                "schema=" + getTable().getSchema().getName() +
+                ", table=" + getTable().getName() +
+                ", name=" + getName() +
+                "]";
     }
 
     /**

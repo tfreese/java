@@ -43,7 +43,7 @@ class TransferActionListener implements ActionListener, PropertyChangeListener {
     public void propertyChange(final PropertyChangeEvent event) {
         final Object o = event.getNewValue();
 
-        if (o instanceof JComponent c) {
+        if (o instanceof final JComponent c) {
             focusOwner = c;
         }
         else {

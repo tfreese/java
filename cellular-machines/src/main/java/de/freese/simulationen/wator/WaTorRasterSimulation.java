@@ -1,4 +1,3 @@
-// Created: 09.03.2021
 package de.freese.simulationen.wator;
 
 import java.util.concurrent.atomic.LongAdder;
@@ -13,6 +12,7 @@ import de.freese.simulationen.wator.WaTorCell.CellType;
  * <a href="http://de.academic.ru/dic.nsf/dewiki/1492493">WaTor-Simulation</a>
  *
  * @author Thomas Freese
+ * @since 09.03.2021
  */
 public class WaTorRasterSimulation extends AbstractRasterSimulation {
     private final LongAdder fishCounter = new LongAdder();

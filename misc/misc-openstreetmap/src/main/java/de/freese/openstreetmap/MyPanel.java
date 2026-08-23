@@ -30,7 +30,7 @@ public class MyPanel extends JPanel {
 
     public Rectangle getMapBounds() {
         if (mapBounds == null) {
-            for (OsmWay osmWay : model.getWayMap().values()) {
+            for (final OsmWay osmWay : model.getWayMap().values()) {
                 if (mapBounds == null) {
                     mapBounds = new Rectangle(osmWay.getBounds());
                     continue;
@@ -57,7 +57,7 @@ public class MyPanel extends JPanel {
             return;
         }
 
-        for (OsmWay osmWay : model.getWayMap().values()) {
+        for (final OsmWay osmWay : model.getWayMap().values()) {
             final Polygon polyToDraw = osmWay.getDrawablePolygon(myZTFMatrix);
             g.drawPolygon(polyToDraw);
         }
@@ -73,7 +73,7 @@ public class MyPanel extends JPanel {
      * @param delta Die Strecke, um die verschoben werden soll
      */
     public void scrollHorizontal(final int delta) {
-        final Matrix transMat = Matrix.translate(delta, 0);
+        final Matrix transMat = Matrix.translate(delta, 0D);
         myZTFMatrix = transMat.multiply(myZTFMatrix);
     }
 
@@ -83,7 +83,7 @@ public class MyPanel extends JPanel {
      * @param delta Die Strecke, um die verschoben werden soll
      */
     public void scrollVertical(final int delta) {
-        final Matrix transMat = Matrix.translate(0, delta);
+        final Matrix transMat = Matrix.translate(0D, delta);
         myZTFMatrix = transMat.multiply(myZTFMatrix);
     }
 

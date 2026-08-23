@@ -1,4 +1,3 @@
-// Created: 28.09.2013
 package de.freese.sonstiges.sound.mp3;
 
 import java.io.File;
@@ -9,6 +8,7 @@ import java.util.TreeSet;
 
 /**
  * @author Thomas Freese
+ * @since 28.09.2013
  */
 final class Report implements Comparable<Report> {
     private final File file;
@@ -38,7 +38,7 @@ final class Report implements Comparable<Report> {
             return true;
         }
 
-        if (!(obj instanceof Report other)) {
+        if (!(obj instanceof final Report other)) {
             return false;
         }
 
@@ -52,20 +52,14 @@ final class Report implements Comparable<Report> {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append(file.getAbsolutePath());
-        sb.append(": ");
-        sb.append(messages);
-
-        return sb.toString();
+        return file.getAbsolutePath() +
+                ": " +
+                messages;
     }
 
     public String toString(final Path rootDirectory) {
-        final StringBuilder sb = new StringBuilder();
-        sb.append(rootDirectory.relativize(file.toPath()));
-        sb.append(": ");
-        sb.append(messages);
-
-        return sb.toString();
+        return rootDirectory.relativize(file.toPath()) +
+                ": " +
+                messages;
     }
 }

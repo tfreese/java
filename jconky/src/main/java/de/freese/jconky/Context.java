@@ -1,4 +1,3 @@
-// Created: 13.12.2020
 package de.freese.jconky;
 
 import java.util.HashMap;
@@ -16,6 +15,7 @@ import de.freese.jconky.system.SystemMonitor;
 
 /**
  * @author Thomas Freese
+ * @since 13.12.2020
  */
 public final class Context {
     /**

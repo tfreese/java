@@ -1,4 +1,3 @@
-// Created: 28.06.2018
 package de.freese.logging;
 
 import java.net.URL;
@@ -19,6 +18,7 @@ import de.freese.logging.context.MapInitialContext;
 
 /**
  * @author Thomas Freese
+ * @since 28.06.2018
  */
 final class LogbackDemo {
     static void main() throws Exception {

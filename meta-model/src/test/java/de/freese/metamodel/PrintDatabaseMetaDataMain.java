@@ -1,4 +1,3 @@
-// Created: 08.07.2018
 package de.freese.metamodel;
 
 import java.io.PrintStream;
@@ -13,6 +12,7 @@ import javax.sql.DataSource;
 
 /**
  * @author Thomas Freese
+ * @since 08.07.2018
  */
 public final class PrintDatabaseMetaDataMain {
     static void main() throws Exception {

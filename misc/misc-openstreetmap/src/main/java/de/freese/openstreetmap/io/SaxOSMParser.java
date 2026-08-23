@@ -1,4 +1,3 @@
-// Created: 12.03.2015
 package de.freese.openstreetmap.io;
 
 import java.io.InputStream;
@@ -14,6 +13,7 @@ import de.freese.openstreetmap.model.OsmModel;
  * Beste Variante, da nur das aktuelle Element im Speicher gehalten wird.
  *
  * @author Thomas Freese
+ * @since 12.03.2015
  */
 public class SaxOSMParser implements OSMParser {
     @Override
@@ -34,7 +34,7 @@ public class SaxOSMParser implements OSMParser {
         // Protect against to XXE attacks.
         saxParser.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
         saxParser.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
-        //        saxParser.setProperty(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        // saxParser.setProperty(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 
         saxParser.parse(inputStream, contentHandler);
 

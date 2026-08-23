@@ -1,4 +1,3 @@
-// Created: 29.06.2020
 package de.freese.ga.examples.sudoku;
 
 import java.io.BufferedReader;
@@ -16,15 +15,15 @@ import de.freese.ga.Config;
 
 /**
  * @author Thomas Freese
+ * @since 29.06.2020
  */
 public class SudokuConfig extends Config {
     /**
-     * Beim Sudoku dürfen die fest vorgegebenen Zahlen nicht verändert werden !
+     * Beim Sudoku dürfen die fest vorgegebenen Zahlen nicht verändert werden!
      */
     private final Map<Integer, SudokuGene> fixNumbers = new TreeMap<>();
-
-    private int puzzleBlockSize = (int) Math.sqrt(this.puzzleSize);
     private int puzzleSize = 9;
+    private int puzzleBlockSize = (int) Math.sqrt(this.puzzleSize);
 
     public SudokuConfig() {
         super();

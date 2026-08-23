@@ -1,4 +1,3 @@
-// Created: 22.12.23
 package de.freese.led.model.element;
 
 import java.util.ArrayList;
@@ -9,6 +8,7 @@ import de.freese.led.model.token.TextToken;
 
 /**
  * @author Thomas Freese
+ * @since 22.12.23
  */
 public class AnimatedElement implements LedElement {
 

@@ -1,4 +1,3 @@
-// Created: 27.05.2018
 package de.freese.cache;
 
 import java.net.URL;
@@ -16,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 /***
  * @author Thomas Freese
+ * @since 27.05.2018
  */
 public final class EhCache3Demo {
     private static final Logger LOGGER = LoggerFactory.getLogger(EhCache3Demo.class);

@@ -1,4 +1,3 @@
-// Created: 27.10.2020
 package de.freese.jsensors.backend.disruptor;
 
 import java.util.Objects;
@@ -10,6 +9,7 @@ import de.freese.jsensors.sensor.SensorValue;
 
 /**
  * @author Thomas Freese
+ * @since 27.10.2020
  */
 class DisruptorSensorHandler implements EventHandler<SensorEvent> {
     private final Backend backend;

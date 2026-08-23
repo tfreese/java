@@ -1,4 +1,3 @@
-// Created: 07.11.2009
 package de.freese.misc.generator.algorythm;
 
 import java.security.SecureRandom;
@@ -8,6 +7,7 @@ import java.util.Random;
  * Algorithmus zum Erstellen von Sudoku-Rätseln mit rekursivem Backtracking.
  *
  * @author Thomas Freese
+ * @since 07.11.2009
  */
 public class AlgorithmRecursiveBacktracking implements SudokuAlgorithm {
     private static final Random RANDOM = new SecureRandom();
@@ -50,7 +50,7 @@ public class AlgorithmRecursiveBacktracking implements SudokuAlgorithm {
      * Prüft, ob der Wert bereits in der Zeile existiert.
      */
     private static boolean checkRow(final int[][] grid, final int row, final int value) {
-        for (int[] element : grid) {
+        for (final int[] element : grid) {
             if (element[row] == value) {
                 return true;
             }
@@ -123,7 +123,7 @@ public class AlgorithmRecursiveBacktracking implements SudokuAlgorithm {
             }
         }
 
-        // Fertig !
+        // Fertig!
         return !emptyField;
     }
 }

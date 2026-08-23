@@ -1,4 +1,3 @@
-// Created: 26.09.2016
 package de.freese.simulationen.balls;
 
 import java.util.concurrent.TimeUnit;
@@ -8,6 +7,7 @@ import java.util.function.IntSupplier;
  * Bewegender Ball.
  *
  * @author Thomas Freese
+ * @since 26.09.2016
  */
 public class Ball {
     /**

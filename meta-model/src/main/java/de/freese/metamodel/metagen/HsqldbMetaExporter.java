@@ -1,4 +1,3 @@
-// Created: 08.07.2018
 package de.freese.metamodel.metagen;
 
 import java.sql.Connection;
@@ -15,17 +14,25 @@ import de.freese.metamodel.metagen.model.Sequence;
  * {@link MetaExporter} für HSQLDB.
  *
  * @author Thomas Freese
+ * @since 08.07.2018
  */
 public class HsqldbMetaExporter extends AbstractMetaExporter {
     @Override
     protected void generateSequences(final DataSource dataSource, final Schema schema) throws SQLException {
-        final StringBuilder sql = new StringBuilder();
-        sql.append("select SEQUENCE_NAME, START_WITH, INCREMENT, NEXT_VALUE");
-        sql.append(" from INFORMATION_SCHEMA.SYSTEM_SEQUENCES");
-        sql.append(" where SEQUENCE_SCHEMA = ?");
+        final String sql = """
+                select
+                    SEQUENCE_NAME,
+                    START_WITH,
+                    INCREMENT,
+                    NEXT_VALUE
+                from
+                    INFORMATION_SCHEMA.SYSTEM_SEQUENCES
+                where
+                    SEQUENCE_SCHEMA = ?
+                """;
 
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql.toString())) {
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, schema.getName());
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {

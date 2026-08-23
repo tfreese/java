@@ -35,7 +35,7 @@ public final class ProducerConsumerBlockingQueue {
                 try {
                     final Integer value;
                     // value = queue.take();
-                    value = queue.poll(5000, TimeUnit.MILLISECONDS);
+                    value = queue.poll(5000L, TimeUnit.MILLISECONDS);
 
                     if (value == null) {
                         break;
@@ -43,9 +43,9 @@ public final class ProducerConsumerBlockingQueue {
 
                     LOGGER.info("{}: Consumer-{} got: {}", Thread.currentThread().getName(), number, value);
 
-                    TimeUnit.MILLISECONDS.sleep(3000);
+                    TimeUnit.MILLISECONDS.sleep(3000L);
                 }
-                catch (InterruptedException ex) {
+                catch (final InterruptedException ex) {
                     LOGGER.error(ex.getMessage(), ex);
 
                     // Restore interrupted state.
@@ -78,9 +78,9 @@ public final class ProducerConsumerBlockingQueue {
 
                     LOGGER.info("{}: Producer-{} put: {}", Thread.currentThread().getName(), number, i);
 
-                    TimeUnit.MILLISECONDS.sleep(300);
+                    TimeUnit.MILLISECONDS.sleep(300L);
                 }
-                catch (InterruptedException ex) {
+                catch (final InterruptedException ex) {
                     LOGGER.error(ex.getMessage(), ex);
 
                     // Restore interrupted state.
@@ -100,7 +100,7 @@ public final class ProducerConsumerBlockingQueue {
                 executorService.execute(new Producer(queue, i + 1));
             }
 
-            TimeUnit.MILLISECONDS.sleep(500);
+            TimeUnit.MILLISECONDS.sleep(500L);
 
             for (int i = 0; i < 2; i++) {
                 executorService.execute(new Consumer(queue, i + 1));

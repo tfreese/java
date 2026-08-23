@@ -1,4 +1,3 @@
-// Created: 28.06.2018
 package de.freese.logging;
 
 import java.net.URISyntaxException;
@@ -21,6 +20,7 @@ import de.freese.logging.context.MapInitialContext;
 
 /**
  * @author Thomas Freese
+ * @since 28.06.2018
  */
 final class Log4jDemo {
     static void main() throws Exception {

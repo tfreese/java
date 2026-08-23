@@ -1,4 +1,3 @@
-// Created: 18.09.2009
 package de.freese.simulationen;
 
 import java.awt.GraphicsEnvironment;
@@ -22,6 +21,7 @@ import de.freese.simulationen.wator.WaTorView;
  * Hauptfenster der Simulation-Demos.
  *
  * @author Thomas Freese
+ * @since 18.09.2009
  */
 class SimulationSwing extends JFrame {
     @Serial

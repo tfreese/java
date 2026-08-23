@@ -1,4 +1,3 @@
-// Created: 12 Apr. 2025
 package de.freese.gradle.cache.storage;
 
 import java.io.ByteArrayOutputStream;
@@ -20,10 +19,10 @@ import org.jspecify.annotations.Nullable;
  * {@link Map} implementation for {@link Storage}-API.
  *
  * @author Thomas Freese
+ * @since 12.04.2025
  */
 public final class MapStorage extends AbstractStorage {
     private record MapStorageEntry(String key, byte[] bytes) implements StorageEntry {
-
         @Override
         public boolean equals(final Object o) {
             if (!(o instanceof MapStorageEntry(final String k, final byte[] v))) {
@@ -96,7 +95,7 @@ public final class MapStorage extends AbstractStorage {
 
     @Override
     @Nullable
-    public StorageEntry getStorageEntry(final String key) {
+    public StorageEntry getEntry(final String key) {
         Objects.requireNonNull(key, "key required");
 
         final TimedValue timedValue = cache.get(key);

@@ -1,9 +1,5 @@
 package de.freese.sonstiges.dnd.basic;
 
-/*
- * LabelDnD.java is a 1.4 example that requires no other files.
- */
-
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

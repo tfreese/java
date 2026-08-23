@@ -1,4 +1,3 @@
-// Created: 30 Nov. 2024
 package de.freese.simulationen.noise;
 
 import java.awt.Color;
@@ -12,6 +11,7 @@ import java.util.function.IntUnaryOperator;
 
 /**
  * @author Thomas Freese
+ * @since 30.11.2024
  */
 abstract class AbstractWhiteNoise implements Runnable {
     private final transient Image image;

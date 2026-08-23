@@ -1,8 +1,8 @@
-// Created: 22.12.2020
 package de.freese.jconky.model;
 
 /**
  * @author Thomas Freese
+ * @since 22.12.2020
  */
 public record UsageInfo(String path, long total, long used, long free) {
     public UsageInfo() {

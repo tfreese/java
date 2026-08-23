@@ -1,4 +1,3 @@
-// Created: 30 Nov. 2024
 package de.freese.simulationen.noise;
 
 import java.awt.Canvas;
@@ -6,6 +5,7 @@ import java.awt.Graphics;
 
 /**
  * @author Thomas Freese
+ * @since 30.11.2024
  */
 final class WhiteNoiseCanvas extends AbstractWhiteNoise {
     private final Canvas canvas;

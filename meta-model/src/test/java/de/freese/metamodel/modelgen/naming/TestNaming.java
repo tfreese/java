@@ -1,4 +1,3 @@
-// Created: 22.07.2018
 package de.freese.metamodel.modelgen.naming;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,6 +10,7 @@ import org.junit.jupiter.api.TestMethodOrder;
  * TestCase für die Namenskonvertierung.
  *
  * @author Thomas Freese
+ * @since 22.07.2018
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestNaming {

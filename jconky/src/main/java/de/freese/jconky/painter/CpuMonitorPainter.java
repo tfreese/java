@@ -1,4 +1,3 @@
-// Created: 05.12.2020
 package de.freese.jconky.painter;
 
 import java.util.HashMap;
@@ -17,6 +16,7 @@ import de.freese.jconky.model.Values;
 
 /**
  * @author Thomas Freese
+ * @since 05.12.2020
  */
 public class CpuMonitorPainter extends AbstractMonitorPainter {
     private final Map<Integer, Values<Double>> coreUsageMap = new HashMap<>();

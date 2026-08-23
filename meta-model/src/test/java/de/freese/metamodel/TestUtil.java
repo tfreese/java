@@ -1,4 +1,3 @@
-// Created: 08.07.2018
 package de.freese.metamodel;
 
 import java.io.PrintStream;
@@ -22,14 +21,15 @@ import org.sqlite.javax.SQLiteConnectionPoolDataSource;
 
 /**
  * @author Thomas Freese
+ * @since 08.07.2018
  */
 @SuppressWarnings("unchecked")
 public final class TestUtil {
     public static void closeDataSource(final DataSource dataSource) throws Exception {
-        if (dataSource instanceof AutoCloseable ac) {
+        if (dataSource instanceof final AutoCloseable ac) {
             ac.close();
         }
-        else if (dataSource instanceof JDBCPool p) {
+        else if (dataSource instanceof final JDBCPool p) {
             p.close(1);
         }
         // else if (dataSource instanceof DisposableBean db) {

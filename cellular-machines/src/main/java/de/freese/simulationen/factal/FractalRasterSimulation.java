@@ -1,4 +1,3 @@
-// Created: 27.12.2021
 package de.freese.simulationen.factal;
 
 import java.awt.Color;
@@ -10,6 +9,7 @@ import de.freese.simulationen.model.AbstractRasterSimulation;
  * <a href="https://www.gm.fh-koeln.de/~konen/Mathe2-SS2015/Apfelmaennchen/Apfelmaennchen_2.html">Apfelmännchen</a><br>
  *
  * @author Thomas Freese
+ * @since 27.12.2021
  */
 public class FractalRasterSimulation extends AbstractRasterSimulation {
     public FractalRasterSimulation(final int width, final int height) {

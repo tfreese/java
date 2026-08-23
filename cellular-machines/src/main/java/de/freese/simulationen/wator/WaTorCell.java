@@ -1,4 +1,3 @@
-// Created: 11.03.2021
 package de.freese.simulationen.wator;
 
 import java.awt.Color;
@@ -9,6 +8,7 @@ import de.freese.simulationen.model.AbstractCell;
 
 /**
  * @author Thomas Freese
+ * @since 11.03.2021
  */
 public class WaTorCell extends AbstractCell {
     /**
@@ -46,7 +46,8 @@ public class WaTorCell extends AbstractCell {
     public void nextGeneration() {
         if (CellType.FISH.equals(cellType)) {
             nextFish();
-        } else if (CellType.SHARK.equals(cellType)) {
+        }
+        else if (CellType.SHARK.equals(cellType)) {
             nextShark();
         }
     }
@@ -118,7 +119,8 @@ public class WaTorCell extends AbstractCell {
 
             if (cell.isEmpty()) {
                 freieNachbarnList.add(new int[]{x, y});
-            } else if (cell.isFish()) {
+            }
+            else if (cell.isFish()) {
                 fischNachbarnList.add(new int[]{x, y});
             }
         });
@@ -180,7 +182,8 @@ public class WaTorCell extends AbstractCell {
                 setEnergy(energy / 2); // Split Energie.
 
                 cell.decrementEnergy(energy);
-            } else {
+            }
+            else {
                 // Clear this cell.
                 setCellType(CellType.EMPTY);
                 setEnergy(0);
@@ -218,7 +221,8 @@ public class WaTorCell extends AbstractCell {
                 // Clear this cell.
                 setCellType(CellType.EMPTY);
                 setEnergy(0);
-            } else {
+            }
+            else {
                 // Do not eat, then move.
                 final int freiX = frei[0];
                 final int freiY = frei[1];

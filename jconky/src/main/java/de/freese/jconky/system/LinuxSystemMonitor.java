@@ -1,4 +1,3 @@
-// Created: 01.12.2020
 package de.freese.jconky.system;
 
 import java.io.File;
@@ -29,6 +28,7 @@ import de.freese.jconky.util.JConkyUtils;
 
 /**
  * @author Thomas Freese
+ * @since 01.12.2020
  */
 public class LinuxSystemMonitor extends AbstractSystemMonitor {
     // /**
@@ -282,7 +282,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     @Override
     public NetworkInfos getNetworkInfos() {
         // ip -s -4 addr
-        List<String> ipLines = new ArrayList<>(readContent(processBuilderNetworkIf));
+        final List<String> ipLines = new ArrayList<>(readContent(processBuilderNetworkIf));
 
         // Separate Interfaces.
         final Map<Integer, List<String>> map = new HashMap<>();
@@ -342,7 +342,7 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
 
         // Protokoll Infos.
         // nstat -a
-        List<String> nStatLines = readContent(processBuilderNstat);
+        final List<String> nStatLines = readContent(processBuilderNstat);
 
         long icmpIn = 0;
         long icmpOut = 0;

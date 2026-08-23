@@ -1,4 +1,3 @@
-// Created: 30.06.2021
 package de.freese.micrometer.binder;
 
 import java.io.BufferedReader;
@@ -16,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 30.06.2021
  */
 class NetworkInterface {
     private static final Logger LOGGER = LoggerFactory.getLogger(NetworkInterface.class);
@@ -79,13 +79,13 @@ class NetworkInterface {
             process.waitFor();
             process.destroy();
         }
-        catch (InterruptedException ex) {
+        catch (final InterruptedException ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             // Restore interrupted state.
             Thread.currentThread().interrupt();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 
@@ -99,16 +99,22 @@ class NetworkInterface {
 
         input = lines.stream().filter(l -> l.startsWith("RX packets")).mapToLong(l -> {
             final Matcher matcher = PATTERN_BYTES.matcher(l);
-            matcher.find();
 
-            return Long.parseLong(matcher.group(1));
+            if (matcher.find()) {
+                return Long.parseLong(matcher.group(1));
+            }
+
+            return 0L;
         }).findFirst().orElse(0L);
 
         output = lines.stream().filter(l -> l.startsWith("TX packets")).mapToLong(l -> {
             final Matcher matcher = PATTERN_BYTES.matcher(l);
-            matcher.find();
+            
+            if (matcher.find()) {
+                return Long.parseLong(matcher.group(1));
+            }
 
-            return Long.parseLong(matcher.group(1));
+            return 0L;
         }).findFirst().orElse(0L);
     }
 }

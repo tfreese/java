@@ -87,7 +87,7 @@ public class SortThread extends Thread {
 
                 out.close();
             }
-            catch (IOException ex) {
+            catch (final IOException ex) {
                 LOGGER.error(ex.getMessage(), ex);
             }
         }

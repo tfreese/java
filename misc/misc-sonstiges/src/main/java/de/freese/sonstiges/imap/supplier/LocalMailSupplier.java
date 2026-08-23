@@ -1,4 +1,3 @@
-// Created: 28.08.23
 package de.freese.sonstiges.imap.supplier;
 
 import java.nio.file.Path;
@@ -11,6 +10,7 @@ import de.freese.sonstiges.imap.model.MessageWrapper;
 
 /**
  * @author Thomas Freese
+ * @since 28.08.2023
  */
 public class LocalMailSupplier implements MailSupplier {
 
@@ -27,7 +27,7 @@ public class LocalMailSupplier implements MailSupplier {
     @Override
     public void supply(final Consumer<MessageWrapper> messageConsumer) throws Exception {
         try (MailClient mailClient = new MailClient()) {
-            for (Map.Entry<String, Boolean> entry : folders.entrySet()) {
+            for (final Map.Entry<String, Boolean> entry : folders.entrySet()) {
                 final String folderName = entry.getKey();
                 final boolean isSpam = entry.getValue();
 
@@ -37,10 +37,10 @@ public class LocalMailSupplier implements MailSupplier {
                         messageWrapper.setSpam(isSpam);
                         messageConsumer.accept(messageWrapper);
                     }
-                    catch (RuntimeException ex) {
+                    catch (final RuntimeException ex) {
                         throw ex;
                     }
-                    catch (Exception ex) {
+                    catch (final Exception ex) {
                         throw new RuntimeException(ex);
                     }
                 });

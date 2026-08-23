@@ -97,7 +97,7 @@ public final class PortScannerMain {
 
                 LOGGER.info("");
 
-                for (Port port : openPorts.values()) {
+                for (final Port port : openPorts.values()) {
                     LOGGER.info("Open Port on {}", port);
                 }
 

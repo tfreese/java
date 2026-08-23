@@ -1,4 +1,3 @@
-// Created: 29.06.2003
 package de.freese.sonstiges.print;
 
 import java.awt.Color;
@@ -9,6 +8,7 @@ import java.awt.print.PrinterException;
 
 /**
  * @author Thomas Freese
+ * @since 29.06.2003
  */
 class CoverPage implements Printable {
     @Override

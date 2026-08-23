@@ -1,4 +1,3 @@
-// Created: 06.11.2011
 package de.freese.openstreetmap.model;
 
 import java.awt.Polygon;
@@ -13,6 +12,7 @@ import de.freese.openstreetmap.Mercator;
  * Relationen gruppieren {@link OsmNode} und {@link OsmWay} zu größeren Entitäten.
  *
  * @author Thomas Freese
+ * @since 06.11.2011
  */
 public class OsmRelation extends AbstractOsmEntity {
     private Rectangle bounds;
@@ -22,7 +22,7 @@ public class OsmRelation extends AbstractOsmEntity {
 
     public Rectangle getBounds() {
         if (bounds == null) {
-            for (OsmNode osmNode : getNodes()) {
+            for (final OsmNode osmNode : getNodes()) {
                 final double x = Mercator.mercX(osmNode.getLongitude());
                 final double y = Mercator.mercY(osmNode.getLatitude());
 
@@ -39,7 +39,7 @@ public class OsmRelation extends AbstractOsmEntity {
                 bounds = new Rectangle(0, 0);
             }
 
-            for (OsmWay osmWay : getWays()) {
+            for (final OsmWay osmWay : getWays()) {
                 bounds = bounds.union(osmWay.getBounds());
             }
         }
@@ -51,13 +51,13 @@ public class OsmRelation extends AbstractOsmEntity {
         if (polygon == null) {
             polygon = new Polygon();
 
-            for (OsmNode osmNode : getNodes()) {
+            for (final OsmNode osmNode : getNodes()) {
                 final double x = Mercator.mercX(osmNode.getLongitude());
                 final double y = Mercator.mercY(osmNode.getLatitude());
                 polygon.addPoint((int) x, (int) y);
             }
 
-            for (OsmWay osmWay : getWays()) {
+            for (final OsmWay osmWay : getWays()) {
                 final Polygon pWay = osmWay.getDrawablePolygon(myZTFMatrix);
 
                 for (int i = 0; i < pWay.npoints; i++) {

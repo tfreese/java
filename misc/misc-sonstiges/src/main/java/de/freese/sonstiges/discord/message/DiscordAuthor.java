@@ -1,4 +1,3 @@
-// Created: 06.07.2021
 package de.freese.sonstiges.discord.message;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
@@ -7,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 
 /**
  * @author Thomas Freese
+ * @since 06.07.2021
  */
 @JsonPropertyOrder({"name", "nameUrl", "iconUrl"})
 @JsonRootName(value = "author")

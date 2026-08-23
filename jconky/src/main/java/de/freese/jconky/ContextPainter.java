@@ -1,4 +1,3 @@
-// Created: 04.12.2020
 package de.freese.jconky;
 
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ import de.freese.jconky.painter.MonitorPainter;
 
 /**
  * @author Thomas Freese
+ * @since 04.12.2020
  */
 public class ContextPainter {
     private static final Logger LOGGER = LoggerFactory.getLogger(ContextPainter.class);

@@ -1,4 +1,3 @@
-// Created: 30.08.2004
 package de.freese.sonstiges.dnd.demo.simple;
 
 import java.awt.Point;
@@ -21,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 30.08.2004
  */
 class TreeDropTarget implements DropTargetListener {
     private static final Logger LOGGER = LoggerFactory.getLogger(TreeDropTarget.class);
@@ -86,7 +86,7 @@ class TreeDropTarget implements DropTargetListener {
             final Transferable tr = event.getTransferable();
             final DataFlavor[] flavors = tr.getTransferDataFlavors();
 
-            for (DataFlavor flavor : flavors) {
+            for (final DataFlavor flavor : flavors) {
                 if (tr.isDataFlavorSupported(flavor)) {
                     event.acceptDrop(event.getDropAction());
 
@@ -102,7 +102,7 @@ class TreeDropTarget implements DropTargetListener {
 
             event.rejectDrop();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
             event.rejectDrop();
         }

@@ -1,4 +1,3 @@
-// Created: 31.10.2016
 package de.freese.sonstiges.server.multithread;
 
 import java.io.IOException;
@@ -20,6 +19,7 @@ import de.freese.sonstiges.server.multithread.dispatcher.DispatcherPool;
  * The {@link IoHandler} handles the Request and Response in a separate Thread.<br>
  *
  * @author Thomas Freese
+ * @since 31.10.2016
  */
 public class ServerMultiThread extends AbstractServer {
     private final DispatcherPool dispatcherPool;
@@ -96,7 +96,7 @@ public class ServerMultiThread extends AbstractServer {
             getLogger().info("'{}' listening on port: {}", getName(), getPort());
             getStartLock().release();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }
@@ -126,7 +126,7 @@ public class ServerMultiThread extends AbstractServer {
 
             serverSocketChannel.close();
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             getLogger().error(ex.getMessage(), ex);
         }
 

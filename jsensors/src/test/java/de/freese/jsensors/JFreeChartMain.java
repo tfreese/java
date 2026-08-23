@@ -1,4 +1,3 @@
-// Created: 02.06.2017
 package de.freese.jsensors;
 
 import java.awt.BasicStroke;
@@ -30,6 +29,7 @@ import de.freese.jsensors.utils.JSensorThreadFactory;
 
 /**
  * @author Thomas Freese
+ * @since 02.06.2017
  */
 public final class JFreeChartMain {
     static void main() {

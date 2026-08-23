@@ -1,4 +1,3 @@
-// Created: 29.06.2020
 package de.freese.ga.examples.travelling_salesman;
 
 import java.util.ArrayList;
@@ -12,6 +11,7 @@ import de.freese.ga.Gene;
 
 /**
  * @author Thomas Freese
+ * @since 29.06.2020
  */
 public class TspChromosome extends Chromosome {
     public TspChromosome(final TspConfig config) {
@@ -59,12 +59,12 @@ public class TspChromosome extends Chromosome {
 
         final List<Gene> genes = new ArrayList<>();
 
-        // Loop through all our destination cities and add them to our tour
+        // Loop through all our destination cities and add them to our tour.
         for (int i = 0; i < size(); i++) {
             genes.add(Gene.of(cities.get(i)));
         }
 
-        // Zufällig neu zusammenstellen.
+        // Randomize..
         Collections.shuffle(genes);
 
         for (int i = 0; i < size(); i++) {

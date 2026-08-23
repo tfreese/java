@@ -1,4 +1,3 @@
-// Created: 02.09.2021
 package de.freese.jsensors;
 
 import static org.awaitility.Awaitility.await;
@@ -29,6 +28,7 @@ import de.freese.jsensors.sensor.SensorValue;
 
 /**
  * @author Thomas Freese
+ * @since 02.09.2021
  */
 @SuppressWarnings("java:S5778")
 class TestMetricBinder {

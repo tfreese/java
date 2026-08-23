@@ -1,4 +1,3 @@
-// Created: 20.12.23
 package de.freese.led.painter;
 
 import java.awt.Graphics;
@@ -7,6 +6,7 @@ import de.freese.led.encoder.SymbolEncoder;
 
 /**
  * @author Thomas Freese
+ * @since 20.12.23
  */
 public class CircleLedPainter extends AbstractLedPainter {
     public CircleLedPainter(final SymbolEncoder symbolEncoder) {

@@ -1,4 +1,3 @@
-// Created: 22.09.2016
 package de.freese.sonstiges.imap.analyze;
 
 import java.util.Locale;
@@ -9,6 +8,7 @@ import org.tartarus.snowball.ext.GermanStemmer;
 
 /**
  * @author Thomas Freese
+ * @since 22.09.2016
  */
 public class FunctionStemmer implements UnaryOperator<String> {
     /**

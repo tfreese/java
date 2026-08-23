@@ -1,4 +1,3 @@
-// Created: 12.10.2016
 package de.freese.simulationen;
 
 import java.util.Objects;
@@ -28,6 +27,7 @@ import org.slf4j.LoggerFactory;
  * </pre>
  *
  * @author Thomas Freese
+ * @since 12.10.2016
  */
 public class ScheduledFutureAwareRunnable implements Runnable {
 

@@ -1,4 +1,3 @@
-// Created: 29.09.23
 package de.freese.sonstiges.disruptor;
 
 import com.lmax.disruptor.EventHandler;
@@ -10,6 +9,7 @@ import org.slf4j.LoggerFactory;
  * Otherwise, all {@link EventHandler} would process the same Event.
  *
  * @author Thomas Freese
+ * @since 29.09.2023
  */
 public abstract class AbstractLoadBalancedEventHandler<T> implements EventHandler<T> {
     private final Logger logger = LoggerFactory.getLogger(getClass());

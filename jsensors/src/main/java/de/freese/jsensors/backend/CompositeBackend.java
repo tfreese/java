@@ -1,4 +1,3 @@
-// Created: 04.09.2021
 package de.freese.jsensors.backend;
 
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import de.freese.jsensors.sensor.SensorValue;
  * Routes a {@link SensorValue} to multiple {@link Backend}s.
  *
  * @author Thomas Freese
+ * @since 04.09.2021
  */
 public final class CompositeBackend extends AbstractBackend {
     private final List<Backend> backends = new ArrayList<>();

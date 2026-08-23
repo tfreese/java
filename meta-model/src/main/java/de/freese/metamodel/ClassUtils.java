@@ -1,4 +1,3 @@
-// Created: 22.04.2020
 package de.freese.metamodel;
 
 import java.io.Closeable;
@@ -24,6 +23,7 @@ import java.util.Set;
  * Geklaut von org.springframework.util.ClassUtils.
  *
  * @author Thomas Freese
+ * @since 22.04.2020
  */
 public final class ClassUtils {
     /**
@@ -83,7 +83,7 @@ public final class ClassUtils {
         PRIMITIVE_WRAPPER_TYPE_MAP.put(Void.class, void.class);
 
         // Map entry iteration is less expensive to initialize than forEach with lambdas
-        for (Map.Entry<Class<?>, Class<?>> entry : PRIMITIVE_WRAPPER_TYPE_MAP.entrySet()) {
+        for (final Map.Entry<Class<?>, Class<?>> entry : PRIMITIVE_WRAPPER_TYPE_MAP.entrySet()) {
             PRIMITIVE_TYPE_TO_WRAPPER_MAP.put(entry.getValue(), entry.getKey());
             registerCommonClasses(entry.getKey());
         }
@@ -93,7 +93,7 @@ public final class ClassUtils {
         Collections.addAll(primitiveTypes, boolean[].class, byte[].class, char[].class, double[].class, float[].class, int[].class, long[].class, short[].class);
         primitiveTypes.add(void.class);
 
-        for (Class<?> primitiveType : primitiveTypes) {
+        for (final Class<?> primitiveType : primitiveTypes) {
             PRIMITIVE_TYPE_NAME_MAP.put(primitiveType.getName(), primitiveType);
         }
 
@@ -166,7 +166,7 @@ public final class ClassUtils {
         try {
             return Class.forName(name, false, clToUse);
         }
-        catch (ClassNotFoundException ex) {
+        catch (final ClassNotFoundException ex) {
             final int lastDotIndex = name.lastIndexOf(PACKAGE_SEPARATOR);
 
             if (lastDotIndex != -1) {
@@ -343,7 +343,7 @@ public final class ClassUtils {
      * Register the given common classes with the ClassUtils cache.
      */
     private static void registerCommonClasses(final Class<?>... commonClasses) {
-        for (Class<?> clazz : commonClasses) {
+        for (final Class<?> clazz : commonClasses) {
             COMMON_CLASS_CACHE.put(clazz.getName(), clazz);
         }
     }

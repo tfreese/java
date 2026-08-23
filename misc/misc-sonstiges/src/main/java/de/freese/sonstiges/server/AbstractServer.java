@@ -1,4 +1,3 @@
-// Created: 13.09.2020
 package de.freese.sonstiges.server;
 
 import java.nio.channels.SelectionKey;
@@ -12,6 +11,7 @@ import de.freese.sonstiges.server.handler.IoHandler;
 
 /**
  * @author Thomas Freese
+ * @since 13.09.2020
  */
 public abstract class AbstractServer implements Runnable {
     private final Logger logger = LoggerFactory.getLogger(getClass());

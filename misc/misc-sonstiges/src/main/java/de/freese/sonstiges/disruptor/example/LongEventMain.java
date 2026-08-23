@@ -1,4 +1,3 @@
-// Created: 26.08.2020
 package de.freese.sonstiges.disruptor.example;
 
 import java.nio.ByteBuffer;
@@ -14,6 +13,7 @@ import com.lmax.disruptor.util.DaemonThreadFactory;
  * <a href="https://github.com/LMAX-Exchange/disruptor/wiki/Getting-Started">Getting-Started</a>.
  *
  * @author Thomas Freese
+ * @since 26.08.2020
  */
 public final class LongEventMain {
     /**
@@ -88,11 +88,11 @@ public final class LongEventMain {
             producer.onData(bb); // Waits, if the RingBuffer is full, e.g., adjust the ringBufferSize.
         }
 
-        TimeUnit.MILLISECONDS.sleep(2000);
+        TimeUnit.MILLISECONDS.sleep(2000L);
 
         // Only necessary, if the Event-Publishing is not finished.
         disruptor.halt();
-        disruptor.shutdown(5, TimeUnit.SECONDS);
+        disruptor.shutdown(5L, TimeUnit.SECONDS);
         // }
     }
 

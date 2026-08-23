@@ -1,10 +1,10 @@
-// Created: 03.06.2016
 package de.freese.metamodel.metagen.model;
 
 /**
  * Enthält die MetaDaten eines ForeignKeys.
  *
  * @author Thomas Freese
+ * @since 03.06.2016
  */
 public class ForeignKey {
     private Column column;
@@ -37,15 +37,12 @@ public class ForeignKey {
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("ForeignKey [");
-        builder.append("name=").append(name);
-        builder.append(", ");
-        builder.append(column.getTable().getName()).append(".").append(column.getName());
-        builder.append(" -> ");
-        builder.append(refColumn.getTable().getName()).append(".").append(refColumn.getName());
-        builder.append("]");
-
-        return builder.toString();
+        return "ForeignKey [" +
+                "name=" + name +
+                ", " +
+                column.getTable().getName() + "." + column.getName() +
+                " -> " +
+                refColumn.getTable().getName() + "." + refColumn.getName() +
+                "]";
     }
 }

@@ -1,12 +1,10 @@
-// Created: 19 Apr. 2025
 package de.freese.gradle.cache.storage;
 
 import java.io.OutputStream;
 
 /**
- * Storage Entry.
- *
  * @author Thomas Freese
+ * @since 19.04.2025
  */
 public interface StorageEntry {
     long getContentLength();

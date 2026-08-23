@@ -1,4 +1,3 @@
-// Created: 30.08.2004
 package de.freese.sonstiges.dnd.demo.simple;
 
 import java.awt.dnd.DnDConstants;
@@ -20,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 30.08.2004
  */
 class TreeDragSource implements DragSourceListener, DragGestureListener {
     private static final Logger LOGGER = LoggerFactory.getLogger(TreeDragSource.class);

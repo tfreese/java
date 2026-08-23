@@ -1,4 +1,3 @@
-// Created: 11.03.2021
 package de.freese.simulationen.ant;
 
 import java.util.Collections;
@@ -11,6 +10,7 @@ import de.freese.simulationen.model.Cell;
 
 /**
  * @author Thomas Freese
+ * @since 11.03.2021
  */
 public class AntRasterSimulation extends AbstractRasterSimulation {
     /**

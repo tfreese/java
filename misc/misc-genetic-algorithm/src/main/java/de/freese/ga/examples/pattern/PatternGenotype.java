@@ -1,4 +1,3 @@
-// Created: 29.06.2020
 package de.freese.ga.examples.pattern;
 
 import de.freese.ga.Chromosome;
@@ -6,6 +5,7 @@ import de.freese.ga.Genotype;
 
 /**
  * @author Thomas Freese
+ * @since 29.06.2020
  */
 public class PatternGenotype extends Genotype {
     public PatternGenotype(final PatternConfig config) {

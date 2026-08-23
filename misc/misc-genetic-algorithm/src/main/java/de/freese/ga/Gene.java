@@ -1,4 +1,3 @@
-// Created: 01.09.2015
 package de.freese.ga;
 
 import java.util.Objects;
@@ -7,6 +6,7 @@ import java.util.Objects;
  * Basisklasse eines Genoms / Gens für genetische Algorithmen.
  *
  * @author Thomas Freese
+ * @since 01.09.2015
  */
 @SuppressWarnings("unchecked")
 public class Gene implements Comparable<Gene> {
@@ -43,7 +43,7 @@ public class Gene implements Comparable<Gene> {
             return true;
         }
 
-        if (!(o instanceof Gene gene)) {
+        if (!(o instanceof final Gene gene)) {
             return false;
         }
 
@@ -81,10 +81,7 @@ public class Gene implements Comparable<Gene> {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName()).append(": ");
-        sb.append(Objects.toString(getValue(), "null"));
-
-        return sb.toString();
+        return getClass().getSimpleName() + ": " +
+                Objects.toString(getValue(), "null");
     }
 }

@@ -1,4 +1,3 @@
-// Created: 31.05.2017
 package de.freese.jsensors.backend;
 
 import org.slf4j.Logger;
@@ -10,6 +9,7 @@ import de.freese.jsensors.sensor.SensorValue;
  * Base Implementation for a {@link Backend}.
  *
  * @author Thomas Freese
+ * @since 31.05.2017
  */
 public abstract class AbstractBackend implements Backend {
     private final Logger logger = LoggerFactory.getLogger(getClass());

@@ -1,4 +1,3 @@
-// Created: 22.04.2020
 package de.freese.metamodel.modelgen;
 
 import jakarta.persistence.NamedQueries;
@@ -19,6 +18,7 @@ import de.freese.metamodel.modelgen.model.FieldModel;
 
 /**
  * @author Thomas Freese
+ * @since 22.04.2020
  */
 public class HibernateModelGenerator extends JpaModelGenerator {
     @Override
@@ -43,13 +43,12 @@ public class HibernateModelGenerator extends JpaModelGenerator {
 
         final String alias = className.substring(0, 1).toLowerCase();
 
-        final StringBuilder sb = new StringBuilder();
-        sb.append("@NamedQueries({");
-        sb.append("@NamedQuery(name = \"all").append(className).append("\"");
-        sb.append(", query = ").append(String.format("\"select %2$s from %1$s %2$s\"", className, alias));
-        sb.append(", hints = {@QueryHint(name = \"org.hibernate.cacheable\", value = \"true\")})");
-        sb.append("})");
-        classModel.addAnnotation(sb.toString());
+        final String sb = "@NamedQueries({" +
+                "@NamedQuery(name = \"all" + className + "\"" +
+                ", query = " + String.format("\"select %2$s from %1$s %2$s\"", className, alias) +
+                ", hints = {@QueryHint(name = \"org.hibernate.cacheable\", value = \"true\")})" +
+                "})";
+        classModel.addAnnotation(sb);
     }
 
     @Override

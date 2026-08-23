@@ -1,4 +1,3 @@
-// Created: 10.09.2020
 package de.freese.sonstiges.server.multithread.dispatcher;
 
 import java.nio.channels.SelectionKey;
@@ -20,6 +19,7 @@ import de.freese.sonstiges.server.handler.IoHandler;
  * The {@link Dispatcher} handles the Client Connections after the 'accept'.<br>
  *
  * @author Thomas Freese
+ * @since 10.09.2020
  */
 public class DispatcherPool implements Dispatcher {
     private static final Logger LOGGER = LoggerFactory.getLogger(DispatcherPool.class);
@@ -45,7 +45,7 @@ public class DispatcherPool implements Dispatcher {
             final String message = String.format("numOfDispatcher > numOfWorker: %d < %d", numOfDispatcher, numOfWorker);
             throw new IllegalArgumentException(message);
         }
-        
+
         super();
 
         this.numOfDispatcher = numOfDispatcher;

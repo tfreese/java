@@ -189,7 +189,7 @@ public class MailClient implements AutoCloseable {
 
         final Session mSession = Session.getDefaultInstance(new Properties());
 
-        for (Path mail : mailFiles) {
+        for (final Path mail : mailFiles) {
             try (InputStream inputStream = new BufferedInputStream(Files.newInputStream(mail))) {
                 final Message message = new MimeMessage(mSession, inputStream);
 
@@ -240,7 +240,7 @@ public class MailClient implements AutoCloseable {
                 return;
             }
 
-            for (Message message : messages) {
+            for (final Message message : messages) {
                 messageConsumer.accept(message);
             }
         }
@@ -250,7 +250,7 @@ public class MailClient implements AutoCloseable {
                     folder.close(false);
                 }
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 LOGGER.error(ex.getMessage(), ex);
             }
         }

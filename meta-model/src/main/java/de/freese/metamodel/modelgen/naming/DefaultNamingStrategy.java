@@ -1,4 +1,3 @@
-// Created: 22.07.2018
 package de.freese.metamodel.modelgen.naming;
 
 import de.freese.metamodel.Utils;
@@ -7,6 +6,7 @@ import de.freese.metamodel.Utils;
  * Default-Implementierung der Namenskonvertierung.
  *
  * @author Thomas Freese
+ * @since 22.07.2018
  */
 public class DefaultNamingStrategy extends AbstractNamingStrategy {
     @Override

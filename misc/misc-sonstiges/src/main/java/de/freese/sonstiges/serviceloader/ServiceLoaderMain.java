@@ -1,4 +1,3 @@
-// Created: 17.07.2011
 package de.freese.sonstiges.serviceloader;
 
 import java.util.ServiceLoader;
@@ -8,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 17.07.2011
  */
 public final class ServiceLoaderMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceLoaderMain.class);
@@ -15,7 +15,7 @@ public final class ServiceLoaderMain {
     static void main() {
         final ServiceLoader<Service> serviceLoader = ServiceLoader.load(Service.class);
 
-        for (Service service : serviceLoader) {
+        for (final Service service : serviceLoader) {
             LOGGER.info(service.getText());
         }
     }

@@ -21,7 +21,7 @@ public class LatLon extends Coordinate {
      * @return the course from position1 to position2
      */
     public static double course(final double lat1, final double lon1, final double lat2, final double lon2) {
-        return Math.atan2(Math.sin(lon1 - lon2) * Math.cos(lat2), (Math.cos(lat1) * Math.sin(lat2)) - (Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2))) % (2 * Math.PI);
+        return Math.atan2(Math.sin(lon1 - lon2) * Math.cos(lat2), (Math.cos(lat1) * Math.sin(lat2)) - (Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2))) % (2D * Math.PI);
     }
 
     /**
@@ -39,11 +39,11 @@ public class LatLon extends Coordinate {
         final double dLon = lon1 - lon2;
         final double alpha = (Math.atan2(dLat, dLon) * 180D) / Math.PI;
 
-        if (alpha <= 90) {
-            return 90 - alpha;
+        if (alpha <= 90D) {
+            return 90D - alpha;
         }
 
-        return 450 - alpha;
+        return 450D - alpha;
     }
 
     /**
@@ -57,7 +57,7 @@ public class LatLon extends Coordinate {
      * @return the great-circle-distance
      */
     public static double dist(final double lat1, final double lon1, final double lat2, final double lon2) {
-        return 2 * Math.asin(Math.sqrt(Math.pow(Math.sin((lat1 - lat2) / 2), 2) + (Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin((lon1 - lon2) / 2), 2))));
+        return 2D * Math.asin(Math.sqrt(Math.pow(Math.sin((lat1 - lat2) / 2D), 2D) + (Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin((lon1 - lon2) / 2D), 2D))));
     }
 
     /**
@@ -73,7 +73,7 @@ public class LatLon extends Coordinate {
      * @return distance in metres.
      */
     public static int distanceInMeters(final double lat1, final double lon1, final double lat2, final double lon2) {
-        final int factor = (int) ((6378 - (21 * Math.sin(Math.toRadians((lat1 + lat2) / 2)))) * 1000);
+        final int factor = (int) ((6378D - (21D * Math.sin(Math.toRadians((lat1 + lat2) / 2D)))) * 1000);
         // final int factor = 6371000;
         final double p1lat = Math.toRadians(lat1);
         final double p2lat = Math.toRadians(lat2);
@@ -93,8 +93,8 @@ public class LatLon extends Coordinate {
      */
     public static int distanceInMeters(final LatLon point1, final LatLon point2) {
         return distanceInMeters(point1.lat(), point1.lon(), point2.lat(), point2.lon());
-        // final int factor = (int) ((6378 - 21 * Math.sin(Math.toRadians((point1.lat() +
-        // point2.lat()) / 2))) * 1000);
+        // final int factor = (int) ((6378D - 21D * Math.sin(Math.toRadians((point1.lat() +
+        // point2.lat()) / 2D))) * 1000D);
         // //final int factor = 6371000;
         // final double p1lat = Math.toRadians(point1.lat());
         // final double p2lat = Math.toRadians(point2.lat());
@@ -151,7 +151,7 @@ public class LatLon extends Coordinate {
      * @return <code>true</code>, if the other point has almost the same lat/lon values, only differ by no more than 1/Projection.MAX_SERVER_PRECISION.
      */
     public boolean equalsEpsilon(final LatLon other) {
-        final double p = 1 / Projection.MAX_SERVER_PRECISION;
+        final double p = 1D / Projection.MAX_SERVER_PRECISION;
 
         return Math.abs(lat() - other.lat()) <= p && Math.abs(lon() - other.lon()) <= p;
     }

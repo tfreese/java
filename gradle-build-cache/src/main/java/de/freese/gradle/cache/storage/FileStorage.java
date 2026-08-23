@@ -1,4 +1,3 @@
-// Created: 12 Apr. 2025
 package de.freese.gradle.cache.storage;
 
 import java.io.BufferedInputStream;
@@ -23,6 +22,7 @@ import org.jspecify.annotations.Nullable;
  * File implementation for {@link Storage}-API.
  *
  * @author Thomas Freese
+ * @since 12.04.2025
  */
 public final class FileStorage extends AbstractStorage {
     private record FileStorageEntry(String key, Path path) implements StorageEntry {
@@ -90,7 +90,7 @@ public final class FileStorage extends AbstractStorage {
 
     @Override
     @Nullable
-    public StorageEntry getStorageEntry(final String key) {
+    public StorageEntry getEntry(final String key) {
         Objects.requireNonNull(key, "key required");
 
         final Path path = workingDirectory.resolve(key);

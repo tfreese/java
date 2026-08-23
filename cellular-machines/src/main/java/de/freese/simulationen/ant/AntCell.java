@@ -1,4 +1,3 @@
-// Created: 11.03.2021
 package de.freese.simulationen.ant;
 
 import java.awt.Color;
@@ -11,6 +10,7 @@ import de.freese.simulationen.model.AbstractCell;
  * Zelle der Langton-Ameisen Simulation.
  *
  * @author Thomas Freese
+ * @since 11.03.2021
  */
 public class AntCell extends AbstractCell {
     /**

@@ -1,4 +1,3 @@
-// Created: 02.04.2009
 package de.freese.sonstiges.xml;
 
 import java.io.File;
@@ -21,11 +20,12 @@ import org.xml.sax.SAXParseException;
 
 /**
  * @author Thomas Freese
+ * @since 02.04.2009
  */
 public final class NavigationTreeReaderMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(NavigationTreeReaderMain.class);
 
-    static void main() throws Exception {
+    static void main() {
         try {
             URL url = ClassLoader.getSystemResource("navigationTree.xsd");
             final Source schemaFile = new StreamSource(new File(url.toURI()));
@@ -55,10 +55,10 @@ public final class NavigationTreeReaderMain {
 
             reader.close();
         }
-        catch (SAXParseException ex) {
+        catch (final SAXParseException ex) {
             LOGGER.error("SAXParseException at Line: {}", ex.getLineNumber());
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }

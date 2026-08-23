@@ -1,4 +1,3 @@
-// Created: 02.09.2021
 package de.freese.jsensors.sensor;
 
 import java.util.Objects;
@@ -7,6 +6,7 @@ import java.util.Objects;
  * Default Implementation for a {@link SensorValue}.
  *
  * @author Thomas Freese
+ * @since 02.09.2021
  */
 public record DefaultSensorValue(String name, String value, long timestamp) implements SensorValue {
     public DefaultSensorValue(final String name, final String value, final long timestamp) {

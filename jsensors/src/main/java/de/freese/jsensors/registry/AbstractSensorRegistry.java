@@ -1,4 +1,3 @@
-// Created: 02.09.2021
 package de.freese.jsensors.registry;
 
 import java.util.Map;
@@ -19,6 +18,7 @@ import de.freese.jsensors.sensor.Sensor;
  * Base Implementation of a {@link SensorRegistry}.
  *
  * @author Thomas Freese
+ * @since 02.09.2021
  */
 public abstract class AbstractSensorRegistry implements SensorRegistry {
     private final Map<String, Backend> backends = new TreeMap<>();

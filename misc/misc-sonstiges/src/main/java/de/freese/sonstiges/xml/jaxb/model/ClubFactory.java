@@ -34,7 +34,7 @@ public final class ClubFactory {
         LOGGER.info("Club-Opening: {}", club.getOpening());
         LOGGER.info("Club-Guests: {}", club.getGuests());
 
-        for (DJ dj : club.getDJs()) {
+        for (final DJ dj : club.getDJs()) {
             LOGGER.info("\tDJ-Firstname: {}", dj.getFirstName());
             LOGGER.info("\tDJ-Lastname: {}", dj.getLastName());
         }

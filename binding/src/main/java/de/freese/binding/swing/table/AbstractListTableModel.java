@@ -9,7 +9,7 @@ import javax.swing.table.AbstractTableModel;
 
 /**
  * @author Thomas Freese
- * @since 09.08.26
+ * @since 09.08.2026
  */
 public abstract class AbstractListTableModel<T> extends AbstractTableModel {
     @Serial

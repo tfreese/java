@@ -1,4 +1,3 @@
-// Created: 03.09.2021
 package de.freese.jsensors.binder;
 
 import java.io.File;
@@ -7,7 +6,6 @@ import java.io.UncheckedIOException;
 import java.nio.file.FileStore;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -22,6 +20,7 @@ import de.freese.jsensors.sensor.Sensor;
 
 /**
  * @author Thomas Freese
+ * @since 03.09.2021
  */
 public class DiscMetrics implements SensorBinder {
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscMetrics.class);
@@ -61,7 +60,8 @@ public class DiscMetrics implements SensorBinder {
     public List<String> bindTo(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
         if (file != null) {
             return bindTo(registry, file, File::getFreeSpace, File::getTotalSpace, backendProvider);
-        } else if (path != null) {
+        }
+        else if (path != null) {
             try {
                 final FileStore fileStore = Files.getFileStore(path);
 
@@ -92,7 +92,7 @@ public class DiscMetrics implements SensorBinder {
 
         getLogger().warn("bound no sensors");
 
-        return Collections.emptyList();
+        return List.of();
     }
 
     protected Logger getLogger() {

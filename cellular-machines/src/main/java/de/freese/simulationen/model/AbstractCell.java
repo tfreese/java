@@ -1,4 +1,3 @@
-// Created: 28.09.2009
 package de.freese.simulationen.model;
 
 import java.awt.Color;
@@ -8,6 +7,7 @@ import java.util.function.BiConsumer;
  * Basisklasse einer Zelle.
  *
  * @author Thomas Freese
+ * @since 28.09.2009
  */
 public abstract class AbstractCell implements Cell {
     private final AbstractRasterSimulation simulation;
@@ -52,12 +52,7 @@ public abstract class AbstractCell implements Cell {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" ");
-        sb.append("[x=").append(getX()).append(",y=").append(getY()).append("]");
-
-        return sb.toString();
+        return getClass().getSimpleName() + " " + "[x=" + getX() + ",y=" + getY() + "]";
     }
 
     void setXY(final int x, final int y) {

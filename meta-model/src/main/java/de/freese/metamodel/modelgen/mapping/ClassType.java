@@ -1,4 +1,3 @@
-// Created: 29.07.2018
 package de.freese.metamodel.modelgen.mapping;
 
 import java.util.Objects;
@@ -7,33 +6,26 @@ import org.hibernate.mapping.Collection;
 
 /**
  * @author Thomas Freese
+ * @since 29.07.2018
  */
-public class ClassType implements Type {
-    private final Class<?> javaClass;
-
+public record ClassType(Class<?> javaClass) implements Type {
     public ClassType(final Class<?> javaClass) {
-        super();
-
         this.javaClass = Objects.requireNonNull(javaClass, "javaClass required");
     }
 
     @Override
     public boolean equalsClass(final Class<?> clazz) {
-        return getJavaClass().equals(clazz);
-    }
-
-    public Class<?> getJavaClass() {
-        return javaClass;
+        return javaClass().equals(clazz);
     }
 
     @Override
     public String getSimpleName() {
-        return getJavaClass().getSimpleName();
+        return javaClass().getSimpleName();
     }
 
     @Override
     public boolean isArray() {
-        return getJavaClass().isArray();
+        return javaClass().isArray();
     }
 
     @Override
@@ -43,11 +35,11 @@ public class ClassType implements Type {
 
     @Override
     public boolean isCollection() {
-        return Collection.class.isAssignableFrom(getJavaClass());
+        return Collection.class.isAssignableFrom(javaClass());
     }
 
     @Override
     public boolean isPrimitive() {
-        return getJavaClass().isPrimitive();
+        return javaClass().isPrimitive();
     }
 }

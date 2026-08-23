@@ -1,4 +1,3 @@
-// Created: 06.07.2021
 package de.freese.sonstiges.discord.message;
 
 import java.awt.Color;
@@ -12,6 +11,7 @@ import tools.jackson.databind.annotation.JsonSerialize;
 
 /**
  * @author Thomas Freese
+ * @since 06.07.2021
  */
 @JsonPropertyOrder({"color", "author", "title", "titleDescription", "url", "thumbnail", "image", "fields", "footer"})
 @JsonRootName(value = "embed")

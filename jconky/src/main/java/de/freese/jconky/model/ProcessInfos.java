@@ -1,4 +1,3 @@
-// Created: 07.12.2020
 package de.freese.jconky.model;
 
 import java.util.Comparator;
@@ -7,6 +6,7 @@ import java.util.function.Predicate;
 
 /**
  * @author Thomas Freese
+ * @since 07.12.2020
  */
 public class ProcessInfos {
     private static final Predicate<ProcessInfo> PREDICATE_IDLE = ph -> "I".equals(ph.state());

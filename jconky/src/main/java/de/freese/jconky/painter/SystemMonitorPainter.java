@@ -1,4 +1,3 @@
-// Created: 22.12.2020
 package de.freese.jconky.painter;
 
 import java.util.Arrays;
@@ -15,6 +14,7 @@ import de.freese.jconky.util.JConkyUtils;
 
 /**
  * @author Thomas Freese
+ * @since 22.12.2020
  */
 public class SystemMonitorPainter extends AbstractMonitorPainter {
     private final Stop[] gradientStops;

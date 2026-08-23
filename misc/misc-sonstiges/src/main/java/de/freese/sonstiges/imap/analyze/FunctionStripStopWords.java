@@ -1,4 +1,3 @@
-// Created: 22.09.2016
 package de.freese.sonstiges.imap.analyze;
 
 import java.io.IOException;
@@ -22,6 +21,7 @@ import java.util.function.UnaryOperator;
  * Als Stop-Wörter werden hier (Füll)-Wörter angesehen, die keinerlei Information besitzen, z.B. wie der die das oder he she it und the.
  *
  * @author Thomas Freese
+ * @since 22.09.2016
  */
 public class FunctionStripStopWords implements UnaryOperator<String> {
 
@@ -86,7 +86,7 @@ public class FunctionStripStopWords implements UnaryOperator<String> {
         int german = 0;
         int english = 0;
 
-        for (String text : texte) {
+        for (final String text : texte) {
             if (CACHE.get(Locale.GERMAN).contains(text)) {
                 german++;
             }

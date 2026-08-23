@@ -1,4 +1,3 @@
-// Created: 02.09.2021
 package de.freese.jsensors.sensor;
 
 import java.time.Instant;
@@ -8,6 +7,7 @@ import java.util.function.Function;
 
 /**
  * @author Thomas Freese
+ * @since 02.09.2021
  */
 public interface SensorValue {
     default LocalDateTime getLocalDateTime() {

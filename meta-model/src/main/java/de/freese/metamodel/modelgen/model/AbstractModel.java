@@ -1,4 +1,3 @@
-// Created: 29.07.2018
 package de.freese.metamodel.modelgen.model;
 
 import java.util.ArrayList;
@@ -9,6 +8,7 @@ import java.util.Objects;
  * Basis-Implementierung eines Model-Objekts.
  *
  * @author Thomas Freese
+ * @since 29.07.2018
  */
 public abstract class AbstractModel {
     private final List<String> annotations = new ArrayList<>();
@@ -53,12 +53,9 @@ public abstract class AbstractModel {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("name = ").append(name);
-        sb.append("]");
-
-        return sb.toString();
+        return getClass().getSimpleName() +
+                " [" +
+                "name = " + name +
+                "]";
     }
 }

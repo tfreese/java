@@ -1,4 +1,3 @@
-// Created: 18.09.2009
 package de.freese.simulationen.model;
 
 import java.awt.Color;
@@ -16,6 +15,7 @@ import java.util.stream.Stream;
  * BaseModel for Simulations with Cells as Pixels.
  *
  * @author Thomas Freese
+ * @since 18.09.2009
  */
 public abstract class AbstractRasterSimulation extends AbstractSimulation {
 
@@ -74,7 +74,7 @@ public abstract class AbstractRasterSimulation extends AbstractSimulation {
                     for (int x = 0; x < getWidth(); x++) {
                         final Cell cell = cellSupplier.get();
 
-                        if (cell instanceof AbstractCell c) {
+                        if (cell instanceof final AbstractCell c) {
                             c.setXY(x, y);
                         }
 

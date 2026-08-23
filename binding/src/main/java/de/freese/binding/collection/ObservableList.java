@@ -12,7 +12,7 @@ import javax.swing.event.ListDataListener;
 
 /**
  * @author Thomas Freese
- * @since 09.08.26
+ * @since 09.08.2026
  */
 public class ObservableList<T> extends AbstractList<T> {
     private final List<T> delegate;

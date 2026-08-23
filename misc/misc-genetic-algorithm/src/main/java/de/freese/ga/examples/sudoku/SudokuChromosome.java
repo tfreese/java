@@ -1,4 +1,3 @@
-// Created: 29.06.2020
 package de.freese.ga.examples.sudoku;
 
 import java.util.Arrays;
@@ -11,6 +10,7 @@ import de.freese.ga.Chromosome;
 
 /**
  * @author Thomas Freese
+ * @since 29.06.2020
  */
 public class SudokuChromosome extends Chromosome {
     public SudokuChromosome(final SudokuConfig config) {
@@ -166,7 +166,7 @@ public class SudokuChromosome extends Chromosome {
     }
 
     /**
-     * Wie viele unterschiedliche Zahlen sind im Block und wie ist deren Summe ?<br>
+     * Wie viele unterschiedliche Zahlen sind im Block und wie ist deren Summe?<br>
      * Soll: bei 9 Zahlen 45 in Summe
      */
     double calcBlockFitness(final int block, final int puzzleBlockSize) {
@@ -205,7 +205,7 @@ public class SudokuChromosome extends Chromosome {
     }
 
     /**
-     * Wie viele unterschiedliche Zahlen sind in der Spalte und wie ist deren Summe ?<br>
+     * Wie viele unterschiedliche Zahlen sind in der Spalte und wie ist deren Summe?<br>
      * Soll: bei 9 Zahlen 45 in Summe
      */
     double calcColumnFitness(final int column, final int puzzleSize) {
@@ -223,7 +223,7 @@ public class SudokuChromosome extends Chromosome {
     }
 
     /**
-     * Wie viele unterschiedliche Zahlen sind in der Reihe und wie ist deren Summe ?<br>
+     * Wie viele unterschiedliche Zahlen sind in der Reihe und wie ist deren Summe?<br>
      * Soll: bei 9 Zahlen 45 in Summe
      */
     double calcRowFitness(final int row) {

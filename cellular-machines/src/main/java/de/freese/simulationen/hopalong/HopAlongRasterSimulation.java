@@ -1,4 +1,3 @@
-// Created: 13.09.2009
 package de.freese.simulationen.hopalong;
 
 import java.awt.Color;
@@ -12,6 +11,7 @@ import de.freese.simulationen.model.EmptyCell;
  * <a href="http://www.mathematische-basteleien.de/huepfer.htm">mathematische-basteleien</a>
  *
  * @author Thomas Freese
+ * @since 13.09.2009
  */
 public class HopAlongRasterSimulation extends AbstractRasterSimulation {
     private final Point center;

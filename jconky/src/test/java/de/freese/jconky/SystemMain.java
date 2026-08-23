@@ -1,4 +1,3 @@
-// Created: 30.11.2020
 package de.freese.jconky;
 
 import java.io.BufferedReader;
@@ -23,6 +22,7 @@ import de.freese.jconky.model.CpuTimes;
 
 /**
  * @author Thomas Freese
+ * @since 30.11.2020
  */
 public final class SystemMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(SystemMain.class);
@@ -39,7 +39,8 @@ public final class SystemMain {
 
             // Keep the Program running.
             System.in.read();
-        } catch (final Exception ex) {
+        }
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }
@@ -96,7 +97,8 @@ public final class SystemMain {
             final long guestNice = Long.parseLong(splits[10]);
 
             return Optional.of(new CpuTimes(user, nice, system, idle, ioWait, irq, softIrq, steal, guest, guestNice));
-        } catch (final Exception ex) {
+        }
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 
@@ -160,7 +162,8 @@ public final class SystemMain {
                 final String message = new String(bytes);
 
                 LOGGER.info(message);
-            } catch (final Exception ex) {
+            }
+            catch (final Exception ex) {
                 LOGGER.error(ex.getMessage(), ex);
             }
         }, 1L, 1L, TimeUnit.SECONDS);

@@ -1,4 +1,3 @@
-// Created: 04.03.2021
 package de.freese.simulationen;
 
 import java.io.InputStream;
@@ -14,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 04.03.2021
  */
 public final class SimulationEnvironment {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimulationEnvironment.class);

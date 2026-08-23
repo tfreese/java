@@ -39,12 +39,12 @@ public class MyFrame extends JFrame implements ActionListener {
             repaint();
         }
         else if ("+".equals(doWhat)) {
-            myPanel.zoom(1.5);
+            myPanel.zoom(1.5D);
             // myPanel.repaint();
             repaint();
         }
         else if ("-".equals(doWhat)) {
-            myPanel.zoom(1 / 1.5);
+            myPanel.zoom(1D / 1.5D);
             // myPanel.repaint();
             repaint();
         }

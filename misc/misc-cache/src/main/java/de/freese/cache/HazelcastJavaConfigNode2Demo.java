@@ -1,4 +1,3 @@
-// Created: 27.05.2018
 package de.freese.cache;
 
 import java.net.InetAddress;
@@ -18,6 +17,7 @@ import org.slf4j.LoggerFactory;
  * <a href="https://reflectoring.io/spring-boot-hazelcast">spring-boot-hazelcast</a>
  *
  * @author Thomas Freese
+ * @since 27.05.2018
  */
 public final class HazelcastJavaConfigNode2Demo {
     private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastJavaConfigNode2Demo.class);

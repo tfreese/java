@@ -1,4 +1,3 @@
-// Created: 19.12.23
 package de.freese.led.encoder;
 
 import java.awt.Color;
@@ -29,6 +28,7 @@ import javax.swing.WindowConstants;
  * Each LED-Row is encoded as an int bitwise.
  *
  * @author Thomas Freese
+ * @since 19.12.23
  */
 public final class SymbolEncoderMain {
     static void main() {

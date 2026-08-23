@@ -1,4 +1,3 @@
-// Created: 09.01.2015
 package de.freese.sonstiges.ldap;
 
 import java.io.PrintWriter;
@@ -20,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 09.01.2015
  */
 @SuppressWarnings("java:S2068")
 public final class LdapClientMain {
@@ -61,7 +61,7 @@ public final class LdapClientMain {
         results.sort(new SearchResultComparator());
 
         try (PrintWriter pw = new PrintWriter("/tmp/ldap-backup.ldif", StandardCharsets.UTF_8)) {
-            for (SearchResult searchResult : results) {
+            for (final SearchResult searchResult : results) {
                 // System.out.println(searchResult.getAttributes().get("mobile"));
                 final String cn = getValue(searchResult, "cn");
                 final String uid = getValue(searchResult, "uid");
@@ -128,7 +128,7 @@ public final class LdapClientMain {
                 pw.println();
             }
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 

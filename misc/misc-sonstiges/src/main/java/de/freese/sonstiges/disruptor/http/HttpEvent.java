@@ -1,10 +1,10 @@
-// Created: 26.08.2020
 package de.freese.sonstiges.disruptor.http;
 
 import java.nio.ByteBuffer;
 
 /**
  * @author Thomas Freese
+ * @since 26.08.2020
  */
 public class HttpEvent {
     private ByteBuffer buffer;

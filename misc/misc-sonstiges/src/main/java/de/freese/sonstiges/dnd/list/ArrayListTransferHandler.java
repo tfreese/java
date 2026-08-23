@@ -158,7 +158,7 @@ class ArrayListTransferHandler extends TransferHandler {
         addIndex = index;
         addCount = list.size();
 
-        for (Object element : list) {
+        for (final Object element : list) {
             listModel.add(index, element);
             index++;
         }
@@ -180,7 +180,7 @@ class ArrayListTransferHandler extends TransferHandler {
 
             final List<String> list = new ArrayList<>(values.size());
 
-            for (Object o : values) {
+            for (final Object o : values) {
                 String str = o.toString();
 
                 if (str == null) {
@@ -227,7 +227,7 @@ class ArrayListTransferHandler extends TransferHandler {
             return false;
         }
 
-        for (DataFlavor flavor : flavors) {
+        for (final DataFlavor flavor : flavors) {
             if (flavor.equals(localArrayListFlavor)) {
                 return true;
             }
@@ -241,7 +241,7 @@ class ArrayListTransferHandler extends TransferHandler {
             return false;
         }
 
-        for (DataFlavor flavor : flavors) {
+        for (final DataFlavor flavor : flavors) {
             if (flavor.equals(serialArrayListFlavor)) {
                 return true;
             }

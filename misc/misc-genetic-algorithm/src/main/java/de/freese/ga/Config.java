@@ -1,4 +1,3 @@
-// Created: 29.06.2020
 package de.freese.ga;
 
 import java.security.SecureRandom;
@@ -6,6 +5,7 @@ import java.util.Random;
 
 /**
  * @author Thomas Freese
+ * @since 29.06.2020
  */
 public class Config {
     private final Random random;

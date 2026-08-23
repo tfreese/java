@@ -1,8 +1,8 @@
-// Created: 25.07.2018
 package de.freese.metamodel.modelgen.mapping;
 
 /**
  * @author Thomas Freese
+ * @since 25.07.2018
  */
 public interface Type {
     boolean equalsClass(Class<?> clazz);

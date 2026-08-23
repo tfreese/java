@@ -1,4 +1,3 @@
-// Created: 18.09.2009
 package de.freese.simulationen;
 
 import java.awt.BorderLayout;
@@ -22,9 +21,8 @@ import de.freese.simulationen.model.Simulation;
 /**
  * BasisView für die Simulationen.
  *
- * @param <S> Konkreter Typ der Welt
- *
  * @author Thomas Freese
+ * @since 18.09.2009
  */
 public class SimulationView<S extends Simulation> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -111,7 +109,7 @@ public class SimulationView<S extends Simulation> {
             getSimulation().nextGeneration();
             // System.out.printf("%d ms%n", System.currentTimeMillis() - start);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             stop();
 
             getLogger().error(ex.getMessage(), ex);

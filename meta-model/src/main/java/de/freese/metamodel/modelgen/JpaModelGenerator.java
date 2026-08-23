@@ -1,4 +1,3 @@
-// Created: 22.04.2020
 package de.freese.metamodel.modelgen;
 
 import java.util.ArrayList;
@@ -32,6 +31,7 @@ import de.freese.metamodel.modelgen.model.FieldModel;
 
 /**
  * @author Thomas Freese
+ * @since 22.04.2020
  */
 public class JpaModelGenerator extends PojoModelGenerator {
     @Override
@@ -112,7 +112,7 @@ public class JpaModelGenerator extends PojoModelGenerator {
             final ClassType type = (ClassType) getTypeMapping().getType(column.getJdbcType(), column.isNullable());
 
             // Normales Attribut
-            final FieldModel fieldModel = classModel.addField(fieldName, type.getJavaClass());
+            final FieldModel fieldModel = classModel.addField(fieldName, type.javaClass());
             fieldModel.setPayload(column);
 
             transformFieldComments(column, fieldModel);

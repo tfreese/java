@@ -1,4 +1,3 @@
-// Created: 31.10.2016
 package de.freese.sonstiges.server.singlethread;
 
 import java.io.IOException;
@@ -22,6 +21,7 @@ import de.freese.sonstiges.server.ServerMain;
  * Der Server kümmert sich um alle Verbindungen in einem einzelnen Thread.
  *
  * @author Thomas Freese
+ * @since 31.10.2016
  */
 public class ServerSingleThread extends AbstractServer {
     private final SelectorProvider selectorProvider;
@@ -129,7 +129,7 @@ public class ServerSingleThread extends AbstractServer {
                 }
             }
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
         finally {
@@ -172,7 +172,7 @@ public class ServerSingleThread extends AbstractServer {
 
             serverSocketChannel.close();
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             getLogger().error(ex.getMessage(), ex);
         }
         finally {

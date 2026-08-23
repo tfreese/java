@@ -60,7 +60,7 @@ public class Bounds {
         // return !(latitude < myMin.lat()) && !(latitude > myMax.lat()) && !(longitude < myMin.lon()) && !(longitude > myMax.lon());
         return latitude >= myMin.lat() && latitude <= myMax.lat() && longitude >= myMin.lon() && longitude <= myMax.lon();
     }
-
+ 
     // /**
     // * Extend the bounds if necessary to include the given point.
     // */

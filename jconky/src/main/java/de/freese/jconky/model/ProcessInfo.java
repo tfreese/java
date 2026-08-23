@@ -1,8 +1,8 @@
-// Created: 07.12.2020
 package de.freese.jconky.model;
 
 /**
  * @author Thomas Freese
+ * @since 07.12.2020
  */
 public record ProcessInfo(int pid, String state, String name, String owner, double cpuUsage, double memoryUsage) {
 

@@ -1,8 +1,8 @@
-// Created: 18.09.2021
 package de.freese.metamodel;
 
 /**
  * @author Thomas Freese
+ * @since 18.09.2021
  */
 public final class Utils {
     public static String capitalize(final String value) {

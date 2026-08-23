@@ -1,4 +1,3 @@
-// Created: 15.01.2015
 package de.freese.sonstiges.ldap;
 
 import java.util.Comparator;
@@ -10,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Thomas Freese
+ * @since 15.01.2015
  */
 public class SearchResultComparator implements Comparator<SearchResult> {
     @Override
@@ -50,7 +50,7 @@ public class SearchResultComparator implements Comparator<SearchResult> {
 
             comp = s1.compareTo(s2);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             throw new RuntimeException(ex);
         }
 

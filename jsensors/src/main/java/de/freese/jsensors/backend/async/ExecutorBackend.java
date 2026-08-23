@@ -1,4 +1,3 @@
-// Created: 26.04.2019
 package de.freese.jsensors.backend.async;
 
 import java.util.Objects;
@@ -14,6 +13,7 @@ import de.freese.jsensors.sensor.SensorValue;
  * Asynchronous Wrapper for a {@link Backend}.
  *
  * @author Thomas Freese
+ * @since 26.04.2019
  */
 public class ExecutorBackend extends AbstractBackend {
     private final Backend delegateBackend;

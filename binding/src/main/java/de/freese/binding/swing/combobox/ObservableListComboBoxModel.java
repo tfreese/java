@@ -10,6 +10,7 @@ import de.freese.binding.swing.list.ObservableListListModel;
 
 /**
  * @author Thomas Freese
+ * @since 09.08.2026
  */
 public class ObservableListComboBoxModel<T> extends ObservableListListModel<T> implements ComboBoxModel<T> {
     @Serial
@@ -44,7 +45,8 @@ public class ObservableListComboBoxModel<T> extends ObservableListListModel<T> i
 
         if (index != -1) {
             selectedObject = getList().get(index);
-        } else {
+        }
+        else {
             selectedObject = null;
         }
 

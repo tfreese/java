@@ -1,10 +1,8 @@
-// Created: 10 Apr. 2025
 package de.freese.jspecify;
 
 /**
- * Main class.
- *
  * @author Thomas Freese
+ * @since 10.04.2025
  */
 // @NullMarked
 // Or in package-info.java for complete Package.

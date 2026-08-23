@@ -1,4 +1,3 @@
-// Created: 06.11.2011
 package de.freese.openstreetmap;
 
 import java.util.logging.Level;
@@ -12,6 +11,7 @@ import de.freese.openstreetmap.model.OsmModel;
 
 /**
  * @author Thomas Freese
+ * @since 06.11.2011
  */
 public final class OpenStreetMapMain {
     private static final Logger LOGGER = Logger.getLogger(OpenStreetMapMain.class.getSimpleName());
@@ -36,7 +36,7 @@ public final class OpenStreetMapMain {
 
             SwingUtilities.invokeLater(myFrame::zoomToFit);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
     }

@@ -1,4 +1,3 @@
-// Created: 26.01.2014
 package de.freese.simulationen.model;
 
 import java.awt.Image;
@@ -7,6 +6,7 @@ import java.awt.Image;
  * Interface für eine Simulationsumgebung.
  *
  * @author Thomas Freese
+ * @since 26.01.2014
  */
 public interface Simulation {
     void addWorldListener(SimulationListener simulationListener);

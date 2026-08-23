@@ -1,4 +1,3 @@
-// Created: 23.12.2020
 package de.freese.jconky.painter;
 
 import java.util.Map;
@@ -10,6 +9,7 @@ import de.freese.jconky.model.TemperatureInfo;
 
 /**
  * @author Thomas Freese
+ * @since 23.12.2020
  */
 public class TemperatureMonitorPainter extends AbstractMonitorPainter {
     private static final TemperatureInfo TEMPERATURE_INFO = new TemperatureInfo();

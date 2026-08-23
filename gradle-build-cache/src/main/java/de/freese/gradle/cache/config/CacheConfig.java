@@ -1,4 +1,3 @@
-// Created: 11 Apr. 2025
 package de.freese.gradle.cache.config;
 
 import java.nio.file.Path;
@@ -34,6 +33,7 @@ import de.freese.gradle.cache.storage.Storage;
  * Configuration.
  *
  * @author Thomas Freese
+ * @since 11.04.2025
  */
 @Configuration
 public class CacheConfig {

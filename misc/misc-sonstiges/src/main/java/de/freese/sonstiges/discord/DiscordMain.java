@@ -1,4 +1,3 @@
-// Created: 07.02.2021
 package de.freese.sonstiges.discord;
 
 import java.awt.Color;
@@ -16,6 +15,7 @@ import de.freese.sonstiges.discord.message.DiscordWebHookMessage;
 
 /**
  * @author Thomas Freese
+ * @since 07.02.2021
  */
 public final class DiscordMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscordMain.class);
@@ -33,7 +33,7 @@ public final class DiscordMain {
             logMessage();
             // sendMessage(null, null);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }

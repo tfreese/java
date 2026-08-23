@@ -1,4 +1,3 @@
-// Created: 12.05.2012
 package de.freese.sonstiges.forkjoin.fibonacci;
 
 import java.io.Serial;
@@ -8,6 +7,7 @@ import java.util.concurrent.RecursiveTask;
  * {@link RecursiveTask} für Fibonacci Algorithmus.
  *
  * @author Thomas Freese
+ * @since 12.05.2012
  */
 public class FibonacciTask extends RecursiveTask<Long> {
     /**

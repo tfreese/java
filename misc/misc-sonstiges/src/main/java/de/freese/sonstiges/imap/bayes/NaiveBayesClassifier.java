@@ -25,7 +25,7 @@ public class NaiveBayesClassifier {
         BigDecimal spamLikelihood = BigDecimal.valueOf(1.0D);
         BigDecimal hamLikelihood = BigDecimal.valueOf(1.0D);
 
-        for (Merkmal merkmal : vector) {
+        for (final Merkmal merkmal : vector) {
             // Je nach Häufigkeit/Wichtigkeit des Wortes entsprechend dazu multiplizieren.
             for (int i = 0; i < merkmal.getWeight(); i++) {
                 // Spam-Likelihood berechnen (Produkt der Log-Wahrscheinlichkeiten)
@@ -49,7 +49,7 @@ public class NaiveBayesClassifier {
         double spamLikelihood = 1.0D;
         double hamLikelihood = 1.0D;
 
-        for (Merkmal merkmal : vector) {
+        for (final Merkmal merkmal : vector) {
             // Je nach Häufigkeit/Wichtigkeit des Wortes entsprechend dazu multiplizieren.
             for (int i = 0; i < merkmal.getWeight(); i++) {
                 // Spam-Likelihood berechnen (Produkt der Wahrscheinlichkeiten)
@@ -71,7 +71,7 @@ public class NaiveBayesClassifier {
         double spamLikelihood = 0.0D;
         double hamLikelihood = 0.0D;
 
-        for (Merkmal merkmal : vector) {
+        for (final Merkmal merkmal : vector) {
             // Je nach Häufigkeit/Wichtigkeit des Wortes entsprechend dazu multiplizieren.
             for (int i = 0; i < merkmal.getWeight(); i++) {
                 // Spam-Likelihood berechnen (Produkt der Log-Wahrscheinlichkeiten)

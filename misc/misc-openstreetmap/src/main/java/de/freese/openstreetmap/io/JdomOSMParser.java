@@ -1,4 +1,3 @@
-// Created: 06.11.2011
 package de.freese.openstreetmap.io;
 
 import java.io.InputStream;
@@ -22,6 +21,7 @@ import de.freese.openstreetmap.model.OsmWay;
  * Schlechteste Variante, da das gesamte Dokument im Speicher gehalten wird.
  *
  * @author Thomas Freese
+ * @since 06.11.2011
  */
 public class JdomOSMParser implements OSMParser {
     private static void parseNodes(final Document document, final OsmModel model) {

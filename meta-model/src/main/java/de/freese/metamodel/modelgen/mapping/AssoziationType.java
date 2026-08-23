@@ -1,10 +1,10 @@
-// Created: 29.07.2018
 package de.freese.metamodel.modelgen.mapping;
 
 import java.util.Objects;
 
 /**
  * @author Thomas Freese
+ * @since 29.07.2018
  */
 public class AssoziationType implements Type {
     private final String simpleName;

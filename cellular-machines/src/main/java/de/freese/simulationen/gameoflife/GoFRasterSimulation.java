@@ -1,4 +1,3 @@
-// Created: 11.03.2021
 package de.freese.simulationen.gameoflife;
 
 import de.freese.simulationen.model.AbstractRasterSimulation;
@@ -6,6 +5,7 @@ import de.freese.simulationen.model.Cell;
 
 /**
  * @author Thomas Freese
+ * @since 11.03.2021
  */
 public class GoFRasterSimulation extends AbstractRasterSimulation {
     public GoFRasterSimulation(final int width, final int height) {

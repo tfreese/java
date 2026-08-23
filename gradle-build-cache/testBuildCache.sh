@@ -13,18 +13,18 @@ echo
 echo
 
 echo "Get for not existing Key."
-RESPONSE=$($CURL_CMD/123 -X GET -H "Accept: application/vnd.gradle.build-cache-artifact.v2")
+RESPONSE=$("$CURL_CMD"/123 -X GET -H "Accept: application/vnd.gradle.build-cache-artifact.v2")
 echo "$RESPONSE"
 echo
 
 EXIST_CODE=$(echo "$RESPONSE" | awk '/^HTTP/{print $2}')
 #echo "$RESPONSE" | grep "HTTP/" | awk '{print $2}'
 
-if [ $EXIST_CODE -eq "404" ]; then
+if [ "$EXIST_CODE" -eq "404" ]; then
     echo "Put and retrieve."
-    $CURL_CMD/123 -X PUT -H "Content-Type: application/vnd.gradle.build-cache-artifact.v2" -d "[1,2,3]"
+    "$CURL_CMD"/123 -X PUT -H "Content-Type: application/vnd.gradle.build-cache-artifact.v2" -d "[1,2,3]"
     echo
-    $CURL_CMD/123 -X GET -H "Accept: application/vnd.gradle.build-cache-artifact.v2"
+    "$CURL_CMD"/123 -X GET -H "Accept: application/vnd.gradle.build-cache-artifact.v2"
     echo
     echo
 fi

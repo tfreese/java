@@ -1,4 +1,3 @@
-// Created: 07.08.2003
 package de.freese.sonstiges.sound.midi;
 
 import java.util.concurrent.TimeUnit;
@@ -15,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 07.08.2003
  */
 public final class SingleNoteSynthesizer2Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(SingleNoteSynthesizer2Main.class);
@@ -38,7 +38,7 @@ public final class SingleNoteSynthesizer2Main {
             synth.open();
             receiver = synth.getReceiver();
         }
-        catch (MidiUnavailableException ex) {
+        catch (final MidiUnavailableException ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }
@@ -60,7 +60,7 @@ public final class SingleNoteSynthesizer2Main {
         try {
             TimeUnit.MILLISECONDS.sleep(duration);
         }
-        catch (InterruptedException ex) {
+        catch (final InterruptedException ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             // Restore interrupted state.
@@ -88,7 +88,7 @@ public final class SingleNoteSynthesizer2Main {
         try {
             message.setMessage(onOrOff, 0, note, 70);
         }
-        catch (InvalidMidiDataException ex) {
+        catch (final InvalidMidiDataException ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }

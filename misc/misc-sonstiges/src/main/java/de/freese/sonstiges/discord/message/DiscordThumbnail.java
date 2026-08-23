@@ -1,24 +1,13 @@
-// Created: 06.07.2021
 package de.freese.sonstiges.discord.message;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 /**
- * Kleines Bild oben rechts
+ * Kleines Bild oben rechts.
  *
  * @author Thomas Freese
+ * @since 06.07.2021
  */
 @JsonRootName(value = "thumbnail")
-public class DiscordThumbnail {
-    private final String url;
-
-    public DiscordThumbnail(final String url) {
-        super();
-
-        this.url = url;
-    }
-
-    public String getUrl() {
-        return url;
-    }
+public record DiscordThumbnail(String url) {
 }

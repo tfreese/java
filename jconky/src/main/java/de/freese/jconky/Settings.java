@@ -1,4 +1,3 @@
-// Created: 03.12.2020
 package de.freese.jconky;
 
 import javafx.geometry.Insets;
@@ -10,6 +9,7 @@ import de.freese.jconky.system.SystemMonitor;
 
 /**
  * @author Thomas Freese
+ * @since 03.12.2020
  */
 public final class Settings {
     private static final boolean DEBUG = false;

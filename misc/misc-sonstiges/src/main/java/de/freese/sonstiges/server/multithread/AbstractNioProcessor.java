@@ -1,4 +1,3 @@
-// Created: 09.09.2020
 package de.freese.sonstiges.server.multithread;
 
 import java.nio.channels.SelectionKey;
@@ -15,6 +14,7 @@ import de.freese.sonstiges.server.ServerMain;
 
 /**
  * @author Thomas Freese
+ * @since 09.09.2020
  */
 public abstract class AbstractNioProcessor implements Runnable {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -91,7 +91,7 @@ public abstract class AbstractNioProcessor implements Runnable {
 
             afterSelectorWhile();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
         finally {
@@ -155,7 +155,7 @@ public abstract class AbstractNioProcessor implements Runnable {
             try {
                 selectionKey.cancel();
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
             }
         }
@@ -166,7 +166,7 @@ public abstract class AbstractNioProcessor implements Runnable {
             try {
                 getSelector().close();
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
             }
         }

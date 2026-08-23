@@ -1,4 +1,3 @@
-// Created: 02.09.2021
 package de.freese.jsensors.sensor;
 
 import java.util.Objects;
@@ -9,6 +8,7 @@ import de.freese.jsensors.registry.SensorRegistry;
 
 /**
  * @author Thomas Freese
+ * @since 02.09.2021
  */
 public interface Sensor {
     /**

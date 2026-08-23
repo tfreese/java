@@ -57,7 +57,7 @@ public final class VelocityDemo {
                 writer.flush();
             }
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }

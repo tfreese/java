@@ -1,4 +1,3 @@
-// Created: 01.12.2020
 package de.freese.jconky.system;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,6 +26,7 @@ import de.freese.jconky.model.UsageInfo;
 
 /**
  * @author Thomas Freese
+ * @since 01.12.2020
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestSystemMonitor {

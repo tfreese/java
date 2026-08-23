@@ -1,4 +1,3 @@
-// Created: 12 Apr. 2025
 package de.freese.gradle.cache.storage;
 
 import java.io.InputStream;
@@ -10,10 +9,10 @@ import org.jspecify.annotations.Nullable;
  * Storage API.
  *
  * @author Thomas Freese
+ * @since 12.04.2025
  */
 public interface Storage {
-
-    @Nullable StorageEntry getStorageEntry(String key);
+    @Nullable StorageEntry getEntry(String key);
 
     /**
      * Locks the Key for parallel use.

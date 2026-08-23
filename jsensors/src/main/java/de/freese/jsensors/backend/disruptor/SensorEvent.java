@@ -1,10 +1,10 @@
-// Created: 29.10.2020
 package de.freese.jsensors.backend.disruptor;
 
 import de.freese.jsensors.sensor.SensorValue;
 
 /**
  * @author Thomas Freese
+ * @since 29.10.2020
  */
 class SensorEvent {
     private SensorValue sensorValue;

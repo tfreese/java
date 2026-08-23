@@ -28,7 +28,7 @@ public final class DragListMain extends JPanel {
             try {
                 createAndShowGUI();
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 throw new RuntimeException(ex);
             }
         });

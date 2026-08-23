@@ -1,4 +1,3 @@
-// Created: 28.08.23
 package de.freese.sonstiges.imap;
 
 import java.math.BigDecimal;
@@ -30,6 +29,7 @@ import de.freese.sonstiges.imap.supplier.MailSupplier;
 
 /**
  * @author Thomas Freese
+ * @since 28.08.2023
  */
 @SuppressWarnings("try")
 public final class MailClassifierDemo {
@@ -52,10 +52,10 @@ public final class MailClassifierDemo {
                 try {
                     messageWrappers.add(message);
                 }
-                catch (RuntimeException ex) {
+                catch (final RuntimeException ex) {
                     throw ex;
                 }
-                catch (Exception ex) {
+                catch (final Exception ex) {
                     throw new RuntimeException(ex);
                 }
             });
@@ -63,7 +63,7 @@ public final class MailClassifierDemo {
             final boolean isTraining = false;
             final Function<MessageWrapper, Map<String, Integer>> tokenFunction = new TokenFunction();
 
-            for (MessageWrapper message : messageWrappers) {
+            for (final MessageWrapper message : messageWrappers) {
                 if (mailRepository.containsMessageId(message.getMessageId())) {
                     continue;
                 }
@@ -83,11 +83,11 @@ public final class MailClassifierDemo {
                 }
             }
         }
-        catch (RuntimeException ex) {
+        catch (final RuntimeException ex) {
             final Throwable cause = ex.getCause();
             LOGGER.error(cause.getMessage(), cause);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }
@@ -115,7 +115,7 @@ public final class MailClassifierDemo {
                 messages = folder.getMessages(start, end);
             }
             else {
-                if (folder instanceof IMAPFolder iFolder) {
+                if (folder instanceof final IMAPFolder iFolder) {
                     // All Mails, oldest first.
                     messages = iFolder.getSortedMessages(new SortTerm[]{SortTerm.ARRIVAL});
                 }
@@ -136,10 +136,10 @@ public final class MailClassifierDemo {
 
             return List.of(messages);
         }
-        catch (RuntimeException ex) {
+        catch (final RuntimeException ex) {
             throw ex;
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             throw new RuntimeException(ex);
         }
     }

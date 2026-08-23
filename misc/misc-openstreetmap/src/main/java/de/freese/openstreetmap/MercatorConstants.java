@@ -1,8 +1,8 @@
-// Created: 13.11.22
 package de.freese.openstreetmap;
 
 /**
  * @author Thomas Freese
+ * @since 13.11.22
  */
 final class MercatorConstants {
     /**
@@ -10,13 +10,25 @@ final class MercatorConstants {
      */
     public static final double AEQUATOR_RADIUS = 6378137.0D;
     /**
+     * Minimaler Erdradius in m.
+     */
+    public static final double MITTLERER_RADIUS = 6371000.8D;
+    /**
      * Erdumfang in Meter.
      */
     public static final double ERD_UMFANG = 2.0D * getMittlererRadius() * Math.PI;
     /**
-     * RAD * ERD_UMFANG
+     * Math.PI / 2.0D
      */
-    public static final double RAD_ERD_UMFANG = getRad() * ERD_UMFANG;
+    public static final double PI_HALBE = Math.PI / 2.0D;
+    /**
+     * Math.PI / 4.0D
+     */
+    public static final double PI_VIERTEL = Math.PI / 4.0D;
+    /**
+     * Minimaler Erdradius in m.
+     */
+    public static final double POLAR_RADIUS = 6356752.3142D;
     /**
      * POLAR_RADIUS / AEQUATOR_RADIUS
      */
@@ -34,25 +46,13 @@ final class MercatorConstants {
      */
     public static final double EXZENTRIZITAET_HALBE = EXZENTRIZITAET / 2.0D;
     /**
-     * Minimaler Erdradius in m.
-     */
-    public static final double MITTLERER_RADIUS = 6371000.8D;
-    /**
-     * Math.PI / 2.0D
-     */
-    public static final double PI_HALBE = Math.PI / 2.0D;
-    /**
-     * Math.PI / 4.0D
-     */
-    public static final double PI_VIERTEL = Math.PI / 4.0D;
-    /**
-     * Minimaler Erdradius in m.
-     */
-    public static final double POLAR_RADIUS = 6356752.3142D;
-    /**
      * Rad = Winkel * (Math.PI / 180.0D) = Math.toRadians(Winkel)
      */
     public static final double RAD = Math.PI / 180.0D;
+    /**
+     * RAD * ERD_UMFANG
+     */
+    public static final double RAD_ERD_UMFANG = getRad() * ERD_UMFANG;
     /**
      * RAD * ERD_UMFANG
      */

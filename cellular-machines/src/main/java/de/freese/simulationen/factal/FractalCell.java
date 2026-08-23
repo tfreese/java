@@ -1,4 +1,3 @@
-// Created: 27.12.2021
 package de.freese.simulationen.factal;
 
 import java.awt.Color;
@@ -7,6 +6,7 @@ import de.freese.simulationen.model.AbstractCell;
 
 /**
  * @author Thomas Freese
+ * @since 27.12.2021
  */
 public class FractalCell extends AbstractCell {
     static final int ITERATIONEN = 50;

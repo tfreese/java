@@ -1,4 +1,3 @@
-// Created: 04.03.2021
 package de.freese.simulationen;
 
 import java.awt.GraphicsDevice;
@@ -24,6 +23,7 @@ import de.freese.simulationen.model.SimulationType;
  * -console -type wator -cycles 1500 -size 3840 2160 -dir /tmp/simulationen<br>
  *
  * @author Thomas Freese
+ * @since 04.03.2021
  */
 public final class SimulationLauncher {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimulationLauncher.class);
@@ -56,7 +56,7 @@ public final class SimulationLauncher {
 
             throw new IllegalArgumentException("parameter not supported");
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }

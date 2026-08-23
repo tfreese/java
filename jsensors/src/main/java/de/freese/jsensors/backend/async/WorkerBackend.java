@@ -1,4 +1,3 @@
-// Created: 26.04.2019
 package de.freese.jsensors.backend.async;
 
 import java.util.Objects;
@@ -18,6 +17,7 @@ import de.freese.jsensors.utils.LifeCycle;
  * Analog org/apache/logging/log4j/core/appender/AsyncAppenderEventDispatcher.java
  *
  * @author Thomas Freese
+ * @since 26.04.2019
  */
 public class WorkerBackend extends AbstractBackend implements LifeCycle {
     private static final SensorValue STOP_VALUE = new DefaultSensorValue("STOP_VALUE", "STOP_VALUE", 1);
@@ -29,7 +29,7 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
         @Override
         public void run() {
             while (!stoppedRef.get()) {
-                SensorValue sensorValue = null;
+                final SensorValue sensorValue;
 
                 try {
                     sensorValue = WorkerBackend.this.queue.take();

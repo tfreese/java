@@ -42,17 +42,17 @@ public class Matrix {
      */
     public static Matrix mirrorX() {
         final Matrix myMat = new Matrix();
-        myMat.m11 = 1;
-        myMat.m12 = 0;
-        myMat.m13 = 0;
+        myMat.m11 = 1D;
+        myMat.m12 = 0D;
+        myMat.m13 = 0D;
 
-        myMat.m21 = 0;
-        myMat.m22 = -1;
-        myMat.m23 = 0;
+        myMat.m21 = 0D;
+        myMat.m22 = -1D;
+        myMat.m23 = 0D;
 
-        myMat.m31 = 0;
-        myMat.m32 = 0;
-        myMat.m33 = 1;
+        myMat.m31 = 0D;
+        myMat.m32 = 0D;
+        myMat.m33 = 1D;
 
         return myMat;
     }
@@ -64,17 +64,17 @@ public class Matrix {
      */
     public static Matrix mirrorY() {
         final Matrix myMat = new Matrix();
-        myMat.m11 = -1;
-        myMat.m12 = 0;
-        myMat.m13 = 0;
+        myMat.m11 = -1D;
+        myMat.m12 = 0D;
+        myMat.m13 = 0D;
 
-        myMat.m21 = 0;
-        myMat.m22 = 1;
-        myMat.m23 = 0;
+        myMat.m21 = 0D;
+        myMat.m22 = 1D;
+        myMat.m23 = 0D;
 
-        myMat.m31 = 0;
-        myMat.m32 = 0;
-        myMat.m33 = 1;
+        myMat.m31 = 0D;
+        myMat.m32 = 0D;
+        myMat.m33 = 1D;
 
         return myMat;
     }
@@ -89,16 +89,16 @@ public class Matrix {
     public static Matrix rotate(final double alpha) {
         final Matrix myMat = new Matrix();
         myMat.m11 = Math.cos(alpha);
-        myMat.m12 = -1 * Math.sin(alpha);
-        myMat.m13 = 0;
+        myMat.m12 = -1D * Math.sin(alpha);
+        myMat.m13 = 0D;
 
         myMat.m21 = Math.sin(alpha);
         myMat.m22 = Math.cos(alpha);
-        myMat.m23 = 0;
+        myMat.m23 = 0D;
 
-        myMat.m31 = 0;
-        myMat.m32 = 0;
-        myMat.m33 = 1;
+        myMat.m31 = 0D;
+        myMat.m32 = 0D;
+        myMat.m33 = 1D;
 
         return myMat;
     }
@@ -113,16 +113,16 @@ public class Matrix {
     public static Matrix scale(final double scaleVal) {
         final Matrix myMat = new Matrix();
         myMat.m11 = scaleVal;
-        myMat.m12 = 0;
-        myMat.m13 = 0;
+        myMat.m12 = 0D;
+        myMat.m13 = 0D;
 
-        myMat.m21 = 0;
+        myMat.m21 = 0D;
         myMat.m22 = scaleVal;
-        myMat.m23 = 0;
+        myMat.m23 = 0D;
 
-        myMat.m31 = 0;
-        myMat.m32 = 0;
-        myMat.m33 = 1;
+        myMat.m31 = 0D;
+        myMat.m32 = 0D;
+        myMat.m33 = 1D;
 
         return myMat;
     }
@@ -137,17 +137,17 @@ public class Matrix {
      */
     public static Matrix translate(final double x, final double y) {
         final Matrix myMat = new Matrix();
-        myMat.m11 = 1;
-        myMat.m12 = 0;
+        myMat.m11 = 1D;
+        myMat.m12 = 0D;
         myMat.m13 = x;
 
-        myMat.m21 = 0;
-        myMat.m22 = 1;
+        myMat.m21 = 0D;
+        myMat.m22 = 1D;
         myMat.m23 = y;
 
-        myMat.m31 = 0;
-        myMat.m32 = 0;
-        myMat.m33 = 1;
+        myMat.m31 = 0D;
+        myMat.m32 = 0D;
+        myMat.m33 = 1D;
 
         return myMat;
     }
@@ -195,10 +195,10 @@ public class Matrix {
     public static Matrix zoomToFit(final Rectangle world, final Rectangle win) {
         // 1 - move center to 0
         // double alpha = 0 - _world.getCenterX();
-        final Matrix translateStep1 = translate(0 - world.getCenterX(), 0 - world.getCenterY());
+        final Matrix translateStep1 = translate(0D - world.getCenterX(), 0D - world.getCenterY());
 
         // 2 - Scale
-        Matrix scaleBy = null;
+        final Matrix scaleBy;
 
         if (getZoomFactorX(world, win) < getZoomFactorY(world, win)) {
             scaleBy = scale(getZoomFactorX(world, win));
@@ -263,17 +263,17 @@ public class Matrix {
         retval.m32 = (m12 * m31) - (m32 * m11);
         retval.m33 = (m11 * m22) - (m21 * m12);
 
-        retval.m11 *= 1 / myDet;
-        retval.m12 *= 1 / myDet;
-        retval.m13 *= 1 / myDet;
+        retval.m11 *= 1D / myDet;
+        retval.m12 *= 1D / myDet;
+        retval.m13 *= 1D / myDet;
 
-        retval.m21 *= 1 / myDet;
-        retval.m22 *= 1 / myDet;
-        retval.m23 *= 1 / myDet;
+        retval.m21 *= 1D / myDet;
+        retval.m22 *= 1D / myDet;
+        retval.m23 *= 1D / myDet;
 
-        retval.m31 *= 1 / myDet;
-        retval.m32 *= 1 / myDet;
-        retval.m33 *= 1 / myDet;
+        retval.m31 *= 1D / myDet;
+        retval.m32 *= 1D / myDet;
+        retval.m33 *= 1D / myDet;
 
         return retval;
     }
@@ -366,11 +366,8 @@ public class Matrix {
      */
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append("|").append(m11).append(";").append("|").append(m12).append(";").append("|").append(m13).append("|").append(System.lineSeparator());
-        sb.append("|").append(m21).append(";").append("|").append(m22).append(";").append("|").append(m23).append("|").append(System.lineSeparator());
-        sb.append("|").append(m31).append(";").append("|").append(m32).append(";").append("|").append(m33).append("|").append(System.lineSeparator());
-
-        return sb.toString();
+        return "|" + m11 + ";" + "|" + m12 + ";" + "|" + m13 + "|" + System.lineSeparator() +
+                "|" + m21 + ";" + "|" + m22 + ";" + "|" + m23 + "|" + System.lineSeparator() +
+                "|" + m31 + ";" + "|" + m32 + ";" + "|" + m33 + "|" + System.lineSeparator();
     }
 }

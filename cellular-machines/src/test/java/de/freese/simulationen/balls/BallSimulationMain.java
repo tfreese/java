@@ -1,4 +1,3 @@
-// Created: 26.09.2016
 package de.freese.simulationen.balls;
 
 import java.awt.Color;
@@ -25,6 +24,7 @@ import javax.swing.SwingUtilities;
  * Simulation sich bewegender Bälle mit physikalisch korrektem Verhalten.
  *
  * @author Thomas Freese
+ * @since 26.09.2016
  */
 public final class BallSimulationMain extends JComponent {
     /**

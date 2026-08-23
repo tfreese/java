@@ -1,4 +1,3 @@
-// Created: 04.11.2018
 package de.freese.sonstiges.server.handler;
 
 import java.nio.charset.CharsetDecoder;
@@ -12,6 +11,7 @@ import org.slf4j.LoggerFactory;
  * Basis-Implementierung des {@link IoHandler}.
  *
  * @author Thomas Freese
+ * @since 04.11.2018
  */
 public abstract class AbstractIoHandler<T> implements IoHandler<T> {
 

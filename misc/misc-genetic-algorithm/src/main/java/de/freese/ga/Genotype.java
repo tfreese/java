@@ -1,4 +1,3 @@
-// Created: 29.06.2020
 package de.freese.ga;
 
 import java.util.Map.Entry;
@@ -15,6 +14,7 @@ import java.util.stream.Stream;
  * Genotype = Sammlung von Chromosomen / Lösungen
  *
  * @author Thomas Freese
+ * @since 29.06.2020
  */
 public abstract class Genotype {
     private final Chromosome[] chromosomes;

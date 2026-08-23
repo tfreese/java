@@ -77,7 +77,7 @@ class FileAndTextTransferHandler extends TransferHandler {
                 String str = null;
                 final List<?> files = (List<?>) t.getTransferData(fileFlavor);
 
-                for (Object file2 : files) {
+                for (final Object file2 : files) {
                     final File file = (File) file2;
 
                     // Tell the TabbedPane controller to add
@@ -91,7 +91,7 @@ class FileAndTextTransferHandler extends TransferHandler {
                             textArea.append(str + NEW_LINE);
                         }
                     }
-                    catch (IOException ex) {
+                    catch (final IOException ex) {
                         LOGGER.error("importData: Unable to read from file %s".formatted(file), ex);
                     }
                 }
@@ -115,10 +115,10 @@ class FileAndTextTransferHandler extends TransferHandler {
                 return true;
             }
         }
-        catch (UnsupportedFlavorException ex) {
+        catch (final UnsupportedFlavorException ex) {
             LOGGER.error("importData: unsupported data flavor", ex);
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             LOGGER.error("importData: I/O exception", ex);
         }
 
@@ -141,7 +141,7 @@ class FileAndTextTransferHandler extends TransferHandler {
             p0 = doc.createPosition(start);
             p1 = doc.createPosition(end);
         }
-        catch (BadLocationException ex) {
+        catch (final BadLocationException ex) {
             LOGGER.error("Can't create position - unable to remove text from source.", ex);
         }
 
@@ -160,7 +160,7 @@ class FileAndTextTransferHandler extends TransferHandler {
                     final JTextComponent tc = (JTextComponent) c;
                     tc.getDocument().remove(p0.getOffset(), p1.getOffset() - p0.getOffset());
                 }
-                catch (BadLocationException ex) {
+                catch (final BadLocationException ex) {
                     LOGGER.error("Can't remove text from source.", ex);
                 }
             }
@@ -170,7 +170,7 @@ class FileAndTextTransferHandler extends TransferHandler {
     }
 
     private boolean hasFileFlavor(final DataFlavor[] flavors) {
-        for (DataFlavor flavor : flavors) {
+        for (final DataFlavor flavor : flavors) {
             if (fileFlavor.equals(flavor)) {
                 return true;
             }
@@ -180,7 +180,7 @@ class FileAndTextTransferHandler extends TransferHandler {
     }
 
     private boolean hasStringFlavor(final DataFlavor[] flavors) {
-        for (DataFlavor flavor : flavors) {
+        for (final DataFlavor flavor : flavors) {
             if (stringFlavor.equals(flavor)) {
                 return true;
             }

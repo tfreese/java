@@ -1,4 +1,3 @@
-// Created: 11 Apr. 2025
 package de.freese.gradle.cache;
 
 import java.time.Duration;
@@ -19,6 +18,7 @@ import de.freese.gradle.cache.storage.Storage;
  * <a href="https://github.com/sinwe/http-gradle-cache-server/tree/master">http-gradle-cache-server</a>
  *
  * @author Thomas Freese
+ * @since 11.04.2025
  */
 @SpringBootApplication
 @EnableScheduling

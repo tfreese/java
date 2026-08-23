@@ -1,4 +1,3 @@
-// Created: 08.07.2018
 package de.freese.metamodel.metagen;
 
 import java.sql.Connection;
@@ -25,6 +24,7 @@ import de.freese.metamodel.metagen.model.UniqueConstraint;
  * Basis-Implementierung eines {@link MetaExporter}.
  *
  * @author Thomas Freese
+ * @since 08.07.2018
  */
 public abstract class AbstractMetaExporter implements MetaExporter {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -35,7 +35,7 @@ public abstract class AbstractMetaExporter implements MetaExporter {
 
         final List<Schema> schemas = generateSchemas(dataSource, schemaNamePattern);
 
-        for (Schema schema : schemas) {
+        for (final Schema schema : schemas) {
             // Tabellen des Schemas
             generateTables(dataSource, schema, tableNamePattern);
 
@@ -47,22 +47,22 @@ public abstract class AbstractMetaExporter implements MetaExporter {
             generateSequences(dataSource, schema);
 
             // Spalten der Tabellen
-            for (Table table : schema.getTables()) {
+            for (final Table table : schema.getTables()) {
                 generateColumns(dataSource, table);
             }
 
             // PrimaryKeys der Tabellen
-            for (Table table : schema.getTables()) {
+            for (final Table table : schema.getTables()) {
                 generatePrimaryKeys(dataSource, table);
             }
 
             // ForeignKeys der Spalten
-            for (Table table : schema.getTables()) {
+            for (final Table table : schema.getTables()) {
                 generateForeignKeys(dataSource, table);
             }
 
             // Indices der Tabelle
-            for (Table table : schema.getTables()) {
+            for (final Table table : schema.getTables()) {
                 generateIndices(dataSource, table);
             }
 

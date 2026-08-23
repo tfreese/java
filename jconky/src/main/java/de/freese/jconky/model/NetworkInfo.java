@@ -1,8 +1,8 @@
-// Created: 19.12.2020
 package de.freese.jconky.model;
 
 /**
  * @author Thomas Freese
+ * @since 19.12.2020
  */
 public class NetworkInfo {
     private final long bytesReceived;

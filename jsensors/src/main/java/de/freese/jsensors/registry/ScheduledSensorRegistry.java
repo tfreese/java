@@ -1,4 +1,3 @@
-// Created: 03.09.2021
 package de.freese.jsensors.registry;
 
 import java.util.Objects;
@@ -19,6 +18,7 @@ import de.freese.jsensors.utils.LifeCycle;
  * Use {@link CompositeBackend} for multiple {@link Backend}s for one {@link Sensor}.
  *
  * @author Thomas Freese
+ * @since 03.09.2021
  */
 public class ScheduledSensorRegistry extends AbstractSensorRegistry implements LifeCycle {
     private final int corePoolSize;

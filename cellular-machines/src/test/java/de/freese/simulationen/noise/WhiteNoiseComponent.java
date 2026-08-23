@@ -1,4 +1,3 @@
-// Created: 30 Nov. 2024
 package de.freese.simulationen.noise;
 
 import java.awt.Graphics;
@@ -7,6 +6,7 @@ import javax.swing.JComponent;
 
 /**
  * @author Thomas Freese
+ * @since 30.11.2024
  */
 final class WhiteNoiseComponent extends AbstractWhiteNoise {
     private final JComponent component;

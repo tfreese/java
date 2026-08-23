@@ -1,4 +1,3 @@
-// Created: 03.12.2020
 package de.freese.jconky.painter;
 
 import javafx.scene.canvas.GraphicsContext;
@@ -7,6 +6,7 @@ import de.freese.jconky.model.HostInfo;
 
 /**
  * @author Thomas Freese
+ * @since 03.12.2020
  */
 public class HostMonitorPainter extends AbstractMonitorPainter {
     @Override

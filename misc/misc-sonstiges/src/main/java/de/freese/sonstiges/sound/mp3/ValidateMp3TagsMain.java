@@ -1,4 +1,3 @@
-// Created: 28.09.2013
 package de.freese.sonstiges.sound.mp3;
 
 import java.io.File;
@@ -28,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 28.09.2013
  */
 public final class ValidateMp3TagsMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ValidateMp3TagsMain.class);

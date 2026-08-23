@@ -1,4 +1,3 @@
-// Created: 29.06.2020
 package de.freese.ga.examples.travelling_salesman;
 
 import java.util.ArrayList;
@@ -9,6 +8,7 @@ import de.freese.ga.Config;
 
 /**
  * @author Thomas Freese
+ * @since 29.06.2020
  */
 public class TspConfig extends Config {
     private final List<City> cities = new ArrayList<>();

@@ -1,4 +1,3 @@
-// Created: 25.12.2020
 package de.freese.jconky;
 
 import java.awt.Color;
@@ -14,6 +13,7 @@ import javafx.scene.Scene;
 
 /**
  * @author Thomas Freese
+ * @since 25.12.2020
  */
 public final class JConkySwingWindowMain {
     static void main() {

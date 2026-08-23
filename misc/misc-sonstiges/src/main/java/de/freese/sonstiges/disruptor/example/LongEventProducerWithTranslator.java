@@ -1,4 +1,3 @@
-// Created: 26.08.2020
 package de.freese.sonstiges.disruptor.example;
 
 import java.nio.ByteBuffer;
@@ -8,6 +7,7 @@ import com.lmax.disruptor.RingBuffer;
 
 /**
  * @author Thomas Freese
+ * @since 26.08.2020
  */
 public class LongEventProducerWithTranslator {
     private static final EventTranslatorOneArg<LongEvent, ByteBuffer> TRANSLATOR = (event, sequence, bb) -> event.setValue(bb.getLong(0));

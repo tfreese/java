@@ -1,4 +1,3 @@
-// Created: 02.09.2021
 package de.freese.jsensors.sensor;
 
 import java.lang.ref.WeakReference;
@@ -14,6 +13,7 @@ import org.slf4j.LoggerFactory;
  * @param <T> Type of the object from which the value is extracted.
  *
  * @author Thomas Freese
+ * @since 02.09.2021
  */
 public class DefaultSensor<T> implements Sensor {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultSensor.class);

@@ -1,4 +1,3 @@
-// Created: 31.05.2017
 package de.freese.jsensors.backend.file;
 
 import java.nio.file.Files;
@@ -19,6 +18,7 @@ import de.freese.jsensors.utils.Utils;
  * Every {@link Sensor} has its own file.<br>
  *
  * @author Thomas Freese
+ * @since 31.05.2017
  */
 public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
     /**

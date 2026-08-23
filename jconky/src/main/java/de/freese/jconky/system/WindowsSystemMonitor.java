@@ -1,4 +1,3 @@
-// Created: 05 Juni 2025
 package de.freese.jconky.system;
 
 import java.util.Map;
@@ -11,6 +10,7 @@ import de.freese.jconky.model.UsageInfo;
 
 /**
  * @author Thomas Freese
+ * @since 05.06.2025
  */
 public final class WindowsSystemMonitor extends AbstractSystemMonitor {
     // private final ProcessBuilder processBuilderCpu;

@@ -1,4 +1,3 @@
-// Created: 13.07.2016
 package de.freese.sonstiges.demos;
 
 import java.lang.management.ManagementFactory;
@@ -28,6 +27,7 @@ import org.springframework.boot.jdbc.DatabaseDriver;
 
 /**
  * @author Thomas Freese
+ * @since 13.07.2016
  */
 public final class JmxDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(JmxDemo.class);
@@ -78,7 +78,8 @@ public final class JmxDemo {
                     try {
                         if (poolProxy == null) {
                             LOGGER.info("Hikari not initialized, please wait...");
-                        } else {
+                        }
+                        else {
                             LOGGER.info("HikariPoolState: Active={}; Idle={}, Total={}, WaitingThreads={}",
                                     poolProxy.getActiveConnections(),
                                     poolProxy.getIdleConnections(),

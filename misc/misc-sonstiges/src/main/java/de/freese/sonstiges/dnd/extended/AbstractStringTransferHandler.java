@@ -1,9 +1,5 @@
 package de.freese.sonstiges.dnd.extended;
 
-/*
- * StringTransferHandler.java is used by the 1.4 ExtendedDnDMain.java example.
- */
-
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
@@ -23,7 +19,7 @@ abstract class AbstractStringTransferHandler extends TransferHandler {
 
     @Override
     public boolean canImport(final JComponent c, final DataFlavor[] flavors) {
-        for (DataFlavor flavor : flavors) {
+        for (final DataFlavor flavor : flavors) {
             if (DataFlavor.stringFlavor.equals(flavor)) {
                 return true;
             }

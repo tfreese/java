@@ -1,4 +1,3 @@
-// Created: 22.07.2018
 package de.freese.metamodel.modelgen.naming;
 
 import java.util.regex.Pattern;
@@ -8,6 +7,7 @@ import java.util.stream.Collectors;
  * Basis-Implementierung der Namenskonvertierung.
  *
  * @author Thomas Freese
+ * @since 22.07.2018
  */
 public abstract class AbstractNamingStrategy implements NamingStrategy {
     private static final Pattern PATTERN_SPLIT = Pattern.compile("[-_ ]");

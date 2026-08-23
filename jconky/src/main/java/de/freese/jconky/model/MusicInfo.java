@@ -1,10 +1,10 @@
-// Created: 23.12.2020
 package de.freese.jconky.model;
 
 import java.net.URI;
 
 /**
  * @author Thomas Freese
+ * @since 23.12.2020
  */
 public class MusicInfo {
     private final String album;

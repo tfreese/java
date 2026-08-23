@@ -1,4 +1,3 @@
-// Created: 04.04.2012
 package de.freese.sonstiges.forkjoin.finder;
 
 import java.util.concurrent.ForkJoinPool;
@@ -8,6 +7,7 @@ import java.util.concurrent.ForkJoinPool;
  * Suche nach grössten Element im Array.
  *
  * @author Thomas Freese
+ * @since 04.04.2012
  */
 public class MaxFinder {
     private final int[] array;

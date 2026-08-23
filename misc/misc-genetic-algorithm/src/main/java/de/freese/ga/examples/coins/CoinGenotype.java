@@ -1,4 +1,3 @@
-// Created: 29.06.2020
 package de.freese.ga.examples.coins;
 
 import java.util.Objects;
@@ -10,6 +9,7 @@ import de.freese.ga.Genotype;
 
 /**
  * @author Thomas Freese
+ * @since 29.06.2020
  */
 public class CoinGenotype extends Genotype {
     public CoinGenotype(final CoinConfig config) {

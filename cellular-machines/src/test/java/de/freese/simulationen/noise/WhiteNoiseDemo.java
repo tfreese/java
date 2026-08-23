@@ -1,4 +1,3 @@
-// Created: 30 Nov. 2024
 package de.freese.simulationen.noise;
 
 import java.awt.BorderLayout;
@@ -17,6 +16,7 @@ import javax.swing.border.TitledBorder;
 
 /**
  * @author Thomas Freese
+ * @since 30.11.2024
  */
 public final class WhiteNoiseDemo {
     static void main() {

@@ -1,4 +1,3 @@
-// Created: 13 Apr. 2025
 package de.freese.gradle.cache.lock;
 
 import java.util.Map;
@@ -12,6 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * Concurrency handled by {@link ReentrantLock}.
  *
  * @author Thomas Freese
+ * @since 13.04.2025
  */
 public final class ReentrantLockByKey implements LockByKey {
     private static final Map<String, LockWrapper> LOCKS = new ConcurrentHashMap<>();

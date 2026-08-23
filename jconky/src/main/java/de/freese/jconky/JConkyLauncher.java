@@ -1,4 +1,3 @@
-// Created: 24.12.2020
 package de.freese.jconky;
 
 import java.text.NumberFormat;
@@ -10,6 +9,7 @@ import com.sun.javafx.application.PlatformImpl;
 
 /**
  * @author Thomas Freese
+ * @since 24.12.2020
  */
 public final class JConkyLauncher {
     static void main(final String[] args) {

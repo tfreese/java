@@ -1,4 +1,3 @@
-// Created: 22.07.2018
 package de.freese.metamodel.modelgen.mapping;
 
 import java.sql.JDBCType;
@@ -9,6 +8,7 @@ import java.util.TreeMap;
  * Basis-Implementierung des Typ-Mappings.
  *
  * @author Thomas Freese
+ * @since 22.07.2018
  */
 public abstract class AbstractTypeMapping implements TypeMapping {
     private final Map<JDBCType, Type> notNullMappings = new TreeMap<>();

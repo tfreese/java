@@ -1,4 +1,3 @@
-// Created: 22.04.2020
 package de.freese.metamodel.modelgen;
 
 import de.freese.metamodel.metagen.model.Table;
@@ -6,6 +5,7 @@ import de.freese.metamodel.modelgen.model.ClassModel;
 
 /**
  * @author Thomas Freese
+ * @since 22.04.2020
  */
 public class PojoModelGenerator extends AbstractModelGenerator {
     @Override

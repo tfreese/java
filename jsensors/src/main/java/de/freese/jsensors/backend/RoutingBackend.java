@@ -1,4 +1,3 @@
-// Created: 04.09.2021
 package de.freese.jsensors.backend;
 
 import java.util.HashMap;
@@ -11,6 +10,7 @@ import de.freese.jsensors.sensor.SensorValue;
  * Routes a {@link SensorValue} to multiple {@link Backend}s for a {@link Sensor}.
  *
  * @author Thomas Freese
+ * @since 04.09.2021
  */
 public class RoutingBackend extends AbstractBackend {
     private final Map<String, CompositeBackend> routes = new HashMap<>();

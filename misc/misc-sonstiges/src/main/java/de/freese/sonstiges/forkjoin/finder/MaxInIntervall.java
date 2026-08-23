@@ -1,4 +1,3 @@
-// Created: 04.04.2012
 package de.freese.sonstiges.forkjoin.finder;
 
 import java.io.Serial;
@@ -9,6 +8,7 @@ import java.util.concurrent.RecursiveAction;
  * Suche nach grössten Element im Array.
  *
  * @author Thomas Freese
+ * @since 04.04.2012
  */
 public class MaxInIntervall extends RecursiveAction {
     @Serial

@@ -1,4 +1,3 @@
-// Created: 26.08.2020
 package de.freese.sonstiges.disruptor.example;
 
 import com.lmax.disruptor.EventHandler;
@@ -7,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 26.08.2020
  */
 public class CleaningEventHandler implements EventHandler<LongEvent> {
     private static final Logger LOGGER = LoggerFactory.getLogger(CleaningEventHandler.class);

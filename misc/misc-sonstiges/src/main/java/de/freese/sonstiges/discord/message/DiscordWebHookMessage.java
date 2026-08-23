@@ -1,4 +1,3 @@
-// Created: 06.07.2021
 package de.freese.sonstiges.discord.message;
 
 import java.util.ArrayList;
@@ -9,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * @author Thomas Freese
+ * @since 06.07.2021
  */
 @JsonPropertyOrder({"tts", "avatar_url", "username", "content"})
 public class DiscordWebHookMessage {

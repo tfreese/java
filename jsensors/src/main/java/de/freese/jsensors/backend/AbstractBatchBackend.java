@@ -1,4 +1,3 @@
-// Created: 09.11.2020
 package de.freese.jsensors.backend;
 
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import de.freese.jsensors.sensor.SensorValue;
  * Base Implementation for a {@link Backend} with Batching.
  *
  * @author Thomas Freese
+ * @since 09.11.2020
  */
 public abstract class AbstractBatchBackend extends AbstractBackend {
     private final int batchSize;

@@ -1,4 +1,3 @@
-// Created: 08.09.2020
 package de.freese.sonstiges.server.multithread.dispatcher;
 
 import java.nio.channels.SelectionKey;
@@ -18,6 +17,7 @@ import de.freese.sonstiges.server.multithread.AbstractNioProcessor;
  * The {@link IoHandler} handles the Request and Response in a separate Thread.<br>
  *
  * @author Thomas Freese
+ * @since 08.09.2020
  */
 class DefaultDispatcher extends AbstractNioProcessor implements Dispatcher {
     private final Executor executor;
@@ -46,7 +46,7 @@ class DefaultDispatcher extends AbstractNioProcessor implements Dispatcher {
 
             getSelector().wakeup();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }
@@ -67,7 +67,7 @@ class DefaultDispatcher extends AbstractNioProcessor implements Dispatcher {
             try {
                 socketChannel.close();
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
             }
         }
@@ -132,7 +132,7 @@ class DefaultDispatcher extends AbstractNioProcessor implements Dispatcher {
                 socketChannel.register(getSelector(), SelectionKey.OP_READ);
                 // selectionKey.attach(obj)
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
             }
         }

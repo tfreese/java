@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
  * Example for Print and Print-Preview.
  *
  * @author Thomas Freese
+ * @since 29.06.2003
  */
 public final class PrintPreviewMain extends JPanel implements Printable, ActionListener {
     private static final int BORDER_SIZE = 50;
@@ -229,7 +230,7 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
         try {
             printerJob.print();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }
@@ -266,7 +267,7 @@ public final class PrintPreviewMain extends JPanel implements Printable, ActionL
     private void enterText() {
         final Object userInput = JOptionPane.showInputDialog(null, "Bitte einen Text eingeben", "Drucktext", JOptionPane.PLAIN_MESSAGE, null, null, text);
 
-        if (userInput instanceof String t) {
+        if (userInput instanceof final String t) {
             text = t;
 
             repaint(); // neu zeichnen

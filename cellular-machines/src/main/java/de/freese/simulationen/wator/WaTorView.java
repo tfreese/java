@@ -1,4 +1,3 @@
-// Created: 18.09.2009
 package de.freese.simulationen.wator;
 
 import java.awt.BorderLayout;
@@ -18,6 +17,7 @@ import de.freese.simulationen.SimulationView;
  * View for the WaTor-Simulation.
  *
  * @author Thomas Freese
+ * @since 18.09.2009
  */
 public class WaTorView extends SimulationView<WaTorRasterSimulation> {
     private static JSlider createSlider(final String title, final int value, final Color titleColor) {

@@ -1,4 +1,3 @@
-// Created: 29.06.2003
 package de.freese.sonstiges.particle;
 
 import java.awt.Canvas;
@@ -19,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 04.10.2018
  */
 class ParticleCanvas extends Canvas {
     private static final Logger LOGGER = LoggerFactory.getLogger(ParticleCanvas.class);

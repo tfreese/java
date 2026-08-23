@@ -1,4 +1,3 @@
-// Created: 29.06.2020
 package de.freese.ga.examples.sudoku;
 
 import java.io.InputStream;
@@ -9,11 +8,12 @@ import de.freese.ga.Genotype;
 
 /**
  * @author Thomas Freese
+ * @since 29.06.2020
  */
 public final class SudokuMain {
     static void main() throws Exception {
         final SudokuConfig config = new SudokuConfig();
-        List<String[]> puzzle = null;
+        final List<String[]> puzzle;
 
         try (InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream("sudoku_easy_1.txt")) {
             puzzle = config.parsePuzzle(inputStream);

@@ -1,4 +1,3 @@
-// Created: 22.09.2016
 package de.freese.sonstiges.imap.analyze;
 
 import java.util.function.Function;
@@ -14,6 +13,7 @@ import java.util.function.UnaryOperator;
  * </ul>
  *
  * @author Thomas Freese
+ * @since 22.09.2016
  */
 public class FunctionNormalizeGerman implements UnaryOperator<String> {
 

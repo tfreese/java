@@ -1,4 +1,3 @@
-// Created: 29.07.2018
 package de.freese.metamodel.modelgen.model;
 
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import java.util.TreeSet;
  * Definiert das Model einer Klasse.
  *
  * @author Thomas Freese
+ * @since 29.07.2018
  */
 public class ClassModel extends AbstractModel {
     private final List<FieldModel> fields = new ArrayList<>();

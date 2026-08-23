@@ -1,4 +1,3 @@
-// Created: 29.06.2020
 package de.freese.ga.examples.travelling_salesman;
 
 import java.util.ArrayList;
@@ -8,6 +7,7 @@ import java.util.List;
  * <a href="http://www.theprojectspot.com/tutorial-post/applying-a-genetic-algorithm-to-the-travelling-salesman-problem/5">travelling-salesman-problem</a>
  *
  * @author Thomas Freese
+ * @since 29.06.2020
  */
 public final class TspMain {
     static void main() {

@@ -1,4 +1,3 @@
-// Created: 28.09.2009
 package de.freese.simulationen.model;
 
 import java.awt.Color;
@@ -7,6 +6,7 @@ import java.awt.Color;
  * Dummy-Zelle für leere Flächen.
  *
  * @author Thomas Freese
+ * @since 28.09.2009
  */
 public class EmptyCell extends AbstractCell {
     public EmptyCell(final AbstractRasterSimulation simulation) {
@@ -24,11 +24,6 @@ public class EmptyCell extends AbstractCell {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append(super.toString());
-        sb.append(": ");
-        sb.append("Color[r=").append(getColor().getRed()).append(",g=").append(getColor().getGreen()).append(",b=").append(getColor().getBlue()).append("]");
-
-        return sb.toString();
+        return super.toString() + ": " + "Color[r=" + getColor().getRed() + ",g=" + getColor().getGreen() + ",b=" + getColor().getBlue() + "]";
     }
 }

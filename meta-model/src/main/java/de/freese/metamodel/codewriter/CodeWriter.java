@@ -1,4 +1,3 @@
-// Created: 26.07.2018
 package de.freese.metamodel.codewriter;
 
 import java.io.PrintStream;
@@ -9,6 +8,7 @@ import de.freese.metamodel.modelgen.model.ClassModel;
  * Erzeugt aus den MetaDaten den Quellcode.
  *
  * @author Thomas Freese
+ * @since 26.07.2018
  */
 public interface CodeWriter {
     /**

@@ -1,10 +1,10 @@
-// Created: 07.11.2009
 package de.freese.misc.generator.algorythm;
 
 /**
  * Interface für einen Algorithmus zum Erstellen von Sudoku-Rätseln.
  *
  * @author Thomas Freese
+ * @since 07.11.2009
  */
 @FunctionalInterface
 public interface SudokuAlgorithm {

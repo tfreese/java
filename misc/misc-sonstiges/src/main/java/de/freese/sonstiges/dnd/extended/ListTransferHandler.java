@@ -107,7 +107,7 @@ class ListTransferHandler extends AbstractStringTransferHandler {
         final String[] values = str.split(System.lineSeparator());
         addCount = values.length;
 
-        for (String value : values) {
+        for (final String value : values) {
             listModel.add(index++, value);
         }
     }

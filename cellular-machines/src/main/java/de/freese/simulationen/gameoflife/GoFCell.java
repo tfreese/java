@@ -1,4 +1,3 @@
-// Created: 11.03.2021
 package de.freese.simulationen.gameoflife;
 
 import java.awt.Color;
@@ -8,6 +7,7 @@ import de.freese.simulationen.model.AbstractCell;
 
 /**
  * @author Thomas Freese
+ * @since 11.03.2021
  */
 public class GoFCell extends AbstractCell {
     private final LongAdder lebendeNachbarn = new LongAdder();

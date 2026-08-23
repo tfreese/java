@@ -1,4 +1,3 @@
-// Created: 04.11.2018
 package de.freese.sonstiges.server.handler;
 
 import java.nio.ByteBuffer;
@@ -15,6 +14,7 @@ import de.freese.sonstiges.server.ServerMain;
 
 /**
  * @author Thomas Freese
+ * @since 04.11.2018
  */
 public class HttpIoHandler extends AbstractIoHandler<SelectionKey> {
     @Override

@@ -1,4 +1,3 @@
-// Created: 20.12.23
 package de.freese.led;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,6 +8,7 @@ import de.freese.led.model.token.NumberToken;
 
 /**
  * @author Thomas Freese
+ * @since 20.12.23
  */
 class TestToken {
     @Test

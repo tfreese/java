@@ -1,4 +1,3 @@
-// Created: 20.12.23
 package de.freese.led.painter;
 
 import java.awt.Color;
@@ -12,6 +11,7 @@ import de.freese.led.model.token.LedToken;
 
 /**
  * @author Thomas Freese
+ * @since 20.12.23
  */
 public abstract class AbstractLedPainter implements LedPainter {
     private final SymbolEncoder symbolEncoder;
@@ -36,7 +36,7 @@ public abstract class AbstractLedPainter implements LedPainter {
         int x = getDotWidth() + gethGap();
         final int y = getDotHeight() + getvGap();
 
-        for (LedToken token : tokens) {
+        for (final LedToken token : tokens) {
             final int tokenWidth = paintToken(graphics, token, x, y);
             x += tokenWidth;
 
@@ -106,7 +106,7 @@ public abstract class AbstractLedPainter implements LedPainter {
         int xOffset = 0;
         int yOffset = 0;
 
-        for (int code : encodedSymbol) {
+        for (final int code : encodedSymbol) {
             xOffset = 0;
 
             for (int xx = 0; xx < symbolEncoder.getHorizontalDots(); xx++) {
@@ -130,7 +130,7 @@ public abstract class AbstractLedPainter implements LedPainter {
         int xOffset = 0;
         final int yOffset = 0;
 
-        if (ledToken instanceof ArrowToken arrowToken) {
+        if (ledToken instanceof final ArrowToken arrowToken) {
             final int[] encodedSymbol = symbolEncoder.getEncoded(arrowToken.getArrow());
             final int symbolWidth = paintSymbol(graphics, encodedSymbol, x + xOffset, y + yOffset);
 

@@ -24,17 +24,17 @@ public interface Projection {
     /**
      * Mercator squares the world.
      */
-    double MAX_LAT = 85.05112877980659;
+    double MAX_LAT = 85.05112877980659D;
 
     /**
      * The maximum possible longitude is 180� .
      */
-    double MAX_LON = 180;
+    double MAX_LON = 180D;
 
     /**
      * The minimal distance that 2 coordinates in OpenStreetMap can have without being the same.
      */
-    double MAX_SERVER_PRECISION = 1e12;
+    double MAX_SERVER_PRECISION = 1e12D;
 
     /**
      * Convert from norting/easting to lat/lon.

@@ -1,10 +1,10 @@
-// Created: 22.07.2018
 package de.freese.metamodel.modelgen.naming;
 
 /**
  * Interface für die Namenskonvertierung.
  *
  * @author Thomas Freese
+ * @since 22.07.2018
  */
 public interface NamingStrategy {
     /**

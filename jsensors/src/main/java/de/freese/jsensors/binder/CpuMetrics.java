@@ -1,4 +1,3 @@
-// Created: 02.09.2021
 package de.freese.jsensors.binder;
 
 import java.lang.management.ManagementFactory;
@@ -11,6 +10,7 @@ import de.freese.jsensors.sensor.Sensor;
 
 /**
  * @author Thomas Freese
+ * @since 02.09.2021
  */
 public class CpuMetrics implements SensorBinder {
     private final com.sun.management.OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getPlatformMXBean(com.sun.management.OperatingSystemMXBean.class);
@@ -21,9 +21,9 @@ public class CpuMetrics implements SensorBinder {
     }
 
     private List<String> bindCpuUsage(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
-        Sensor.builder("cpu.usage", operatingSystemMXBean, bean -> Double.toString(bean.getCpuLoad() * 100D))
+        final Sensor usageSensor = Sensor.builder("cpu.usage", operatingSystemMXBean, bean -> Double.toString(bean.getCpuLoad() * 100D))
                 .description("CPU-Usage in %").register(registry, backendProvider);
 
-        return List.of("cpu.usage");
+        return List.of(usageSensor.getName());
     }
 }

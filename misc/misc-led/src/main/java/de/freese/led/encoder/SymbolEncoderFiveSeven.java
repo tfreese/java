@@ -1,4 +1,3 @@
-// Created: 20.12.23
 package de.freese.led.encoder;
 
 import java.util.HashMap;
@@ -11,6 +10,7 @@ import de.freese.led.model.token.ArrowToken;
  * Every int encodes a LED-Row bitwise, see {@link SymbolEncoderMain}.
  *
  * @author Thomas Freese
+ * @since 20.12.23
  */
 public class SymbolEncoderFiveSeven implements SymbolEncoder {
     private static final Map<Object, int[]> MAP;

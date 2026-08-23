@@ -1,10 +1,10 @@
-// Created: 06.11.2013
 package de.freese.sonstiges.mockito;
 
 import org.mockito.ArgumentMatcher;
 
 /**
  * @author Thomas Freese
+ * @since 06.11.2013
  */
 public class NonNegativeIntegerMatcher implements ArgumentMatcher<Integer> // CustomMatcher<Integer>
 {

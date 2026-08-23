@@ -1,4 +1,3 @@
-// Created: 06 Apr. 2025
 package de.freese.sonstiges;
 
 import java.io.IOException;
@@ -17,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 06.04.2025
  */
 public final class MvStoreDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(MvStoreDemo.class);
@@ -79,7 +79,7 @@ public final class MvStoreDemo {
         try {
             Files.deleteIfExists(PATH_MV_STORE);
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }

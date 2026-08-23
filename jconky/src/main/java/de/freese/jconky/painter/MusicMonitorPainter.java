@@ -1,4 +1,3 @@
-// Created: 23.12.2020
 package de.freese.jconky.painter;
 
 import java.net.URI;
@@ -13,6 +12,7 @@ import de.freese.jconky.util.JConkyUtils;
 
 /**
  * @author Thomas Freese
+ * @since 23.12.2020
  */
 public class MusicMonitorPainter extends AbstractMonitorPainter {
     private Image image;

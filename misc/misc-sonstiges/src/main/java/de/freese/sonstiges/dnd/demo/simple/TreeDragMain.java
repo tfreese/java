@@ -1,4 +1,3 @@
-// Created: 30.08.2004
 package de.freese.sonstiges.dnd.demo.simple;
 
 import java.awt.BorderLayout;
@@ -11,6 +10,7 @@ import javax.swing.JTree;
 
 /**
  * @author Thomas Freese
+ * @since 30.08.2004
  */
 public final class TreeDragMain extends JFrame {
     @Serial

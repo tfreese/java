@@ -109,7 +109,8 @@ public class MailRepository implements AutoCloseable {
         // else
         if (dataSource instanceof final AutoCloseable ac) {
             ac.close();
-        } else if (dataSource instanceof final DisposableBean db) {
+        }
+        else if (dataSource instanceof final DisposableBean db) {
             db.destroy();
         }
 
@@ -149,8 +150,8 @@ public class MailRepository implements AutoCloseable {
     }
 
     public void createDatabaseIfNotExist() throws Exception {
-        String dbName = "";
         boolean databaseExists = false;
+        String dbName;
 
         try (Connection connection = dataSource.getConnection();
              ResultSet resultSet = connection.getMetaData().getTables(null, null, "MESSAGE", new String[]{"TABLE"})) {
@@ -171,7 +172,8 @@ public class MailRepository implements AutoCloseable {
 
         if (dbName.contains("mysql") || dbName.contains("mariadb")) {
             schemaSql = "mail_schema_mysql.sql";
-        } else if (dbName.contains("oracle")) {
+        }
+        else if (dbName.contains("oracle")) {
             schemaSql = "mail_schema_oracle.sql";
         }
 
@@ -310,18 +312,21 @@ public class MailRepository implements AutoCloseable {
                         if (messageWrapper.isSpam()) {
                             pstTokenInsert.setInt(2, 0);
                             pstTokenInsert.setInt(3, 1);
-                        } else {
+                        }
+                        else {
                             pstTokenInsert.setInt(2, 1);
                             pstTokenInsert.setInt(3, 0);
                         }
 
                         pstTokenInsert.executeUpdate();
-                    } else {
+                    }
+                    else {
                         // Update
                         if (messageWrapper.isSpam()) {
                             pstTokenUpdate.setInt(1, token.getHamCount());
                             pstTokenUpdate.setInt(2, token.getSpamCount() + 1);
-                        } else {
+                        }
+                        else {
                             pstTokenUpdate.setInt(1, token.getHamCount() + 1);
                             pstTokenUpdate.setInt(2, token.getSpamCount());
                         }

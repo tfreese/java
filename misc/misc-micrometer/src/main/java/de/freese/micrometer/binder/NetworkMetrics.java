@@ -1,4 +1,3 @@
-// Created: 31.05.2021
 package de.freese.micrometer.binder;
 
 import java.io.IOException;
@@ -21,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 31.05.2021
  */
 public class NetworkMetrics implements MeterBinder {
 
@@ -41,7 +41,7 @@ public class NetworkMetrics implements MeterBinder {
         try {
             activeInterfaces.addAll(getActiveInterfaces());
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }
@@ -77,7 +77,7 @@ public class NetworkMetrics implements MeterBinder {
 
         final List<String> interfaces = new ArrayList<>();
 
-        for (Path interfacePath : interfacePaths) {
+        for (final Path interfacePath : interfacePaths) {
             final Path pathState = interfacePath.resolve("operstate");
 
             final String state = Files.readString(pathState);

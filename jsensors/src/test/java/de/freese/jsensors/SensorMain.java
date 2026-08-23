@@ -1,4 +1,3 @@
-// Created: 31.10.2020
 package de.freese.jsensors;
 
 import static org.awaitility.Awaitility.await;
@@ -19,6 +18,7 @@ import de.freese.jsensors.utils.JSensorThreadFactory;
 
 /**
  * @author Thomas Freese
+ * @since 31.10.2020
  */
 public final class SensorMain {
     static void main() {

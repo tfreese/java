@@ -83,7 +83,7 @@ class ColorTransferHandler extends TransferHandler {
             return false;
         }
 
-        for (DataFlavor flavor : flavors) {
+        for (final DataFlavor flavor : flavors) {
             if (colorFlavor.equals(flavor)) {
                 return true;
             }

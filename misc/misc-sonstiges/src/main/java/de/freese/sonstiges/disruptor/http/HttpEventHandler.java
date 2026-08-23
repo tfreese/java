@@ -1,4 +1,3 @@
-// Created: 26.08.2020
 package de.freese.sonstiges.disruptor.http;
 
 import java.nio.ByteBuffer;
@@ -12,6 +11,7 @@ import de.freese.sonstiges.disruptor.AbstractLoadBalancedEventHandler;
 
 /**
  * @author Thomas Freese
+ * @since 26.08.2020
  */
 public class HttpEventHandler extends AbstractLoadBalancedEventHandler<HttpEvent> {
     private final Map<String, Boolean> mapResponseReady;
@@ -62,25 +62,21 @@ public class HttpEventHandler extends AbstractLoadBalancedEventHandler<HttpEvent
     }
 
     private String serverResponse(final long sequence) {
-        final StringBuilder body = new StringBuilder()
-                .append("<html lang=\"de\">").append(System.lineSeparator())
-                .append(" <head>").append(System.lineSeparator())
-                .append("     <meta charset=\"UTF-8\">").append(System.lineSeparator())
-                .append("     <title>Disruptor-Demo</title>").append(System.lineSeparator())
-                .append(" </head>").append(System.lineSeparator())
-                .append(" <body>").append(System.lineSeparator())
-                .append("     Sample Response: ").append(LocalDateTime.now(ZoneId.systemDefault())).append("<br>").append(System.lineSeparator())
-                .append("     Sequence: ").append(sequence).append("<br>").append(System.lineSeparator())
-                .append(" </body>").append(System.lineSeparator())
-                .append("</html>").append(System.lineSeparator());
+        final String body = "<html lang=\"de\">" + System.lineSeparator() +
+                " <head>" + System.lineSeparator() +
+                "     <meta charset=\"UTF-8\">" + System.lineSeparator() +
+                "     <title>Disruptor-Demo</title>" + System.lineSeparator() +
+                " </head>" + System.lineSeparator() +
+                " <body>" + System.lineSeparator() +
+                "     Sample Response: " + LocalDateTime.now(ZoneId.systemDefault()) + "<br>" + System.lineSeparator() +
+                "     Sequence: " + sequence + "<br>" + System.lineSeparator() +
+                " </body>" + System.lineSeparator() +
+                "</html>" + System.lineSeparator();
 
-        final StringBuilder sb = new StringBuilder()
-                .append("HTTP/1.1 200 OK").append(System.lineSeparator())
-                .append("Server: disruptor").append(System.lineSeparator())
-                .append("Content-type: text/html").append(System.lineSeparator())
-                .append(System.lineSeparator())
-                .append(body);
-
-        return sb.toString();
+        return "HTTP/1.1 200 OK" + System.lineSeparator() +
+                "Server: disruptor" + System.lineSeparator() +
+                "Content-type: text/html" + System.lineSeparator() +
+                System.lineSeparator() +
+                body;
     }
 }

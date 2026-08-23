@@ -1,4 +1,3 @@
-// Created: 04.10.2018
 package de.freese.sonstiges.particle;
 
 import java.awt.Dimension;
@@ -11,6 +10,7 @@ import javax.swing.SwingUtilities;
 
 /**
  * @author Thomas Freese
+ * @since 04.10.2018
  */
 public final class ParticleFrameMain extends JFrame {
     @Serial

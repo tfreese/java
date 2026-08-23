@@ -1,4 +1,3 @@
-// Created: 08.07.2018
 package de.freese.metamodel;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -32,6 +31,7 @@ import de.freese.metamodel.modelgen.model.ClassModel;
 
 /**
  * @author Thomas Freese
+ * @since 08.07.2018
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestPojoCodeGenerator {
@@ -74,10 +74,10 @@ class TestPojoCodeGenerator {
         // ClassModel als Code schreiben.
         final AbstractCodeWriter codeWriter = new JavaCodeWriter();
 
-        for (Schema schema : schemas) {
+        for (final Schema schema : schemas) {
             final List<ClassModel> classModels = modelGenerator.generate(schema);
 
-            for (ClassModel classModel : classModels) {
+            for (final ClassModel classModel : classModels) {
                 final Path pathFile = pathPojo.resolve(classModel.getName() + codeWriter.getFileExtension());
 
                 try (PrintStream ps = new PrintStream(new BufferedOutputStream(Files.newOutputStream(pathFile)), true, StandardCharsets.UTF_8)) {

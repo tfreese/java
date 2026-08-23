@@ -1,4 +1,3 @@
-// Created: 29.07.2018
 package de.freese.metamodel.modelgen.model;
 
 import java.util.Objects;
@@ -9,6 +8,7 @@ import de.freese.metamodel.ClassUtils;
  * Definiert das Model eines Klassen-Attributs.
  *
  * @author Thomas Freese
+ * @since 29.07.2018
  */
 public class FieldModel extends AbstractModel {
     private final ClassModel classModel;
@@ -95,7 +95,7 @@ public class FieldModel extends AbstractModel {
 
                 fieldClazz = ClassUtils.forName(getFieldClazzName(), null);
             }
-            catch (ClassNotFoundException ex) {
+            catch (final ClassNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
         }

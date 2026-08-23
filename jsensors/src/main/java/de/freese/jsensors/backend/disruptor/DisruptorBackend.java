@@ -1,4 +1,3 @@
-// Created: 27.10.2020
 package de.freese.jsensors.backend.disruptor;
 
 import java.util.Objects;
@@ -21,6 +20,7 @@ import de.freese.jsensors.utils.LifeCycle;
  * Use this with {@link RoutingBackend} to support multiple {@link Sensor}s.
  *
  * @author Thomas Freese
+ * @since 27.10.2020
  */
 public class DisruptorBackend extends AbstractBackend implements LifeCycle {
     private final Backend delegateBackend;

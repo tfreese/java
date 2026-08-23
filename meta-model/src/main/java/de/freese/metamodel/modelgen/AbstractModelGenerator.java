@@ -1,4 +1,3 @@
-// Created: 22.04.2020
 package de.freese.metamodel.modelgen;
 
 import java.sql.JDBCType;
@@ -24,6 +23,7 @@ import de.freese.metamodel.modelgen.naming.NamingStrategy;
  * Erzeugt aus den MetaDaten das CodeModel.
  *
  * @author Thomas Freese
+ * @since 22.04.2020
  */
 public abstract class AbstractModelGenerator {
     private boolean addFullConstructor;
@@ -38,7 +38,7 @@ public abstract class AbstractModelGenerator {
 
         final List<ClassModel> classModels = new ArrayList<>(schema.getTables().size());
 
-        for (Table table : schema.getTables()) {
+        for (final Table table : schema.getTables()) {
             final ClassModel classModel = transformClass(table);
             classModel.setPackageName(getPackageName());
 
@@ -153,7 +153,7 @@ public abstract class AbstractModelGenerator {
         transformClassJavaDoc(table, classModel);
         transformClassAnnotations(table, classModel);
 
-        for (Column column : table.getColumnsOrdered()) {
+        for (final Column column : table.getColumnsOrdered()) {
             transformField(column, classModel);
         }
 
@@ -170,7 +170,7 @@ public abstract class AbstractModelGenerator {
         final String fieldName = getNamingStrategy().getFieldName(column.getName());
         final ClassType type = (ClassType) getTypeMapping().getType(column.getJdbcType(), column.isNullable());
 
-        final FieldModel fieldModel = classModel.addField(fieldName, type.getJavaClass());
+        final FieldModel fieldModel = classModel.addField(fieldName, type.javaClass());
         fieldModel.setPayload(column);
 
         transformFieldComments(column, fieldModel);

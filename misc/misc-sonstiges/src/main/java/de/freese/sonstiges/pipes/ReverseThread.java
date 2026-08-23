@@ -39,7 +39,7 @@ public class ReverseThread extends Thread {
     public void run() {
         if (out != null && in != null) {
             try {
-                String input = null;
+                String input;
 
                 while ((input = in.readLine()) != null) {
                     out.println(reverseIt(input));
@@ -48,7 +48,7 @@ public class ReverseThread extends Thread {
 
                 out.close();
             }
-            catch (IOException ex) {
+            catch (final IOException ex) {
                 LOGGER.error(ex.getMessage(), ex);
             }
         }

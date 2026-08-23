@@ -41,8 +41,8 @@ public final class CaffeineDemo {
 
             // Caffeine.from("maximumSize=10,expireAfterAccess=3s,recordStats")
             final LoadingCache<String, String> cache = Caffeine.newBuilder()
-                    .expireAfterAccess(3, TimeUnit.SECONDS)
-                    .maximumSize(100)
+                    .expireAfterAccess(3L, TimeUnit.SECONDS)
+                    .maximumSize(100L)
                     .weakKeys()
                     .weakValues()
                     .recordStats()
@@ -64,25 +64,25 @@ public final class CaffeineDemo {
             LOGGER.info("hitRate: {}%", BigDecimal.valueOf(cacheStats.hitRate() * 100D).setScale(3, RoundingMode.HALF_UP).doubleValue());
             LOGGER.info("missRate: {}%", BigDecimal.valueOf(cacheStats.missRate() * 100D).setScale(3, RoundingMode.HALF_UP).doubleValue());
 
-            TimeUnit.SECONDS.sleep(2);
+            TimeUnit.SECONDS.sleep(2L);
             cache.get("c"); // Triggert Refresh, wenn Timeout vorbei ist.
 
-            TimeUnit.SECONDS.sleep(3);
+            TimeUnit.SECONDS.sleep(3L);
             cache.get("d");
 
             cache.invalidateAll();
             cache.cleanUp();
 
             // Time for cleanup.
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(1L);
         }
-        catch (InterruptedException ex) {
+        catch (final InterruptedException ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             // Restore interrupted state.
             Thread.currentThread().interrupt();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }

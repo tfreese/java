@@ -1,4 +1,3 @@
-// Created: 04.04.2012
 package de.freese.sonstiges.forkjoin;
 
 import java.util.concurrent.ForkJoinPool;
@@ -12,6 +11,7 @@ import de.freese.sonstiges.forkjoin.fibonacci.FibonacciCalculator;
  * Berechnet den Fibonacci-Wert.
  *
  * @author Thomas Freese
+ * @since 04.04.2012
  */
 public final class ForkJoinFibonacciCalculatorMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ForkJoinFibonacciCalculatorMain.class);

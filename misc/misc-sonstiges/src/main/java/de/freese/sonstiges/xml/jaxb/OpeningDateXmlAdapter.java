@@ -1,4 +1,3 @@
-// Created: 21.01.2010
 package de.freese.sonstiges.xml.jaxb;
 
 import java.time.LocalDate;
@@ -8,6 +7,7 @@ import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * @author Thomas Freese
+ * @since 21.01.2010
  */
 public class OpeningDateXmlAdapter extends XmlAdapter<String, LocalDate> {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");

@@ -1,4 +1,3 @@
-// Created: 01.12.2020
 package de.freese.jconky.system;
 
 import java.io.BufferedReader;
@@ -34,6 +33,7 @@ import de.freese.jconky.model.UsageInfo;
 
 /**
  * @author Thomas Freese
+ * @since 01.12.2020
  */
 public abstract class AbstractSystemMonitor implements SystemMonitor {
     /**

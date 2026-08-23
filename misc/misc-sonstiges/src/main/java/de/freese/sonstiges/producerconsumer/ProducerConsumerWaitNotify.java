@@ -11,17 +11,7 @@ public final class ProducerConsumerWaitNotify {
     /**
      * @author Thomas Freese
      */
-    private static final class Consumer implements Runnable {
-        private final CubbyHole cubbyhole;
-        private final int number;
-
-        Consumer(final CubbyHole cubbyHole, final int number) {
-            super();
-
-            this.cubbyhole = cubbyHole;
-            this.number = number;
-        }
-
+    private record Consumer(CubbyHole cubbyhole, int number) implements Runnable {
         @Override
         public void run() {
             while (!Thread.interrupted()) {
@@ -30,7 +20,7 @@ public final class ProducerConsumerWaitNotify {
                 System.out.printf("%s: Consumer-%d got: %d%n", Thread.currentThread().getName(), number, value);
 
                 try {
-                    TimeUnit.MILLISECONDS.sleep(3000);
+                    TimeUnit.MILLISECONDS.sleep(3000L);
                 }
                 catch (InterruptedException _) {
                     // Restore interrupted state.
@@ -85,16 +75,7 @@ public final class ProducerConsumerWaitNotify {
     /**
      * @author Thomas Freese
      */
-    private static final class Producer implements Runnable {
-        private final CubbyHole cubbyhole;
-        private final int number;
-
-        Producer(final CubbyHole cubbyHole, final int number) {
-            super();
-
-            this.cubbyhole = cubbyHole;
-            this.number = number;
-        }
+    private record Producer(CubbyHole cubbyhole, int number) implements Runnable {
 
         @Override
         public void run() {
@@ -104,7 +85,7 @@ public final class ProducerConsumerWaitNotify {
                 System.out.printf("%s: Producer-%d put: %d%n", Thread.currentThread().getName(), number, i);
 
                 try {
-                    TimeUnit.MILLISECONDS.sleep(300);
+                    TimeUnit.MILLISECONDS.sleep(300L);
                 }
                 catch (InterruptedException _) {
                     // Restore interrupted state.

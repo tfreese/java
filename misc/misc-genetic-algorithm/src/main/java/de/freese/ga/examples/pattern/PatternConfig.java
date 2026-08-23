@@ -1,10 +1,10 @@
-// Created: 29.06.2020
 package de.freese.ga.examples.pattern;
 
 import de.freese.ga.Config;
 
 /**
  * @author Thomas Freese
+ * @since 29.06.2020
  */
 public class PatternConfig extends Config {
     private boolean[] solution;

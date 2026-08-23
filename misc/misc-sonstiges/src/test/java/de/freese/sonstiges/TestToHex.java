@@ -1,4 +1,3 @@
-// Created: 04.11.2016
 package de.freese.sonstiges;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -17,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 04.11.2016
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestToHex {
@@ -36,7 +36,7 @@ class TestToHex {
         final long start = System.currentTimeMillis();
         final StringBuilder sb = new StringBuilder(BYTES.length * 2);
 
-        for (byte element : BYTES) {
+        for (final byte element : BYTES) {
             final int byteValue = element & 0xFF;
 
             sb.append(HEX_CODE[(byteValue >> 4) & 0xF]);
@@ -66,7 +66,7 @@ class TestToHex {
         final long start = System.currentTimeMillis();
         final StringBuilder sb = new StringBuilder(BYTES.length * 2);
 
-        for (byte element : BYTES) {
+        for (final byte element : BYTES) {
             final String hex = Integer.toHexString(element).toUpperCase();
 
             if (hex.length() == 1) {
@@ -87,7 +87,7 @@ class TestToHex {
         final long start = System.currentTimeMillis();
         final StringBuilder sb = new StringBuilder(BYTES.length * 2);
 
-        for (byte element : BYTES) {
+        for (final byte element : BYTES) {
             sb.append(Integer.toString((element & 0xFF) + 0x100, 16).substring(1).toUpperCase());
         }
 
@@ -102,7 +102,7 @@ class TestToHex {
         final long start = System.currentTimeMillis();
         final StringBuilder sb = new StringBuilder(BYTES.length * 2);
 
-        for (byte element : BYTES) {
+        for (final byte element : BYTES) {
             sb.append(String.format("%02X", element));
         }
 

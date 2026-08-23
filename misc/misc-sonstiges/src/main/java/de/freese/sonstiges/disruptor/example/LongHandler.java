@@ -1,4 +1,3 @@
-// Created: 26.08.2020
 package de.freese.sonstiges.disruptor.example;
 
 import java.util.concurrent.TimeUnit;
@@ -7,6 +6,7 @@ import de.freese.sonstiges.disruptor.AbstractLoadBalancedEventHandler;
 
 /**
  * @author Thomas Freese
+ * @since 26.08.2020
  */
 public class LongHandler extends AbstractLoadBalancedEventHandler<LongEvent> {
     public LongHandler() {
@@ -25,9 +25,9 @@ public class LongHandler extends AbstractLoadBalancedEventHandler<LongEvent> {
         // event.clear();
 
         try {
-            TimeUnit.MILLISECONDS.sleep(100);
+            TimeUnit.MILLISECONDS.sleep(100L);
         }
-        catch (InterruptedException ex) {
+        catch (final InterruptedException ex) {
             getLogger().error(ex.getMessage(), ex);
 
             // Restore interrupted state.

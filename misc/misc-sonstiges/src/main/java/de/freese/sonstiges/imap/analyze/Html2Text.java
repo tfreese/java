@@ -1,4 +1,3 @@
-// Created: 22.09.2016
 package de.freese.sonstiges.imap.analyze;
 
 import java.io.Reader;
@@ -11,6 +10,7 @@ import javax.swing.text.html.parser.ParserDelegator;
  * Extrahiert aus einem HTML-Dokument die Tags und liefert den reinen Text.
  *
  * @author Thomas Freese
+ * @since 22.09.2016
  */
 public class Html2Text extends HTMLEditorKit.ParserCallback {
 

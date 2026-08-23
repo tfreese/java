@@ -1,4 +1,3 @@
-// Created: 13 Apr. 2025
 package de.freese.gradle.cache.lock;
 
 import java.util.Set;
@@ -8,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Concurrency handled by {@link ConcurrentHashMap}.
  *
  * @author Thomas Freese
+ * @since 13.04.2025
  */
 public final class SimpleLockByKey implements LockByKey {
     private static final Set<String> USED_KEYS = ConcurrentHashMap.newKeySet();

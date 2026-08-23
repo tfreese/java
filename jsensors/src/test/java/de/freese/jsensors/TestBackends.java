@@ -1,4 +1,3 @@
-// Created: 28.10.2020
 package de.freese.jsensors;
 
 import static org.awaitility.Awaitility.await;
@@ -43,6 +42,7 @@ import de.freese.jsensors.sensor.SensorValue;
 
 /**
  * @author Thomas Freese
+ * @since 28.10.2020
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestBackends {

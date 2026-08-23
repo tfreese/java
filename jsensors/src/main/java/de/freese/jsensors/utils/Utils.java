@@ -1,4 +1,3 @@
-// Created: 01.06.2017
 package de.freese.jsensors.utils;
 
 import java.io.BufferedReader;
@@ -12,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 01.06.2017
  */
 public final class Utils {
     private static final Logger LOGGER = LoggerFactory.getLogger(Utils.class);
@@ -20,11 +20,10 @@ public final class Utils {
     public static List<String> executeCommand(final List<String> command) {
         List<String> list = null;
 
-        try {
-            final Process process = new ProcessBuilder()
-                    .command(command)
-                    .redirectErrorStream(true)
-                    .start();
+        try (Process process = new ProcessBuilder()
+                .command(command)
+                .redirectErrorStream(true)
+                .start()) {
 
             final Charset charset = StandardCharsets.UTF_8;
 

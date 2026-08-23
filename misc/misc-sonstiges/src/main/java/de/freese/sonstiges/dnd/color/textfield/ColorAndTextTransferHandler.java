@@ -70,10 +70,10 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
 
                 return true;
             }
-            catch (UnsupportedFlavorException ex) {
+            catch (final UnsupportedFlavorException ex) {
                 LOGGER.error("importData: unsupported data flavor", ex);
             }
-            catch (IOException ex) {
+            catch (final IOException ex) {
                 LOGGER.error("importData: I/O exception", ex);
             }
         }
@@ -98,7 +98,7 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
             p0 = doc.createPosition(start);
             p1 = doc.createPosition(end);
         }
-        catch (BadLocationException ex) {
+        catch (final BadLocationException ex) {
             LOGGER.error("Can't create position - unable to remove text from source.", ex);
         }
 
@@ -117,7 +117,7 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
                     final JTextComponent tc = (JTextComponent) c;
                     tc.getDocument().remove(p0.getOffset(), p1.getOffset() - p0.getOffset());
                 }
-                catch (BadLocationException ex) {
+                catch (final BadLocationException ex) {
                     LOGGER.error("Can't remove text from source.", ex);
                 }
             }
@@ -130,7 +130,7 @@ class ColorAndTextTransferHandler extends ColorTransferHandler {
      * Does the flavor list have a string flavor?
      */
     protected boolean hasStringFlavor(final DataFlavor[] flavors) {
-        for (DataFlavor flavor : flavors) {
+        for (final DataFlavor flavor : flavors) {
             if (STRING_FLAVOR.equals(flavor)) {
                 return true;
             }

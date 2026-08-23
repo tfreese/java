@@ -1,4 +1,3 @@
-// Created: 29.11.2018
 package de.freese.sonstiges.svg;
 
 import java.awt.BorderLayout;
@@ -42,6 +41,7 @@ import org.w3c.dom.svg.SVGDocument;
 /**
  * @author Thomas Freese
  * @see SVGGraphics2D
+ * @since 29.11.2018
  */
 public final class SvgDemo extends JFrame {
     private static final Logger LOGGER = LoggerFactory.getLogger(SvgDemo.class);
@@ -93,7 +93,7 @@ public final class SvgDemo extends JFrame {
 
             outputStream.flush();
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }
@@ -157,7 +157,7 @@ public final class SvgDemo extends JFrame {
 
                 LOGGER.info("PNG written to: {}", path);
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 LOGGER.error(ex.getMessage(), ex);
             }
         });
@@ -167,7 +167,7 @@ public final class SvgDemo extends JFrame {
                 final URL url = ClassLoader.getSystemResource("images/image.svg");
                 svgCanvas.setURI(url.toURI().toString());
             }
-            catch (Exception ex) {
+            catch (final Exception ex) {
                 LOGGER.error(ex.getMessage(), ex);
             }
         });

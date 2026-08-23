@@ -1,4 +1,3 @@
-// Created: 25 Juli 2024
 package de.freese.sonstiges.demos;
 
 import java.security.SecureRandom;
@@ -6,6 +5,7 @@ import java.util.Random;
 
 /**
  * @author Thomas Freese
+ * @since 25.07.2024
  */
 public final class ErdosRenyiDemo {
     private static final Random RANDOM = new SecureRandom();

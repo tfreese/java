@@ -1,4 +1,3 @@
-// Created: 03.09.2021
 package de.freese.jsensors.registry;
 
 import de.freese.jsensors.sensor.Sensor;
@@ -8,6 +7,7 @@ import de.freese.jsensors.sensor.SensorValue;
  * Default Implementation of a {@link SensorRegistry} to determine all {@link SensorValue} for all {@link Sensor} by one {@link #measureAll()}-Method.
  *
  * @author Thomas Freese
+ * @since 03.09.2021
  */
 public class DefaultSensorRegistry extends AbstractSensorRegistry {
     /**

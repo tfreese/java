@@ -1,4 +1,3 @@
-// Created: 19.10.2020
 package de.freese.jsensors.backend.rsocket;
 
 import java.nio.charset.StandardCharsets;
@@ -32,6 +31,7 @@ import de.freese.jsensors.utils.LifeCycle;
  * Use this with {@link RoutingBackend} to support multiple {@link Sensor}s.
  *
  * @author Thomas Freese
+ * @since 19.10.2020
  */
 public class JSensorRSocketServer implements LifeCycle {
     private static final Logger LOGGER = LoggerFactory.getLogger(JSensorRSocketServer.class);

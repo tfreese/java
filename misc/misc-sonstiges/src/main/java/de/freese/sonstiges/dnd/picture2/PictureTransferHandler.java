@@ -59,7 +59,7 @@ class PictureTransferHandler extends TransferHandler {
 
     @Override
     public boolean canImport(final JComponent c, final DataFlavor[] flavors) {
-        for (DataFlavor flavor : flavors) {
+        for (final DataFlavor flavor : flavors) {
             if (PICTURE_FLAVOR.equals(flavor)) {
                 return true;
             }
@@ -95,10 +95,10 @@ class PictureTransferHandler extends TransferHandler {
 
                 return true;
             }
-            catch (UnsupportedFlavorException ex) {
+            catch (final UnsupportedFlavorException ex) {
                 LOGGER.error("importData: unsupported data flavor", ex);
             }
-            catch (IOException ex) {
+            catch (final IOException ex) {
                 LOGGER.error("importData: I/O exception", ex);
             }
         }

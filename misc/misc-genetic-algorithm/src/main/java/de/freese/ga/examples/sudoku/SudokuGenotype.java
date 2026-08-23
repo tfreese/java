@@ -1,4 +1,3 @@
-// Created: 29.06.2020
 package de.freese.ga.examples.sudoku;
 
 import de.freese.ga.Chromosome;
@@ -6,6 +5,7 @@ import de.freese.ga.Genotype;
 
 /**
  * @author Thomas Freese
+ * @since 29.06.2020
  */
 public class SudokuGenotype extends Genotype {
     public SudokuGenotype(final SudokuConfig config) {

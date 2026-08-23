@@ -1,4 +1,3 @@
-// Created: 24.04.2017
 package de.freese.sonstiges.demos;
 
 import java.lang.invoke.MethodHandle;
@@ -11,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 24.04.2017
  */
 public final class MethodHandleDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandleDemo.class);
@@ -101,7 +101,7 @@ public final class MethodHandleDemo {
         final MethodHandles.Lookup lookup = MethodHandles.lookup();
 
         MethodHandle mh = lookup.findStatic(Math.class, "pow", MethodType.methodType(double.class, double.class, double.class));
-        LOGGER.info("2^10 = {}", (double) mh.invoke(2.0, 10.0D));
+        LOGGER.info("2^10 = {}", (double) mh.invoke(2.0D, 10.0D));
 
         // Vordefinition des 2. Parameters.
         mh = MethodHandles.insertArguments(mh, 1, 10);

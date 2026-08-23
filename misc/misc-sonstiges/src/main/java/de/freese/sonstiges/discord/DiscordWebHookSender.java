@@ -1,4 +1,3 @@
-// Created: 07.02.2021
 package de.freese.sonstiges.discord;
 
 import java.io.IOException;
@@ -16,6 +15,7 @@ import de.freese.sonstiges.discord.message.DiscordWebHookMessage;
  * URL for the WebHook: Servereinstellungen -> Integrationen -> WebHooks anzeigen -> WebHook-URL kopieren
  *
  * @author Thomas Freese
+ * @since 07.02.2021
  */
 @FunctionalInterface
 public interface DiscordWebHookSender {

@@ -1,4 +1,3 @@
-// Created: 28.08.23
 package de.freese.sonstiges.imap;
 
 import java.util.Arrays;
@@ -26,6 +25,7 @@ import de.freese.sonstiges.imap.textpart.AbstractTextPart;
 
 /**
  * @author Thomas Freese
+ * @since 28.08.2023
  */
 public class TokenFunction implements Function<MessageWrapper, Map<String, Integer>> {
     public static final UnaryOperator<List<String>> PRE_FILTER = token -> {

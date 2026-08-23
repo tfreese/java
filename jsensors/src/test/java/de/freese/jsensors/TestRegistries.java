@@ -1,4 +1,3 @@
-// Created: 02.09.2021
 package de.freese.jsensors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,6 +21,7 @@ import de.freese.jsensors.utils.SyncFuture;
 
 /**
  * @author Thomas Freese
+ * @since 02.09.2021
  */
 @SuppressWarnings("java:S5778")
 class TestRegistries {

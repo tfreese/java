@@ -1,4 +1,3 @@
-// Created: 02 Mai 2025
 package de.freese;
 
 import java.util.logging.Level;
@@ -12,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 02.05.2025
  */
 public final class Log4j3Main {
     static void main() throws Exception {
@@ -34,9 +34,11 @@ public final class Log4j3Main {
             // Programmatic ShutdownHook for Async-Appender, see xml#shutdownHook
             // For this 'shutdownHook="disable"' must configure in the XML!
             LogManager.shutdown();
-        } catch (final Exception ex) {
+        }
+        catch (final Exception ex) {
             java.util.logging.Logger.getLogger(Log4j3Main.class.getSimpleName()).log(Level.SEVERE, ex.getMessage(), ex);
-        } finally {
+        }
+        finally {
             ConnectionFactory.getInstance().close();
         }
     }

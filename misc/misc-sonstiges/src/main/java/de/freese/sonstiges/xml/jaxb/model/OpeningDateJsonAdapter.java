@@ -1,4 +1,3 @@
-// Created: 16 März 2025
 package de.freese.sonstiges.xml.jaxb.model;
 
 import java.time.LocalDate;
@@ -8,6 +7,7 @@ import jakarta.json.bind.adapter.JsonbAdapter;
 
 /**
  * @author Thomas Freese
+ * @since 16.03.2025
  */
 public class OpeningDateJsonAdapter implements JsonbAdapter<LocalDate, String> {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");

@@ -1,4 +1,3 @@
-// Created: 08.07.2018
 package de.freese.metamodel.metagen;
 
 import java.sql.Connection;
@@ -12,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 08.07.2018
  */
 public final class MetaResolver {
     private static final Logger LOGGER = LoggerFactory.getLogger(MetaResolver.class);

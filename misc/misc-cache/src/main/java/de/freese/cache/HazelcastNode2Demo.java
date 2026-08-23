@@ -1,4 +1,3 @@
-// Created: 27.05.2018
 package de.freese.cache;
 
 import java.net.URL;
@@ -17,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 27.05.2018
  */
 public final class HazelcastNode2Demo {
     private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastNode2Demo.class);
@@ -47,15 +47,15 @@ public final class HazelcastNode2Demo {
                     }
 
                     try {
-                        TimeUnit.MILLISECONDS.sleep(1000);
+                        TimeUnit.MILLISECONDS.sleep(1000L);
                     }
-                    catch (InterruptedException ex) {
+                    catch (final InterruptedException ex) {
                         LOGGER.error(ex.getMessage(), ex);
 
                         // Restore interrupted state.
                         Thread.currentThread().interrupt();
                     }
-                    catch (Exception ex) {
+                    catch (final Exception ex) {
                         LOGGER.error(ex.getMessage(), ex);
                     }
                 }

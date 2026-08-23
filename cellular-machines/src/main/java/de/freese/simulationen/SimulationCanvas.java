@@ -1,4 +1,3 @@
-// Created: 18.09.2009
 package de.freese.simulationen;
 
 import java.awt.Dimension;
@@ -19,6 +18,7 @@ import de.freese.simulationen.model.SimulationListener;
  * Zeichenfläche für die Simulationen.
  *
  * @author Thomas Freese
+ * @since 18.09.2009
  */
 public class SimulationCanvas extends JComponent implements SimulationListener {
     @Serial

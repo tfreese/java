@@ -1,4 +1,3 @@
-// Created: 07.08.2003
 package de.freese.sonstiges.sound.midi;
 
 import java.util.concurrent.TimeUnit;
@@ -17,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 07.08.2003
  */
 public final class SequencerSoundMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(SequencerSoundMain.class);
@@ -24,7 +24,7 @@ public final class SequencerSoundMain {
     static void main() throws Exception {
         new SequencerSoundMain();
 
-        TimeUnit.MILLISECONDS.sleep(8000);
+        TimeUnit.MILLISECONDS.sleep(8000L);
 
         System.exit(0);
     }
@@ -40,7 +40,7 @@ public final class SequencerSoundMain {
             sequencer = MidiSystem.getSequencer();
             sequencer.open();
         }
-        catch (MidiUnavailableException ex) {
+        catch (final MidiUnavailableException ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 
@@ -70,7 +70,7 @@ public final class SequencerSoundMain {
         try {
             sequence = new Sequence(Sequence.PPQ, 4);
         }
-        catch (InvalidMidiDataException ex) {
+        catch (final InvalidMidiDataException ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 
@@ -86,7 +86,7 @@ public final class SequencerSoundMain {
             final MidiEvent event = new MidiEvent(message, tick);
             track.add(event);
         }
-        catch (InvalidMidiDataException ex) {
+        catch (final InvalidMidiDataException ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }
@@ -95,7 +95,7 @@ public final class SequencerSoundMain {
         try {
             sequencer.setSequence(sequence);
         }
-        catch (InvalidMidiDataException ex) {
+        catch (final InvalidMidiDataException ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 

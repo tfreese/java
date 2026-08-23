@@ -1,4 +1,3 @@
-// Created: 08.09.2020
 package de.freese.sonstiges.server.async;
 
 import java.io.IOException;
@@ -17,6 +16,7 @@ import de.freese.sonstiges.server.handler.IoHandler;
 
 /**
  * @author Thomas Freese
+ * @since 08.09.2020
  */
 class HttpReadHandler implements CompletionHandler<Integer, MyAttachment> {
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpReadHandler.class);
@@ -61,7 +61,8 @@ class HttpReadHandler implements CompletionHandler<Integer, MyAttachment> {
         if (endOfHeader[0] == '\r' && endOfHeader[1] == '\n' && endOfHeader[2] == '\r' && endOfHeader[3] == '\n') {
             // Empty Line = End of the HttpHeader.
             write(channel);
-        } else {
+        }
+        else {
             // Next READ-Operation in this Thread.
             channel.read(byteBuffer, attachment, this);
 

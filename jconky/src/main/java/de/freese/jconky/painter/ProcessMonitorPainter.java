@@ -1,4 +1,3 @@
-// Created: 10.12.2020
 package de.freese.jconky.painter;
 
 import javafx.scene.canvas.GraphicsContext;
@@ -9,6 +8,7 @@ import de.freese.jconky.util.JConkyUtils;
 
 /**
  * @author Thomas Freese
+ * @since 10.12.2020
  */
 public class ProcessMonitorPainter extends AbstractMonitorPainter {
     @Override

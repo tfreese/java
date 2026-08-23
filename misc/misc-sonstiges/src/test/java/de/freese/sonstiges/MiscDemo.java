@@ -186,7 +186,8 @@ public final class MiscDemo {
                             subFolder = subStream
                                     .filter(Files::isDirectory)
                                     .count();
-                        } catch (Exception _) {
+                        }
+                        catch (Exception _) {
                             // Ignore
                         }
 
@@ -411,7 +412,7 @@ public final class MiscDemo {
         System.out.println("13: " + LocalDate.now());
         System.out.println("14a: " + LocalDateTime.now());
         System.out.println("14b: " + LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()), ZoneId.systemDefault()));
-        System.out.println("14c: " + LocalDateTime.ofEpochSecond(System.currentTimeMillis() / 1000, 0, ZoneOffset.ofHours(+2)));
+        System.out.println("14c: " + LocalDateTime.ofEpochSecond(System.currentTimeMillis() / 1000L, 0, ZoneOffset.ofHours(+2)));
 
         final WeekFields weekFields = WeekFields.of(Locale.getDefault());
         int weekNumber = LocalDate.of(2016, Month.JANUARY, 1).get(weekFields.weekOfWeekBasedYear());
@@ -510,9 +511,9 @@ public final class MiscDemo {
         final FileSystem defaultFileSystem = FileSystems.getDefault();
 
         for (final FileStore store : defaultFileSystem.getFileStores()) {
-            final long total = store.getTotalSpace() / 1024 / 1024 / 1024;
-            final long used = (store.getTotalSpace() - store.getUnallocatedSpace()) / 1024 / 1024 / 1024;
-            final long avail = store.getUsableSpace() / 1024 / 1024 / 1024;
+            final long total = store.getTotalSpace() / 1024L / 1024L / 1024L;
+            final long used = (store.getTotalSpace() - store.getUnallocatedSpace()) / 1024L / 1024L / 1024L;
+            final long avail = store.getUsableSpace() / 1024L / 1024L / 1024L;
 
             System.out.format("%-20s %8d %8d %8d%n", store, total, used, avail);
             // System.out.format("%-20s %8d %8d %8d%n", store.name() + "-" + store.type(), total, used, avail);
@@ -558,7 +559,9 @@ public final class MiscDemo {
 
             System.out.println("Path Display Name: " + fsv.getSystemDisplayName(path.toFile()));
             System.out.println("Path Description: " + fsv.getSystemTypeDescription(path.toFile()));
-            System.out.println(StreamSupport.stream(path.getFileSystem().getFileStores().spliterator(), false).map(FileStore::toString).collect(Collectors.joining(", ")));
+            System.out.println(StreamSupport.stream(path.getFileSystem().getFileStores().spliterator(), false)
+                    .map(FileStore::toString)
+                    .collect(Collectors.joining(", ")));
             System.out.println();
         }
     }
@@ -574,8 +577,8 @@ public final class MiscDemo {
                     .filter(p -> !p.toString().toLowerCase().endsWith(".jpg"))
                     .filter(p -> !p.toString().toLowerCase().endsWith(".m4b"))
                     .sorted()
-                    .skip(6)
-                    .limit(100)
+                    .skip(6L)
+                    .limit(100L)
                     .forEach(p -> LOGGER.info("{}", p))
             ;
             // .filter(p -> !p.endsWith(".m4b"))
@@ -670,8 +673,9 @@ public final class MiscDemo {
         try {
             hostName = InetAddress.getLocalHost().getHostName();
             System.out.printf("InetAddress.getLocalHost: %s%n", hostName);
-        } catch (final Exception ex) {
-            // Bei Betriebssystemen ohne DNS-Konfiguration funktioniert InetAddress.getLocalHost nicht !
+        }
+        catch (final Exception ex) {
+            // Bei Betriebssystemen ohne DNS-Konfiguration funktioniert InetAddress.getLocalHost nicht!
             System.out.printf("InetAddress.getLocalHost: %s%n", ex.getMessage());
         }
 
@@ -680,7 +684,8 @@ public final class MiscDemo {
              BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
             hostName = br.readLine();
             System.out.printf("CMD 'hostname': %s%n", hostName);
-        } catch (final Exception ex) {
+        }
+        catch (final Exception ex) {
             // Ignore
             System.out.printf("CMD 'hostname': %s%n", ex.getMessage());
         }
@@ -703,16 +708,19 @@ public final class MiscDemo {
                     if (!address.isLoopbackAddress() && address instanceof Inet4Address) {
                         hostName = address.getHostName();
                         System.out.printf("NetworkInterface IPv4: %s%n", hostName);
-                    } else if (!address.isLoopbackAddress() && !address.isLinkLocalAddress()) {
+                    }
+                    else if (!address.isLoopbackAddress() && !address.isLinkLocalAddress()) {
                         hostName = address.getHostName();
                         System.out.printf("NetworkInterface IPv6: %s%n", hostName);
-                    } else if (!address.isLoopbackAddress()) {
+                    }
+                    else if (!address.isLoopbackAddress()) {
                         hostName = address.getHostName();
                         System.out.printf("NetworkInterface IPv6 Link: %s%n", hostName);
                     }
                 }
             }
-        } catch (Exception _) {
+        }
+        catch (Exception _) {
             // Ignore
         }
     }
@@ -793,7 +801,8 @@ public final class MiscDemo {
 
                 // return new StreamSource(Files.newInputStream(path), uri.toString());
                 return new StreamSource(uri.toURL().openStream(), uri.toString());
-            } catch (final IOException ex) {
+            }
+            catch (final IOException ex) {
                 throw new UncheckedIOException(ex);
             }
         };
@@ -841,7 +850,8 @@ public final class MiscDemo {
             // Update
             try {
                 versionString += "." + String.format("%03d", Integer.parseInt(splits[3]));
-            } catch (final Exception ex) {
+            }
+            catch (final Exception ex) {
                 System.err.println(ex.getMessage());
             }
         }
@@ -1146,7 +1156,8 @@ public final class MiscDemo {
 
             writer.accept(sinkChannel);
             reader.accept(sourceChannel);
-        } catch (final Throwable ex) {
+        }
+        catch (final Throwable ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 
@@ -1166,7 +1177,8 @@ public final class MiscDemo {
             });
 
             readFuture.get();
-        } catch (final Throwable ex) {
+        }
+        catch (final Throwable ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }
@@ -1192,7 +1204,8 @@ public final class MiscDemo {
                     pipeOut.write("Hello World".getBytes(StandardCharsets.UTF_8));
 
                     pipeOut.flush();
-                } catch (final IOException ex) {
+                }
+                catch (final IOException ex) {
                     referenceThrowable.set(ex);
                 }
             };
@@ -1275,7 +1288,8 @@ public final class MiscDemo {
             }
 
             System.exit(0);
-        } catch (final IOException ex) {
+        }
+        catch (final IOException ex) {
             LOGGER.error(ex.getMessage(), ex);
             System.exit(-1);
         }
@@ -1404,7 +1418,8 @@ public final class MiscDemo {
             final Field field = String.class.getDeclaredField("value");
             field.setAccessible(true);
             System.out.printf("Old Reflection-Api: %s%n", Arrays.toString((byte[]) field.get(string)));
-        } catch (final Exception ex) {
+        }
+        catch (final Exception ex) {
             ex.printStackTrace();
         }
 
@@ -1413,7 +1428,8 @@ public final class MiscDemo {
             // final MethodHandles.Lookup methodLookup = MethodHandles.lookup();
             final VarHandle varHandle = methodLookup.findVarHandle(String.class, "value", byte[].class);
             System.out.printf("New MethodHandles: %s%n", Arrays.toString((byte[]) varHandle.get(string)));
-        } catch (final Exception ex) {
+        }
+        catch (final Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -1461,10 +1477,10 @@ public final class MiscDemo {
         // final FileChannel fileChannel = raf.getChannel())
 
         try (FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.CREATE, StandardOpenOption.READ, StandardOpenOption.WRITE)) {
-            final long fileSize = 8 * 1024; // 8 kB
+            final long fileSize = 8L * 1024L; // 8 kB
 
             // Bereich der Datei im Buffer mappen.
-            final MappedByteBuffer buffer = fileChannel.map(FileChannel.MapMode.READ_WRITE, 0, fileSize);
+            final MappedByteBuffer buffer = fileChannel.map(FileChannel.MapMode.READ_WRITE, 0L, fileSize);
 
             buffer.putInt(1305); // Erster Eintrag
             buffer.putInt(8, 1305); // Dritter Eintrag, absolute Position
@@ -1488,7 +1504,7 @@ public final class MiscDemo {
         // Einzel int-Read mit DataInputStream.
         try (DataInputStream dis = new DataInputStream(Files.newInputStream(path))) {
             System.out.println(dis.readInt());
-            dis.skip(4);
+            dis.skip(4L);
             System.out.println(dis.readInt());
         }
 
@@ -1497,7 +1513,7 @@ public final class MiscDemo {
         // Multi int-Read mit MappedByteBuffer.
         try (FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.READ)) {
             // Bereich der Datei im Buffer mappen, nur jeweils 12 Bytes = 3 Integers.
-            final MappedByteBuffer buffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, 12);
+            final MappedByteBuffer buffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0L, 12L);
 
             System.out.println(buffer.getInt());
             System.out.println(buffer.getInt());
@@ -1564,7 +1580,7 @@ public final class MiscDemo {
         final long allocatedMemory = runtime.totalMemory();
         final long freeMemory = runtime.freeMemory();
 
-        final long divider = 1024 * 1024;
+        final long divider = 1024L * 1024L;
         final String unit = "MB";
 
         final NumberFormat format = NumberFormat.getInstance();
@@ -1619,7 +1635,8 @@ public final class MiscDemo {
             systemTray.add(trayIcon);
 
             trayIcon.displayMessage("Hello, World", "notification demo", TrayIcon.MessageType.INFO);
-        } else {
+        }
+        else {
             System.err.println("SystemTray is not supported !");
         }
     }
@@ -1640,7 +1657,7 @@ public final class MiscDemo {
     static void streamParallelCustomThreadPool() throws ExecutionException, InterruptedException {
         //        int availableCpus = Runtime.getRuntime().availableProcessors();
 
-        final List<Long> list = LongStream.rangeClosed(1, 10).boxed().toList();
+        final List<Long> list = LongStream.rangeClosed(1L, 10L).boxed().toList();
 
         // Alle Threads des ForkJoinPool.commonPool() werden verwendet.
         list.stream().parallel().forEach(value -> LOGGER.info("{}", value));
@@ -1690,7 +1707,7 @@ public final class MiscDemo {
     }
 
     static long transferTo(final InputStream inputStream, final OutputStream outputStream, final int bufferSize) throws IOException {
-        if (bufferSize == 16384) {
+        if (bufferSize == 16_384) {
             final long transferred = inputStream.transferTo(outputStream);
 
             outputStream.flush();
@@ -1946,7 +1963,7 @@ public final class MiscDemo {
             final ZipEntry zipEntry = entries.nextElement();
 
             totalEntryArchive++;
-            long totalSizeEntry = 0L;
+            final long totalSizeEntry;
 
             try (InputStream inputStream = zipFile.getInputStream(zipEntry);
                  OutputStream outputStream = OutputStream.nullOutputStream()) {

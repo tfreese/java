@@ -1,8 +1,8 @@
-// Created: 10.12.2020
 package de.freese.jconky.util;
 
 /**
  * @author Thomas Freese
+ * @since 10.12.2020
  */
 public final class JConkyUtils {
     /**
@@ -102,23 +102,19 @@ public final class JConkyUtils {
         // double divider = 1D;
         // String unit = "";
         //
-        // if (size < 1024)
-        // {
+        // if (size < 1024) {
         // divider = 1D;
         // unit = "B";
         // }
-        // else if (size < 1_048_576)
-        // {
+        // else if (size < 1_048_576) {
         // divider = 1024D;
         // unit = "KB";
         // }
-        // else if (size < 1_073_741_824)
-        // {
+        // else if (size < 1_073_741_824) {
         // divider = 1_048_576D;
         // unit = "MB";
         // }
-        // else if (size < (1_048_576 * 1_048_576))
-        // {
+        // else if (size < (1_048_576 * 1_048_576)) {
         // divider = 1_073_741_824D;
         // unit = "GB";
         // }
@@ -130,15 +126,13 @@ public final class JConkyUtils {
         // Variante 4:
         // double value = Math.abs(size);
         //
-        // if (value < 1024D)
-        // {
+        // if (value < 1024D) {
         // return size + " B";
         // }
         //
         // CharacterIterator ci = new StringCharacterIterator("KMGTPE");
         //
-        // while (value > 1024D)
-        // {
+        // while (value > 1024D) {
         // value /= 1024;
         // ci.next();
         // }

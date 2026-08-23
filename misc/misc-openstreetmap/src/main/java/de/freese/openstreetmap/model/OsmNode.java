@@ -1,10 +1,10 @@
-// Created: 06.11.2011
 package de.freese.openstreetmap.model;
 
 /**
  * Enthält die Koordinateninformationen eines geografischen Punktes.
  *
  * @author Thomas Freese
+ * @since 06.11.2011
  */
 public class OsmNode extends AbstractOsmEntity {
     /**

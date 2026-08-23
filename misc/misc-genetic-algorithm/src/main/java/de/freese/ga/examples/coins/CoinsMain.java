@@ -1,4 +1,3 @@
-// Created: 29.06.2020
 package de.freese.ga.examples.coins;
 
 import java.util.ArrayList;
@@ -11,6 +10,7 @@ import de.freese.ga.Genotype;
 
 /**
  * @author Thomas Freese
+ * @since 29.06.2020
  */
 public final class CoinsMain {
     static void main() {

@@ -1,4 +1,3 @@
-// Created: 06.11.2011
 package de.freese.openstreetmap.model;
 
 import java.util.HashMap;
@@ -8,6 +7,7 @@ import java.util.Map;
  * Model mit allen Entitäten.
  *
  * @author Thomas Freese
+ * @since 06.11.2011
  */
 public class OsmModel {
     private final Map<Long, OsmNode> nodeMap;

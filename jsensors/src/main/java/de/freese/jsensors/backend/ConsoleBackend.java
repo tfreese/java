@@ -1,4 +1,3 @@
-// Created: 27.10.2020
 package de.freese.jsensors.backend;
 
 import de.freese.jsensors.sensor.SensorValue;
@@ -7,6 +6,7 @@ import de.freese.jsensors.sensor.SensorValue;
  * Prints the {@link SensorValue} to System.out().
  *
  * @author Thomas Freese
+ * @since 27.10.2020
  */
 public final class ConsoleBackend extends AbstractBackend {
     @Override

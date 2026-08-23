@@ -1,4 +1,3 @@
-// Created: 18.09.2009
 package de.freese.simulationen.balls;
 
 import java.util.concurrent.ScheduledFuture;
@@ -9,9 +8,10 @@ import de.freese.simulationen.ScheduledFutureAwareRunnable;
 import de.freese.simulationen.SimulationView;
 
 /**
- * View für die Ball Simulation.
+ * View für die Ballsimulation.
  *
  * @author Thomas Freese
+ * @since 18.09.2009
  */
 public class BallView extends SimulationView<BallSimulation> {
     @Override

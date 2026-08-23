@@ -1,4 +1,3 @@
-// Created: 08.07.2018
 package de.freese.metamodel.metagen.model;
 
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import java.util.TreeMap;
  * Enthält die MetaDaten eines Schemas.
  *
  * @author Thomas Freese
+ * @since 08.07.2018
  */
 public class Schema {
     private final Map<String, Sequence> sequences = new TreeMap<>();
@@ -45,12 +45,9 @@ public class Schema {
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("Schema [");
-        builder.append("name=").append(getName());
-        builder.append("]");
-
-        return builder.toString();
+        return "Schema [" +
+                "name=" + getName() +
+                "]";
     }
 
     public void validate() {

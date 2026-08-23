@@ -1,4 +1,3 @@
-// Created: 04.10.2018
 package de.freese.sonstiges.demos;
 
 import java.io.File;
@@ -13,6 +12,7 @@ import javax.swing.filechooser.FileSystemView;
 
 /**
  * @author Thomas Freese
+ * @since 04.10.2018
  */
 public final class ShowDevicesDemo {
     static void main() throws Exception {
@@ -35,7 +35,7 @@ public final class ShowDevicesDemo {
         System.out.println();
         System.out.println("ShowDevicesDemo.showFileStores()");
 
-        for (FileStore store : FileSystems.getDefault().getFileStores()) {
+        for (final FileStore store : FileSystems.getDefault().getFileStores()) {
             System.out.printf("%s: %s%n", store.name(), store.type());
         }
     }
@@ -44,7 +44,7 @@ public final class ShowDevicesDemo {
         System.out.println();
         System.out.println("ShowDevicesDemo.showRootDirectories()");
 
-        for (Path root : FileSystems.getDefault().getRootDirectories()) {
+        for (final Path root : FileSystems.getDefault().getRootDirectories()) {
             final FileStore fileStore = Files.getFileStore(root);
             // System.out.format("%s\t%s\n", root, fileStore.getAttribute("volume:isRemovable"));
             System.out.printf("%s: %s%n", fileStore.name(), fileStore.type());
@@ -60,7 +60,7 @@ public final class ShowDevicesDemo {
         // final List<File> roots = List.of(fsv.getRoots());
         final List<File> roots = List.of(File.listRoots());
 
-        for (File path : roots) {
+        for (final File path : roots) {
             // System.out.printf("Drive Name: %s, %s%n", path, fsv.getSystemTypeDescription(path));
 
             System.out.println("System Drive: " + path);

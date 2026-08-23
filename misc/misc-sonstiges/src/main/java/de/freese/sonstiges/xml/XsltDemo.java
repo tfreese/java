@@ -1,4 +1,3 @@
-// Created: 25 Juli 2024
 package de.freese.sonstiges.xml;
 
 import java.io.IOException;
@@ -30,6 +29,7 @@ import org.xml.sax.SAXException;
  * <a href=https://docs.oracle.com/javase/tutorial/jaxp/xslt/transformingXML.html>transformingXML</a>
  *
  * @author Thomas Freese
+ * @since 25.07.2024
  */
 public final class XsltDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(XsltDemo.class);
@@ -48,7 +48,7 @@ public final class XsltDemo {
 
             transform(inputData, inputStyle, System.out);
         }
-        catch (TransformerConfigurationException ex) {
+        catch (final TransformerConfigurationException ex) {
             System.out.println(System.lineSeparator() + "** Transformer Factory error");
             System.out.println("   " + ex.getMessage());
 
@@ -60,7 +60,7 @@ public final class XsltDemo {
 
             LOGGER.error(cause.getMessage(), cause);
         }
-        catch (TransformerException ex) {
+        catch (final TransformerException ex) {
             System.out.println(System.lineSeparator() + "** Transformation error");
             System.out.println("   " + ex.getMessage());
 
@@ -72,7 +72,7 @@ public final class XsltDemo {
 
             LOGGER.error(cause.getMessage(), cause);
         }
-        catch (SAXException ex) {
+        catch (final SAXException ex) {
             Exception cause = ex;
 
             if (ex.getException() != null) {
@@ -81,7 +81,7 @@ public final class XsltDemo {
 
             LOGGER.error(cause.getMessage(), cause);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }

@@ -1,4 +1,3 @@
-// Created: 04.04.2012
 package de.freese.sonstiges.forkjoin;
 
 import java.security.SecureRandom;
@@ -15,6 +14,7 @@ import de.freese.sonstiges.forkjoin.finder.MaxFinder;
  * Find the biggest Element in an Array.
  *
  * @author Thomas Freese
+ * @since 04.04.2012
  */
 public final class ForkJoinMaxFinderMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ForkJoinMaxFinderMain.class);
