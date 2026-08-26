@@ -55,10 +55,11 @@ public abstract class AbstractIndex {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [" +
-                " table=" + table +
-                ", name=" + name +
-                "]";
+        return getClass().getSimpleName()
+                + " ["
+                + " table=" + table
+                + ", name=" + name
+                + "]";
     }
 
     protected Map<Integer, Column> getColumnMap() {

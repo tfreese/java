@@ -52,14 +52,10 @@ final class Report implements Comparable<Report> {
 
     @Override
     public String toString() {
-        return file.getAbsolutePath() +
-                ": " +
-                messages;
+        return file.getAbsolutePath() + ": " + messages;
     }
 
     public String toString(final Path rootDirectory) {
-        return rootDirectory.relativize(file.toPath()) +
-                ": " +
-                messages;
+        return rootDirectory.relativize(file.toPath()) + ": " + messages;
     }
 }

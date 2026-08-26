@@ -43,12 +43,16 @@ public class HibernateModelGenerator extends JpaModelGenerator {
 
         final String alias = className.substring(0, 1).toLowerCase();
 
-        final String sb = "@NamedQueries({" +
-                "@NamedQuery(name = \"all" + className + "\"" +
-                ", query = " + String.format("\"select %2$s from %1$s %2$s\"", className, alias) +
-                ", hints = {@QueryHint(name = \"org.hibernate.cacheable\", value = \"true\")})" +
-                "})";
-        classModel.addAnnotation(sb);
+        final String namedQueries = """
+                @NamedQueries({
+                    @NamedQuery(
+                        name = "all_%s", query = "select %s from %s %s"
+                        , hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")}
+                    )
+                )}
+                """.formatted(className, alias, className, className);
+
+        classModel.addAnnotation(namedQueries);
     }
 
     @Override

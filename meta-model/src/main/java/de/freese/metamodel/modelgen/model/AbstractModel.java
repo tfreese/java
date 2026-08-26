@@ -53,9 +53,9 @@ public abstract class AbstractModel {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() +
-                " [" +
-                "name = " + name +
-                "]";
+        return getClass().getSimpleName()
+                + " ["
+                + "name = " + name
+                + "]";
     }
 }

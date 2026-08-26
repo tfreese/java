@@ -45,9 +45,9 @@ public class Schema {
 
     @Override
     public String toString() {
-        return "Schema [" +
-                "name=" + getName() +
-                "]";
+        return "Schema ["
+                + "name=" + getName()
+                + "]";
     }
 
     public void validate() {

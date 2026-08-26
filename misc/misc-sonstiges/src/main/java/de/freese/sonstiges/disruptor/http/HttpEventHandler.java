@@ -62,21 +62,21 @@ public class HttpEventHandler extends AbstractLoadBalancedEventHandler<HttpEvent
     }
 
     private String serverResponse(final long sequence) {
-        final String body = "<html lang=\"de\">" + System.lineSeparator() +
-                " <head>" + System.lineSeparator() +
-                "     <meta charset=\"UTF-8\">" + System.lineSeparator() +
-                "     <title>Disruptor-Demo</title>" + System.lineSeparator() +
-                " </head>" + System.lineSeparator() +
-                " <body>" + System.lineSeparator() +
-                "     Sample Response: " + LocalDateTime.now(ZoneId.systemDefault()) + "<br>" + System.lineSeparator() +
-                "     Sequence: " + sequence + "<br>" + System.lineSeparator() +
-                " </body>" + System.lineSeparator() +
-                "</html>" + System.lineSeparator();
+        final String body = "<html lang=\"de\">" + System.lineSeparator()
+                + " <head>" + System.lineSeparator()
+                + "     <meta charset=\"UTF-8\">" + System.lineSeparator()
+                + "     <title>Disruptor-Demo</title>" + System.lineSeparator()
+                + " </head>" + System.lineSeparator()
+                + " <body>" + System.lineSeparator()
+                + "     Sample Response: " + LocalDateTime.now(ZoneId.systemDefault()) + "<br>" + System.lineSeparator()
+                + "     Sequence: " + sequence + "<br>" + System.lineSeparator()
+                + " </body>" + System.lineSeparator()
+                + "</html>" + System.lineSeparator();
 
-        return "HTTP/1.1 200 OK" + System.lineSeparator() +
-                "Server: disruptor" + System.lineSeparator() +
-                "Content-type: text/html" + System.lineSeparator() +
-                System.lineSeparator() +
-                body;
+        return "HTTP/1.1 200 OK" + System.lineSeparator()
+                + "Server: disruptor" + System.lineSeparator()
+                + "Content-type: text/html" + System.lineSeparator()
+                + System.lineSeparator()
+                + body;
     }
 }

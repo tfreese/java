@@ -110,12 +110,10 @@ public class Table {
 
     @Override
     public String toString() {
-        final String builder = "Table [" +
-                "schema=" + getSchema().getName() +
-                ", name=" + getName() +
-                "]";
-
-        return builder;
+        return "Table ["
+                + "schema=" + getSchema().getName()
+                + ", name=" + getName()
+                + "]";
     }
 
     public void validate() {

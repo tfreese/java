@@ -78,6 +78,7 @@ tasks.withType<JavaCompile>().configureEach {
         // No byte[] allowed.
         // Or with SuppressWarnings.
         disable("ArrayRecordComponent")
+        disable("MissingSummary")
 
         warn("NullAway")
 

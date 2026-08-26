@@ -4,7 +4,7 @@ plugins {
 
 description = "Basis-Projekt für Logging-APIs"
 
-//configurations.configureEach {
+// configurations.configureEach {
 //    exclude group = "ch.qos.logback", module = "logback-core"
 //}
 
@@ -12,14 +12,9 @@ dependencies {
     testImplementation("ch.qos.logback:logback-core")
     testImplementation("com.lmax:disruptor") // For Async-Logging
 
-    testImplementation("org.apache.logging.log4j:log4j-core")
-
-    // testImplementation("org.apache.logging.log4j:log4j-api:3.0.0-beta2")
-    // testImplementation("org.apache.logging.log4j:log4j-core:3.0.0-beta3")
-    // testImplementation("org.apache.logging.log4j:log4j-jdbc:3.0.0-beta3")
-
     testImplementation("ch.qos.logback.db:logback-classic-db") {
         exclude(group = "ch.qos.logback", module = "logback-core")
     }
+    testImplementation("org.apache.logging.log4j:log4j-core")
     testImplementation("org.hsqldb:hsqldb")
 }

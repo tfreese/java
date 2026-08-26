@@ -37,12 +37,11 @@ public class ForeignKey {
 
     @Override
     public String toString() {
-        return "ForeignKey [" +
-                "name=" + name +
-                ", " +
-                column.getTable().getName() + "." + column.getName() +
-                " -> " +
-                refColumn.getTable().getName() + "." + refColumn.getName() +
-                "]";
+        return "ForeignKey ["
+                + "name=" + name
+                + ", "
+                + column.getTable().getName() + "." + column.getName()
+                + " -> " + refColumn.getTable().getName() + "." + refColumn.getName()
+                + "]";
     }
 }

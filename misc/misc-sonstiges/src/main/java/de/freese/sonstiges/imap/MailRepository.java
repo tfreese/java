@@ -11,8 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -258,7 +256,7 @@ public class MailRepository implements AutoCloseable {
                 preparedStatementMessage.setString(2, messageWrapper.getFolderName());
                 preparedStatementMessage.setString(3, messageWrapper.getSubject());
                 preparedStatementMessage.setBoolean(4, messageWrapper.isSpam());
-                preparedStatementMessage.setObject(5, LocalDateTime.ofInstant(messageWrapper.getDate().toInstant(), ZoneId.systemDefault()));
+                preparedStatementMessage.setObject(5, messageWrapper.getDate());
                 preparedStatementMessage.setString(6, messageWrapper.getFrom());
 
                 preparedStatementMessage.executeUpdate();

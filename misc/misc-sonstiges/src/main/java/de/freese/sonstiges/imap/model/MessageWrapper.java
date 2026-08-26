@@ -1,14 +1,12 @@
 package de.freese.sonstiges.imap.model;
 
 import java.io.OutputStream;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -68,18 +66,14 @@ public class MessageWrapper {
         }
 
         if (messageId == null) {
-            final Date date = message.getReceivedDate() != null ? message.getReceivedDate() : message.getSentDate();
+            final LocalDateTime localDateTime = message.getReceivedDate() != null
+                    ? LocalDateTime.ofInstant(message.getReceivedDate().toInstant(), ZoneId.systemDefault())
+                    : LocalDateTime.ofInstant(message.getSentDate().toInstant(), ZoneId.systemDefault());
 
-            LOGGER.warn("no messageId, generating one: {} - {} - {}", date, message.getSubject(), message.getFrom());
+            LOGGER.warn("no messageId, generating one: {} - {} - {}", localDateTime, message.getSubject(), message.getFrom());
 
             messageId = Optional.ofNullable(message.getFrom()).map(addresses -> addresses[0]).map(InternetAddress.class::cast).map(InternetAddress::getAddress).orElse("");
-
-            if (date != null) {
-                final Instant instant = date.toInstant();
-                final LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-                messageId += "-" + DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(localDateTime);
-            }
-
+            messageId += "-" + DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(localDateTime);
             messageId += "-" + message.getSubject().replace("  ", "").replace(" ", "_");
             messageId += "-" + message.getSize();
             messageId += "-generated";
@@ -98,10 +92,12 @@ public class MessageWrapper {
 
             if (part.isMimeType("text/plain")) {
                 textParts.add(new PlainTextPart(text));
-            } else if (part.isMimeType("text/html")) {
+            }
+            else if (part.isMimeType("text/html")) {
                 textParts.add(new HtmlTextPart(text));
             }
-        } else if (part.isMimeType("multipart/*")) {
+        }
+        else if (part.isMimeType("multipart/*")) {
             final Multipart mp = (Multipart) part.getContent();
 
             for (int i = 0; i < mp.getCount(); i++) {
@@ -153,8 +149,10 @@ public class MessageWrapper {
         this.messageId = getMessageId(message);
     }
 
-    public Date getDate() throws MessagingException {
-        return message.getReceivedDate() != null ? message.getReceivedDate() : message.getSentDate();
+    public LocalDateTime getDate() throws MessagingException {
+        return message.getReceivedDate() != null
+                ? LocalDateTime.ofInstant(message.getReceivedDate().toInstant(), ZoneId.systemDefault())
+                : LocalDateTime.ofInstant(message.getSentDate().toInstant(), ZoneId.systemDefault());
     }
 
     public String getFolderName() {

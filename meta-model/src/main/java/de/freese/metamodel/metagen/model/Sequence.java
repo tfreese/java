@@ -64,11 +64,9 @@ public class Sequence {
 
     @Override
     public String toString() {
-        final String builder = "Sequence [" +
-                "schema=" + getSchema().getName() +
-                ", name=" + getName() +
-                "]";
-
-        return builder;
+        return "Sequence ["
+                + "schema=" + getSchema().getName()
+                + ", name=" + getName()
+                + "]";
     }
 }

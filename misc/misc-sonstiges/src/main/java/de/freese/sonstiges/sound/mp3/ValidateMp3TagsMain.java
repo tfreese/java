@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -134,19 +133,19 @@ public final class ValidateMp3TagsMain {
         fields.add(FieldKey.TITLE);
         fields.add(FieldKey.TITLE_SORT);
 
-        final List<FieldKey> unwantedKeys = new ArrayList<>(Arrays.asList(FieldKey.values()));
-        unwantedKeys.removeAll(fields);
-        unwantedKeys.remove(FieldKey.YEAR);
-        unwantedKeys.remove(FieldKey.TRACK_TOTAL);
-        unwantedKeys.remove(FieldKey.TRACK);
-        unwantedKeys.remove(FieldKey.RECORD_LABEL);
-        unwantedKeys.remove(FieldKey.ORIGINAL_YEAR);
-        // unwantedKeys.remove(FieldKey.LYRICS);
-        // unwantedKeys.remove(FieldKey.LANGUAGE);
-        unwantedKeys.remove(FieldKey.IS_COMPILATION);
-        unwantedKeys.remove(FieldKey.DISC_TOTAL);
-        unwantedKeys.remove(FieldKey.DISC_NO);
-        unwantedKeys.remove(FieldKey.COVER_ART);
+        // final List<FieldKey> unwantedKeys = new ArrayList<>(Arrays.asList(FieldKey.values()));
+        // unwantedKeys.removeAll(fields);
+        // unwantedKeys.remove(FieldKey.YEAR);
+        // unwantedKeys.remove(FieldKey.TRACK_TOTAL);
+        // unwantedKeys.remove(FieldKey.TRACK);
+        // unwantedKeys.remove(FieldKey.RECORD_LABEL);
+        // unwantedKeys.remove(FieldKey.ORIGINAL_YEAR);
+        // // unwantedKeys.remove(FieldKey.LYRICS);
+        // // unwantedKeys.remove(FieldKey.LANGUAGE);
+        // unwantedKeys.remove(FieldKey.IS_COMPILATION);
+        // unwantedKeys.remove(FieldKey.DISC_TOTAL);
+        // unwantedKeys.remove(FieldKey.DISC_NO);
+        // unwantedKeys.remove(FieldKey.COVER_ART);
 
         final Map<File, Report> reports = new HashMap<>();
 

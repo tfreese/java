@@ -17,8 +17,8 @@ public class LongEvent {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [" +
-                "value=" + value +
-                ']';
+        return getClass().getSimpleName() + " ["
+                + "value=" + value
+                + ']';
     }
 }

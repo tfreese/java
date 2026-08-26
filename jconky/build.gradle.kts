@@ -16,7 +16,7 @@ description = "Java-Clone of Linux Tool 'conky'"
 // }
 
 javafx {
-    version = project.property("version_javafx").toString()
+    version = property("version_javafx").toString()
     modules = listOf("javafx.controls", "javafx.swing")
     configuration = "implementation"
     setPlatform("linux") // linux, windows, mac

@@ -156,11 +156,11 @@ public class Column {
 
     @Override
     public String toString() {
-        return "Column [" +
-                "schema=" + getTable().getSchema().getName() +
-                ", table=" + getTable().getName() +
-                ", name=" + getName() +
-                "]";
+        return "Column ["
+                + "schema=" + getTable().getSchema().getName()
+                + ", table=" + getTable().getName()
+                + ", name=" + getName()
+                + "]";
     }
 
     /**

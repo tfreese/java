@@ -11,5 +11,5 @@ dependencies {
 
     runtimeOnly("org.slf4j:slf4j-simple")
 
-    testImplementation("org.slf4j:slf4j-simple")
+    // testImplementation("org.slf4j:slf4j-simple")
 }

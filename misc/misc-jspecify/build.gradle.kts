@@ -16,7 +16,7 @@ tasks.withType<JavaCompile>().configureEach {
     options.errorprone {
         // Warnung: [MissingSummary] A summary line is required on public/protected Javadocs.
         // Or with SuppressWarnings.
-        // disable("MissingSummary")
+        disable("MissingSummary")
 
         // check("NullAway", net.ltgt.gradle.errorprone.CheckSeverity.ERROR)
         // check("NullAway", CheckSeverity.WARN)
@@ -29,10 +29,10 @@ tasks.withType<JavaCompile>().configureEach {
         // Scan only Packages with package.info.java.
         option("NullAway:OnlyNullMarked", "true")
 
-        // Uncomment below if you are using Java 22+ compiled and you want to check generics nullness.
+        // Uncomment below if you are using Java 22+ compiled, and you want to check generics nullness.
         option("NullAway:JSpecifyMode", "true")
 
-        // disableAllChecks = true // Other error prone checks are disabled.
+        // disableAllChecks = true // Other error-prone checks are disabled.
         // option("NullAway:CustomContractAnnotations", "org.springframework.lang.Contract")
 
         // allErrorsAsWarnings.set(true)
@@ -50,7 +50,7 @@ tasks.withType<JavaCompile>().configureEach {
     // }
 }
 
-//tasks.named("compileTestJava").configure {
+// tasks.named("compileTestJava").configure {
 //    options.errorprone {
 //        // Disable All.
 //        enabled = false
