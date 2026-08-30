@@ -87,9 +87,7 @@ subprojects {
         }
 
         tasks.withType<Test>().configureEach {
-            doFirst {
-                jvmArgs.add("-javaagent:${mockitoAgent.asPath}")
-            }
+            jvmArgs.add("-javaagent:${mockitoAgent.asPath}")
         }
     }
 }
