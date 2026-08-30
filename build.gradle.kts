@@ -15,7 +15,7 @@ subprojects {
     plugins.apply("de.freese.gradle.conventions")
     plugins.apply("io.spring.dependency-management")
 
-    //val dependencyManagement = extensions.getByType<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension>()
+    // val dependencyManagement = extensions.getByType<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension>()
 
     extensions.configure(io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension::class.java) {
         imports {
@@ -41,7 +41,7 @@ subprojects {
                 entry("maven-model-builder")
                 entry("maven-settings-builder")
             }
-            //dependencySet("org.apache.tomcat:" + dependencyManagement.importedProperties["tomcat.version"]) {
+            // dependencySet("org.apache.tomcat:" + dependencyManagement.importedProperties["tomcat.version"]) {
             //    entry("tomcat-catalina")
             //    entry("tomcat-juli")
             //}
@@ -87,10 +87,8 @@ subprojects {
         }
 
         tasks.withType<Test>().configureEach {
-            val mockitoFiles = mockitoAgent.asPath
-
             doFirst {
-                jvmArgs.add("-javaagent:$mockitoFiles")
+                jvmArgs.add("-javaagent:${mockitoAgent.asPath}")
             }
         }
     }
