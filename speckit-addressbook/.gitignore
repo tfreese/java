@@ -1,0 +1,22 @@
+# Exclude folder
+#.idea/
+# Exclude files and subfolders
+.idea/*
+
+!.idea/codeStyles/
+!.idea/fileTemplates/
+!.idea/inspectionProfiles/
+!.idea/scopes/
+!.idea/encodings.xml
+!.idea/icon.svg
+!.idea/sonarlint.xml
+!.idea/vcs.xml
+
+# Gradle
+.gradle/
+.kotlin/
+!gradle-wrapper.jar
+build/
+#!src/**/build/
+
+# Project stuff

@@ -1,0 +1,10 @@
+group = de.addressbook
+version = 0.0.1-SNAPSHOT
+description = "Adressbook"
+
+org.gradle.jvmargs = -Xms1024m -Xmx2048m -Djava.security.egd=file:/dev/./urandom -Dfile.encoding=UTF-8 -Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8 --sun-misc-unsafe-memory-access=allow --enable-native-access=ALL-UNNAMED
+file.encoding = UTF-8
+
+springBootVersion = 4.1.1
+springDependencyManagementVersion = 1.1.7
+joinfacesVersion = 6.1.0

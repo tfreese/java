@@ -46,6 +46,7 @@ include("jconky")
 include("jsensors")
 include("logging")
 include("meta-model")
+include("speckit-addressbook")
 
 // file("${rootDir}/misc").eachDirMatch(~/misc-.*/) {
 //    include("misc:${it.name}")

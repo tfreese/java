@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Adressbuch - Personenliste</title>
+</h:head>
+<h:body>
+    <h1>Personenliste</h1>
+
+    <h:form id="searchForm">
+        <p:messages id="searchMessages" showDetail="true" closable="true" autoUpdate="true" globalOnly="true"/>
+
+        <p:outputLabel for="searchTerm" value="Suchbegriff"/>
+        <p:inputText id="searchTerm" value="#{personListBean.searchTerm}"/>
+
+        <p:commandButton value="Suchen" action="#{personListBean.search}"
+                         update=":listForm:personTable" process="@this searchTerm"/>
+        <p:commandButton value="Alle anzeigen" action="#{personListBean.showAll}"
+                         update=":listForm:personTable searchForm:searchTerm" process="@this"/>
+    </h:form>
+
+    <h:form id="listForm">
+        <!-- T042: globale Growl-Nachrichten fuer Speichern-/Loesch-Ergebnisse (Erfolg,
+             Validierungsfehler FR-018, Optimistic-Locking-Konflikt 409 FR-020, NotFound 404) -->
+        <p:growl id="listMessages" showDetail="true"/>
+
+        <!-- T050: globaler Bestaetigungsdialog fuer den Loeschen-Button pro Zeile (FR-014) -->
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Ja" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+            <p:commandButton value="Nein" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times"/>
+        </p:confirmDialog>
+
+        <p:dataTable id="personTable" var="row" value="#{personListBean.persons}"
+                     lazy="true" paginator="true" rows="20" first="#{personListBean.first}"
+                     paginatorPosition="bottom" emptyMessage="Keine Eintraege gefunden.">
+            <p:column headerText="ID">
+                <h:outputText value="#{row.id}"/>
+            </p:column>
+            <p:column headerText="Vorname">
+                <p:inputText value="#{row.firstName}" maxlength="100" label="Vorname" style="width:100%"/>
+            </p:column>
+            <p:column headerText="Nachname">
+                <p:inputText value="#{row.lastName}" maxlength="100" label="Nachname" style="width:100%"/>
+            </p:column>
+            <p:column headerText="Aktionen">
+                <p:commandButton value="Speichern" action="#{personListBean.saveRow(row)}"
+                                 update="@form" process="@form"/>
+                <p:commandButton value="Loeschen" action="#{personListBean.deleteRow(row)}"
+                                 update="@form" process="@this" style="margin-left:.5rem">
+                    <p:confirm header="Person loeschen" message="Diesen Eintrag wirklich loeschen?"
+                               icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+
+    <h:link outcome="create-person" value="Person anlegen"/>
+</h:body>
+</html>

@@ -1,0 +1,75 @@
+pluginManagement {
+
+    val springBootVersion = providers.gradleProperty("springBootVersion")
+    val springDependencyManagementVersion = providers.gradleProperty("springDependencyManagementVersion")
+
+    plugins {
+        id("org.springframework.boot").version(springBootVersion).apply(false)
+        id("io.spring.dependency-management").version(springDependencyManagementVersion).apply(false)
+    }
+
+    val artifactoryCredentials = providers.credentials(PasswordCredentials::class, "artifactory").get()
+
+    repositories {
+        mavenLocal {
+            mavenContent {
+                releasesOnly()
+            }
+        }
+        maven {
+            url = uri(".../public")
+            credentials {
+                username = artifactoryCredentials.username
+                password = artifactoryCredentials.password
+            }
+            mavenContent {
+                releasesOnly()
+            }
+        }
+        maven {
+            url = uri(".../gradle-public")
+            credentials {
+                username = artifactoryCredentials.username
+                password = artifactoryCredentials.password
+            }
+            mavenContent {
+                releasesOnly()
+            }
+        }
+    }
+}
+
+rootProject.name = "spec-kit-addressbook"
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
+    val artifactoryCredentials = providers.credentials(PasswordCredentials::class, "artifactory").get()
+
+    repositories {
+        mavenLocal {
+            mavenContent {
+                releasesOnly()
+            }
+        }
+
+        maven {
+            url = uri(".../public")
+            credentials {
+                username = artifactoryCredentials.username
+                password = artifactoryCredentials.password
+            }
+            mavenContent {
+                releasesOnly()
+            }
+            metadataSources {
+                artifact()
+                mavenPom()
+                // gradleMetadata()
+            }
+            content {
+                excludeGroup("de.addressbook")
+            }
+        }
+    }
+}

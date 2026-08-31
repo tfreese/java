@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Adressbuch - Person anlegen</title>
+</h:head>
+<h:body>
+    <h1>Person anlegen</h1>
+
+    <h:form id="createPersonForm">
+        <!-- T021: Validierungs-/Fehleranzeige (FR-018) - zeigt sowohl Bean-Validation-
+             Meldungen (required) als auch fachliche Fehler aus PersonCreateBean#save -->
+        <p:messages id="messages" showDetail="true" closable="true" autoUpdate="true" globalOnly="true"/>
+
+        <p:panelGrid columns="3" columnClasses="label,value,message">
+            <p:outputLabel for="firstName" value="Vorname"/>
+            <p:inputText id="firstName" value="#{personCreateBean.firstName}" required="true" maxlength="100"
+                         label="Vorname"/>
+            <p:message for="firstName"/>
+
+            <p:outputLabel for="lastName" value="Nachname"/>
+            <p:inputText id="lastName" value="#{personCreateBean.lastName}" required="true" maxlength="100"
+                         label="Nachname"/>
+            <p:message for="lastName"/>
+        </p:panelGrid>
+
+        <p:commandButton value="Speichern" action="#{personCreateBean.save}" update="createPersonForm"/>
+    </h:form>
+
+    <h:link outcome="person-list" value="Zur Personenliste"/>
+</h:body>
+</html>

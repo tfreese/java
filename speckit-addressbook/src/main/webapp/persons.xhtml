@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html xmlns:h="jakarta.faces.html"
+      xmlns="http://www.w3.org/1999/xhtml"
+      lang="de">
+<h:head>
+    <title>Adressbuch</title>
+</h:head>
+<h:body>
+    <h1>Adressbuch</h1>
+
+    <!-- <h:form id="createForm"> -->
+    <!--     <p:panel header="Neue Person anlegen"> -->
+    <!--         <h:panelGrid columns="2" cellpadding="5"> -->
+    <!--             <h:outputLabel for="firstName" value="Vorname:"/> -->
+    <!--             <p:inputText id="firstName" value="#{personBean.firstName}" required="true"/> -->
+
+    <!--             <h:outputLabel for="lastName" value="Nachname:"/> -->
+    <!--             <p:inputText id="lastName" value="#{personBean.lastName}" required="true"/> -->
+
+    <!--             <f:facet name="footer"> -->
+    <!--                 <p:commandButton value="Speichern" -->
+    <!--                                  action="#{personBean.save}" -->
+    <!--                                  update="createForm" ajax="true"/> -->
+    <!--             </f:facet> -->
+    <!--         </h:panelGrid> -->
+
+    <!--         <p:message for="firstName"/> -->
+    <!--         <p:message for="lastName"/> -->
+
+    <!--         <h:panelGroup rendered="#{not empty personBean.errorMessage}"> -->
+    <!--             <p:messages severity="error"> -->
+    <!--                 <h:outputText value="#{personBean.errorMessage}"/> -->
+    <!--             </p:messages> -->
+    <!--         </h:panelGroup> -->
+    <!--     </p:panel> -->
+    <!-- </h:form> -->
+
+    <!-- <h:form id="searchForm" style="margin-top: 1rem"> -->
+    <!--     <p:panel header="Personen suchen"> -->
+    <!--         <h:outputLabel for="query" value="Suchbegriff:"/> -->
+    <!--         <p:inputText id="query" value="#{personBean.query}" style="margin-left: 1rem"/> -->
+
+    <!--         <p:commandButton value="Suchen" -->
+    <!--                          action="#{personBean.search}" -->
+    <!--                          update="searchForm:resultsPanel" -->
+    <!--                          ajax="true" -->
+    <!--                          style="margin-left: 1rem"/> -->
+    <!--         <p:commandButton value="Alle anzeigen" -->
+    <!--                          action="#{personBean.showAll}" -->
+    <!--                          update="searchForm:resultsPanel" -->
+    <!--                          ajax="true" -->
+    <!--                          style="margin-left: 1rem"/> -->
+
+    <!--         <h:panelGroup id="resultsPanel"> -->
+    <!--             <h:panelGroup rendered="#{not empty personBean.rowErrorMessage}"> -->
+    <!--                 <p:messages severity="error"> -->
+    <!--                     <h:outputText value="#{personBean.rowErrorMessage}"/> -->
+    <!--                 </p:messages> -->
+    <!--             </h:panelGroup> -->
+
+    <!--             &lt;!&ndash; https://showcase.primefaces.org/ui/data/datatable/lazy.xhtml &ndash;&gt; -->
+    <!--             <p:dataTable var="person" -->
+    <!--                          value="#{personBean.persons}" -->
+    <!--                          editable="true" -->
+    <!--                          rendered="true" -->
+    <!--                          lazy="true" -->
+    <!--                          paginator="true" -->
+    <!--                          rows="20" -->
+    <!--                          first="0" -->
+    <!--                          paginatorPosition="bottom" -->
+    <!--                          emptyMessage="Keine Eintraege gefunden."> -->
+    <!--                 <p:ajax event="rowEdit" -->
+    <!--                         listener="#{personBean.onRowEdit}" -->
+    <!--                         update="searchForm:resultsPanel"/> -->
+    <!--                 <p:ajax event="rowEditCancel" -->
+    <!--                         listener="#{personBean.onRowCancel}" -->
+    <!--                         update="searchForm:resultsPanel"/> -->
+
+    <!--                 <p:column headerText="ID"> -->
+    <!--                     <h:outputText value="#{person.id}"/> -->
+    <!--                 </p:column> -->
+    <!--                 <p:column headerText="Nachname"> -->
+    <!--                     <p:cellEditor> -->
+    <!--                         <f:facet name="output"> -->
+    <!--                             <h:outputText value="#{person.lastName}"/> -->
+    <!--                         </f:facet> -->
+    <!--                         <f:facet name="input"> -->
+    <!--                             <p:inputText value="#{person.lastName}" style="width: 100%"/> -->
+    <!--                         </f:facet> -->
+    <!--                     </p:cellEditor> -->
+    <!--                 </p:column> -->
+    <!--                 <p:column headerText="Vorname"> -->
+    <!--                     <p:cellEditor> -->
+    <!--                         <f:facet name="output"> -->
+    <!--                             <h:outputText value="#{person.firstName}"/> -->
+    <!--                         </f:facet> -->
+    <!--                         <f:facet name="input"> -->
+    <!--                             <p:inputText value="#{person.firstName}" style="width: 100%"/> -->
+    <!--                         </f:facet> -->
+    <!--                     </p:cellEditor> -->
+    <!--                 </p:column> -->
+    <!--                 <p:column style="width: 4rem; text-align: center"> -->
+    <!--                     <p:rowEditor/> -->
+    <!--                 </p:column> -->
+    <!--                 <p:column style="width: 4rem; text-align: center"> -->
+    <!--                     <p:commandButton icon="pi pi-trash" -->
+    <!--                                      styleClass="ui-button-danger rounded-button" -->
+    <!--                                      action="#{personBean.delete(person)}" -->
+    <!--                                      update="searchForm:resultsPanel" -->
+    <!--                                      ajax="true"> -->
+    <!--                         <p:confirm header="Loeschen bestaetigen" -->
+    <!--                                    message="Diesen Eintrag wirklich loeschen?" -->
+    <!--                                    icon="pi pi-exclamation-triangle"/> -->
+    <!--                     </p:commandButton> -->
+    <!--                 </p:column> -->
+    <!--             </p:dataTable> -->
+
+    <!--             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade"> -->
+    <!--                 <p:commandButton value="Ja" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/> -->
+    <!--                 <p:commandButton value="Nein" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times"/> -->
+    <!--             </p:confirmDialog> -->
+    <!--         </h:panelGroup> -->
+    <!--     </p:panel> -->
+    <!-- </h:form> -->
+</h:body>
+</html>

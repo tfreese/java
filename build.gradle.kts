@@ -63,6 +63,16 @@ subprojects {
     }
 
     plugins.withType<JavaPlugin> {
+        configurations.configureEach {
+            resolutionStrategy {
+                // Keine SNAPSHOTs
+                failOnDynamicVersions()
+
+                // Keine dynamischen Versionen
+                failOnChangingVersions()
+            }
+        }
+
         val mockitoAgent = configurations.create("mockitoAgent")
 
         dependencies {
