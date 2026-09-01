@@ -1,10 +1,8 @@
 package de.addressbook.config;
 
-import jakarta.faces.webapp.FacesServlet;
 import jakarta.servlet.ServletContext;
 
 import org.springframework.boot.web.servlet.ServletContextInitializer;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,12 +24,15 @@ public class JsfConfig {
         };
     }
 
-    @Bean
-    public ServletRegistrationBean<FacesServlet> facesServletRegistration() {
-        final ServletRegistrationBean<FacesServlet> registration = new ServletRegistrationBean<>(new FacesServlet(), "*.xhtml");
-        registration.setName("Faces Servlet");
-        registration.setLoadOnStartup(1);
-
-        return registration;
-    }
+    // /**
+    //  * FacesServlet wird von JoinFaces automatisch registriert und gemappt - keine manuelle Registrierung nötig.
+    //  */
+    // @Bean
+    // public ServletRegistrationBean<FacesServlet> facesServletRegistration() {
+    //     final ServletRegistrationBean<FacesServlet> registration = new ServletRegistrationBean<>(new FacesServlet(), "*.xhtml");
+    //     registration.setName("Faces Servlet");
+    //     registration.setLoadOnStartup(1);
+    //
+    //     return registration;
+    // }
 }

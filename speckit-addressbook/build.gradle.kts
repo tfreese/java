@@ -1,7 +1,7 @@
 plugins {
     id("java")
     id("jacoco")
-    // id("org.springframework.boot")
+    id("org.springframework.boot")
     // id("io.spring.dependency-management")
 }
 
@@ -50,6 +50,10 @@ dependencies {
     // mockitoAgent("org.mockito:mockito-core") {
     //     isTransitive = false
     // }
+}
+
+springBoot {
+    mainClass.set("de.addressbook.AddressbookApplication")
 }
 
 // tasks.withType<JavaCompile>().configureEach {
