@@ -24,10 +24,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-/**
- * Unit-Tests fuer {@link PersonService} (Trimmen, Validierung, Sortierung, Suche).
- * Constitution Principle VII: Test Coverage Discipline (Business-Layer).
- */
 @ExtendWith(MockitoExtension.class)
 class PersonServiceTest {
 
@@ -124,27 +120,27 @@ class PersonServiceTest {
     @Test
     void searchTrimsQueryAndDelegatesToRepositoryWithDefaultLimit() {
         final List<Person> expected = List.of(new Person(1L, "Max", "Mustermann", null, 0L));
-        when(personRepository.search("mustermann", 0, PersonService.DEFAULT_PAGE_SIZE))
+        when(personRepository.search("mustermann", PersonService.DEFAULT_PAGE_SIZE, 0))
                 .thenReturn(expected);
 
         final PersonPage result = personService.search("  mustermann  ", 0, PersonService.DEFAULT_PAGE_SIZE);
 
         assertThat(result.content()).isEqualTo(expected);
-        verify(personRepository).search("mustermann", 0, PersonService.DEFAULT_PAGE_SIZE);
+        verify(personRepository).search("mustermann", PersonService.DEFAULT_PAGE_SIZE, 0);
     }
 
     @Test
     void searchWithBlankQueryDelegatesWithEmptyStringForAllEntries() {
         personService.search("   ", 0, PersonService.DEFAULT_PAGE_SIZE);
 
-        verify(personRepository).search("", 0, PersonService.DEFAULT_PAGE_SIZE);
+        verify(personRepository).search("", PersonService.DEFAULT_PAGE_SIZE, 0);
     }
 
     @Test
     void searchWithNullQueryDelegatesWithEmptyStringForAllEntries() {
         personService.search(null, 0, PersonService.DEFAULT_PAGE_SIZE);
 
-        verify(personRepository).search(null, 0, PersonService.DEFAULT_PAGE_SIZE);
+        verify(personRepository).search(null, PersonService.DEFAULT_PAGE_SIZE, 0);
     }
 
     @BeforeEach

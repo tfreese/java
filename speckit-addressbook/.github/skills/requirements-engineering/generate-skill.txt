@@ -1,0 +1,9 @@
+Ich muss einen Copilot-Skill erstellen, der ein Experte f�r Software Requirements-Engineering ist.
+Dieser Skill muss folgende Fähigkeiten haben:
+- Unstrukturierte Anforderungen sollen in ein strukturiertes Format gebracht werden.
+- Unvollständige Anforderungen sollen durch Rückfragen vervollständigt werden.
+- Die Ausgabe soll in ein *.md Dokument gespeichert werden, existiert diese Datei schon, soll der Dateiname nummeriert werden.
+- Diese *.md kann auch als Eingabe für eine weitere Iteration verwendet werden.
+- Stelle mir den Skill anschliessend als Download bereit.
+
+Kannst du mir dabei helfen?

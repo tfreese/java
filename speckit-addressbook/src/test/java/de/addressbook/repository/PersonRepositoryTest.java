@@ -1,24 +1,20 @@
 package de.addressbook.repository;
 
-import de.addressbook.model.Person;
-import jakarta.annotation.Resource;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.jdbc.core.JdbcTemplate;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
+import jakarta.annotation.Resource;
 
-/**
- * Integrationstests fuer {@link PersonRepository} gegen embedded H2 (reale SQL-Pfade,
- * inkl. Sequenz und spaeter Optimistic-Locking-Konflikt).
- * Constitution Principle VII: Test Coverage Discipline (Persistence-Layer).
- */
+import de.addressbook.model.Person;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 @SpringBootTest
 @Import(PersonRepository.class)
 class PersonRepositoryTest {
@@ -36,22 +32,21 @@ class PersonRepositoryTest {
     }
 
     @Test
-    void insertAssignsIdFromSequenceAndDefaultsCreatedAtAndVersion() {
-        final Person inserted = personRepository.insert(Person.newEntry("Max", "Mustermann"));
+    void deleteByIdRemovesExistingEntryAndReturnsTrue() {
+        final Person inserted = personRepository.insert(Person.newEntry("Vor", "Nach"));
 
-        assertThat(inserted.id()).isNotNull();
-        assertThat(inserted.firstName()).isEqualTo("Max");
-        assertThat(inserted.lastName()).isEqualTo("Mustermann");
-        assertThat(inserted.createdAt()).isNotNull();
-        assertThat(inserted.version()).isZero();
+        assertThat(personRepository.deleteById(inserted.id())).isTrue();
+        assertThat(personRepository.findById(inserted.id())).isEmpty();
     }
 
     @Test
-    void insertAssignsDistinctIncreasingIdsFromPersonSeq() {
-        final Person first = personRepository.insert(Person.newEntry("Anna", "Erste"));
-        final Person second = personRepository.insert(Person.newEntry("Bea", "Zweite"));
+    void deleteByIdWithUnknownIdReturnsFalse() {
+        assertThat(personRepository.deleteById(999_999L)).isFalse();
+    }
 
-        assertThat(second.id()).isGreaterThan(first.id());
+    @Test
+    void findByIdReturnsEmptyForUnknownId() {
+        assertThat(personRepository.findById(999_999L)).isEmpty();
     }
 
     @Test
@@ -67,8 +62,22 @@ class PersonRepositoryTest {
     }
 
     @Test
-    void findByIdReturnsEmptyForUnknownId() {
-        assertThat(personRepository.findById(999_999L)).isEmpty();
+    void insertAssignsDistinctIncreasingIdsFromPersonSeq() {
+        final Person first = personRepository.insert(Person.newEntry("Anna", "Erste"));
+        final Person second = personRepository.insert(Person.newEntry("Bea", "Zweite"));
+
+        assertThat(second.id()).isGreaterThan(first.id());
+    }
+
+    @Test
+    void insertAssignsIdFromSequenceAndDefaultsCreatedAtAndVersion() {
+        final Person inserted = personRepository.insert(Person.newEntry("Max", "Mustermann"));
+
+        assertThat(inserted.id()).isNotNull();
+        assertThat(inserted.firstName()).isEqualTo("Max");
+        assertThat(inserted.lastName()).isEqualTo("Mustermann");
+        assertThat(inserted.createdAt()).isNotNull();
+        assertThat(inserted.version()).isZero();
     }
 
     @Test
@@ -103,19 +112,19 @@ class PersonRepositoryTest {
     }
 
     @Test
+    void searchReturnsEmptyListForNoMatches() {
+        final String neverUsedToken = "NoMatchTok" + UUID.randomUUID();
+
+        assertThat(personRepository.search(neverUsedToken, 500, 0)).isEmpty();
+    }
+
+    @Test
     void searchWithEmptyQueryReturnsAllEntries() {
         personRepository.insert(Person.newEntry("Egal", "Wurscht" + UUID.randomUUID()));
 
         final List<Person> results = personRepository.search("", 500, 0);
 
         assertThat(results).isNotEmpty();
-    }
-
-    @Test
-    void searchReturnsEmptyListForNoMatches() {
-        final String neverUsedToken = "NoMatchTok" + UUID.randomUUID();
-
-        assertThat(personRepository.search(neverUsedToken, 500, 0)).isEmpty();
     }
 
     @Test
@@ -151,18 +160,5 @@ class PersonRepositoryTest {
     @Test
     void updateWithUnknownIdReturnsZeroRowsAffected() {
         assertThat(personRepository.update(999_999L, "Vor", "Nach", 0L)).isZero();
-    }
-
-    @Test
-    void deleteByIdRemovesExistingEntryAndReturnsTrue() {
-        final Person inserted = personRepository.insert(Person.newEntry("Vor", "Nach"));
-
-        assertThat(personRepository.deleteById(inserted.id())).isTrue();
-        assertThat(personRepository.findById(inserted.id())).isEmpty();
-    }
-
-    @Test
-    void deleteByIdWithUnknownIdReturnsFalse() {
-        assertThat(personRepository.deleteById(999_999L)).isFalse();
     }
 }

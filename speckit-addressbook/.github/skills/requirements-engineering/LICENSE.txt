@@ -1,0 +1,5 @@
+Interne Nutzung.
+
+Dieser Skill wurde für den internen Gebrauch erstellt. Er darf innerhalb der Organisation frei
+kopiert, angepasst und in Repositories oder persönlichen Skill-Verzeichnissen abgelegt werden.
+Bei Weitergabe außerhalb der Organisation bitte Rücksprache mit dem Ersteller halten.

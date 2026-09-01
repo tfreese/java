@@ -125,9 +125,9 @@ class PersonControllerIT {
 
         mockMvc.perform(get("/api/persons").param("q", uniqueLastName.toLowerCase()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].firstName", is("Anna")))
-                .andExpect(jsonPath("$[1].firstName", is("Bea")));
+                .andExpect(jsonPath("$.content", hasSize(2)))
+                .andExpect(jsonPath("$.content[0].firstName", is("Anna")))
+                .andExpect(jsonPath("$.content[1].firstName", is("Bea")));
     }
 
     @Test

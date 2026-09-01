@@ -125,6 +125,12 @@ public class PersonRepository {
                         + "ORDER BY LASTNAME, FIRSTNAME "
                         + "LIMIT ? OFFSET ?",
                 ROW_MAPPER, pattern, pattern, limit, offset);
+        //
+        // return jdbcTemplate.query(SELECT_COLUMNS
+        //                 + " WHERE LOWER(FIRSTNAME) LIKE ? OR LOWER(LASTNAME) LIKE ? "
+        //                 + "ORDER BY LASTNAME, FIRSTNAME "
+        //         ,
+        //         ROW_MAPPER, pattern, pattern);
     }
 
     /**

@@ -96,8 +96,11 @@ public class PersonService {
             throw new IllegalArgumentException("size muss zwischen 1 und " + MAX_PAGE_SIZE + " liegen");
         }
 
+        final int limit = safeSize;
+        final int offset = safePage * safeSize;
+
         final String trimmedQuery = query == null ? null : query.trim();
-        final List<Person> content = personRepository.search(trimmedQuery, safePage, safeSize);
+        final List<Person> content = personRepository.search(trimmedQuery, limit, offset);
         final long totalElements = personRepository.count(trimmedQuery);
         final int totalPages = (int) Math.ceil((double) totalElements / safeSize);
 

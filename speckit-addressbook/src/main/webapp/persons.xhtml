@@ -2,40 +2,45 @@
 <!DOCTYPE html>
 
 <html xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui"
       xmlns="http://www.w3.org/1999/xhtml"
       lang="de">
+
 <h:head>
     <title>Adressbuch</title>
+    <meta charset="UTF-8"/>
 </h:head>
+
 <h:body>
     <h1>Adressbuch</h1>
 
-    <!-- <h:form id="createForm"> -->
-    <!--     <p:panel header="Neue Person anlegen"> -->
-    <!--         <h:panelGrid columns="2" cellpadding="5"> -->
-    <!--             <h:outputLabel for="firstName" value="Vorname:"/> -->
-    <!--             <p:inputText id="firstName" value="#{personBean.firstName}" required="true"/> -->
+    <h:form id="createForm">
+        <p:panel header="Neue Person anlegen">
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputLabel for="firstName" value="Vorname:"/>
+                <p:inputText id="firstName" value="#{personBean.firstName}" required="true"/>
 
-    <!--             <h:outputLabel for="lastName" value="Nachname:"/> -->
-    <!--             <p:inputText id="lastName" value="#{personBean.lastName}" required="true"/> -->
+                <h:outputLabel for="lastName" value="Nachname:"/>
+                <p:inputText id="lastName" value="#{personBean.lastName}" required="true"/>
 
-    <!--             <f:facet name="footer"> -->
-    <!--                 <p:commandButton value="Speichern" -->
-    <!--                                  action="#{personBean.save}" -->
-    <!--                                  update="createForm" ajax="true"/> -->
-    <!--             </f:facet> -->
-    <!--         </h:panelGrid> -->
+                <f:facet name="footer">
+                    <p:commandButton value="Speichern"
+                                     action="#{personBean.save}"
+                                     update="createForm" ajax="true"/>
+                </f:facet>
+            </h:panelGrid>
 
-    <!--         <p:message for="firstName"/> -->
-    <!--         <p:message for="lastName"/> -->
+            <p:message for="firstName"/>
+            <p:message for="lastName"/>
 
-    <!--         <h:panelGroup rendered="#{not empty personBean.errorMessage}"> -->
-    <!--             <p:messages severity="error"> -->
-    <!--                 <h:outputText value="#{personBean.errorMessage}"/> -->
-    <!--             </p:messages> -->
-    <!--         </h:panelGroup> -->
-    <!--     </p:panel> -->
-    <!-- </h:form> -->
+            <h:panelGroup rendered="#{not empty personBean.errorMessage}">
+                <p:messages severity="error">
+                    <h:outputText value="#{personBean.errorMessage}"/>
+                </p:messages>
+            </h:panelGroup>
+        </p:panel>
+    </h:form>
 
     <!-- <h:form id="searchForm" style="margin-top: 1rem"> -->
     <!--     <p:panel header="Personen suchen"> -->

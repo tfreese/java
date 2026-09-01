@@ -114,11 +114,10 @@ public class PersonBean {
     }
 
     private final PersonService personService;
-    private final LazyDataModel<PersonRow> persons;
-
     private String errorMessage;
     private String firstName;
     private String lastName;
+    private LazyDataModel<PersonRow> persons;
     private String query;
     private String rowErrorMessage;
 
@@ -126,7 +125,19 @@ public class PersonBean {
         super();
 
         this.personService = personService;
-        this.persons = new PersonLazyDataModel();
+        this.persons = new LazyDataModel<>() {
+            @Override
+            public int count(final Map<String, FilterMeta> filterBy) {
+                return 0;
+            }
+
+            @Override
+            public List<PersonRow> load(final int first, final int pageSize, final Map<String, SortMeta> sortBy, final Map<String, FilterMeta> filterBy) {
+                setRowCount(0);
+
+                return List.of();
+            }
+        };
     }
 
     /**
@@ -267,9 +278,35 @@ public class PersonBean {
 
     public void setQuery(final String query) {
         this.query = query;
+
+        this.persons = createLazyDataModel(query);
     }
 
     public void showAll() {
         query = null;
+
+        this.persons = createLazyDataModel(query);
+    }
+
+    private LazyDataModel<PersonRow> createLazyDataModel(final String query) {
+        return new LazyDataModel<PersonRow>() {
+            @Override
+            public int count(final Map<String, FilterMeta> filterBy) {
+                return (int) personService.search(query, 0, 1).totalElements();
+            }
+
+            @Override
+            public List<PersonRow> load(final int first, final int pageSize, final Map<String, SortMeta> sortBy, final Map<String, FilterMeta> filterBy) {
+                final int effectivePageSize = pageSize <= 0 ? PersonService.DEFAULT_PAGE_SIZE : pageSize;
+                final int page = first / effectivePageSize;
+
+                final PersonPage result = personService.search(query, page, effectivePageSize);
+                // final PersonPage result = personService.search(query, first, effectivePageSize);
+
+                setRowCount((int) result.totalElements());
+
+                return result.content().stream().map(PersonRow::new).toList();
+            }
+        };
     }
 }
