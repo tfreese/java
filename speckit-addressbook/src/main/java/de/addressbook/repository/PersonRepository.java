@@ -97,7 +97,7 @@ public class PersonRepository {
                 "INSERT INTO PERSON (ID, FIRSTNAME, LASTNAME) VALUES (?, ?, ?)",
                 id, person.firstName(), person.lastName());
 
-        LOGGER.debug("Person angelegt: id?{}, firstName={}, lastName={}", id, person.firstName(), person.lastName());
+        LOGGER.debug("Person angelegt: id={}, firstName={}, lastName={}", id, person.firstName(), person.lastName());
 
         return findById(id)
                 .orElseThrow(() -> new IllegalStateException(
@@ -125,12 +125,6 @@ public class PersonRepository {
                         + "ORDER BY LASTNAME, FIRSTNAME "
                         + "LIMIT ? OFFSET ?",
                 ROW_MAPPER, pattern, pattern, limit, offset);
-        //
-        // return jdbcTemplate.query(SELECT_COLUMNS
-        //                 + " WHERE LOWER(FIRSTNAME) LIKE ? OR LOWER(LASTNAME) LIKE ? "
-        //                 + "ORDER BY LASTNAME, FIRSTNAME "
-        //         ,
-        //         ROW_MAPPER, pattern, pattern);
     }
 
     /**

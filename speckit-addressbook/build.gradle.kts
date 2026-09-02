@@ -36,12 +36,17 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    // implementation("org.springframework.boot:spring-boot-starter-webmvc")
+    implementation("org.springframework.boot:spring-boot-starter-webmvc")
 
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.springframework.boot:spring-boot-h2console")
     runtimeOnly("org.springframework.boot:spring-boot-properties-migrator")
+
+    // Nur fuer lokale Entwicklung (nicht im produktiven Fat-Jar enthalten):
+    // automatischer Neustart bei Java-Aenderungen + LiveReload-Browser-Refresh.
+    // XHTML-Aenderungen loesen dank joinfaces.faces.facelets-refresh-period=0
+    // (application.properties) ohnehin KEINEN Neustart aus - nur den LiveReload.
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")

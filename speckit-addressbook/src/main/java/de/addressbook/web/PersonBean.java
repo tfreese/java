@@ -1,11 +1,13 @@
 package de.addressbook.web;
 
 import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
 import jakarta.validation.ConstraintViolationException;
 
 import de.addressbook.model.Person;
@@ -20,7 +22,6 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,10 +34,13 @@ import org.springframework.stereotype.Component;
  * den Tasks der User Stories 2-4.
  */
 @Component("personBean")
-@Scope("session")
-public class PersonBean {
-
+// @Scope("session")
+@ViewScoped
+public class PersonBean implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(PersonBean.class);
+
+    @Serial
+    private static final long serialVersionUID = -2467917016794172988L;
 
     /**
      * Mutable Sicht auf {@link Person} fuer die editierbare PrimeFaces-Tabelle (T040): Der
@@ -44,7 +48,9 @@ public class PersonBean {
      * PrimeFaces-Inline-Bearbeitung (Cell-Editor) benoetigt jedoch JavaBean-Setter fuer die
      * bearbeiteten Spalten.
      */
-    public static final class PersonRow {
+    public static final class PersonRow implements Serializable {
+        @Serial
+        private static final long serialVersionUID = -2467917016794172988L;
 
         private final long id;
 
@@ -92,40 +98,23 @@ public class PersonBean {
         }
     }
 
-    private final class PersonLazyDataModel extends LazyDataModel<PersonRow> {
-        @Serial
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public int count(final Map<String, FilterMeta> filterBy) {
-            return (int) personService.search(query, 0, 1).totalElements();
-        }
-
-        @Override
-        public List<PersonRow> load(final int loadFirst, final int pageSize, final Map<String, SortMeta> sortBy, final Map<String, FilterMeta> filterBy) {
-            final int effectivePageSize = pageSize <= 0 ? PersonService.DEFAULT_PAGE_SIZE : pageSize;
-            final int page = loadFirst / effectivePageSize;
-            final PersonPage result = personService.search(query, page, effectivePageSize);
-
-            setRowCount((int) result.totalElements());
-
-            return result.content().stream().map(PersonRow::new).toList();
-        }
-    }
-
-    private final PersonService personService;
+    private final transient PersonService personService;
     private String errorMessage;
     private String firstName;
     private String lastName;
     private LazyDataModel<PersonRow> persons;
     private String query;
     private String rowErrorMessage;
+    private PersonRow selectedPerson;
 
     public PersonBean(final PersonService personService) {
         super();
 
         this.personService = personService;
         this.persons = new LazyDataModel<>() {
+            @Serial
+            private static final long serialVersionUID = -7433301790014332067L;
+
             @Override
             public int count(final Map<String, FilterMeta> filterBy) {
                 return 0;
@@ -158,13 +147,16 @@ public class PersonBean {
             if (currentCount > 0) {
                 persons.setRowCount(currentCount - 1);
             }
+
+            final FacesMessage msg = new FacesMessage("Person gelöscht", row.getLastName() + ", " + row.getFirstName());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
         }
         catch (final PersonNotFoundException _) {
             rowErrorMessage = "Der Eintrag existiert nicht mehr.";
         }
-        // finally {
-        //     persons.u;
-        // }
+        catch (final Exception ex) {
+            rowErrorMessage = ex.getMessage();
+        }
     }
 
     public String getErrorMessage() {
@@ -189,6 +181,10 @@ public class PersonBean {
 
     public String getRowErrorMessage() {
         return rowErrorMessage;
+    }
+
+    public PersonRow getSelectedPerson() {
+        return selectedPerson;
     }
 
     /**
@@ -240,7 +236,7 @@ public class PersonBean {
     public void onRowSelect(final SelectEvent<PersonRow> event) {
         final PersonRow row = event.getObject();
 
-        final FacesMessage msg = new FacesMessage("Customer Selected", row.getLastName() + ", " + row.getFirstName());
+        final FacesMessage msg = new FacesMessage("Person selektiert", row.getLastName() + ", " + row.getFirstName());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -265,7 +261,7 @@ public class PersonBean {
     }
 
     public void search() {
-        // Empty
+        this.persons = createLazyDataModel(query);
     }
 
     public void setFirstName(final String firstName) {
@@ -278,21 +274,42 @@ public class PersonBean {
 
     public void setQuery(final String query) {
         this.query = query;
+    }
 
-        this.persons = createLazyDataModel(query);
+    public void setSelectedPerson(final PersonRow selectedPerson) {
+        this.selectedPerson = selectedPerson;
     }
 
     public void showAll() {
         query = null;
 
-        this.persons = createLazyDataModel(query);
+        this.persons = createLazyDataModel(null);
     }
 
     private LazyDataModel<PersonRow> createLazyDataModel(final String query) {
-        return new LazyDataModel<PersonRow>() {
+        return new LazyDataModel<>() {
+            @Serial
+            private static final long serialVersionUID = 8047964745155459147L;
+
             @Override
             public int count(final Map<String, FilterMeta> filterBy) {
                 return (int) personService.search(query, 0, 1).totalElements();
+            }
+
+            /**
+             * Für Selection.
+             */
+            @Override
+            public PersonRow getRowData(final String rowKey) {
+                return getWrappedData().stream()
+                        .filter(row -> Long.toString(row.getId()).equals(rowKey))
+                        .findFirst()
+                        .orElse(null);
+            }
+
+            @Override
+            public String getRowKey(final PersonRow object) {
+                return Long.toString(object.getId());
             }
 
             @Override
@@ -301,7 +318,6 @@ public class PersonBean {
                 final int page = first / effectivePageSize;
 
                 final PersonPage result = personService.search(query, page, effectivePageSize);
-                // final PersonPage result = personService.search(query, first, effectivePageSize);
 
                 setRowCount((int) result.totalElements());
 
