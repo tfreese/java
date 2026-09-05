@@ -84,14 +84,14 @@
 
     <!-- ######################################################################################################################################## -->
 
+    <logger name="de.freese" level="&level_APPLICATION;">
+    </logger>
+    
     <root level="&level_ROOT;">
         <appender-ref ref="CONSOLE_STD" />
         <appender-ref ref="CONSOLE_ERR" />
         <appender-ref ref="FILE_ASYNC" />
         <appender-ref ref="DATABASE_ASYNC" />
     </root>
-
-    <logger name="de.freese" level="&level_APPLICATION;">
-    </logger>
 
 </configuration>

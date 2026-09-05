@@ -18,19 +18,19 @@
     <xi:include href="appender-db.xml" />
 
     <Loggers>
-        <Root level="&level_ROOT;">
-            <AppenderRef ref="CONSOLE_STD" />
-            <AppenderRef ref="CONSOLE_ERR" />
-            <AppenderRef ref="FILE" />
-            <AppenderRef ref="DB" />
-        </Root>
-
         <Logger name="de.freese" additivity="false" level="&level_APPLICATION;">
             <AppenderRef ref="CONSOLE_STD" />
             <AppenderRef ref="CONSOLE_ERR" />
             <AppenderRef ref="FILE" />
             <AppenderRef ref="DB" />
         </Logger>
+        
+        <Root level="&level_ROOT;">
+            <AppenderRef ref="CONSOLE_STD" />
+            <AppenderRef ref="CONSOLE_ERR" />
+            <AppenderRef ref="FILE" />
+            <AppenderRef ref="DB" />
+        </Root>
     </Loggers>
 
 </Configuration>

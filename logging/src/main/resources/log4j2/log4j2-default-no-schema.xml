@@ -114,18 +114,18 @@
     <!-- ######################################################################################################################################## -->
 
     <Loggers>
-        <Root level="&level_ROOT;">
-            <AppenderRef ref="ConsoleAppenderOut" />
-            <AppenderRef ref="ConsoleAppenderErr" />
-            <AppenderRef ref="FileAppenderAsync" />
-        </Root>
-
         <Logger name="de.freese" additivity="false" level="&level_APPLICATION;">
             <AppenderRef ref="ConsoleAppenderOut" />
             <AppenderRef ref="ConsoleAppenderErr" />
             <AppenderRef ref="FileAppenderAsync" />
             <AppenderRef ref="DatabaseAppenderMyModuleAsync" />
         </Logger>
+        
+        <Root level="&level_ROOT;">
+            <AppenderRef ref="ConsoleAppenderOut" />
+            <AppenderRef ref="ConsoleAppenderErr" />
+            <AppenderRef ref="FileAppenderAsync" />
+        </Root>
     </Loggers>
 
 </Configuration>

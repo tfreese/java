@@ -103,15 +103,15 @@
     <!-- ######################################################################################################################################## -->
 
     <Loggers>
+        <Logger name="de.freese" level="INFO">
+            <AppenderRef ref="DatabaseAppenderMyModuleAsync" />
+        </Logger>
+        
         <Root level="INFO" additivity="false">
             <AppenderRef ref="ConsoleAppenderOut" />
             <AppenderRef ref="ConsoleAppenderErr" />
             <AppenderRef ref="FileAppenderAsync" />
         </Root>
-
-        <Logger name="de.freese" level="INFO">
-            <AppenderRef ref="DatabaseAppenderMyModuleAsync" />
-        </Logger>
     </Loggers>
 
 </Configuration>

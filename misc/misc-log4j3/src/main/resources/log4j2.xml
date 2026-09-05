@@ -69,6 +69,9 @@
         </Async>
 
         <JDBC name="DATABASE_APPENDER" tableName="LOGGING" bufferSize="3">
+            <DataSource jndiName="java:comp/env/jdbc/logging" />
+            <!-- <ConnectionFactory class="de.freese.ConnectionFactory" method="getDatabaseConnection" /> -->
+            
             <Column name="ID" literal="next value for LOGGING_SEQUENCE" />
             <Column name="EVENT_DATE" isEventTimestamp="true" />
             <Column name="HOST" pattern="${sys:HOSTNAME:-localhost}" />
@@ -80,9 +83,6 @@
             <Column name="LOGGER" pattern="%logger" />
             <Column name="MESSAGE" pattern="%maxLen{%message}{1997}" /><!-- log4j cutting Strings > 2000 chars and adds '...'-->
             <Column name="THROWABLE" pattern="%maxLen{%exception{full}}{3997}" />
-
-            <DataSource jndiName="java:comp/env/jdbc/logging" />
-            <!-- <ConnectionFactory class="de.freese.ConnectionFactory" method="getDatabaseConnection" /> -->
         </JDBC>
 
         <!-- The modul Property is required by JdbcAppender. -->
@@ -102,15 +102,15 @@
     <!-- ######################################################################################################################################## -->
 
     <Loggers>
+        <Logger name="de.freese" level="INFO">
+            <AppenderRef ref="DATABASE_APPENDER_MY_MODULE_ASYNC" />
+        </Logger>
+
         <Root level="INFO">
             <AppenderRef ref="CONSOLE_STD" />
             <AppenderRef ref="CONSOLE_ERR" />
             <AppenderRef ref="FILE_ASYNC" />
         </Root>
-
-        <Logger name="de.freese" level="INFO">
-            <AppenderRef ref="DATABASE_APPENDER_MY_MODULE_ASYNC" />
-        </Logger>
     </Loggers>
 
 </Configuration>
