@@ -366,8 +366,8 @@ public class Matrix {
      */
     @Override
     public String toString() {
-        return "|" + m11 + ";" + "|" + m12 + ";" + "|" + m13 + "|" + System.lineSeparator() +
-                "|" + m21 + ";" + "|" + m22 + ";" + "|" + m23 + "|" + System.lineSeparator() +
-                "|" + m31 + ";" + "|" + m32 + ";" + "|" + m33 + "|" + System.lineSeparator();
+        return "|" + m11 + ";" + "|" + m12 + ";" + "|" + m13 + "|" + System.lineSeparator()
+                + "|" + m21 + ";" + "|" + m22 + ";" + "|" + m23 + "|" + System.lineSeparator()
+                + "|" + m31 + ";" + "|" + m32 + ";" + "|" + m33 + "|" + System.lineSeparator();
     }
 }

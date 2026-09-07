@@ -7,17 +7,21 @@ Quick checklist (startup)
 - Read `settings.gradle` to discover modules and boundaries.
 - Run `./gradlew :<module>:build` or `./gradlew build` to compile all modules.
 - Run tests with `./gradlew test` or `./gradlew :<module>:test`.
+ - Read `settings.gradle.kts` (or `settings.gradle` if present) to discover modules and boundaries.
+ - Run `./gradlew :<module>:build` or `./gradlew build` to compile all modules.
+ - Run tests with `./gradlew test` or `./gradlew :<module>:test`.
 
 Big picture (architecture)
 - Multi-module Gradle Java project. The canonical module list is in `settings.gradle` (root). Examples of major modules:
-  - `binding/` — library with MavenPublication and POM customization (`binding/build.gradle`).
-  - `cellular-machines/` — application module (Spring Boot) with `mainClass` and `bootRun` configuration (`cellular-machines/build.gradle`).
-  - `jconky/` — JavaFX + Spring Boot application; platform/natives handled via `javafx` config (`jconky/build.gradle`).
-  - `dependency-utils/` — application launcher and utility tooling; defines `application` plugin `mainClass` (`dependency-utils/build.gradle`).
-  - `meta-model/` — code-generation tasks and maintenance scripts (`meta-model/build.gradle`).
+ - Multi-module Gradle Java project. The canonical module list is in `settings.gradle.kts` (root). Examples of major modules:
+  - `binding/` — library with MavenPublication and POM customization (`binding/build.gradle.kts`).
+  - `cellular-machines/` — application module (Spring Boot) with `mainClass` and `bootRun` configuration (`cellular-machines/build.gradle.kts`).
+  - `jconky/` — JavaFX + Spring Boot application; platform/natives handled via `javafx` config (`jconky/build.gradle.kts`).
+  - `dependency-utils/` — application launcher and utility tooling; defines `application` plugin `mainClass` (`dependency-utils/build.gradle.kts`).
+  - `meta-model/` — code-generation tasks and maintenance scripts (`meta-model/build.gradle.kts`).
 
 Where agents matter in this repo
-- Tests: the root `build.gradle` configures a `-javaagent:` JVM arg (used for mocking/coverage instrumentation). See the Test task configuration that appends `-javaagent:` to `jvmArgs` — agents are often injected here for tests.
+ - Tests: the root `build.gradle.kts` (Kotlin DSL) configures a `-javaagent:` JVM arg (used for mocking/coverage instrumentation). See the Test task configuration that appends `-javaagent:` to `jvmArgs` — agents are often injected here for tests.
 - Runtime: application modules use `application` or Spring Boot `bootRun` tasks. Attach agents by
   - adding to `bootRun.jvmArgs = ['-javaagent:/path/to/agent.jar']` in the module `build.gradle`, or
   - export `JAVA_TOOL_OPTIONS="-javaagent:/path/to/agent.jar"` before running `./gradlew :<module>:bootRun` or the generated start script.
@@ -27,6 +31,8 @@ Project-specific conventions
 - Publishing: `binding/build.gradle` customizes `MavenPublication` and the POM; follow that pattern for any module that is published.
 - Codegen and maintenance tasks live in modules like `meta-model/` (look for custom tasks such as `deleteAppFolder`); expect non-standard Gradle tasks.
 - JavaFX platform handling: `jconky` shows `javafx` block and platform-specific settings — native packaging is handled per-module.
+
+ - Kotlin DSL note: this repository has migrated to Gradle Kotlin DSL in most places (`*.gradle.kts`). When editing build scripts prefer `build.gradle.kts` and `settings.gradle.kts`. Some legacy or backup files exist alongside `.kts` files (e.g., `build.gradle_` or `settings.gradle.kts_`) — prefer the `.kts` files unless you can confirm the underscore file is actively used.
 
 Developer workflows (explicit commands)
 - Build all: `./gradlew build` (root wrapper exists).
@@ -41,23 +47,23 @@ Integration points & external deps
 - Publishing targets are configured in modules like `binding` — check `publishing { publications { mavenJava { ... } } }`.
 
 Patterns and examples to look for
-- Test agent injection (root `build.gradle`): look for `test { jvmArgs += "-javaagent:${...}" }`.
-- Spring Boot main class & bootRun examples: `cellular-machines/build.gradle` and `jconky/build.gradle` define `mainClass` and `bootRun` behavior.
-- Custom Gradle tasks: `meta-model/build.gradle` contains small maintenance tasks; search for `task ` definitions.
+- Test agent injection (root `build.gradle.kts`): look for `test { jvmArgs += "-javaagent:${...}" }`.
+- Spring Boot main class & bootRun examples: `cellular-machines/build.gradle.kts` and `jconky/build.gradle.kts` define `mainClass` and `bootRun` behavior.
+- Custom Gradle tasks: `meta-model/build.gradle.kts` contains small maintenance tasks; search for `task ` definitions.
 
 Where to read next (key files)
-- `settings.gradle` — canonical module list and project name.
-- `build.gradle` (root) — shared plugin and test agent configuration.
-- `binding/build.gradle`, `cellular-machines/build.gradle`, `jconky/build.gradle`, `dependency-utils/build.gradle`, `meta-model/build.gradle` — examples of module responsibilities and conventions.
+ - `settings.gradle.kts` (or `settings.gradle`) — canonical module list and project name.
+ - `build.gradle.kts` (root) — shared plugin and test agent configuration.
+ - `binding/build.gradle.kts`, `cellular-machines/build.gradle.kts`, `jconky/build.gradle.kts`, `dependency-utils/build.gradle.kts`, `meta-model/build.gradle.kts` — examples of module responsibilities and conventions.
 - `.idea/workspace.xml` — indicates IDE Copilot persistence (developer tooling note).
 
 Notes for AI agents
-- Prefer modifying module `build.gradle` files for runtime agent injection rather than changing root behavior, unless the change is intended to be global.
+- Prefer modifying module `build.gradle.kts` files for runtime agent injection rather than changing root behavior, unless the change is intended to be global.
 - When running or debugging, prefer the Gradle wrapper (`./gradlew`) to ensure consistent JVM/tooling versions.
-- Cite exact file lines when suggesting changes (e.g., "edit `build.gradle` Test task where `jvmArgs` is set").
+- Cite exact file lines when suggesting changes (e.g., "edit `build.gradle.kts` Test task where `jvmArgs` is set").
 
 If you add this file to code review
-- Include a short snippet of the actual `-javaagent:` line you intend to add and the target module. Reference the module `build.gradle` path for reviewers.
+- Include a short snippet of the actual `-javaagent:` line you intend to add and the target module. Reference the module `build.gradle.kts` path for reviewers.
 
 — End of AGENTS.md
 

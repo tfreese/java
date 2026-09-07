@@ -94,7 +94,7 @@ class TestBackends {
 
         final List<String> lines = Files.readAllLines(path);
         assertEquals(3, lines.size());
-        assertEquals(3L, lines.getFirst().chars().filter(c -> ((char) c) == ',').count());
+        assertEquals(3L, lines.getFirst().chars().filter(c -> (char) c == ',').count());
     }
 
     @Test
@@ -113,7 +113,7 @@ class TestBackends {
 
             final List<String> lines = Files.readAllLines(path);
             assertEquals(2, lines.size());
-            assertEquals(2L, lines.getFirst().chars().filter(c -> ((char) c) == ',').count());
+            assertEquals(2L, lines.getFirst().chars().filter(c -> (char) c == ',').count());
         }
     }
 

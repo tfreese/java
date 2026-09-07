@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -102,6 +103,8 @@ class PersonControllerIT {
                 .andExpect(status().isCreated())
                 .andReturn().getResponse().getHeader("Location");
 
+        assertNotNull(location, "Location header should not be null");
+
         mockMvc.perform(get(location))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", is("Bea")))
@@ -161,8 +164,7 @@ class PersonControllerIT {
         final String location = createPersonAndGetLocation("Update", "Erfolg");
         final long id = idFromLocation(location);
 
-        final String updateBody = objectMapper.writeValueAsString(
-                new PersonUpdateRequest("Update", "Erfolgreich", 0L));
+        final String updateBody = objectMapper.writeValueAsString(new PersonUpdateRequest("Update", "Erfolgreich", 0L));
 
         mockMvc.perform(put("/api/persons/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON).content(updateBody))
@@ -174,8 +176,7 @@ class PersonControllerIT {
 
     @Test
     void updatePersonByIdReturns404ForUnknownId() throws Exception {
-        final String updateBody = objectMapper.writeValueAsString(
-                new PersonUpdateRequest("Egal", "Egal", 0L));
+        final String updateBody = objectMapper.writeValueAsString(new PersonUpdateRequest("Egal", "Egal", 0L));
 
         mockMvc.perform(put("/api/persons/{id}", 999_999L)
                         .contentType(MediaType.APPLICATION_JSON).content(updateBody))
@@ -188,14 +189,12 @@ class PersonControllerIT {
         final String location = createPersonAndGetLocation("Update", "Konflikt");
         final long id = idFromLocation(location);
 
-        final String firstUpdateBody = objectMapper.writeValueAsString(
-                new PersonUpdateRequest("Update", "Konflikt-Erste-Aenderung", 0L));
+        final String firstUpdateBody = objectMapper.writeValueAsString(new PersonUpdateRequest("Update", "Konflikt-Erste-Aenderung", 0L));
         mockMvc.perform(put("/api/persons/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON).content(firstUpdateBody))
                 .andExpect(status().isOk());
 
-        final String staleUpdateBody = objectMapper.writeValueAsString(
-                new PersonUpdateRequest("Update", "Konflikt-Zweite-Aenderung", 0L));
+        final String staleUpdateBody = objectMapper.writeValueAsString(new PersonUpdateRequest("Update", "Konflikt-Zweite-Aenderung", 0L));
 
         mockMvc.perform(put("/api/persons/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON).content(staleUpdateBody))
@@ -208,8 +207,7 @@ class PersonControllerIT {
         final String location = createPersonAndGetLocation("Update", "Validierung");
         final long id = idFromLocation(location);
 
-        final String updateBody = objectMapper.writeValueAsString(
-                new PersonUpdateRequest("   ", "Validierung", 0L));
+        final String updateBody = objectMapper.writeValueAsString(new PersonUpdateRequest("   ", "Validierung", 0L));
 
         mockMvc.perform(put("/api/persons/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON).content(updateBody))

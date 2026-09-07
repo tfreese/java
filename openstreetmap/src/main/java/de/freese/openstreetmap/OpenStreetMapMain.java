@@ -28,9 +28,16 @@ public final class OpenStreetMapMain {
             final String message = "Nodes = %d, Ways = %d, Relations = %d%n".formatted(model.getNodeMap().size(), model.getWayMap().size(), model.getRelationMap().size());
             LOGGER.log(Level.INFO, message);
 
+            // Funktioniert AUSSCHLIESSLICH bei Nimbus.
+            // UIManager.getLookAndFeelDefaults().put("defaultFont", new Font("SansSerif", Font.PLAIN, 32));
+
+            // System.setProperty("sun.java2d.uiScale", "2.0");
+            UiUtils.setGlobalFontSize(32);
+
             final MyFrame myFrame = new MyFrame(model);
             myFrame.initGui();
-            myFrame.setSize(800, 800);
+            myFrame.setSize(2560, 1440);
+            // myFrame.setSize(1920, 1080);
             myFrame.setLocationRelativeTo(null);
             myFrame.setVisible(true);
 

@@ -12,7 +12,6 @@ import javafx.scene.paint.Stop;
 
 import de.freese.jconky.model.NetworkInfo;
 import de.freese.jconky.model.NetworkInfos;
-import de.freese.jconky.model.NetworkProtocolInfo;
 import de.freese.jconky.model.Values;
 import de.freese.jconky.util.JConkyUtils;
 
@@ -39,7 +38,7 @@ public class NetworkMonitorPainter extends AbstractMonitorPainter {
         downloadMap.computeIfAbsent(lan.getInterfaceName(), key -> new Values<>()).addValue(lan.getDownloadPerSecond());
         uploadMap.computeIfAbsent(lan.getInterfaceName(), key -> new Values<>()).addValue(lan.getUploadPerSecond());
 
-        final NetworkProtocolInfo protocolInfo = networkInfos.getProtocolInfo();
+        // final NetworkProtocolInfo protocolInfo = networkInfos.getProtocolInfo();
         final String externalIp = getContext().getExternalIp();
 
         gc.setFont(getSettings().getFont());

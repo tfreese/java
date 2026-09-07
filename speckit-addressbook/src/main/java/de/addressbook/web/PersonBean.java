@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
  * JSF-Backing-Bean fuer die PrimeFaces-Oberflaeche ({@code persons.xhtml}). Bildet den
  * API-Layer fuer die UI ab (analog zu {@link PersonController} fuer REST, research.md
  * Entscheidung 9) und delegiert Anlege-/Aenderungs-/Loesch-Aktionen an {@link PersonService}.
- * <p>
+ * <p/>
  * Grundgeruest (T023): Formularbindung fuer das Anlegen eines neuen Eintrags (Vorname,
  * Nachname, {@code save()}). Such-/Tabellen-/Bearbeitungs-/Loesch-Funktionalitaet folgen in
  * den Tasks der User Stories 2-4.
@@ -151,7 +151,7 @@ public class PersonBean implements Serializable {
             final FacesMessage msg = new FacesMessage("Person gelöscht", row.getLastName() + ", " + row.getFirstName());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
-        catch (final PersonNotFoundException _) {
+        catch (PersonNotFoundException _) {
             rowErrorMessage = "Der Eintrag existiert nicht mehr.";
         }
         catch (final Exception ex) {
@@ -222,13 +222,13 @@ public class PersonBean implements Serializable {
             final FacesMessage msg = new FacesMessage("Person Edited", row.getLastName() + ", " + row.getFirstName());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
-        catch (final OptimisticLockException _) {
+        catch (OptimisticLockException _) {
             rowErrorMessage = "Der Eintrag wurde zwischenzeitlich von anderer Stelle geaendert. Bitte die Ergebnisliste neu laden.";
         }
-        catch (final PersonNotFoundException _) {
+        catch (PersonNotFoundException _) {
             rowErrorMessage = "Der Eintrag existiert nicht mehr.";
         }
-        catch (final ConstraintViolationException _) {
+        catch (ConstraintViolationException _) {
             rowErrorMessage = "Vorname und Nachname duerfen nicht leer sein und muessen 1 bis 100 Zeichen lang sein.";
         }
     }
@@ -255,7 +255,7 @@ public class PersonBean implements Serializable {
             firstName = null;
             lastName = null;
         }
-        catch (final ConstraintViolationException _) {
+        catch (ConstraintViolationException _) {
             errorMessage = "Vorname und Nachname duerfen nicht leer sein und muessen 1 bis 100 Zeichen lang sein.";
         }
     }

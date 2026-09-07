@@ -109,7 +109,7 @@ public class PersonRepository {
      * dann Vorname (research.md Entscheidung 2, FR-007, FR-017). Ein leerer oder
      * {@code null} Suchbegriff liefert alle Eintraege (begrenzt), da das Muster {@code %%}
      * auf jeden Wert passt (FR-006).
-     * <p>
+     * <p/>
      * {@code limit}/{@code offset} begrenzen die Ergebnismenge serverseitig
      * (research.md Entscheidung 5), um ungefilterte Volltabellenscans zu vermeiden.
      *

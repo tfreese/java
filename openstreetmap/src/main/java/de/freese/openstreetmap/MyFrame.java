@@ -30,8 +30,8 @@ public class MyFrame extends JFrame implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(final ActionEvent e) {
-        final String doWhat = e.getActionCommand();
+    public void actionPerformed(final ActionEvent event) {
+        final String doWhat = event.getActionCommand();
 
         if ("ZTF".equals(doWhat)) {
             myPanel.zoomToFit();

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * Fachlogik fuer Personen: Trimmen, Validierung, Sortierung, Suche (siehe plan.md).
- * <p>
+ * <p/>
  * Logging-Konvention (Constitution Principle VIII, research.md Entscheidung 7): Alle
  * kuenftigen Methoden dieser Klasse MUESSEN auf Level {@code INFO} ausschliesslich die
  * Personen-ID referenzieren; Vor-/Nachname duerfen hoechstens auf Level {@code DEBUG}

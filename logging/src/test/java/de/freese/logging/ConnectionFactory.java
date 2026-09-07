@@ -75,7 +75,7 @@ public final class ConnectionFactory {
                 }
             }
         }
-        catch (final SQLException _) {
+        catch (SQLException _) {
             // Ignore
         }
 

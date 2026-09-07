@@ -39,30 +39,28 @@ dependencyResolutionManagement {
 }
 
 include("binding")
+include("caches")
 include("cellular-machines")
 include("dependency-utils")
+include("genetic-algorithm")
 include("gradle-build-cache")
 include("jconky")
+include("jspecify")
 include("jsensors")
+include("junit5")
+include("led")
 include("logging")
 include("meta-model")
+include("micrometer")
+include("openstreetmap")
+include("protobuf")
+include("sonstiges")
 include("speckit-addressbook")
+include("sudoku")
 
 // file("${rootDir}/misc").eachDirMatch(~/misc-.*/) {
 //    include("misc:${it.name}")
 //}
-
-include("misc:misc-cache")
-include("misc:misc-genetic-algorithm")
-
-include("misc:misc-jspecify")
-include("misc:misc-junit5")
-include("misc:misc-led")
-include("misc:misc-micrometer")
-include("misc:misc-openstreetmap")
-include("misc:misc-protobuf")
-include("misc:misc-sonstiges")
-include("misc:misc-sudoku")
 
 println("")
 println("Gradle version: ${GradleVersion.current().version}")

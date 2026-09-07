@@ -65,10 +65,10 @@ subprojects {
     plugins.withType<JavaPlugin> {
         configurations.configureEach {
             resolutionStrategy {
-                // Keine SNAPSHOTs
+                // Keine SNAPSHOTs.
                 failOnDynamicVersions()
 
-                // Keine dynamischen Versionen
+                // Keine dynamischen Versionen.
                 failOnChangingVersions()
             }
         }

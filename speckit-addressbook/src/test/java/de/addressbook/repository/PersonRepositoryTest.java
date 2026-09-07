@@ -131,8 +131,7 @@ class PersonRepositoryTest {
     void updateChangesFirstNameAndLastNameAndIncrementsVersion() {
         final Person inserted = personRepository.insert(Person.newEntry("Vor", "Nach"));
 
-        final int rowsAffected = personRepository.update(
-                inserted.id(), "NeuVor", "NeuNach", inserted.version());
+        final int rowsAffected = personRepository.update(inserted.id(), "NeuVor", "NeuNach", inserted.version());
 
         assertThat(rowsAffected).isEqualTo(1);
 
@@ -147,8 +146,7 @@ class PersonRepositoryTest {
         final Person inserted = personRepository.insert(Person.newEntry("Vor", "Nach"));
         personRepository.update(inserted.id(), "ErsteAenderung", "Nach", inserted.version());
 
-        final int rowsAffected = personRepository.update(
-                inserted.id(), "ZweiteAenderung", "Nach", inserted.version());
+        final int rowsAffected = personRepository.update(inserted.id(), "ZweiteAenderung", "Nach", inserted.version());
 
         assertThat(rowsAffected).isZero();
 

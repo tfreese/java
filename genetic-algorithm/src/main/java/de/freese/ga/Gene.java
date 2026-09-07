@@ -81,7 +81,6 @@ public class Gene implements Comparable<Gene> {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + ": " +
-                Objects.toString(getValue(), "null");
+        return getClass().getSimpleName() + ": " + Objects.toString(getValue(), "null");
     }
 }
