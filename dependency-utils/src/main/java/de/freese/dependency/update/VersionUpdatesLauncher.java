@@ -76,7 +76,7 @@ public final class VersionUpdatesLauncher {
                                     .setFilter(coordinate -> !coordinate.getGroupId().startsWith("de.freese"))
                                     .fromGradleProperties()
                                     .fromGradleProperties(basePath.resolve("syro", "gradle.properties"))
-                                    .fromGradleProperties(basePath.resolve("java", "misc", "misc-log4j3", "gradle.properties"))
+                                    .fromGradleProperties(basePath.resolve("java", "log4j3", "gradle.properties"))
                                     .fromGradleProperties(pathParents.resolve("tools", "gradle.properties"))
                                     .fromGradleProperties(pathParentsGradle.resolve("gradle-plugins-test", "gradle.properties"))
                                     .fromGradleProperties(pathParentsGradle.resolve("gradle-test-1", "gradle.properties"))

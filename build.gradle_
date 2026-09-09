@@ -17,7 +17,6 @@ allprojects {
     ant.lifecycleLogLevel = "INFO"
 
     // repositories {
-    //
     // }
 }
 

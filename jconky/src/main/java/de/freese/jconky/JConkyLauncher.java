@@ -47,15 +47,15 @@ public final class JConkyLauncher {
         final String unit = "MB";
 
         JConky.getLogger().info("========================== System Info ==========================");
-        JConky.getLogger().info("System: {}/{} - {}", System.getProperty("os.name"), System.getProperty("os.arch"), System.getProperty("os.version"));
-        JConky.getLogger().info("User-Dir: {}", System.getProperty("user.dir"));
-        JConky.getLogger().info("Log-Dir: {}", System.getProperty("LOG_DIR"));
-        JConky.getLogger().info("Programm-Args: {}", Arrays.toString(args));
-        JConky.getLogger().info("CPU Cores: {}", runtime.availableProcessors());
-        JConky.getLogger().info("Free memory: {}", format.format(freeMemory / divider) + unit);
-        JConky.getLogger().info("Allocated memory: {}", format.format(allocatedMemory / divider) + unit);
-        JConky.getLogger().info("Max memory: {}", format.format(maxMemory / divider) + unit);
-        JConky.getLogger().info("Total free memory: {}", format.format((freeMemory + (maxMemory - allocatedMemory)) / divider) + unit);
+        JConky.getLogger().atInfo().log("System: {}/{} - {}", System.getProperty("os.name"), System.getProperty("os.arch"), System.getProperty("os.version"));
+        JConky.getLogger().atInfo().log("User-Dir: {}", System.getProperty("user.dir"));
+        JConky.getLogger().atInfo().log("Log-Dir: {}", System.getProperty("LOG_DIR"));
+        JConky.getLogger().atInfo().log("Programm-Args: {}", Arrays.toString(args));
+        JConky.getLogger().atInfo().log("CPU Cores: {}", runtime.availableProcessors());
+        JConky.getLogger().atInfo().log("Free memory: {}", format.format(freeMemory / divider) + unit);
+        JConky.getLogger().atInfo().log("Allocated memory: {}", format.format(allocatedMemory / divider) + unit);
+        JConky.getLogger().atInfo().log("Max memory: {}", format.format(maxMemory / divider) + unit);
+        JConky.getLogger().atInfo().log("Total free memory: {}", format.format((freeMemory + (maxMemory - allocatedMemory)) / divider) + unit);
         JConky.getLogger().info("=================================================================");
 
         // try (PrintWriter pw = new PrintWriter(new FileOutputStream("/jconky/logs/application.log", true), true, StandardCharsets.UTF_8)) {
