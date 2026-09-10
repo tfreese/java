@@ -58,7 +58,6 @@ subprojects {
                 // exclude("xml-apis:xml-apis")
             }
             dependency("org.jsoup:jsoup:" + property("version_jsoup"))
-            // dependency("org.jspecify:jspecify:" + property("version_jspecify"))
         }
     }
 
