@@ -3,10 +3,10 @@ package de.freese.sonstiges.xml;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -38,6 +38,8 @@ class TestJacksonJson {
         final AnnotationIntrospector jacksonIntrospector = new JacksonAnnotationIntrospector();
 
         final JsonMapper jsonMapper = JsonMapper.builder()
+                // Don't serialize empty values.
+                .changeDefaultPropertyInclusion(value -> value.withValueInclusion(JsonInclude.Include.NON_EMPTY))
                 .annotationIntrospector(jacksonIntrospector)
 
                 // Name des Root-Objektes mit anzeigen.
@@ -55,21 +57,19 @@ class TestJacksonJson {
 
         Club club = ClubFactory.createClub();
 
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-        try (OutputStream os = baos) {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             // jsonMapper.writerWithDefaultPrettyPrinter().writeValue(baos, club);
-            jsonMapper.writer().writeValue(os, club);
+            jsonMapper.writer().writeValue(baos, club);
+
+            final byte[] bytes = baos.toByteArray();
+            assertNotNull(bytes);
+
+            LOGGER.info(new String(bytes, StandardCharsets.UTF_8));
+
+            // Reverse
+            club = jsonMapper.readValue(bytes, Club.class);
+            assertNotNull(club);
+            // ClubFactory.toString(club);
         }
-
-        final byte[] bytes = baos.toByteArray();
-        assertNotNull(bytes);
-
-        LOGGER.info(new String(bytes, StandardCharsets.UTF_8));
-
-        // Reverse
-        club = jsonMapper.readValue(bytes, Club.class);
-        assertNotNull(club);
-        // ClubFactory.toString(club);
     }
 }

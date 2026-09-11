@@ -31,9 +31,9 @@ public interface DiscordWebHookSender {
 
     default String toJson(final DiscordWebHookMessage message) throws JacksonException {
         final JsonMapper jsonMapper = JsonMapper.builder()
-                // .configure(SerializationFeature.INDENT_OUTPUT)
-                .configure(SerializationFeature.INDENT_OUTPUT, true)
-                .changeDefaultPropertyInclusion(value -> value.withValueInclusion(JsonInclude.Include.NON_NULL)) // Keine Nulls ausgeben / serialisieren
+                // Don't serialize empty values.
+                .changeDefaultPropertyInclusion(value -> value.withValueInclusion(JsonInclude.Include.NON_EMPTY))
+                .enable(SerializationFeature.INDENT_OUTPUT)
                 .build();
 
         return jsonMapper.writer().writeValueAsString(message);

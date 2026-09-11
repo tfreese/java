@@ -138,6 +138,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
@@ -887,6 +888,8 @@ public final class MiscDemo {
     @SuppressWarnings("unchecked")
     static void json() {
         final JsonMapper jsonMapper = JsonMapper.builder()
+                // Don't serialize empty values.
+                .changeDefaultPropertyInclusion(value -> value.withValueInclusion(JsonInclude.Include.NON_EMPTY))
                 .enable(SerializationFeature.INDENT_OUTPUT)
                 .enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS)
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
