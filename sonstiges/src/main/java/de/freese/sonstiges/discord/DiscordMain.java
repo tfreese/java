@@ -20,31 +20,20 @@ import de.freese.sonstiges.discord.message.DiscordWebHookMessage;
 public final class DiscordMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscordMain.class);
 
-    static void logMessage() throws Exception {
-        final DiscordWebHookMessage message = createMessage();
-
-        // Message senden.
-        final DiscordWebHookSender discordWebHookSender = new DefaultDiscordWebHookSender();
-        LOGGER.info(discordWebHookSender.toJson(message));
-    }
-
     static void main() {
         try {
-            logMessage();
-            // sendMessage(null, null);
+            final DiscordWebHookMessage message = createMessage();
+
+            final DiscordWebHookSender discordWebHookSender = new DefaultDiscordWebHookSender();
+            LOGGER.atInfo().log(discordWebHookSender.toJson(message));
+
+            // final String webHookId = "your_webhook_id";
+            // final String webHookToken = "your_webhook_token";
+            // discordWebHookSender.send(message, webHookId, webHookToken);
         }
         catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
-    }
-
-    static void sendMessage(final String webHookId, final String webHookToken) throws Exception {
-        final DiscordWebHookMessage message = createMessage();
-
-        // Message senden.
-        final DiscordWebHookSender discordWebHookSender = new DefaultDiscordWebHookSender();
-        LOGGER.info(discordWebHookSender.toJson(message));
-        discordWebHookSender.send(message, webHookId, webHookToken);
     }
 
     private static DiscordWebHookMessage createMessage() {

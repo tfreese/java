@@ -2,6 +2,7 @@ package de.freese.sonstiges.particle;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -10,29 +11,26 @@ import java.util.Random;
  */
 class Particle {
     private final Color color;
-    private final Random random;
 
     private int x;
     private int y;
 
-    Particle(final Random random, final int initialX, final int initialY) {
+    Particle(final int initialX, final int initialY, final Color color) {
         super();
 
-        this.random = random;
+        this.color = Objects.requireNonNull(color, "color required");
+
         x = initialX;
         y = initialY;
-
-        // color = new Color(random.nextInt(0xFFFFFF));
-        color = new Color(random.nextInt(Integer.MAX_VALUE));
     }
 
     public void draw(final Graphics g) {
         g.setColor(color);
-        g.drawRect(x, y, 10, 10);
+        g.drawRect(x, y, 50, 50);
     }
 
-    public synchronized void move() {
-        x += random.nextInt(10) - 5;
-        y += random.nextInt(10) - 5;
+    public synchronized void move(final Random random) {
+        x += random.nextInt(-1, +2);
+        y += random.nextInt(-1, +2);
     }
 }

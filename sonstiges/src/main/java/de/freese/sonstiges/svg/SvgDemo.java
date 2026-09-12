@@ -217,5 +217,6 @@ public final class SvgDemo extends JFrame {
         setSize(400, 400);
         setLocationRelativeTo(null);
         setVisible(true);
+        toFront();
     }
 }

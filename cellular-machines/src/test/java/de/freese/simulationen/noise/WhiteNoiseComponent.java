@@ -1,6 +1,7 @@
 package de.freese.simulationen.noise;
 
 import java.awt.Graphics;
+import java.awt.Toolkit;
 
 import javax.swing.JComponent;
 
@@ -16,11 +17,6 @@ final class WhiteNoiseComponent extends AbstractWhiteNoise {
 
         component = new JComponent() {
             @Override
-            public void paint(final Graphics g) {
-                g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), null);
-            }
-
-            @Override
             protected void paintChildren(final Graphics g) {
                 // There are no Children.
                 // super.paintChildren(g);
@@ -28,16 +24,19 @@ final class WhiteNoiseComponent extends AbstractWhiteNoise {
 
             @Override
             protected void paintComponent(final Graphics g) {
-                // Ignore
-                // super.paintComponent(g);
+                super.paintComponent(g);
+
+                g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), null);
+
+                // Synchronizing the painting on systems that buffer graphics events.
+                // Without this line, the animation might not be smooth on Linux.
+                Toolkit.getDefaultToolkit().sync();
             }
         };
-        component.setDoubleBuffered(true);
-        component.setBackground(null);
-        component.setLayout(null);
+        // component.setDoubleBuffered(true);
     }
 
-    public JComponent getComponent() {
+    JComponent getComponent() {
         return component;
     }
 

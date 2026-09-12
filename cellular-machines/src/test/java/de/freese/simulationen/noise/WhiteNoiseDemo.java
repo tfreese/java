@@ -61,7 +61,7 @@ public final class WhiteNoiseDemo {
         frame.setVisible(true);
         frame.toFront();
 
-        scheduledExecutorService.scheduleWithFixedDelay(whiteNoiseCanvas, 0, 100, TimeUnit.MILLISECONDS);
-        scheduledExecutorService.scheduleWithFixedDelay(whiteNoiseComponent, 0, 100, TimeUnit.MILLISECONDS);
+        scheduledExecutorService.scheduleWithFixedDelay(whiteNoiseCanvas, 0L, 100L, TimeUnit.MILLISECONDS);
+        scheduledExecutorService.scheduleWithFixedDelay(whiteNoiseComponent, 0L, 100L, TimeUnit.MILLISECONDS);
     }
 }
