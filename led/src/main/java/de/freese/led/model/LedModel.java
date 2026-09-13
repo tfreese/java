@@ -1,0 +1,212 @@
+package de.freese.led.model;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * @author Thomas Freese
+ * @since 13.09.26
+ */
+public final class LedModel implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -2751656423937836829L;
+    private final Font defaultFont;
+    private final transient List<LedColumn> ledColumns = new ArrayList<>();
+    private final int ledGap = 2;
+    private final int ledSize = 8;
+    private final int rowCount;
+
+    /**
+     * new Color(255, 30, 30)
+     */
+    private Color colorActive = Color.LIGHT_GRAY;
+    private Color colorBackground = Color.BLACK;
+    /**
+     * new Color(40, 10, 10)
+     */
+    private Color colorInactive = Color.DARK_GRAY;
+
+    public LedModel(final int rowCount) {
+        super();
+
+        this.rowCount = rowCount;
+        this.defaultFont = new Font(Font.MONOSPACED, Font.PLAIN, rowCount - 4);
+    }
+
+    public LedModel addColumn(final boolean[] leds) {
+        Objects.requireNonNull(leds, "leds required");
+
+        ledColumns.add(new LedColumn(leds));
+
+        return this;
+    }
+
+    public LedModel addColumn(final boolean[] leds, final Color colorActive) {
+        Objects.requireNonNull(leds, "leds required");
+        Objects.requireNonNull(colorActive, "colorActive required");
+
+        ledColumns.add(new LedColumn(leds, colorActive));
+
+        return this;
+    }
+
+    public LedModel addSymbol(final SymbolPainter symbolPainter, final Color colorActive) {
+        Objects.requireNonNull(symbolPainter, "symbolPainter required");
+
+        final boolean[][] matrix = convertSymbolToMatrix(symbolPainter);
+
+        for (final boolean[] column : matrix) {
+            addColumn(column, colorActive);
+        }
+
+        return this;
+    }
+
+    public LedModel addText(final String text) {
+        return addText(text, defaultFont);
+    }
+
+    public LedModel addText(final String text, final Font font) {
+        Objects.requireNonNull(text, "text required");
+        Objects.requireNonNull(font, "font required");
+
+        final boolean[][] matrix = convertTextToMatrix(text, font);
+
+        for (final boolean[] column : matrix) {
+            addColumn(column);
+        }
+
+        return this;
+    }
+
+    public int columnCount() {
+        return ledColumns.size();
+    }
+
+    public Color getColorActive(final int column) {
+        final Color color = ledColumns.get(column).getColorActive();
+
+        return (color != null) ? color : getColorActive();
+    }
+
+    public Color getColorActive() {
+        return colorActive;
+    }
+
+    public Color getColorBackground() {
+        return colorBackground;
+    }
+
+    public Color getColorInactive() {
+        return colorInactive;
+    }
+
+    public int getColumnWidth() {
+        return ledSize + ledGap;
+    }
+
+    public int getLedGap() {
+        return ledGap;
+    }
+
+    public int getLedSize() {
+        return ledSize;
+    }
+
+    public boolean isActive(final int row, final int column) {
+        return ledColumns.get(column).isActive(row);
+    }
+
+    public int rowCount() {
+        return rowCount;
+    }
+
+    public LedModel setColorActive(final Color colorActive) {
+        this.colorActive = Objects.requireNonNull(colorActive, "colorActive required");
+
+        return this;
+    }
+
+    public LedModel setColorBackground(final Color colorBackground) {
+        this.colorBackground = Objects.requireNonNull(colorBackground, "colorBackground required");
+
+        return this;
+    }
+
+    public LedModel setColorInactive(final Color colorInactive) {
+        this.colorInactive = Objects.requireNonNull(colorInactive, "colorInactive required");
+
+        return this;
+    }
+
+    private boolean[][] convertImageToMatrix(final BufferedImage image) {
+        final boolean[][] ledMatrix = new boolean[image.getWidth()][image.getHeight()];
+
+        for (int x = 0; x < image.getWidth(); x++) {
+            for (int y = 0; y < image.getHeight(); y++) {
+                // Pixel auslesen (ARGB-Wert).
+                final int argb = image.getRGB(x, y);
+
+                // Wenn der Pixel nicht transparent ist (Alpha > 0), ist die LED "an".
+                final int alpha = (argb >> 24) & 0xff;
+
+                // Schwellenwert für knackige Kanten.
+                ledMatrix[x][y] = (alpha > 128);
+            }
+        }
+
+        return ledMatrix;
+    }
+
+    private boolean[][] convertSymbolToMatrix(final SymbolPainter symbolPainter) {
+        final BufferedImage image = new BufferedImage(20, rowCount, BufferedImage.TYPE_INT_ARGB);
+        final Graphics2D g2d = image.createGraphics();
+
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+        g2d.setColor(Color.BLACK);
+
+        symbolPainter.paintSymbol(g2d, image.getWidth(), image.getHeight());
+
+        g2d.dispose();
+
+        return convertImageToMatrix(image);
+    }
+
+    private boolean[][] convertTextToMatrix(final String text, final Font font) {
+        // 1. Breite des Textes berechnen, um das Bild exakt zu dimensionieren.
+        final BufferedImage tempImg = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = tempImg.createGraphics();
+        g2d.setFont(font);
+
+        final FontMetrics fm = g2d.getFontMetrics();
+        final int matrixWidth = fm.stringWidth(text);
+        g2d.dispose();
+
+        // 2. Das eigentliche Bild in der passenden Größe erstellen (ohne Kantenglättung).
+        final BufferedImage ledImage = new BufferedImage(matrixWidth, rowCount, BufferedImage.TYPE_INT_ARGB);
+        g2d = ledImage.createGraphics();
+        g2d.setFont(font);
+
+        // WICHTIG: Antialiasing abschalten für klare, harte "LED-Kanten".
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+
+        // Textfarbe für den Kontrast.
+        g2d.setColor(Color.BLACK);
+
+        // Text auf der Baseline zeichnen (fm.getAscent sorgt für korrekte vertikale Ausrichtung).
+        g2d.drawString(text, 0, fm.getAscent());
+        g2d.dispose();
+
+        // 3. Bild in ein boolean-Raster übersetzen.
+        return convertImageToMatrix(ledImage);
+    }
+}
