@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 
+import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatLaf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -110,6 +111,23 @@ public final class SimulationLauncher {
             System.exit(-1);
         });
 
+        // UIManager.setLookAndFeel("com.formdev.flatlaf.FlatDarculaLaf");
+        // UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatDarkFlatIJTheme");
+        // UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTDraculaIJTheme");
+
+        // final FlatDarculaLaf laf = new FlatDarculaLaf();
+        // laf.setExtraDefaults(Map.of("defaultFont", "16"));
+        // FlatLaf.setup(laf);
+
+        FlatLaf.registerCustomDefaultsSource("themes");
+        FlatDarculaLaf.setup();
+        // FlatDarkLaf.setup();
+
+        // final Font currentFont = UIManager.getFont("defaultFont");
+        // final Font newFont = currentFont.deriveFont(20F);
+        // UIManager.put("defaultFont", newFont);
+        // FlatDarculaLaf.updateUI();
+
         // final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // Single-Monitor
         // int width = (int) (screenSize.getWidth() * 0.75D);
         // int height = (int) 8screenSize.getHeight() * 0.75D);
@@ -130,10 +148,6 @@ public final class SimulationLauncher {
         // maxWidth = Math.max(maxWidth, displayMode.getWidth());
         // maxHeight = Math.max(maxHeight, displayMode.getHeight());
         // }
-
-        // UIManager.setLookAndFeel("com.formdev.flatlaf.FlatDarculaLaf");
-        // UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatDarkFlatIJTheme");
-        UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTDraculaIJTheme");
 
         final int width = (int) (maxWidth * 0.75D);
         final int height = (int) (maxHeight * 0.75D);

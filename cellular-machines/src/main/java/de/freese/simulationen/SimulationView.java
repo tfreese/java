@@ -47,7 +47,7 @@ public class SimulationView<S extends Simulation> {
         this.delay = delay;
 
         getControlPanel().setLayout(new BorderLayout());
-        getControlPanel().setPreferredSize(new Dimension(180, 10));
+        getControlPanel().setPreferredSize(new Dimension(350, 10));
         getControlPanel().add(getButtonPanel(), BorderLayout.NORTH);
 
         getMainPanel().setLayout(new BorderLayout());

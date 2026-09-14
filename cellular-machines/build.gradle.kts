@@ -6,7 +6,8 @@ plugins {
 description = "Beispiele für zellulare Automaten (cellular machines)."
 
 dependencies {
-    implementation("com.formdev:flatlaf-intellij-themes")
+    implementation("com.formdev:flatlaf")
+    // implementation("com.formdev:flatlaf-intellij-themes")
     implementation("org.jfree:jfreechart")
     implementation("org.slf4j:slf4j-api")
 

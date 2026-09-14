@@ -63,7 +63,7 @@ public class WaTorDiagrammPanel extends JPanel implements SimulationListener {
         dataset.addSeries(timeSeriesFische);
         dataset.addSeries(timeSeriesHaie);
 
-        final Font font = new Font("Arial", Font.BOLD, 12);
+        final Font font = new Font("Arial", Font.BOLD, 20);
 
         // Domain Axis
         final ValueAxis xAxis = new DateAxis("Zeitachse");

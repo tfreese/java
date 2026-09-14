@@ -25,7 +25,10 @@ subprojects {
         dependencies {
             dependency("ch.qos.logback.db:logback-classic-db:" + property("version_logbackClassicDb"))
             dependency("com.danielflower.apprunner:javasysmon:" + property("version_javasysmon"))
-            dependency("com.formdev:flatlaf-intellij-themes:" + property("version_flatLaf"))
+            dependencySet("com.formdev:" + property("version_flatLaf")) {
+                entry("flatlaf")
+                entry("flatlaf-intellij-themes")
+            }
             dependency("com.github.spotbugs:spotbugs-annotations:" + property("version_spotbugs"))
             dependency("com.lmax:disruptor:" + property("version_disruptor"))
             dependency("dev.failsafe:failsafe:" + property("version_failsafe"))
