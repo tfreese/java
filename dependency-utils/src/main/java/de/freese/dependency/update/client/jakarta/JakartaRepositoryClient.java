@@ -19,6 +19,7 @@ import org.glassfish.jersey.client.ClientConfig;
 import org.jspecify.annotations.Nullable;
 
 import de.freese.dependency.update.client.AbstractRepositoryClient;
+import de.freese.dependency.update.client.RepositoryClientException;
 
 /**
  * @author Thomas Freese
@@ -54,7 +55,9 @@ final class JakartaRepositoryClient extends AbstractRepositoryClient {
         final Invocation.Builder request = client.target(uri).request();
 
         try (Response response = request.head()) {
-            getLogger().debug("HEAD {} {}", uri, response.getStatus());
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("HEAD {} {}", uri, response.getStatus());
+            }
 
             if (response.getStatus() == Response.Status.OK.getStatusCode()) {
                 return true;
@@ -64,15 +67,15 @@ final class JakartaRepositoryClient extends AbstractRepositoryClient {
                 return false;
             }
 
-            getLogger().warn("Response {}: {}", response.getStatus(), uri);
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Response {}: {}", response.getStatus(), uri);
+            }
 
-            return false;
+            throw new RepositoryClientException("Unexpected response status for exist-Request " + response.getStatus() + " for " + uri);
         }
         catch (final Exception ex) {
-            getLogger().error(ex.getMessage(), ex);
+            throw new RepositoryClientException(ex);
         }
-
-        return false;
     }
 
     @Override
@@ -81,7 +84,9 @@ final class JakartaRepositoryClient extends AbstractRepositoryClient {
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
 
         try (Response response = request.get()) {
-            getLogger().debug("GET {} {}", uri, response.getStatus());
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("GET {} {}", uri, response.getStatus());
+            }
 
             if (response.getStatus() == Response.Status.OK.getStatusCode()) {
                 final String json = response.readEntity(String.class);
@@ -89,15 +94,15 @@ final class JakartaRepositoryClient extends AbstractRepositoryClient {
                 return parseVersionsJson(json);
             }
 
-            getLogger().warn("Response {}: {}", response.getStatus(), uri);
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Response {}: {}", response.getStatus(), uri);
+            }
 
-            return List.of();
+            throw new RepositoryClientException("Unexpected response status for MavenSearch-Request " + response.getStatus() + " for " + uri);
         }
         catch (final Exception ex) {
-            getLogger().error(ex.getMessage(), ex);
+            throw new RepositoryClientException(ex);
         }
-
-        return List.of();
     }
 
     @Override
@@ -114,14 +119,14 @@ final class JakartaRepositoryClient extends AbstractRepositoryClient {
                 }
             }
 
-            getLogger().warn("Response {}: {}", response.getStatus(), uri);
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Response {}: {}", response.getStatus(), uri);
+            }
 
-            return List.of();
+            throw new RepositoryClientException("Unexpected response status for MetaData-Request " + response.getStatus() + " for " + uri);
         }
         catch (final Exception ex) {
-            getLogger().error(ex.getMessage(), ex);
+            throw new RepositoryClientException(ex);
         }
-
-        return List.of();
     }
 }

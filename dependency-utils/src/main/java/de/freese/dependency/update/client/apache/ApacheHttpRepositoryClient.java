@@ -26,6 +26,7 @@ import org.apache.hc.core5.pool.PoolStats;
 import org.jspecify.annotations.Nullable;
 
 import de.freese.dependency.update.client.AbstractRepositoryClient;
+import de.freese.dependency.update.client.RepositoryClientException;
 
 /**
  * <a href=https://github.com/apache/httpcomponents-client/blob/5.4.x/httpclient5/src/test/java/org/apache/hc/client5/http/examples/ClientConfiguration.java>config</a>
@@ -71,7 +72,8 @@ final class ApacheHttpRepositoryClient extends AbstractRepositoryClient {
                         request.getUri().toString(),
                         response.getVersion() != null ? response.getVersion() : HttpVersion.HTTP_1_1,
                         response.getCode());
-            } else {
+            }
+            else {
                 return "%s %s %s %d %s".formatted(request.getMethod(),
                         request.getUri().toString(),
                         response.getVersion() != null ? response.getVersion() : HttpVersion.HTTP_1_1,
@@ -125,17 +127,18 @@ final class ApacheHttpRepositoryClient extends AbstractRepositoryClient {
                     return false;
                 }
 
-                getLogger().warn("Response {}: {}", response.getCode(), uri);
+                if (getLogger().isDebugEnabled()) {
+                    getLogger().debug("Response {}: {}", response.getCode(), uri);
+                }
 
-                return false;
+                throw new RepositoryClientException("Unexpected response status for exist-Request " + response.getCode() + " for " + uri);
             });
         }
         catch (final Exception ex) {
             getLogger().error("{}", toString(request));
-            getLogger().error(ex.getMessage(), ex);
-        }
 
-        return false;
+            throw new RepositoryClientException(ex);
+        }
     }
 
     @Override
@@ -157,17 +160,18 @@ final class ApacheHttpRepositoryClient extends AbstractRepositoryClient {
                     return parseVersionsJson(json);
                 }
 
-                getLogger().warn("Response {}: {}", response.getCode(), uri);
+                if (getLogger().isDebugEnabled()) {
+                    getLogger().debug("Response {}: {}", response.getCode(), uri);
+                }
 
-                return List.of();
+                throw new RepositoryClientException("Unexpected response status for MavenSearch-Request " + response.getCode() + " for " + uri);
             });
         }
         catch (final Exception ex) {
             getLogger().error("{}", toString(request));
-            getLogger().error(ex.getMessage(), ex);
-        }
 
-        return List.of();
+            throw new RepositoryClientException(ex);
+        }
     }
 
     @Override
@@ -188,20 +192,21 @@ final class ApacheHttpRepositoryClient extends AbstractRepositoryClient {
                         return parseVersionsXml(inputStream);
                     }
                     catch (final Exception ex) {
-                        getLogger().error(ex.getMessage(), ex);
+                        throw new RepositoryClientException(ex);
                     }
                 }
 
-                getLogger().warn("Response {}: {}", response.getCode(), uri);
+                if (getLogger().isDebugEnabled()) {
+                    getLogger().debug("Response {}: {}", response.getCode(), uri);
+                }
 
-                return List.of();
+                throw new RepositoryClientException("Unexpected response status for MetaData-Request " + response.getCode() + " for " + uri);
             });
         }
         catch (final Exception ex) {
             getLogger().error("{}", toString(request));
-            getLogger().error(ex.getMessage(), ex);
-        }
 
-        return List.of();
+            throw new RepositoryClientException(ex);
+        }
     }
 }

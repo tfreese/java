@@ -102,7 +102,7 @@ public final class SimulationLauncher {
         SimulationEnvironment.getInstance().shutdown();
     }
 
-    private static void launchSwing() throws Exception {
+    private static void launchSwing() {
         Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
             if (throwable != null) {
                 LOGGER.error(throwable.getMessage(), throwable);
@@ -172,9 +172,11 @@ public final class SimulationLauncher {
             demo.setResizable(true);
             // demo.pack();
             demo.initialize();
+            demo.setAlwaysOnTop(false);
             demo.setLocationRelativeTo(null);
             // demo.setExtendedState(Frame.MAXIMIZED_BOTH); // Full-Screen
             demo.setVisible(true);
+            demo.toFront();
         });
     }
 

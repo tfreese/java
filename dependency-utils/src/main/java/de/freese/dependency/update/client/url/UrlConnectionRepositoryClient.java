@@ -12,6 +12,7 @@ import java.util.function.UnaryOperator;
 import javax.net.ssl.HttpsURLConnection;
 
 import de.freese.dependency.update.client.AbstractRepositoryClient;
+import de.freese.dependency.update.client.RepositoryClientException;
 
 /**
  * @author Thomas Freese
@@ -40,7 +41,9 @@ final class UrlConnectionRepositoryClient extends AbstractRepositoryClient {
 
             connection.connect();
 
-            getLogger().debug("HEAD {} {}", uri, connection.getResponseCode());
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("HEAD {} {}", uri, connection.getResponseCode());
+            }
 
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 return true;
@@ -50,13 +53,15 @@ final class UrlConnectionRepositoryClient extends AbstractRepositoryClient {
                 return false;
             }
 
-            getLogger().warn("Response {}: {}", connection.getResponseCode(), uri);
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Response {}: {}", connection.getResponseCode(), uri);
+            }
+
+            throw new RepositoryClientException("Unexpected response status for exist-Request " + connection.getResponseCode() + " for " + uri);
         }
         catch (final Exception ex) {
-            getLogger().error(ex.getMessage(), ex);
+            throw new RepositoryClientException(ex);
         }
-
-        return false;
     }
 
     @Override
@@ -68,7 +73,9 @@ final class UrlConnectionRepositoryClient extends AbstractRepositoryClient {
 
             connection.connect();
 
-            getLogger().debug("GET {} {}", uri, connection.getResponseCode());
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("GET {} {}", uri, connection.getResponseCode());
+            }
 
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 try (InputStream inputStream = connection.getInputStream()) {
@@ -78,13 +85,15 @@ final class UrlConnectionRepositoryClient extends AbstractRepositoryClient {
                 }
             }
 
-            getLogger().warn("Response {}: {}", connection.getResponseCode(), uri);
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Response {}: {}", connection.getResponseCode(), uri);
+            }
+
+            throw new RepositoryClientException("Unexpected response status for MavenSearch-Request " + connection.getResponseCode() + " for " + uri);
         }
         catch (final Exception ex) {
-            getLogger().error(ex.getMessage(), ex);
+            throw new RepositoryClientException(ex);
         }
-
-        return List.of();
     }
 
     @Override
@@ -96,7 +105,9 @@ final class UrlConnectionRepositoryClient extends AbstractRepositoryClient {
 
             connection.connect();
 
-            getLogger().debug("GET {} {}", uri, connection.getResponseCode());
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("GET {} {}", uri, connection.getResponseCode());
+            }
 
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 try (InputStream inputStream = connection.getInputStream()) {
@@ -104,13 +115,15 @@ final class UrlConnectionRepositoryClient extends AbstractRepositoryClient {
                 }
             }
 
-            getLogger().warn("Response {}: {}", connection.getResponseCode(), uri);
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Response {}: {}", connection.getResponseCode(), uri);
+            }
+
+            throw new RepositoryClientException("Unexpected response status for MetaData-Request " + connection.getResponseCode() + " for " + uri);
         }
         catch (final Exception ex) {
-            getLogger().error(ex.getMessage(), ex);
+            throw new RepositoryClientException(ex);
         }
-
-        return List.of();
     }
 
     private HttpsURLConnection createConnection(final URI uri) throws IOException {

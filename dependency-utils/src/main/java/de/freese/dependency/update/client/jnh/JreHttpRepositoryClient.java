@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 import de.freese.dependency.update.client.AbstractRepositoryClient;
+import de.freese.dependency.update.client.RepositoryClientException;
 
 /**
  * @author Thomas Freese
@@ -41,7 +42,9 @@ final class JreHttpRepositoryClient extends AbstractRepositoryClient {
         try {
             final HttpResponse<Void> response = httpClient.send(request, HttpResponse.BodyHandlers.discarding());
 
-            getLogger().debug("HEAD {} {}", uri, response.statusCode());
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("HEAD {} {}", uri, response.statusCode());
+            }
 
             if (response.statusCode() == HttpURLConnection.HTTP_OK) {
                 return true;
@@ -51,19 +54,21 @@ final class JreHttpRepositoryClient extends AbstractRepositoryClient {
                 return false;
             }
 
-            getLogger().warn("Response {}: {}", response.statusCode(), uri);
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Response {}: {}", response.statusCode(), uri);
+            }
+
+            throw new RepositoryClientException("Unexpected response status for exist-Request " + response.statusCode() + " for " + uri);
         }
         catch (final InterruptedException ex) {
-            getLogger().error(ex.getMessage(), ex);
-
             // Restore interrupted state.
             Thread.currentThread().interrupt();
+
+            throw new RepositoryClientException(ex);
         }
         catch (final Exception ex) {
-            getLogger().error(ex.getMessage(), ex);
+            throw new RepositoryClientException(ex);
         }
-
-        return false;
     }
 
     @Override
@@ -77,25 +82,29 @@ final class JreHttpRepositoryClient extends AbstractRepositoryClient {
         try {
             final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-            getLogger().debug("GET {} {}", uri, response.statusCode());
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("GET {} {}", uri, response.statusCode());
+            }
 
             if (response.statusCode() == HttpURLConnection.HTTP_OK) {
                 return parseVersionsJson(response.body());
             }
 
-            getLogger().warn("Response {}: {}", response.statusCode(), uri);
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Response {}: {}", response.statusCode(), uri);
+            }
+
+            throw new RepositoryClientException("Unexpected response status for MavenSearch-Request " + response.statusCode() + " for " + uri);
         }
         catch (final InterruptedException ex) {
-            getLogger().error(ex.getMessage(), ex);
-
             // Restore interrupted state.
             Thread.currentThread().interrupt();
+
+            throw new RepositoryClientException(ex);
         }
         catch (final Exception ex) {
-            getLogger().error(ex.getMessage(), ex);
+            throw new RepositoryClientException(ex);
         }
-
-        return List.of();
     }
 
     @Override
@@ -108,9 +117,10 @@ final class JreHttpRepositoryClient extends AbstractRepositoryClient {
 
         try {
             final HttpResponse<InputStream> response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
-            // final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-            getLogger().debug("GET {} {}", uri, response.statusCode());
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("GET {} {}", uri, response.statusCode());
+            }
 
             if (response.statusCode() == HttpURLConnection.HTTP_OK) {
                 try (InputStream inputStream = response.body()) {
@@ -118,19 +128,20 @@ final class JreHttpRepositoryClient extends AbstractRepositoryClient {
                 }
             }
 
-            getLogger().warn("Response {}: {}", response.statusCode(), uri);
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("Response {}: {}", response.statusCode(), uri);
+            }
+
+            throw new RepositoryClientException("Unexpected response status for MetaData-Request " + response.statusCode() + " for " + uri);
         }
         catch (final InterruptedException ex) {
-            getLogger().error(ex.getMessage(), ex);
-
             // Restore interrupted state.
             Thread.currentThread().interrupt();
+
+            throw new RepositoryClientException(ex);
         }
         catch (final Exception ex) {
-            getLogger().error(ex.getMessage(), ex);
+            throw new RepositoryClientException(ex);
         }
-
-        return List.of();
     }
-
 }

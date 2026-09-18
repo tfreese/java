@@ -1,4 +1,4 @@
-package de.freese.dependency.update.client;
+package de.freese.dependency.update.client.decorator;
 
 import java.net.HttpRetryException;
 import java.net.URI;
@@ -11,48 +11,50 @@ import dev.failsafe.FailsafeExecutor;
 import dev.failsafe.RetryPolicy;
 import dev.failsafe.function.CheckedSupplier;
 
+import de.freese.dependency.update.client.RepositoryClient;
+
 /**
  * @author Thomas Freese
  */
-public final class RetryableRepositoryClient extends AbstractRepositoryClientDecorator {
+public final class RetryableRepositoryClientDecorator extends AbstractRepositoryClientDecorator {
     private final FailsafeExecutor<Object> failsafeExecutor;
 
-    public RetryableRepositoryClient(final RepositoryClient delegate, final int maxRetries, final Duration retryInterval) {
+    public RetryableRepositoryClientDecorator(final RepositoryClient delegate, final int maxRetries, final Duration retryInterval) {
         super(delegate);
 
         final RetryPolicy<Object> retryPolicy = RetryPolicy.builder()
-                .withMaxRetries(maxRetries)
                 // .withDelay(retryInterval)
+                // .handle(RepositoryClientException.class)
+                .withMaxRetries(maxRetries)
                 .withBackoff(retryInterval, Duration.ofSeconds(10), 1.5D)
                 .onRetry(event -> {
                     final Throwable lastException = event.getLastException();
 
                     if (lastException instanceof final HttpRetryException httpRetryException) {
-                        getLogger().warn("Retry: {} - HTTP {} - {} - {}",
+                        getLogger().warn("onRetry: {} - HTTP {} - {} - {}",
                                 event.getExecutionCount(),
                                 httpRetryException.responseCode(),
                                 httpRetryException.getMessage(),
                                 httpRetryException.getLocation()
                         );
-                    } else if (lastException != null) {
+                    }
+                    else if (lastException != null) {
                         final String error = Optional.ofNullable(lastException.getMessage()).orElse(lastException.getClass().getSimpleName());
-                        getLogger().warn("retry: {} - {}", event.getExecutionCount(), error);
-                    } else {
-                        getLogger().warn("retry: {}", event.getExecutionCount());
+                        getLogger().warn("onRetry: {} - {}", event.getExecutionCount(), error);
+                    }
+                    else {
+                        getLogger().warn("onRetry: {}", event.getExecutionCount());
                     }
                 })
-                .onFailure(event -> {
-                    final Throwable throwable = event.getException();
-
-                    if (throwable != null) {
-                        getLogger().error(throwable.getMessage(), throwable);
-                    } else {
-                        getLogger().error(event.toString());
-                    }
-                })
+                .onFailure(event ->
+                        getLogger().error("onFailure: {}", Optional.ofNullable(event.getException()).map(Throwable::getMessage).orElse(event.toString()))
+                )
                 .build();
 
         failsafeExecutor = Failsafe.with(retryPolicy);
+
+        // FailsafeExecutor<Object> failsafeExecutorWithBooleanDefault= Failsafe.with(Fallback.of(false), retryPolicy);
+        // FailsafeExecutor<Object> failsafeExecutorWithListDefault=  Failsafe.with(Fallback.of(List.of()), retryPolicy);
     }
 
     @Override

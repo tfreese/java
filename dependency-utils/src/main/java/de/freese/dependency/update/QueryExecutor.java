@@ -33,7 +33,7 @@ final class QueryExecutor {
     /**
      * Too many parallel Requests will cause 'HTTP-429 - Too many Requests'.
      */
-    private static final int PARALLELISM = 4;
+    private static final int PARALLELISM = 8;
 
     public static List<Coordinate> getUpdates(final VersionResolver versionResolver, final List<Coordinate> coordinates, final Set<URI> repositories) {
         // executeQueries(versionResolver, coordinates, repositories);

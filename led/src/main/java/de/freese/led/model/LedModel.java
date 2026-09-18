@@ -21,10 +21,7 @@ public final class LedModel implements Serializable {
     private static final long serialVersionUID = -2751656423937836829L;
     private final Font defaultFont;
     private final transient List<LedColumn> ledColumns = new ArrayList<>();
-    private final int ledGap = 2;
-    private final int ledSize = 8;
     private final int rowCount;
-
     /**
      * new Color(255, 30, 30)
      */
@@ -34,6 +31,8 @@ public final class LedModel implements Serializable {
      * new Color(40, 10, 10)
      */
     private Color colorInactive = Color.DARK_GRAY;
+    private int ledGap = 2;
+    private int ledSize = 8;
 
     public LedModel(final int rowCount) {
         super();
@@ -148,6 +147,18 @@ public final class LedModel implements Serializable {
         return this;
     }
 
+    public LedModel setLedGap(final int ledGap) {
+        this.ledGap = ledGap;
+
+        return this;
+    }
+
+    public LedModel setLedSize(final int ledSize) {
+        this.ledSize = ledSize;
+
+        return this;
+    }
+
     private boolean[][] convertImageToMatrix(final BufferedImage image) {
         final boolean[][] ledMatrix = new boolean[image.getWidth()][image.getHeight()];
 
@@ -160,7 +171,7 @@ public final class LedModel implements Serializable {
                 final int alpha = (argb >> 24) & 0xff;
 
                 // Schwellenwert für knackige Kanten.
-                ledMatrix[x][y] = (alpha > 128);
+                ledMatrix[x][y] = alpha > 128;
             }
         }
 

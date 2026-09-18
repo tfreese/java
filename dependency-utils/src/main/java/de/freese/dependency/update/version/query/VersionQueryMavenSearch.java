@@ -20,15 +20,17 @@ final class VersionQueryMavenSearch extends AbstractVersionQuery {
 
     @Override
     protected Set<String> loadVersions(final String groupId, final String artifactId, final Set<URI> repositories) {
-        // try {
-        //     uri = new URI(repository.getScheme(), repository.getUserInfo(), repository.getHost(), repository.getPort(), repository.getPath(), query, null);
-        // }
-        // catch (URISyntaxException ex) {
-        //     throw new IllegalArgumentException(ex.getMessage(), ex);
-        // }
+        try {
+            // final URI uri = new URI(repository.getScheme(), repository.getUserInfo(), repository.getHost(), repository.getPort(), repository.getPath(), query, null);
 
-        final URI uri = URI.create(URI_MAVEN_SEARCH.replace("{groupId}", groupId).replace("{artifactId}", artifactId));
+            final URI uri = URI.create(URI_MAVEN_SEARCH.replace("{groupId}", groupId).replace("{artifactId}", artifactId));
 
-        return new TreeSet<>(getRepositoryClient().getVersionsByMavenSearch(uri));
+            return new TreeSet<>(getRepositoryClient().getVersionsByMavenSearch(uri));
+        }
+        catch (final Exception ex) {
+            getLogger().error(ex.getMessage(), ex);
+        }
+
+        return Set.of();
     }
 }

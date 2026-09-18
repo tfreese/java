@@ -35,13 +35,18 @@ final class VersionQueryMavenMetaData extends AbstractVersionQuery {
         for (final URI repositoryUri : repositories) {
             final URI uri = createMetaDataUri(repositoryUri, groupId, artifactId);
 
-            if (!getRepositoryClient().exist(uri)) {
-                continue;
+            try {
+                if (!getRepositoryClient().exist(uri)) {
+                    continue;
+                }
+
+                final List<String> versionsResult = getRepositoryClient().getVersionsByMetaData(uri);
+
+                versions.addAll(versionsResult);
             }
-
-            final List<String> versionsResult = getRepositoryClient().getVersionsByMetaData(uri);
-
-            versions.addAll(versionsResult);
+            catch (final Exception ex) {
+                getLogger().error(ex.getMessage(), ex);
+            }
         }
 
         return versions;

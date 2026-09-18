@@ -29,9 +29,9 @@ class LedPanel extends JPanel {
     private final LedModel ledModel;
     private final Timer timer;
 
-    private int currentTextCol = 0;
+    private int currentTextCol;
 
-    public LedPanel(final String text, final int ledRows, final int ledCols) {
+    LedPanel(final String text, final int ledRows, final int ledCols) {
         super();
 
         this.displayCols = ledCols;

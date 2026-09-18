@@ -30,7 +30,7 @@ sourceSets {
 // }
 
 dependencies {
-    implementation("org.joinfaces:primefaces-spring-boot-starter:${providers.gradleProperty("version_joinfaces").get()}") {
+    implementation("org.joinfaces:primefaces-spring-boot-starter:${property("version_joinfaces")}") {
         exclude(group = "ch.qos.logback")
     }
 

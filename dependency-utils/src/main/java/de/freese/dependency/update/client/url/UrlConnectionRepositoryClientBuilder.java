@@ -12,7 +12,7 @@ import org.jspecify.annotations.Nullable;
 
 import de.freese.dependency.update.client.AbstractRepositoryHttpClientBuilder;
 import de.freese.dependency.update.client.RepositoryClient;
-import de.freese.dependency.update.client.RetryableRepositoryClient;
+import de.freese.dependency.update.client.decorator.RetryableRepositoryClientDecorator;
 
 /**
  * @author Thomas Freese
@@ -52,7 +52,7 @@ public final class UrlConnectionRepositoryClientBuilder extends AbstractReposito
             return connection;
         });
 
-        return new RetryableRepositoryClient(repositoryClient, maxRetries, retryInterval);
+        return new RetryableRepositoryClientDecorator(repositoryClient, maxRetries, retryInterval);
     }
 
     @Override

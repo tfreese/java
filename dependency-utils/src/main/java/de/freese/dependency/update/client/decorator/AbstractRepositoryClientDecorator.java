@@ -1,4 +1,4 @@
-package de.freese.dependency.update.client;
+package de.freese.dependency.update.client.decorator;
 
 import java.net.URI;
 import java.util.List;
@@ -6,6 +6,8 @@ import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.freese.dependency.update.client.RepositoryClient;
 
 /**
  * @author Thomas Freese
