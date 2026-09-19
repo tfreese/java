@@ -133,7 +133,7 @@ public final class SimulationLauncher {
         // int height = (int) 8screenSize.getHeight() * 0.75D);
 
         final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment(); // Multi-Monitor
-        final GraphicsDevice gd = ge.getDefaultScreenDevice(); // Haupt-Monitor
+        final GraphicsDevice gd = ge.getDefaultScreenDevice(); // HMain-Monitor
         // final GraphicsDevice[] gds = ge.getScreenDevices();
 
         int maxWidth = 0;

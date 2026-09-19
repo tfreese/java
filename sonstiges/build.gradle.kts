@@ -6,9 +6,12 @@ plugins {
 description = "Alles zum ausprobieren"
 
 configurations.create("jaxb") {
-    //extendsFrom(configurations.implementation.get())
+    // extendsFrom(configurations.implementation.get())
 
+    // Kann als Dependency-Graph aufgelöst werden (Default).
     isCanBeResolved = true
+
+    // Wird nicht als veröffentlichbares/verbrauchbares Artefakt nach außen exponiert (Default).
     isCanBeConsumed = false
 }
 
@@ -61,11 +64,11 @@ dependencies {
     runtimeOnly("org.slf4j:slf4j-simple")
 
     testImplementation("com.h2database:h2")
-    //testImplementation("org.apache.tomcat:tomcat-catalina") {
+    // testImplementation("org.apache.tomcat:tomcat-catalina") {
     //    // tomcat-juli ist in tomcat-catalina enthalten, aber auch viele andere Jars die nicht benötigt werden.
     //    exclude(group = "org.apache.tomcat")
     //}
-    //testImplementation("org.apache.tomcat:tomcat-juli")
+    // testImplementation("org.apache.tomcat:tomcat-juli")
 }
 
 tasks.register("xslt") {
@@ -77,7 +80,7 @@ tasks.register("xslt") {
     val srcFolder = layout.projectDirectory.dir("src").dir("xslt")
     val destFolder = layout.buildDirectory.get().dir("classes").dir("java").dir("main").dir("xslt")
 
-    //mkdir(destFolder)
+    // mkdir(destFolder)
 
     val xslFile = srcFolder.file("article.xsl")
     val xmlFile = srcFolder.file("article.xml")
@@ -86,7 +89,7 @@ tasks.register("xslt") {
     inputs.files(xslFile, xmlFile)
     outputs.file(outputFile)
 
-    //doLast {
+    // doLast {
     ant.withGroovyBuilder {
         "xslt"(
             "style" to xslFile, "in" to xmlFile, "out" to outputFile
@@ -101,7 +104,7 @@ tasks.register("xslt") {
 //         project.ant.taskdef(..., classpath: projects.configurations.myConfig.asPath)
 //     }
 // }
-//tasks.register<de.freese.gradle.xjc.XjcTask>("testXjcTask") {
+// tasks.register<de.freese.gradle.xjc.XjcTask>("testXjcTask") {
 //    // group = "MyTasks"
 //
 //    destDir.set(layout.buildDirectory.get().dir("generated").dir("xjcTask"))

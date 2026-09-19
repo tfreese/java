@@ -75,7 +75,13 @@ subprojects {
             }
         }
 
-        val mockitoAgent = configurations.create("mockitoAgent")
+        val mockitoAgent = configurations.create("mockitoAgent") {
+            // Kann als Dependency-Graph aufgelöst werden (Default).
+            isCanBeResolved = true
+
+            // Wird nicht als veröffentlichbares/verbrauchbares Artefakt nach außen exponiert (Default).
+            isCanBeConsumed = false
+        }
 
         dependencies {
             // add("implementation", platform("org.springframework.boot:spring-boot-dependencies:$version_springBoot"))

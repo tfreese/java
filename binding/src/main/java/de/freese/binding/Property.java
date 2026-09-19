@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Property<T> {
     protected static final Logger LOGGER = LoggerFactory.getLogger(Property.class);
+    
     private final Set<ChangeListener<T>> listeners = LinkedHashSet.newLinkedHashSet(4);
     private final String name;
 
