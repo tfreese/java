@@ -20,6 +20,13 @@ public abstract class AbstractRepositoryClientDecorator implements RepositoryCli
         super();
 
         this.delegate = Objects.requireNonNull(delegate, "delegate required");
+
+        // if (delegate instanceof final AbstractRepositoryClientDecorator arcd) {
+        //     logger = arcd.getLogger();
+        // }
+        // else {
+        //     logger = LoggerFactory.getLogger(delegate.getClass());
+        // }
     }
 
     @Override

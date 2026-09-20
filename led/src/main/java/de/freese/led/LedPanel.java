@@ -9,12 +9,12 @@ import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.Serial;
+import java.util.Objects;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import de.freese.led.model.LedModel;
-import de.freese.led.model.LedSymbol;
 
 /**
  * @author Thomas Freese
@@ -25,27 +25,20 @@ class LedPanel extends JPanel {
     private static final long serialVersionUID = -1L;
 
     private final transient BufferedImage displayBuffer;
-    private final int displayCols;
     private final LedModel ledModel;
     private final Timer timer;
 
     private int currentTextCol;
 
-    LedPanel(final String text, final int ledRows, final int ledCols) {
+    LedPanel(final LedModel ledModel) {
         super();
 
-        this.displayCols = ledCols;
-
-        // Den Text in eine simple logische Boolean-Matrix umwandeln (true = LED an).
-        ledModel = new LedModel(ledRows)
-                .addSymbol(LedSymbol.ARROW_UP, Color.GREEN)
-                .addSymbol(LedSymbol.ARROW_DOWN, Color.RED)
-                .addText(text);
+        this.ledModel = Objects.requireNonNull(ledModel, "ledModel required");
 
         setBackground(ledModel.getColorBackground());
 
-        final int viewWidth = displayCols * ledModel.getColumnWidth();
-        final int viewHeight = ledRows * ledModel.getColumnWidth();
+        final int viewWidth = ledModel.displayedColumns() * ledModel.getColumnWidth();
+        final int viewHeight = ledModel.displayedRows() * ledModel.getColumnWidth();
 
         // Das einzige Bild erzeugen und mit ausgeschalteten LEDs füllen.
         displayBuffer = new BufferedImage(viewWidth, viewHeight, BufferedImage.TYPE_INT_ARGB);
@@ -61,7 +54,7 @@ class LedPanel extends JPanel {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(displayCols * ledModel.getColumnWidth(), ledModel.rowCount() * ledModel.getColumnWidth());
+        return new Dimension(ledModel.displayedColumns() * ledModel.getColumnWidth(), ledModel.displayedRows() * ledModel.getColumnWidth());
     }
 
     public void startAnimation() {
@@ -103,15 +96,14 @@ class LedPanel extends JPanel {
 
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Dunkles, mattes Rot.
         g.setColor(ledModel.getColorInactive());
 
         final int ledSize = ledModel.getLedSize();
         final int ledGap = ledModel.getLedGap();
         final int columnWidth = ledModel.getColumnWidth();
 
-        for (int column = 0; column < displayCols; column++) {
-            for (int row = 0; row < ledModel.rowCount(); row++) {
+        for (int column = 0; column < ledModel.displayedColumns(); column++) {
+            for (int row = 0; row < ledModel.displayedRows(); row++) {
                 g.fillOval(column * columnWidth + ledGap / 2, row * columnWidth + ledGap / 2, ledSize, ledSize);
             }
         }
@@ -143,7 +135,7 @@ class LedPanel extends JPanel {
         // 3. Nur die eine neue LED-Spalte live auf den rechten Rand zeichnen.
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        for (int row = 0; row < ledModel.rowCount(); row++) {
+        for (int row = 0; row < ledModel.displayedRows(); row++) {
             final boolean isLEDOn = ledModel.isActive(row, currentTextCol);
 
             // LED-Koordinaten exakt auf der neuen Spalte rechts berechnen.

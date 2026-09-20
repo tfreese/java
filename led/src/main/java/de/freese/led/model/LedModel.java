@@ -19,9 +19,11 @@ import java.util.Objects;
 public final class LedModel implements Serializable {
     @Serial
     private static final long serialVersionUID = -2751656423937836829L;
-    private final Font defaultFont;
+    private final int displayedColumns;
+    private final int displayedRows;
+    private final Font font;
     private final transient List<LedColumn> ledColumns = new ArrayList<>();
-    private final int rowCount;
+
     /**
      * new Color(255, 30, 30)
      */
@@ -34,54 +36,60 @@ public final class LedModel implements Serializable {
     private int ledGap = 2;
     private int ledSize = 8;
 
-    public LedModel(final int rowCount) {
+    public LedModel(final int displayedRows, final int displayedColumns) {
+        this(displayedRows, displayedColumns, new Font(Font.MONOSPACED, Font.PLAIN, displayedRows - 4));
+    }
+
+    public LedModel(final int displayedRows, final int displayedColumns, final Font font) {
         super();
 
-        this.rowCount = rowCount;
-        this.defaultFont = new Font(Font.MONOSPACED, Font.PLAIN, rowCount - 4);
+        this.displayedRows = displayedRows;
+        this.displayedColumns = displayedColumns;
+        this.font = Objects.requireNonNull(font, "font required");
     }
 
     public LedModel addColumn(final boolean[] leds) {
-        Objects.requireNonNull(leds, "leds required");
+        return addColumn(leds, colorActive);
+    }
 
-        ledColumns.add(new LedColumn(leds));
+    public LedModel addColumn(final boolean[] leds, final Color color) {
+        Objects.requireNonNull(leds, "leds required");
+        Objects.requireNonNull(color, "color required");
+
+        if (color.equals(colorActive)) {
+            ledColumns.add(new LedColumn(leds));
+        }
+        else {
+            ledColumns.add(new LedColumn(leds, color));
+        }
 
         return this;
     }
 
-    public LedModel addColumn(final boolean[] leds, final Color colorActive) {
-        Objects.requireNonNull(leds, "leds required");
-        Objects.requireNonNull(colorActive, "colorActive required");
-
-        ledColumns.add(new LedColumn(leds, colorActive));
-
-        return this;
-    }
-
-    public LedModel addSymbol(final SymbolPainter symbolPainter, final Color colorActive) {
+    public LedModel addSymbol(final SymbolPainter symbolPainter, final Color color) {
         Objects.requireNonNull(symbolPainter, "symbolPainter required");
 
         final boolean[][] matrix = convertSymbolToMatrix(symbolPainter);
 
         for (final boolean[] column : matrix) {
-            addColumn(column, colorActive);
+            addColumn(column, color);
         }
 
         return this;
     }
 
     public LedModel addText(final String text) {
-        return addText(text, defaultFont);
+        return addText(text, colorActive);
     }
 
-    public LedModel addText(final String text, final Font font) {
+    public LedModel addText(final String text, final Color color) {
         Objects.requireNonNull(text, "text required");
-        Objects.requireNonNull(font, "font required");
+        Objects.requireNonNull(color, "color required");
 
         final boolean[][] matrix = convertTextToMatrix(text, font);
 
         for (final boolean[] column : matrix) {
-            addColumn(column);
+            addColumn(column, color);
         }
 
         return this;
@@ -91,10 +99,18 @@ public final class LedModel implements Serializable {
         return ledColumns.size();
     }
 
+    public int displayedColumns() {
+        return displayedColumns;
+    }
+
+    public int displayedRows() {
+        return displayedRows;
+    }
+
     public Color getColorActive(final int column) {
         final Color color = ledColumns.get(column).getColorActive();
 
-        return (color != null) ? color : getColorActive();
+        return (color != null) ? color : colorActive;
     }
 
     public Color getColorActive() {
@@ -123,10 +139,6 @@ public final class LedModel implements Serializable {
 
     public boolean isActive(final int row, final int column) {
         return ledColumns.get(column).isActive(row);
-    }
-
-    public int rowCount() {
-        return rowCount;
     }
 
     public LedModel setColorActive(final Color colorActive) {
@@ -168,7 +180,7 @@ public final class LedModel implements Serializable {
                 final int argb = image.getRGB(x, y);
 
                 // Wenn der Pixel nicht transparent ist (Alpha > 0), ist die LED "an".
-                final int alpha = (argb >> 24) & 0xff;
+                final int alpha = (argb >> 24) & 0xFF;
 
                 // Schwellenwert für knackige Kanten.
                 ledMatrix[x][y] = alpha > 128;
@@ -179,7 +191,7 @@ public final class LedModel implements Serializable {
     }
 
     private boolean[][] convertSymbolToMatrix(final SymbolPainter symbolPainter) {
-        final BufferedImage image = new BufferedImage(20, rowCount, BufferedImage.TYPE_INT_ARGB);
+        final BufferedImage image = new BufferedImage(20, displayedRows, BufferedImage.TYPE_INT_ARGB);
         final Graphics2D g2d = image.createGraphics();
 
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
@@ -189,6 +201,7 @@ public final class LedModel implements Serializable {
 
         g2d.dispose();
 
+        // Bild in ein boolean-Raster übersetzen.
         return convertImageToMatrix(image);
     }
 
@@ -203,7 +216,7 @@ public final class LedModel implements Serializable {
         g2d.dispose();
 
         // 2. Das eigentliche Bild in der passenden Größe erstellen (ohne Kantenglättung).
-        final BufferedImage ledImage = new BufferedImage(matrixWidth, rowCount, BufferedImage.TYPE_INT_ARGB);
+        final BufferedImage ledImage = new BufferedImage(matrixWidth, displayedRows, BufferedImage.TYPE_INT_ARGB);
         g2d = ledImage.createGraphics();
         g2d.setFont(font);
 
