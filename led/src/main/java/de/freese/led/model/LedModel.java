@@ -176,13 +176,13 @@ public final class LedModel implements Serializable {
 
         for (int x = 0; x < image.getWidth(); x++) {
             for (int y = 0; y < image.getHeight(); y++) {
-                // Pixel auslesen (ARGB-Wert).
+                // Read pixel (ARGB-Value).
                 final int argb = image.getRGB(x, y);
 
-                // Wenn der Pixel nicht transparent ist (Alpha > 0), ist die LED "an".
+                // If the Pixel is not transparent (Alpha > 0), LED is "on".
                 final int alpha = (argb >> 24) & 0xFF;
 
-                // Schwellenwert für knackige Kanten.
+                // Threshold for sharper edges.
                 ledMatrix[x][y] = alpha > 128;
             }
         }
@@ -201,12 +201,12 @@ public final class LedModel implements Serializable {
 
         g2d.dispose();
 
-        // Bild in ein boolean-Raster übersetzen.
+        // Convert in a boolean-Raster.
         return convertImageToMatrix(image);
     }
 
     private boolean[][] convertTextToMatrix(final String text, final Font font) {
-        // 1. Breite des Textes berechnen, um das Bild exakt zu dimensionieren.
+        // Calculate text width.
         final BufferedImage tempImg = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = tempImg.createGraphics();
         g2d.setFont(font);
@@ -215,22 +215,22 @@ public final class LedModel implements Serializable {
         final int matrixWidth = fm.stringWidth(text);
         g2d.dispose();
 
-        // 2. Das eigentliche Bild in der passenden Größe erstellen (ohne Kantenglättung).
+        // Draw text on picture (without Antialiasing).
         final BufferedImage ledImage = new BufferedImage(matrixWidth, displayedRows, BufferedImage.TYPE_INT_ARGB);
         g2d = ledImage.createGraphics();
         g2d.setFont(font);
 
-        // WICHTIG: Antialiasing abschalten für klare, harte "LED-Kanten".
+        // Disable Antialiasing for sharper "LED-Edges".
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
 
-        // Textfarbe für den Kontrast.
+        // Color for contrast.
         g2d.setColor(Color.BLACK);
 
-        // Text auf der Baseline zeichnen (fm.getAscent sorgt für korrekte vertikale Ausrichtung).
+        // Draw Text.
         g2d.drawString(text, 0, fm.getAscent());
         g2d.dispose();
 
-        // 3. Bild in ein boolean-Raster übersetzen.
+        // Convert in a boolean-Raster.
         return convertImageToMatrix(ledImage);
     }
 }
