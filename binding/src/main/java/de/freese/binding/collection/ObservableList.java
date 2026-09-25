@@ -54,7 +54,7 @@ public class ObservableList<T> extends AbstractList<T> {
 
     @Override
     public void clear() {
-        if (size() == 0) {
+        if (isEmpty()) {
             return;
         }
 

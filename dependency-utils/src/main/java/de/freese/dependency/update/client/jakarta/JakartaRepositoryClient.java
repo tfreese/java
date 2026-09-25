@@ -52,7 +52,9 @@ final class JakartaRepositoryClient extends AbstractRepositoryClient {
 
     @Override
     public boolean exist(final URI uri) {
-        final Invocation.Builder request = client.target(uri).request();
+        final Invocation.Builder request = client
+                .target(uri)
+                .request();
 
         try (Response response = request.head()) {
             if (getLogger().isDebugEnabled()) {
@@ -73,6 +75,9 @@ final class JakartaRepositoryClient extends AbstractRepositoryClient {
 
             throw new RepositoryClientException("Unexpected response status for exist-Request " + response.getStatus() + " for " + uri);
         }
+        catch (final RepositoryClientException ex) {
+            throw ex;
+        }
         catch (final Exception ex) {
             throw new RepositoryClientException(ex);
         }
@@ -80,7 +85,9 @@ final class JakartaRepositoryClient extends AbstractRepositoryClient {
 
     @Override
     public List<String> getVersionsByMavenSearch(final URI uri) {
-        final Invocation.Builder request = client.target(uri).request()
+        final Invocation.Builder request = client
+                .target(uri)
+                .request()
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
 
         try (Response response = request.get()) {
@@ -89,9 +96,11 @@ final class JakartaRepositoryClient extends AbstractRepositoryClient {
             }
 
             if (response.getStatus() == Response.Status.OK.getStatusCode()) {
-                final String json = response.readEntity(String.class);
-
-                return parseVersionsJson(json);
+                // final String json = response.readEntity(String.class);
+                // return parseVersionsJson(json);
+                try (InputStream inputStream = response.readEntity(InputStream.class)) {
+                    return parseVersionsXml(inputStream);
+                }
             }
 
             if (getLogger().isDebugEnabled()) {
@@ -99,6 +108,9 @@ final class JakartaRepositoryClient extends AbstractRepositoryClient {
             }
 
             throw new RepositoryClientException("Unexpected response status for MavenSearch-Request " + response.getStatus() + " for " + uri);
+        }
+        catch (final RepositoryClientException ex) {
+            throw ex;
         }
         catch (final Exception ex) {
             throw new RepositoryClientException(ex);
@@ -109,7 +121,9 @@ final class JakartaRepositoryClient extends AbstractRepositoryClient {
     public List<String> getVersionsByMetaData(final URI uri) {
         getLogger().debug("URI: {}", uri);
 
-        final Invocation.Builder request = client.target(uri).request()
+        final Invocation.Builder request = client
+                .target(uri)
+                .request()
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_XML);
 
         try (Response response = request.get()) {
@@ -124,6 +138,9 @@ final class JakartaRepositoryClient extends AbstractRepositoryClient {
             }
 
             throw new RepositoryClientException("Unexpected response status for MetaData-Request " + response.getStatus() + " for " + uri);
+        }
+        catch (final RepositoryClientException ex) {
+            throw ex;
         }
         catch (final Exception ex) {
             throw new RepositoryClientException(ex);

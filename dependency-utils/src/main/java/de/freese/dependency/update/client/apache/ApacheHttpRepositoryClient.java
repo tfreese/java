@@ -3,7 +3,6 @@ package de.freese.dependency.update.client.apache;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -17,7 +16,6 @@ import org.apache.hc.core5.http.HttpRequest;
 import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.HttpStatus;
 import org.apache.hc.core5.http.HttpVersion;
-import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.http.message.RequestLine;
 import org.apache.hc.core5.http.message.StatusLine;
@@ -155,9 +153,14 @@ final class ApacheHttpRepositoryClient extends AbstractRepositoryClient {
                 }
 
                 if (response.getCode() == HttpStatus.SC_OK) {
-                    final String json = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-
-                    return parseVersionsJson(json);
+                    // final String json = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+                    // return parseVersionsJson(json);
+                    try (InputStream inputStream = response.getEntity().getContent()) {
+                        return parseVersionsJson(inputStream);
+                    }
+                    catch (final Exception ex) {
+                        throw new RepositoryClientException(ex);
+                    }
                 }
 
                 if (getLogger().isDebugEnabled()) {

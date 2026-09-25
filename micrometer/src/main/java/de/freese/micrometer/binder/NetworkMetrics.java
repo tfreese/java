@@ -15,6 +15,7 @@ import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Tag;
 import io.micrometer.core.instrument.binder.BaseUnits;
 import io.micrometer.core.instrument.binder.MeterBinder;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +48,7 @@ public class NetworkMetrics implements MeterBinder {
     }
 
     @Override
-    public void bindTo(final MeterRegistry registry) {
+    public void bindTo(final @NonNull MeterRegistry registry) {
         // Mit StepCounter müsste die Differenz aus altem und neuem Wert gesetzt werden.
         // Der StepFunctionCounter berechnet die Differenz automatisch.
         // Die Reihenfolge der Meter-Abfrage ergibt sich aus deren Reihenfolge der Registrierung.
@@ -69,7 +70,7 @@ public class NetworkMetrics implements MeterBinder {
     }
 
     private List<String> getActiveInterfaces() throws IOException {
-        List<Path> interfacePaths = null;
+        final List<Path> interfacePaths;
 
         try (Stream<Path> interfaces = Files.list(Paths.get("/sys/class/net/"))) {
             interfacePaths = interfaces.toList();

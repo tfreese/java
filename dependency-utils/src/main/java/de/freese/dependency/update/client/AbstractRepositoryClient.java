@@ -21,7 +21,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.json.JsonMapper;
 
 import de.freese.dependency.utils.Pools;
@@ -68,14 +67,14 @@ public abstract class AbstractRepositoryClient implements RepositoryClient {
         return logger;
     }
 
-    protected synchronized ObjectMapper getObjectMapper() {
-        return jsonMapper;
-    }
-
-    protected List<String> parseVersionsJson(final String json) {
-        final JsonNode jsonNode = getObjectMapper().readValue(json, JsonNode.class);
+    protected List<String> parseVersionsJson(final InputStream inputStream) {
+        final JsonNode jsonNode = getJsonMapper().readValue(inputStream, JsonNode.class);
         // jsonNode = jsonNode.findPath("docs");
 
         return jsonNode.findValuesAsString("v");
+    }
+
+    private synchronized JsonMapper getJsonMapper() {
+        return jsonMapper;
     }
 }

@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.WindowConstants;
@@ -22,9 +24,11 @@ import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 
+import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.binder.CpuMetrics;
 import de.freese.jsensors.binder.MemoryMetrics;
-import de.freese.jsensors.registry.ScheduledSensorRegistry;
+import de.freese.jsensors.registry.DefaultSensorRegistry;
+import de.freese.jsensors.registry.SensorRegistry;
 import de.freese.jsensors.utils.JSensorThreadFactory;
 
 /**
@@ -33,30 +37,32 @@ import de.freese.jsensors.utils.JSensorThreadFactory;
  */
 public final class JFreeChartMain {
     static void main() {
-        final ScheduledSensorRegistry registry = new ScheduledSensorRegistry(new JSensorThreadFactory("scheduler-%d"), 2);
-        registry.start();
+        final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2, new JSensorThreadFactory("scheduler-%d"));
+        final SensorRegistry registry = new DefaultSensorRegistry();
 
         final TimeSeries timeSeriesCpuUsage = new TimeSeries("cpu.usage");
-        new CpuMetrics().bindTo(registry, name -> sensorValue -> {
+        final Backend backendCpuUsage = sensorValue -> {
             if (sensorValue.value() == null || sensorValue.value().isBlank()) {
                 return;
             }
 
             final RegularTimePeriod timePeriod = new FixedMillisecond(sensorValue.timestamp());
             timeSeriesCpuUsage.add(timePeriod, sensorValue.getValueAsDouble());
-        });
-        registry.scheduleSensor("cpu.usage", 1, 1, TimeUnit.SECONDS);
+        };
+        new CpuMetrics().bindTo(registry, name -> backendCpuUsage);
+        scheduledExecutorService.scheduleWithFixedDelay(() -> backendCpuUsage.store(registry.getSensor("cpu.usage").measure()), 1, 1, TimeUnit.SECONDS);
 
         final TimeSeries timeSeriesMemoryUsage = new TimeSeries("memory.usage");
-        new MemoryMetrics().bindTo(registry, name -> sensorValue -> {
+        final Backend backendMemoryUsage = sensorValue -> {
             if (sensorValue.value() == null || sensorValue.value().isBlank()) {
                 return;
             }
 
             final RegularTimePeriod timePeriod = new FixedMillisecond(sensorValue.timestamp());
             timeSeriesMemoryUsage.add(timePeriod, sensorValue.getValueAsDouble());
-        });
-        registry.scheduleSensor("memory.usage", 1, 1, TimeUnit.SECONDS);
+        };
+        new MemoryMetrics().bindTo(registry, name -> backendMemoryUsage);
+        scheduledExecutorService.scheduleWithFixedDelay(() -> backendMemoryUsage.store(registry.getSensor("memory.usage").measure()), 1, 1, TimeUnit.SECONDS);
 
         // Nur die letzten N Daten vorhalten.
         // timeSeriesCpuUsage.setMaximumItemCount(1500);
@@ -111,7 +117,7 @@ public final class JFreeChartMain {
         chartFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(final WindowEvent event) {
-                registry.stop();
+                scheduledExecutorService.shutdownNow();
                 System.exit(0);
             }
         });

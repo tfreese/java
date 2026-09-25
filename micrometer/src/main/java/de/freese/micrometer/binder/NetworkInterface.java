@@ -61,11 +61,10 @@ class NetworkInterface {
     private List<String> executeCommand(final String... command) {
         List<String> list = Collections.emptyList();
 
-        try {
-            final Process process = new ProcessBuilder()
-                    .command(command)
-                    .redirectErrorStream(true)
-                    .start();
+        try (Process process = new ProcessBuilder()
+                .command(command)
+                .redirectErrorStream(true)
+                .start()) {
 
             final Charset charset = StandardCharsets.UTF_8;
 
@@ -77,7 +76,7 @@ class NetworkInterface {
             }
 
             process.waitFor();
-            process.destroy();
+            // process.destroy();
         }
         catch (final InterruptedException ex) {
             LOGGER.error(ex.getMessage(), ex);
@@ -109,7 +108,7 @@ class NetworkInterface {
 
         output = lines.stream().filter(l -> l.startsWith("TX packets")).mapToLong(l -> {
             final Matcher matcher = PATTERN_BYTES.matcher(l);
-            
+
             if (matcher.find()) {
                 return Long.parseLong(matcher.group(1));
             }

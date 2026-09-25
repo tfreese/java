@@ -27,6 +27,7 @@ import io.micrometer.core.instrument.logging.LoggingMeterRegistry;
 import io.micrometer.core.instrument.logging.LoggingRegistryConfig;
 import io.micrometer.core.instrument.push.PushMeterRegistry;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -135,7 +136,7 @@ class TestMicrometer {
         // PushRegistryConfig
         final LoggingRegistryConfig loggingRegistryConfig = new LoggingRegistryConfig() {
             @Override
-            public String get(final String key) {
+            public String get(final @NonNull String key) {
                 return null;
             }
 

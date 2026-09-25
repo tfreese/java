@@ -14,16 +14,13 @@ import de.freese.jsensors.sensor.Sensor;
  * @since 02.09.2021
  */
 public class ThreadMetrics implements SensorBinder {
-    private final ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
-
     @Override
     public List<String> bindTo(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
-        return bindCpuUsage(registry, backendProvider);
-    }
+        final ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
 
-    private List<String> bindCpuUsage(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
         final Sensor countSensor = Sensor.builder("thread.count", threadMXBean, bean -> Integer.toString(bean.getThreadCount()))
-                .description("Thread count").register(registry, backendProvider);
+                .description("Thread count")
+                .register(registry, backendProvider);
 
         return List.of(countSensor.getName());
     }

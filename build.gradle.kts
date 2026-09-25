@@ -1,9 +1,6 @@
 // Execute Tasks in SubModule: gradle MODULE:clean build
 plugins {
     id("de.freese.gradle.conventions").apply(false)
-    id("com.google.protobuf").apply(false)
-    id("net.ltgt.errorprone").apply(false)
-    id("org.openjfx.javafxplugin").apply(false)
     id("org.springframework.boot").apply(false)
 }
 

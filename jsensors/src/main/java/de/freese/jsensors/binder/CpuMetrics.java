@@ -13,16 +13,13 @@ import de.freese.jsensors.sensor.Sensor;
  * @since 02.09.2021
  */
 public class CpuMetrics implements SensorBinder {
-    private final com.sun.management.OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getPlatformMXBean(com.sun.management.OperatingSystemMXBean.class);
-
     @Override
     public List<String> bindTo(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
-        return bindCpuUsage(registry, backendProvider);
-    }
+        final com.sun.management.OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getPlatformMXBean(com.sun.management.OperatingSystemMXBean.class);
 
-    private List<String> bindCpuUsage(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
         final Sensor usageSensor = Sensor.builder("cpu.usage", operatingSystemMXBean, bean -> Double.toString(bean.getCpuLoad() * 100D))
-                .description("CPU-Usage in %").register(registry, backendProvider);
+                .description("CPU-Usage in %")
+                .register(registry, backendProvider);
 
         return List.of(usageSensor.getName());
     }

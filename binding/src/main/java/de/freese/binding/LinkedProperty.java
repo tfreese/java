@@ -11,10 +11,10 @@ import java.util.function.Function;
  */
 public class LinkedProperty<T> implements ChangeListener<T> {
     private final Function<Set<Property<T>>, T> valueGenerator;
-    
+
     private Set<Property<T>> properties = new LinkedHashSet<>();
 
-    private T value = null;
+    private T value;
 
     public LinkedProperty(final Function<Set<Property<T>>, T> valueGenerator) {
         super();

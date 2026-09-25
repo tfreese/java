@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.UnaryOperator;
@@ -59,6 +58,9 @@ final class UrlConnectionRepositoryClient extends AbstractRepositoryClient {
 
             throw new RepositoryClientException("Unexpected response status for exist-Request " + connection.getResponseCode() + " for " + uri);
         }
+        catch (final RepositoryClientException ex) {
+            throw ex;
+        }
         catch (final Exception ex) {
             throw new RepositoryClientException(ex);
         }
@@ -79,9 +81,9 @@ final class UrlConnectionRepositoryClient extends AbstractRepositoryClient {
 
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 try (InputStream inputStream = connection.getInputStream()) {
-                    final String json = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-
-                    return parseVersionsJson(json);
+                    // final String json = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+                    // return parseVersionsJson(json);
+                    return parseVersionsJson(inputStream);
                 }
             }
 
@@ -90,6 +92,9 @@ final class UrlConnectionRepositoryClient extends AbstractRepositoryClient {
             }
 
             throw new RepositoryClientException("Unexpected response status for MavenSearch-Request " + connection.getResponseCode() + " for " + uri);
+        }
+        catch (final RepositoryClientException ex) {
+            throw ex;
         }
         catch (final Exception ex) {
             throw new RepositoryClientException(ex);
@@ -120,6 +125,9 @@ final class UrlConnectionRepositoryClient extends AbstractRepositoryClient {
             }
 
             throw new RepositoryClientException("Unexpected response status for MetaData-Request " + connection.getResponseCode() + " for " + uri);
+        }
+        catch (final RepositoryClientException ex) {
+            throw ex;
         }
         catch (final Exception ex) {
             throw new RepositoryClientException(ex);

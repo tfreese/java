@@ -19,7 +19,7 @@ public interface SensorRegistry {
     Stream<Sensor> getSensors();
 
     /**
-     * Register a Sensor with a Backend.
+     * Register a Sensor.
      */
     <T> Sensor registerSensor(String name, T obj, Function<T, String> valueFunction, String description, Backend backend);
 }

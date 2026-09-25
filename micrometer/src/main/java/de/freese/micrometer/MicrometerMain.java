@@ -1,5 +1,6 @@
 package de.freese.micrometer;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
@@ -28,6 +29,8 @@ import io.micrometer.core.instrument.util.NamedThreadFactory;
 import io.micrometer.prometheusmetrics.PrometheusConfig;
 import io.micrometer.prometheusmetrics.PrometheusMeterRegistry;
 import io.micrometer.prometheusmetrics.PrometheusRenameFilter;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.NullMarked;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,12 +47,12 @@ public final class MicrometerMain {
         // PushRegistryConfig
         final LoggingRegistryConfig loggingRegistryConfig = new LoggingRegistryConfig() {
             @Override
-            public String get(final String key) {
+            public String get(final @NonNull String key) {
                 return null;
             }
 
             @Override
-            public Duration step() {
+            public @NullMarked Duration step() {
                 // Default = 1 Minute
                 return Duration.ofSeconds(1L);
             }
@@ -60,16 +63,16 @@ public final class MicrometerMain {
         Metrics.addRegistry(loggingMeterRegistry);
     }
 
-    static void initPrometheusRegistry() throws Exception {
+    static void initPrometheusRegistry() throws IOException {
         // PrometheusConfig.DEFAULT; step = 1 Minute
         final PrometheusConfig prometheusConfig = new PrometheusConfig() {
             @Override
-            public String get(final String key) {
+            public String get(final @NonNull String key) {
                 return null;
             }
 
             @Override
-            public Duration step() {
+            public @NullMarked Duration step() {
                 // Default = 1 Minute
                 return Duration.ofSeconds(1L);
             }
@@ -85,17 +88,17 @@ public final class MicrometerMain {
     static void initSimpleRegistry() {
         final SimpleConfig simpleConfig = new SimpleConfig() {
             @Override
-            public String get(final String key) {
+            public String get(final @NonNull String key) {
                 return null;
             }
 
             @Override
-            public CountingMode mode() {
+            public @NullMarked CountingMode mode() {
                 return CountingMode.STEP;
             }
 
             @Override
-            public Duration step() {
+            public @NullMarked Duration step() {
                 // Default = 1 Minute
                 return Duration.ofSeconds(1L);
             }
@@ -115,7 +118,7 @@ public final class MicrometerMain {
                 // .meterFilter(MeterFilter.denyNameStartsWith("executor.queue.remaining"))
                 .meterFilter(new MeterFilter() {
                     @Override
-                    public MeterFilterReply accept(final Id id) {
+                    public @NullMarked MeterFilterReply accept(final Id id) {
                         if ("scheduledExecutorService".equals(id.getTag("name"))) {
                             if ("executor.pool.max".equals(id.getName()) || "executor.queue.remaining".equals(id.getName())) {
                                 // Ist bei ScheduledExecutorService immer Integer.MAX_VALUE;
@@ -179,7 +182,7 @@ public final class MicrometerMain {
      * Siehe auch <a href="https://github.com/prometheus/client_java/tree/master/simpleclient_httpserver">simpleclient_httpserver</a><br>
      * &lt;dependency&gt;io.prometheus:simpleclient_httpserver&lt;/dependency&gt;<br>
      */
-    private static void startServerForPrometheus() throws Exception {
+    private static void startServerForPrometheus() throws IOException {
         final Optional<PrometheusMeterRegistry> prometheusMeterRegistryOptional = Metrics.globalRegistry.getRegistries().stream()
                 .filter(PrometheusMeterRegistry.class::isInstance)
                 .map(PrometheusMeterRegistry.class::cast)

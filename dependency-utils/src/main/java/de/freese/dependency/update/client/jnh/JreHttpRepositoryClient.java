@@ -66,6 +66,9 @@ final class JreHttpRepositoryClient extends AbstractRepositoryClient {
 
             throw new RepositoryClientException(ex);
         }
+        catch (final RepositoryClientException ex) {
+            throw ex;
+        }
         catch (final Exception ex) {
             throw new RepositoryClientException(ex);
         }
@@ -80,14 +83,17 @@ final class JreHttpRepositoryClient extends AbstractRepositoryClient {
                 .build();
 
         try {
-            final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            final HttpResponse<InputStream> response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
 
             if (getLogger().isDebugEnabled()) {
                 getLogger().debug("GET {} {}", uri, response.statusCode());
             }
 
             if (response.statusCode() == HttpURLConnection.HTTP_OK) {
-                return parseVersionsJson(response.body());
+                // return parseVersionsJson(response.body());
+                try (InputStream inputStream = response.body()) {
+                    return parseVersionsJson(inputStream);
+                }
             }
 
             if (getLogger().isDebugEnabled()) {
@@ -101,6 +107,9 @@ final class JreHttpRepositoryClient extends AbstractRepositoryClient {
             Thread.currentThread().interrupt();
 
             throw new RepositoryClientException(ex);
+        }
+        catch (final RepositoryClientException ex) {
+            throw ex;
         }
         catch (final Exception ex) {
             throw new RepositoryClientException(ex);
@@ -139,6 +148,9 @@ final class JreHttpRepositoryClient extends AbstractRepositoryClient {
             Thread.currentThread().interrupt();
 
             throw new RepositoryClientException(ex);
+        }
+        catch (final RepositoryClientException ex) {
+            throw ex;
         }
         catch (final Exception ex) {
             throw new RepositoryClientException(ex);
