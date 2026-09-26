@@ -24,11 +24,10 @@ import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 
-import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.binder.CpuMetrics;
 import de.freese.jsensors.binder.MemoryMetrics;
-import de.freese.jsensors.registry.DefaultSensorRegistry;
-import de.freese.jsensors.registry.SensorRegistry;
+import de.freese.jsensors.registry.Sensors;
+import de.freese.jsensors.sensor.SensorValue;
 import de.freese.jsensors.utils.JSensorThreadFactory;
 
 /**
@@ -38,31 +37,32 @@ import de.freese.jsensors.utils.JSensorThreadFactory;
 public final class JFreeChartMain {
     static void main() {
         final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2, new JSensorThreadFactory("scheduler-%d"));
-        final SensorRegistry registry = new DefaultSensorRegistry();
 
         final TimeSeries timeSeriesCpuUsage = new TimeSeries("cpu.usage");
-        final Backend backendCpuUsage = sensorValue -> {
+        new CpuMetrics().bindTo(Sensors.GLOBAL_REGISTRY);
+        scheduledExecutorService.scheduleWithFixedDelay(() -> {
+            final SensorValue sensorValue = Sensors.nextValue("cpu.usage");
+
             if (sensorValue.value() == null || sensorValue.value().isBlank()) {
                 return;
             }
 
             final RegularTimePeriod timePeriod = new FixedMillisecond(sensorValue.timestamp());
             timeSeriesCpuUsage.add(timePeriod, sensorValue.getValueAsDouble());
-        };
-        new CpuMetrics().bindTo(registry, name -> backendCpuUsage);
-        scheduledExecutorService.scheduleWithFixedDelay(() -> backendCpuUsage.store(registry.getSensor("cpu.usage").measure()), 1, 1, TimeUnit.SECONDS);
+        }, 1, 1, TimeUnit.SECONDS);
 
         final TimeSeries timeSeriesMemoryUsage = new TimeSeries("memory.usage");
-        final Backend backendMemoryUsage = sensorValue -> {
+        new MemoryMetrics().bindTo(Sensors.GLOBAL_REGISTRY);
+        scheduledExecutorService.scheduleWithFixedDelay(() -> {
+            final SensorValue sensorValue = Sensors.nextValue("memory.usage");
+
             if (sensorValue.value() == null || sensorValue.value().isBlank()) {
                 return;
             }
 
             final RegularTimePeriod timePeriod = new FixedMillisecond(sensorValue.timestamp());
             timeSeriesMemoryUsage.add(timePeriod, sensorValue.getValueAsDouble());
-        };
-        new MemoryMetrics().bindTo(registry, name -> backendMemoryUsage);
-        scheduledExecutorService.scheduleWithFixedDelay(() -> backendMemoryUsage.store(registry.getSensor("memory.usage").measure()), 1, 1, TimeUnit.SECONDS);
+        }, 1, 1, TimeUnit.SECONDS);
 
         // Nur die letzten N Daten vorhalten.
         // timeSeriesCpuUsage.setMaximumItemCount(1500);
@@ -76,7 +76,7 @@ public final class JFreeChartMain {
         dataset.addSeries(timeSeriesCpuUsage);
         dataset.addSeries(timeSeriesMemoryUsage);
 
-        final Font font = new Font("Arial", Font.BOLD, 12);
+        final Font font = new Font("Arial", Font.BOLD, 22);
 
         final ValueAxis timeAxis = new DateAxis("Zeitachse");
         timeAxis.setLowerMargin(0.02D);
@@ -112,7 +112,7 @@ public final class JFreeChartMain {
 
         final ChartFrame chartFrame = new ChartFrame("JSensors", chart, true);
         chartFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        chartFrame.setSize(1280, 800);
+        chartFrame.setSize(1920, 1080);
         chartFrame.setLocationRelativeTo(null);
         chartFrame.addWindowListener(new WindowAdapter() {
             @Override

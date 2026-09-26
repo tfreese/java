@@ -14,3 +14,9 @@ dependencies {
     testImplementation("org.jfree:jfreechart")
     testImplementation("org.slf4j:slf4j-simple")
 }
+
+tasks.withType<Test>().configureEach {
+    jvmArgs(
+        "--enable-preview", "-Xshare:off", "--sun-misc-unsafe-memory-access=allow", "--enable-native-access=ALL-UNNAMED", "--enable-final-field-mutation=ALL-UNNAMED"
+    )
+}

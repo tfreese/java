@@ -3,10 +3,8 @@ package de.freese.jsensors.binder;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
-import java.util.List;
-import java.util.function.Function;
+import java.util.Map;
 
-import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.registry.SensorRegistry;
 import de.freese.jsensors.sensor.Sensor;
 
@@ -16,7 +14,7 @@ import de.freese.jsensors.sensor.Sensor;
  */
 public class MemoryMetrics implements SensorBinder {
     @Override
-    public List<String> bindTo(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
+    public Map<String, Sensor> bindTo(final SensorRegistry registry) {
         final MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
 
         final Sensor freeSensor = Sensor.builder("memory.free", memoryMXBean, bean -> {
@@ -24,7 +22,7 @@ public class MemoryMetrics implements SensorBinder {
 
                     return Long.toString(mu.getMax() > 0 ? mu.getMax() : mu.getCommitted());
                 })
-                .description("Free memory in Bytes").register(registry, backendProvider);
+                .description("Free memory in Bytes").register(registry);
 
         final Sensor maxSensor = Sensor.builder("memory.max", memoryMXBean, bean -> {
                     final MemoryUsage mu = bean.getHeapMemoryUsage();
@@ -32,7 +30,7 @@ public class MemoryMetrics implements SensorBinder {
                     return Long.toString(mu.getMax() > 0 ? mu.getMax() : mu.getCommitted());
                 })
                 .description("Max. memory in Bytes")
-                .register(registry, backendProvider);
+                .register(registry);
 
         final Sensor usageSensor = Sensor.builder("memory.usage", memoryMXBean, bean -> {
             final MemoryUsage mu = bean.getHeapMemoryUsage();
@@ -41,8 +39,12 @@ public class MemoryMetrics implements SensorBinder {
             final long max = mu.getMax() > 0 ? mu.getMax() : mu.getCommitted();
 
             return Double.toString(((double) used / max) * 100D);
-        }).description("Used Memory in %").register(registry, backendProvider);
+        }).description("Used Memory in %").register(registry);
 
-        return List.of(freeSensor.getName(), maxSensor.getName(), usageSensor.getName());
+        return Map.of(
+                freeSensor.getName(), freeSensor,
+                maxSensor.getName(), maxSensor,
+                usageSensor.getName(), usageSensor
+        );
     }
 }

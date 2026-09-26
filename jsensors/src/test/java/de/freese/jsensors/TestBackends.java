@@ -4,11 +4,9 @@ import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -17,7 +15,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Executors;
-import java.util.stream.Stream;
 
 import org.hsqldb.jdbc.JDBCPool;
 import org.junit.jupiter.api.AfterAll;
@@ -28,6 +25,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.condition.EnabledIf;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
+import org.junit.jupiter.api.io.CleanupMode;
+import org.junit.jupiter.api.io.TempDir;
 
 import de.freese.jsensors.backend.async.ExecutorBackend;
 import de.freese.jsensors.backend.async.WorkerBackend;
@@ -46,27 +45,13 @@ import de.freese.jsensors.sensor.SensorValue;
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestBackends {
-    private static final Path LOG_PATH = Paths.get(System.getProperty("java.io.tmpdir"), "jSensors");
     private static JDBCPool dataSource;
+    @TempDir(cleanup = CleanupMode.ALWAYS)
+    private static Path pathTest;
 
     @AfterAll
     static void afterAll() throws Exception {
         dataSource.close(1);
-
-        if (Files.exists(LOG_PATH)) {
-            try (Stream<Path> stream = Files.list(LOG_PATH)) {
-                stream.forEach(path -> {
-                    try {
-                        Files.delete(path);
-                    }
-                    catch (IOException _) {
-                        // Ignore
-                    }
-                });
-            }
-
-            Files.delete(LOG_PATH);
-        }
     }
 
     @BeforeAll
@@ -80,15 +65,16 @@ class TestBackends {
 
     @Test
     void testCsvBackend() throws Exception {
-        final Path path = LOG_PATH.resolve("csvBackend.csv");
+        final Path path = pathTest.resolve("csvBackend.csv");
         Files.deleteIfExists(path);
 
-        final CsvBackend backend = new CsvBackend(5, path, false);
-        backend.start();
-
-        createSensorValues().forEach(backend::store);
-
-        backend.stop();
+        try (CsvBackend backend = CsvBackend.builder()
+                .batchSize(5)
+                .path(path)
+                .exclusive(false)
+                .build()) {
+            createSensorValues().forEach(backend::store);
+        }
 
         assertTrue(Files.exists(path));
 
@@ -100,14 +86,16 @@ class TestBackends {
     @Test
     void testCsvBackendExclusive() throws Exception {
         for (final SensorValue sensorValue : createSensorValues()) {
-            final Path path = LOG_PATH.resolve(sensorValue.name() + ".csv");
+            final Path path = pathTest.resolve(sensorValue.name() + ".csv");
             Files.deleteIfExists(path);
 
-            final CsvBackend backend = new CsvBackend(5, path, true);
-
-            backend.start();
-            backend.store(sensorValue);
-            backend.stop();
+            try (CsvBackend backend = CsvBackend.builder()
+                    .batchSize(5)
+                    .path(path)
+                    .exclusive(true)
+                    .build()) {
+                backend.store(sensorValue);
+            }
 
             assertTrue(Files.exists(path));
 
@@ -122,14 +110,16 @@ class TestBackends {
         final List<SensorValue> sensorValues = createSensorValues();
         final List<SensorValue> consumedValues = Collections.synchronizedList(new ArrayList<>());
 
-        final DisruptorBackend backend = new DisruptorBackend(consumedValues::add, 3);
-        backend.start();
+        try (DisruptorBackend backend = DisruptorBackend.builder()
+                .delegate(consumedValues::add)
+                .parallelism(3)
+                .withDefaultRingBufferSize()
+                .build()) {
 
-        sensorValues.forEach(backend::store);
+            sensorValues.forEach(backend::store);
 
-        await().until(() -> consumedValues.size() >= 2);
-
-        backend.stop();
+            await().until(() -> consumedValues.size() >= 2);
+        }
 
         testValues(sensorValues, consumedValues);
     }
@@ -151,20 +141,23 @@ class TestBackends {
     @Test
     void testJdbcBackend() throws Exception {
         final List<SensorValue> sensorValues = createSensorValues();
-
-        final JdbcBackend backend = new JdbcBackend(5, dataSource, "SENSORS", false);
-
-        backend.start();
-        sensorValues.forEach(backend::store);
-        backend.stop(); // Trigger submit/commit
-
         final List<SensorValue> dbValues = new ArrayList<>();
 
-        try (Connection con = dataSource.getConnection();
-             Statement stmt = con.createStatement();
-             ResultSet rs = stmt.executeQuery("select * from sensors order by name asc")) {
-            while (rs.next()) {
-                dbValues.add(new DefaultSensorValue(rs.getString("NAME"), rs.getString("VALUE"), rs.getLong("TIMESTAMP")));
+        try (JdbcBackend backend = JdbcBackend.builder()
+                .batchSize(5)
+                .dataSource(dataSource)
+                .tableName("SENSORS")
+                .exclusive(false)
+                .build()) {
+            sensorValues.forEach(backend::store);
+            backend.submit(); // Flush buffer and commit.
+
+            try (Connection con = dataSource.getConnection();
+                 Statement stmt = con.createStatement();
+                 ResultSet rs = stmt.executeQuery("select * from sensors order by name asc")) {
+                while (rs.next()) {
+                    dbValues.add(new DefaultSensorValue(rs.getString("NAME"), rs.getString("VALUE"), rs.getLong("TIMESTAMP")));
+                }
             }
         }
 
@@ -180,22 +173,27 @@ class TestBackends {
     @Test
     void testJdbcBackendExclusive() throws Exception {
         for (final SensorValue sensorValue : createSensorValues()) {
-            final JdbcBackend backend = new JdbcBackend(5, dataSource, "SENSOR_" + sensorValue.name(), false);
+            try (JdbcBackend backend = JdbcBackend.builder()
+                    .batchSize(5)
+                    .dataSource(dataSource)
+                    .tableName("SENSOR_" + sensorValue.name())
+                    .exclusive(true)
+                    .build()) {
 
-            backend.start();
-            backend.store(sensorValue);
-            backend.stop(); // Trigger submit/commit
+                backend.store(sensorValue);
+                backend.submit(); // Flush buffer and commit.
 
-            try (Connection con = dataSource.getConnection();
-                 Statement stmt = con.createStatement();
-                 ResultSet rs = stmt.executeQuery("select * from SENSOR_" + sensorValue.name())) {
-                rs.next();
+                try (Connection con = dataSource.getConnection();
+                     Statement stmt = con.createStatement();
+                     ResultSet rs = stmt.executeQuery("select * from SENSOR_" + sensorValue.name())) {
+                    rs.next();
 
-                final SensorValue storedValue = new DefaultSensorValue(rs.getString("NAME"), rs.getString("VALUE"), rs.getLong("TIMESTAMP"));
+                    final SensorValue storedValue = new DefaultSensorValue(sensorValue.name(), rs.getString("VALUE"), rs.getLong("TIMESTAMP"));
 
-                assertEquals(sensorValue.name(), storedValue.name());
-                assertEquals(sensorValue.value(), storedValue.value());
-                assertEquals(sensorValue.timestamp(), storedValue.timestamp());
+                    assertEquals(sensorValue.name(), storedValue.name());
+                    assertEquals(sensorValue.value(), storedValue.value());
+                    assertEquals(sensorValue.timestamp(), storedValue.timestamp());
+                }
             }
         }
     }
@@ -205,19 +203,21 @@ class TestBackends {
         final List<SensorValue> sensorValues = createSensorValues();
         final List<SensorValue> consumedValues = Collections.synchronizedList(new ArrayList<>());
 
-        // RSocket-Server starten.
-        final JSensorRSocketServer rSocketServer = new JSensorRSocketServer(consumedValues::add, 7000, 2);
-        rSocketServer.start();
+        try (var _ = JSensorRSocketServer.builder()
+                .backend(consumedValues::add)
+                .port(7000)
+                .parallelism(2)
+                .build()) {
+            try (RSocketBackend backendRSocket = RSocketBackend.builder()
+                    .uri(URI.create("rsocket://localhost:" + 7000))
+                    .parallelism(2)
+                    .build()) {
 
-        final RSocketBackend backend = new RSocketBackend(URI.create("rsocket://localhost:" + 7000), 2);
-        backend.start();
+                sensorValues.forEach(backendRSocket::store);
 
-        sensorValues.forEach(backend::store);
-
-        await().until(() -> consumedValues.size() >= 2);
-
-        backend.stop();
-        rSocketServer.stop();
+                await().until(() -> consumedValues.size() >= 2);
+            }
+        }
 
         testValues(sensorValues, consumedValues);
     }
@@ -227,14 +227,14 @@ class TestBackends {
     @EnabledIf("testRrdtoolExist")
     void testRrdToolBackend() throws Exception {
         for (final SensorValue sensorValue : createSensorValues()) {
-            final Path path = LOG_PATH.resolve(sensorValue.name() + ".rrd");
-            Files.deleteIfExists(path);
+            final Path path = pathTest.resolve(sensorValue.name() + ".rrd");
 
-            final RrdToolBackend backend = new RrdToolBackend(5, path);
-
-            backend.start();
-            backend.store(sensorValue);
-            backend.stop();
+            try (RrdToolBackend backend = RrdToolBackend.builder()
+                    .batchSize(5)
+                    .path(path)
+                    .build()) {
+                backend.store(sensorValue);
+            }
 
             assertTrue(Files.exists(path));
         }
@@ -252,14 +252,11 @@ class TestBackends {
         final List<SensorValue> sensorValues = createSensorValues();
         final List<SensorValue> consumedValues = Collections.synchronizedList(new ArrayList<>());
 
-        final WorkerBackend backend = new WorkerBackend(consumedValues::add);
-        backend.start();
+        try (WorkerBackend backend = new WorkerBackend(consumedValues::add)) {
+            sensorValues.forEach(backend::store);
 
-        sensorValues.forEach(backend::store);
-
-        await().until(() -> consumedValues.size() >= 2);
-
-        backend.stop();
+            await().until(() -> consumedValues.size() >= 2);
+        }
 
         testValues(sensorValues, consumedValues);
     }

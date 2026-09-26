@@ -3,7 +3,6 @@ package de.freese.jsensors.registry;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.sensor.Sensor;
 
 /**
@@ -21,5 +20,5 @@ public interface SensorRegistry {
     /**
      * Register a Sensor.
      */
-    <T> Sensor registerSensor(String name, T obj, Function<T, String> valueFunction, String description, Backend backend);
+    <T> Sensor registerSensor(String name, T obj, Function<T, String> valueFunction, String description);
 }

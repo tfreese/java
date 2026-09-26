@@ -3,7 +3,6 @@ package de.freese.jsensors.sensor;
 import java.util.Objects;
 import java.util.function.Function;
 
-import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.registry.SensorRegistry;
 
 /**
@@ -36,12 +35,8 @@ public interface Sensor {
             return this;
         }
 
-        public Sensor register(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
-            return register(registry, backendProvider.apply(name));
-        }
-
-        public Sensor register(final SensorRegistry registry, final Backend backend) {
-            return registry.registerSensor(name, obj, valueFunction, description, backend);
+        public Sensor register(final SensorRegistry registry) {
+            return registry.registerSensor(name, obj, valueFunction, description);
         }
     }
 
@@ -56,5 +51,5 @@ public interface Sensor {
     /**
      * Determine the next Sensor Value.
      */
-    SensorValue measure();
+    SensorValue nextValue();
 }

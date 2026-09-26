@@ -1,16 +1,18 @@
 package de.freese.jsensors.backend.file;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.slf4j.LoggerFactory;
+
 import de.freese.jsensors.backend.AbstractBatchBackend;
 import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.sensor.Sensor;
 import de.freese.jsensors.sensor.SensorValue;
-import de.freese.jsensors.utils.LifeCycle;
 import de.freese.jsensors.utils.Utils;
 
 /**
@@ -20,29 +22,39 @@ import de.freese.jsensors.utils.Utils;
  * @author Thomas Freese
  * @since 31.05.2017
  */
-public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
+public class RrdToolBackend extends AbstractBatchBackend {
     /**
      * System.getProperty("line.separator")
      */
     private static final String LINE_SEPARATOR = System.lineSeparator();
 
-    private final Path path;
+    public static class Builder {
+        private int batchSize;
+        private Path path;
 
-    public RrdToolBackend(final int batchSize, final Path path) {
-        super(batchSize);
+        Builder() {
+            super();
+        }
 
-        this.path = Objects.requireNonNull(path, "path required");
-    }
+        public Builder batchSize(final int batchSize) {
+            this.batchSize = batchSize;
 
-    @Override
-    public void start() {
-        try {
+            return this;
+        }
+
+        public RrdToolBackend build() throws IOException {
+            Objects.requireNonNull(path, "path required");
+
+            if (batchSize < 1) {
+                throw new IllegalArgumentException("batchSize < 1: " + batchSize);
+            }
+
             // Create Directories.
-            final Path parent = this.path.getParent();
+            final Path parent = path.getParent();
             Files.createDirectories(parent);
 
             if (!Files.exists(path)) {
-                getLogger().info("create file: {}", path);
+                LoggerFactory.getLogger(RrdToolBackend.Builder.class).info("create file: {}", path);
 
                 // Create default RRD.
                 final List<String> command = new ArrayList<>();
@@ -59,18 +71,30 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
                 final List<String> lines = Utils.executeCommand(command);
 
                 if (!lines.isEmpty()) {
-                    throw new RuntimeException(String.join(LINE_SEPARATOR, lines));
+                    throw new IOException(String.join(LINE_SEPARATOR, lines));
                 }
             }
+
+            return new RrdToolBackend(batchSize, path);
         }
-        catch (final Exception ex) {
-            getLogger().error(ex.getMessage(), ex);
+
+        public Builder path(final Path path) {
+            this.path = path;
+
+            return this;
         }
     }
 
-    @Override
-    public void stop() {
-        submit();
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    private final Path path;
+
+    RrdToolBackend(final int batchSize, final Path path) {
+        super(batchSize);
+
+        this.path = path;
     }
 
     @Override
@@ -91,7 +115,7 @@ public class RrdToolBackend extends AbstractBatchBackend implements LifeCycle {
                 final List<String> lines = Utils.executeCommand(command);
 
                 if (!lines.isEmpty()) {
-                    throw new RuntimeException(String.join(LINE_SEPARATOR, lines));
+                    throw new IOException(String.join(LINE_SEPARATOR, lines));
                 }
             }
         }

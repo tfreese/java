@@ -5,7 +5,9 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
-import de.freese.jsensors.backend.AbstractBackend;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.sensor.SensorValue;
 
@@ -15,7 +17,9 @@ import de.freese.jsensors.sensor.SensorValue;
  * @author Thomas Freese
  * @since 26.04.2019
  */
-public class ExecutorBackend extends AbstractBackend {
+public class ExecutorBackend implements Backend {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExecutorBackend.class);
+
     private final Backend delegateBackend;
     private final Executor executor;
 
@@ -41,7 +45,17 @@ public class ExecutorBackend extends AbstractBackend {
     }
 
     @Override
-    protected void storeValue(final SensorValue sensorValue) {
+    public void store(final SensorValue sensorValue) {
+        if (sensorValue == null) {
+            LOGGER.warn("sensorValue is null");
+            return;
+        }
+
+        if (sensorValue.value() == null || sensorValue.value().isEmpty()) {
+            LOGGER.warn("sensorValue without content");
+            return;
+        }
+
         executor.execute(() -> {
             // final Thread currentThread = Thread.currentThread();
             // final String oldName = currentThread.getName();
@@ -51,7 +65,7 @@ public class ExecutorBackend extends AbstractBackend {
                 delegateBackend.store(sensorValue);
             }
             catch (final Exception ex) {
-                getLogger().error(ex.getMessage(), ex);
+                LOGGER.error(ex.getMessage(), ex);
             }
             // finally {
             //     currentThread.setName(oldName);

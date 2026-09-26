@@ -43,7 +43,7 @@ public class DefaultSensor<T> implements Sensor {
     }
 
     @Override
-    public SensorValue measure() {
+    public SensorValue nextValue() {
         final T obj = ref.get();
 
         if (obj != null) {

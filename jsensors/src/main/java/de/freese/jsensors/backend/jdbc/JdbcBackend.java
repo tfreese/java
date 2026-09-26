@@ -7,16 +7,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.StringJoiner;
 
 import javax.sql.DataSource;
 
+import org.slf4j.LoggerFactory;
+
 import de.freese.jsensors.backend.AbstractBatchBackend;
 import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.sensor.Sensor;
 import de.freese.jsensors.sensor.SensorValue;
-import de.freese.jsensors.utils.LifeCycle;
 
 /**
  * {@link Backend} for database tables.<br>
@@ -24,7 +26,126 @@ import de.freese.jsensors.utils.LifeCycle;
  * @author Thomas Freese
  * @since 02.06.2017
  */
-public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
+public class JdbcBackend extends AbstractBatchBackend {
+    public static class Builder {
+        private int batchSize;
+        private DataSource dataSource;
+        private boolean exclusive;
+        private String tableName;
+
+        Builder() {
+            super();
+        }
+
+        public Builder batchSize(final int batchSize) {
+            this.batchSize = batchSize;
+
+            return this;
+        }
+
+        public JdbcBackend build() throws SQLException {
+            Objects.requireNonNull(dataSource, "dataSource required");
+            Objects.requireNonNull(tableName, "tableName required");
+
+            if (batchSize < 1) {
+                throw new IllegalArgumentException("batchSize < 1: " + batchSize);
+            }
+
+            if (!existTable()) {
+                createTable();
+            }
+
+            return new JdbcBackend(batchSize, dataSource, tableName, exclusive);
+        }
+
+        public Builder dataSource(final DataSource dataSource) {
+            this.dataSource = dataSource;
+
+            return this;
+        }
+
+        /**
+         * @param exclusive; true=One table for one sensor, false=One Table for all sensors.
+         */
+        public Builder exclusive(final boolean exclusive) {
+            this.exclusive = exclusive;
+
+            return this;
+        }
+
+        public Builder tableName(final String tableName) {
+            this.tableName = tableName;
+
+            return this;
+        }
+
+        private void createTable() throws SQLException {
+            LoggerFactory.getLogger(JdbcBackend.Builder.class).info("Create table: {}", tableName);
+
+            try (Connection connection = dataSource.getConnection();
+                 Statement statement = connection.createStatement()) {
+                final StringBuilder sql = new StringBuilder();
+                sql.append("CREATE TABLE ").append(tableName.toUpperCase(Locale.ROOT));
+
+                final StringJoiner joiner = new StringJoiner(", ", " (", ")");
+
+                if (!exclusive) {
+                    // With SensorName.
+                    joiner.add("NAME VARCHAR(20) NOT NULL");
+                }
+
+                joiner.add("VALUE VARCHAR(50) NOT NULL");
+                joiner.add("TIMESTAMP BIGINT NOT NULL");
+
+                sql.append(joiner);
+
+                statement.execute(sql.toString());
+
+                if (exclusive) {
+                    // Without SensorName.
+                    // String sqlIndex = String.format("ALTER TABLE %s ADD CONSTRAINT TIMESTAMP_PK PRIMARY KEY (TIMESTAMP);", tableName);
+                    final String sqlIndex = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (TIMESTAMP);", tableName, tableName);
+
+                    statement.execute(sqlIndex);
+                }
+                else {
+                    // With SensorName.
+                    final String sqlIndex = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (NAME, TIMESTAMP);", tableName, tableName);
+
+                    statement.execute(sqlIndex);
+
+                    // These Indices existing by UNIQUE INDEX.
+                    // sqlIndex = String.format("CREATE INDEX NAME_IDX ON %s (NAME);", tableName);
+                    // stmt.execute(sqlIndex);
+                    //
+                    // sqlIndex = String.format("CREATE INDEX TIMESTAMP_IDX ON %s (TIMESTAMP);", tableName);
+                    // stmt.execute(sqlIndex);
+                }
+            }
+        }
+
+        private boolean existTable() throws SQLException {
+            boolean tableExist = false;
+
+            try (Connection connection = dataSource.getConnection()) {
+                final DatabaseMetaData metaData = connection.getMetaData();
+
+                try (ResultSet tables = metaData.getTables(null, null, tableName, new String[]{"TABLE"})) {
+                    if (tables.next()) {
+                        // Table exist.
+                        tableExist = true;
+                    }
+                }
+            }
+
+            return tableExist;
+        }
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
     private final DataSource dataSource;
     private final boolean exclusive;
     private final String tableName;
@@ -32,81 +153,12 @@ public class JdbcBackend extends AbstractBatchBackend implements LifeCycle {
     /**
      * @param exclusive boolean; Table exclusive for only one {@link Sensor} -> no column 'NAME'
      */
-    public JdbcBackend(final int batchSize, final DataSource dataSource, final String tableName, final boolean exclusive) {
+    JdbcBackend(final int batchSize, final DataSource dataSource, final String tableName, final boolean exclusive) {
         super(batchSize);
 
         this.dataSource = Objects.requireNonNull(dataSource, "dataSource required");
         this.tableName = Objects.requireNonNull(tableName, "tableName required");
         this.exclusive = exclusive;
-    }
-
-    @Override
-    public void start() {
-        // Create Table if not exist.
-        try (Connection connection = dataSource.getConnection()) {
-            final DatabaseMetaData metaData = connection.getMetaData();
-            boolean tableExist = false;
-
-            try (ResultSet tables = metaData.getTables(null, null, tableName, new String[]{"TABLE"})) {
-                if (tables.next()) {
-                    // Table exist.
-                    tableExist = true;
-                }
-            }
-
-            if (!tableExist) {
-                getLogger().info("Create table: {}", tableName);
-
-                try (Statement statement = connection.createStatement()) {
-                    // Create Table.
-                    final StringBuilder sql = new StringBuilder();
-                    sql.append("CREATE TABLE ").append(tableName);
-
-                    final StringJoiner joiner = new StringJoiner(", ", " (", ")");
-
-                    if (!exclusive) {
-                        // With SensorName.
-                        joiner.add("NAME VARCHAR(20) NOT NULL");
-                    }
-
-                    joiner.add("VALUE VARCHAR(50) NOT NULL");
-                    joiner.add("TIMESTAMP BIGINT NOT NULL");
-
-                    sql.append(joiner);
-
-                    statement.execute(sql.toString());
-
-                    if (exclusive) {
-                        // Without SensorName.
-                        // String sqlIndex = String.format("ALTER TABLE %s ADD CONSTRAINT TIMESTAMP_PK PRIMARY KEY (TIMESTAMP);", tableName);
-                        final String sqlIndex = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (TIMESTAMP);", tableName, tableName);
-
-                        statement.execute(sqlIndex);
-                    }
-                    else {
-                        // With SensorName.
-                        final String sqlIndex = String.format("CREATE UNIQUE INDEX %s_UNQ ON %s (NAME, TIMESTAMP);", tableName, tableName);
-
-                        statement.execute(sqlIndex);
-
-                        // These Indices existing by UNIQUE INDEX.
-                        // sqlIndex = String.format("CREATE INDEX NAME_IDX ON %s (NAME);", tableName);
-                        // stmt.execute(sqlIndex);
-                        //
-                        // sqlIndex = String.format("CREATE INDEX TIMESTAMP_IDX ON %s (TIMESTAMP);", tableName);
-                        // stmt.execute(sqlIndex);
-                    }
-                }
-            }
-        }
-        catch (final SQLException ex) {
-            getLogger().error(ex.getMessage(), ex);
-        }
-    }
-
-    @Override
-    public void stop() {
-        submit();
     }
 
     @Override

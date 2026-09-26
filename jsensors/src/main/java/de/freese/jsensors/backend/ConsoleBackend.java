@@ -8,9 +8,9 @@ import de.freese.jsensors.sensor.SensorValue;
  * @author Thomas Freese
  * @since 27.10.2020
  */
-public final class ConsoleBackend extends AbstractBackend {
+public final class ConsoleBackend implements Backend {
     @Override
-    protected void storeValue(final SensorValue sensorValue) {
+    public void store(final SensorValue sensorValue) {
         System.out.printf("[%s] - %s%n", Thread.currentThread().getName(), sensorValue);
     }
 }

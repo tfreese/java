@@ -6,11 +6,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import de.freese.jsensors.backend.AbstractBackend;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.sensor.DefaultSensorValue;
 import de.freese.jsensors.sensor.SensorValue;
-import de.freese.jsensors.utils.LifeCycle;
 
 /**
  * Asynchronous Wrapper for a {@link Backend}.<br>
@@ -19,7 +20,9 @@ import de.freese.jsensors.utils.LifeCycle;
  * @author Thomas Freese
  * @since 26.04.2019
  */
-public class WorkerBackend extends AbstractBackend implements LifeCycle {
+public class WorkerBackend implements Backend, AutoCloseable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(WorkerBackend.class);
+
     private static final SensorValue STOP_VALUE = new DefaultSensorValue("STOP_VALUE", "STOP_VALUE", 1);
 
     /**
@@ -47,7 +50,7 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
                 dispatch(sensorValue);
             }
 
-            getLogger().debug("terminated: {}", WorkerBackend.this.getName());
+            LOGGER.debug("terminated: {}", WorkerBackend.this.getName());
         }
     }
 
@@ -63,22 +66,18 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
 
         stoppedRef = new AtomicBoolean();
         worker = new QueueWorker();
-    }
 
-    @Override
-    public void start() {
         worker.setName(getName());
         worker.setDaemon(true);
-
         worker.start();
     }
 
     @Override
-    public void stop() {
+    public void close() {
         final boolean stopped = stoppedRef.compareAndSet(false, true);
 
         if (stopped) {
-            getLogger().debug("signaled to stop: {}", getName());
+            LOGGER.debug("signaled to stop: {}", getName());
         }
 
         // There is a slight chance that the thread is not started yet, wait for it to run.
@@ -88,7 +87,7 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
                 TimeUnit.MILLISECONDS.sleep(10L);
             }
             catch (final InterruptedException ex) {
-                getLogger().error(ex.getMessage(), ex);
+                LOGGER.error(ex.getMessage(), ex);
 
                 // Restore interrupted state.
                 Thread.currentThread().interrupt();
@@ -109,12 +108,12 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
             // Restore interrupted state.
             Thread.currentThread().interrupt();
 
-            getLogger().error(ex.getMessage(), ex);
+            LOGGER.error(ex.getMessage(), ex);
         }
 
         // Save last SensorValues.
         if (!queue.isEmpty()) {
-            getLogger().info("store queued sensor values");
+            LOGGER.info("store queued sensor values");
 
             SensorValue sensorValue;
 
@@ -129,12 +128,22 @@ public class WorkerBackend extends AbstractBackend implements LifeCycle {
     }
 
     @Override
-    protected void storeValue(final SensorValue sensorValue) {
+    public void store(final SensorValue sensorValue) {
+        if (sensorValue == null) {
+            LOGGER.warn("sensorValue is null");
+            return;
+        }
+
+        if (sensorValue.value() == null || sensorValue.value().isEmpty()) {
+            LOGGER.warn("sensorValue without content");
+            return;
+        }
+
         queue.add(sensorValue);
     }
 
     private void dispatch(final SensorValue sensorValue) {
-        getLogger().debug("Processing: {}", sensorValue);
+        LOGGER.debug("Processing: {}", sensorValue);
 
         delegateBackend.store(sensorValue);
     }

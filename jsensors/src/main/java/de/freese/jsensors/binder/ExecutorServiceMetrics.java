@@ -2,17 +2,15 @@ package de.freese.jsensors.binder;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
-import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.registry.SensorRegistry;
 import de.freese.jsensors.sensor.Sensor;
 
@@ -36,13 +34,13 @@ public class ExecutorServiceMetrics implements SensorBinder {
     }
 
     @Override
-    public List<String> bindTo(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
+    public Map<String, Sensor> bindTo(final SensorRegistry registry) {
         switch (executorService) {
             case final ForkJoinPool fjp -> {
-                return bindTo(registry, fjp, backendProvider);
+                return bindTo(registry, fjp);
             }
             case final ThreadPoolExecutor tpe -> {
-                return bindTo(registry, tpe, backendProvider);
+                return bindTo(registry, tpe);
             }
             default -> {
                 final String className = executorService.getClass().getName();
@@ -56,7 +54,7 @@ public class ExecutorServiceMetrics implements SensorBinder {
                 }
 
                 if (pool != null) {
-                    return bindTo(registry, pool, backendProvider);
+                    return bindTo(registry, pool);
                 }
                 else {
                     // getLogger().warn("executorService not supported: {}", className);
@@ -70,74 +68,80 @@ public class ExecutorServiceMetrics implements SensorBinder {
         return LOGGER;
     }
 
-    private List<String> bindTo(final SensorRegistry registry, final ForkJoinPool forkJoinPool, final Function<String, Backend> backendProvider) {
-        final Sensor stealsSensor = Sensor.builder("executor.steals." + serviceName, forkJoinPool, pool -> Long.toString(pool.getStealCount())).description(
-                        "Estimate of the total number of tasks stolen from one thread's work queue by another. The reported value "
-                                + "underestimates the actual total number of steals when the pool is not quiescent")
-                .register(registry, backendProvider);
+    private Map<String, Sensor> bindTo(final SensorRegistry registry, final ForkJoinPool forkJoinPool) {
+        final Sensor stealsSensor = Sensor.builder("executor.steals." + serviceName, forkJoinPool, pool ->
+                        Long.toString(pool.getStealCount())
+                ).description(
+                        "Estimate of the total number of tasks stolen from one thread's work queue by another. "
+                                + "The reported value underestimates the actual total number of steals when the pool is not quiescent")
+                .register(registry);
 
         final Sensor queuedSensor = Sensor.builder("executor.queued." + serviceName, forkJoinPool, pool -> Long.toString(pool.getQueuedTaskCount()))
-                .description("An estimate of the total number of tasks currently held in queues by worker threads").register(registry, backendProvider);
+                .description("An estimate of the total number of tasks currently held in queues by worker threads").register(registry);
 
-        final Sensor activeSensor = Sensor.builder("executor.active." + serviceName, forkJoinPool, pool -> Integer.toString(pool.getActiveThreadCount()))
-                .description("An estimate of the number of threads that are currently stealing or executing tasks").register(registry, backendProvider);
+        final Sensor activeSensor = Sensor.builder("executor.active." + serviceName, forkJoinPool, pool ->
+                        Integer.toString(pool.getActiveThreadCount())
+                )
+                .description("An estimate of the number of threads that are currently stealing or executing tasks").register(registry);
 
-        final Sensor runningSensor = Sensor.builder("executor.running." + serviceName, forkJoinPool, pool -> Integer.toString(pool.getRunningThreadCount()))
+        final Sensor runningSensor = Sensor.builder("executor.running." + serviceName, forkJoinPool, pool ->
+                        Integer.toString(pool.getRunningThreadCount())
+                )
                 .description("An estimate of the number of worker threads that are not blocked waiting to join tasks or for other managed synchronization threads")
-                .register(registry, backendProvider);
+                .register(registry);
 
-        return List.of(
-                stealsSensor.getName(),
-                queuedSensor.getName(),
-                activeSensor.getName(),
-                runningSensor.getName()
+        return Map.of(
+                stealsSensor.getName(), stealsSensor,
+                queuedSensor.getName(), queuedSensor,
+                activeSensor.getName(), activeSensor,
+                runningSensor.getName(), runningSensor
         );
     }
 
-    private List<String> bindTo(final SensorRegistry registry, final ThreadPoolExecutor threadPoolExecutor, final Function<String, Backend> backendProvider) {
-        final Sensor copmpletedSensor = Sensor.builder("executor.completed." + serviceName,
-                        threadPoolExecutor,
-                        pool -> Long.toString(pool.getCompletedTaskCount()))
-                .description("The approximate total number of tasks that have completed execution").register(registry, backendProvider);
+    private Map<String, Sensor> bindTo(final SensorRegistry registry, final ThreadPoolExecutor threadPoolExecutor) {
+        final Sensor copmpletedSensor = Sensor.builder("executor.completed." + serviceName, threadPoolExecutor, pool ->
+                        Long.toString(pool.getCompletedTaskCount())
+                )
+                .description("The approximate total number of tasks that have completed execution").register(registry);
 
-        final Sensor activeSensor = Sensor.builder("executor.active." + serviceName,
-                        threadPoolExecutor,
-                        pool -> Integer.toString(pool.getActiveCount()))
-                .description("The approximate number of threads that are actively executing tasks").register(registry, backendProvider);
+        final Sensor activeSensor = Sensor.builder("executor.active." + serviceName, threadPoolExecutor, pool ->
+                        Integer.toString(pool.getActiveCount())
+                )
+                .description("The approximate number of threads that are actively executing tasks").register(registry);
 
-        final Sensor queuedSensor = Sensor.builder("executor.queued." + serviceName,
-                        threadPoolExecutor,
-                        pool -> Integer.toString(pool.getQueue().size()))
-                .description("The approximate number of tasks that are queued for execution").register(registry, backendProvider);
+        final Sensor queuedSensor = Sensor.builder("executor.queued." + serviceName, threadPoolExecutor, pool ->
+                        Integer.toString(pool.getQueue().size())
+                )
+                .description("The approximate number of tasks that are queued for execution").register(registry);
 
-        final Sensor queueRemainingSensor = Sensor.builder("executor.queue.remaining." + serviceName,
-                        threadPoolExecutor,
-                        pool -> Integer.toString(pool.getQueue().remainingCapacity()))
-                .description("The number of additional elements that this queue can ideally accept without blocking").register(registry, backendProvider);
+        final Sensor queueRemainingSensor = Sensor.builder("executor.queue.remaining." + serviceName, threadPoolExecutor, pool ->
+                        Integer.toString(pool.getQueue().remainingCapacity())
+                )
+                .description("The number of additional elements that this queue can ideally accept without blocking").register(registry);
 
-        final Sensor sizeSensor = Sensor.builder("executor.pool.size." + serviceName,
-                        threadPoolExecutor,
-                        pool -> Integer.toString(pool.getPoolSize()))
-                .description("The current number of threads in the pool").register(registry, backendProvider);
+        final Sensor sizeSensor = Sensor.builder("executor.pool.size." + serviceName, threadPoolExecutor, pool ->
+                        Integer.toString(pool.getPoolSize())
+                )
+                .description("The current number of threads in the pool").register(registry);
 
-        final Sensor coreSensor = Sensor.builder("executor.pool.core." + serviceName,
-                        threadPoolExecutor,
-                        pool -> Integer.toString(pool.getCorePoolSize()))
-                .description("The core number of threads for the pool").register(registry, backendProvider);
+        final Sensor coreSensor = Sensor.builder("executor.pool.core." + serviceName, threadPoolExecutor, pool ->
+                        Integer.toString(pool.getCorePoolSize())
+                )
+                .description("The core number of threads for the pool").register(registry);
 
-        final Sensor maxSensor = Sensor.builder("executor.pool.max." + serviceName,
-                        threadPoolExecutor,
-                        pool -> Integer.toString(pool.getMaximumPoolSize()))
-                .description("The maximum allowed number of threads in the pool").register(registry, backendProvider);
+        final Sensor maxSensor = Sensor.builder("executor.pool.max." + serviceName, threadPoolExecutor, pool ->
+                        Integer.toString(pool.getMaximumPoolSize())
+                )
+                .description("The maximum allowed number of threads in the pool").register(registry);
 
-        return List.of(
-                copmpletedSensor.getName(),
-                activeSensor.getName(),
-                queuedSensor.getName(),
-                queueRemainingSensor.getName(),
-                sizeSensor.getName(),
-                coreSensor.getName(),
-                maxSensor.getName()
+        return Map.of(
+                copmpletedSensor.getName(), copmpletedSensor,
+                activeSensor.getName(), activeSensor,
+                queuedSensor.getName(), queuedSensor,
+                queueRemainingSensor.getName(), queueRemainingSensor,
+                sizeSensor.getName(), sizeSensor,
+                coreSensor.getName(), coreSensor,
+                maxSensor.getName(), maxSensor
         );
     }
 

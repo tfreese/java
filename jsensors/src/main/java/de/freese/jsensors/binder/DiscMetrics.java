@@ -6,15 +6,13 @@ import java.io.UncheckedIOException;
 import java.nio.file.FileStore;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.function.Function;
 import java.util.function.ToLongFunction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.registry.SensorRegistry;
 import de.freese.jsensors.sensor.Sensor;
 
@@ -57,9 +55,9 @@ public class DiscMetrics implements SensorBinder {
     }
 
     @Override
-    public List<String> bindTo(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
+    public Map<String, Sensor> bindTo(final SensorRegistry registry) {
         if (file != null) {
-            return bindTo(registry, file, File::getFreeSpace, File::getTotalSpace, backendProvider);
+            return bindTo(registry, file, File::getFreeSpace, File::getTotalSpace);
         }
         else if (path != null) {
             try {
@@ -83,7 +81,7 @@ public class DiscMetrics implements SensorBinder {
                     }
 
                     return 0L;
-                }, backendProvider);
+                });
             }
             catch (final IOException ex) {
                 throw new UncheckedIOException(ex);
@@ -92,36 +90,43 @@ public class DiscMetrics implements SensorBinder {
 
         getLogger().warn("bound no sensors");
 
-        return List.of();
+        return Map.of();
     }
 
     protected Logger getLogger() {
         return LOGGER;
     }
 
-    private <T> List<String> bindTo(final SensorRegistry registry, final T object, final ToLongFunction<T> functionFree, final ToLongFunction<T> functionTotal,
-                                    final Function<String, Backend> backendProvider) {
+    private <T> Map<String, Sensor> bindTo(final SensorRegistry registry,
+                                           final T object,
+                                           final ToLongFunction<T> functionFree,
+                                           final ToLongFunction<T> functionTotal) {
         final String postfix = sanitizePostfix(sensorPostfix);
 
-        Sensor.builder("disk.free." + postfix, object, obj -> {
-            final long free = functionFree.applyAsLong(obj);
+        final Sensor sensorFree = Sensor.builder("disk.free." + postfix, object, obj -> {
+                    final long free = functionFree.applyAsLong(obj);
 
-            return Long.toString(free);
-        }).description("Free Disk-Space in Bytes").register(registry, backendProvider);
+                    return Long.toString(free);
+                }).description("Free Disk-Space in Bytes")
+                .register(registry);
 
-        Sensor.builder("disk.usage." + postfix, object, obj -> {
-            final double free = functionFree.applyAsLong(obj);
-            final long total = functionTotal.applyAsLong(obj);
+        final Sensor sensorUsage = Sensor.builder("disk.usage." + postfix, object, obj -> {
+                    final double free = functionFree.applyAsLong(obj);
+                    final long total = functionTotal.applyAsLong(obj);
 
-            if (total == 0L) {
-                return "0";
-            }
+                    if (total == 0L) {
+                        return "0";
+                    }
 
-            final double usage = (1D - (free / total)) * 100D;
+                    final double usage = (1D - (free / total)) * 100D;
 
-            return Double.toString(usage);
-        }).description("Used Disk-Space in %").register(registry, backendProvider);
+                    return Double.toString(usage);
+                }).description("Used Disk-Space in %")
+                .register(registry);
 
-        return List.of("disk.free." + postfix, "disk.usage." + postfix);
+        return Map.of(
+                sensorFree.getName() + "." + postfix, sensorFree,
+                sensorUsage + "." + postfix, sensorUsage
+        );
     }
 }

@@ -2,10 +2,8 @@ package de.freese.jsensors.binder;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
-import java.util.List;
-import java.util.function.Function;
+import java.util.Map;
 
-import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.registry.SensorRegistry;
 import de.freese.jsensors.sensor.Sensor;
 
@@ -15,13 +13,15 @@ import de.freese.jsensors.sensor.Sensor;
  */
 public class ThreadMetrics implements SensorBinder {
     @Override
-    public List<String> bindTo(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
+    public Map<String, Sensor> bindTo(final SensorRegistry registry) {
         final ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
 
-        final Sensor countSensor = Sensor.builder("thread.count", threadMXBean, bean -> Integer.toString(bean.getThreadCount()))
+        final Sensor countSensor = Sensor.builder("thread.count", threadMXBean, bean ->
+                        Integer.toString(bean.getThreadCount())
+                )
                 .description("Thread count")
-                .register(registry, backendProvider);
+                .register(registry);
 
-        return List.of(countSensor.getName());
+        return Map.of(countSensor.getName(), countSensor);
     }
 }

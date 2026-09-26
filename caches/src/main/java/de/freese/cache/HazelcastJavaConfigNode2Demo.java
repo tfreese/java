@@ -52,7 +52,7 @@ public final class HazelcastJavaConfigNode2Demo {
                             map.remove("key2");
                         }
 
-                        CacheConfigurer.sleep(1000L);
+                        HazelcastCacheConfigurer.sleep(1000L);
                     }
                 });
 
@@ -61,7 +61,7 @@ public final class HazelcastJavaConfigNode2Demo {
 
                 runner.set(false);
 
-                CacheConfigurer.sleep(1500L);
+                HazelcastCacheConfigurer.sleep(1500L);
             }
 
             hazelcastInstance.shutdown();
@@ -75,7 +75,7 @@ public final class HazelcastJavaConfigNode2Demo {
     private static HazelcastInstance createHazelcastInstance() throws UnknownHostException {
         final String localIP = InetAddress.getLocalHost().getHostAddress();
 
-        final Config config = CacheConfigurer.configureHazelCastWithNetwork(localIP, 5802);
+        final Config config = HazelcastCacheConfigurer.configureHazelCastWithNetwork(localIP, 5802);
 
         return Hazelcast.newHazelcastInstance(config);
     }

@@ -1,10 +1,8 @@
 package de.freese.jsensors.binder;
 
 import java.lang.management.ManagementFactory;
-import java.util.List;
-import java.util.function.Function;
+import java.util.Map;
 
-import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.registry.SensorRegistry;
 import de.freese.jsensors.sensor.Sensor;
 
@@ -14,13 +12,15 @@ import de.freese.jsensors.sensor.Sensor;
  */
 public class CpuMetrics implements SensorBinder {
     @Override
-    public List<String> bindTo(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
+    public Map<String, Sensor> bindTo(final SensorRegistry registry) {
         final com.sun.management.OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getPlatformMXBean(com.sun.management.OperatingSystemMXBean.class);
 
-        final Sensor usageSensor = Sensor.builder("cpu.usage", operatingSystemMXBean, bean -> Double.toString(bean.getCpuLoad() * 100D))
+        final Sensor usageSensor = Sensor.builder("cpu.usage", operatingSystemMXBean, bean ->
+                        Double.toString(bean.getCpuLoad() * 100D)
+                )
                 .description("CPU-Usage in %")
-                .register(registry, backendProvider);
+                .register(registry);
 
-        return List.of(usageSensor.getName());
+        return Map.of(usageSensor.getName(), usageSensor);
     }
 }

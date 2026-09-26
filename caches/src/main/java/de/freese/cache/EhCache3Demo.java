@@ -56,7 +56,7 @@ public final class EhCache3Demo {
                         cache.remove("key2");
                     }
 
-                    CacheConfigurer.sleep(1000L);
+                    HazelcastCacheConfigurer.sleep(1000L);
                 }
             });
 
@@ -65,7 +65,7 @@ public final class EhCache3Demo {
 
             runner.set(false);
 
-            CacheConfigurer.sleep(1500L);
+            HazelcastCacheConfigurer.sleep(1500L);
         }
     }
 

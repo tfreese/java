@@ -25,7 +25,6 @@ import de.freese.jsensors.backend.RoutingBackend;
 import de.freese.jsensors.sensor.DefaultSensorValue;
 import de.freese.jsensors.sensor.Sensor;
 import de.freese.jsensors.sensor.SensorValue;
-import de.freese.jsensors.utils.LifeCycle;
 
 /**
  * Use this with {@link RoutingBackend} to support multiple {@link Sensor}s.
@@ -33,69 +32,98 @@ import de.freese.jsensors.utils.LifeCycle;
  * @author Thomas Freese
  * @since 19.10.2020
  */
-public class JSensorRSocketServer implements LifeCycle {
+public class JSensorRSocketServer implements AutoCloseable {
     private static final Logger LOGGER = LoggerFactory.getLogger(JSensorRSocketServer.class);
 
-    private final Backend backend;
-    private final int parallelism;
-    private final int port;
+    public static class Builder {
+        private Backend backend;
+        private int parallelism;
+        private int port;
 
-    private Disposable server;
-
-    public JSensorRSocketServer(final Backend backend, final int port, final int parallelism) {
-        if (port < 1) {
-            throw new IllegalArgumentException("port < 1: " + port);
+        Builder() {
+            super();
         }
 
-        if (parallelism < 1) {
-            throw new IllegalArgumentException("parallelism < 1: " + parallelism);
+        public Builder backend(final Backend backend) {
+            this.backend = backend;
+
+            return this;
         }
 
-        super();
+        public JSensorRSocketServer build() {
+            if (port < 1) {
+                throw new IllegalArgumentException("port < 1: " + port);
+            }
 
-        this.backend = Objects.requireNonNull(backend, "backend required");
-        this.port = port;
-        this.parallelism = parallelism;
+            if (parallelism < 1) {
+                throw new IllegalArgumentException("parallelism < 1: " + parallelism);
+            }
+
+            Objects.requireNonNull(backend, "backend required");
+
+            LOGGER.info("starting jSensor-rSocket server on port: {}", port);
+
+            // Error message, if the Client closes the Connection.
+            // Hooks.onErrorDropped(th -> LOGGER.error(th.getMessage()));
+            Hooks.onErrorDropped(th -> {
+                // Empty
+            });
+
+            final Resume resume = new Resume()
+                    .sessionDuration(Duration.ofMinutes(5L))
+                    .retry(
+                            Retry
+                                    .fixedDelay(10L, Duration.ofSeconds(1L))
+                                    .doBeforeRetry(s -> LOGGER.debug("Disconnected. Trying to resume..."))
+                    );
+
+            final TcpServer tcpServer = TcpServer.create()
+                    .host("localhost")
+                    .port(port)
+                    .runOn(LoopResources.create("jSensor-server-" + port, parallelism, false));
+
+            return new JSensorRSocketServer(backend, resume, tcpServer);
+        }
+
+        public Builder parallelism(final int parallelism) {
+            this.parallelism = parallelism;
+
+            return this;
+        }
+
+        public Builder port(final int port) {
+            this.port = port;
+
+            return this;
+        }
     }
 
-    @Override
-    public void start() {
-        getLogger().info("starting jSensor-rSocket server on port: {}", port);
+    public static Builder builder() {
+        return new JSensorRSocketServer.Builder();
+    }
 
-        // Error message, if the Client closes the Connection.
-        // Hooks.onErrorDropped(th -> LOGGER.error(th.getMessage()));
-        Hooks.onErrorDropped(th -> {
-            // Empty
-        });
+    private final Backend backend;
+    private final Disposable disposable;
 
-        final Resume resume = new Resume()
-                .sessionDuration(Duration.ofMinutes(5L))
-                .retry(
-                        Retry
-                                .fixedDelay(10, Duration.ofSeconds(1L))
-                                .doBeforeRetry(s -> LOGGER.debug("Disconnected. Trying to resume..."))
-                );
+    JSensorRSocketServer(final Backend backend, final Resume resume, final TcpServer tcpServer) {
+        super();
 
-        final TcpServer tcpServer = TcpServer.create()
-                .host("localhost")
-                .port(port)
-                .runOn(LoopResources.create("jSensor-server-" + port, parallelism, false));
+        this.backend = backend;
 
         final SocketAcceptor socketAcceptor = SocketAcceptor.forFireAndForget(this::forFireAndForget);
 
-        server = RSocketServer.create()
+        disposable = RSocketServer.create()
                 .acceptor(socketAcceptor)
                 .resume(resume)
                 .payloadDecoder(PayloadDecoder.DEFAULT)
-                .bindNow(TcpServerTransport.create(tcpServer))
-        ;
+                .bindNow(TcpServerTransport.create(tcpServer));
     }
 
     @Override
-    public void stop() {
+    public void close() {
         getLogger().info("stopping jSensor-rSocket server");
 
-        server.dispose();
+        disposable.dispose();
     }
 
     protected SensorValue decode(final Payload payload) {

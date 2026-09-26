@@ -1,10 +1,8 @@
 package de.freese.jsensors.binder;
 
 import java.lang.management.ManagementFactory;
-import java.util.List;
-import java.util.function.Function;
+import java.util.Map;
 
-import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.registry.SensorRegistry;
 import de.freese.jsensors.sensor.Sensor;
 
@@ -14,16 +12,20 @@ import de.freese.jsensors.sensor.Sensor;
  */
 public class SwapMetrics implements SensorBinder {
     @Override
-    public List<String> bindTo(final SensorRegistry registry, final Function<String, Backend> backendProvider) {
+    public Map<String, Sensor> bindTo(final SensorRegistry registry) {
         final com.sun.management.OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getPlatformMXBean(com.sun.management.OperatingSystemMXBean.class);
 
-        final Sensor freeSensor = Sensor.builder("swap.free", operatingSystemMXBean, bean -> Long.toString(bean.getFreeSwapSpaceSize()))
+        final Sensor freeSensor = Sensor.builder("swap.free", operatingSystemMXBean, bean ->
+                        Long.toString(bean.getFreeSwapSpaceSize())
+                )
                 .description("Free swap in Bytes")
-                .register(registry, backendProvider);
+                .register(registry);
 
-        final Sensor totalSensor = Sensor.builder("swap.total", operatingSystemMXBean, bean -> Long.toString(bean.getTotalMemorySize()))
+        final Sensor totalSensor = Sensor.builder("swap.total", operatingSystemMXBean, bean ->
+                        Long.toString(bean.getTotalMemorySize())
+                )
                 .description("Total swap in Bytes")
-                .register(registry, backendProvider);
+                .register(registry);
 
         final Sensor usageSensor = Sensor.builder("swap.usage", operatingSystemMXBean, bean -> {
             final long free = bean.getFreeSwapSpaceSize();
@@ -31,8 +33,12 @@ public class SwapMetrics implements SensorBinder {
             final double usage = ((double) free / total) * 100D;
 
             return Double.toString(usage);
-        }).description("Used swap in %").register(registry, backendProvider);
+        }).description("Used swap in %").register(registry);
 
-        return List.of(freeSensor.getName(), totalSensor.getName(), usageSensor.getName());
+        return Map.of(
+                freeSensor.getName(), freeSensor,
+                totalSensor.getName(), totalSensor,
+                usageSensor.getName(), usageSensor
+        );
     }
 }

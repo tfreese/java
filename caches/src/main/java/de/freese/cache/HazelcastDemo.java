@@ -57,7 +57,7 @@ public final class HazelcastDemo {
                         map.remove("key2");
                     }
 
-                    CacheConfigurer.sleep(1000L);
+                    HazelcastCacheConfigurer.sleep(1000L);
                 }
             });
 
@@ -66,7 +66,7 @@ public final class HazelcastDemo {
 
             runner.set(false);
 
-            CacheConfigurer.sleep(1500L);
+            HazelcastCacheConfigurer.sleep(1500L);
         }
 
         hazelcastInstance.shutdown();

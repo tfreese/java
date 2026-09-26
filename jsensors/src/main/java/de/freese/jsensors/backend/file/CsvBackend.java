@@ -1,6 +1,7 @@
 package de.freese.jsensors.backend.file;
 
 import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -9,11 +10,12 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Objects;
 
+import org.slf4j.LoggerFactory;
+
 import de.freese.jsensors.backend.AbstractBatchBackend;
 import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.sensor.Sensor;
 import de.freese.jsensors.sensor.SensorValue;
-import de.freese.jsensors.utils.LifeCycle;
 
 /**
  * {@link Backend} for a CSV-File.<br>
@@ -21,29 +23,35 @@ import de.freese.jsensors.utils.LifeCycle;
  * @author Thomas Freese
  * @since 31.05.2017
  */
-public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
-    private final boolean exclusive;
-    private final Path path;
+public class CsvBackend extends AbstractBatchBackend {
+    public static class Builder {
+        private int batchSize;
+        private boolean exclusive;
+        private Path path;
 
-    /**
-     * @param exclusive boolean; File exclusive for only one {@link Sensor} -> no column 'NAME'
-     */
-    public CsvBackend(final int batchSize, final Path path, final boolean exclusive) {
-        super(batchSize);
+        Builder() {
+            super();
+        }
 
-        this.path = Objects.requireNonNull(path, "path required");
-        this.exclusive = exclusive;
-    }
+        public Builder batchSize(final int batchSize) {
+            this.batchSize = batchSize;
 
-    @Override
-    public void start() {
-        try {
+            return this;
+        }
+
+        public CsvBackend build() throws IOException {
+            Objects.requireNonNull(path, "path required");
+
+            if (batchSize < 1) {
+                throw new IllegalArgumentException("batchSize < 1: " + batchSize);
+            }
+
             // Create Directories.
             final Path parent = path.getParent();
             Files.createDirectories(parent);
 
             if (!Files.exists(path)) {
-                getLogger().info("create file: {}", path);
+                LoggerFactory.getLogger(CsvBackend.Builder.class).info("create file: {}", path);
 
                 // Create CSV-Header
                 try (OutputStream os = Files.newOutputStream(path, StandardOpenOption.CREATE)) {
@@ -63,15 +71,41 @@ public class CsvBackend extends AbstractBatchBackend implements LifeCycle {
                     os.write(bytes);
                 }
             }
+
+            return new CsvBackend(batchSize, path, exclusive);
         }
-        catch (final Exception ex) {
-            getLogger().error(ex.getMessage(), ex);
+
+        /**
+         * @param exclusive; true=One file for one sensor, false=One file for all sensors.
+         */
+        public Builder exclusive(final boolean exclusive) {
+            this.exclusive = exclusive;
+
+            return this;
+        }
+
+        public Builder path(final Path path) {
+            this.path = path;
+
+            return this;
         }
     }
 
-    @Override
-    public void stop() {
-        submit();
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    private final boolean exclusive;
+    private final Path path;
+
+    /**
+     * @param exclusive boolean; File exclusive for only one {@link Sensor} -> no column 'NAME'
+     */
+    CsvBackend(final int batchSize, final Path path, final boolean exclusive) {
+        super(batchSize);
+
+        this.path = path;
+        this.exclusive = exclusive;
     }
 
     protected byte[] encode(final SensorValue sensorValue) {

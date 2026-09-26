@@ -1,9 +1,7 @@
 package de.freese.jsensors.binder;
 
-import java.util.List;
-import java.util.function.Function;
+import java.util.Map;
 
-import de.freese.jsensors.backend.Backend;
 import de.freese.jsensors.registry.SensorRegistry;
 import de.freese.jsensors.sensor.Sensor;
 
@@ -16,7 +14,7 @@ import de.freese.jsensors.sensor.Sensor;
 @FunctionalInterface
 public interface SensorBinder {
     /**
-     * @return List of bound Sensors.
+     * @return Map of bounded Sensors.
      */
-    List<String> bindTo(SensorRegistry registry, Function<String, Backend> backendProvider);
+    Map<String, Sensor> bindTo(SensorRegistry registry);
 }

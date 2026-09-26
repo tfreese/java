@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Freese
  * @since 07.02.2025
  */
-public final class CacheConfigurer {
+public final class HazelcastCacheConfigurer {
     public static Config configureHazelCastWithNetwork(final String localIp, final int localPort) {
         return configureHazelCastWithDefaults().setNetworkConfig(new NetworkConfig()
                 .setPort(localPort)
@@ -37,7 +37,7 @@ public final class CacheConfigurer {
                 .setJoin(new JoinConfig()
                         .setMulticastConfig(new MulticastConfig()
                                 .setEnabled(true)
-                                .setMulticastGroup("224.2.2.3")
+                                // .setMulticastGroup("224.2.2.3")
                                 .setMulticastPort(54327)
                                 .setMulticastTimeToLive(32)
                                 .setMulticastTimeoutSeconds(3)
@@ -69,7 +69,7 @@ public final class CacheConfigurer {
             // Restore interrupted state.
             Thread.currentThread().interrupt();
 
-            LoggerFactory.getLogger(CacheConfigurer.class).error(ex.getMessage(), ex);
+            LoggerFactory.getLogger(HazelcastCacheConfigurer.class).error(ex.getMessage(), ex);
         }
     }
 
@@ -187,7 +187,7 @@ public final class CacheConfigurer {
                 ;
     }
 
-    private CacheConfigurer() {
+    private HazelcastCacheConfigurer() {
         super();
     }
 }

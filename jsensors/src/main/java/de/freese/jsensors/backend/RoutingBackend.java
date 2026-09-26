@@ -3,6 +3,9 @@ package de.freese.jsensors.backend;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.jsensors.sensor.Sensor;
 import de.freese.jsensors.sensor.SensorValue;
 
@@ -12,7 +15,9 @@ import de.freese.jsensors.sensor.SensorValue;
  * @author Thomas Freese
  * @since 04.09.2021
  */
-public class RoutingBackend extends AbstractBackend {
+public class RoutingBackend implements Backend {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RoutingBackend.class);
+
     private final Map<String, CompositeBackend> routes = new HashMap<>();
 
     /**
@@ -25,7 +30,17 @@ public class RoutingBackend extends AbstractBackend {
     }
 
     @Override
-    protected void storeValue(final SensorValue sensorValue) {
+    public void store(final SensorValue sensorValue) {
+        if (sensorValue == null) {
+            LOGGER.warn("sensorValue is null");
+            return;
+        }
+
+        if (sensorValue.value() == null || sensorValue.value().isEmpty()) {
+            LOGGER.warn("sensorValue without content");
+            return;
+        }
+
         final CompositeBackend compositeBackend = routes.get(sensorValue.name());
 
         if (compositeBackend == null) {
