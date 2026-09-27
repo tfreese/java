@@ -11,10 +11,6 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import de.freese.jconky.model.CpuInfo;
-import de.freese.jconky.model.CpuInfos;
-import de.freese.jconky.model.CpuLoadAvg;
-import de.freese.jconky.model.CpuTimes;
 import de.freese.jconky.model.GpuInfo;
 import de.freese.jconky.model.MusicInfo;
 import de.freese.jconky.model.NetworkInfo;
@@ -79,23 +75,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     // */
     // private static final Pattern STATUS_VM_SIZE_MATCHER = Pattern.compile("VmSize:\\s+(\\d+) kB", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
 
-    private static CpuTimes parseCpuTimes(final String line) {
-        final String[] splits = SPACE_PATTERN.split(line);
-
-        final long user = Long.parseLong(splits[1]);
-        final long nice = Long.parseLong(splits[2]);
-        final long system = Long.parseLong(splits[3]);
-        final long idle = Long.parseLong(splits[4]);
-        final long ioWait = Long.parseLong(splits[5]);
-        final long irq = Long.parseLong(splits[6]);
-        final long softIrq = Long.parseLong(splits[7]);
-        final long steal = Long.parseLong(splits[8]);
-        final long guest = Long.parseLong(splits[9]);
-        final long guestNice = Long.parseLong(splits[10]);
-
-        return new CpuTimes(user, nice, system, idle, ioWait, irq, softIrq, steal, guest, guestNice);
-    }
-
     private final ProcessBuilder processBuilderCheckUpdates;
     // private final ProcessBuilder processBuilderDf;
     private final ProcessBuilder processBuilderFree;
@@ -104,7 +83,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     private final ProcessBuilder processBuilderNvidiaSmi;
     private final ProcessBuilder processBuilderPlayerCtlMetaData;
     private final ProcessBuilder processBuilderPlayerCtlPosition;
-    private final ProcessBuilder processBuilderSensors;
     private final ProcessBuilder processBuilderSmartCtl;
     private final ProcessBuilder processBuilderTop;
     // private final ProcessBuilder processBuilderUname;
@@ -113,8 +91,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         super();
 
         // processBuilderUname = new ProcessBuilder().command("/bin/sh", "-c", "uname --all");
-
-        processBuilderSensors = new ProcessBuilder().command("/bin/sh", "-c", "sensors");
 
         // -u tommy
         processBuilderTop = new ProcessBuilder().command("/bin/sh", "-c", "top -b -n 1");
@@ -128,74 +104,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         processBuilderPlayerCtlPosition = new ProcessBuilder("/bin/sh", "-c", "playerctl -s position");
         processBuilderSmartCtl = new ProcessBuilder("/bin/sh", "-c", "sudo smartctl -A /dev/nvme0n1");
         processBuilderNvidiaSmi = new ProcessBuilder("/bin/sh", "-c", "nvidia-smi --format=csv,noheader,nounits --query-gpu=temperature.gpu,power.draw,fan.speed,utilization.gpu");
-    }
-
-    @Override
-    public CpuInfos getCpuInfos() {
-        // String output = readContent("/proc/cpuinfo").stream().collect(Collectors.joining("\n"));
-        //
-        // int numCpus = 0;
-        //
-        // final Matcher matcher = CPUINFO_NUM_CPU_PATTERN.matcher(output);
-        //
-        // while (matcher.find()) {
-        // numCpus++;
-        // }
-
-        final List<String> lines = readContent("/proc/stat");
-        // String output = lines.stream().collect(Collectors.joining("\n"));
-        //
-        // int numCpus = 0;
-        //
-        // final Matcher matcher = STAT_NUM_CPU_PATTERN.matcher(output);
-        //
-        // while (matcher.find()) {
-        // numCpus++;
-        // }
-
-        final int numCpus = Runtime.getRuntime().availableProcessors();
-
-        // Temperaturen
-        final Map<Integer, Double> temperatures = getCpuTemperatures();
-
-        // Frequenzen
-        final Map<Integer, Integer> frequencies = getCpuFrequencies(numCpus);
-
-        final Map<Integer, CpuInfo> cpuInfoMap = new HashMap<>();
-
-        // Total Jiffies
-        String line = lines.getFirst();
-        CpuTimes cpuTimes = parseCpuTimes(line);
-        CpuInfo cpuInfo = new CpuInfo(-1, temperatures.getOrDefault(-1, 0D), 0, cpuTimes);
-        cpuInfoMap.put(cpuInfo.getCore(), cpuInfo);
-
-        // Core Jiffies
-        for (int i = 0; i < numCpus; i++) {
-            line = lines.get(i + 1);
-
-            cpuTimes = parseCpuTimes(line);
-            final double temperature = temperatures.getOrDefault(i, 0D);
-            final int frequency = frequencies.getOrDefault(i, 0);
-
-            cpuInfo = new CpuInfo(i, temperature, frequency, cpuTimes);
-            cpuInfoMap.put(cpuInfo.getCore(), cpuInfo);
-        }
-
-        return new CpuInfos(cpuInfoMap);
-    }
-
-    @Override
-    public CpuLoadAvg getCpuLoadAvg() {
-        final List<String> lines = readContent("/proc/loadavg");
-        final String line = lines.getFirst();
-
-        // ArchLinux
-        // 0.40 0.91 1.09 1/999 73841
-
-        // String[] splits = line.split(SPACE_PATTERN.pattern());
-        final String[] splits = SPACE_PATTERN.split(line);
-
-        return new CpuLoadAvg(Double.parseDouble(splits[0]), Double.parseDouble(splits[1]), Double.parseDouble(splits[2]));
     }
 
     // @Override
@@ -625,69 +533,4 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         return new ProcessInfos(infos);
     }
 
-    /**
-     * <pre>{@code
-     * /sys/devices/system/cpu/cpu<N>/cpufreq/scaling_cur_freq
-     * }</pre>
-     */
-    private Map<Integer, Integer> getCpuFrequencies(final int numCpus) {
-        final Map<Integer, Integer> frequencies = new HashMap<>();
-
-        for (int i = 0; i < numCpus; i++) {
-            final String file = String.format("/sys/devices/system/cpu/cpu%d/cpufreq/scaling_cur_freq", i);
-            final List<String> lines = readContent(file);
-
-            // Nur eine Zeile erwartet.
-            final String line = lines.getFirst();
-
-            final int frequency = Integer.parseInt(line);
-
-            frequencies.put(i, frequency);
-        }
-
-        return frequencies;
-    }
-
-    private Map<Integer, Double> getCpuTemperatures() {
-        final Map<Integer, Double> temperatures = new HashMap<>();
-
-        final String output = String.join(System.lineSeparator(), readContent(processBuilderSensors));
-
-        // Package
-        final Matcher matcher = SENSORS_PACKAGE_PATTERN.matcher(output);
-
-        if (matcher.find()) {
-            final String line = matcher.group();
-
-            final String[] splits = SPACE_PATTERN.split(line);
-
-            String temperatureString = splits[1];
-            temperatureString = temperatureString.replace("+", "").replace("°C", "");
-            final double temperature = Double.parseDouble(temperatureString);
-
-            temperatures.put(-1, temperature);
-        }
-
-        // Bei AMD gib's keine Temperatur pro Core.
-        //
-        // final Matcher matcher = SENSORS_CORE_PATTERN.matcher(output);
-        //
-        // while (matcher.find()) {
-        // final String line = matcher.group();
-        //
-        // final String[] splits = SPACE_PATTERN.split(line);
-        //
-        // String coreString = splits[1];
-        // coreString = coreString.replace(":", "");
-        // final int core = Integer.parseInt(coreString);
-        //
-        // String temperatureString = splits[2];
-        // temperatureString = temperatureString.replace("+", "").replace("°C", "");
-        // final double temperature = Double.parseDouble(temperatureString);
-        //
-        // temperatures.put(core, temperature);
-        // }
-
-        return temperatures;
-    }
 }

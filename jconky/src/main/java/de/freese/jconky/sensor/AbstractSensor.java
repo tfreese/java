@@ -1,0 +1,112 @@
+package de.freese.jconky.sensor;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UncheckedIOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.freese.jconky.Settings;
+
+/**
+ * @author Thomas Freese
+ * @since 27.09.26
+ */
+public abstract class AbstractSensor implements Sensor {
+    /**
+     * "[ ]" = "\\s+" = Whitespace: einer oder mehrere
+     * Tabs, NewLines are supported.
+     * Tab only: "\t+"
+     */
+    protected static final Pattern SPACE_PATTERN = Pattern.compile("\\s+", Pattern.UNICODE_CHARACTER_CLASS);
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    protected Logger getLogger() {
+        return logger;
+    }
+
+    protected Settings getSettings() {
+        return Settings.getInstance();
+    }
+
+    protected List<String> readContent(final ProcessBuilder processBuilder) {
+        List<String> lines = null;
+        List<String> errors = null;
+
+        // .redirectErrorStream(true); // Gibt Fehler auf dem InputStream aus.
+        try (Process process = processBuilder.start()) {
+            try (Reader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8));
+                 Reader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8))) {
+                // lines = inputReader.lines().toList();
+                // errors = errorReader.lines().toList();
+                lines = inputReader.readAllLines();
+                errors = errorReader.readAllLines();
+            }
+
+            process.waitFor();
+        }
+        catch (final InterruptedException ex) {
+            getLogger().error(ex.getMessage());
+
+            Thread.currentThread().interrupt();
+        }
+        catch (final IOException ex) {
+            throw new UncheckedIOException(ex);
+        }
+
+        if (!errors.isEmpty() && getLogger().isErrorEnabled()) {
+            getLogger().error("'{}': {}", processBuilder.command(), String.join(System.lineSeparator(), errors));
+        }
+
+        return lines;
+    }
+
+    protected List<String> readContent(final String fileName) {
+        return readContent(fileName, StandardCharsets.UTF_8);
+    }
+
+    protected List<String> readContent(final String fileName, final Charset charset) {
+        final Path path = Paths.get(fileName);
+
+        if (Files.notExists(path)) {
+            return Collections.emptyList();
+        }
+
+        try {
+            return Files.readAllLines(path, charset);
+
+            // lines = Files.lines(path, charset).collect(Collectors.toList());
+
+            // lines = new ArrayList<>();
+            //
+            // try (BufferedReader reader = new BufferedReader(new FileReader(fileName, StandardCharsets.UTF_8))) {
+            // for (;;) {
+            // String line = reader.readLine();
+            //
+            // if (line == null) {
+            // break;
+            // }
+            //
+            // lines.add(line);
+            // }
+            // }
+            //
+            // return lines;
+        }
+        catch (final IOException ex) {
+            throw new UncheckedIOException(ex);
+        }
+    }
+}

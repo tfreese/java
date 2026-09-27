@@ -1,11 +1,11 @@
-package de.freese.jconky.model;
+package de.freese.jconky.sensor.host;
 
 /**
  * @author Thomas Freese
- * @since 01.12.2020
+ * @since 27.09.26
  */
-public record HostInfo(String name, String version, String architecture) {
-    public HostInfo() {
+public record Host(String name, String version, String architecture) {
+    public Host() {
         this("", "", "");
     }
 

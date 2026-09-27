@@ -12,7 +12,7 @@ import javafx.scene.paint.Stop;
 
 import de.freese.jconky.model.NetworkInfo;
 import de.freese.jconky.model.NetworkInfos;
-import de.freese.jconky.model.Values;
+import de.freese.jconky.sensor.Values;
 import de.freese.jconky.util.JConkyUtils;
 
 /**

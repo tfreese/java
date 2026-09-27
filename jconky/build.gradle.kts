@@ -26,7 +26,8 @@ javafx {
 dependencies {
     implementation("org.slf4j:slf4j-api")
 
-    runtimeOnly("ch.qos.logback:logback-classic")
+    // runtimeOnly("ch.qos.logback:logback-classic")
+    runtimeOnly("org.slf4j:slf4j-simple")
 }
 
 // Start: gradle bootRun --args="--spring.profiles.active=dev"

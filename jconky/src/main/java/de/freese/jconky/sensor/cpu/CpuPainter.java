@@ -1,65 +1,67 @@
-package de.freese.jconky.painter;
+package de.freese.jconky.sensor.cpu;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 
-import de.freese.jconky.model.CpuInfo;
-import de.freese.jconky.model.CpuInfos;
-import de.freese.jconky.model.CpuLoadAvg;
-import de.freese.jconky.model.Values;
+import de.freese.jconky.sensor.AbstractSensorPainter;
+import de.freese.jconky.sensor.Values;
 
 /**
  * @author Thomas Freese
- * @since 05.12.2020
+ * @since 27.09.26
  */
-public class CpuMonitorPainter extends AbstractMonitorPainter {
+public final class CpuPainter extends AbstractSensorPainter {
     private final Map<Integer, Values<Double>> coreUsageMap = new HashMap<>();
+
+    private final CpuSensor cpuSensor;
     private final Stop[] gradientStops;
 
-    public CpuMonitorPainter() {
+    public CpuPainter(final CpuSensor cpuSensor) {
         super();
 
+        this.cpuSensor = Objects.requireNonNull(cpuSensor, "cpuSensor required");
         gradientStops = new Stop[]{new Stop(0D, getSettings().getColorGradientStart()), new Stop(1D, getSettings().getColorGradientStop())};
     }
 
     @Override
-    public double paintValue(final GraphicsContext gc, final double width) {
-        final CpuInfos cpuInfos = getContext().getCpuInfos();
+    public double repaint(final GraphicsContext gc, final double width) {
+        final Cpu cpu = cpuSensor.getCpu();
 
-        coreUsageMap.computeIfAbsent(-1, key -> new Values<>()).addValue(cpuInfos.getTotal().getCpuUsage());
+        coreUsageMap.computeIfAbsent(-1, key -> new Values<>()).addValue(cpu.getUsage());
 
-        for (int i = 0; i < getContext().getNumberOfCores(); i++) {
-            coreUsageMap.computeIfAbsent(i, key -> new Values<>()).addValue(cpuInfos.get(i).getCpuUsage());
+        for (int i = 0; i < cpu.getNumberOfCores(); i++) {
+            coreUsageMap.computeIfAbsent(i, key -> new Values<>()).addValue(cpu.getCore(i).usage());
         }
 
-        double y = paintTotal(gc, width, cpuInfos);
+        double y = paintTotal(gc, width, cpu);
 
         gc.save();
         gc.translate(0, y);
-        y += paintCores(gc, width, cpuInfos);
+        y += paintCores(gc, width, cpu);
         gc.restore();
 
-        final double height = y - 10D;
-        drawDebugBorder(gc, width, height);
+        // final double height = y - 10D;
+        // drawDebugBorder(gc, width, height);
 
-        return height;
+        return y;
     }
 
-    private double paintCore(final GraphicsContext gc, final double width, final CpuInfo cpuInfo) {
+    private double paintCore(final GraphicsContext gc, final double width, final CpuCore cpuCore) {
         final double fontSize = getSettings().getFontSize();
 
         double x = 0D;
         double y = 0D;
 
-        final int core = cpuInfo.getCore();
-        final double usage = cpuInfo.getCpuUsage();
-        final int frequency = cpuInfo.getFrequency() / 1000;
+        final int core = cpuCore.core() + 1;
+        final double usage = cpuCore.usage();
+        final int frequency = cpuCore.frequency() / 1000;
         // final double temperature = cpuInfo.getTemperature();
 
         final String text;
@@ -86,7 +88,7 @@ public class CpuMonitorPainter extends AbstractMonitorPainter {
         return fontSize * 1.25D;
     }
 
-    private double paintCores(final GraphicsContext gc, final double width, final CpuInfos cpuInfos) {
+    private double paintCores(final GraphicsContext gc, final double width, final Cpu cpu) {
         final double fontSize = getSettings().getFontSize();
 
         final double x = getSettings().getMarginInner().getLeft();
@@ -94,19 +96,17 @@ public class CpuMonitorPainter extends AbstractMonitorPainter {
 
         final double coreWidth = width - getSettings().getMarginInner().getLeft() - getSettings().getMarginInner().getRight();
 
-        for (int i = 0; i < getContext().getNumberOfCores(); i++) {
+        for (int i = 0; i < cpu.getNumberOfCores(); i++) {
             gc.save();
             gc.translate(x, y);
-            y += paintCore(gc, coreWidth, cpuInfos.get(i));
+            y += paintCore(gc, coreWidth, cpu.getCore(i));
             gc.restore();
         }
 
         return y;
     }
 
-    private double paintTotal(final GraphicsContext gc, final double width, final CpuInfos cpuInfos) {
-        final CpuLoadAvg cpuLoadAvg = getContext().getCpuLoadAvg();
-
+    private double paintTotal(final GraphicsContext gc, final double width, final Cpu cpu) {
         final double fontSize = getSettings().getFontSize();
 
         gc.setFont(getSettings().getFont());
@@ -116,9 +116,10 @@ public class CpuMonitorPainter extends AbstractMonitorPainter {
         paintTitle(gc, "CPU", x, y, width);
 
         // CpuLoads
+        final CpuLoadAvg cpuLoadAvg = cpu.getCpuLoadAvg();
         x = getSettings().getMarginInner().getLeft();
         y += fontSize + 5D;
-        paintText(gc, String.format("Total: %.0f°C", cpuInfos.getTotal().getTemperature()), x, y);
+        paintText(gc, String.format("Total: %.1f°C", cpu.getTemperature()), x, y);
 
         x = width - (fontSize * 13D);
         paintTextAndValue(gc, "Loads:", String.format("%.2f %.2f %.2f", cpuLoadAvg.oneMinute(), cpuLoadAvg.fiveMinutes(), cpuLoadAvg.fifteenMinutes()), x, y);
@@ -129,7 +130,7 @@ public class CpuMonitorPainter extends AbstractMonitorPainter {
 
         gc.save();
         gc.translate(x, y);
-        y += paintTotalBar(gc, width - x - getSettings().getMarginInner().getRight(), cpuInfos);
+        y += paintTotalBar(gc, width - x - getSettings().getMarginInner().getRight(), cpu);
         gc.restore();
 
         // CpuUsage Graph
@@ -144,18 +145,15 @@ public class CpuMonitorPainter extends AbstractMonitorPainter {
         return y;
     }
 
-    private double paintTotalBar(final GraphicsContext gc, final double width, final CpuInfos cpuInfos) {
+    private double paintTotalBar(final GraphicsContext gc, final double width, final Cpu cpu) {
         final double height = 15D;
         final double fontSize = getSettings().getFontSize();
 
         double x = 0D;
         double y = 0D;
 
-        final double usage = cpuInfos.getTotal().getCpuUsage();
-        // double temperature = cpuInfos.getTotal().getTemperature();
-        //
-        // paintTextValue(gc, String.format("%3.0f%% %2.0f°C", usage * 100D, temperature), x, y);
-        paintTextValue(gc, String.format("%3.0f%% ", usage * 100D), x, y);
+        final double usage = cpu.getUsage();
+        paintText(gc, String.format("%3.0f%% ", usage * 100D), x, y);
 
         x += 40D;
         y += 3D;

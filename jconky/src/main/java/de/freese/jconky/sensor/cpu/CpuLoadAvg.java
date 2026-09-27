@@ -1,8 +1,8 @@
-package de.freese.jconky.model;
+package de.freese.jconky.sensor.cpu;
 
 /**
  * @author Thomas Freese
- * @since 05.12.2020
+ * @since 27.09.26
  */
 public record CpuLoadAvg(double oneMinute, double fiveMinutes, double fifteenMinutes) {
     public CpuLoadAvg() {

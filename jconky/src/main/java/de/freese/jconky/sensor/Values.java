@@ -1,4 +1,4 @@
-package de.freese.jconky.model;
+package de.freese.jconky.sensor;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.TreeSet;
 
 /**
  * @author Thomas Freese
- * @since 30.11.2020
+ * @since 27.09.26
  */
 public final class Values<T extends Comparable<?>> {
     private final TreeSet<T> treeSet = new TreeSet<>();

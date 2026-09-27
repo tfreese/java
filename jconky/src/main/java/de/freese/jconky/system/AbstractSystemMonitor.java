@@ -26,9 +26,6 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.jconky.model.CpuInfos;
-import de.freese.jconky.model.CpuLoadAvg;
-import de.freese.jconky.model.HostInfo;
 import de.freese.jconky.model.UsageInfo;
 
 /**
@@ -53,19 +50,6 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
         super();
 
         myPid = ProcessHandle.current().pid();
-    }
-
-    @Override
-    public CpuInfos getCpuInfos() {
-        return new CpuInfos();
-    }
-
-    @Override
-    public CpuLoadAvg getCpuLoadAvg() {
-        return new CpuLoadAvg(
-                OPERATING_SYSTEM_MX_BEAN.getSystemLoadAverage() * 10D,
-                OPERATING_SYSTEM_MX_BEAN.getCpuLoad() * 10D,
-                OPERATING_SYSTEM_MX_BEAN.getProcessCpuLoad() * 10D);
     }
 
     @Override
@@ -116,26 +100,11 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
         return map;
     }
 
-    @Override
-    public HostInfo getHostInfo() {
-        return new HostInfo(
-                OPERATING_SYSTEM_MX_BEAN.getName(),
-                OPERATING_SYSTEM_MX_BEAN.getVersion(),
-                OPERATING_SYSTEM_MX_BEAN.getArch()
-        );
-    }
-
     /**
      * Liefert die eigene Process-ID
      */
     public long getMyPid() {
         return myPid;
-    }
-
-    @Override
-    public int getNumberOfCores() {
-        // return Runtime.getRuntime().availableProcessors();
-        return OPERATING_SYSTEM_MX_BEAN.getAvailableProcessors();
     }
 
     @Override

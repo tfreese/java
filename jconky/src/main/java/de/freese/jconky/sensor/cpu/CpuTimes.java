@@ -1,4 +1,4 @@
-package de.freese.jconky.model;
+package de.freese.jconky.sensor.cpu;
 
 /**
  * cat /proc/stat<br>
@@ -13,7 +13,7 @@ package de.freese.jconky.model;
  * Oder auch benannt als: Periodendauer des Timer-Interrupts<br>
  *
  * @author Thomas Freese
- * @since 30.11.2020
+ * @since 27.09.26
  */
 public record CpuTimes(long user, long nice, long system, long idle, long ioWait, long irq, long softIrq, long steal, long guest, long guestNice) {
     public CpuTimes() {
@@ -23,7 +23,11 @@ public record CpuTimes(long user, long nice, long system, long idle, long ioWait
     /**
      * Liefert die CPU-Auslastung von 0 bis 1.<br>
      */
-    public double getCpuUsage(final CpuTimes previous) {
+    public double calculateCpuUsage(final CpuTimes previous) {
+        if (previous == null) {
+            return 0D;
+        }
+
         final double totalDiff = (double) getTotal() - previous.getTotal();
         final double idleDiff = (double) getTotalIdle() - previous.getTotalIdle();
 

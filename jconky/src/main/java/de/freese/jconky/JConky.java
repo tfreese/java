@@ -1,6 +1,5 @@
 package de.freese.jconky;
 
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -21,22 +20,20 @@ import javafx.stage.StageStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.jconky.painter.CpuMonitorPainter;
-import de.freese.jconky.painter.HostMonitorPainter;
-import de.freese.jconky.painter.MusicMonitorPainter;
-import de.freese.jconky.painter.NetworkMonitorPainter;
-import de.freese.jconky.painter.ProcessMonitorPainter;
-import de.freese.jconky.painter.SystemMonitorPainter;
-import de.freese.jconky.painter.TemperatureMonitorPainter;
+import de.freese.jconky.sensor.SensorPainters;
+import de.freese.jconky.sensor.cpu.CpuPainter;
+import de.freese.jconky.sensor.cpu.CpuSensor;
+import de.freese.jconky.sensor.host.HostPainter;
+import de.freese.jconky.sensor.host.HostSensor;
 
 /**
- * Mit JConkyLauncher ausführen oder JConky direkt mit folgenden Restriktionen:<br>
+ * Execute with JConkyLauncher or JConky with the following restrictions:<br>
  * <br>
  * In Eclipse:<br>
  * <ol>
- * <li>Konstruktor muss public empty-arg sein oder nicht vorhanden sein.</li>
+ * <li>Constructor must be public with empty-arg, or not exiting.</li>
  * <li>VM-Parameter: --add-modules javafx.controls</li>
- * <li>Module-Classpath: OpenJFX die jeweils 2 Jars für javafx-base, javafx-controls und javafx-graphics hinzufügen</li>
+ * <li>Module-Classpath: Add the two 2 Jars for javafx-base, javafx-controls and javafx-graphics</li>
  * </ol>
  *
  * @author Thomas Freese
@@ -50,10 +47,10 @@ public final class JConky extends Application {
     }
 
     // static void main() {
-    // // Kein Taskbar Icon, funktioniert unter Linux aber nicht.
+    // // No Taskbar Icon, but doesn't work with Linux.
     // PlatformImpl.setTaskbarApplication(false);
     //
-    // // Runtime wird nicht beendet, wenn letztes Fenster geschlossen wird.
+    // // Runtime won't be exited, if last Window was closed.
     // // Platform.setImplicitExit(false);
     //
     // // System.setProperty("apple.awt.UIElement", "true");
@@ -65,92 +62,49 @@ public final class JConky extends Application {
     // launch(args);
     // }
 
-    private ContextPainter conkyContextPainter;
     private ScheduledExecutorService scheduledExecutorService;
-
-    public Scene createScene() {
-        // Font-Antialiasing
-        System.setProperty("prism.lcdtext", "true");
-
-        final Canvas canvas = new Canvas();
-        conkyContextPainter.setCanvas(canvas);
-
-        final Group pane = new Group();
-        pane.getChildren().add(canvas);
-
-        // GridPane pane = new GridPane();
-        // pane.add(canvas, 0, 0);
-
-        // Scene
-        final Scene scene = new Scene(pane, 335D, 1070D, true, SceneAntialiasing.BALANCED);
-
-        // Bind canvas size to scene size.
-        canvas.widthProperty().bind(scene.widthProperty());
-        canvas.heightProperty().bind(scene.heightProperty());
-
-        getLogger().info("Antialiasing: {}", scene.getAntiAliasing());
-
-        return scene;
-    }
+    private SensorPainters sensorPainter;
 
     @Override
-    public void init() throws Exception {
-        // "JavaFX-Launcher" umbenennen.
+    public void init() {
+        // Rename "JavaFX-Launcher".
         Thread.currentThread().setName("JavaFX-Init");
 
         getLogger().info("init");
 
         scheduledExecutorService = Executors.newScheduledThreadPool(4);
-        conkyContextPainter = new ContextPainter();
+        sensorPainter = new SensorPainters();
 
-        conkyContextPainter.addMonitorPainter(new HostMonitorPainter());
-        conkyContextPainter.addMonitorPainter(new CpuMonitorPainter());
-        conkyContextPainter.addMonitorPainter(new SystemMonitorPainter());
-        conkyContextPainter.addMonitorPainter(new NetworkMonitorPainter());
-        conkyContextPainter.addMonitorPainter(new ProcessMonitorPainter());
-        conkyContextPainter.addMonitorPainter(new TemperatureMonitorPainter());
-        conkyContextPainter.addMonitorPainter(new MusicMonitorPainter());
+        final HostSensor hostSensor = new HostSensor();
+        final CpuSensor cpuSensor = new CpuSensor();
+        sensorPainter
+                .addSensorPainter(new HostPainter(hostSensor))
+                .addSensorPainter(new CpuPainter(cpuSensor))
+        ;
 
-        getScheduledExecutorService().execute(() -> Context.getInstance().updateOneShot());
-
-        // Short-Scheduled
-        TimeUnit timeUnit = TimeUnit.MILLISECONDS;
-        long delay = 3000L;
-        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateUptimeInSeconds(), 0L, delay, timeUnit);
-        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateCpuInfos(), 0L, delay, timeUnit);
-        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateNetworkInfos(), 0L, delay, timeUnit);
-        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateUsages(), 0L, delay, timeUnit);
-        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateProcessInfos(), 0L, delay, timeUnit);
-        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateTemperatures(), 0L, delay, timeUnit);
-        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateMusicInfo(), 0L, delay, timeUnit);
-
-        // Long-Scheduled
-        timeUnit = TimeUnit.MINUTES;
-        delay = 15L;
-        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateHostInfo(), 0L, delay, timeUnit);
-        getScheduledExecutorService().scheduleWithFixedDelay(() -> Context.getInstance().updateUpdates(), 0L, delay, timeUnit);
+        scheduledExecutorService.scheduleWithFixedDelay(hostSensor::update, 0L, 3L, TimeUnit.SECONDS);
+        scheduledExecutorService.scheduleWithFixedDelay(cpuSensor::update, 0L, 3L, TimeUnit.SECONDS);
     }
 
     @Override
-    public void start(final Stage primaryStage) throws Exception {
-        // "JavaFX Application Thread" umbenennen.
+    public void start(final Stage primaryStage) {
+        // Rename "JavaFX Application Thread".
         Thread.currentThread().setName("JavaFX-Thread");
 
         getLogger().info("start");
 
         final Scene scene = createScene();
 
-        // Transparenz
         final boolean isTransparentSupported = Platform.isSupported(ConditionalFeature.TRANSPARENT_WINDOW);
         // isTransparentSupported = false;
 
         if (isTransparentSupported) {
-            // Fenster wird hierbei undecorated, aber der Content wird normal gezeichnet.
+            // Window will be undecorated.
 
             // For Stage
             primaryStage.initStyle(StageStyle.TRANSPARENT);
 
-            // Das gesamte Fenster wird transparent, inklusive Titelleiste und Inhalt.
+            // Window will be transparent.
             // primaryStage.setOpacity(Settings.getInstance().getAlpha());
 
             // For Scene
@@ -159,7 +113,7 @@ public final class JConky extends Application {
 
             // canvas.setOpacity(Settings.getInstance().getAlpha());
 
-            // Für Container.
+            // For Container.
             // pane.setBackground(Background.EMPTY);
             // pane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
             // pane.setStyle("-fx-background-color: transparent;");
@@ -172,23 +126,41 @@ public final class JConky extends Application {
         primaryStage.getIcons().add(new Image("conky.png"));
         primaryStage.setScene(scene);
 
-        // Auf dem 2. Monitor
-        final List<Screen> screens = Screen.getScreens();
-        // Screen screen = screens.get(0); // Linker Monitor
-        final Screen screen = screens.getLast(); // Rechter Monitor
-        primaryStage.setX(screen.getVisualBounds().getMinX() + 1240D);
-        primaryStage.setY(5D);
+        primaryStage.show();
+
+        Platform.runLater(() -> {
+            try {
+                primaryStage.sizeToScene();
+
+                final double y = 5D;
+
+                // Right on the 1. Monitor.
+                final double displayWith = Screen.getPrimary().getVisualBounds().getMaxX();
+
+                // Right on the 2. Monitor.
+                // final double displayWith = Screen.getScreens().stream().map(Screen::getVisualBounds).mapToDouble(Rectangle2D::getWidth).sum();
+
+                double x = displayWith - primaryStage.getWidth() - 5D;
+
+                if (x < 0) {
+                    x = 0;
+                }
+
+                primaryStage.setX(x);
+                primaryStage.setY(y);
+            }
+            catch (final Exception ex) {
+                getLogger().error(ex.getMessage(), ex);
+            }
+        });
 
         startRepaintSchedule();
-
-        // primaryStage.sizeToScene();
-        primaryStage.show();
     }
 
     public void startRepaintSchedule() {
         getScheduledExecutorService().scheduleWithFixedDelay(() -> {
             try {
-                Platform.runLater(conkyContextPainter::paint);
+                Platform.runLater(sensorPainter::repaint);
             }
             catch (final Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
@@ -197,7 +169,7 @@ public final class JConky extends Application {
     }
 
     @Override
-    public void stop() throws Exception {
+    public void stop() {
         getLogger().info("stop");
 
         getScheduledExecutorService().shutdown();
@@ -205,7 +177,36 @@ public final class JConky extends Application {
         System.exit(0);
     }
 
+    Scene createScene() {
+        // Font-Antialiasing
+        System.setProperty("prism.lcdtext", "true");
+
+        final Canvas canvas = new Canvas();
+        sensorPainter.setCanvas(canvas);
+
+        final Group pane = new Group();
+        pane.getChildren().add(canvas);
+
+        // GridPane pane = new GridPane();
+        // pane.add(canvas, 0, 0);
+
+        // Scene
+        final Scene scene = new Scene(pane, getSettings().getWidth(), getSettings().getHeight(), true, SceneAntialiasing.BALANCED);
+
+        // Bind canvas size to scene size.
+        canvas.widthProperty().bind(scene.widthProperty());
+        canvas.heightProperty().bind(scene.heightProperty());
+
+        getLogger().info("Antialiasing: {}", scene.getAntiAliasing());
+
+        return scene;
+    }
+
     private ScheduledExecutorService getScheduledExecutorService() {
         return scheduledExecutorService;
+    }
+
+    private Settings getSettings() {
+        return Settings.getInstance();
     }
 }

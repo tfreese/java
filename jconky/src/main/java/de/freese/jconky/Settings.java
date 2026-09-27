@@ -40,14 +40,19 @@ public final class Settings {
     private final Font font;
     private final String fontName;
     private final double fontSize;
+    private final double height;
     private final Insets marginInner;
     private final Insets marginOuter;
     private final SystemMonitor systemMonitor;
+    private final double width;
 
     private Settings() {
         super();
 
         systemMonitor = new LinuxSystemMonitor();
+
+        width = 335D;
+        height = 1070D;
 
         alpha = 0.65D;
         colorText = Color.LIGHTGRAY.brighter();
@@ -100,6 +105,10 @@ public final class Settings {
         return fontSize;
     }
 
+    public double getHeight() {
+        return height;
+    }
+
     /**
      * Innerer Rand.
      */
@@ -116,6 +125,10 @@ public final class Settings {
 
     public SystemMonitor getSystemMonitor() {
         return systemMonitor;
+    }
+
+    public double getWidth() {
+        return width;
     }
 
     public boolean isDebug() {
