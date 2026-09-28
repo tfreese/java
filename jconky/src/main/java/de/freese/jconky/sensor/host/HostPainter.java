@@ -20,18 +20,18 @@ public final class HostPainter extends AbstractSensorPainter {
     }
 
     @Override
-    public double repaint(final GraphicsContext gc, final double width) {
+    public double repaint(final GraphicsContext gc, final double startX, final double startY, final double width) {
         final Host host = hostSensor.getHost();
 
         gc.setFont(getSettings().getFont());
 
         final double fontSize = getSettings().getFontSize();
 
-        final double x = getSettings().getMarginInner().getLeft();
-        final double y = fontSize;
-        paintText(gc, String.format("%s - %s on %s", host.name(), host.version(), host.architecture()), x, y);
+        final double y = startY + fontSize;
 
-        drawDebugBorder(gc, width, y);
+        paintText(gc, String.format("%s - %s on %s", host.name(), host.version(), host.architecture()), startX, y);
+
+        drawDebugBorder(gc, startX, startY, width, y);
 
         return y;
     }

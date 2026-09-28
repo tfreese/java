@@ -19,7 +19,6 @@ import de.freese.jconky.model.NetworkProtocolInfo;
 import de.freese.jconky.model.ProcessInfo;
 import de.freese.jconky.model.ProcessInfos;
 import de.freese.jconky.model.TemperatureInfo;
-import de.freese.jconky.model.UsageInfo;
 import de.freese.jconky.util.JConkyUtils;
 
 /**
@@ -76,8 +75,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     // private static final Pattern STATUS_VM_SIZE_MATCHER = Pattern.compile("VmSize:\\s+(\\d+) kB", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
 
     private final ProcessBuilder processBuilderCheckUpdates;
-    // private final ProcessBuilder processBuilderDf;
-    private final ProcessBuilder processBuilderFree;
     private final ProcessBuilder processBuilderNetworkIf;
     private final ProcessBuilder processBuilderNstat;
     private final ProcessBuilder processBuilderNvidiaSmi;
@@ -90,15 +87,10 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     public LinuxSystemMonitor() {
         super();
 
-        // processBuilderUname = new ProcessBuilder().command("/bin/sh", "-c", "uname --all");
-
-        // -u tommy
         processBuilderTop = new ProcessBuilder().command("/bin/sh", "-c", "top -b -n 1");
 
         processBuilderNetworkIf = new ProcessBuilder().command("/bin/sh", "-c", "ip -s -4 addr");
         processBuilderNstat = new ProcessBuilder("/bin/sh", "-c", "nstat -a");
-        // processBuilderDf = new ProcessBuilder("/bin/sh", "-c", "df --block-size=1K");
-        processBuilderFree = new ProcessBuilder("/bin/sh", "-c", "free --bytes");
         processBuilderCheckUpdates = new ProcessBuilder("/bin/sh", "-c", "checkupdates");
         processBuilderPlayerCtlMetaData = new ProcessBuilder("/bin/sh", "-c", "playerctl -s metadata");
         processBuilderPlayerCtlPosition = new ProcessBuilder("/bin/sh", "-c", "playerctl -s position");
@@ -309,41 +301,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
     public ProcessInfos getProcessInfos(final double uptimeInSeconds, final long totalSystemMemory) {
         return getProcessInfosByTop();
         // return getProcessInfosByProc(uptimeInSeconds, totalSystemMemory);
-    }
-
-    /**
-     * /proc/meminfo
-     */
-    @Override
-    public Map<String, UsageInfo> getRamAndSwap() {
-        final Map<String, UsageInfo> map = super.getRamAndSwap();
-
-        final List<String> lines = readContent(processBuilderFree);
-
-        for (int i = 0; i < lines.size(); i++) {
-            if (i == 1) {
-                // Speicher
-                final String line = lines.get(i).replace(":", ": ");
-                final String[] splits = SPACE_PATTERN.split(line, -1);
-                final long size = Long.parseLong(splits[1]);
-                final long used = Long.parseLong(splits[2]);
-                final long free = Long.parseLong(splits[3]);
-
-                map.put("RAM", new UsageInfo("RAM", size, used, free));
-            }
-            // else if (i == 2) {
-            //     // Swap
-            //     final String line = lines.get(i).replace(":", ": ");
-            //     final String[] splits = SPACE_PATTERN.split(line);
-            //     final long size = Long.parseLong(splits[1]);
-            //     final long used = Long.parseLong(splits[2]);
-            //     final long free = Long.parseLong(splits[3]);
-            //
-            //     map.put("SWAP", new UsageInfo("SWAP", size, used, free));
-            // }
-        }
-
-        return map;
     }
 
     @Override

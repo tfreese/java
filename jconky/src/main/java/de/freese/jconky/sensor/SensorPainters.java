@@ -42,11 +42,12 @@ public final class SensorPainters {
         gc.translate(marginOuter.getLeft(), marginOuter.getTop());
 
         final double monitorWidth = width - (marginOuter.getRight() * 2D);
+        final double startX = getSettings().getMarginInner().getLeft();
         double totalY = 0D;
 
         for (final SensorPainter sensorPainter : painters) {
             try {
-                totalY += sensorPainter.repaint(gc, monitorWidth);
+                totalY = sensorPainter.repaint(gc, startX, totalY, monitorWidth);
             }
             catch (final Exception ex) {
                 LOGGER.error(ex.getMessage(), ex);
@@ -54,7 +55,9 @@ public final class SensorPainters {
 
             totalY += 5D;
 
-            gc.translate(0D, totalY);
+            // gc.save();
+            // gc.translate(0D, totalY);
+            // gc.restore();
         }
 
         // Koordinatenursprung wieder nach oben links verlegen um es komplett malen zu lassen.

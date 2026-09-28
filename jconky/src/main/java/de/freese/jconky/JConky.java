@@ -25,6 +25,8 @@ import de.freese.jconky.sensor.cpu.CpuPainter;
 import de.freese.jconky.sensor.cpu.CpuSensor;
 import de.freese.jconky.sensor.host.HostPainter;
 import de.freese.jconky.sensor.host.HostSensor;
+import de.freese.jconky.sensor.system.SystemPainter;
+import de.freese.jconky.sensor.system.SystemSensor;
 
 /**
  * Execute with JConkyLauncher or JConky with the following restrictions:<br>
@@ -77,13 +79,17 @@ public final class JConky extends Application {
 
         final HostSensor hostSensor = new HostSensor();
         final CpuSensor cpuSensor = new CpuSensor();
+        final SystemSensor systemSensor = new SystemSensor();
+
         sensorPainter
                 .addSensorPainter(new HostPainter(hostSensor))
                 .addSensorPainter(new CpuPainter(cpuSensor))
+                .addSensorPainter(new SystemPainter(systemSensor))
         ;
 
         scheduledExecutorService.scheduleWithFixedDelay(hostSensor::update, 0L, 3L, TimeUnit.SECONDS);
         scheduledExecutorService.scheduleWithFixedDelay(cpuSensor::update, 0L, 3L, TimeUnit.SECONDS);
+        scheduledExecutorService.scheduleWithFixedDelay(systemSensor::update, 0L, 3L, TimeUnit.SECONDS);
     }
 
     @Override
@@ -135,7 +141,10 @@ public final class JConky extends Application {
                 final double y = 5D;
 
                 // Right on the 1. Monitor.
-                final double displayWith = Screen.getPrimary().getVisualBounds().getMaxX();
+                // final double displayWith = Screen.getPrimary().getVisualBounds().getMaxX();
+
+                // Left on the 2. Monitor.
+                final double displayWith = Screen.getPrimary().getVisualBounds().getMaxX() + primaryStage.getWidth() + 10D;
 
                 // Right on the 2. Monitor.
                 // final double displayWith = Screen.getScreens().stream().map(Screen::getVisualBounds).mapToDouble(Rectangle2D::getWidth).sum();

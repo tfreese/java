@@ -8,5 +8,5 @@ import javafx.scene.canvas.GraphicsContext;
  */
 @FunctionalInterface
 public interface SensorPainter {
-    double repaint(GraphicsContext gc, double width);
+    double repaint(GraphicsContext gc, double startX, double startY, double width);
 }

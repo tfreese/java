@@ -16,11 +16,11 @@ import de.freese.jconky.Settings;
 public abstract class AbstractSensorPainter implements SensorPainter {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    protected void drawDebugBorder(final GraphicsContext gc, final double width, final double height) {
+    protected void drawDebugBorder(final GraphicsContext gc, final double x, final double y, final double width, final double height) {
         if (getSettings().isDebug()) {
             // gc.setLineDashes();
             gc.setStroke(Color.RED);
-            gc.strokeRect(0, 0, width, height);
+            gc.strokeRect(x, y, width, height);
         }
     }
 

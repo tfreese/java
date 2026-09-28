@@ -31,7 +31,7 @@ public final class CpuPainter extends AbstractSensorPainter {
     }
 
     @Override
-    public double repaint(final GraphicsContext gc, final double width) {
+    public double repaint(final GraphicsContext gc, final double startX, final double startY, final double width) {
         final Cpu cpu = cpuSensor.getCpu();
 
         coreUsageMap.computeIfAbsent(-1, key -> new Values<>()).addValue(cpu.getUsage());
@@ -40,136 +40,102 @@ public final class CpuPainter extends AbstractSensorPainter {
             coreUsageMap.computeIfAbsent(i, key -> new Values<>()).addValue(cpu.getCore(i).usage());
         }
 
-        double y = paintTotal(gc, width, cpu);
+        double y = startY + getSettings().getFontSize();
+        paintTitle(gc, "CPU", startX, y, width);
 
-        gc.save();
-        gc.translate(0, y);
-        y += paintCores(gc, width, cpu);
-        gc.restore();
+        y = paintTotal(gc, startX, y, width, cpu);
 
-        // final double height = y - 10D;
-        // drawDebugBorder(gc, width, height);
+        // CpuUsage Bar
+        y = paintTotalBar(gc, startX, y, width - startX - getSettings().getMarginInner().getRight(), cpu);
+
+        // CpuUsage Graph
+        y = paintTotalGraph(gc, startX, y, width - startX - getSettings().getMarginInner().getRight());
+
+        y = paintCores(gc, startX, y, width, cpu);
+
+        // // final double height = y - 10D;
+        drawDebugBorder(gc, startX, startY, width, y);
 
         return y;
     }
 
-    private double paintCore(final GraphicsContext gc, final double width, final CpuCore cpuCore) {
+    private double paintCore(final GraphicsContext gc, final double startX, final double startY, final double width, final CpuCore cpuCore) {
         final double fontSize = getSettings().getFontSize();
 
-        double x = 0D;
-        double y = 0D;
+        double x = startX;
+        final double y = startY + fontSize;
 
         final int core = cpuCore.core() + 1;
         final double usage = cpuCore.usage();
         final int frequency = cpuCore.frequency() / 1000;
         // final double temperature = cpuInfo.getTemperature();
 
-        final String text;
-
-        // if (temperature > 0D) {
-        // text = String.format("Core%d%3.0f%% %4dMHz %2.0f°C", core, usage * 100D, frequency, temperature);
-        // }
-        // else {
-        text = String.format("Core%02d %3.0f%% %4dMhz", core, usage * 100D, frequency);
-        // }
-
+        final String text = String.format("Core%02d %3.0f%% %4dMhz", core, usage * 100D, frequency);
         paintText(gc, text, x, y);
 
         x = fontSize * 12D;
-        y = -fontSize + 3D;
         final double barWidth = width - x;
 
+        gc.setFill(new LinearGradient(x, y - fontSize, x + barWidth, y - fontSize, false, CycleMethod.NO_CYCLE, gradientStops));
+        gc.fillRect(x, y - fontSize + 5D, usage * barWidth, 10D);
+
         gc.setStroke(getSettings().getColorText());
-        gc.strokeRect(x, y, barWidth, 10D);
+        gc.strokeRect(x, y - fontSize + 5D, barWidth, 10D);
 
-        gc.setFill(new LinearGradient(x, y, x + barWidth, y, false, CycleMethod.NO_CYCLE, gradientStops));
-        gc.fillRect(x, y, usage * barWidth, 10D);
-
-        return fontSize * 1.25D;
+        return y + 3D;
     }
 
-    private double paintCores(final GraphicsContext gc, final double width, final Cpu cpu) {
-        final double fontSize = getSettings().getFontSize();
-
-        final double x = getSettings().getMarginInner().getLeft();
-        double y = fontSize;
-
+    private double paintCores(final GraphicsContext gc, final double startX, final double startY, final double width, final Cpu cpu) {
         final double coreWidth = width - getSettings().getMarginInner().getLeft() - getSettings().getMarginInner().getRight();
 
+        double y = startY;
+
         for (int i = 0; i < cpu.getNumberOfCores(); i++) {
-            gc.save();
-            gc.translate(x, y);
-            y += paintCore(gc, coreWidth, cpu.getCore(i));
-            gc.restore();
+            y = paintCore(gc, startX, y, coreWidth, cpu.getCore(i));
         }
 
-        return y;
+        return y - 3D;
     }
 
-    private double paintTotal(final GraphicsContext gc, final double width, final Cpu cpu) {
+    private double paintTotal(final GraphicsContext gc, final double startX, final double startY, final double width, final Cpu cpu) {
         final double fontSize = getSettings().getFontSize();
 
         gc.setFont(getSettings().getFont());
 
-        double x = getSettings().getMarginInner().getLeft();
-        double y = fontSize;
-        paintTitle(gc, "CPU", x, y, width);
-
         // CpuLoads
         final CpuLoadAvg cpuLoadAvg = cpu.getCpuLoadAvg();
-        x = getSettings().getMarginInner().getLeft();
-        y += fontSize + 5D;
-        paintText(gc, String.format("Total: %.1f°C", cpu.getTemperature()), x, y);
+        final double y = startY + fontSize;
+        paintText(gc, String.format("Total: %.1f°C", cpu.getTemperature()), startX, y);
 
-        x = width - (fontSize * 13D);
-        paintTextAndValue(gc, "Loads:", String.format("%.2f %.2f %.2f", cpuLoadAvg.oneMinute(), cpuLoadAvg.fiveMinutes(), cpuLoadAvg.fifteenMinutes()), x, y);
-
-        // CpuUsage Bar
-        x = getSettings().getMarginInner().getLeft();
-        y += 15D;
-
-        gc.save();
-        gc.translate(x, y);
-        y += paintTotalBar(gc, width - x - getSettings().getMarginInner().getRight(), cpu);
-        gc.restore();
-
-        // CpuUsage Graph
-        x = getSettings().getMarginInner().getLeft();
-        y -= fontSize;
-
-        gc.save();
-        gc.translate(x, y);
-        y += paintTotalGraph(gc, width - x - getSettings().getMarginInner().getRight());
-        gc.restore();
+        paintTextAndValue(gc,
+                "Loads:", String.format("%.2f %.2f %.2f", cpuLoadAvg.oneMinute(), cpuLoadAvg.fiveMinutes(), cpuLoadAvg.fifteenMinutes()),
+                startX + width - (fontSize * 13D), y);
 
         return y;
     }
 
-    private double paintTotalBar(final GraphicsContext gc, final double width, final Cpu cpu) {
-        final double height = 15D;
+    private double paintTotalBar(final GraphicsContext gc, final double startX, final double startY, final double width, final Cpu cpu) {
         final double fontSize = getSettings().getFontSize();
 
-        double x = 0D;
-        double y = 0D;
-
         final double usage = cpu.getUsage();
-        paintText(gc, String.format("%3.0f%% ", usage * 100D), x, y);
+        double y = startY + fontSize;
+        paintText(gc, String.format("%3.0f%% ", usage * 100D), startX, y);
 
-        x += 40D;
+        final double x = startX + 40D;
         y += 3D;
         final double barWidth = width - x;
+
+        // Horizontaler Gradient.
+        gc.setFill(new LinearGradient(x, y, x + barWidth, y, false, CycleMethod.NO_CYCLE, gradientStops));
+        gc.fillRect(x, y - fontSize, usage * barWidth, 10D);
 
         gc.setStroke(getSettings().getColorText());
         gc.strokeRect(x, y - fontSize, barWidth, 10D);
 
-        y -= fontSize;
-        gc.setFill(new LinearGradient(x, y, x + barWidth, y, false, CycleMethod.NO_CYCLE, gradientStops));
-        gc.fillRect(x, y, usage * barWidth, 10D);
-
-        return height;
+        return y;
     }
 
-    private double paintTotalGraph(final GraphicsContext gc, final double width) {
+    private double paintTotalGraph(final GraphicsContext gc, final double startX, final double startY, final double width) {
         final Values<Double> values = coreUsageMap.computeIfAbsent(-1, key -> new Values<>());
         final List<Double> valueList = values.getLastValues((int) width);
         final double height = 20D;
@@ -179,8 +145,18 @@ public final class CpuPainter extends AbstractSensorPainter {
         // double minNorm = 0D;
         // double maxNorm = height - 2;
 
-        // gc.setFill(new LinearGradient(0D, height - 2, 0D, 0D, false, CycleMethod.NO_CYCLE, gradientStops));
-        gc.setStroke(new LinearGradient(0D, height - 2, 0D, 0D, false, CycleMethod.NO_CYCLE, gradientStops));
+        // width - getSettings().getMarginInner().getRight(),
+
+        // Vertikaler Gradient.
+        gc.setStroke(new LinearGradient(
+                startX,
+                startY + height,
+                startX,
+                startY,
+                false,
+                CycleMethod.NO_CYCLE,
+                gradientStops)
+        );
 
         final double xOffset = width - valueList.size(); // Diagramm von rechts aufbauen.
         // final double xOffset = 0D; // Diagramm von links aufbauen.
@@ -189,13 +165,14 @@ public final class CpuPainter extends AbstractSensorPainter {
             final double value = valueList.get(i);
 
             final double x = i + xOffset;
-            final double y = value * (height - 2);
+            final double valueHeight = value * height;
             // final double y = minNorm + (((value - minValue) * (maxNorm - minNorm)) / (maxValue - minValue));
 
-            // gc.fillRect(x, height - 1 - y, 1, y);
-            gc.strokeLine(x, height - 1 - y, x, height - 1);
+            gc.strokeLine(x, startY + height, x, startY + height - valueHeight);
         }
 
-        return height;
+        drawDebugBorder(gc, startX, startY, width, height);
+
+        return startY + height;
     }
 }

@@ -6,7 +6,6 @@ import de.freese.jconky.model.MusicInfo;
 import de.freese.jconky.model.NetworkInfos;
 import de.freese.jconky.model.ProcessInfos;
 import de.freese.jconky.model.TemperatureInfo;
-import de.freese.jconky.model.UsageInfo;
 
 /**
  * @author Thomas Freese
@@ -15,15 +14,11 @@ import de.freese.jconky.model.UsageInfo;
 public interface SystemMonitor {
     String getExternalIp();
 
-    Map<String, UsageInfo> getFilesystems();
-
     MusicInfo getMusicInfo();
 
     NetworkInfos getNetworkInfos();
 
     ProcessInfos getProcessInfos(double uptimeInSeconds, long totalSystemMemory);
-
-    Map<String, UsageInfo> getRamAndSwap();
 
     Map<String, TemperatureInfo> getTemperatures();
 
