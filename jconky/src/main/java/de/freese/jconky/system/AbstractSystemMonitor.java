@@ -6,9 +6,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.lang.management.ManagementFactory;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -43,27 +40,6 @@ public abstract class AbstractSystemMonitor implements SystemMonitor {
         super();
 
         myPid = ProcessHandle.current().pid();
-    }
-
-    @Override
-    public String getExternalIp() {
-        String externalIp = "";
-
-        try {
-            // final URL url = URI.create("https://ifconfig.me/ip").toURL();
-            final URL url = URI.create("https://4.ident.me").toURL();
-            final URLConnection connection = url.openConnection();
-            // connection.connect();
-
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
-                externalIp = br.readLine();
-            }
-        }
-        catch (final Exception ex) {
-            getLogger().error(ex.getMessage(), ex);
-        }
-
-        return externalIp;
     }
 
     /**

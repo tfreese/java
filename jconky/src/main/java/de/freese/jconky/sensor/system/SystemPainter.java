@@ -40,8 +40,8 @@ public final class SystemPainter extends AbstractSensorPainter {
         double y = startY + fontSize;
         paintTitle(gc, "System", x, y, width);
 
-        // final List<String> paths = Arrays.asList("RAM", "SWAP", "/", "/tmp");
-        final List<String> paths = Arrays.asList("RAM", "RAM1", "SWAP", "SWAP1", "/", "/tmp");
+        final List<String> paths = Arrays.asList("RAM", "SWAP", "/", "/tmp");
+        // final List<String> paths = Arrays.asList("RAM", "RAM1", "SWAP", "SWAP1", "/", "/tmp");
 
         for (final String path : paths) {
             y += fontSize * 1.25D;

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.freese.jconky.model.MusicInfo;
-import de.freese.jconky.model.NetworkInfos;
 import de.freese.jconky.model.ProcessInfos;
 import de.freese.jconky.model.TemperatureInfo;
 import de.freese.jconky.model.UsageInfo;
@@ -32,12 +31,10 @@ public final class Context {
         return JConkyContextHolder.INSTANCE;
     }
 
-    private final String externalIp = "";
     private final ProcessInfos processInfos = new ProcessInfos();
     private final Map<String, TemperatureInfo> temperatures = new HashMap<>();
     private final Map<String, UsageInfo> usages = new HashMap<>();
     private MusicInfo musicInfo = new MusicInfo();
-    private NetworkInfos networkInfos = new NetworkInfos();
     private long totalSystemMemory;
     private int updates;
     private double uptimeInSeconds;
@@ -46,16 +43,8 @@ public final class Context {
         super();
     }
 
-    public String getExternalIp() {
-        return externalIp;
-    }
-
     public MusicInfo getMusicInfo() {
         return musicInfo;
-    }
-
-    public NetworkInfos getNetworkInfos() {
-        return networkInfos;
     }
 
     public ProcessInfos getProcessInfos() {
@@ -85,21 +74,6 @@ public final class Context {
     public void updateMusicInfo() {
         try {
             musicInfo = getSystemMonitor().getMusicInfo();
-        }
-        catch (final Exception ex) {
-            JConky.getLogger().error(ex.getMessage(), ex);
-        }
-    }
-
-    /**
-     * Netzwerk: Download/Upload berechnen.
-     */
-    public void updateNetworkInfos() {
-        try {
-            final NetworkInfos networkInfosPrevious = networkInfos;
-            networkInfos = getSystemMonitor().getNetworkInfos();
-
-            networkInfos.calculateUpAndDownload(networkInfosPrevious);
         }
         catch (final Exception ex) {
             JConky.getLogger().error(ex.getMessage(), ex);

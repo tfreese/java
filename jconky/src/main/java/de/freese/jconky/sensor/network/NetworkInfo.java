@@ -1,4 +1,4 @@
-package de.freese.jconky.model;
+package de.freese.jconky.sensor.network;
 
 /**
  * @author Thomas Freese
@@ -29,6 +29,10 @@ public class NetworkInfo {
     }
 
     public void calculateUpAndDownload(final NetworkInfo previous) {
+        if (previous == null) {
+            return;
+        }
+
         final double time = (getTimestamp() - previous.getTimestamp()) / 1000D;
 
         this.downloadPerSecond = (getBytesReceived() - previous.getBytesReceived()) / time;

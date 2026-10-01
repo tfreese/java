@@ -43,7 +43,7 @@ public class CpuSensor extends AbstractSensor {
         return new CpuTimes(user, nice, system, idle, ioWait, irq, softIrq, steal, guest, guestNice);
     }
 
-    private final Map<Integer, CpuTimes> previousCpuTimes = new HashMap<>();
+    private final Map<Integer, CpuTimes> previous = new HashMap<>();
     private Cpu cpu;
 
     public Cpu getCpu() {
@@ -61,8 +61,8 @@ public class CpuSensor extends AbstractSensor {
         String line = lines.getFirst();
 
         CpuTimes cpuTimes = parseCpuTimes(line);
-        double usage = cpuTimes.calculateCpuUsage(previousCpuTimes.getOrDefault(-1, null));
-        previousCpuTimes.put(-1, cpuTimes);
+        double usage = cpuTimes.calculateCpuUsage(previous.getOrDefault(-1, null));
+        previous.put(-1, cpuTimes);
 
         final Cpu cpuNew = new Cpu(temperatures.getOrDefault(-1, 0D), usage, getLoadAvg());
 
@@ -75,8 +75,8 @@ public class CpuSensor extends AbstractSensor {
             line = lines.get(i + 1);
 
             cpuTimes = parseCpuTimes(line);
-            usage = cpuTimes.calculateCpuUsage(previousCpuTimes.getOrDefault(i, null));
-            previousCpuTimes.put(i, cpuTimes);
+            usage = cpuTimes.calculateCpuUsage(previous.getOrDefault(i, null));
+            previous.put(i, cpuTimes);
 
             final double temperature = temperatures.getOrDefault(i, 0D);
             final int frequency = frequencies.getOrDefault(i, 0);

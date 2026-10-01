@@ -25,6 +25,9 @@ import de.freese.jconky.sensor.cpu.CpuPainter;
 import de.freese.jconky.sensor.cpu.CpuSensor;
 import de.freese.jconky.sensor.host.HostPainter;
 import de.freese.jconky.sensor.host.HostSensor;
+import de.freese.jconky.sensor.network.ExternalIpSensor;
+import de.freese.jconky.sensor.network.NetworkPainter;
+import de.freese.jconky.sensor.network.NetworkSensor;
 import de.freese.jconky.sensor.system.SystemPainter;
 import de.freese.jconky.sensor.system.SystemSensor;
 
@@ -80,16 +83,24 @@ public final class JConky extends Application {
         final HostSensor hostSensor = new HostSensor();
         final CpuSensor cpuSensor = new CpuSensor();
         final SystemSensor systemSensor = new SystemSensor();
+        final NetworkSensor networkSensor = new NetworkSensor();
+        final ExternalIpSensor externalIpSensor = new ExternalIpSensor();
 
         sensorPainter
                 .addSensorPainter(new HostPainter(hostSensor))
                 .addSensorPainter(new CpuPainter(cpuSensor))
                 .addSensorPainter(new SystemPainter(systemSensor))
+                .addSensorPainter(new NetworkPainter(networkSensor, externalIpSensor))
         ;
 
+        // Short-running Tasks.
         scheduledExecutorService.scheduleWithFixedDelay(hostSensor::update, 0L, 3L, TimeUnit.SECONDS);
         scheduledExecutorService.scheduleWithFixedDelay(cpuSensor::update, 0L, 3L, TimeUnit.SECONDS);
         scheduledExecutorService.scheduleWithFixedDelay(systemSensor::update, 0L, 3L, TimeUnit.SECONDS);
+        scheduledExecutorService.scheduleWithFixedDelay(networkSensor::update, 0L, 3L, TimeUnit.SECONDS);
+
+        // Long-running Tasks.
+        scheduledExecutorService.scheduleWithFixedDelay(externalIpSensor::update, 0L, 15L, TimeUnit.MINUTES);
     }
 
     @Override

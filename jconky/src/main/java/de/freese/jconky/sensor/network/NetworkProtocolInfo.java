@@ -1,4 +1,4 @@
-package de.freese.jconky.model;
+package de.freese.jconky.sensor.network;
 
 /**
  * @author Thomas Freese
@@ -20,6 +20,7 @@ public class NetworkProtocolInfo {
 
     public NetworkProtocolInfo(final long icmpIn, final long icmpOut, final long ipIn, final long ipOut, final long tcpIn, final long tcpOut, final long udpIn, final long udpOut) {
         super();
+
         this.icmpIn = icmpIn;
         this.icmpOut = icmpOut;
         this.ipIn = ipIn;

@@ -71,7 +71,7 @@ public final class JConkyUtils {
      * @return String, z.B. '___,___ MB'
      */
     public static String toHumanReadableSize(final double size) {
-        return toHumanReadableSize(size, "%.1f %s");
+        return toHumanReadableSize(size, "%.1f%s");
     }
 
     /**

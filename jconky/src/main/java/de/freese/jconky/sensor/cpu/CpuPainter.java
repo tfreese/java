@@ -140,13 +140,6 @@ public final class CpuPainter extends AbstractSensorPainter {
         final List<Double> valueList = values.getLastValues((int) width);
         final double height = 20D;
 
-        // double minValue = 0D;
-        // double maxValue = values.getMaxValue();
-        // double minNorm = 0D;
-        // double maxNorm = height - 2;
-
-        // width - getSettings().getMarginInner().getRight(),
-
         // Vertikaler Gradient.
         gc.setStroke(new LinearGradient(
                 startX,
@@ -158,15 +151,13 @@ public final class CpuPainter extends AbstractSensorPainter {
                 gradientStops)
         );
 
-        final double xOffset = width - valueList.size(); // Diagramm von rechts aufbauen.
-        // final double xOffset = 0D; // Diagramm von links aufbauen.
+        final double xOffset = startX + width - valueList.size(); // Diagramm von rechts aufbauen.
+        // final double xOffset = startX; // Diagramm von links aufbauen.
 
         for (int i = 0; i < valueList.size(); i++) {
             final double value = valueList.get(i);
-
             final double x = i + xOffset;
             final double valueHeight = value * height;
-            // final double y = minNorm + (((value - minValue) * (maxNorm - minNorm)) / (maxValue - minValue));
 
             gc.strokeLine(x, startY + height, x, startY + height - valueHeight);
         }

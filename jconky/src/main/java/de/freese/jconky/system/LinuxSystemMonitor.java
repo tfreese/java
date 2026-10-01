@@ -13,9 +13,6 @@ import java.util.regex.Pattern;
 
 import de.freese.jconky.model.GpuInfo;
 import de.freese.jconky.model.MusicInfo;
-import de.freese.jconky.model.NetworkInfo;
-import de.freese.jconky.model.NetworkInfos;
-import de.freese.jconky.model.NetworkProtocolInfo;
 import de.freese.jconky.model.ProcessInfo;
 import de.freese.jconky.model.ProcessInfos;
 import de.freese.jconky.model.TemperatureInfo;
@@ -26,23 +23,6 @@ import de.freese.jconky.util.JConkyUtils;
  * @since 01.12.2020
  */
 public class LinuxSystemMonitor extends AbstractSystemMonitor {
-    // /**
-    //  * /proc/cpuinfo: processor\\s+:\\s+(\\d+)
-    //  */
-    // static final Pattern CPUINFO_NUM_CPU_PATTERN = Pattern.compile("processor\\s+:\\s+(\\d+)", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
-    // /**
-    //  * /proc/stat: cpu\\s+(.*)
-    //  */
-    // static final Pattern CPU_JIFFIES_PATTERN = Pattern.compile("cpu\\s+(.*)", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
-    // /**
-    //  * Bei AMD gib's keine Temperatur pro Core.<br>
-    //  * sensors: Core\\s{1}\\d+:.*
-    //  */
-    // static final Pattern SENSORS_CORE_PATTERN = Pattern.compile("Core\\s\\d+:.*", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
-    // /**
-    //  * /proc/stat: cpu\\d+
-    //  */
-    // protected static final Pattern STAT_NUM_CPU_PATTERN = Pattern.compile("cpu\\d+", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
 
     private static final Pattern APROC_DIR_PATTERN = Pattern.compile("([\\d]*)");
 
@@ -51,10 +31,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
 
         return fileToTest.isDirectory() && APROC_DIR_PATTERN.matcher(name).matches();
     };
-    /**
-     * sensors: Package\\s{1}id\\s{1}\\d+:.*
-     */
-    private static final Pattern SENSORS_PACKAGE_PATTERN = Pattern.compile("Tdie:\\s+.*", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
     /**
      * /proc/%s/status: Name:\\s+(\\w+)
      */
@@ -68,15 +44,8 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
      * residentBytes
      */
     private static final Pattern STATUS_VM_RSS_PATTERN = Pattern.compile("VmRSS:\\s+(\\d+) kB", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
-    // /**
-    // * /proc/%s/status: VmSize:\\s+(\\d+) kB<br>
-    // * totalBytes
-    // */
-    // private static final Pattern STATUS_VM_SIZE_MATCHER = Pattern.compile("VmSize:\\s+(\\d+) kB", Pattern.UNICODE_CHARACTER_CLASS | Pattern.MULTILINE);
 
     private final ProcessBuilder processBuilderCheckUpdates;
-    private final ProcessBuilder processBuilderNetworkIf;
-    private final ProcessBuilder processBuilderNstat;
     private final ProcessBuilder processBuilderNvidiaSmi;
     private final ProcessBuilder processBuilderPlayerCtlMetaData;
     private final ProcessBuilder processBuilderPlayerCtlPosition;
@@ -89,49 +58,12 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
 
         processBuilderTop = new ProcessBuilder().command("/bin/sh", "-c", "top -b -n 1");
 
-        processBuilderNetworkIf = new ProcessBuilder().command("/bin/sh", "-c", "ip -s -4 addr");
-        processBuilderNstat = new ProcessBuilder("/bin/sh", "-c", "nstat -a");
         processBuilderCheckUpdates = new ProcessBuilder("/bin/sh", "-c", "checkupdates");
         processBuilderPlayerCtlMetaData = new ProcessBuilder("/bin/sh", "-c", "playerctl -s metadata");
         processBuilderPlayerCtlPosition = new ProcessBuilder("/bin/sh", "-c", "playerctl -s position");
         processBuilderSmartCtl = new ProcessBuilder("/bin/sh", "-c", "sudo smartctl -A /dev/nvme0n1");
         processBuilderNvidiaSmi = new ProcessBuilder("/bin/sh", "-c", "nvidia-smi --format=csv,noheader,nounits --query-gpu=temperature.gpu,power.draw,fan.speed,utilization.gpu");
     }
-
-    // @Override
-    // public Map<String, UsageInfo> getFilesystems() {
-    //     final Map<String, UsageInfo> map = new HashMap<>();
-    //
-    //     final List<String> lines = readContent(processBuilderDf);
-    //
-    //     for (final String line : lines) {
-    //         if (line.contains("/dev/md1") || line.contains("/tmp")) {
-    //             final String[] splits = SPACE_PATTERN.split(line);
-    //             final String path = splits[5];
-    //             final long total = Long.parseLong(splits[1]);
-    //             final long used = Long.parseLong(splits[2]);
-    //             final long free = Long.parseLong(splits[3]);
-    //
-    //             map.put(path, new UsageInfo(path, total, used, free));
-    //         }
-    //     }
-    //
-    //     return map;
-    // }
-
-    // @Override
-    // public HostInfo getHostInfo() {
-    //     final List<String> lines = readContent(processBuilderUname);
-    //     final String line = lines.getFirst();
-    //
-    //     // ArchLinux
-    //     // Linux mainah 5.9.11-arch2-1 #1 SMP PREEMPT Sat, 28 Nov 2020 02:07:22 +0000 x86_64 GNU/Linux
-    //
-    //     // String[] splits = line.split(SPACE_PATTERN.pattern());
-    //     final String[] splits = SPACE_PATTERN.split(line);
-    //
-    //     return = new HostInfo(splits[1], splits[2], splits[12] + " " + splits[13]);
-    // }
 
     @Override
     public MusicInfo getMusicInfo() {
@@ -177,124 +109,6 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
         position = Double.valueOf(lines.getFirst()).intValue();
 
         return new MusicInfo(artist, album, title, length, position, bitRate, imageUri);
-    }
-
-    @Override
-    public NetworkInfos getNetworkInfos() {
-        // ip -s -4 addr
-        final List<String> ipLines = new ArrayList<>(readContent(processBuilderNetworkIf));
-
-        // Separate Interfaces.
-        final Map<Integer, List<String>> map = new HashMap<>();
-        int n = 0;
-
-        for (final String line : ipLines) {
-            if (line.contains(": <")) {
-                n++;
-            }
-
-            if (n > 0) {
-                map.computeIfAbsent(n, key -> new ArrayList<>()).add(line);
-            }
-        }
-
-        final Map<String, NetworkInfo> networkInfoMap = new HashMap<>();
-
-        for (final List<String> ifLines : map.values()) {
-            String interfaceName = null;
-            String ip = null;
-            long bytesReceived = 0L;
-            long bytesTransmitted = 0L;
-
-            do {
-                String line = ifLines.removeFirst().strip();
-
-                if (line.contains(": <")) {
-                    // Interface Name
-                    final int index = line.indexOf(':');
-                    interfaceName = line.substring(index + 1, line.indexOf(":", index + 1)).strip();
-                }
-                else if (line.startsWith("inet ")) {
-                    // IP
-                    final String[] splits = SPACE_PATTERN.split(line);
-                    ip = splits[1];
-                }
-                else if (line.startsWith("RX:")) {
-                    // Bytes Received
-                    line = ifLines.removeFirst().strip();
-                    final String[] splits = SPACE_PATTERN.split(line);
-                    bytesReceived = Long.parseLong(splits[0]);
-                }
-                else if (line.startsWith("TX:")) {
-                    // Bytes Transmitted
-                    line = ifLines.removeFirst().strip();
-                    final String[] splits = SPACE_PATTERN.split(line);
-                    bytesTransmitted = Long.parseLong(splits[0]);
-                }
-            }
-            while (!ifLines.isEmpty());
-
-            if (interfaceName != null && !interfaceName.isEmpty()) {
-                final NetworkInfo networkInfo = new NetworkInfo(interfaceName, ip, bytesReceived, bytesTransmitted);
-                networkInfoMap.put(interfaceName, networkInfo);
-            }
-        }
-
-        // Protokoll Infos.
-        // nstat -a
-        final List<String> nStatLines = readContent(processBuilderNstat);
-
-        long icmpIn = 0;
-        long icmpOut = 0;
-        long ipIn = 0;
-        long ipOut = 0;
-        long tcpIn = 0;
-        long tcpOut = 0;
-        long udpIn = 0;
-        long udpOut = 0;
-
-        for (String line : nStatLines) {
-            line = line.strip();
-
-            if (line.contains("TcpInSegs")) {
-                final String[] splits = SPACE_PATTERN.split(line);
-                tcpIn = Long.parseLong(splits[1]);
-            }
-            else if (line.contains("TcpOutSegs")) {
-                final String[] splits = SPACE_PATTERN.split(line);
-                tcpOut = Long.parseLong(splits[1]);
-            }
-            else if (line.contains("UdpInDatagrams")) {
-                final String[] splits = SPACE_PATTERN.split(line);
-                udpIn = Long.parseLong(splits[1]);
-            }
-            else if (line.contains("UdpOutDatagrams")) {
-                final String[] splits = SPACE_PATTERN.split(line);
-                udpOut = Long.parseLong(splits[1]);
-            }
-            else if (line.contains("IpInReceives")) {
-                final String[] splits = SPACE_PATTERN.split(line);
-                ipIn = Long.parseLong(splits[1]);
-            }
-            else if (line.contains("IpOutRequests")) {
-                final String[] splits = SPACE_PATTERN.split(line);
-                ipOut = Long.parseLong(splits[1]);
-            }
-            else if (line.contains("Icmp6InMsgs")) {
-                // IcmpInEchos
-                final String[] splits = SPACE_PATTERN.split(line);
-                icmpIn = Long.parseLong(splits[1]);
-            }
-            else if (line.contains("Icmp6OutMsgs")) {
-                // IcmpOutEchoReps
-                final String[] splits = SPACE_PATTERN.split(line);
-                icmpOut = Long.parseLong(splits[1]);
-            }
-        }
-
-        final NetworkProtocolInfo protocolInfo = new NetworkProtocolInfo(icmpIn, icmpOut, ipIn, ipOut, tcpIn, tcpOut, udpIn, udpOut);
-
-        return new NetworkInfos(networkInfoMap, protocolInfo);
     }
 
     @Override
@@ -489,5 +303,4 @@ public class LinuxSystemMonitor extends AbstractSystemMonitor {
 
         return new ProcessInfos(infos);
     }
-
 }

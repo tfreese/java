@@ -1,4 +1,4 @@
-package de.freese.jconky.model;
+package de.freese.jconky.sensor.network;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +9,6 @@ import java.util.Map;
  */
 public class NetworkInfos {
     private static final NetworkInfo DEFAULT_NETWORK_INFO = new NetworkInfo();
-
     private final Map<String, NetworkInfo> interfaces;
     private final NetworkProtocolInfo protocolInfo;
 
@@ -25,6 +24,10 @@ public class NetworkInfos {
     }
 
     public void calculateUpAndDownload(final NetworkInfos previous) {
+        if (previous == null) {
+            return;
+        }
+
         interfaces.keySet().forEach(name -> {
             final NetworkInfo niPrevious = previous.getByName(name);
             final NetworkInfo ni = getByName(name);
