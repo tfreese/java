@@ -7,7 +7,6 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -82,7 +81,8 @@ public final class CacheController {
             return ResponseEntity.ok()
                     .contentType(MEDIA_TYPE_GRADLE_CACHE)
                     // .contentType(MediaType.parseMediaType(MEDIA_TYPE_GRADLE_CACHE_VALUE))
-                    .header(HttpHeaders.CONTENT_LENGTH, Long.toString(storageEntry.getContentLength()))
+                    .contentLength(storageEntry.getContentLength())
+                    // .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + storageEntry.getFileName() + "\"")
                     .body(outputStream -> {
                         storageEntry.transferTo(outputStream);
 
