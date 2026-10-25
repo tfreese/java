@@ -8,9 +8,7 @@ import org.jspecify.annotations.Nullable;
  * @author Thomas Freese
  * @since 22.03.2017
  */
-public final class Coordinate implements Comparable<Coordinate> {
-    private final String artifactId;
-    private final String groupId;
+public final class Coordinate extends GroupArtifactId {
     private final String source;
 
     private String versionCurrent;
@@ -19,50 +17,40 @@ public final class Coordinate implements Comparable<Coordinate> {
     private String versionNewest;
 
     public Coordinate(final String groupId, final String artifactId, final String version, final String source) {
-        super();
+        super(groupId, artifactId);
 
-        this.groupId = Objects.requireNonNull(groupId, "groupId required");
-        this.artifactId = Objects.requireNonNull(artifactId, "artifactId required");
         this.versionCurrent = Objects.requireNonNull(version, "version required");
         this.source = Objects.requireNonNull(source, "source required");
     }
 
     @Override
-    public int compareTo(final Coordinate o) {
-        int comp = getGroupId().compareTo(o.getGroupId());
+    public int compareTo(final GroupArtifactId o) {
+        int comp = super.compareTo(o);
+
+        final Coordinate other = (Coordinate) o;
 
         if (comp == 0) {
-            comp = getArtifactId().compareTo(o.getArtifactId());
+            comp = getVersionCurrent().compareTo(other.getVersionCurrent());
+        }
+
+        if (comp == 0) {
+            comp = getSource().compareTo(other.getSource());
         }
 
         return comp;
     }
 
     @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-
-        if (!(obj instanceof final Coordinate other)) {
+    public boolean equals(final Object o) {
+        if (!(o instanceof final Coordinate that)) {
             return false;
         }
 
-        return Objects.equals(artifactId, other.artifactId)
-                && Objects.equals(groupId, other.groupId)
-                && Objects.equals(source, other.source);
-    }
+        if (!super.equals(o)) {
+            return false;
+        }
 
-    public String getArtifactId() {
-        return artifactId;
-    }
-
-    public String getGroupId() {
-        return groupId;
-    }
-
-    public String getGroupIdAndArtifactId() {
-        return String.format("%s:%s", getGroupId(), getArtifactId());
+        return Objects.equals(versionCurrent, that.versionCurrent) && Objects.equals(source, that.source);
     }
 
     public String getSource() {
@@ -84,19 +72,19 @@ public final class Coordinate implements Comparable<Coordinate> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(artifactId, groupId, source);
+        return Objects.hash(super.hashCode(), source, versionCurrent);
     }
 
     public void setVersionCurrent(final String versionCurrent) {
         this.versionCurrent = versionCurrent;
     }
 
-    public void setVersionNewest(final String versionNewest) {
+    public void setVersionNewest(final @Nullable String versionNewest) {
         this.versionNewest = versionNewest;
     }
 
     @Override
     public String toString() {
-        return String.format("%s:%s:%s %s", getGroupId(), getArtifactId(), getVersionCurrent(), getSource());
+        return getGroupId() + ":" + getArtifactId() + ":" + getVersionCurrent() + " " + getSource();
     }
 }

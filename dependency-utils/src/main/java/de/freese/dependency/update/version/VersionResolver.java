@@ -2,10 +2,8 @@ package de.freese.dependency.update.version;
 
 import java.net.URI;
 import java.util.Comparator;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.maven.artifact.versioning.ComparableVersion;
 
@@ -17,7 +15,6 @@ import de.freese.dependency.update.version.query.VersionQuery;
  * @since 26.02.2021
  */
 public class VersionResolver {
-    private final Map<String, String> cache = new ConcurrentHashMap<>();
     private final VersionFilter versionFilter;
     private final VersionQuery versionQuery;
 
@@ -33,17 +30,15 @@ public class VersionResolver {
     }
 
     public String findNewestVersion(final String groupId, final String artifactId, final Set<URI> repositories) {
-        return cache.computeIfAbsent(groupId + "_" + artifactId, key -> {
-            Set<String> versions = versionQuery.getVersions(groupId, artifactId, repositories);
-            versions = versionFilter.getFilteredVersions(groupId, artifactId, versions);
+        Set<String> versions = versionQuery.getVersions(groupId, artifactId, repositories);
+        versions = versionFilter.getFilteredVersions(groupId, artifactId, versions);
 
-            return versions.stream()
-                    .map(ComparableVersion::new)
-                    .max(Comparator.naturalOrder())
-                    .map(ComparableVersion::toString)
-                    .filter(version -> !version.isBlank())
-                    .orElse(VersionFilter.EMPTY_VERSION)
-                    ;
-        });
+        return versions.stream()
+                .map(ComparableVersion::new)
+                .max(Comparator.naturalOrder())
+                .map(ComparableVersion::toString)
+                .filter(version -> !version.isBlank())
+                .orElse(VersionFilter.EMPTY_VERSION)
+                ;
     }
 }

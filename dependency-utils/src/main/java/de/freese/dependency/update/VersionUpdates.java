@@ -96,26 +96,14 @@ public final class VersionUpdates {
     }
 
     public List<Coordinate> getUpdates(final VersionQuery versionQuery, final VersionFilter versionFilter) {
-        final Set<URI> repositories = repositoryResolver.get();
-        final Map<String, String> properties = propertyResolver.get();
-
-        final List<Coordinate> coordinates = coordinateResolver.get().stream()
+        List<Coordinate> coordinates = coordinateResolver.get().stream()
                 .filter(coordinate -> coordinate.getVersionCurrent() != null) // version = null -> Property is defined in BOM/Parent-POM -> ignore.
-                .map(coordinate -> {
-                    String version = coordinate.getVersionCurrent();
-
-                    if (version.startsWith("${")) {
-                        final String key = version.substring(2, version.length() - 1);
-                        version = properties.get(key);
-
-                        if (version != null) {
-                            coordinate.setVersionCurrent(version);
-                        }
-                    }
-
-                    return coordinate;
-                })
                 .sorted(Comparator.naturalOrder())
+                .toList();
+
+        resolvePlaceHolder(coordinates);
+
+        coordinates = coordinates.stream()
                 .filter(coordinate -> {
                     if (coordinate.getVersionCurrent().startsWith("${")) {
                         LOGGER.warn("Found unresolved Placeholder: {}", coordinate);
@@ -129,6 +117,25 @@ public final class VersionUpdates {
 
         final VersionResolver versionResolver = new VersionResolver(versionQuery, versionFilter);
 
-        return QueryExecutor.getUpdates(versionResolver, coordinates, repositories);
+        final Set<URI> repositories = repositoryResolver.get();
+
+        return QueryExecutor.getUpdates(versionResolver, repositories, coordinates);
+    }
+
+    private void resolvePlaceHolder(final List<Coordinate> coordinates) {
+        final Map<String, String> properties = propertyResolver.get();
+
+        coordinates.forEach(coordinate -> {
+            String version = coordinate.getVersionCurrent();
+
+            if (version.startsWith("${")) {
+                final String key = version.substring(2, version.length() - 1);
+                version = properties.get(key);
+
+                if (version != null) {
+                    coordinate.setVersionCurrent(version);
+                }
+            }
+        });
     }
 }

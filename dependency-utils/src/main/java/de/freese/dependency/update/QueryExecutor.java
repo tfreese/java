@@ -2,8 +2,12 @@ package de.freese.dependency.update;
 
 import java.net.URI;
 import java.time.Duration;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,6 +24,7 @@ import reactor.core.scheduler.Schedulers;
 import reactor.util.retry.Retry;
 
 import de.freese.dependency.update.coordinate.Coordinate;
+import de.freese.dependency.update.coordinate.GroupArtifactId;
 import de.freese.dependency.update.version.VersionResolver;
 import de.freese.dependency.update.version.filter.VersionFilter;
 
@@ -35,12 +40,24 @@ final class QueryExecutor {
      */
     private static final int PARALLELISM = 8;
 
-    public static List<Coordinate> getUpdates(final VersionResolver versionResolver, final List<Coordinate> coordinates, final Set<URI> repositories) {
-        // executeQueries(versionResolver, coordinates, repositories);
-        // executeQueriesByFlux(versionResolver, coordinates, repositories);
-        executeQueriesByFixedExecutor(versionResolver, coordinates, repositories);
-        // executeQueriesBySemaphore(versionResolver, coordinates, repositories);
-        // executeQueriesByStreamParallel(versionResolver, coordinates, repositories);
+    public static List<Coordinate> getUpdates(final VersionResolver versionResolver, final Set<URI> repositories, final List<Coordinate> coordinates) {
+        final List<GroupArtifactId> groupArtifactIdList = coordinates.stream()
+                // .map(GroupArtifactId.class::cast)
+                .map(coordinate -> new GroupArtifactId(coordinate.getGroupId(), coordinate.getArtifactId()))
+                .distinct()
+                .sorted(Comparator.comparing(GroupArtifactId::toString))
+                .toList();
+
+        // final Map<String, String> versionMap = executeQueries(versionResolver, repositories, groupArtifactIdList);
+        // final Map<String, String> versionMap = executeQueriesByFlux(versionResolver, repositories, groupArtifactIdList);
+        final Map<String, String> versionMap = executeQueriesByFixedExecutor(versionResolver, repositories, groupArtifactIdList);
+        // final Map<String, String> versionMap = executeQueriesBySemaphore(versionResolver, repositories, groupArtifactIdList);
+        // final Map<String, String> versionMap = executeQueriesByStreamParallel(versionResolver, repositories, groupArtifactIdList);
+
+        coordinates.forEach(coordinate -> {
+            final String newestVersion = versionMap.get(coordinate.getGroupIdAndArtifactId());
+            coordinate.setVersionNewest(newestVersion);
+        });
 
         return coordinates.stream()
                 .filter(Coordinate::hasUpdate)
@@ -52,34 +69,50 @@ final class QueryExecutor {
                 .toList();
     }
 
-    static void executeQueries(final VersionResolver versionResolver, final List<Coordinate> coordinates, final Set<URI> repositories) {
-        coordinates.forEach(coordinate -> {
-            final String newestVersion = versionResolver.findNewestVersion(coordinate.getGroupId(), coordinate.getArtifactId(), repositories);
-            coordinate.setVersionNewest(newestVersion);
+    static Map<String, String> executeQueries(final VersionResolver versionResolver,
+                                              final Set<URI> repositories,
+                                              final List<GroupArtifactId> groupArtifactIds) {
+        final Map<String, String> versionMap = HashMap.newHashMap(groupArtifactIds.size());
+
+        groupArtifactIds.forEach(groupArtifactId -> {
+            final String newestVersion = versionResolver.findNewestVersion(groupArtifactId.getGroupId(), groupArtifactId.getArtifactId(), repositories);
+            versionMap.put(groupArtifactId.getGroupIdAndArtifactId(), newestVersion);
         });
+
+        return versionMap;
     }
 
-    static void executeQueriesByFixedExecutor(final VersionResolver versionResolver, final List<Coordinate> coordinates, final Set<URI> repositories) {
+    static Map<String, String> executeQueriesByFixedExecutor(final VersionResolver versionResolver,
+                                                             final Set<URI> repositories,
+                                                             final List<GroupArtifactId> groupArtifactIds) {
+        final Map<String, String> versionMap = new ConcurrentHashMap<>(groupArtifactIds.size());
+
         try (ExecutorService executorService = Executors.newFixedThreadPool(PARALLELISM, createThreadFactory())) {
-            coordinates.forEach(coordinate ->
+            groupArtifactIds.forEach(groupArtifactId ->
                     executorService.execute(() -> {
-                        final String newestVersion = versionResolver.findNewestVersion(coordinate.getGroupId(), coordinate.getArtifactId(), repositories);
-                        coordinate.setVersionNewest(newestVersion);
+                        final String newestVersion = versionResolver.findNewestVersion(groupArtifactId.getGroupId(), groupArtifactId.getArtifactId(), repositories);
+                        versionMap.put(groupArtifactId.getGroupIdAndArtifactId(), newestVersion);
                     })
             );
         }
+
+        return versionMap;
     }
 
-    static void executeQueriesByFlux(final VersionResolver versionResolver, final List<Coordinate> coordinates, final Set<URI> repositories) {
+    static Map<String, String> executeQueriesByFlux(final VersionResolver versionResolver,
+                                                    final Set<URI> repositories,
+                                                    final List<GroupArtifactId> groupArtifactIds) {
+        final Map<String, String> versionMap = new ConcurrentHashMap<>(groupArtifactIds.size());
+
         // final Scheduler scheduler = Schedulers.newParallel("Query");
         final Scheduler scheduler = Schedulers.newParallel(PARALLELISM, createThreadFactory());
 
-        Flux.fromIterable(coordinates)
+        Flux.fromIterable(groupArtifactIds)
                 .parallel(PARALLELISM)
                 .runOn(scheduler)
-                .doOnNext(coordinate -> {
-                    final String newestVersion = versionResolver.findNewestVersion(coordinate.getGroupId(), coordinate.getArtifactId(), repositories);
-                    coordinate.setVersionNewest(newestVersion);
+                .doOnNext(groupArtifactId -> {
+                    final String newestVersion = versionResolver.findNewestVersion(groupArtifactId.getGroupId(), groupArtifactId.getArtifactId(), repositories);
+                    versionMap.put(groupArtifactId.getGroupIdAndArtifactId(), newestVersion);
                 })
                 .sequential()
                 .blockLast();
@@ -90,19 +123,25 @@ final class QueryExecutor {
                 .retryWhen(Retry.backoff(5L, Duration.ofMillis(100L)))
                 .onErrorResume(ex -> Mono.fromRunnable(scheduler::dispose))
                 .block();
+
+        return versionMap;
     }
 
-    static void executeQueriesBySemaphore(final VersionResolver versionResolver, final List<Coordinate> coordinates, final Set<URI> repositories) {
+    static Map<String, String> executeQueriesBySemaphore(final VersionResolver versionResolver,
+                                                         final Set<URI> repositories,
+                                                         final List<GroupArtifactId> groupArtifactIds) {
+        final Map<String, String> versionMap = new ConcurrentHashMap<>(groupArtifactIds.size());
+
         try (ExecutorService executorService = Executors.newCachedThreadPool(createThreadFactory())) {
             final Semaphore rateLimiter = new Semaphore(PARALLELISM, true);
 
-            coordinates.forEach(coordinate -> {
+            groupArtifactIds.forEach(groupArtifactId -> {
                 rateLimiter.acquireUninterruptibly();
 
                 executorService.execute(() -> {
                     try {
-                        final String newestVersion = versionResolver.findNewestVersion(coordinate.getGroupId(), coordinate.getArtifactId(), repositories);
-                        coordinate.setVersionNewest(newestVersion);
+                        final String newestVersion = versionResolver.findNewestVersion(groupArtifactId.getGroupId(), groupArtifactId.getArtifactId(), repositories);
+                        versionMap.put(groupArtifactId.getGroupIdAndArtifactId(), newestVersion);
                     }
                     finally {
                         rateLimiter.release();
@@ -113,9 +152,15 @@ final class QueryExecutor {
             // Wait until all are finished.
             rateLimiter.acquireUninterruptibly(PARALLELISM);
         }
+
+        return versionMap;
     }
 
-    static void executeQueriesByStreamParallel(final VersionResolver versionResolver, final List<Coordinate> coordinates, final Set<URI> repositories) {
+    static Map<String, String> executeQueriesByStreamParallel(final VersionResolver versionResolver,
+                                                              final Set<URI> repositories,
+                                                              final List<GroupArtifactId> groupArtifactIds) {
+        final Map<String, String> versionMap = new ConcurrentHashMap<>(groupArtifactIds.size());
+
         // Only use n Threads.
         //
         // For the behavior read Method: java.util.concurrent.ForkJoinTask.fork
@@ -126,11 +171,11 @@ final class QueryExecutor {
             // ExecutorService customThreadPool = Executors.newWorkStealingPool(parallelism);
 
             final Runnable runnable = () ->
-                    coordinates.stream()
+                    groupArtifactIds.stream()
                             .parallel()
-                            .forEach(coordinate -> {
-                                final String newestVersion = versionResolver.findNewestVersion(coordinate.getGroupId(), coordinate.getArtifactId(), repositories);
-                                coordinate.setVersionNewest(newestVersion);
+                            .forEach(groupArtifactId -> {
+                                final String newestVersion = versionResolver.findNewestVersion(groupArtifactId.getGroupId(), groupArtifactId.getArtifactId(), repositories);
+                                versionMap.put(groupArtifactId.getGroupIdAndArtifactId(), newestVersion);
                             });
 
             try {
@@ -150,6 +195,8 @@ final class QueryExecutor {
             //     customThreadPool.shutdown();
             // }
         }
+
+        return versionMap;
     }
 
     private static ThreadFactory createThreadFactory() {
