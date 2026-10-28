@@ -72,7 +72,7 @@ public final class Coordinate extends GroupArtifactId {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), source, versionCurrent);
+        return Objects.hash(super.hashCode(), versionCurrent, source);
     }
 
     public void setVersionCurrent(final String versionCurrent) {
