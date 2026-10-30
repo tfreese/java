@@ -22,5 +22,5 @@ public interface VersionQuery {
         return new VersionQueryMavenSearch(repositoryClient);
     }
 
-    Set<String> getVersions(String groupId, String artifactId, Set<URI> repositories);
+    Set<String> queryVersions(String groupId, String artifactId, Set<URI> repositories);
 }

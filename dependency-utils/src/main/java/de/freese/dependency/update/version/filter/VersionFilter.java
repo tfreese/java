@@ -10,8 +10,6 @@ import java.util.Set;
  */
 @FunctionalInterface
 public interface VersionFilter {
-    String EMPTY_VERSION = "Dependency not found !";
-
     static VersionFilter ofDefaultRegEx() {
         return new VersionFilterDefaultRegEx();
     }
@@ -34,5 +32,5 @@ public interface VersionFilter {
         return new VersionFilterNoOp();
     }
 
-    Set<String> getFilteredVersions(String groupId, String artifactId, Collection<String> versions);
+    Set<String> filterVersions(String groupId, String artifactId, Collection<String> versions);
 }

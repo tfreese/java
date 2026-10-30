@@ -28,7 +28,7 @@ class TestVersionQuery {
     void testQueryMavenMetaData() throws Exception {
         try (RepositoryClient repositoryClient = new JreHttpRepositoryClientBuilder().build()) {
             final VersionQuery versionQuery = VersionQuery.ofMavenMetaData(repositoryClient);
-            final Set<String> versions = versionQuery.getVersions("org.slf4j", "slf4j-api", Set.of(URI.create("https://repo.maven.apache.org/maven2")));
+            final Set<String> versions = versionQuery.queryVersions("org.slf4j", "slf4j-api", Set.of(URI.create("https://repo.maven.apache.org/maven2")));
 
             assertNotNull(versions);
             assertFalse(versions.isEmpty());
@@ -40,7 +40,7 @@ class TestVersionQuery {
     void testQueryMavenMetaDataUrlConnection() throws Exception {
         try (RepositoryClient repositoryClient = new UrlConnectionRepositoryClientBuilder().build()) {
             final VersionQuery versionQuery = VersionQuery.ofMavenMetaData(repositoryClient);
-            final Set<String> versions = versionQuery.getVersions("org.slf4j", "slf4j-api", Set.of(URI.create("https://repo.maven.apache.org/maven2")));
+            final Set<String> versions = versionQuery.queryVersions("org.slf4j", "slf4j-api", Set.of(URI.create("https://repo.maven.apache.org/maven2")));
 
             assertNotNull(versions);
             assertFalse(versions.isEmpty());
@@ -53,7 +53,7 @@ class TestVersionQuery {
     void testQueryMavenSearch() throws Exception {
         try (RepositoryClient repositoryClient = new JreHttpRepositoryClientBuilder().build()) {
             final VersionQuery versionQuery = VersionQuery.ofMavenSearch(repositoryClient);
-            final Set<String> versions = versionQuery.getVersions("org.slf4j", "slf4j-api", Set.of());
+            final Set<String> versions = versionQuery.queryVersions("org.slf4j", "slf4j-api", Set.of());
 
             assertNotNull(versions);
             assertFalse(versions.isEmpty());

@@ -47,12 +47,13 @@ final class VersionFilterMavenRuleSet implements VersionFilter {
     }
 
     @Override
-    public Set<String> getFilteredVersions(final String groupId, final String artifactId, final Collection<String> versions) {
+    public Set<String> filterVersions(final String groupId, final String artifactId, final Collection<String> versions) {
         String key = groupId + ":";
 
         if (artifactId.isBlank()) {
             key += "*";
-        } else {
+        }
+        else {
             key += artifactId;
         }
 
@@ -135,9 +136,11 @@ final class VersionFilterMavenRuleSet implements VersionFilter {
 
             if ("regex".equals(type)) {
                 ignoreVersions = ignoreVersions.or(v -> v.matches(ignoreVersion));
-            } else if ("exact".equals(type)) {
+            }
+            else if ("exact".equals(type)) {
                 ignoreVersions = ignoreVersions.or(v -> v.equals(ignoreVersion));
-            } else {
+            }
+            else {
                 getLogger().warn("Unsupported ignore version type: {}", type);
             }
         }
@@ -173,9 +176,11 @@ final class VersionFilterMavenRuleSet implements VersionFilter {
 
                 if ("regex".equals(type)) {
                     rules.merge(key, v -> v.matches(ignoreVersion), Predicate::or);
-                } else if ("exact".equals(type)) {
+                }
+                else if ("exact".equals(type)) {
                     rules.merge(key, v -> v.equals(ignoreVersion), Predicate::or);
-                } else {
+                }
+                else {
                     getLogger().warn("Unsupported ignoreVersion type: {}", type);
                 }
             }

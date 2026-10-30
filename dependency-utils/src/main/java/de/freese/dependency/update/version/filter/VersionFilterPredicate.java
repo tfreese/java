@@ -20,7 +20,7 @@ final class VersionFilterPredicate implements VersionFilter {
     }
 
     @Override
-    public Set<String> getFilteredVersions(final String groupId, final String artifactId, final Collection<String> versions) {
+    public Set<String> filterVersions(final String groupId, final String artifactId, final Collection<String> versions) {
         return versions.stream().filter(versionFilter).collect(Collectors.toCollection(TreeSet::new));
     }
 }

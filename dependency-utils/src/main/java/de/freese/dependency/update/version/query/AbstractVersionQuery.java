@@ -20,7 +20,7 @@ abstract class AbstractVersionQuery implements VersionQuery {
     }
 
     @Override
-    public final Set<String> getVersions(final String groupId, final String artifactId, final Set<URI> repositories) {
+    public final Set<String> queryVersions(final String groupId, final String artifactId, final Set<URI> repositories) {
         getLogger().info("Query {}:{}", groupId, artifactId);
 
         return loadVersions(groupId, artifactId, repositories);

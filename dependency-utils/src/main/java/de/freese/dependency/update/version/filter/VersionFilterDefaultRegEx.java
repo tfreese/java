@@ -26,7 +26,7 @@ final class VersionFilterDefaultRegEx implements VersionFilter {
                     .or(version -> PATTERN_FOUR_NUMBER.matcher(version).matches());
 
     @Override
-    public Set<String> getFilteredVersions(final String groupId, final String artifactId, final Collection<String> versions) {
+    public Set<String> filterVersions(final String groupId, final String artifactId, final Collection<String> versions) {
         return versions.stream().filter(VERSION_FILTER).collect(Collectors.toCollection(TreeSet::new));
     }
 }

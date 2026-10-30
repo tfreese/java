@@ -2,6 +2,7 @@ package de.freese.dependency.update.version;
 
 import java.net.URI;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -29,16 +30,17 @@ public class VersionResolver {
         this.versionFilter = Objects.requireNonNull(versionFilter, "versionFilter required");
     }
 
-    public String findNewestVersion(final String groupId, final String artifactId, final Set<URI> repositories) {
-        Set<String> versions = versionQuery.getVersions(groupId, artifactId, repositories);
-        versions = versionFilter.getFilteredVersions(groupId, artifactId, versions);
+    public List<String> resolveVersions(final String groupId, final String artifactId, final Set<URI> repositories) {
+        Set<String> versions = versionQuery.queryVersions(groupId, artifactId, repositories);
+        versions = versionFilter.filterVersions(groupId, artifactId, versions);
 
         return versions.stream()
                 .map(ComparableVersion::new)
-                .max(Comparator.naturalOrder())
+                .sorted(Comparator.reverseOrder())
                 .map(ComparableVersion::toString)
                 .filter(version -> !version.isBlank())
-                .orElse(VersionFilter.EMPTY_VERSION)
+                .limit(3L)
+                .toList()
                 ;
     }
 }

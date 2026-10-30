@@ -55,7 +55,7 @@ public final class VersionUpdates {
                 + 5;
 
         final int maxLengthVersion = coordinates.stream()
-                .map(coordinate -> coordinate.getVersionCurrent() + " -> " + coordinate.getVersionNewest())
+                .map(coordinate -> coordinate.getVersion() + " -> " + coordinate.getVersionNewest())
                 .mapToInt(String::length)
                 .max()
                 .orElse(0)
@@ -64,7 +64,7 @@ public final class VersionUpdates {
         coordinates.stream()
                 .map(coordinate -> {
                     final String coordinateString = coordinate.getGroupIdAndArtifactId();
-                    final String versionString = coordinate.getVersionCurrent() + " -> " + coordinate.getVersionNewest();
+                    final String versionString = coordinate.getVersion() + " -> " + coordinate.getVersionNewest();
 
                     return coordinateString
                             + " "
@@ -97,7 +97,7 @@ public final class VersionUpdates {
 
     public List<Coordinate> getUpdates(final VersionQuery versionQuery, final VersionFilter versionFilter) {
         List<Coordinate> coordinates = coordinateResolver.get().stream()
-                .filter(coordinate -> coordinate.getVersionCurrent() != null) // version = null -> Property is defined in BOM/Parent-POM -> ignore.
+                .filter(coordinate -> coordinate.getVersion() != null) // version = null -> Property is defined in BOM/Parent-POM -> ignore.
                 .sorted(Comparator.naturalOrder())
                 .toList();
 
@@ -105,7 +105,7 @@ public final class VersionUpdates {
 
         coordinates = coordinates.stream()
                 .filter(coordinate -> {
-                    if (coordinate.getVersionCurrent().startsWith("${")) {
+                    if (coordinate.getVersion().startsWith("${")) {
                         LOGGER.warn("Found unresolved Placeholder: {}", coordinate);
 
                         return false;
@@ -126,14 +126,14 @@ public final class VersionUpdates {
         final Map<String, String> properties = propertyResolver.get();
 
         coordinates.forEach(coordinate -> {
-            String version = coordinate.getVersionCurrent();
+            String version = coordinate.getVersion();
 
             if (version.startsWith("${")) {
                 final String key = version.substring(2, version.length() - 1);
                 version = properties.get(key);
 
                 if (version != null) {
-                    coordinate.setVersionCurrent(version);
+                    coordinate.setVersion(version);
                 }
             }
         });

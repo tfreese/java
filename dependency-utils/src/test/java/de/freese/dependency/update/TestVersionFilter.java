@@ -46,7 +46,7 @@ class TestVersionFilter {
 
         final VersionFilter versionFilter = VersionFilter.ofMavenRuleSet();
 
-        final Set<String> filtered = versionFilter.getFilteredVersions("com.amazonaws", "aws-java-sdk", versions);
+        final Set<String> filtered = versionFilter.filterVersions("com.amazonaws", "aws-java-sdk", versions);
 
         assertNotNull(filtered);
         assertTrue(filtered.size() > 1);
@@ -58,7 +58,7 @@ class TestVersionFilter {
         final List<String> versions = Arrays.asList("21", "1.0.1", "v20190307", "1.11.510");
         final VersionFilter versionFilter = VersionFilter.ofDefaultRegEx();
 
-        final Set<String> filtered = versionFilter.getFilteredVersions("", "", versions);
+        final Set<String> filtered = versionFilter.filterVersions("", "", versions);
 
         assertNotNull(filtered);
         assertEquals(3, filtered.size());
