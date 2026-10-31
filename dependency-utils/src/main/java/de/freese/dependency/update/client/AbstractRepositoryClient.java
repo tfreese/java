@@ -59,6 +59,7 @@ public abstract class AbstractRepositoryClient implements RepositoryClient {
             // Don't serialize empty values.
             .changeDefaultPropertyInclusion(value -> value.withValueInclusion(JsonInclude.Include.NON_EMPTY))
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            // .enable(SerializationFeature.INDENT_OUTPUT)
             .build();
 
     private final Logger logger = LoggerFactory.getLogger(getClass());

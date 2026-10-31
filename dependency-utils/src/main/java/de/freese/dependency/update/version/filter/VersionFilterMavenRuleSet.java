@@ -13,10 +13,7 @@ import java.util.TreeSet;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -29,6 +26,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import de.freese.dependency.utils.Pools;
 
 /**
  * {@link VersionFilter} for a Maven RuleSet.
@@ -91,19 +90,11 @@ final class VersionFilterMavenRuleSet implements VersionFilter {
     }
 
     void parse(final Path ruleSet) {
+        final DocumentBuilder documentBuilder = Pools.DOCUMENT_BUILDER.get();
+        final XPathFactory xpathFactory = Pools.X_PATH_FACTORY.get();
+
         try (InputStream is = Files.newInputStream(ruleSet)) {
-            final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            documentBuilderFactory.setNamespaceAware(false); // No XML-Schema (xmlns).
-
-            // Protect against to XXE attacks.
-            documentBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-            documentBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
-            documentBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-
-            final DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             final Document document = documentBuilder.parse(is);
-
-            final XPathFactory xpathFactory = XPathFactory.newInstance();
 
             parseIgnoreVersions(document, xpathFactory);
             parseRules(document, xpathFactory);
@@ -111,8 +102,12 @@ final class VersionFilterMavenRuleSet implements VersionFilter {
         catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
-        catch (ParserConfigurationException | SAXException | XPathExpressionException ex) {
+        catch (SAXException | XPathExpressionException ex) {
             throw new RuntimeException(ex);
+        }
+        finally {
+            Pools.DOCUMENT_BUILDER.free(documentBuilder);
+            Pools.X_PATH_FACTORY.free(xpathFactory);
         }
     }
 
