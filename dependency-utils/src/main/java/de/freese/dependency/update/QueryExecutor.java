@@ -67,7 +67,6 @@ final class QueryExecutor {
     static void executeQueriesByFlux(final VersionResolver versionResolver,
                                      final Set<URI> repositories,
                                      final List<Coordinate> coordinates) {
-        // final Scheduler scheduler = Schedulers.newParallel("Query");
         final Scheduler scheduler = Schedulers.newParallel(PARALLELISM, createThreadFactory());
 
         Flux.fromIterable(coordinates)
@@ -79,11 +78,10 @@ final class QueryExecutor {
 
         scheduler.disposeGracefully()
                 .timeout(Duration.ofSeconds(1L))
-                //.retry(5)
                 .retryWhen(Retry.backoff(5L, Duration.ofMillis(100L)))
                 .onErrorResume(ex -> {
                     LOGGER.error(ex.getMessage(), ex);
-                    
+
                     return Mono.fromRunnable(scheduler::dispose);
                 })
                 .block();
@@ -156,7 +154,8 @@ final class QueryExecutor {
 
     private static void resolveVersions(final VersionResolver versionResolver, final Set<URI> repositories, final Coordinate coordinate) {
         final List<String> versions = CACHE.computeIfAbsent(coordinate.getGroupIdAndArtifactId(),
-                key -> versionResolver.resolveVersions(coordinate.getGroupId(), coordinate.getArtifactId(), repositories));
+                key -> versionResolver.resolveVersions(coordinate.getGroupId(), coordinate.getArtifactId(), repositories)
+        );
 
         coordinate.setVersions(versions);
     }

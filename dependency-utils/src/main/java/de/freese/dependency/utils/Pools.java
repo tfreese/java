@@ -1,7 +1,5 @@
 package de.freese.dependency.utils;
 
-import java.io.IOException;
-
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -9,22 +7,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathFactory;
 import javax.xml.xpath.XPathFactoryConfigurationException;
 
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
  * @author Thomas Freese
  */
 public final class Pools {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Pools.class);
-
-    private static final EntityResolver BLOCKING_ENTITY_RESOLVER = new BlockingEntityResolver();
-
     public static final ObjectPool<DocumentBuilder> DOCUMENT_BUILDER = new ObjectPool<>(() -> {
-        LOGGER.debug("create DocumentBuilder");
+        LoggerFactory.getLogger(Pools.class).debug("create DocumentBuilder");
 
         try {
             final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -45,6 +36,7 @@ public final class Pools {
             documentBuilderFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
             // Unterbindet das Laden externer DTDs, damit der Parser keine Netz- oder Dateizugriffe ausführt.
             documentBuilderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            documentBuilderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
             // Unterbindet das automatische Ersetzen von Entities und reduziert damit Entity-Expansion weiter.
             documentBuilderFactory.setExpandEntityReferences(false);
             // Deaktiviert Validierung, weil sie zusätzliche Parser-Angriffsfläche erzeugen kann.
@@ -53,7 +45,9 @@ public final class Pools {
             documentBuilderFactory.setXIncludeAware(false);
 
             final DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            documentBuilder.setEntityResolver(BLOCKING_ENTITY_RESOLVER);
+            documentBuilder.setEntityResolver((publicId, systemId) -> {
+                throw new SAXException("External entity resolution is disabled: publicId=" + publicId + ", systemId=" + systemId);
+            });
 
             return documentBuilder;
         }
@@ -63,7 +57,7 @@ public final class Pools {
     });
 
     public static final ObjectPool<XPathFactory> X_PATH_FACTORY = new ObjectPool<>(() -> {
-        LOGGER.debug("create XPathFactory");
+        LoggerFactory.getLogger(Pools.class).debug("create XPathFactory");
 
         final XPathFactory xPathFactory = XPathFactory.newInstance();
 
@@ -88,13 +82,6 @@ public final class Pools {
     private static final String JDK_XPATH_EXPR_GRP_LIMIT = "jdk.xml.xpathExprGrpLimit";
     private static final String JDK_XPATH_EXPR_OP_LIMIT = "jdk.xml.xpathExprOpLimit";
     private static final String JDK_XPATH_TOTAL_OP_LIMIT = "jdk.xml.xpathTotalOpLimit";
-
-    private static final class BlockingEntityResolver implements EntityResolver {
-        @Override
-        public InputSource resolveEntity(final String publicId, final String systemId) throws SAXException, IOException {
-            throw new SAXException("External entity resolution is disabled: publicId=" + publicId + ", systemId=" + systemId);
-        }
-    }
 
     static {
         // Konservative Defaults gegen DoS-/Billion-Laughs-/XPath-Exhaustion-Angriffe.
