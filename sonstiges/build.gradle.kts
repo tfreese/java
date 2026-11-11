@@ -75,12 +75,8 @@ tasks.register("xslt") {
     group = "MyTasks"
     description = "Generates HTML from XSLT and XML files"
 
-//    dependsOn("compileJava")
-
     val srcFolder = layout.projectDirectory.dir("src").dir("xslt")
     val destFolder = layout.buildDirectory.get().dir("classes").dir("java").dir("main").dir("xslt")
-
-    // mkdir(destFolder)
 
     val xslFile = srcFolder.file("article.xsl")
     val xmlFile = srcFolder.file("article.xml")
@@ -89,118 +85,74 @@ tasks.register("xslt") {
     inputs.files(xslFile, xmlFile)
     outputs.file(outputFile)
 
-    // doLast {
-    ant.withGroovyBuilder {
-        "xslt"(
-            "style" to xslFile, "in" to xmlFile, "out" to outputFile
+    doLast {
+        outputFile.asFile.parentFile.mkdirs()
+
+        val transformer = javax.xml.transform.TransformerFactory.newInstance()
+            .newTransformer(javax.xml.transform.stream.StreamSource(xslFile.asFile))
+
+        transformer.transform(
+            javax.xml.transform.stream.StreamSource(xmlFile.asFile),
+            javax.xml.transform.stream.StreamResult(outputFile.asFile)
         )
     }
-    //}
 }
 
-// class MyTask extends DefaultTask {
-//     @TaskAction
-//     void runTask() {
-//         project.ant.taskdef(..., classpath: projects.configurations.myConfig.asPath)
-//     }
-// }
-// tasks.register<de.freese.gradle.xjc.XjcTask>("testXjcTask") {
-//    // group = "MyTasks"
-//
-//    destDir.set(layout.buildDirectory.get().dir("generated").dir("xjcTask"))
-//    schema.set(layout.projectDirectory.dir("schemas").dir("GolfCountryClub").file("GolfCountryClub.xsd"))
-//    binding.set(layout.projectDirectory.file("schema.xjb"))
-//    packageName.set("de.freese.xjc.golfcountryclub")
-//    encoding.set(compileJava.options.encoding)
-//    extension.set(true)
-//    npa.set(true)
-//    removeOldOutput.set(true)
-//    verbose.set(true)
-//}
+val schemaDir = layout.projectDirectory.dir("schemas")
+val binding = layout.projectDirectory.file("schema.xjb")
+val currentEncoding = tasks.named<JavaCompile>("compileJava").get().options.encoding
+
+val xjcTasks = listOf(
+    Triple("GolfCountryClub", "GolfCountryClub/GolfCountryClub.xsd", "de.freese.xjc.golfcountryclub"),
+    Triple("PhoneBanking", "PhoneBanking/PhoneBanking.xsd", "de.freese.xjc.phonebanking"),
+    Triple("Catalogue", "PublicationCatalogue/Catalogue.xsd", "de.freese.xjc.catalogue"),
+    Triple("SpaceWarGame", "SpaceWarGame/SpaceWarGame.xsd", "de.freese.xjc.spacewargame")
+).map { (taskSuffix, schemaPath, packageName) ->
+    val schemaFile = schemaDir.file(schemaPath)
+    val packageOutputDir = destDirXjc.dir(packageName.replace('.', '/'))
+
+    tasks.register<JavaExec>("generate$taskSuffix") {
+        group = "MyTasks"
+        description = "Generates JAXB classes for $taskSuffix"
+
+        classpath = configurations["jaxb"]
+        mainClass.set("com.sun.tools.xjc.Driver")
+
+        inputs.files(schemaDir, binding)
+        outputs.dir(packageOutputDir)
+
+        doFirst {
+            logger.lifecycle("Lösche generierte JAXB-Dateien in ${packageOutputDir.asFile}")
+            delete(packageOutputDir)
+            packageOutputDir.asFile.mkdirs()
+        }
+
+        args(
+            "-d", destDirXjc.asFile.absolutePath,
+            "-b", binding.asFile.absolutePath,
+            "-p", packageName,
+            "-extension", "-npa"
+        )
+
+        currentEncoding?.let { args("-encoding", it) }
+
+        if (taskSuffix == "Catalogue") {
+            args("-readOnly")
+        }
+
+        args(schemaFile.asFile.absolutePath)
+    }
+}
 
 tasks.register("genJaxb") {
     group = "MyTasks"
     description = "Generates Java classes from XSD files"
 
-    val schemaDir = layout.projectDirectory.dir("schemas")
-    inputs.dir(schemaDir)
-
-    val binding = layout.projectDirectory.file("schema.xjb")
-    inputs.file(binding)
-
-    outputs.dir(destDirXjc)
-
-    mkdir(destDirXjc)
-
-    // doLast {
-    val compileJavaTask = tasks.named<JavaCompile>("compileJava").get()
-    val currentEncoding = compileJavaTask.options.encoding
-
-    ant.withGroovyBuilder {
-        "taskdef"(
-            "name" to "xjc", "classname" to "com.sun.tools.xjc.XJCTask", "classpath" to configurations["jaxb"].asPath
-        )
-
-        "xjc"(
-            "destdir" to destDirXjc,
-            "schema" to schemaDir.dir("GolfCountryClub").file("GolfCountryClub.xsd"),
-            "binding" to binding,
-            "package" to "de.freese.xjc.golfcountryclub",
-            "encoding" to currentEncoding,
-            "extension" to true,
-            "removeOldOutput" to true
-        ) {
-            "arg"("value" to "-npa")
-
-            // XJC has embedded Build-Cache.
-            // Files specified as the schema files and binding files are automatically added to the "depends" set as well,
-            // but if those schemas are including/importing other schemas, you have to use a nested <depends> elements.
-
-            // Avoid Message: Consider using <depends>/<produces> so that XJC won't do unnecessary compilation.
-
-            // depends(file: binding)
-            // depends(dir: schemaDir.dir("GolfCountryClub"), includes: "**/*.xsd")
-            // produces(dir: destDirXjc, includes: "**/*.java")
-            "produces"("dir" to destDirXjc, "includes" to "de/freese/xjc/golfcountryclub/**/*.java")
-        }
-
-        "xjc"(
-            "destdir" to destDirXjc,
-            "schema" to schemaDir.dir("PhoneBanking").file("PhoneBanking.xsd"),
-            "binding" to binding,
-            "package" to "de.freese.xjc.phonebanking",
-            "encoding" to currentEncoding,
-            "extension" to true
-        ) {
-            "arg"("value" to "-npa")
-            "produces"("dir" to destDirXjc, "includes" to "de/freese/xjc/phonebanking/**/*.java")
-        }
-
-        "xjc"(
-            "destdir" to destDirXjc,
-            "schema" to schemaDir.dir("PublicationCatalogue").file("Catalogue.xsd"),
-            "binding" to binding,
-            "package" to "de.freese.xjc.catalogue",
-            "encoding" to currentEncoding,
-            "readonly" to true,
-            "extension" to true
-        ) {
-            "arg"("value" to "-npa")
-            "produces"("dir" to destDirXjc, "includes" to "de/freese/xjc/catalogue/**/*.java")
-        }
-
-        "xjc"(
-            "destdir" to destDirXjc,
-            "schema" to schemaDir.dir("SpaceWarGame").file("SpaceWarGame.xsd"),
-            "binding" to binding,
-            "package" to "de.freese.xjc.spacewargame",
-            "encoding" to currentEncoding,
-            "extension" to true
-        ) {
-            "arg"("value" to "-npa")
-            "produces"("dir" to destDirXjc, "includes" to "de/freese/xjc/spacewargame/**/*.java")
-        }
-        // }
-    }
+    dependsOn(xjcTasks)
 }
+
+// tasks.named("genJaxb") {
+//     dependsOn(xjcTasks)
+// }
+
 tasks.named("compileJava").get().dependsOn("xslt", "genJaxb")
